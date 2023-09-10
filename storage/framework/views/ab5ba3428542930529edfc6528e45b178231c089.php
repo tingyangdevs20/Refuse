@@ -52,6 +52,12 @@
                 </li>
                  <li><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
                         <span>Research</span></a></li>
+                         <li>
+                    <a href="<?php echo e(route('admin.user-agreement.index')); ?>" class="waves-effect">
+                        <i class="fas fa-solid fa-handshake"></i>
+                        <span>User Agreement</span>
+                    </a>
+                </li>
                
                  <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">

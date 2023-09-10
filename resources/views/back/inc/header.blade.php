@@ -60,3 +60,5 @@
         </div>
     </div>
 </header>
+@component('components.incoming-call-controls')
+@endcomponent

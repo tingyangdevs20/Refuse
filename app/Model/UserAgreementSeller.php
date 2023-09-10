@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Contact;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -30,6 +31,6 @@ class UserAgreementSeller extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(Contact::class, 'user_id', 'id');
     }
 }

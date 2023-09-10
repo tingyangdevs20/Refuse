@@ -60,4 +60,10 @@
         </div>
     </div>
 </header>
+<?php $__env->startComponent('components.incoming-call-controls'); ?>
+<?php if (isset($__componentOriginal07ecf8befb67042bd62415ed2e94380a24ab190e)): ?>
+<?php $component = $__componentOriginal07ecf8befb67042bd62415ed2e94380a24ab190e; ?>
+<?php unset($__componentOriginal07ecf8befb67042bd62415ed2e94380a24ab190e); ?>
+<?php endif; ?>
+<?php echo $__env->renderComponent(); ?>
 <?php /**PATH /home4/bbagnall/public_html/bulk/test/bulk_sms/resources/views/back/inc/header.blade.php ENDPATH**/ ?>

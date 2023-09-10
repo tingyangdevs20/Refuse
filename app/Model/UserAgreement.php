@@ -19,7 +19,7 @@ class UserAgreement extends Model
      */
     public function userAgreementSeller()
     {
-        return $this->belongsTo(userAgreementSeller::class, 'user_agreement_id', 'id');
+        return $this->hasMany(userAgreementSeller::class, 'user_agreement_id', 'id');
     }
 
     /**
@@ -32,7 +32,14 @@ class UserAgreement extends Model
     public function getPdfPathAttribute($value)
     {
         if (!empty($value) && $value != null) {
-            return public_path("storage/agreement_pdf/" . $value);
+            return asset("storage/agreement_pdf/" . $value);
+        }
+    }
+
+    public function getAgreementDateAttribute($value)
+    {
+        if (!empty($value) && $value != null) {
+            return date('d-m-Y', strtotime($value));
         }
     }
 }

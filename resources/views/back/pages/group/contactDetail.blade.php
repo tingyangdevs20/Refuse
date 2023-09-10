@@ -236,7 +236,14 @@
                                                                                     {{-- <label>Primary Number</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder="Primary Number" name="owner1_primary_number" table="lead_info" value="{{ $leadinfo->owner1_primary_number == '' ? '' : $leadinfo->owner1_primary_number }}">
+                                                                                        @if ($leadinfo->owner1_primary_number)
+                                                                                        <a id="button-call" class="m-1" href="javascript:void(0)" phone-number="{{$leadinfo->owner1_primary_number == '' ? '' : $leadinfo->owner1_primary_number}}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
+
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-4">
@@ -244,7 +251,14 @@
                                                                                     {{-- <label>Number 2</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder="Number 2" name="owner1_number2" table="lead_info" value="{{ $leadinfo->owner1_number2 == '' ? '' : $leadinfo->owner1_number2 }}">
+                                                                                        @if ($leadinfo->owner1_number2)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner1_number2 == '' ? '' : $leadinfo->owner1_number2 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
+
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-4">
@@ -252,6 +266,12 @@
                                                                                     {{-- <label>Number 3</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder="Number 3" name="owner1_number3" table="lead_info" value="{{ $leadinfo->owner1_number3 == '' ? '' : $leadinfo->owner1_number3 }}">
+                                                                                        @if ($leadinfo->owner1_number3)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner1_number3 == '' ? '' : $leadinfo->owner1_number3 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -334,6 +354,12 @@
                                                                                     {{-- <label> Primary Number</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder=" Primary Number" name="owner2_primary_number" table="lead_info" value="{{ $leadinfo->owner2_primary_number == '' ? '' : $leadinfo->owner2_primary_number }}">
+                                                                                        @if ($leadinfo->owner2_primary_number)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner2_primary_number == '' ? '' : $leadinfo->owner2_primary_number }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -342,6 +368,12 @@
                                                                                     {{-- <label> Number 2</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder=" Number 2" name="owner2_number2" table="lead_info" value="{{ $leadinfo->owner2_number2 == '' ? '' : $leadinfo->owner2_number2 }}">
+                                                                                        @if ($leadinfo->owner2_number2)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner2_number2 == '' ? '' : $leadinfo->owner2_number2 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -350,6 +382,12 @@
                                                                                     {{-- <label> Number 3</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder=" Number 3" name="owner2_number3" table="lead_info" value="{{ $leadinfo->owner2_number3 == '' ? '' : $leadinfo->owner2_number3 }}">
+                                                                                        @if ($leadinfo->owner2_number3)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner2_number3 == '' ? '' : $leadinfo->owner2_number3 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -431,6 +469,12 @@
                                                                                     {{-- <label> Primary Number</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder=" Primary Number" name="owner3_primary_number" table="lead_info" value="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}">
+                                                                                        @if ($leadinfo->owner3_primary_number)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif            
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -439,6 +483,12 @@
                                                                                     {{-- <label> Number 2</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder=" Number 2" name="owner3_number2" table="lead_info" value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
+                                                                                        @if ($leadinfo->owner3_number2)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif                
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -447,6 +497,12 @@
                                                                                     {{-- <label> Number 3</label> --}}
                                                                                     <div class="input-group mb-2" >
                                                                                         <input type="text" class="form-control" placeholder=" Number 3" name="owner3_number2" table="lead_info" value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
+                                                                                        @if ($leadinfo->owner3_number3)
+                                                                                        <a class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner3_number3 == '' ? '' : $leadinfo->owner3_number3 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2577,11 +2633,26 @@
                 </div>
                 <!-- End Page-content -->
 
+<!-- Call Initiated Successfully Modal -->
+<div class="modal fade" id="initiate-call" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content mt-2">
+                <div class="modal-body">
+                    <p class="calling-response" style="text-align: center; font-size: 16px;"></p>
+                </div>
+                
+                </div>
+            </div>
+</div>                
+
                 @endsection
 @section('scripts')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('back/assets/js/pages/twilio-main.js') }}"></script>
+
+
     <script >
         $(document).ready(function() {
             // $('#datatable').DataTable();

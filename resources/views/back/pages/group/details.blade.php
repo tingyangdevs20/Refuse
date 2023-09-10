@@ -10,11 +10,6 @@
                     <div class="container-fluid">
                         <!-- start page title -->
                         <div class="row">
-                         <form id="contact_form" action="{{ route('admin.mailcontactlist') }}" method="post"   class="col-lg-12" />  
-                         <!-- oldmailurl working -->
-                        <!-- <form id="contact_form" action="{{ url('api/contactmail') }}" method="post" class="col-lg-12" > -->
-                        @csrf
-                        @method('POST')
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
                                     <h4 class="mb-0 font-size-18">Group Management</h4>
@@ -29,33 +24,14 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                    <label> All Numbers </label>
-                                    <div class="col-md-3">
-                                        <select class="form-control" style="float: left;" id="contracttype" name="contracttype">
-                                        <option value="">Select Contract</option>
-                                        @foreach($contractres as $value)
-                                        <option value="{{ $value->id }}">{{ $value->type_contract }}</option>
-                                        
-                                        @endforeach
-                                        </select>
-                                        <span id="errorcontract" style="color:red"></span>
-                                    </div>
-                                        <a href="{{ route('admin.contractview') }}"><button type="button" class="btn btn-primary" style="float: right;">Contract View</button> </a>
-
-                                      <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
-
-
-                                        <button type="submit" class="btn btn-success" name="bulk_delete_submit" class="btn btn-danger btn-fw" style="float: right;">Send Mail</button>
-
-
+                                        All Numbers
+                                        <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                             <tr>
-                                                <th>All<input type="checkbox" id="select_all" value=""/></th> 
-
-                                                <th scope="col">#</th>
+                                                {{-- <th scope="col">#</th> --}}
                                                 <th scope="col">First Name</th>
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Street</th>
@@ -64,25 +40,14 @@
                                                 <th scope="col">Zip</th>
                                                 <th scope="col">Numbers</th>
                                                 <th scope="col">Email</th>
-                                                <th scope="col">Lead Category</th>
-
-                                                <th scope="col">Mail Sent</th>
-                                                <th scope="col">Contract Verified</th>
-
-                                                <th scope="col">Message Sent</th>
-                                                <th scope="col">DNC</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             @foreach($group->contacts()->get() as $contact)
                                             <tr>
-                                                <td align="center"><input type="checkbox" name="checked_id[]" class="checkbox" value="{{ $contact->id }}"/></td>
-                                                 <td>{{ $sr++ }}</td>
-
                                                 {{-- <td>{{ $sr++ }}</td> --}}
-                                                
                                                 <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->name }}</a></td>
-                                               <td>{{ $contact->last_name }}</td>
+                                                <td>{{ $contact->last_name }}</td>
                                                 <td>{{ $contact->street }}</td>
                                                 <td>{{ $contact->city }}</td>
                                                 <td>{{ $contact->state }}</td>
@@ -96,13 +61,12 @@
                                                     Email1:{{ $contact->email1 }}<br>
                                                     Email2:{{ $contact->email2 }}
                                                 </td>
-                                                <td>{{ $contact->getLeadCategory()}}</td>
-
-                                                <td>{{ $contact->mail_sent?"YES":"NO" }}</td>
-                                                <td>{{ $contact->contract_verified?"YES":"NO" }}</td>
-
-                                                <td>{{ $contact->msg_sent?"YES":"NO" }}</td>
-                                                <td>{{ $contact->is_dnc?"YES":"NO" }}</td>
+                                                <!-- <td>
+                                                    <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
+                                                        <i class="fas fa-phone whatsapp-icon"></i>
+                                                    </a>
+                                                    <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
+                                                </td> -->
                                             </tr>
                                             @endforeach
                                             </tbody>
@@ -110,14 +74,17 @@
                                     </div>
                                 </div>
                             </div>
-                          </form>
                         </div>
                         <!-- end page title -->
 
                     </div> <!-- container-fluid -->
-                </div>
-                <!-- End Page-content -->
-                <div class="modal fade" id="newModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                    
+    
+   
+
+
+
+        <div class="modal fade" id="newModal" tabindex="-1" role="dialog"  aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -183,50 +150,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Call Initiated Successfully Modal -->
+    <div class="modal fade" id="initiate-call" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content mt-2">
+                <div class="modal-body">
+                    <p class="calling-response" style="text-align: center;color: green; font-size: 16px;" aria-hidden="true"></p>
+                </div>
+                
+                </div>
+            </div>
+    </div>
                 @endsection
 @section('scripts')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="{{ asset('uploads/sweetalert2.all.min.js') }}"></script>
+
+
     <script >
         $(document).ready(function() {
             $('#datatable').DataTable();
         } );
-
-        $(document).ready(function(){
-            $("#select_all").click(function(){
-                    if(this.checked){
-                        $('.checkbox').each(function(){
-                            $(".checkbox").prop('checked', true);
-                        })
-                    }else{
-                        $('.checkbox').each(function(){
-                            $(".checkbox").prop('checked', false);
-                        })
-                    }
-                });
-            });
-
-
-            $(document).ready(function(){
-                $('#contact_form').on('submit', function(e){
-                    e.preventDefault();
-                    var contracttype = $('#contracttype').val();
-                    if(contracttype==''){
-                        alert("Select Contract first!");
-                        $('select[name^="contracttype"]').eq(1).focus();
-                        
-                        $('#errorcontract').html("Select Contract first*");
-                        return false;
-                    }
-                    if($(".checkbox")[0].checked==false){
-                        alert("Select atleast one contact!");
-                        $('.checkbox').eq(1).focus();
-                        return false;
-                    }
-                
-                    this.submit();
-                });
-});
     </script>
 
     @endsection
