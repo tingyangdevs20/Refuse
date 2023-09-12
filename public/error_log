@@ -1,0 +1,90 @@
+[14-Aug-2023 14:45:30 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/SendGridEmailController.php on line 3
+[14-Aug-2023 14:46:03 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/SendGridEmailController.php on line 3
+[14-Aug-2023 14:46:57 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/SendGridEmailController.php on line 3
+[14-Aug-2023 14:47:08 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/SendGridEmailController.php on line 3
+[14-Aug-2023 14:48:29 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/SendGridEmailController.php on line 2
+[27-Aug-2023 18:00:04 UTC] PHP Fatal error:  Allowed memory size of 348127232 bytes exhausted (tried to allocate 199233536 bytes) in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 33
+[27-Aug-2023 18:00:24 UTC] PHP Fatal error:  Allowed memory size of 348127232 bytes exhausted (tried to allocate 199233536 bytes) in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 33
+[27-Aug-2023 18:00:56 UTC] PHP Fatal error:  Allowed memory size of 348127232 bytes exhausted (tried to allocate 199233536 bytes) in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 33
+[27-Aug-2023 18:02:00 UTC] PHP Fatal error:  Allowed memory size of 348127232 bytes exhausted (tried to allocate 199233536 bytes) in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 33
+[27-Aug-2023 18:12:50 UTC] PHP Fatal error:  Allowed memory size of 348127232 bytes exhausted (tried to allocate 199233536 bytes) in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 34
+[27-Aug-2023 19:31:39 UTC] PHP Warning:  Uncaught ErrorException: require_once(vendor/autoload.php): failed to open stream: No such file or directory in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php:21
+Stack trace:
+#0 /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php(21): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'require_once(ve...', '/home4/bbagnall...', 21, Array)
+#1 /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php(21): require_once()
+#2 /home4/bbagnall/public_html/bulk/bulksms/vendor/composer/ClassLoader.php(571): include('/home4/bbagnall...')
+#3 /home4/bbagnall/public_html/bulk/bulksms/vendor/composer/ClassLoader.php(428): Composer\Autoload\includeFile('/home4/bbagnall...')
+#4 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Http\\Contro...')
+#5 [internal function]: spl_autoload_call('App\\Http\\Contro...')
+#6 /home4/bbagnall/public_html/bulk/bulksms/vendor/laravel/framework/src/I in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 21
+[27-Aug-2023 19:31:39 UTC] PHP Fatal error:  main(): Failed opening required 'vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 21
+[27-Aug-2023 19:33:10 UTC] PHP Warning:  Uncaught ErrorException: require_once(vendor/autoload.php): failed to open stream: No such file or directory in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php:21
+Stack trace:
+#0 /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php(21): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'require_once(ve...', '/home4/bbagnall...', 21, Array)
+#1 /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php(21): require_once()
+#2 /home4/bbagnall/public_html/bulk/bulksms/vendor/composer/ClassLoader.php(571): include('/home4/bbagnall...')
+#3 /home4/bbagnall/public_html/bulk/bulksms/vendor/composer/ClassLoader.php(428): Composer\Autoload\includeFile('/home4/bbagnall...')
+#4 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Http\\Contro...')
+#5 [internal function]: spl_autoload_call('App\\Http\\Contro...')
+#6 /home4/bbagnall/public_html/bulk/bulksms/vendor/laravel/framework/src/I in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 21
+[27-Aug-2023 19:33:10 UTC] PHP Fatal error:  main(): Failed opening required 'vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/bulksms/app/Http/Controllers/Admin/ReceiveController.php on line 21
+[08-Sep-2023 14:32:25 UTC] PHP Fatal error:  Cannot use App\Model\Tag as Tag because the name is already in use in /home4/bbagnall/public_html/bulk/test/bulk_sms/app/Http/Controllers/Admin/GroupController.php on line 14
+[08-Sep-2023 15:06:17 UTC] active number = +14234609555
+[08-Sep-2023 15:06:17 UTC] active number = +14234608889
+[08-Sep-2023 15:15:58 UTC] active number = +14234609555
+[08-Sep-2023 15:15:58 UTC] active number = +14234608889
+[08-Sep-2023 15:18:00 UTC] active number = +14234609555
+[08-Sep-2023 15:18:00 UTC] active number = +14234608889
+[08-Sep-2023 15:18:07 UTC] active number = +14234609555
+[08-Sep-2023 15:18:07 UTC] active number = +14234608889
+[08-Sep-2023 15:22:26 UTC] active number = +14234609555
+[08-Sep-2023 15:22:26 UTC] active number = +14234608889
+[08-Sep-2023 15:25:24 UTC] active number = +14234609555
+[08-Sep-2023 15:25:24 UTC] active number = +14234608889
+[08-Sep-2023 15:34:25 UTC] active number = +14234609555
+[08-Sep-2023 15:34:25 UTC] active number = +14234608889
+[08-Sep-2023 15:35:36 UTC] active number = +14234609555
+[08-Sep-2023 15:35:36 UTC] active number = +14234608889
+[08-Sep-2023 15:38:37 UTC] active number = +14234609555
+[08-Sep-2023 15:38:37 UTC] active number = +14234608889
+[08-Sep-2023 15:39:19 UTC] active number = +14234609555
+[08-Sep-2023 15:39:19 UTC] active number = +14234608889
+[08-Sep-2023 15:41:25 UTC] active number = +14234609555
+[08-Sep-2023 15:41:25 UTC] active number = +14234608889
+[08-Sep-2023 15:41:29 UTC] active number = +14234609555
+[08-Sep-2023 15:41:29 UTC] active number = +14234608889
+[08-Sep-2023 15:41:43 UTC] active number = +14234609555
+[08-Sep-2023 15:41:43 UTC] active number = +14234608889
+[08-Sep-2023 15:42:52 UTC] active number = +14234609555
+[08-Sep-2023 15:42:52 UTC] active number = +14234608889
+[08-Sep-2023 15:44:04 UTC] active number = +14234609555
+[08-Sep-2023 15:44:04 UTC] active number = +14234608889
+[08-Sep-2023 15:50:55 UTC] active number = +14234609555
+[08-Sep-2023 15:50:55 UTC] active number = +14234608889
+[08-Sep-2023 15:58:53 UTC] active number = +14234609555
+[08-Sep-2023 15:58:53 UTC] active number = +14234608889
+[08-Sep-2023 16:02:01 UTC] active number = +14234609555
+[08-Sep-2023 16:02:01 UTC] active number = +14234608889
+[08-Sep-2023 16:02:53 UTC] active number = +14234609555
+[08-Sep-2023 16:02:53 UTC] active number = +14234608889
+[08-Sep-2023 16:21:14 UTC] active number = +14234609555
+[08-Sep-2023 16:21:14 UTC] active number = +14234608889
+[08-Sep-2023 16:23:09 UTC] active number = +14234609555
+[08-Sep-2023 16:23:09 UTC] active number = +14234608889
+[08-Sep-2023 16:23:15 UTC] active number = +14234609555
+[08-Sep-2023 16:23:15 UTC] active number = +14234608889
+[08-Sep-2023 16:39:11 UTC] active number = +14234609555
+[08-Sep-2023 16:39:11 UTC] active number = +14234608889
+[08-Sep-2023 17:38:04 UTC] active number = +14234609555
+[08-Sep-2023 17:38:04 UTC] active number = +14234608889
+[08-Sep-2023 18:11:46 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/public/index.php on line 24
+[08-Sep-2023 18:12:03 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/../mockery/mockery/library/helpers.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/autoload_real.php on line 78
+[08-Sep-2023 18:12:04 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/../mockery/mockery/library/helpers.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/autoload_real.php on line 78
+[08-Sep-2023 19:41:57 UTC] active number = +14234609555
+[08-Sep-2023 19:41:57 UTC] active number = +14234608889
+[08-Sep-2023 19:42:42 UTC] active number = +14234609555
+[08-Sep-2023 19:42:42 UTC] active number = +14234608889
+[12-Sep-2023 09:48:38 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/../../app/Helpers/Utility.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/autoload_real.php on line 78
+[12-Sep-2023 09:48:45 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/../../app/Helpers/Utility.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/autoload_real.php on line 78
+[12-Sep-2023 09:50:51 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/../../app/Helpers/Utility.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/autoload_real.php on line 78
+[12-Sep-2023 09:50:54 UTC] PHP Fatal error:  require(): Failed opening required '/home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/../../app/Helpers/Utility.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/bbagnall/public_html/bulk/test/bulk_sms/vendor/composer/autoload_real.php on line 78
