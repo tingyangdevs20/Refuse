@@ -22,7 +22,7 @@ class AddNewColumnsToUsersTable extends Migration
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->string('zip')->nullable();
-            $table->string('website_link')->nullable();
+            $table->string('website_link')->nullable(); 
         });
     }
 
