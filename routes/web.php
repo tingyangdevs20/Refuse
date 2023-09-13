@@ -63,6 +63,23 @@ Route::resource('campaignlist','Admin\CampaignListController');
 Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function () {
 
 
+   
+
+    // SKIP TRACING
+    Route::get('admin/skip-trace','Admin\GroupController@skipTrace')->name('admin.skip-trace');
+    Route::post('admin/push-to-campaign', 'Admin\GroupController@pushToCampaign')->name('push-to-campaign');
+    Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
+
+    Route::get('formm','GoogleDriveController@index')->name('formm');
+    
+    Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
+
+    // Handle the GOOGLE DRIVE file upload
+    Route::post('/google-drive-login', 'GoogleDriveController@googleLogin')->name('google.drive.login');
+    Route::get('/google-drive-callback', 'GoogleDriveController@handleGoogleCallback')->name('google-drive-callback');
+
+
+
     // ZOOM MEETING ROUTES 
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
     Route::get('/zoom/create', 'ZoomController@create')->name('zoom.create');

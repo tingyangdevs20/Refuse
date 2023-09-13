@@ -31,6 +31,12 @@ use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use DB;
 
+use Illuminate\Support\Facades\Storage;
+use Google_Client as GoogleClient;
+use Google_Service_Drive as Drive;
+
+use App\Services\DatazappService;
+
 
 class GroupController extends Controller
 {
@@ -41,17 +47,6 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-
-
-
-        // $groups = Group::with('contacts')->get()->sortByDesc("created_at");
-
-        // $groupCounts = $groups->map(function ($group) {
-        //     return [
-        //         'group_name' => $group->name, // Replace 'name' with the actual group name attribute
-        //         'contact_count' => $group->contacts->count(),
-        //     ];
-        // });
 
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
 
@@ -592,20 +587,7 @@ class GroupController extends Controller
         $scrip = Script::where('id',$id)->first();
         return view('back.pages.group.ajaxScript', compact('scrip'));
     }
-    public function skipTrace(Request $request)
-    {
-        // Retrieve group_id and skip_trace_option from the request
 
-        $skipTraceOption = $request->input('skip_trace_option');
-
-    //  05092023 sachin
-   
-        // Perform skip tracing logic here using the Datazapp API
-        // You can make API requests to initiate skip tracing based on the selected option
-
-        // Return a response indicating success or failure
-       // return response()->json(['message' => 'Skip tracing initiated successfully']);
-    }
 
     public function mailcontactlist(Request $request)
     {
@@ -715,6 +697,77 @@ class GroupController extends Controller
     $contractres = str_replace('#name#', $name , $contractRes->content);
        return view('back.pages.group.myFile', compact('contractres'));
    }
+
+    public function skipTrace(DatazappService $datazappService, Request $request)
+    {
+
+       
+        $groupId = $request->input('group_id');
+        $selectedOption = $request->input('skip_trace_option'); 
+
+        $group = Group::with('contacts')->find($groupId);
+
+        if (!$group) {
+            return response()->json(['error' => 'Group not found.']);
+        }
+
+        // Extract the contact data from the group
+        $groupContacts = $group->contacts;
+
+        // Remove duplicates based on both 'email' and 'number' attributes
+        $uniqueContacts = $groupContacts->unique(function ($contact) {
+            return $contact->email1 . '|' . $contact->number;
+        });
+
+        
+        // Perform skip tracing based on the selected option
+        if ($selectedOption === 'skip_entire_list') {
+            // Implement skip tracing logic for the entire list
+            // You can call the skipTrace method of DatazappService here as well
+            return $result = $datazappService->skipTrace($uniqueContacts);
+
+            // Handle the response from Datazapp as needed
+            // Update your database with skip traced data, if applicable
+        } elseif ($selectedOption === 'skip_records_without_numbers') {
+            // Implement skip tracing logic for records without numbers
+            // You can call the skipTrace method of DatazappService here as well
+            return $result = $datazappService->skipTrace($uniqueContacts->where('number', '!=' , ''));
+
+            // Handle the response from Datazapp as needed
+            // Update your database with skip traced data, if applicable
+        } else {
+            // Handle other options or provide an error response
+            return response()->json(['error' => 'Invalid skip trace option.']);
+        }
+
+        // Return a response to indicate success or failure
+        return response()->json(['success' => true]);
+    }
+
+    public function pushToCampaign(Request $request )
+    {
+
+        $groupId = $request->input('group_id');
+        $groupName = $request->input('group_name');
+    
+        // Check if a record with the same group_id exists
+        $existingCampaign = Campaign::where('group_id', $groupId)->first();
+    
+        if ($existingCampaign) {
+            // Return a response to indicate that the data already exists
+            return response()->json(['message' => 'Data already exists', 'success' => false]);
+        } else {
+            // Insert data into the campaign table
+            Campaign::create([
+                'name' => $groupName,
+                'group_id' => $groupId,
+            ]);
+    
+            // Return a response to indicate success
+            return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
+        }
+    }
+
     
 
 }
