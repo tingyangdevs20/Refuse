@@ -59,14 +59,17 @@
                                         @endforeach
                                     </td>
                                     @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
-
+                                   
                                     <td>
-                                    <a href="{{ route('admin.user.switch', $user->id) }}" class="btn btn-outline-info btn-sm" title="Switch Role">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                                        @if(auth()->user()->email != $user->email)
+                                        <a href="{{ route('admin.user.switch', $user->id) }}" class="btn btn-outline-info btn-sm" title="Switch Role">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @endif
+                                    </td>
                                     @endif
 
-                                    </td>
+                                    
                                     <td>
                                         @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
                                         <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-outline-primary btn-sm" title="Edit  User" ><i class="fas fa-edit"></i></a> -
