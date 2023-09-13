@@ -2,6 +2,7 @@
     <div class="navbar-header">
         <div class="d-flex">
         <div class="navbar-brand-box">
+            
             <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src="{{ asset('back/assets/images/sms.svg') }}" alt="" height="25">
@@ -25,9 +26,13 @@
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
+           
+           
 
         </div>
+        @include('back.pages.partials.switch')
             <div class="dropdown d-inline-block">
+           
             Account Balance:<span style="color:#556ee6;font-weight:bold"> USD 50</span>
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,7 +63,10 @@
 
 
         </div>
+       
     </div>
+    
 </header>
+
 @component('components.incoming-call-controls')
 @endcomponent

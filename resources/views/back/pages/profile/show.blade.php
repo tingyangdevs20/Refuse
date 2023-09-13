@@ -12,7 +12,7 @@
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-
+        @include('back.pages.partials.messages')
         <form action="{{ route('admin.profile.update') }}" method="post">
             @csrf
             <div class="form-group">

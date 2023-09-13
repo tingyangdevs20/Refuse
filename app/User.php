@@ -50,4 +50,23 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user');
     }
+    
+    public function hasSwitchedRole()
+    {
+        return $this->original_id !== null;
+    }
+
+    public function switchedTo()
+    {
+        if ($this->hasSwitchedRole()) {
+            return self::find($this->original_id);
+        }
+
+        return null;
+    }
+
+    public function original_id()
+    {
+        return $this->original_id;
+    }
 }

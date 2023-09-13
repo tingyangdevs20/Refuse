@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB; // Import DB facade
 use Illuminate\Support\Facades\Storage; // Import Storage facade
 use Spatie\Permission\Models\Role; // Import the Role model from Spatie
 use RealRashid\SweetAlert\Facades\Alert;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Admin\StoreUsersRequest;
 use App\Http\Requests\Admin\UpdateUsersRequest;
@@ -17,6 +17,9 @@ use App\Http\Requests\Admin\UpdateUsersRequest;
 class UserController extends Controller
 {
     public function index()  {
+        if (! Gate::allows('administrator') ||  !Gate::allows('user_module')||  !Gate::allows('access_all')) {
+            return abort(401);
+        }
 
         $users = User::all();
 
@@ -120,4 +123,60 @@ class UserController extends Controller
         session()->flash('success', 'User has been deleted !!');
         return redirect()->route('admin.user-list.index');
     }
+
+    public function switchRole(User $user)
+    {
+        $superAdmin = Auth::user();
+
+       
+
+    // Ensure the user performing the switch is a super admin
+    if ($superAdmin->hasRole('Administrator') && $superAdmin->id !== $user->id) {
+       
+        // Set the original_id to the super admin's ID
+        $user->original_id = $superAdmin->id;
+        $user->save();
+
+        // Log the super admin out
+        Auth::logout();
+
+        // Log in as the selected user
+        Auth::login($user);
+
+        $name = auth()->user()->name;
+
+        // Redirect to the dashboard or wherever you want
+        
+        return redirect()->route('admin.profile.show')->with('switchRole', 'You are currently viewing ' . $name . ' as an account administrator.');
+    }
+
+    return redirect()->back()->with('error', 'You do not have permission to switch roles.');
+    }
+
+    public function quitRole()
+    {
+
+        if (Auth::check()) {
+            $user = Auth::user();
+    
+            if ($user->hasSwitchedRole()) {
+                // Log out of the switched role and back to the super admin
+                Auth::logout();
+                Auth::loginUsingId($user->original_id);
+                session()->flash('success', 'You have switched back to Super Admin. !!');
+                return redirect()->route('admin.user-list.index')->with('sucess', 'You have switched back to Super Admin.');
+
+            } else {
+                session()->flash('info', 'You are already in Super Admin mode. !!');
+                return redirect()->route('admin.user-list.index')->with('info', 'You are already in Super Admin mode.');
+            }
+        } else {
+            return redirect()->route('login'); // Redirect to the login page if not authenticated
+        }
+      
+    
+        
+    }
+
+
 }

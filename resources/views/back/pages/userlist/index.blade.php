@@ -14,6 +14,7 @@
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
+                    
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">User Management</h4>
                         <div class="page-title-right">
@@ -40,6 +41,9 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Role</th>
+                                    @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
+                                    <th scope="col">Switch</th>
+                                    @endif
                                     <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
@@ -53,6 +57,15 @@
                                         @foreach($user->roles()->pluck('name') as $role)
                                             <span class="badge badge-info">{{ $role }}</span>
                                         @endforeach
+                                    </td>
+                                    @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
+
+                                    <td>
+                                    <a href="{{ route('admin.user.switch', $user->id) }}" class="btn btn-outline-info btn-sm" title="Switch Role">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    @endif
+
                                     </td>
                                     <td>
                                         @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
