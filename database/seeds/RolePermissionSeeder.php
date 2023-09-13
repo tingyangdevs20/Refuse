@@ -81,6 +81,7 @@ class RolePermissionSeeder extends Seeder
                
                 'system_setting',
                 'quick_response',
+                'zoom_module',
 
 
 

@@ -177,12 +177,22 @@
                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('user_task_module'))
                 <li>
                     <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
-                        <i class="fas fa-map"></i>
+                    <i class="fas fa-tasks"></i>
                         <span>User Task</span>
                     </a>
                 </li>
                 @endif
-                
+
+                @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('zoom_module'))
+
+                <li>
+                    <a href="{{ route('admin.zoom.index') }}" class=" waves-effect">
+                    <i class="fas fa-video"></i>
+                        <span>Zoom</span>
+                    </a>
+                </li>
+                @endif
+
                   <li>
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
