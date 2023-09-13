@@ -80,7 +80,8 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
 
 
 
-    // ZOOM MEETING ROUTES 
+    // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
+    
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
     Route::get('/zoom/create', 'ZoomController@create')->name('zoom.create');
     Route::post('/zoom/store', 'ZoomController@store')->name('zoom.store');
@@ -88,7 +89,6 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::post('/zoom/update/{id}', 'ZoomController@update')->name('zoom.update');
     Route::post('/zoom/destroy/{id}', 'ZoomController@destroy')->name('zoom.destroy');
 
-    
     // user list
     Route::get('user-list/index','UserController@index')->name('user-list.index');
     Route::get('user/create','UserController@create')->name('user.create');
