@@ -18,10 +18,6 @@ class UserController extends Controller
 {
     public function index()  {
 
-        // if (! Gate::allows('users_manage')) {
-        //     return abort(401);
-        // }
-
         $users = User::all();
 
         return view('back.pages.userlist.index',compact('users'));
@@ -29,9 +25,7 @@ class UserController extends Controller
     }
 
     public function create()  {
-        // if (! Gate::allows('users_manage')) {
-        //     return abort(401);
-        // }
+       
         $roles = Role::get()->pluck('name', 'name');
 
         return view('back.pages.userlist.create',compact('roles'));
@@ -40,30 +34,16 @@ class UserController extends Controller
 
     public function store(Request $request)  {
 
-        // if (! Gate::allows('users_manage')) {
-        //     return abort(401);
-        // }
             // Validate the form data
             $validatedData = $request->validate([
                 'username' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'roles' => 'required',
                 'user_status' => 'required',
-                // 'user_profile' => 'nullable',
                 'password' => 'required|min:6|confirmed',
                 'roles' => 'array',
             ]);
-
-
-
-            // Handle file upload
-            // if ($request->hasFile('user_profile')) {
-            //     $profileImage = $request->file('user_profile');
-            //     $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
-            //     $profileImage->move(public_path('images'), $imageName);
-            // } else {
-            //     $imageName = null; // If no image is uploaded
-            // }
+            $validatedData['time_zone'] = 'Asia/Kolkata';
 
             // Create a new user instance
             $user = new User([
@@ -71,7 +51,7 @@ class UserController extends Controller
                 'email' => $validatedData['email'],
                 'status' => $validatedData['user_status'],
                 'password' => Hash::make($validatedData['password']),
-                'time_zone' => 'Asia', // Set the time zone to "Asia"
+                'time_zone' => $validatedData['time_zone'],
             ]);
 
             // Save the user data
@@ -90,9 +70,7 @@ class UserController extends Controller
 
     public function edit( $id)
     {
-        // if (! Gate::allows('users_manage')) {
-        //     return abort(401);
-        // }
+      
         $user = User::find($id);
         $roles = Role::get()->pluck('name', 'name');
 
@@ -102,9 +80,6 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        // if (! Gate::allows('users_manage')) {
-        //     return abort(401);
-        // }
 
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
@@ -139,9 +114,7 @@ class UserController extends Controller
 
     public function destroy( $id)
     {
-        // if (! Gate::allows('users_manage')) {
-        //     return abort(401);
-        // }
+        
         $user = User::find($id);
         $user->delete();
         session()->flash('success', 'User has been deleted !!');
