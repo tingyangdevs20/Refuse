@@ -47,7 +47,7 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-
+        
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
 
         $groupCounts = $groups->map(function ($group) {

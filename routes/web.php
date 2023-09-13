@@ -63,6 +63,14 @@ Route::resource('campaignlist','Admin\CampaignListController');
 Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function () {
 
 
+    // ROLE SWITCH 
+    Route::get('user/switch/{user}', 'UserController@switchRole')->name('user.switch');
+    Route::get('user/quit', 'UserController@quitRole')->name('user.quit')->middleware('auth');
+
+
+ 
+
+
    
 
     // SKIP TRACING
