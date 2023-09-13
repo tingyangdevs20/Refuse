@@ -2650,12 +2650,10 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="{{ asset('back/assets/js/pages/twilio-main.js') }}"></script>
 
 
     <script >
         $(document).ready(function() {
-            // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
         } );
     </script>

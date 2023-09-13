@@ -36,6 +36,10 @@
                     <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
+                <button class="btn waves-effect waves-light" id="open-modal-btn">
+                    <span class='material-icons custom-size-ui'>dialpad</span>
+
+                </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     
                     <a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
@@ -60,5 +64,4 @@
         </div>
     </div>
 </header>
-@component('components.incoming-call-controls')
-@endcomponent
+

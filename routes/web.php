@@ -58,6 +58,8 @@ Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPa
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 Route::get('handle-call','Admin\VoiceController@handleIncomingCall')->name('voice.handle-call');
+Route::get('access-token','Admin\VoiceController@generateAccessToken')->name('voice.access-token');
+
 Route::resource('campaignlist','Admin\CampaignListController');
 
 Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function () {
@@ -231,7 +233,6 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::post('contact/detail/update','Admin\GroupController@updateinfo');
 
     Route::get('load/script/{id}','Admin\GroupController@getScript');
-     Route::get('access-token','Admin\VoiceController@generateAccessToken')->name('voice.access-token');
 
 
     // Sachin 05092023
