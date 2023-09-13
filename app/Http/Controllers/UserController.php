@@ -34,7 +34,6 @@ class UserController extends Controller
 
     public function store(Request $request)  {
 
-  
             // Validate the form data
             $validatedData = $request->validate([
                 'username' => 'required|string|max:255',
