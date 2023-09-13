@@ -2005,7 +2005,17 @@
                                                                                 @endforeach
                                                                             @endif
                                                                         </div>
+                                                                        <div class="row">
+                                                                        <div class="col-md-12">
+                                                                           
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                                <a href="{{route('admin.zoom.index')}}" type="button" id="custom-upload-button" class="btn btn-primary">Zoom Meeting</a>
+                                                                        
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
+                                                                    </div>
+                                                                   
                                                                     <hr>
                                                                 @elseif($section->id == '15')
                                                                     <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
