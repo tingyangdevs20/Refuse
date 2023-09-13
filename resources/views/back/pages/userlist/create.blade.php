@@ -118,7 +118,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <input type="hidden" name="time_zone" value="Asia">
+                           
 
                                 <button type="submit" class="btn btn-primary">Add User</button>
                             </form>
