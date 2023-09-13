@@ -1,6 +1,7 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     @endsection
 @section('content')
 
@@ -41,7 +42,10 @@
                                                     <th scope="col">List Name</th>
                                                     <th scope="col">Numbers</th>
                                                     <th scope="col">Messages Sent</th>
+                                                    <th scope="col">Lists with Phone Numbers </th>
                                                     <th scope="col">Created At</th>
+                                                    <th scope="col">Options</th>
+                                                    <th scope="col">Push to</th>
                                                     <th scope="col">Actions</th>
                                                 </tr>
                                             </thead>
@@ -52,7 +56,23 @@
                                                 <td>{{ $group->name }}</td>
                                                 <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View Contacts ({{ $group->getContactsCount() }}) </a></td>
                                                 <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td>
-                                                <td>{{ $group->created_at }}</td>
+                                                <td>%({{ $group->contacts->count() }})</td>
+                                                <td>{{ $group->created_at->format('j F Y') }}</td>
+                                                <td>
+                                                    <select class="form-control skip_trace_option" name="skip_trace_option"
+                                                            data-group-id="{{ $group->id }}">
+                                                        <option value="">Select Option</option>
+                                                        <option value="skip_entire_list">Skip Trace Entire List</option>
+                                                        <option value="skip_records_without_numbers">Skip Trace Records Without Numbers</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm push-to-campaign"
+                                                            data-group-id="{{ $group->id }}"
+                                                            data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
+                                                            data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
+                                                    </button>
+                                                </td>
                                                 <td>
                                                     <button class="btn btn-outline-danger btn-sm" title="Remove {{ $group->name }}" data-id="{{ $group->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                                 </td>
@@ -188,11 +208,111 @@
 @section('scripts')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script >
 
         $(document).ready(function() {
             $('#datatable').DataTable();
+
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+             // Handle when the "Skip Trace" button is clicked
+             $('.skip_trace_option').on('change', function () {
+
+                var selectedOption = $(this).val();
+                if (selectedOption) {
+
+                    var groupId = $(this).data('group-id');
+                    var firstName = $(this).data('group-name');
+                    var lastName = $(this).data('group-lastname');
+                    var mailingAddress = $(this).data('group-email')
+
+                    // Make an AJAX request to perform skip tracing
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('admin.skip-trace') }}', // Define the skip tracing route
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            group_id: groupId,
+                            first_name: firstName,
+                            last_name: lastName,
+                            mailing_address: mailingAddress,
+                            skip_trace_option: selectedOption,
+                        },
+                        success: function (response) {
+
+                            console.log('response',response);
+                            // Check if the API response indicates success (you may need to adjust this condition)
+                            if (response.Status === true && response.header.Status === 0) {
+                                // Iterate through the 'Data' array in the response and display each entry using Toastr
+                                response.ResponseDetail.Data.forEach(function (dataEntry) {
+                                    var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
+                                    var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
+                                    var email = dataEntry.Email;
+
+                                    // Customize the Toastr message based on your requirements
+                                    toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
+                                        timeOut: 10000, // Set the duration (5 seconds in this example)
+                                    });
+                                });
+
+                               
+
+                            } else {
+                                // Display an error message using Toastr for failed API responses
+                                toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                                    timeOut: 9000, // Set the duration (5 seconds in this example)
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            // Handle AJAX errors here and display using Toastr if needed
+                            toastr.error('AJAX Error: ' + error.statusText, 'AJAX Error', {
+                                timeOut: 9000, // Set the duration (5 seconds in this example)
+                            });
+                        }
+                    });
+                }
+            });
+
+            // push to
+            $('.push-to-campaign').click(function () {
+                var groupId = $(this).data('group-id');
+                var groupName = $(this).data('group-name');
+
+
+
+                // AJAX request to push data to the campaign table
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('admin.push-to-campaign') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        group_id: groupId,
+                        group_name: groupName,
+                    },
+                    success: function (data) {
+                        // Handle success response
+                        if (data.success) {
+
+                            toastr.success('Data pushed to campaign successfully.', {
+                                    timeOut: 9000, // Set the duration (5 seconds in this example)
+                            });
+                        } else {
+
+                            toastr.error('Data already exists.', {
+                                    timeOut: 9000, // Set the duration (5 seconds in this example)
+                            });
+                        }
+                    },
+                    error: function (error) {
+
+                        toastr.error('AJAX Error: Name filed not found', {
+                                timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                    }
+                });
+            });
         } );
         
     </script>
