@@ -36,7 +36,7 @@
                                         </div>
                                         <div class="media-body align-self-center">
                                             <div class="text-muted">
-                                                <p class="mb-2">Welcomeeee</p>
+                                                <p class="mb-2">Welcome</p>
                                                 <h5 class="mb-1">{{ Auth::user()->name }}</h5>
                                             </div>
                                         </div>
