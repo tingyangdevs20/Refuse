@@ -1,8 +1,8 @@
 
-@if (Session::has('error'))
+@if (Session::has('noaccess'))
     <div class="alert alert-danger">
         <div>
-            <p>{{ Session::get('error') }}</p>
+            <p>{{ Session::get('noaccess') }}</p>
         </div>
     </div>
 @endif
