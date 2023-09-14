@@ -112,4 +112,6 @@ class ZoomController extends Controller
         session()->flash('success', 'Meeting has been deleted !!');
         return redirect()->route('admin.zoom.index');
     }
+
+   
 }
