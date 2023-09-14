@@ -25,6 +25,7 @@ use Smalot\PdfParser\Parser; // 06092023 sachin
 use Illuminate\Support\Facades\Mail;
 use App\Model\Sms;
 use App\Model\FailedSms;
+use App\Model\OptIn;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -38,7 +39,7 @@ use Google_Service_Drive as Drive;
 use App\Services\DatazappService;
 
 
-class GroupController extends Controller
+class OptController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -48,18 +49,18 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         
-        $groups = Group::with('contacts')->get()->sortByDesc("created_at");
+        $groups = OptIn::get()->sortByDesc("created_at");
         // return $groups;
-        $groupCounts = $groups->map(function ($group) {
-            $totalContacts = $group->contacts->count();
-            $percentage = ($totalContacts / 100)*100;
+        // $groupCounts = $groups->map(function ($group) {
+        //     $totalContacts = $group->contacts->count();
+        //     $percentage = ($totalContacts / 100)*100;
 
-            return [
-                'group_name' => $group->name, // Replace 'name' with the actual group name attribute
-                'contact_count' => $totalContacts,
-                'percentage' => $percentage,
-            ];
-        });
+            // return [
+                // 'group_name' => $group->name, // Replace 'name' with the actual group name attribute
+        //         'contact_count' => $totalContacts,
+        //         'percentage' => $percentage,
+        //     ];
+        // });
 
         $sr = 1;;
         $markets=Market::all();
@@ -74,11 +75,40 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.index', compact('groups','groupCounts', 'sr','campaigns','markets','tags'));
+            return view('back.pages.opt.index', compact('groups','sr','campaigns','markets','tags'));
         }
     }
 
-    public function contactInfo(Request $request , $id = ''){
+    public function storeOpt(Request $request)
+    {
+
+        $existing_group_id = $request->existing_group_id;
+
+        if($existing_group_id!=0)
+        {
+            $group_id=$existing_group_id;
+            $group = OptIn::where('id', $group_id)->first();
+            $group->market_id = $request->market_id;
+            $group->tag_id = $request->tag_id;
+            $group->campaign_id = $request->campaign_id;
+            $group->file = 'test';
+            $group->save();
+        }
+        else
+        {
+            $group = new OptIn();
+            $group->market_id = $request->market_id;
+            $group->tag_id = $request->tag_id;
+            $group->campaign_id = $request->campaign_id;
+            $group->name = $request->name;
+            $group->file = 'test';
+            $group->save();
+        }
+        return redirect('admin/opt-list');
+    }
+
+    public function contactInfo(Request $request , $id = '')
+    {
         //return 'wertyui';
         $leads = LeadCategory::all();
         $scripts = Script::all();
@@ -128,8 +158,8 @@ class GroupController extends Controller
         return view('back.pages.group.contactDetail', compact('id','title_company','leadinfo','scripts','sections','property_infos','values_conditions','property_finance_infos','selling_motivations','negotiations','leads', 'tags','getAllAppointments'));
     }
 
-    public function updateinfo(Request $request){
-
+    public function updateinfo(Request $request)
+    {
         $table = $request->table;
         $id = $request->id;
         $feild_id = $request->feild_id;
@@ -192,7 +222,6 @@ class GroupController extends Controller
 
         if($existing_group_id!=0)
         {
-
          $group_id=$existing_group_id;
          $group = Group::where('id', $group_id)->first();
          $group->market_id = $request->market_id;
@@ -202,11 +231,12 @@ class GroupController extends Controller
         else
         {
 
-        $group = new Group();
-        $group->market_id = $request->market_id;
-        $group->tag_id = $request->tag_id;
-        $group->name = $request->name;
-        $group->save();
+            $group = new Group();
+            $group->market_id = $request->market_id;
+            $group->tag_id = $request->tag_id;
+            $group->name = $request->name;
+            $group->save();
+       
         }
 
 
@@ -664,7 +694,7 @@ class GroupController extends Controller
     $pdfParser = new Parser();
     $pdf = $pdfParser->parseFile($file->path());
     $content = $pdf->getText();
-       $filenameNew =  time().'.'.$fileName;
+        $filenameNew =  time().'.'.$fileName;
        $Contractupload = Contractupload::find(1);
        $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
    
