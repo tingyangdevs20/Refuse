@@ -9,3 +9,4 @@ class ZoomMeeting extends Model
     protected $guarded = [];
 
 }
+?>
