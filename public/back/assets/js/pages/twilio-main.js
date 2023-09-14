@@ -33,8 +33,16 @@
       callButton = $(this)
       phoneNumberInput = $(this).attr("phone-number")
       HangupButton = $(this).next()
-      e.preventDefault();
-      makeOutgoingCall();
+      makeOutgoingCall(phoneNumberInput);
+    })
+
+    $(document).on("click", ".ans-call", function(e){
+      $('#end-call').show();
+
+      callButton = $(this)
+      phoneNumberInput = $("#soft-phone-modal").find('.phone-number').val();
+      HangupButton = $(this).next()
+      makeOutgoingCall(phoneNumberInput);
     })
     
     
@@ -53,13 +61,14 @@
       log("Requesting Access Token...");
   
       try {
-          var baseurl = window.location.origin;
-          const data = await $.getJSON(baseurl+"/bulk/test/bulk_sms/public/admin/access-token");
+          var baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+
+          const data = await $.getJSON(baseUrl+"/access-token");
           
         
         log("Got a token.");
         token = data.token;
-        setClientNameUI('Sagar');
+        setClientNameUI('bulk-sms');
         intitializeDevice();
       } catch (err) {
         console.log(err);
@@ -107,7 +116,8 @@
   
     // MAKE AN OUTGOING CALL
   
-    async function makeOutgoingCall() {
+    async function makeOutgoingCall(phoneNumberInput) {
+      console.log(phoneNumberInput)
       var params = {
         // get the phone number to call from the DOM
         To: phoneNumberInput,
@@ -142,8 +152,6 @@
     function updateUIAcceptedOutgoingCall(call) {
       log("Call in progress ...");
       callButton.disabled = true;
-      outgoingCallHangupButton.classList.remove("hide");
-      volumeIndicators.classList.remove("hide");
       bindVolumeIndicators(call);
     }
   
@@ -152,19 +160,21 @@
       callButton.next().addClass('d-none')
       callButton.removeClass('d-none');
       callButton.disabled = false;
-      outgoingCallHangupButton.classList.add("hide");
-      volumeIndicators.classList.add("hide");
     }
   
     // HANDLE INCOMING CALL
   
     function handleIncomingCall(call) {
+      modal.style.display = 'block';
+      $("#soft-phone-modal").find(".incoming-control").removeClass('d-none');
+      $("#soft-phone-modal").find(".phone").addClass('d-none');
+
       $(incomingPhoneNumberEl.parentElement.parentNode.parentNode).removeClass('d-none')
       $(incomingPhoneNumberEl.parentElement.parentNode.parentNode).addClass('d-flex')
       log(`Incoming call from ${call.parameters.From}`);
   
       //show incoming call div and incoming phone number
-      incomingCallDiv.classList.remove("hide");
+      // incomingCallDiv.classList.remove("hide");
       incomingPhoneNumberEl.innerHTML = call.parameters.From;
   
       //add event listeners for Accept, Reject, and Hangup buttons
@@ -218,6 +228,9 @@
   
     function handleDisconnectedIncomingCall() {
       log("Incoming call ended.");
+      $("#soft-phone-modal").find(".incoming-control").addClass('d-none');
+      $("#soft-phone-modal").find(".phone").removeClass('d-none');
+
       resetIncomingCallUI();
     }
   
@@ -239,7 +252,6 @@
       incomingCallAcceptButton.classList.remove("hide");
       incomingCallRejectButton.classList.remove("hide");
       incomingCallHangupButton.classList.add("hide");
-      incomingCallDiv.classList.add("hide");
       $(incomingPhoneNumberEl.parentElement.parentNode.parentNode).addClass('d-none')
       $(incomingPhoneNumberEl.parentElement.parentNode.parentNode).removeClass('d-flex')
     }
