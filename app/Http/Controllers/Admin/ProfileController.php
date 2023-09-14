@@ -24,7 +24,8 @@ class ProfileController extends Controller
 
         $request->validate([
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'sometimes|required|min:8|confirmed',
+            'password' => 'nullable|sometimes|min:8|confirmed',
+
         ]);
 
         $user->email = $request->input('email');
@@ -32,7 +33,15 @@ class ProfileController extends Controller
         if ($request->filled('password')) {
             $user->password = Hash::make($request->input('password'));
         }
-        $user->time_zone=$request->input('time_zone');
+        $user->website_link     =$request->input('website_link');
+        $user->time_zone        =$request->input('time_zone');
+        $user->address          =$request->input('address');
+        $user->mobile           =$request->input('mobile');
+        // $user->status           =$request->input('status');
+        $user->street           =$request->input('street');
+        $user->state            =$request->input('state');
+        $user->city             =$request->input('city');
+        $user->zip              =$request->input('zip');
         $user->save();
 
         return redirect()->route('admin.profile.show')->with('success', 'Profile updated successfully.');

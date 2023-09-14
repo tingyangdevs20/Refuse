@@ -25,6 +25,7 @@ class RolePermissionSeeder extends Seeder
     {
         // Define roles
         $roles = [
+            'Super Admin',
             'Administrator',
             'Assistant',
             'Acquisitions',
@@ -81,6 +82,7 @@ class RolePermissionSeeder extends Seeder
                
                 'system_setting',
                 'quick_response',
+                'zoom_module',
 
 
 
@@ -102,7 +104,7 @@ class RolePermissionSeeder extends Seeder
             if ($roleName === 'Administrator') {
                 // Replace with your user retrieval logic or create a new user
                 $user = User::firstOrCreate([
-                    'email' => 'admin@gmail.com', // Specify the user's email
+                    'email' => 'adminn@gmail.com', // Specify the user's email
                     // Add other user attributes here
                 ]);
 

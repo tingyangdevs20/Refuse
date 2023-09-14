@@ -326,10 +326,8 @@ input:checked + .slider:before {
                 </div>
 
                     <select class="custom-select" id="list-of-phonenumbers">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option selected>+18886418823</option>
+                       
                     </select>
 
                 <div class="grid">

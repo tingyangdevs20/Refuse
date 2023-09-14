@@ -1,6 +1,7 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <style>
         #hidden_div {
             display: none;
@@ -53,7 +54,7 @@
     </style>
     @endsection
 @section('content')
-<input type="hidden" id="_token" value="{{csrf_token()}}">
+            <input type="hidden" id="_token" value="{{csrf_token()}}">
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
@@ -64,7 +65,9 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
+                           
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    
                                     <h4 class="mb-0 font-size-18">Contact Record</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -79,7 +82,18 @@
                                         <i class="fas fa-edit"></i> Contact
                                     </div>
                                     <div class="card-body">
-                                        <form action="{{ route('admin.single-sms.store') }}" method="post" enctype="multipart/form-data">
+                                    @if(session('upload'))
+                                <div class="alert alert-success">
+                                    {{ session('upload') }}
+                                </div>
+                            @endif
+
+                            @if(session('notupload'))
+                                <div class="alert alert-danger">
+                                    {{ session('notupload') }}
+                                </div>
+                            @endif
+                                        <form id="main_form" action="{{ route('admin.single-sms.store') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             @method('POST')
                                             @if(count($sections) > 0)
@@ -1991,7 +2005,17 @@
                                                                                 @endforeach
                                                                             @endif
                                                                         </div>
+                                                                        <div class="row">
+                                                                        <div class="col-md-12">
+                                                                           
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                                <a href="{{route('admin.zoom.index')}}" type="button" id="custom-upload-button" class="btn btn-primary">Zoom Meeting</a>
+                                                                        
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
+                                                                    </div>
+                                                                   
                                                                     <hr>
                                                                 @elseif($section->id == '15')
                                                                     <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
@@ -2062,6 +2086,22 @@
                                                                                     </div>
                                                                                 @endforeach
                                                                             @endif
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                           
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                               
+                                                                                
+                                                                                <div class="form-group">
+                                                                                    <label for="file">Select Files to Upload:</label>
+                                                                                    <input type="file" name="file" id="file" class="form-control" multiple>
+                                                                                </div>
+                                                                                <button type="submit" id="custom-upload-button" class="btn btn-primary">Upload to Google Drive</button>
+                                                                            
+
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <hr>
@@ -2633,28 +2673,39 @@
                 </div>
                 <!-- End Page-content -->
 
-<!-- Call Initiated Successfully Modal -->
-<div class="modal fade" id="initiate-call" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content mt-2">
-                <div class="modal-body">
-                    <p class="calling-response" style="text-align: center; font-size: 16px;"></p>
-                </div>
-                
-                </div>
+    <!-- Call Initiated Successfully Modal -->
+    <div class="modal fade" id="initiate-call" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content mt-2">
+            <div class="modal-body">
+                <p class="calling-response" style="text-align: center; font-size: 16px;"></p>
             </div>
-</div>                
+            
+            </div>
+        </div>
+    </div>                
 
-                @endsection
+@endsection
 @section('scripts')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script >
         $(document).ready(function() {
+          
+            // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
+            $("#custom-upload-button").click(function () {
+                var form = $("#main_form");
+
+                // Set the form's action attribute to the new route
+                form.attr("action", "{{ route('admin.google.drive.login') }}");
+
+                // Submit the form
+                form.submit();
+            });
         } );
     </script>
     <script>

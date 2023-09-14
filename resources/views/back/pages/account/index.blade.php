@@ -56,7 +56,61 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label>Phone Cell Append</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Per Phone Cell Append Rate" name="phone_cell_append_rate"
+                                        id="phone_cell_append_rate" value="{{ $accounts->phone_cell_append_rate }}" step="0.00001" min="0" required>
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <label>Email Append</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Per Email Append Rate" name="email_append_rate"
+                                        id="email_append_rate" value="{{ $accounts->email_append_rate }}" step="0.00001" min="0" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Name Append</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Per Name Append Rate" name="name_append_rate"
+                                        id="name_append_rate" value="{{ $accounts->name_append_rate }}" step="0.00001" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email Verification </label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Per Email Verification Rate" name="email_verification_rate"
+                                        id="email_verification_rate" value="{{ $accounts->email_verification_rate }}" step="0.00001" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Phone Scrub </label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Per Phone Scrub Rate" name="phone_scrub_rate"
+                                        id="phone_scrub_rate" value="{{ $accounts->phone_scrub_rate }}" step="0.00001" min="0" required>
+                                </div>
+                            </div>
 
 
 
