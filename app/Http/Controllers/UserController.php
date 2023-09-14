@@ -150,7 +150,7 @@ class UserController extends Controller
         return redirect()->route('admin.profile.show')->with('switchRole', 'You are currently viewing ' . $name . ' as an account administrator.');
     }
 
-    return redirect()->back()->with('error', 'You do not have permission to switch roles.');
+    return redirect()->back()->with('noaccess', 'You do not have permission to switch roles.');
     }
 
     public function quitRole()

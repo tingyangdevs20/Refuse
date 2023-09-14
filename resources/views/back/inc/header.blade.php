@@ -30,7 +30,9 @@
            
 
         </div>
+        @if(auth()->user()->can('administrator'))
         @include('back.pages.partials.switch')
+        @endif
             <div class="dropdown d-inline-block">
            
             Account Balance:<span style="color:#556ee6;font-weight:bold"> USD 50</span>

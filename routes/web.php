@@ -93,6 +93,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
     
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
+    Route::get('/zoom/test', 'ZoomController@test')->name('zoom.test');
     Route::get('/zoom/create', 'ZoomController@create')->name('zoom.create');
     Route::post('/zoom/store', 'ZoomController@store')->name('zoom.store');
     Route::get('/zoom/edit/{id}', 'ZoomController@edit')->name('zoom.edit');
