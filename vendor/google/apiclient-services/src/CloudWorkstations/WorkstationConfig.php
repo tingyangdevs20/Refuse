@@ -19,7 +19,7 @@ namespace Google\Service\CloudWorkstations;
 
 class WorkstationConfig extends \Google\Collection
 {
-  protected $collection_key = 'readinessChecks';
+  protected $collection_key = 'replicaZones';
   /**
    * @var string[]
    */
@@ -44,10 +44,6 @@ class WorkstationConfig extends \Google\Collection
    * @var string
    */
   public $displayName;
-  /**
-   * @var bool
-   */
-  public $enableAuditAgent;
   protected $encryptionKeyType = CustomerEncryptionKey::class;
   protected $encryptionKeyDataType = '';
   /**
@@ -76,6 +72,10 @@ class WorkstationConfig extends \Google\Collection
    * @var bool
    */
   public $reconciling;
+  /**
+   * @var string[]
+   */
+  public $replicaZones;
   /**
    * @var string
    */
@@ -186,20 +186,6 @@ class WorkstationConfig extends \Google\Collection
   public function getDisplayName()
   {
     return $this->displayName;
-  }
-  /**
-   * @param bool
-   */
-  public function setEnableAuditAgent($enableAuditAgent)
-  {
-    $this->enableAuditAgent = $enableAuditAgent;
-  }
-  /**
-   * @return bool
-   */
-  public function getEnableAuditAgent()
-  {
-    return $this->enableAuditAgent;
   }
   /**
    * @param CustomerEncryptionKey
@@ -326,6 +312,20 @@ class WorkstationConfig extends \Google\Collection
   public function getReconciling()
   {
     return $this->reconciling;
+  }
+  /**
+   * @param string[]
+   */
+  public function setReplicaZones($replicaZones)
+  {
+    $this->replicaZones = $replicaZones;
+  }
+  /**
+   * @return string[]
+   */
+  public function getReplicaZones()
+  {
+    return $this->replicaZones;
   }
   /**
    * @param string

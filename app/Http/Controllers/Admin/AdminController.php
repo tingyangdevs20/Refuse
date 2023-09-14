@@ -9,6 +9,8 @@ use App\Model\Sms;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Model\GoalsReached;
+use App\User;
+use App\goal_attribute;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -27,6 +29,7 @@ class AdminController extends Controller
         $messages_sent_seven_days_goals=getReportingDataOfSMS(7);
         $messages_sent_month_days_goals=getReportingDataOfSMS(30);
         $messages_sent_ninety_days_goals=getReportingDataOfSMS(90);
+        $messages_sent_year_goals=getReportingDataOfSMS(365);
         $user=Auth::id();
         $goal=GoalsReached::where('user_id',$user)->first();
         $goalValue=$goal->goals??0;
@@ -44,27 +47,38 @@ class AdminController extends Controller
     public function setGoals(Request $request)
     {
         $user=Auth::id();
-        $goal=GoalsReached::where('user_id',$user)->first();
-        $goalValue=$goal->goals??0;
-        return view('back.pages.goal-settings.index',compact('goalValue'));
+        $goal=GoalsReached::where('user_id',$user)->get();
+        $goal->load(['goal_attribute']);
+        return view('back.pages.goal-settings.index',compact('goal'));
+    }
+
+    public function createGoals(Request $request)
+    {
+        $users=User::all();
+        $attributes=goal_attribute::all();
+        return view('back.pages.goal-settings.create',compact('users','attributes'));
+    }
+    public function editGoals(Request $request)
+    {
+        return view('back.pages.goal-settings.index',compact('goal'));
+    }
+    public function updateGoals(Request $request)
+    {
+        return view('back.pages.goal-settings.index',compact('goal'));
     }
     public function saveGoals(Request $request)
     {
+        $validatedData = $request->validate([
+            'goal' => 'required|numeric',
+            'user' => 'required',
+            'attribute' => 'required', 
+        ]);
         $user=Auth::id();
-        $goal=GoalsReached::where('user_id',$user)->first();
-        if($goal)
-        {
-            $goal->update([
-                "goals"=>$request->get('contact_people')
-            ]);
-        }
-        else
-        {
-            GoalsReached::create([
-                "user_id"=>$user,
-                "goals"=>$request->get('contact_people')                
-            ]);
-        }
+        $goal=new GoalsReached();
+        $goal->goals=$request->goal;
+        $goal->user_id=$request->user;
+        $goal->attribute=$request->attribute;
+        $goal->save();
         Alert::success('Success','Goal Saved!');
         return redirect()->back();
     }
