@@ -15,6 +15,7 @@ class AddNewColumnsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->text('access_token')->nullable();
+            $table->text('refresh_token')->nullable();
             $table->string('mobile')->nullable();
             $table->boolean('status')->default(0);
             $table->string('address')->nullable();

@@ -28,7 +28,7 @@ class UserController extends Controller
     }
 
     public function create()  {
-       
+
         $roles = Role::get()->pluck('name', 'name');
 
         return view('back.pages.userlist.create',compact('roles'));
@@ -73,7 +73,7 @@ class UserController extends Controller
 
     public function edit( $id)
     {
-      
+
         $user = User::find($id);
         $roles = Role::get()->pluck('name', 'name');
 
@@ -117,7 +117,7 @@ class UserController extends Controller
 
     public function destroy( $id)
     {
-        
+
         $user = User::find($id);
         $user->delete();
         session()->flash('success', 'User has been deleted !!');
@@ -128,11 +128,11 @@ class UserController extends Controller
     {
         $superAdmin = Auth::user();
 
-       
+
 
     // Ensure the user performing the switch is a super admin
     if ($superAdmin->hasRole('Administrator') && $superAdmin->id !== $user->id) {
-       
+
         // Set the original_id to the super admin's ID
         $user->original_id = $superAdmin->id;
         $user->save();
@@ -146,11 +146,11 @@ class UserController extends Controller
         $name = auth()->user()->name;
 
         // Redirect to the dashboard or wherever you want
-        
+
         return redirect()->route('admin.profile.show')->with('switchRole', 'You are currently viewing ' . $name . ' as an account administrator.');
     }
 
-    return redirect()->back()->with('noaccess', 'You do not have permission to switch roles.');
+    return redirect()->back()->with('error', 'You do not have permission to switch roles.');
     }
 
     public function quitRole()
@@ -158,24 +158,24 @@ class UserController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-    
+
             if ($user->hasSwitchedRole()) {
                 // Log out of the switched role and back to the super admin
                 Auth::logout();
                 Auth::loginUsingId($user->original_id);
-                session()->flash('success', 'You have switched back to Super Admin. !!');
-                return redirect()->route('admin.user-list.index')->with('sucess', 'You have switched back to Super Admin.');
+                session()->flash('success', 'You have switched back to your Role. !!');
+                return redirect()->route('admin.user-list.index')->with('sucess', 'You have switched back to back to your Role.');
 
             } else {
-                session()->flash('info', 'You are already in Super Admin mode. !!');
+                session()->flash('info', 'You are already in your Role. !!');
                 return redirect()->route('admin.user-list.index')->with('info', 'You are already in Super Admin mode.');
             }
         } else {
             return redirect()->route('login'); // Redirect to the login page if not authenticated
         }
-      
-    
-        
+
+
+
     }
 
 
