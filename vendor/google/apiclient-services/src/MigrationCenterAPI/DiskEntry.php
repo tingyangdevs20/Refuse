@@ -22,19 +22,11 @@ class DiskEntry extends \Google\Model
   /**
    * @var string
    */
-  public $capacityBytes;
-  /**
-   * @var string
-   */
   public $diskLabel;
   /**
    * @var string
    */
   public $diskLabelType;
-  /**
-   * @var string
-   */
-  public $freeBytes;
   /**
    * @var string
    */
@@ -45,23 +37,21 @@ class DiskEntry extends \Google\Model
   public $interfaceType;
   protected $partitionsType = DiskPartitionList::class;
   protected $partitionsDataType = '';
-  protected $vmwareType = VmwareDiskConfig::class;
-  protected $vmwareDataType = '';
+  /**
+   * @var string
+   */
+  public $status;
+  /**
+   * @var string
+   */
+  public $totalCapacityBytes;
+  /**
+   * @var string
+   */
+  public $totalFreeBytes;
+  protected $vmwareConfigType = VmwareDiskConfig::class;
+  protected $vmwareConfigDataType = '';
 
-  /**
-   * @param string
-   */
-  public function setCapacityBytes($capacityBytes)
-  {
-    $this->capacityBytes = $capacityBytes;
-  }
-  /**
-   * @return string
-   */
-  public function getCapacityBytes()
-  {
-    return $this->capacityBytes;
-  }
   /**
    * @param string
    */
@@ -89,20 +79,6 @@ class DiskEntry extends \Google\Model
   public function getDiskLabelType()
   {
     return $this->diskLabelType;
-  }
-  /**
-   * @param string
-   */
-  public function setFreeBytes($freeBytes)
-  {
-    $this->freeBytes = $freeBytes;
-  }
-  /**
-   * @return string
-   */
-  public function getFreeBytes()
-  {
-    return $this->freeBytes;
   }
   /**
    * @param string
@@ -147,18 +123,60 @@ class DiskEntry extends \Google\Model
     return $this->partitions;
   }
   /**
+   * @param string
+   */
+  public function setStatus($status)
+  {
+    $this->status = $status;
+  }
+  /**
+   * @return string
+   */
+  public function getStatus()
+  {
+    return $this->status;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalCapacityBytes($totalCapacityBytes)
+  {
+    $this->totalCapacityBytes = $totalCapacityBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalCapacityBytes()
+  {
+    return $this->totalCapacityBytes;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalFreeBytes($totalFreeBytes)
+  {
+    $this->totalFreeBytes = $totalFreeBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalFreeBytes()
+  {
+    return $this->totalFreeBytes;
+  }
+  /**
    * @param VmwareDiskConfig
    */
-  public function setVmware(VmwareDiskConfig $vmware)
+  public function setVmwareConfig(VmwareDiskConfig $vmwareConfig)
   {
-    $this->vmware = $vmware;
+    $this->vmwareConfig = $vmwareConfig;
   }
   /**
    * @return VmwareDiskConfig
    */
-  public function getVmware()
+  public function getVmwareConfig()
   {
-    return $this->vmware;
+    return $this->vmwareConfig;
   }
 }
 

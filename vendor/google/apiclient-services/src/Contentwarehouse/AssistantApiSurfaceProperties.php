@@ -22,10 +22,6 @@ class AssistantApiSurfaceProperties extends \Google\Model
   protected $executionCapabilitiesType = AssistantApiSurfacePropertiesExecutionCapabilities::class;
   protected $executionCapabilitiesDataType = '';
   /**
-   * @var bool
-   */
-  public $prefersGlanceableUi;
-  /**
    * @var string
    */
   public $responseDisplayFormat;
@@ -47,20 +43,6 @@ class AssistantApiSurfaceProperties extends \Google\Model
   public function getExecutionCapabilities()
   {
     return $this->executionCapabilities;
-  }
-  /**
-   * @param bool
-   */
-  public function setPrefersGlanceableUi($prefersGlanceableUi)
-  {
-    $this->prefersGlanceableUi = $prefersGlanceableUi;
-  }
-  /**
-   * @return bool
-   */
-  public function getPrefersGlanceableUi()
-  {
-    return $this->prefersGlanceableUi;
   }
   /**
    * @param string

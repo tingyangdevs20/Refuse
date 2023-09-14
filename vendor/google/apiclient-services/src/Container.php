@@ -132,17 +132,7 @@ class Container extends \Google\Service
         'clusters',
         [
           'methods' => [
-            'checkAutopilotCompatibility' => [
-              'path' => 'v1/{+name}:checkAutopilotCompatibility',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'completeIpRotation' => [
+            'completeIpRotation' => [
               'path' => 'v1/{+name}:completeIpRotation',
               'httpMethod' => 'POST',
               'parameters' => [

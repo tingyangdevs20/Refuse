@@ -21,10 +21,8 @@ use function get_resource_type;
 use function is_array;
 use function is_bool;
 use function is_callable;
-use function is_object;
 use function is_resource;
 use function is_scalar;
-use function var_export;
 
 /**
  * Provides functionality to express a value as string
@@ -46,7 +44,6 @@ trait ValueToStringTrait
      *
      * @param mixed $value the value to return as a string.
      */
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     protected function toolValueToString($value): string
     {
         // null
@@ -92,7 +89,6 @@ trait ValueToStringTrait
         }
 
         // unknown type
-        // phpcs:ignore SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall
         return '(' . get_class($value) . ' Object)';
     }
 }

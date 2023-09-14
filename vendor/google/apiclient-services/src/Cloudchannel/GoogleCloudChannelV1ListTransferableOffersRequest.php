@@ -22,10 +22,6 @@ class GoogleCloudChannelV1ListTransferableOffersRequest extends \Google\Model
   /**
    * @var string
    */
-  public $billingAccount;
-  /**
-   * @var string
-   */
   public $cloudIdentityId;
   /**
    * @var string
@@ -48,20 +44,6 @@ class GoogleCloudChannelV1ListTransferableOffersRequest extends \Google\Model
    */
   public $sku;
 
-  /**
-   * @param string
-   */
-  public function setBillingAccount($billingAccount)
-  {
-    $this->billingAccount = $billingAccount;
-  }
-  /**
-   * @return string
-   */
-  public function getBillingAccount()
-  {
-    return $this->billingAccount;
-  }
   /**
    * @param string
    */

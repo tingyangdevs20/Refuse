@@ -17,11 +17,8 @@
 
 namespace Google\Service\DiscoveryEngine;
 
-class GoogleCloudDiscoveryengineV1alphaSchema extends \Google\Collection
+class GoogleCloudDiscoveryengineV1alphaSchema extends \Google\Model
 {
-  protected $collection_key = 'fieldConfigs';
-  protected $fieldConfigsType = GoogleCloudDiscoveryengineV1alphaFieldConfig::class;
-  protected $fieldConfigsDataType = 'array';
   /**
    * @var string
    */
@@ -35,20 +32,6 @@ class GoogleCloudDiscoveryengineV1alphaSchema extends \Google\Collection
    */
   public $structSchema;
 
-  /**
-   * @param GoogleCloudDiscoveryengineV1alphaFieldConfig[]
-   */
-  public function setFieldConfigs($fieldConfigs)
-  {
-    $this->fieldConfigs = $fieldConfigs;
-  }
-  /**
-   * @return GoogleCloudDiscoveryengineV1alphaFieldConfig[]
-   */
-  public function getFieldConfigs()
-  {
-    return $this->fieldConfigs;
-  }
   /**
    * @param string
    */

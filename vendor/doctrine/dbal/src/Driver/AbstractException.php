@@ -18,8 +18,10 @@ abstract class AbstractException extends BaseException implements Exception
 {
     /**
      * The SQLSTATE of the driver.
+     *
+     * @var string|null
      */
-    private ?string $sqlState = null;
+    private $sqlState;
 
     /**
      * @param string         $message  The driver error message.
@@ -35,7 +37,7 @@ abstract class AbstractException extends BaseException implements Exception
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSQLState()
     {

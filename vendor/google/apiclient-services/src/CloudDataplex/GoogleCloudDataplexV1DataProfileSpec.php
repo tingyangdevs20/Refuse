@@ -19,12 +19,6 @@ namespace Google\Service\CloudDataplex;
 
 class GoogleCloudDataplexV1DataProfileSpec extends \Google\Model
 {
-  protected $excludeFieldsType = GoogleCloudDataplexV1DataProfileSpecSelectedFields::class;
-  protected $excludeFieldsDataType = '';
-  protected $includeFieldsType = GoogleCloudDataplexV1DataProfileSpecSelectedFields::class;
-  protected $includeFieldsDataType = '';
-  protected $postScanActionsType = GoogleCloudDataplexV1DataProfileSpecPostScanActions::class;
-  protected $postScanActionsDataType = '';
   /**
    * @var string
    */
@@ -34,48 +28,6 @@ class GoogleCloudDataplexV1DataProfileSpec extends \Google\Model
    */
   public $samplingPercent;
 
-  /**
-   * @param GoogleCloudDataplexV1DataProfileSpecSelectedFields
-   */
-  public function setExcludeFields(GoogleCloudDataplexV1DataProfileSpecSelectedFields $excludeFields)
-  {
-    $this->excludeFields = $excludeFields;
-  }
-  /**
-   * @return GoogleCloudDataplexV1DataProfileSpecSelectedFields
-   */
-  public function getExcludeFields()
-  {
-    return $this->excludeFields;
-  }
-  /**
-   * @param GoogleCloudDataplexV1DataProfileSpecSelectedFields
-   */
-  public function setIncludeFields(GoogleCloudDataplexV1DataProfileSpecSelectedFields $includeFields)
-  {
-    $this->includeFields = $includeFields;
-  }
-  /**
-   * @return GoogleCloudDataplexV1DataProfileSpecSelectedFields
-   */
-  public function getIncludeFields()
-  {
-    return $this->includeFields;
-  }
-  /**
-   * @param GoogleCloudDataplexV1DataProfileSpecPostScanActions
-   */
-  public function setPostScanActions(GoogleCloudDataplexV1DataProfileSpecPostScanActions $postScanActions)
-  {
-    $this->postScanActions = $postScanActions;
-  }
-  /**
-   * @return GoogleCloudDataplexV1DataProfileSpecPostScanActions
-   */
-  public function getPostScanActions()
-  {
-    return $this->postScanActions;
-  }
   /**
    * @param string
    */

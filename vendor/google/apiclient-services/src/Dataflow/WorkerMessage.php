@@ -19,8 +19,6 @@ namespace Google\Service\Dataflow;
 
 class WorkerMessage extends \Google\Model
 {
-  protected $dataSamplingReportType = DataSamplingReport::class;
-  protected $dataSamplingReportDataType = '';
   /**
    * @var string[]
    */
@@ -42,20 +40,6 @@ class WorkerMessage extends \Google\Model
   protected $workerThreadScalingReportType = WorkerThreadScalingReport::class;
   protected $workerThreadScalingReportDataType = '';
 
-  /**
-   * @param DataSamplingReport
-   */
-  public function setDataSamplingReport(DataSamplingReport $dataSamplingReport)
-  {
-    $this->dataSamplingReport = $dataSamplingReport;
-  }
-  /**
-   * @return DataSamplingReport
-   */
-  public function getDataSamplingReport()
-  {
-    return $this->dataSamplingReport;
-  }
   /**
    * @param string[]
    */

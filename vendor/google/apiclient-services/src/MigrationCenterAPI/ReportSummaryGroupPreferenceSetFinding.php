@@ -19,8 +19,6 @@ namespace Google\Service\MigrationCenterAPI;
 
 class ReportSummaryGroupPreferenceSetFinding extends \Google\Model
 {
-  protected $computeEngineFindingType = ReportSummaryComputeEngineFinding::class;
-  protected $computeEngineFindingDataType = '';
   /**
    * @var string
    */
@@ -29,6 +27,8 @@ class ReportSummaryGroupPreferenceSetFinding extends \Google\Model
    * @var string
    */
   public $displayName;
+  protected $machineFindingType = ReportSummaryMachineFinding::class;
+  protected $machineFindingDataType = '';
   protected $machinePreferencesType = VirtualMachinePreferences::class;
   protected $machinePreferencesDataType = '';
   protected $monthlyCostComputeType = Money::class;
@@ -43,25 +43,19 @@ class ReportSummaryGroupPreferenceSetFinding extends \Google\Model
   protected $monthlyCostStorageDataType = '';
   protected $monthlyCostTotalType = Money::class;
   protected $monthlyCostTotalDataType = '';
-  protected $soleTenantFindingType = ReportSummarySoleTenantFinding::class;
-  protected $soleTenantFindingDataType = '';
-  protected $vmwareEngineFindingType = ReportSummaryVmwareEngineFinding::class;
-  protected $vmwareEngineFindingDataType = '';
+  /**
+   * @var string
+   */
+  public $preferredRegion;
+  /**
+   * @var string
+   */
+  public $pricingTrack;
+  /**
+   * @var string
+   */
+  public $topPriority;
 
-  /**
-   * @param ReportSummaryComputeEngineFinding
-   */
-  public function setComputeEngineFinding(ReportSummaryComputeEngineFinding $computeEngineFinding)
-  {
-    $this->computeEngineFinding = $computeEngineFinding;
-  }
-  /**
-   * @return ReportSummaryComputeEngineFinding
-   */
-  public function getComputeEngineFinding()
-  {
-    return $this->computeEngineFinding;
-  }
   /**
    * @param string
    */
@@ -89,6 +83,20 @@ class ReportSummaryGroupPreferenceSetFinding extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param ReportSummaryMachineFinding
+   */
+  public function setMachineFinding(ReportSummaryMachineFinding $machineFinding)
+  {
+    $this->machineFinding = $machineFinding;
+  }
+  /**
+   * @return ReportSummaryMachineFinding
+   */
+  public function getMachineFinding()
+  {
+    return $this->machineFinding;
   }
   /**
    * @param VirtualMachinePreferences
@@ -189,32 +197,46 @@ class ReportSummaryGroupPreferenceSetFinding extends \Google\Model
     return $this->monthlyCostTotal;
   }
   /**
-   * @param ReportSummarySoleTenantFinding
+   * @param string
    */
-  public function setSoleTenantFinding(ReportSummarySoleTenantFinding $soleTenantFinding)
+  public function setPreferredRegion($preferredRegion)
   {
-    $this->soleTenantFinding = $soleTenantFinding;
+    $this->preferredRegion = $preferredRegion;
   }
   /**
-   * @return ReportSummarySoleTenantFinding
+   * @return string
    */
-  public function getSoleTenantFinding()
+  public function getPreferredRegion()
   {
-    return $this->soleTenantFinding;
+    return $this->preferredRegion;
   }
   /**
-   * @param ReportSummaryVmwareEngineFinding
+   * @param string
    */
-  public function setVmwareEngineFinding(ReportSummaryVmwareEngineFinding $vmwareEngineFinding)
+  public function setPricingTrack($pricingTrack)
   {
-    $this->vmwareEngineFinding = $vmwareEngineFinding;
+    $this->pricingTrack = $pricingTrack;
   }
   /**
-   * @return ReportSummaryVmwareEngineFinding
+   * @return string
    */
-  public function getVmwareEngineFinding()
+  public function getPricingTrack()
   {
-    return $this->vmwareEngineFinding;
+    return $this->pricingTrack;
+  }
+  /**
+   * @param string
+   */
+  public function setTopPriority($topPriority)
+  {
+    $this->topPriority = $topPriority;
+  }
+  /**
+   * @return string
+   */
+  public function getTopPriority()
+  {
+    return $this->topPriority;
   }
 }
 

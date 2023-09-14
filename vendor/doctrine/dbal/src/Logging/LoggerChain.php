@@ -12,22 +12,24 @@ use Doctrine\Deprecations\Deprecation;
 class LoggerChain implements SQLLogger
 {
     /** @var iterable<SQLLogger> */
-    private iterable $loggers;
+    private $loggers;
 
-    /** @param iterable<SQLLogger> $loggers */
+    /**
+     * @param iterable<SQLLogger> $loggers
+     */
     public function __construct(iterable $loggers = [])
     {
         Deprecation::trigger(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/pull/4967',
-            'LoggerChain is deprecated',
+            'LoggerChain is deprecated'
         );
 
         $this->loggers = $loggers;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function startQuery($sql, ?array $params = null, ?array $types = null)
     {
@@ -37,7 +39,7 @@ class LoggerChain implements SQLLogger
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function stopQuery()
     {

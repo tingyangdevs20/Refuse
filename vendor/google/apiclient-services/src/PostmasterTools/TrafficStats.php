@@ -40,8 +40,6 @@ class TrafficStats extends \Google\Collection
   protected $spammyFeedbackLoopsDataType = 'array';
   public $spfSuccessRatio;
   public $userReportedSpamRatio;
-  public $userReportedSpamRatioLowerBound;
-  public $userReportedSpamRatioUpperBound;
 
   /**
    * @param DeliveryError[]
@@ -160,22 +158,6 @@ class TrafficStats extends \Google\Collection
   public function getUserReportedSpamRatio()
   {
     return $this->userReportedSpamRatio;
-  }
-  public function setUserReportedSpamRatioLowerBound($userReportedSpamRatioLowerBound)
-  {
-    $this->userReportedSpamRatioLowerBound = $userReportedSpamRatioLowerBound;
-  }
-  public function getUserReportedSpamRatioLowerBound()
-  {
-    return $this->userReportedSpamRatioLowerBound;
-  }
-  public function setUserReportedSpamRatioUpperBound($userReportedSpamRatioUpperBound)
-  {
-    $this->userReportedSpamRatioUpperBound = $userReportedSpamRatioUpperBound;
-  }
-  public function getUserReportedSpamRatioUpperBound()
-  {
-    return $this->userReportedSpamRatioUpperBound;
   }
 }
 

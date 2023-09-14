@@ -19,6 +19,8 @@ namespace Google\Service\CloudNaturalLanguage;
 
 class Features extends \Google\Model
 {
+  protected $classificationModelOptionsType = ClassificationModelOptions::class;
+  protected $classificationModelOptionsDataType = '';
   /**
    * @var bool
    */
@@ -34,8 +36,26 @@ class Features extends \Google\Model
   /**
    * @var bool
    */
-  public $moderateText;
+  public $extractEntitySentiment;
+  /**
+   * @var bool
+   */
+  public $extractSyntax;
 
+  /**
+   * @param ClassificationModelOptions
+   */
+  public function setClassificationModelOptions(ClassificationModelOptions $classificationModelOptions)
+  {
+    $this->classificationModelOptions = $classificationModelOptions;
+  }
+  /**
+   * @return ClassificationModelOptions
+   */
+  public function getClassificationModelOptions()
+  {
+    return $this->classificationModelOptions;
+  }
   /**
    * @param bool
    */
@@ -81,16 +101,30 @@ class Features extends \Google\Model
   /**
    * @param bool
    */
-  public function setModerateText($moderateText)
+  public function setExtractEntitySentiment($extractEntitySentiment)
   {
-    $this->moderateText = $moderateText;
+    $this->extractEntitySentiment = $extractEntitySentiment;
   }
   /**
    * @return bool
    */
-  public function getModerateText()
+  public function getExtractEntitySentiment()
   {
-    return $this->moderateText;
+    return $this->extractEntitySentiment;
+  }
+  /**
+   * @param bool
+   */
+  public function setExtractSyntax($extractSyntax)
+  {
+    $this->extractSyntax = $extractSyntax;
+  }
+  /**
+   * @return bool
+   */
+  public function getExtractSyntax()
+  {
+    return $this->extractSyntax;
   }
 }
 
