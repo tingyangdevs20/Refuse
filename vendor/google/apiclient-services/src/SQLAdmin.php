@@ -542,6 +542,21 @@ class SQLAdmin extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'reencrypt' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/reencrypt',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'resetSslConfig' => [
               'path' => 'v1/projects/{project}/instances/{instance}/resetSslConfig',
               'httpMethod' => 'POST',
@@ -672,7 +687,22 @@ class SQLAdmin extends \Google\Service
         'operations',
         [
           'methods' => [
-            'get' => [
+            'cancel' => [
+              'path' => 'v1/projects/{project}/operations/{operation}/cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'operation' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
               'path' => 'v1/projects/{project}/operations/{operation}',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -721,6 +751,21 @@ class SQLAdmin extends \Google\Service
           'methods' => [
             'getDiskShrinkConfig' => [
               'path' => 'v1/projects/{project}/instances/{instance}/getDiskShrinkConfig',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getLatestRecoveryTime' => [
+              'path' => 'v1/projects/{project}/instances/{instance}/getLatestRecoveryTime',
               'httpMethod' => 'GET',
               'parameters' => [
                 'project' => [
