@@ -7,12 +7,11 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\API\ExceptionConverter;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\VersionAwarePlatformDriver;
-use Doctrine\Deprecations\Deprecation;
-use SensitiveParameter;
 
 abstract class AbstractDriverMiddleware implements VersionAwarePlatformDriver
 {
-    private Driver $wrappedDriver;
+    /** @var Driver */
+    private $wrappedDriver;
 
     public function __construct(Driver $wrappedDriver)
     {
@@ -20,17 +19,15 @@ abstract class AbstractDriverMiddleware implements VersionAwarePlatformDriver
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function connect(
-        #[SensitiveParameter]
-        array $params
-    ) {
+    public function connect(array $params)
+    {
         return $this->wrappedDriver->connect($params);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDatabasePlatform()
     {
@@ -38,19 +35,10 @@ abstract class AbstractDriverMiddleware implements VersionAwarePlatformDriver
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated Use {@link AbstractPlatform::createSchemaManager()} instead.
+     * {@inheritdoc}
      */
     public function getSchemaManager(Connection $conn, AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5458',
-            'AbstractDriverMiddleware::getSchemaManager() is deprecated.'
-                . ' Use AbstractPlatform::createSchemaManager() instead.',
-        );
-
         return $this->wrappedDriver->getSchemaManager($conn, $platform);
     }
 
@@ -60,7 +48,7 @@ abstract class AbstractDriverMiddleware implements VersionAwarePlatformDriver
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createDatabasePlatformForVersion($version)
     {

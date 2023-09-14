@@ -210,17 +210,7 @@ class CloudRun extends \Google\Service
         'executions',
         [
           'methods' => [
-            'cancel' => [
-              'path' => 'v2/{+name}:cancel',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
+            'delete' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [

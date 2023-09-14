@@ -200,10 +200,6 @@ class ImageData extends \Google\Collection
    * @var int
    */
   public $lineartDetectorVersion;
-  /**
-   * @var string
-   */
-  public $linkinfoType;
   protected $multibangKgEntitiesType = ImageDataMultibangEntities::class;
   protected $multibangKgEntitiesDataType = '';
   /**
@@ -1070,20 +1066,6 @@ class ImageData extends \Google\Collection
   public function getLineartDetectorVersion()
   {
     return $this->lineartDetectorVersion;
-  }
-  /**
-   * @param string
-   */
-  public function setLinkinfoType($linkinfoType)
-  {
-    $this->linkinfoType = $linkinfoType;
-  }
-  /**
-   * @return string
-   */
-  public function getLinkinfoType()
-  {
-    return $this->linkinfoType;
   }
   /**
    * @param ImageDataMultibangEntities

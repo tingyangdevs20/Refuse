@@ -19,23 +19,23 @@ namespace Google\Service\Contentwarehouse;
 
 class GeostoreTransitStationProto extends \Google\Collection
 {
-  protected $collection_key = 'agencyAssociations';
-  protected $agencyAssociationsType = GeostoreTransitStationProtoTransitAgencyAssociationProto::class;
-  protected $agencyAssociationsDataType = 'array';
+  protected $collection_key = 'agencies';
+  protected $agenciesType = GeostoreFeatureIdProto::class;
+  protected $agenciesDataType = 'array';
 
   /**
-   * @param GeostoreTransitStationProtoTransitAgencyAssociationProto[]
+   * @param GeostoreFeatureIdProto[]
    */
-  public function setAgencyAssociations($agencyAssociations)
+  public function setAgencies($agencies)
   {
-    $this->agencyAssociations = $agencyAssociations;
+    $this->agencies = $agencies;
   }
   /**
-   * @return GeostoreTransitStationProtoTransitAgencyAssociationProto[]
+   * @return GeostoreFeatureIdProto[]
    */
-  public function getAgencyAssociations()
+  public function getAgencies()
   {
-    return $this->agencyAssociations;
+    return $this->agencies;
   }
 }
 

@@ -249,8 +249,7 @@ class ProjectsLocationsApisDeployments extends \Google\Service\Resource
    * Adds a tag to a specified revision of a deployment. (deployments.tagRevision)
    *
    * @param string $name Required. The name of the deployment to be tagged,
-   * including the revision ID is optional. If a revision is not specified, it
-   * will tag the latest revision.
+   * including the revision ID.
    * @param TagApiDeploymentRevisionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApiDeployment

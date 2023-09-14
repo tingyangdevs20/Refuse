@@ -70,19 +70,10 @@ class Users extends \Google\Service\Resource
     return $this->call('get', [$params], User::class);
   }
   /**
-   * Creates a user. Mutate calls immediately following user creation might
-   * sometimes fail as the user isn't fully created due to propagation delay in
-   * our backends. Check the error details for the "User creation is not complete"
-   * message to see if this is the case. Retrying the calls after some time can
-   * help in this case. (users.insert)
+   * Creates a user. (users.insert)
    *
    * @param User $postBody
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param bool resolveConflictAccount Optional. If set to `true`, the option
-   * selected for [handling unmanaged user
-   * accounts](https://support.google.com/a/answer/11112794) will apply. Default:
-   * `false`
    * @return User
    */
   public function insert(User $postBody, $optParams = [])

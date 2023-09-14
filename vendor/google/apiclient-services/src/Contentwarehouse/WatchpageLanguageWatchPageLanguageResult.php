@@ -17,30 +17,13 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class WatchpageLanguageWatchPageLanguageResult extends \Google\Collection
+class WatchpageLanguageWatchPageLanguageResult extends \Google\Model
 {
-  protected $collection_key = 'predictions';
-  protected $predictionsType = WatchpageLanguageWatchPageLanguageModelPredictions::class;
-  protected $predictionsDataType = 'array';
   /**
    * @var string
    */
   public $watchpageLanguage;
 
-  /**
-   * @param WatchpageLanguageWatchPageLanguageModelPredictions[]
-   */
-  public function setPredictions($predictions)
-  {
-    $this->predictions = $predictions;
-  }
-  /**
-   * @return WatchpageLanguageWatchPageLanguageModelPredictions[]
-   */
-  public function getPredictions()
-  {
-    return $this->predictions;
-  }
   /**
    * @param string
    */

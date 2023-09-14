@@ -57,10 +57,6 @@ class EnvironmentConfig extends \Google\Model
   protected $privateEnvironmentConfigDataType = '';
   protected $recoveryConfigType = RecoveryConfig::class;
   protected $recoveryConfigDataType = '';
-  /**
-   * @var string
-   */
-  public $resilienceMode;
   protected $softwareConfigType = SoftwareConfig::class;
   protected $softwareConfigDataType = '';
   protected $webServerConfigType = WebServerConfig::class;
@@ -251,20 +247,6 @@ class EnvironmentConfig extends \Google\Model
   public function getRecoveryConfig()
   {
     return $this->recoveryConfig;
-  }
-  /**
-   * @param string
-   */
-  public function setResilienceMode($resilienceMode)
-  {
-    $this->resilienceMode = $resilienceMode;
-  }
-  /**
-   * @return string
-   */
-  public function getResilienceMode()
-  {
-    return $this->resilienceMode;
   }
   /**
    * @param SoftwareConfig

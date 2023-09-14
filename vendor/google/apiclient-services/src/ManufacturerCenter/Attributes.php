@@ -158,10 +158,6 @@ class Attributes extends \Google\Collection
    * @var string[]
    */
   public $videoLink;
-  /**
-   * @var string
-   */
-  public $virtualModelLink;
 
   /**
    * @param Image[]
@@ -708,20 +704,6 @@ class Attributes extends \Google\Collection
   public function getVideoLink()
   {
     return $this->videoLink;
-  }
-  /**
-   * @param string
-   */
-  public function setVirtualModelLink($virtualModelLink)
-  {
-    $this->virtualModelLink = $virtualModelLink;
-  }
-  /**
-   * @return string
-   */
-  public function getVirtualModelLink()
-  {
-    return $this->virtualModelLink;
   }
 }
 
