@@ -30,7 +30,7 @@
 
 
         </div>
-        @include('back.pages.partials.switch')
+            @include('back.pages.partials.switch')
             <div class="dropdown d-inline-block">
 
             Account Balance:<span style="color:#556ee6;font-weight:bold"> USD 50</span>

@@ -163,6 +163,8 @@ class UserController extends Controller
                 // Log out of the switched role and back to the super admin
                 Auth::logout();
                 Auth::loginUsingId($user->original_id);
+                $user->original_id = null;
+                $user->save();
                 session()->flash('success', 'You have switched back to your Role. !!');
                 return redirect()->route('admin.user-list.index')->with('sucess', 'You have switched back to back to your Role.');
 
