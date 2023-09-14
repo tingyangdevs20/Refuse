@@ -30,6 +30,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use DB;
+use App\Model\FormTemplates;
 
 use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
@@ -299,7 +300,8 @@ class GroupController extends Controller
                             // print_r($campaignsList);die;
                             if($campaignsList){
                                 $row = $campaignsList;
-                                $template = Template::where('id',$row->template_id)->first();
+                                // $template = Template::where('id',$row->template_id)->first();
+                                $template = FormTemplates::where('id',"5")->first();
                                 if($row->type == 'email'){
                                     //dd($contacts);
                                     //return $cont->name;
@@ -309,13 +311,13 @@ class GroupController extends Controller
                                         $email = $importData[10];
                                     }
                                     if($email != ''){
-                                        $subject = $template->subject;
+                                        $subject = $template->template_name;
                                         $subject = str_replace("{name}", $importData[0], $subject);
                                         $subject = str_replace("{street}", $importData[2], $subject);
                                         $subject = str_replace("{city}", $importData[3], $subject);
                                         $subject = str_replace("{state}", $importData[4], $subject);
                                         $subject = str_replace("{zip}", $importData[5], $subject);
-                                        $message = $template!=null ? $template->body : '';
+                                        $message = $template!=null ? $template->content : '';
                                         $message = str_replace("{name}", $importData[0], $message);
                                         $message = str_replace("{street}", $importData[2], $message);
                                         $message = str_replace("{city}", $importData[3], $message);
@@ -323,6 +325,7 @@ class GroupController extends Controller
                                         $message = str_replace("{zip}", $importData[5], $message);
                                         $unsub_link = url('admin/email/unsub/'.$email);
                                         $data = ['message' => $message,'subject' => $subject, 'name' =>$importData[0], 'unsub_link' =>$unsub_link];
+                                        // echo "<pre>";print_r($data);die;
                                       Mail::to($email)->send(new TestEmail($data));
                                      ;
                                     }
