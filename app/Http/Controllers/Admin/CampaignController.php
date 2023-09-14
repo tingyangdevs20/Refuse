@@ -522,8 +522,13 @@ class CampaignController extends Controller
 
     public function destroy(Campaign $campaign)
     {
+    try {
         CampaignList::where("campaign_id", $campaign->id)->delete();
         $campaign->delete();
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted successfully.');
+    }
+    catch (exception $e) {
+    return redirect()->route('admin.campaigns.index')->with('error', 'Something went wrong.');
+    }
     }
 }

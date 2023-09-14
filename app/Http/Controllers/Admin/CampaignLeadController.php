@@ -520,10 +520,17 @@ class CampaignLeadController extends Controller
         return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign updated successfully.');
     }
 
-    public function destroy($id = null , CampaignLead $campaignlead)
+    // Fix issue by John 14-09-2023
+
+    public function destroy(CampaignLead $campaignlead, $id = null)
     {
+        try {
         CampaignLeadList::where("campaign_id", $id)->delete();
         CampaignLead::where('id' , $id)->delete();
         return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign deleted successfully.');
+    }
+    catch (exception $e) {
+        return redirect()->route('admin.leadcampaign.index')->with('error', 'Something went wrong.');
+    }
     }
 }
