@@ -55,7 +55,7 @@
                                             <option value="">Select Attribute</option>
                                             
                                             @foreach($attributes as $data)
-                                            <option value="$data->id">$data->attribute</option>
+                                            <option value="{{$data->id}}">{{$data->attribute}}</option>
                                             @endforeach
 
                                         </select>
@@ -67,8 +67,10 @@
                                         <label for="user">User</label>
                                         <select class="form-control @error('user') is-invalid @enderror" id="user" name="user"  >
                                             <option value="">Select User</option>
-                                            <option value="1">100k-300k</option>
-                                            <option value="2">300k-600k</option>
+                                            @foreach($users as $data)
+                                            <option value="{{$data->id}}">{{$data->name}}</option>
+                                            @endforeach
+
 
                                         </select>
                                         @error('user')

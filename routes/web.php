@@ -142,6 +142,10 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
+    Route::get('/create-goals', 'Admin\AdminController@createGoals')->name('create.goals');
+    Route::get('/edit_goals/{id}', 'Admin\AdminController@editGoals')->name('edit.goals');
+    Route::post('/update_goals/{id}', 'Admin\AdminController@updateGoals')->name('update.goals');
+    Route::post('/delete_goals/{id}','Admin\AdminController@deleteGoals')->name('delete.goals');
     Route::get('/send-email', 'Admin\SendGridEmailController@sendMail')->name('sendMail');
     Route::get('/test-rvm', 'Admin\RvmController@sendrvm')->name('sendrvm');
     // Source list route
