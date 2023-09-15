@@ -24,15 +24,20 @@
 
                   <li class="menu-title">Lead Generation</li>
 
-                  <li>
+                <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">
                         <i class="fas fa-bars"></i>
                         <span>Source List</span>
                     </a>
                 </li>
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
-                        <span>Lists</span></a></li>
-                        
+                        <span>Lists</span></a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.opt.list') }}" class=" waves-effect"> <i class="fas fa-bars"></i>
+                        <span>OPT-IN</span>
+                    </a>
+                </li>        
                  @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('scraping_module'))
                 <li>
                     <a href="{{ route('admin.scraping.list') }}" class="waves-effect">

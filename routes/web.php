@@ -282,6 +282,10 @@ Route::post('/form-templates-store', 'Admin\FormTemplatesController@store')->nam
 Route::post('/update-form-templates', 'Admin\FormTemplatesController@update')->name('update-form-templates');
 Route::post('/delete-form-templates', 'Admin\FormTemplatesController@destroy')->name('delete-form-templates');
 
+ // OPT Route
+ Route::get('opt-list','Admin\OptController@index')->name('opt.list');
+ Route::post('opt-store','Admin\OptController@storeOpt')->name('opt.store');
+
 });
 Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
@@ -319,4 +323,7 @@ Route::get('/call',[PhoneCallController::class,'index']);
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
 Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
+
+
+
 
