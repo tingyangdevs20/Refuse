@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Reply;
 use App\Model\Settings;
+use App\Model\Scheduler;
 use App\Model\Sms;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,25 +30,45 @@ class AdminController extends Controller
         $messages_sent_seven_days_goals=getReportingDataOfSMS(7);
         $messages_sent_month_days_goals=getReportingDataOfSMS(30);
         $messages_sent_ninety_days_goals=getReportingDataOfSMS(90);
+        $messages_sent_year_goals=getReportingDataOfSMS(365);
+       //Received sms
+        $messages_received_today_goals=getReportingDataOfSMSreceived(0);
+        $messages_received_seven_days_goals=getReportingDataOfSMSreceived(7);
+        $messages_received_month_days_goals=getReportingDataOfSMSreceived(30);
+        $messages_received_ninety_days_goals=getReportingDataOfSMSreceived(90);
+        $messages_received_year_goals=getReportingDataOfSMSreceived(365);
         $user=Auth::id();
-        $goal=GoalsReached::where('user_id',$user)->first();
+
+        //goals
+        $goal_people_reached=GoalsReached::where([['user_id','=',$user],['attribute_id','=','1']])->first();
+        $goal_lead=GoalsReached::where([['user_id','=',$user],['attribute_id','=','2']])->first();
+        $goal_appointment=GoalsReached::where([['user_id','=',$user],['attribute_id','=','3']])->first();
+
         $goalValue=$goal->goals??0;
-
-
+        $goal_appointment=$goal_appointment->goals??0;
+        $goal_lead=$goal_lead->goals??0;
+        //appointment
+        $appointment_lifetime=(Scheduler::where([['user_id',$user],['status','booked']])->count());
+        $appointment_todays=appointment_count(0,$user);
+        $appointment_seven_day=appointment_count(7,$user);
+        $appointment_month=appointment_count(30,$user);
+        $appointment_ninety_day=appointment_count(90,$user);
+        $appointment_year=appointment_count(365,$user);
+        
 //        $messages_sent_week=(Sms::whereDate('created_at', Carbon::today())->where('is_received',0)->withTrashed()->count())+(Reply::where('system_reply',1)->whereDate('created_at', Carbon::today())->withTrashed()->count());
 //        $messages_received_week=(Sms::whereDate('created_at', Carbon::today())->where('is_received',1)->withTrashed()->count())+(Reply::where('system_reply',0)->whereDate('created_at', Carbon::today())->withTrashed()->count());
 
 
 
 
-        return view('back.index',compact('goalValue','total_sent_lifetime','total_received_lifetime','messages_sent_today','messages_received_today',"settings",'messages_sent_today_goals','messages_sent_seven_days_goals','messages_sent_month_days_goals','messages_sent_ninety_days_goals'));
+        return view('back.index',compact('goalValue','total_sent_lifetime','total_received_lifetime','messages_sent_today','messages_received_today',"settings",'messages_sent_today_goals','messages_sent_seven_days_goals','messages_sent_month_days_goals','messages_sent_ninety_days_goals','messages_sent_year_goals','messages_received_today_goals','messages_received_seven_days_goals','messages_received_month_days_goals','messages_received_ninety_days_goals','messages_received_year_goals','appointment_todays','appointment_seven_day','appointment_month','appointment_ninety_day','appointment_year','appointment_lifetime','goal_lead','goal_appointment'));
     }
 
     public function setGoals(Request $request)
     {
         $user=Auth::id();
         $goal=GoalsReached::all();
-        $goal->load(['goal_attribute']);
+        $goal->load(['goal_attribute','user']);
         return view('back.pages.goal-settings.index',compact('goal'));
     }
 
@@ -57,13 +78,35 @@ class AdminController extends Controller
         $attributes=goal_attribute::all();
         return view('back.pages.goal-settings.create',compact('users','attributes'));
     }
-    public function editGoals(Request $request)
+    public function editGoals(Request $request,$id)
     {
-        return view('back.pages.goal-settings.index',compact('goal'));
+        $goal=GoalsReached::where('id','=',$id)->first();
+        $goal->load(['goal_attribute','user']);
+        $users=User::all();
+        $attributes=goal_attribute::all();
+        return view('back.pages.goal-settings.edit',compact('goal','users','attributes'));
     }
-    public function updateGoals(Request $request)
+    public function updateGoals(Request $request,$id)
     {
-        return view('back.pages.goal-settings.index',compact('goal'));
+        $validatedData = $request->validate([
+            'goal' => 'required|numeric',
+            'user' => 'required',
+            'attribute' => 'required', 
+        ]);
+        $user=Auth::id();
+        $goal=GoalsReached::where('id','=',$id)->first();
+        $goal->goals=$request->goal;
+        $goal->user_id=$request->user;
+        $goal->attribute_id=$request->attribute;
+        $goal->save();
+        // Alert::success('Success','Goal Saved!');
+        return redirect()->route('admin.setgoals')->with('Success','Goal Saved!');
+    }
+    public function deleteGoals(Request $request,$id)
+    {
+        $goal=GoalsReached::where('id','=',$id)->first();
+        $goal->delete();
+        return redirect()->route('admin.setgoals')->with('Success','Goal Saved!');
     }
     public function saveGoals(Request $request)
     {
