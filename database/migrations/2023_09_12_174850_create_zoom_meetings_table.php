@@ -18,9 +18,14 @@ class CreateZoomMeetingsTable extends Migration
             $table->string('meeting_name')->nullable();
             $table->string('meeting_password')->nullable();
             $table->string('meeting_date')->nullable();
-            $table->string('start_time')->nullable();
-            $table->string('end_time')->nullable();
-            $table->string('status')->nullable();
+            $table->string('meeting_date_timezone')->nullable();
+            $table->string('duration_minute')->nullable();
+            $table->string('meeting_password')->nullable();
+            $table->string('meeting_status')->nullable();
+            $table->string('host_video')->nullable();
+            $table->string('client_video')->nullable();
+            $table->string('meeting_note')->nullable();
+            $table->string('zoom_meeting_link')->nullable();
             $table->string('access_token')->nullable();
             $table->string('refresh_token')->nullable();
             $table->timestamps();
