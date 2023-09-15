@@ -36,7 +36,7 @@
                             <a href="{{route('admin.create.goals')}}"class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-plus-circle"></i></a>
                             @endif
                         </div>
-    <div class="card-body mt-5">
+                        <div class="card-body mt-5">
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
@@ -51,9 +51,9 @@
                                     @foreach($goal as $data)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $data->attribute_id }}</td>
+                                        <td>{{ $data->goal_attribute['attribute'] }}</td>
                                         <td>{{ $data->goals }}</td>
-                                        <td>{{ $data->user_id }}</td>
+                                        <td>{{ $data->user['name'] }}</td>
                                         <td> @if(auth()->user()->can('administrator'))
                                         <a href="{{route('admin.edit.goals', $data->id)}}" class="btn btn-outline-primary btn-sm" title="Edit  User" ><i class="fas fa-edit"></i></a> -
                                         @endif
