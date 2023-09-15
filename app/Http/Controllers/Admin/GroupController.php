@@ -47,19 +47,35 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
-        // return $groups;
+
         $groupCounts = $groups->map(function ($group) {
             $totalContacts = $group->contacts->count();
-            $percentage = ($totalContacts / 100)*100;
+            $contactsWithPhone = 0; // Initialize the variable here
+            // Initialize the percentage to 0.00% if there are no contacts in the group
+            $percentage = ($totalContacts <= 0) ? 0 : 0; // Set to 0.00% if no contacts, else calculate percentage
+
+            if ($totalContacts > 0) {
+                // Calculate the number of contacts with phone numbers matching the group_id
+                $contactsWithPhone = $group->contacts->where('group_id', $group->id)->filter(function ($contact) {
+                    return !empty($contact->number);
+                })->count();
+
+                // Calculate the percentage of contacts with phone numbers
+                $percentage = ($contactsWithPhone / $totalContacts) * 100;
+            }
 
             return [
-                'group_name' => $group->name, // Replace 'name' with the actual group name attribute
+                'group_id' => $group->id,
+                'group_name' => $group->name,
                 'contact_count' => $totalContacts,
-                'percentage' => $percentage,
+                'contacts_with_phone' => $contactsWithPhone,
+                'percentage' => number_format($percentage, 2), // Format percentage to 2 decimal places
             ];
-        });
+        })->values(); // Use the values() method to reset the array keys and maintain the same order
+
+
 
         $sr = 1;;
         $markets=Market::all();
@@ -124,7 +140,7 @@ class GroupController extends Controller
         $getAllAppointments = Scheduler::where('user_id', 1)->get();
         // print_r($getAllAppointments);
         // exit;
-        
+
         return view('back.pages.group.contactDetail', compact('id','title_company','leadinfo','scripts','sections','property_infos','values_conditions','property_finance_infos','selling_motivations','negotiations','leads', 'tags','getAllAppointments'));
     }
 
@@ -594,7 +610,7 @@ class GroupController extends Controller
     {
         if(count($request->checked_id)>0){
             foreach($request->checked_id as $contactId){
-                
+
                 $contractRes = Contractupload::where("id",$request->contracttype)->first();
                 $mailcontact = Contact::where("id",$contactId)->first();
                 $subject = "Testing 05092023";
@@ -608,7 +624,7 @@ class GroupController extends Controller
                 Alert::success('Success!', 'Mail sent successfully!');
                 return redirect()->back();
         }
-    } 
+    }
 
    public function uploadcontract(Request $request){
 
@@ -631,8 +647,8 @@ class GroupController extends Controller
         $filenameNew =  time().'.'.$fileName;
     $Contractupload = new Contractupload;
        $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;        
-       $Contractupload->file =$filenameNew;     
+       $Contractupload->type_contract =$request->optiontype;
+       $Contractupload->file =$filenameNew;
        $Contractupload->save();
        $file->move('../public/contractpdf/', $filenameNew);
        Alert::success('Success!', 'Contract Uploaded successfully!');
@@ -645,7 +661,7 @@ class GroupController extends Controller
 
 
 
-   
+
    public function uploadcontractedit(Request $request){
     // dd($request->all());
 
@@ -667,13 +683,13 @@ class GroupController extends Controller
        $filenameNew =  time().'.'.$fileName;
        $Contractupload = Contractupload::find(1);
        $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
-   
+
     if(file_exists($destinationPath)){
         unlink($destinationPath);
     }
        $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;        
-       $Contractupload->file =$filenameNew;     
+       $Contractupload->type_contract =$request->optiontype;
+       $Contractupload->file =$filenameNew;
        $Contractupload->save();
        $file->move('../public/contractpdf/', $filenameNew);
        Alert::success('Success!', 'Contract Updated successfully!');
@@ -699,61 +715,88 @@ class GroupController extends Controller
        return view('back.pages.group.myFile', compact('contractres'));
    }
 
-    public function skipTrace(DatazappService $datazappService, Request $request)
-    {
+   public function skipTrace(DatazappService $datazappService, Request $request)
+   {
 
-       
-        $groupId = $request->input('group_id');
-        $selectedOption = $request->input('skip_trace_option'); 
+       $groupId = $request->input('group_id');
+       $selectedOption = $request->input('skip_trace_option');
 
-        $group = Group::with('contacts')->find($groupId);
+       $group = Group::with('contacts')->find($groupId);
 
-        if (!$group) {
-            return response()->json(['error' => 'Group not found.']);
-        }
+       if (!$group) {
+           return response()->json(['error' => 'Group not found.']);
+       }
 
-        // Extract the contact data from the group
-        $groupContacts = $group->contacts;
+       // Extract the contact data from the group
+       $groupContacts = $group->contacts;
 
-        // Remove duplicates based on both 'email' and 'number' attributes
-        $uniqueContacts = $groupContacts->unique(function ($contact) {
-            return $contact->email1 . '|' . $contact->number;
-        });
+       // Remove duplicates based on both 'email' and 'number' attributes
+       $uniqueContacts = $groupContacts->unique(function ($contact) {
+           return $contact->email1 . '|' . $contact->number;
+       });
 
-        
-        // Perform skip tracing based on the selected option
-        if ($selectedOption === 'skip_entire_list') {
-            // Implement skip tracing logic for the entire list
-            // You can call the skipTrace method of DatazappService here as well
-            return $result = $datazappService->skipTrace($uniqueContacts);
 
-            // Handle the response from Datazapp as needed
-            // Update your database with skip traced data, if applicable
-        } elseif ($selectedOption === 'skip_records_without_numbers') {
-            // Implement skip tracing logic for records without numbers
-            // You can call the skipTrace method of DatazappService here as well
-            return $result = $datazappService->skipTrace($uniqueContacts->where('number', '!=' , ''));
 
-            // Handle the response from Datazapp as needed
-            // Update your database with skip traced data, if applicable
-        } else {
-            // Handle other options or provide an error response
-            return response()->json(['error' => 'Invalid skip trace option.']);
-        }
+       // Initialize the result variable
+       $result = null;
 
-        // Return a response to indicate success or failure
-        return response()->json(['success' => true]);
-    }
+       // Perform skip tracing based on the selected option
+       if ($selectedOption === 'skip_entire_list_phone') {
+           // Implement skip tracing logic for the entire list of phone numbers
+           $result = $datazappService->skipTrace($uniqueContacts->where('number', '!=' , ''), $selectedOption);
+
+       } elseif ($selectedOption === 'skip_records_without_numbers_phone') {
+           // Implement skip tracing logic for records without phone numbers
+           $result = $datazappService->skipTrace($uniqueContacts->where('number', ''), $selectedOption);
+
+       } elseif ($selectedOption === 'skip_entire_list_email') {
+           // Implement skip tracing logic for the entire list of emails
+           $result = $datazappService->skipTrace($uniqueContacts->where('email1', '!=' , '', $selectedOption));
+
+       } elseif ($selectedOption === 'skip_records_without_emails') {
+           // Implement skip tracing logic for records without emails
+           $result = $datazappService->skipTrace($uniqueContacts->where('email1', '', $selectedOption));
+
+       } elseif ($selectedOption === 'append_names') {
+           // Implement append names logic for records without names
+           // Note: You need to define this logic based on your requirements
+
+       } elseif ($selectedOption === 'email_verification_entire_list') {
+           // Implement email verification logic for the entire list of emails
+           // Note: You need to define this logic based on your requirements
+
+       } elseif ($selectedOption === 'email_verification_non_verified') {
+           // Implement email verification logic for non-verified emails
+           // Note: You need to define this logic based on your requirements
+
+       } elseif ($selectedOption === 'phone_scrub_entire_list') {
+           // Implement phone scrubbing logic for the entire list of phone numbers
+           // Note: You need to define this logic based on your requirements
+
+       } elseif ($selectedOption === 'phone_scrub_non_scrubbed_numbers') {
+           // Implement phone scrubbing logic for non-scrubbed phone numbers
+           // Note: You need to define this logic based on your requirements
+
+       } else {
+           // Handle other options or provide an error response
+           return response()->json(['error' => 'Invalid skip trace option.']);
+       }
+
+       // Handle the $result based on your specific requirements
+       // Update your database with skip traced data, if applicable
+       // Return a response to indicate success or failure
+       return response()->json(['success' => true]);
+   }
 
     public function pushToCampaign(Request $request )
     {
 
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
-    
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
-    
+
         if ($existingCampaign) {
             // Return a response to indicate that the data already exists
             return response()->json(['message' => 'Data already exists', 'success' => false]);
@@ -763,12 +806,12 @@ class GroupController extends Controller
                 'name' => $groupName,
                 'group_id' => $groupId,
             ]);
-    
+
             // Return a response to indicate success
             return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
         }
     }
 
-    
+
 
 }

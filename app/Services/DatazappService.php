@@ -17,35 +17,70 @@ class DatazappService
         $this->apiKey = config('services.datazapp.api_key');
     }
 
-    public function skipTrace($contacts)
+    public function skipTrace($contacts, $skipTraceOption)
     {
+
+
         $client = new Client();
 
-        // Filter contacts to skip trace only those with phone numbers
-        $contactsToSkipTrace = $contacts->filter(function ($contact) {
-            return !empty($contact->number);
-        });
+        // Filter contacts based on the selected skip trace option
+        $contactsToSkipTrace = collect([]);
 
-        if ($contactsToSkipTrace->isEmpty()) {
-            return ['message' => 'No contacts with phone numbers to skip trace.'];
+        if ($skipTraceOption === 'skip_entire_list_phone') {
+            $contactsToSkipTrace = $contacts->where('number', '!=', '');
+        } elseif ($skipTraceOption === 'skip_records_without_numbers_phone') {
+            $contactsToSkipTrace = $contacts->where('number', '');
+        } elseif ($skipTraceOption === 'skip_entire_list_email') {
+            $contactsToSkipTrace = $contacts->where('email1', '!=', '');
+        } elseif ($skipTraceOption === 'skip_records_without_emails') {
+            $contactsToSkipTrace = $contacts->where('email1', '');
+        } else {
+            // Handle other skip trace options if needed
+            return ['message' => 'Invalid skip trace option.'];
         }
 
-        // Prepare the request data based on the Datazapp API example
+        if ($contactsToSkipTrace->isEmpty()) {
+            return ['message' => 'No contacts matching the selected skip trace option.'];
+        }
+
+        // Prepare the request data based on the selected skip trace option
         $requestData = [
-            "ApiKey" => "IFFVVZBJTO",
-            "AppendModule" => "EmailAppend",
-            "AppendType" => 1, // 1 for Individual
+            "ApiKey" => "IFFVVZBJTO", // Replace with your API key
             "Data" => [],
         ];
 
         foreach ($contactsToSkipTrace as $contact) {
-            $requestData['Data'][] = [
-                "FirstName" => $contact->name,
-                "LastName" => $contact->last_name,
-                "Address" => $contact->street,
-                "City" => $contact->city,
-                "Zip" => $contact->zip,
-            ];
+            if ($skipTraceOption === 'skip_entire_list_phone' || $skipTraceOption === 'skip_records_without_numbers_phone') {
+                // Phone Append API request
+                $requestData['AppendModule'] = "PhoneAppendAPI";
+                $requestData['AppendType'] = 2; // 2 for Landline
+                $requestData['DncFlag'] = "true"; // Set DNC flag if needed
+
+                $requestData['Data'][] = [
+                    "FirstName" => $contact->name,
+                    "LastName" => $contact->last_name,
+                    "Address" => $contact->street,
+                    "City" => $contact->city,
+                    "Zip" => $contact->zip,
+                    // Add other required parameters for phone append
+                ];
+            } elseif ($skipTraceOption === 'skip_entire_list_email' || $skipTraceOption === 'skip_records_without_emails') {
+                // Email Append API request
+                $requestData['AppendModule'] = "EmailAppend";
+                $requestData['AppendType'] = 1; // 1 for Individual
+
+                $requestData['Data'][] = [
+                    "FirstName" => $contact->name,
+                    "LastName" => $contact->last_name,
+                    "Address" => $contact->street,
+                    "City" => $contact->city,
+                    "Zip" => $contact->zip,
+                    // Add other required parameters for email append
+                ];
+            } else {
+                // Handle other skip trace options if needed
+                return ['message' => 'Invalid skip trace option.'];
+            }
         }
 
         $response = $client->post('https://secureapi.datazapp.com/Appendv2', [
@@ -54,6 +89,7 @@ class DatazappService
 
         return json_decode($response->getBody(), true);
     }
+
 
 
 }

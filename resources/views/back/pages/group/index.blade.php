@@ -2,6 +2,7 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
 @section('content')
 
@@ -38,13 +39,19 @@
                                         <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
+
                                                     <th scope="col">List Name</th>
-                                                    <th scope="col">Numbers</th>
-                                                    <th scope="col">Messages Sent</th>
-                                                    <th scope="col">Lists with Phone Numbers </th>
+                                                    <th scope="col">Contact</th>
+                                                    {{-- <th scope="col">Messages Sent</th> --}}
+                                                    <th scope="col">Date of Last Email Skip Trace</th>
+                                                    <th scope="col">Date of Last Phone Skip Trace</th>
+                                                    <th scope="col">Date of Last Name Skip Trace</th>
+                                                    <th scope="col">Date of Last Email Verification</th>
+                                                    <th scope="col">Date of Last Phone Scrub </th>
+
+                                                    <th scope="col">% with Phone Numbers </th>
                                                     <th scope="col">Created At</th>
-                                                    <th scope="col">Options</th>
+                                                    <th scope="col">Skip Trace</th>
                                                     <th scope="col">Push to</th>
                                                     <th scope="col">Actions</th>
                                                 </tr>
@@ -52,19 +59,21 @@
                                             <tbody>
                                             @foreach($groups as $group)
                                             <tr>
-                                                <td>{{ $sr++ }}</td>
+
                                                 <td>{{ $group->name }}</td>
-                                                <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View Contacts ({{ $group->getContactsCount() }}) </a></td>
-                                                <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td>
-                                                <td>%({{ $group->contacts->count() }})</td>
-                                                <td>{{ $group->created_at->format('j F Y') }}</td>
+                                                <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a></td>
+                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
+                                                <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
+                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
                                                 <td>
-                                                    <select class="form-control skip_trace_option" name="skip_trace_option"
-                                                            data-group-id="{{ $group->id }}">
-                                                        <option value="">Select Option</option>
-                                                        <option value="skip_entire_list">Skip Trace Entire List</option>
-                                                        <option value="skip_records_without_numbers">Skip Trace Records Without Numbers</option>
-                                                    </select>
+
+                                                    <button class="btn btn-outline-primary btn-sm" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
+
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
@@ -89,7 +98,7 @@
                     </div> <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-{{--Modals--}}
+
             {{--Modal New--}}
             <div class="modal fade" id="newModal" tabindex="-1" role="dialog"  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -105,7 +114,7 @@
                                 @csrf
                                 @method('POST')
                                 <div class="form-group">
-                                <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
+                                    <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
                                         <option value="0">Select Option</option>
 
                                             <option value="new">Create New List</option>
@@ -201,7 +210,53 @@
                 </div>
             </div>
 
-            
+
+
+            <div class="modal fade" id="skiptracingModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Skip Trace</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('admin.group.destroy','test') }}" method="post" id="editForm">
+                            @csrf
+                            @method('POST')
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <select class="from-control select2 skip_trace_option" style="width: 100%;" required  name="skip_trace_option"
+                                    data-group-id="{{ $group->id }}" >
+
+                                    <option value="">Select an Option</option>
+                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List)</option>
+                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers)</option>
+                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List)</option>
+                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails)</option>
+                                    <option value="append_names">Append Name (Records Without Name)</option>
+                                    <option value="email_verification_entire_list">Email Verification (Entire List)</option>
+                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails)</option>
+                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List)</option>
+                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers)</option>
+
+
+                                    </select>
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit"  class="btn btn-primary skip_tracing_btn">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
 
             {{--End Modals--}}
                 @endsection
@@ -209,71 +264,70 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script >
 
         $(document).ready(function() {
             $('#datatable').DataTable();
+            $('.select2').select2();
 
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
              // Handle when the "Skip Trace" button is clicked
-             $('.skip_trace_option').on('change', function () {
+            // Add a click event listener to the submit button
+            $('.skip_tracing_btn').on('click', function (e) {
+                e.preventDefault(); // Prevent the default form submission behavior
 
-                var selectedOption = $(this).val();
+                var selectedOption = $('.skip_trace_option').val();
                 if (selectedOption) {
-
-                    var groupId = $(this).data('group-id');
-                    var firstName = $(this).data('group-name');
-                    var lastName = $(this).data('group-lastname');
-                    var mailingAddress = $(this).data('group-email')
-
+                    var groupId = $('.skip_trace_option').data('group-id');
+                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?');
                     // Make an AJAX request to perform skip tracing
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('admin.skip-trace') }}', // Define the skip tracing route
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            group_id: groupId,
-                            first_name: firstName,
-                            last_name: lastName,
-                            mailing_address: mailingAddress,
-                            skip_trace_option: selectedOption,
-                        },
-                        success: function (response) {
+                    if (confirmation) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('admin.skip-trace') }}', // Define the skip tracing route
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                group_id: groupId,
+                                skip_trace_option: selectedOption,
+                            },
+                            success: function (response) {
+                                $('#skiptracingModal').modal('hide');
+                                console.log('response', response);
+                                // Check if the API response indicates success (you may need to adjust this condition)
+                                if (response.Status === true && response.header.Status === 0) {
+                                    // Iterate through the 'Data' array in the response and display each entry using Toastr
+                                    response.ResponseDetail.Data.forEach(function (dataEntry) {
+                                        var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
+                                        var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
+                                        var email = dataEntry.Email;
 
-                            console.log('response',response);
-                            // Check if the API response indicates success (you may need to adjust this condition)
-                            if (response.Status === true && response.header.Status === 0) {
-                                // Iterate through the 'Data' array in the response and display each entry using Toastr
-                                response.ResponseDetail.Data.forEach(function (dataEntry) {
-                                    var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
-                                    var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
-                                    var email = dataEntry.Email;
-
-                                    // Customize the Toastr message based on your requirements
-                                    toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
-                                        timeOut: 10000, // Set the duration (5 seconds in this example)
+                                        // Customize the Toastr message based on your requirements
+                                        toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
+                                            timeOut: 10000, // Set the duration (5 seconds in this example)
+                                        });
                                     });
-                                });
-
-                               
-
-                            } else {
-                                // Display an error message using Toastr for failed API responses
-                                toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                                } else {
+                                    // Display an error message using Toastr for failed API responses
+                                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                                    });
+                                }
+                            },
+                            error: function (error) {
+                                // Handle AJAX errors here and display using Toastr if needed
+                                toastr.error('AJAX Error: ' + error.statusText, 'AJAX Error', {
                                     timeOut: 9000, // Set the duration (5 seconds in this example)
                                 });
-                            }
-                        },
-                        error: function (error) {
-                            // Handle AJAX errors here and display using Toastr if needed
-                            toastr.error('AJAX Error: ' + error.statusText, 'AJAX Error', {
-                                timeOut: 9000, // Set the duration (5 seconds in this example)
-                            });
-                        }
-                    });
+                            },
+                        });
+                    } else {
+                        console.log('User canceled the operation.');
+                    }
                 }
             });
+
 
             // push to
             $('.push-to-campaign').click(function () {
@@ -314,7 +368,7 @@
                 });
             });
         } );
-        
+
     </script>
     <script >
 
