@@ -51,7 +51,7 @@
                         <div class="card-header bg-soft-dark ">
                             All Zoom Meeting List
                             @if(auth()->user()->can('administrator') || auth()->user()->can('zoom_create'))
-                            <a href="{{route('admin.zoom.create')}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-plus-circle"></i></a>
+                            <a href="{{route('admin.zoom.create')}}" class="btn btn-outline-primary btn-sm float-right" data-toggle="tooltip" title="Create New Meeting" ><i class="fas fa-plus-circle"></i></a>
                             @endif
                         </div>
                         <div class="card-body">
@@ -60,9 +60,11 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Topic</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Finished</th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col">Date Time</th>
+                                    <th scope="col">Timezone</th>
+                                    <th scope="col">Duration (Minutes)</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col" style="text-align:center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -70,29 +72,35 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $meeting->meeting_name }}</td>
-                                        @php $meeting_date = \Carbon\Carbon::parse($meeting->meeting_date) @endphp
-                                        <td>{{ $meeting_date->format('j F Y') }}</td>
+                                        <td>{{ $meeting->meeting_date }}</td>
+                                        <td>{{ $meeting->meeting_date_timezone }}</td>
+                                        <td>{{ $meeting->duration_minute }}</td>
                                         <td>
-                                            <span class="status-span{{ $meeting->status == 'No' ? ' no-status' : '' }}">
-                                                {{ $meeting->status }}
-                                            </span>
+                                        @if($meeting->meeting_status=='0')
+                                        <span class="badge badge-info">Awaited</span>
+                                        @endif
+                                        @if($meeting->meeting_status=='1')
+                                        <span class="badge badge-success">Finished</span>
+                                        @endif
+                                        @if($meeting->meeting_status=='2')
+                                        <span class="badge badge-danger">Cancelled</span>
+                                        @endif
                                         </td>
-
-                                        
-                                        <td>
+                                        <td style="text-align:center">
                                             @if(auth()->user()->can('administrator') || auth()->user()->can('meeting_edit'))
-                                            <a href="{{ route('admin.zoom.edit', $meeting->id) }}" class="btn btn-outline-primary btn-sm" title="Edit  meeting" ><i class="fas fa-edit"></i></a> -
+                                           
+                                            <a href="{{ route('admin.zoom.edit', $meeting->id) }}" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Edit" ><i class="fas fa-edit"></i> Edit</a> 
                                             @endif
 
                                             @if(auth()->user()->can('administrator') || auth()->user()->can('meeting_edit'))
                                             <!-- meeting url generate -->
-                                            <a href="" class="btn btn-outline-primary btn-sm" title="Join meeting url" ><i class="fas fa-link"></i></a> -
+                                            <a href="" class="btn btn-outline-warning btn-sm" title="Join meeting url" data-toggle="tooltip" ><i class="fas fa-link"></i> Join Meeting</a> 
                                             @endif
 
                                             @if(auth()->user()->can('administrator') || auth()->user()->can('meeting_delete'))
                                             <a href="{{ route('admin.zoom.destroy', $meeting->id) }}" class="btn btn-outline-danger btn-sm"
-                                            title="Remove" onclick="event.preventDefault(); confirmDelete({{ $meeting->id }});">
-                                            <i class="fas fa-times-circle"></i>
+                                            title="Remove" data-toggle="tooltip" onclick="event.preventDefault(); confirmDelete({{ $meeting->id }});">
+                                            <i class="fas fa-times-circle"></i> Remove
                                             </a>
                                             <form id="delete-form-{{ $meeting->id }}" action="{{ route('admin.zoom.destroy', $meeting->id) }}" method="POST" style="display: none;">
                                                 @csrf
