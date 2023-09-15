@@ -73,13 +73,12 @@ class AdminController extends Controller
             'attribute' => 'required', 
         ]);
         $user=Auth::id();
-        print_r($request->all());
         $goal=new GoalsReached();
         $goal->goals=$request->goal;
         $goal->user_id=$request->user;
         $goal->attribute_id=$request->attribute;
         $goal->save();
-        Alert::success('Success','Goal Saved!');
-        return redirect()->back();
+        // Alert::success('Success','Goal Saved!');
+        return redirect()->route('admin.setgoals')->with('Success','Goal Saved!');
     }
 }
