@@ -100,6 +100,11 @@
                                 <option value="1" @if($group->status==1){{'selected'}} @endif > Deactive </option>
                               </select>
                             </div>
+                            <div class="form-group pt-2">
+                              <label>Sortcode For Variables</label>
+                              <br>
+                              {name}, {street}, {city}, {state}, {zip}, {date}
+                            </div>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -186,6 +191,11 @@
               <option value="0" checked> Active </option>
               <option value="1"> Deactive </option>
             </select>
+          </div>
+          <div class="form-group pt-2">
+            <label>Sortcode For Variables</label>
+            <br>
+            {name}, {street}, {city}, {state}, {zip}, {date}
           </div>
         </div>
         <div class="modal-footer">
