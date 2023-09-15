@@ -2,7 +2,7 @@
     <div class="navbar-header">
         <div class="d-flex">
         <div class="navbar-brand-box">
-            
+
             <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src="{{ asset('back/assets/images/sms.svg') }}" alt="" height="25">
@@ -26,13 +26,13 @@
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
-           
-           
+
+
 
         </div>
-        @include('back.pages.partials.switch')
+            @include('back.pages.partials.switch')
             <div class="dropdown d-inline-block">
-           
+
             Account Balance:<span style="color:#556ee6;font-weight:bold"> USD 50</span>
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,8 +41,12 @@
                     <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
+                <button class="btn waves-effect waves-light" id="open-modal-btn">
+                    <span class='material-icons custom-size-ui'>dialpad</span>
+
+                </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    
+
                     <a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
                     <!-- item<a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> Settings</a>
                     <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> Lock screen</a>
@@ -63,10 +67,7 @@
 
 
         </div>
-       
-    </div>
-    
-</header>
 
-@component('components.incoming-call-controls')
-@endcomponent
+    </div>
+
+</header>

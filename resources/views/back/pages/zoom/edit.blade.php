@@ -27,7 +27,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            Create Users
+                            Edit Zoom Meeting
                             <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
                         </div>
                         <div class="card-body">
@@ -84,13 +84,8 @@
                                     </div>
                                 </div>
 
-                               
 
-                                
-
-                              
-
-                                <button type="submit" class="btn btn-primary">Create Meeting</button>
+                                <button type="submit" class="btn btn-primary">Update Meeting</button>
                             </form>
 
 
@@ -124,8 +119,5 @@
             $select2.trigger('change')
         })
     } );
-</script>
-<script >
-
 </script>
 @endsection

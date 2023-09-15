@@ -450,7 +450,6 @@
 @endsection
 @section('scripts')
 
-<script src="{{ asset('back/assets/js/pages/twilio-main.js') }}"></script>
 <script>
 
     function blink_text() {

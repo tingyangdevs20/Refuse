@@ -9,6 +9,8 @@
     <meta content="Pet Store Dashboard" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="shortcut icon" href="{{ asset('back/assets/images/sms.svg') }}">
 
     <!-- Bootstrap Css -->
@@ -60,6 +62,10 @@
     <!-- end main content-->
 
 </div>
+
+@component('components.soft-phone-ui')
+@endcomponent        
+
 <!-- END layout-wrapper -->
 
  <!-- twilio-call-controls form. This will be hidden -->
@@ -83,7 +89,6 @@
               >Enter a phone number or client name</label
             >
             <input id="phone-number" type="text" placeholder="+15552221234" />
-            <button id="button-call" type="submit">Call</button>
           
           
           <div id="volume-indicators" class="hide">
@@ -129,8 +134,69 @@
 
     <script src="{{ asset('back/assets/js/app.js') }}"></script>
     <script src="{{ asset('back/assets/js/pages/twilio.min.js') }}"></script>
+    <script src="{{ asset('back/assets/js/pages/twilio-main.js') }}"></script>
+
 
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <!-- Soft-phone-modal-js -->
+    <script>
+
+
+$('#end-call').on('click', function() {
+  $('#end-call').hide();
+  $('#answer-call').show();
+  // Do business stuff here
+  $('input[type=tel]').val('');
+  $('input[type=tel]').focus();
+});
+
+
+
+
+
+$('.focus-effects').on('click', function() {
+  var text = $('input[type=tel]');
+  text.val(text.val() + this.value);
+
+  $(".soft-phone").find(".ans-call").attr('phone-number', text.val())
+  
+  text.focus();
+});
+
+
+
+
+$('input[type=reset]').on('click', function() {
+  $('input[type=tel]').focus();
+});
+
+        let modal = document.getElementById('soft-phone-modal');
+
+        let btn = document.getElementById('open-modal-btn');
+
+        btn.onclick = function () {
+            modal.style.display = 'block';
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Close the modal when the "Escape" key is pressed
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                modal.style.display = 'none';
+            }
+        });
+
+$(document).on('click',".close-dialer", function(e){
+    modal.style.display = 'none';
+}); 
+        
+    </script>
     @include('sweetalert::alert')
 
     @yield('scripts')

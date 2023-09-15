@@ -2009,7 +2009,7 @@
                                                                         <div class="col-md-12">
                                                                            
                                                                             <div class="form-group" style="padding: 0 10px;">
-                                                                                <a href="{{route('admin.zoom.index')}}" type="button" id="custom-upload-button" class="btn btn-primary">Zoom Meeting</a>
+                                                                                <a href="{{route('admin.zoom.index')}}" type="button"  class="btn btn-primary">Zoom Meeting</a>
                                                                         
                                                                             </div>
                                                                         </div>
@@ -2690,7 +2690,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="{{ asset('back/assets/js/pages/twilio-main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script >

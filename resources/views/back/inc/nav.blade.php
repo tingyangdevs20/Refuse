@@ -158,11 +158,6 @@
                         <li><a href="#" class="waves-effect">Flips</a></li>
                     </ul>
                 </li>
-               
-               
-                       
-                      
-
 
                 @if(\App\Model\Settings::first()->sms_allowed > 0 && \App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
 
@@ -171,10 +166,7 @@
 
                 @endif
 
-                @if(\App\Model\Settings::first()->sms_allowed > 0 && \App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
-
-               
-               
+                @if(\App\Model\Settings::first()->sms_allowed > 0 && \App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)           
 
 
                 <li class="menu-title">Settings</li>

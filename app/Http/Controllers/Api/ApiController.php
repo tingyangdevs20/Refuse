@@ -6,10 +6,10 @@ use App\Model\Contact;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
-{ 
+{
 
 
-     
+
     //  05092023 sachin
     public function verifiedcontact(Request $request)
     {
@@ -38,7 +38,7 @@ class ApiController extends Controller
                 "link"=> asset('/contractpdf/dummypdf.pdf')
              );
              Contact::where("id",$mailcontact->id)->update(['mail_sent'=>1]);
-              
+
             }
                 $response = [
                     'success' => true,
@@ -48,7 +48,7 @@ class ApiController extends Controller
                 // dd(response()->json($response, 200));
                 return response()->json($response, 200);
         }
-    } 
+    }
 
 
     //  05092023 sachin
