@@ -12,26 +12,26 @@ class GoalAttribute extends Seeder
     public function run()
     {
         //
-        if (DB::table('goal_attribute')->count() == 0) {
-            DB::table('goal_attribute')->insert([
-                'goal_attribute' => "People Reached",
+        if (DB::table('goal_attributes')->count() == 0) {
+            DB::table('goal_attributes')->insert([
+                'attribute' => "People Reached",
             ]);
-            DB::table('goal_attribute')->insert([
+            DB::table('goal_attributes')->insert([
                 'attribute' => "Lead",
             ]);
-            DB::table('goal_attribute')->insert([
+            DB::table('goal_attributes')->insert([
                 'attribute' => "Phone Appointment",
             ]);
-            DB::table('goal_attribute')->insert([
+            DB::table('goal_attributes')->insert([
                 'attribute' => "Contarcts Out",
             ]);
-            DB::table('goal_attribute')->insert([
+            DB::table('goal_attributes')->insert([
                 'attribute' => "Contarct Signed",
             ]);
-            DB::table('goal_attribute')->insert([
+            DB::table('goal_attributes')->insert([
                 'attribute' => "Deal Closed",
             ]);
-            DB::table('goal_attribute')->insert([
+            DB::table('goal_attributes')->insert([
                 'attribute' => "Money Expected",
             ]);
             DB::table('goal_attribute')->insert([
