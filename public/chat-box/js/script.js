@@ -74,8 +74,8 @@ var loadChatWindow = function() {
       <h3>Hi There</h3>
       <p>We are here to help. </p>
       
-      <input class="chat-user-info" type="text" name="email" placeholder="Please enter your name" />
-      <input class="chat-user-info" type="text" name="email" placeholder="Please enter your Email" />
+      <input class="chat-user-info visitor-name" type="text" name="name" placeholder="Please enter your name" />
+      <input class="chat-user-info visitor-email" type="text" name="email" placeholder="Please enter your Email" />
       
       <button type="button" class="btn btn-danger">Satrt Chating</button>
     </div>
@@ -208,7 +208,7 @@ var loadChatWindow = function() {
         $('#chat_box_body').scrollTop($('#chat_box_body').prop('scrollHeight'));
     }
     function getMessagesFromServer(mysession){
-        console.log("Calling api to get new messages");
+        console.log("Calling api to get new messages every 10 seconds");
         console.log(mysession);
     }
     function sendUserText(text) {
@@ -256,7 +256,7 @@ var loadChatWindow = function() {
         $('#chat_input').val('');
         appendMessage(r);
 
-        if( chatThread.length == 1 ){
+        if( chatThread.length == 2 ){
             var r = '';
             p = 'other';
             chatText = "On of our support person will get back to you shortly";
@@ -277,6 +277,9 @@ var loadChatWindow = function() {
     $(document).on("click", ".gl-open-chat-box button", function() {
         $(this).closest('.main-parent-box').fadeOut();
         $('.gl-chat-box').fadeIn();
+        var name = $('.chat-user-info.visitor-name').val();
+        var email = $('.chat-user-info.visitor-email').val();
+        sendMessage("other","Hi "+ name );
     });
 
 
