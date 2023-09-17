@@ -5,20 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\ZoomMeeting; 
+use App\Model\TimeZones;
+use App\Helpers\ZoomHelper;
 use Illuminate\Support\Facades\Hash;
 
 class ZoomController extends Controller
 {
     public function index()
     {
-        $meetings = ZoomMeeting::get();
-        
+        //$meetings = ZoomMeeting::with('timezones')->get();
+        $meetings = ZoomMeeting::join('time_zones', 'meeting_date_timezone', '=', 'time_zones.id')
+        ->get(['zoom_meetings.*', 'time_zones.time_zone']);
         return view('back.pages.zoom.index', compact('meetings'));
     }
 
     public function create()
     {
-        return view('back.pages.zoom.create');
+        $timezones = TimeZones::where('is_active','=','1')->get();
+        return view('back.pages.zoom.create', compact('timezones'));
     }
 
     public function store(Request $request)  {
@@ -56,6 +60,11 @@ class ZoomController extends Controller
         // Save the zoom meeting data
 
         $meeting->save();
+
+        /* Create Zoom Meeting. This method is supposed to be invoked by a simple form post, in which user has to provide meeting title, time and duration.  */
+
+		//$dataRet = ZoomHelper::CreateZoomMeeting($validatedData['meeting_name'], $validatedData['meeting_date'], intval($validatedData['duration_minute']));
+
         session()->flash('success', 'Meeting has been created !!');
         return redirect()->route('admin.zoom.index');
 
@@ -66,8 +75,8 @@ class ZoomController extends Controller
     {
       
         $meeting = ZoomMeeting::find($id);
-       
-        return view('back.pages.zoom.edit', compact('meeting'));
+        $timezones = TimeZones::where('is_active','=','1')->get();
+        return view('back.pages.zoom.edit', compact('meeting', 'timezones'));
 
     }
 

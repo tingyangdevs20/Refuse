@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Http;
 
 trait ZoomMeetingTrait
 {
-    public function createZoomMeeting($topic, $start_time)
+    public function createZoomMeeting($topic, $start_time, $duration)
     {
         $response = Http::post('https://api.zoom.us/v2/users/{user_id}/meetings', [
             'topic' => $topic,
