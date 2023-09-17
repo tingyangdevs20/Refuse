@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'abe0b349b5636de38c703c61e81187c34038a23d',
+        'reference' => 'aa6523269c98d7c552e4ab614ce1e45d161fbc83',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -466,7 +466,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'abe0b349b5636de38c703c61e81187c34038a23d',
+            'reference' => 'aa6523269c98d7c552e4ab614ce1e45d161fbc83',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -653,9 +653,9 @@
             'dev_requirement' => false,
         ),
         'phpseclib/phpseclib' => array(
-            'pretty_version' => '3.0.21',
-            'version' => '3.0.21.0',
-            'reference' => '4580645d3fc05c189024eb3b834c6c1e4f0f30a1',
+            'pretty_version' => '3.0.22',
+            'version' => '3.0.22.0',
+            'reference' => 'b6bd1c5f79b2c39e144770eb6d9180fbdb00d09b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
@@ -796,8 +796,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
