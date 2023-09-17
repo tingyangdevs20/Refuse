@@ -58,8 +58,7 @@ function loadScript(url, callback) {
     document.getElementsByTagName("head")[0].appendChild(script);
 }
 var loadChatWindow = function() {
-    //console.log("loadChatWindow function");
-
+    
     if (typeof($.fn.popover) != 'undefined') {
       //  console.log("bootstrap is already loaded");
     } else {
@@ -259,7 +258,7 @@ var loadChatWindow = function() {
         if( chatThread.length == 2 ){
             var r = '';
             p = 'other';
-            chatText = "On of our support person will get back to you shortly";
+            chatText = "One of our support person will get back to you shortly.";
             r += renderMessage(p, chatText);
             chatThread.push({
                 'profile': p,
