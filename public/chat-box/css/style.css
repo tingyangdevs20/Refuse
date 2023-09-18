@@ -9,6 +9,7 @@
     flex-direction: column;
     border-radius: 0px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    z-index: 888 !important;
 }
 
 .gl-chat-box>.chat-box-header {
@@ -266,11 +267,13 @@ h3>small {
     bottom: 0;
     right: 10px;
     margin: 20px;
+    z-index: 888 !important;
 }
 
 .gl-open-chat-box {
     padding: 20px;
     border-radius: 20px;
+    background: #fff;
     border-bottom-left-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
 }

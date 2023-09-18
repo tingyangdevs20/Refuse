@@ -1,4 +1,4 @@
-document.onreadystatechange = function(e) {
+document.onreadystatechange = function (e) {
     if (document.readyState === 'complete') {
         // console.log("hi, inside document.onreadystatechange function");
         if (!window.jQuery) {
@@ -6,28 +6,29 @@ document.onreadystatechange = function(e) {
             loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js", loadChatWindow);
             // console.log('JQuery is added now');
         } else {
-            // console.log('JQuery is already loaded');
+            loadChatWindow()
         }
     }
 }
-window.onload = function(e) {
+window.onload = function (e) {
     // console.log("hi, inside window.onload function");
 }
 
+const baseUrl = "http://127.0.0.1:8000/api/v1/"
 function loadStyle(url) {
     var link = document.createElement("link")
     link.type = 'text/css'
     link.rel = "stylesheet";
 
     if (link.readyState) {
-        link.onreadystatechange = function() {
+        link.onreadystatechange = function () {
             if (link.readyState == "loaded" ||
                 link.readyState == "complete") {
                 link.onreadystatechange = null;
             }
         };
     } else {
-        link.onload = function() {
+        link.onload = function () {
 
         };
     }
@@ -41,7 +42,7 @@ function loadScript(url, callback) {
     script.type = "text/javascript";
 
     if (script.readyState) { //IE
-        script.onreadystatechange = function() {
+        script.onreadystatechange = function () {
             if (script.readyState == "loaded" ||
                 script.readyState == "complete") {
                 script.onreadystatechange = null;
@@ -49,7 +50,7 @@ function loadScript(url, callback) {
             }
         };
     } else {
-        script.onload = function() {
+        script.onload = function () {
             callback();
         };
     }
@@ -57,36 +58,42 @@ function loadScript(url, callback) {
     script.src = url;
     document.getElementsByTagName("head")[0].appendChild(script);
 }
-var loadChatWindow = function() {
-    
-    if (typeof($.fn.popover) != 'undefined') {
-      //  console.log("bootstrap is already loaded");
+
+var loadChatWindow = function () {
+
+    if (typeof ($.fn.popover) != 'undefined') {
+        //  console.log("bootstrap is already loaded");
     } else {
         //console.log("bootstrap is not loaded");
         loadStyle("style.css");
         //console.log("bootstrap is added dynamially");
     }
     // --------- Start Chat Window HTML -------------//
-    var chatWindowHTML = `<div class="main-parent-box">
-      <div class="gl-open-chat-box">
-        <i class="fa fa-times close-icon" aria-hidden="true"></i>
-      <h3>Hi There</h3>
-      <p>We are here to help. </p>
-      
-      <input class="chat-user-info visitor-name" type="text" name="name" placeholder="Please enter your name" />
-      <input class="chat-user-info visitor-email" type="text" name="email" placeholder="Please enter your Email" />
-      
-      <button type="button" class="btn btn-danger">Satrt Chating</button>
-    </div>
-    <div class="open-box-footer">
-        <img src="https://images.unsplash.com/photo-1534135954997-e58fbd6dbbfc?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=02d536c38d9cfeb4f35f17fdfaa36619" width="30" height="30" />
-        <img src="https://images.unsplash.com/photo-1534135954997-e58fbd6dbbfc?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=02d536c38d9cfeb4f35f17fdfaa36619" width="30" height="30" />
-      </div>
-    </div>
+    var chatWindowHTML = `
+        <div class="main-parent-box">
+              <div class="gl-open-chat-box">
+               <div class="chat-box-header">
+                <h3>Support Chat<br /></h3>
+               </div>
+              <i class="fa fa-times close-icon" aria-hidden="true"></i>
+              <h3>Hi There</h3>
+              <p>We are here to help. </p>
+              <p style="color: red;display: none" id="error-message"></p>
+
+              <input class="chat-user-info visitor-name" type="text" name="name" placeholder="Please enter your name" />
+              <input class="chat-user-info visitor-email" type="tel" name="number" placeholder="Please enter your phone number" />
+
+              <button type="button" class="btn btn-danger">Start Chatting</button>
+            </div>
+<!--              <div class="open-box-footer">-->
+<!--&lt;!&ndash;                <img src="https://images.unsplash.com/photo-1534135954997-e58fbd6dbbfc?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=02d536c38d9cfeb4f35f17fdfaa36619" width="30" height="30" />&ndash;&gt;-->
+<!--&lt;!&ndash;                <img src="https://images.unsplash.com/photo-1534135954997-e58fbd6dbbfc?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=02d536c38d9cfeb4f35f17fdfaa36619" width="30" height="30" />&ndash;&gt;-->
+<!--              </div>-->
+        </div>
 
     <div class="gl-chat-box" style="display:none" >
       <div class="chat-box-header">
-        <h3>Support Chat<br /><small>Last active: 10 min ago</small></h3>
+      <h3>Support Chat<br /></h3>
       </div>
       <div id="chat_box_body" class="chat-box-body">
         <div id="chat_messages">
@@ -113,49 +120,35 @@ var loadChatWindow = function() {
     </div>
     `;
 
-    var session = function() {
-        // Retrieve the object from storage
-        if(sessionStorage.getItem('session')) {
-            var retrievedSession = sessionStorage.getItem('session');
-        } else {
-            // Random Number Generator
-            var randomNo = Math.floor((Math.random() * 1000) + 1);
-            // get Timestamp
-            var timestamp = Date.now();
-            // get Day
-            var date = new Date();
-            var weekday = new Array(7);
-            weekday[0] = "Sunday";
-            weekday[1] = "Monday";
-            weekday[2] = "Tuesday";
-            weekday[3] = "Wednesday";
-            weekday[4] = "Thursday";
-            weekday[5] = "Friday";
-            weekday[6] = "Saturday";
-            var day = weekday[date.getDay()];
-            // Join random number+day+timestamp
-            var session_id = randomNo+day+timestamp;
-            // Put the object into storage
-            sessionStorage.setItem('session', session_id);
-            var retrievedSession = sessionStorage.getItem('session');
-        }
-        return retrievedSession;
-        // console.log('session: ', retrievedSession);
-    }
 
-    // Call Session init
-    var mysession = session();
-    console.log(mysession);
-    setInterval(function () {
-        getMessagesFromServer(mysession);
-    }, 10000);
-
-
-    
     // ---------End Chat Window HTML -------------//
-    setTimeout(function() {
+    setTimeout(function () {
         $("body").append(chatWindowHTML);
-    }, 1000);
+        var session = function () {
+            // Retrieve the object from storage
+            console.log('calling sessions',sessionStorage.getItem('session'))
+            if (sessionStorage.getItem('session')) {
+                console.log(document.getElementsByClassName('.main-parent-box'));
+                $('.main-parent-box').fadeOut();
+                $('.gl-chat-box').fadeIn();
+                return  sessionStorage.getItem('session');
+            } else {
+                $('.gl-chat-box').fadeOut();
+                $('.main-parent-box').fadeIn();
+                return null;
+            }
+            // console.log('session: ', retrievedSession);
+        }
+
+        // Call Session init
+        const currentSession = session();
+        if(currentSession) {
+            setInterval(function () {
+                getMessagesFromServer();
+            }, 10000);
+        }
+
+
 
     var chatInput = $('#chat_input');
     var typing = $('#typing');
@@ -166,52 +159,55 @@ var loadChatWindow = function() {
     var chatThread = [];
 
 
-    chatInput.on('input', function() {
+    chatInput.on('input', function () {
         $(this).css('height', '0');
         $(this).css('height', this.scrollHeight + 1 + 'px');
     });
 
-    $(document).on("keydown", "#chat_input", function(evt) {
+    $(document).on("keydown", "#chat_input", function (evt) {
         if (evt.keyCode == 13 && !evt.shiftKey) {
             sendMessage('my', this);
             evt.preventDefault();
         }
     });
 
-    $(document).on("click", "#gl-send", function(evt) {
-        sendMessage('my', $('#chat_input').val());   
-        evt.preventDefault();   
+    $(document).on("click", "#gl-send", function (evt) {
+        sendMessage('my', $('#chat_input').val());
+        evt.preventDefault();
     });
 
     function renderProfile(p) {
         return '<div class="profile ' + p + '-profile hide"></div>';
     }
+
     function renderMessage(p, m) {
         return '<div class="message ' + p + '-message hide">' + m + '</div>';
     }
+
     function appendMessage(r) {
         $('#chat_messages').append(r);
 
         var elms = $('.profile.hide, .message.hide');
 
-        elms.each(function() {
-            if ($(this).hasClass('profile')) {
-                $(this).css('height', $(this).prop('scrollHeight') + 'px');
-            } else {
-                $(this).css('height', $(this).prop('scrollHeight') - 20 + 'px');
-            }
+        elms.each(function () {
+            // if ($(this).hasClass('profile')) {
+            //     $(this).css('height', $(this).prop('scrollHeight') + 'px');
+            // } else {
+            //     $(this).css('height', $(this).prop('scrollHeight') - 20 + 'px');
+            // }
 
             $(this).removeClass('hide');
         });
 
         $('#chat_box_body').scrollTop($('#chat_box_body').prop('scrollHeight'));
     }
-    function getMessagesFromServer(mysession){
+
+    function getMessagesFromServer() {
         console.log("Calling api to get new messages every 10 seconds");
-        console.log(mysession);
     }
+
     function sendUserText(text) {
-        console.log("sending api for "+text +" - "+ mysession)
+        console.log("sending api for " + text + " - " + currentSession)
         // $.ajax({
         //     type: "POST",
         //     url: "API URL",
@@ -225,9 +221,10 @@ var loadChatWindow = function() {
         //     }
         // });
     }
+
     function sendMessage(p, chatText) {
 
-        if( chatText == ''){
+        if (chatText == '') {
             return;
         }
         var r = '';
@@ -251,11 +248,11 @@ var loadChatWindow = function() {
             });
         }
 
-        sendUserText( $('#chat_input').val() ); 
+        sendUserText($('#chat_input').val());
         $('#chat_input').val('');
         appendMessage(r);
 
-        if( chatThread.length == 2 ){
+        if (chatThread.length == 2) {
             var r = '';
             p = 'other';
             chatText = "One of our support person will get back to you shortly.";
@@ -263,23 +260,78 @@ var loadChatWindow = function() {
             chatThread.push({
                 'profile': p,
                 'message': chatText
-            });  
+            });
             appendMessage(r);
         }
 
     }
 
-    $(document).on("click", ".gl-chat-suggestions li", function() {
+    $(document).on("click", ".gl-chat-suggestions li", function () {
         $('.gl-chat-suggestions').hide();
         sendMessage('my', $(this).text());
     });
-    $(document).on("click", ".gl-open-chat-box button", function() {
-        $(this).closest('.main-parent-box').fadeOut();
-        $('.gl-chat-box').fadeIn();
-        var name = $('.chat-user-info.visitor-name').val();
-        var email = $('.chat-user-info.visitor-email').val();
-        sendMessage("other","Hi "+ name );
+    $(document).on("click", ".gl-open-chat-box button", function () {
+        createRoom()
+        // $(this).closest('.main-parent-box').fadeOut();
+        // $('.gl-chat-box').fadeIn();
+        // sendMessage("other", "Hi " + name);
     });
 
+    const createRoom =async ()=>{
+        const name = $('.chat-user-info.visitor-name').val();
+        const number = $('.chat-user-info.visitor-email').val();
+        const errorElm = document.getElementById('error-message')
+        errorElm.style.display = 'none';
+        if(!name || !number) {
+            errorElm.style.display = 'block';
+            errorElm.textContent="Oops! Please fill all fields.";
+        }
 
+        // let body = new FormData();
+        // body.append('name',name)
+        // body.append('number',number)
+        // let response = await fetch(baseUrl + "chatroom/create", {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application.json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: body
+        // }).then(res => res.json())
+
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "chatroom/create",
+            contentType: "application/json",
+            dataType: "json",
+            data:JSON.stringify({name,number}),
+            success: function(data) {
+                if(data.status){
+                    sessionStorage.setItem('session', data.data.session_id);
+                    $('.main-parent-box').fadeOut();
+                    $('.gl-chat-box').fadeIn();
+                }else{
+                    errorElm.style.display = 'block';
+                    errorElm.textContent="Oops! Something went wrong.";
+                }
+            },
+            error: function(e) {
+                if (e.status ===422){
+                    errorElm.style.display = 'block';
+                    errorElm.textContent="Oops! Please fill all fields.";
+                }else if (e.status === 500) {
+                    errorElm.style.display = 'block';
+                    errorElm.textContent="Oops! Internal Server Error.";
+                }else if (e.status === 404) {
+                    errorElm.style.display = 'block';
+                    errorElm.textContent="Oops! Server API not valid.";
+                }
+                console.log(e,e.status)
+            }
+        });
+        // console.log('response',response)
+
+
+    }
+    }, 1000);
 }

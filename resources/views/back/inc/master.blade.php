@@ -19,7 +19,9 @@
     <link href="{{ asset('back/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{ asset('back/assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-@yield('styles')
+    <link href="{{ asset('chat-box/css/style.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+
+    @yield('styles')
 </head>
 
 <body data-sidebar="dark">
@@ -43,7 +45,6 @@
        @yield('content')
         <!-- End Page-content -->
 
-
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
@@ -52,7 +53,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="text-sm-right d-none d-sm-block">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -64,7 +65,7 @@
 </div>
 
 @component('components.soft-phone-ui')
-@endcomponent        
+@endcomponent
 
 <!-- END layout-wrapper -->
 
@@ -89,8 +90,8 @@
               >Enter a phone number or client name</label
             >
             <input id="phone-number" type="text" placeholder="+15552221234" />
-          
-          
+
+
           <div id="volume-indicators" class="hide">
             <label>Mic Volume</label>
             <div id="input-volume"></div>
@@ -136,7 +137,6 @@
     <script src="{{ asset('back/assets/js/pages/twilio.min.js') }}"></script>
     <script src="{{ asset('back/assets/js/pages/twilio-main.js') }}"></script>
 
-
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- Soft-phone-modal-js -->
     <script>
@@ -159,7 +159,7 @@ $('.focus-effects').on('click', function() {
   text.val(text.val() + this.value);
 
   $(".soft-phone").find(".ans-call").attr('phone-number', text.val())
-  
+
   text.focus();
 });
 
@@ -194,9 +194,10 @@ $('input[type=reset]').on('click', function() {
 
 $(document).on('click',".close-dialer", function(e){
     modal.style.display = 'none';
-}); 
-        
+});
+
     </script>
+<script src="{{ asset('chat-box/js/script.js') }}"></script>
     @include('sweetalert::alert')
 
     @yield('scripts')
