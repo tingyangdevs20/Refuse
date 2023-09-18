@@ -5,7 +5,7 @@
         @method('POST')
         <div class="form-group">
             <label for="recipient-name" class="col-form-label">Form Template <span class="required">*</span></label>
-            <select class="form-control formTemplate" onchange="fetch()" id="template_id" name="template_id" required>
+            <select class="form-control formTemplate" onchange="fetch(this)" id="template_id" name="template_id" required>
                 <option value="">Select Form Template</option>
                 @foreach(getFormTemplate() as $templateId => $template)
                 <option value="{{ $templateId }}">{{ $template }}</option>
@@ -37,10 +37,13 @@
     </div>
 </form>
 <script>
-    function fetchh()
+    function fetch(ctrl)
     {
-        $('#update-templates').html('');
-        var url = '<?php echo url('/admin/get/template/') ?>/'+type;
+        //alert(ctrl.value);
+        var tempid=ctrl.value;
+        //alert(tempid);
+        $('#user-agreement-content').html('');
+        var url = '<?php echo url('/admin/get/template/') ?>/'+tempid;
         $.ajax({
             type: 'GET',
             url: url,
@@ -48,8 +51,8 @@
             processData: false,
             contentType: false,
             success: function (d) {
-                
-                $('#update-templates').html(d);
+               // alert(d);
+               // $('#user-agreement-content').html(d);
             }
         });
     }

@@ -133,6 +133,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#" class="waves-effect">Inspection Pending</a></li>
                         <li><a href="#" class="waves-effect">Funding Pending</a></li>
+                        <li><a href="#" class="waves-effect">Title Pending</a></li>
                     </ul>
                 </li>
                 <li>

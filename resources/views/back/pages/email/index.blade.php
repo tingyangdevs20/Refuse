@@ -46,12 +46,13 @@
 												<div class="col-md-6">
                                                     <div class="form-group">
 														<label>Send To:</label>
-														<select class="custom-select" required="" name="send_to">
+                                                        <input type="text" class="form-control" placeholder="Sender Email" name="send_to">
+														<!--<select class="custom-select" required="" name="send_to">
                                                             <option value="">Sender's Email</option>
                                                             @foreach($contact as $contact)
                                                             <option value="{{ $contact->id}}">{{ $contact->email1 }}</option>
                                                                 @endforeach
-                                                        </select>
+                                                        </select>-->
                                                     </div>
                                                 </div>
                                              
@@ -80,8 +81,8 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<link rel="stylesheet" href="{{asset('/summernote/dist/summernote.css')}}" />
-    <script src="{{asset('/summernote/dist/summernote.min.js')}}"></script>
+	<link rel="stylesheet" href="{{asset('/summernote/dist/summernote4.css')}}" />
+    <script src="{{asset('/summernote/dist/summernote4.min.js')}}"></script>
     <script >
         $(document).ready(function() {
             $('#datatable').DataTable();
