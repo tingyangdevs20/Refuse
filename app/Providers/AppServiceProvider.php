@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Admin;
+use App\Model\Contact;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Relation::morphMap([
+            'contact' => Contact::class,
+            'admin' => Admin::class
+        ]);
     }
 
     /**
@@ -24,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        //
     }
 }
