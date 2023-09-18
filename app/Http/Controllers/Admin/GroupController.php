@@ -8,10 +8,10 @@ use App\Model\CustomField;
 use App\Model\Section;
 use App\Model\LeadCategory;
 use App\Model\Number;
+use App\Model\Account;
 use App\Model\Group;
 use App\Model\Market;
 use App\Model\Tag;
-use App\Model\Account;
 use App\Model\Campaign;
 use App\Model\CampaignList;
 use App\Model\Template;
@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
 use Google_Service_Drive as Drive;
 
+use Session;
 use App\Services\DatazappService;
 
 
@@ -82,7 +83,7 @@ class GroupController extends Controller
         $tags=Tag::all();
         $campaigns = Campaign::getAllCampaigns();
         $form_Template = FormTemplates::get();
-        
+
         if ($request->wantsJson()) {
             return response()->json([
                 'data' => $groups,
@@ -724,8 +725,17 @@ class GroupController extends Controller
    public function skipTrace(DatazappService $datazappService, Request $request)
    {
 
+       $user_id = auth()->id();
        $groupId = $request->input('group_id');
        $selectedOption = $request->input('skip_trace_option');
+
+       $checkPayment  = Session::get('payment_sucess');
+       $paymentRecord = DB::table('skip_tracing_payment_records')
+        ->where('user_id', $user_id)
+        ->where('group_id', $groupId)
+        ->where('skip_trace_option_id', $selectedOption)
+        ->first();
+
 
        $group = Group::with('contacts')->find($groupId);
 
@@ -734,13 +744,55 @@ class GroupController extends Controller
            return response()->json(['error' => 'Group not found.']);
        }
 
-       // Extract the contact data from the group
-       $groupContacts = $group->contacts;
+        // Extract the contact data from the group
+        $groupContacts = $group->contacts;
 
-       // Remove duplicates based on both 'email' and 'number' attributes
-       $uniqueContacts = $groupContacts->unique(function ($contact) {
-           return $contact->email1 . '|' . $contact->number;
-       });
+        // Remove duplicates based on both 'email' and 'number' attributes
+        $uniqueContacts = $groupContacts->unique(function ($contact) {
+            return $contact->email1 . '|' . $contact->number;
+        });
+
+       $skipTraceRate = null;
+       Session::put('record_detail', [
+            'uniqueContacts' => $uniqueContacts,
+            'groupId' => $groupId,
+            'selectedOption' => $selectedOption,
+        ]);
+
+        if($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone' ){
+            $skipTraceRate = Account::pluck('phone_cell_append_rate');
+
+        }elseif($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails' ){
+            $skipTraceRate = Account::pluck('phone_cell_append_rate');
+        }elseif($selectedOption == 'append_names' ){
+            $skipTraceRate = Account::pluck('name_append_rate');
+        }
+        elseif($selectedOption == 'append_emails' ){
+            $skipTraceRate = Account::pluck('email_append_rate');
+        }
+        elseif($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified' ){
+            $skipTraceRate = Account::pluck('email_verification_rate');
+        }
+        elseif($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers' ){
+            $skipTraceRate = Account::pluck('phone_scrub_rate');
+        }
+
+        if ($skipTraceRate === null) {
+            return response()->json(['error' => 'Invalid skip trace option.']);
+
+        }else{
+
+            return response()->json([
+
+                'data' => [
+                    'skip_trace_rate' => $skipTraceRate[0] * count($uniqueContacts),
+                    'group_id' => $groupId,
+                    'skip_trace_option' => $selectedOption,
+                ]
+            ]);
+        }
+
+
 
 
 
@@ -748,42 +800,100 @@ class GroupController extends Controller
        $result = null;
 
        // Perform skip tracing based on the selected option
-       if ($selectedOption === 'skip_entire_list_phone') {
+       if ($selectedOption === 'skip_entire_list_phone' || $selectedOption === 'skip_records_without_numbers_phone') {
            // Implement skip tracing logic for the entire list of phone numbers
-           $result = $datazappService->skipTrace($uniqueContacts->where('number', '!=' , ''), $selectedOption);
+           $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
+
+           if ($result) {
+            // Check if $result contains the expected data structure
+            if (
+                isset($result['ResponseDetail']['Data']) &&
+                is_array($result['ResponseDetail']['Data'])
+            ) {
+                $data = $result['ResponseDetail']['Data'];
+
+                foreach ($data as $record) {
+                    // Check if the record has a matched phone number
+                    if (
+                        isset($record['Matched']) &&
+                        $record['Matched'] &&
+                        isset($record['Phone'])
+                    ) {
+                        $matchedPhone = $record['Phone'];
+
+                        // Find the corresponding contact based on additional criteria
+                        $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
+                            return (
+                                $contact->name === $record['FirstName'] &&
+                                $contact->last_name === $record['LastName'] &&
+                                $contact->street === $record['Address'] &&
+                                $contact->city === $record['City'] &&
+                                $contact->zip === $record['Zip']
+                            );
+                        });
+
+                        // Update the contact in the database with the matched phone number
+                        if ($matchingContact) {
+                            $matchingContact->update(['number' => $matchedPhone]);
+                        }
+                    }
+                }
+            }
+        }
 
 
-       } elseif ($selectedOption === 'skip_records_without_numbers_phone') {
-           // Implement skip tracing logic for records without phone numbers
-           $result = $datazappService->skipTrace($uniqueContacts->where('number', ''), $selectedOption);
-
-       } elseif ($selectedOption === 'skip_entire_list_email') {
+       } elseif ($selectedOption === 'skip_entire_list_email' || $selectedOption === 'skip_records_without_emails') {
            // Implement skip tracing logic for the entire list of emails
-           $result = $datazappService->skipTrace($uniqueContacts->where('email1', '!=' , '', $selectedOption));
+           $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
 
-       } elseif ($selectedOption === 'skip_records_without_emails') {
-           // Implement skip tracing logic for records without emails
-           $result = $datazappService->skipTrace($uniqueContacts->where('email1', '', $selectedOption));
+           if ($result) {
+            // Check if $result contains the expected data structure
+            if (
+                isset($result['ResponseDetail']['Data']) &&
+                is_array($result['ResponseDetail']['Data'])
+            ) {
+                $data = $result['ResponseDetail']['Data'];
+
+                foreach ($data as $record) {
+                    // Check if the record has a matched phone number
+                    if (
+                        isset($record['Matched']) &&
+                        $record['Matched'] &&
+                        isset($record['Email'])
+                    ) {
+                        $matchedEmail = $record['Email'];
+
+                        // Find the corresponding contact based on additional criteria
+                        $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
+                            return (
+                                $contact->name === $record['FirstName'] &&
+                                $contact->last_name === $record['LastName'] &&
+                                $contact->street === $record['Address'] &&
+                                $contact->city === $record['City'] &&
+                                $contact->zip === $record['Zip']
+                            );
+                        });
+
+                        // Update the contact in the database with the matched phone number
+                        if ($matchingContact) {
+                            $matchingContact->update(['email1' => $matchedEmail]);
+                        }
+                    }
+                }
+            }
+        }
 
        } elseif ($selectedOption === 'append_names') {
            // Implement append names logic for records without names
-           // Note: You need to define this logic based on your requirements
+           $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
 
-       } elseif ($selectedOption === 'email_verification_entire_list') {
+       } elseif ($selectedOption === 'email_verification_entire_list' || $selectedOption === 'email_verification_non_verified') {
            // Implement email verification logic for the entire list of emails
-           // Note: You need to define this logic based on your requirements
+           $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
 
-       } elseif ($selectedOption === 'email_verification_non_verified') {
-           // Implement email verification logic for non-verified emails
-           // Note: You need to define this logic based on your requirements
-
-       } elseif ($selectedOption === 'phone_scrub_entire_list') {
+       } elseif ($selectedOption === 'phone_scrub_entire_list' || $selectedOption === 'phone_scrub_non_scrubbed_numbers') {
            // Implement phone scrubbing logic for the entire list of phone numbers
-           // Note: You need to define this logic based on your requirements
-
-       } elseif ($selectedOption === 'phone_scrub_non_scrubbed_numbers') {
-           // Implement phone scrubbing logic for non-scrubbed phone numbers
-           // Note: You need to define this logic based on your requirements
+           $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
 
        } else {
            // Handle other options or provide an error response
@@ -793,7 +903,7 @@ class GroupController extends Controller
        // Handle the $result based on your specific requirements
        // Update your database with skip traced data, if applicable
        // Return a response to indicate success or failure
-       return response()->json(['success' => true]);
+       return $result;
    }
 
     public function pushToCampaign(Request $request )

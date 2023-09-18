@@ -22,6 +22,7 @@
         "riazxrazor/slybroadcast": "^1.1",
         "smalot/pdfparser": "^2.7",
         "spatie/laravel-permission": "^5.11",
+        "stripe/stripe-php": "^12.3",
         "twilio/sdk": "^6.10"
     },
     "require-dev": {

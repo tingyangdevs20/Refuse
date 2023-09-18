@@ -27,14 +27,26 @@ class DatazappService
         $contactsToSkipTrace = collect([]);
 
         if ($skipTraceOption === 'skip_entire_list_phone') {
-            $contactsToSkipTrace = $contacts->where('number', '!=', '');
+            $contactsToSkipTrace = $contacts;
         } elseif ($skipTraceOption === 'skip_records_without_numbers_phone') {
-            $contactsToSkipTrace = $contacts->where('number', '');
+            $contactsToSkipTrace = $contacts;
 
         } elseif ($skipTraceOption === 'skip_entire_list_email') {
-            $contactsToSkipTrace = $contacts->where('email1', '!=', '');
+            $contactsToSkipTrace = $contacts;
         } elseif ($skipTraceOption === 'skip_records_without_emails') {
-            $contactsToSkipTrace = $contacts->where('email1', '');
+            $contactsToSkipTrace = $contacts;
+        } elseif ($skipTraceOption === 'append_names'){
+            $contactsToSkipTrace = $contacts;
+        } elseif ($skipTraceOption === 'email_verification_entire_list'){
+            $contactsToSkipTrace = $contacts->where('email1','!=', '');
+        } elseif ($skipTraceOption === 'email_verification_non_verified'){
+            $contactsToSkipTrace = $contacts->where('email1','!=', '');
+        } elseif ($skipTraceOption === 'phone_scrub_entire_list'){
+            $contactsToSkipTrace = $contacts;
+        } elseif ($skipTraceOption === 'phone_scrub_non_scrubbed_numbers'){
+            $contactsToSkipTrace = $contacts;
+        } elseif ($skipTraceOption === 'append_emails'){
+            $contactsToSkipTrace = $contacts;
         } else {
             // Handle other skip trace options if needed
             return ['message' => 'Invalid skip trace option.'];
@@ -64,14 +76,11 @@ class DatazappService
                     "Address" => $contact->street,
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
-                    "AlterFirstName" => $contact->name,
-                    "AlterLastName" => $contact->last_name,
-                    "AlterAddress" => $contact->street,
-                    "AlterCity" => $contact->city,
-                    "AlterZip" => $contact->zip,
+
 
                     // Add other required parameters for phone append
                 ];
+
             } elseif ($skipTraceOption === 'skip_entire_list_email' || $skipTraceOption === 'skip_records_without_emails') {
                 // Email Append API request
                 $requestData['AppendModule'] = "EmailAppend";
@@ -86,7 +95,61 @@ class DatazappService
 
                     // Add other required parameters for email append
                 ];
-            } else {
+            }elseif($skipTraceOption === 'append_names'){
+                // Name Append API request
+                $requestData['AppendModule'] = "NameAppendAPI";
+
+
+                $requestData['Data'][] = [
+
+                    "Address" => $contact->street,
+                    "City" => $contact->city,
+                    "Zip" => $contact->zip,
+
+                    // Add other required parameters for email append
+                ];
+            }
+            elseif($skipTraceOption === 'append_emails'){
+                // Name Append API request
+                $requestData['AppendModule'] = "EmailAppend";
+                $requestData['AppendType'] = 1; // 1 for Individual
+
+                $requestData['Data'][] = [
+                    "FirstName" => $contact->name,
+                    "LastName" => $contact->last_name,
+                    "Address" => $contact->street,
+                    "City" => $contact->city,
+                    "Zip" => $contact->zip,
+
+                    // Add other required parameters for email append
+                ];
+
+            }elseif($skipTraceOption === 'email_verification_entire_list' || $skipTraceOption === 'email_verification_non_verified'){
+                 // Emal Verificationd API request
+                 $requestData['AppendModule'] = "EmailVerificationAPI";
+
+                 $requestData['Data'][] = [
+
+                     "Email" => $contact->email1,
+                     "Email" => $contact->email2,
+
+
+                     // Add other required parameters for email append
+                 ];
+            } elseif($skipTraceOption === 'phone_scrub_entire_list' || $skipTraceOption === 'phone_scrub_non_scrubbed_numbers'){
+                 // phone scrubbing API request
+                 $requestData['AppendModule'] = "PhoneScrubAPI";
+
+                 $requestData['Data'][] = [
+
+                     "Phone" => $contact->number,
+                     "Phone" => $contact->number2,
+                     "Phone" => $contact->number3,
+
+
+                     // Add other required parameters for email append
+                 ];
+            }else {
                 // Handle other skip trace options if needed
                 return ['message' => 'Invalid skip trace option.'];
             }
