@@ -84,7 +84,7 @@
                 </li>
 
 
-                 <li>
+                 <li style="display:none">
                    
 
                     <a href="{{ route('admin.sms.success') }}" class=" waves-effect">
@@ -99,7 +99,7 @@
                         <span>All Conversations</span>
                     </a>
                 </li>
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.thread.show') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
                         <span>Saved Threads</span>
