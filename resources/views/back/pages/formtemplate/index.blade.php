@@ -16,13 +16,13 @@
               <li class="breadcrumb-item">
                 <a href="{{ route('admin.dashboard')}}">Dashboard</a>
               </li>
-              <li class="breadcrumb-item">Lead Generation</li>
+              <li class="breadcrumb-item">Settings</li>
               <li class="breadcrumb-item active">Lists</li>
             </ol>
           </div>
         </div>
         <div class="card">
-          <div class="card-header bg-soft-dark "> All Form Template <button
+          <div class="card-header bg-soft-dark "> All Digital Signing Template <button
               class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
               data-target="#newModal">
               <i class="fas fa-plus-circle"></i>

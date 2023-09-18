@@ -56,23 +56,10 @@
                   
                 </li>
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-solid fa-file-contract"></i>
-                        <span>User Agreement</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="{{ route('admin.formtemplates') }}">
-                                Form Template
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.user-agreement.index') }}">
-                                User Agreement
-                            </a>
-                        </li>
-                    </ul>
+                   
+                            <a href="{{ route('admin.user-agreement.index') }}" class="waves-effect"> <i class="fas fa-bars"></i>
+                            <span>  Digital Signing</span></a>
+                        
                 </li>
                
                  <li>
@@ -195,7 +182,7 @@
                 <li>
                      <a href="javascript:void(0)" class="has-arrow waves-effect">
                         <i class="fas fa-stethoscope"></i>
-                        <span>System Settings</span>
+                        <span>Settings</span>
                      </a>
                      <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a></li>
@@ -230,6 +217,7 @@
                         <li><a href="{{ route('admin.auto-reply.index') }}" class=" waves-effect">Auto-Reply</a></li>
                         <li><a href="{{ route('admin.phone.numbers') }}" class="waves-effect">Phone Numbers</a></li>
                         <li><a href="{{ route('admin.template.index') }}" class="waves-effect">Templates</a></li>
+                        <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign. Templates</a></li>
                         <li><a href="{{ route('admin.market.index') }}" class=" waves-effect">Markets</a></li>
                         <li><a href="{{ route('admin.category.index') }}" class=" waves-effect">Lead Categories</a></li>
                         <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li>
