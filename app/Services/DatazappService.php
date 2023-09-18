@@ -30,6 +30,7 @@ class DatazappService
             $contactsToSkipTrace = $contacts->where('number', '!=', '');
         } elseif ($skipTraceOption === 'skip_records_without_numbers_phone') {
             $contactsToSkipTrace = $contacts->where('number', '');
+
         } elseif ($skipTraceOption === 'skip_entire_list_email') {
             $contactsToSkipTrace = $contacts->where('email1', '!=', '');
         } elseif ($skipTraceOption === 'skip_records_without_emails') {
@@ -52,6 +53,7 @@ class DatazappService
         foreach ($contactsToSkipTrace as $contact) {
             if ($skipTraceOption === 'skip_entire_list_phone' || $skipTraceOption === 'skip_records_without_numbers_phone') {
                 // Phone Append API request
+
                 $requestData['AppendModule'] = "PhoneAppendAPI";
                 $requestData['AppendType'] = 2; // 2 for Landline
                 $requestData['DncFlag'] = "true"; // Set DNC flag if needed
@@ -62,6 +64,12 @@ class DatazappService
                     "Address" => $contact->street,
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
+                    "AlterFirstName" => $contact->name,
+                    "AlterLastName" => $contact->last_name,
+                    "AlterAddress" => $contact->street,
+                    "AlterCity" => $contact->city,
+                    "AlterZip" => $contact->zip,
+
                     // Add other required parameters for phone append
                 ];
             } elseif ($skipTraceOption === 'skip_entire_list_email' || $skipTraceOption === 'skip_records_without_emails') {
@@ -75,6 +83,7 @@ class DatazappService
                     "Address" => $contact->street,
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
+
                     // Add other required parameters for email append
                 ];
             } else {
@@ -83,9 +92,12 @@ class DatazappService
             }
         }
 
+
         $response = $client->post('https://secureapi.datazapp.com/Appendv2', [
             'json' => $requestData,
         ]);
+
+
 
         return json_decode($response->getBody(), true);
     }

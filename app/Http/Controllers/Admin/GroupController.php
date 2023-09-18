@@ -729,6 +729,7 @@ class GroupController extends Controller
 
        $group = Group::with('contacts')->find($groupId);
 
+
        if (!$group) {
            return response()->json(['error' => 'Group not found.']);
        }
@@ -750,6 +751,7 @@ class GroupController extends Controller
        if ($selectedOption === 'skip_entire_list_phone') {
            // Implement skip tracing logic for the entire list of phone numbers
            $result = $datazappService->skipTrace($uniqueContacts->where('number', '!=' , ''), $selectedOption);
+
 
        } elseif ($selectedOption === 'skip_records_without_numbers_phone') {
            // Implement skip tracing logic for records without phone numbers

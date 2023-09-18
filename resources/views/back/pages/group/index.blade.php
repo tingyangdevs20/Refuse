@@ -72,7 +72,7 @@
                                                 <td>{{ $group->created_at->format('d-m-Y') }}</td>
                                                 <td>
 
-                                                    <button class="btn btn-outline-primary btn-sm" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
+                                                    <button class="btn btn-outline-primary btn-sm model" data-group-id="{{ $group->id }}" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
 
                                                 </td>
                                                 <td>
@@ -258,7 +258,7 @@
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="submit"  class="btn btn-primary skip_tracing_btn">Submit</button>
+                                    <button type="submit"  class="btn btn-primary skip_tracing_btn" data-group-id="">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -282,6 +282,11 @@
             $('.select2').select2();
 
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $('.model').click(function(){
+                let group_id = $(this).data('group-id');
+                console.log(group_id);
+                $('.skip_tracing_btn').attr('data-group-id', group_id);
+            });
 
              // Handle when the "Skip Trace" button is clicked
             // Add a click event listener to the submit button
@@ -290,7 +295,7 @@
 
                 var selectedOption = $('.skip_trace_option').val();
                 if (selectedOption) {
-                    var groupId = $('.skip_trace_option').data('group-id');
+                    var groupId = $(this).data('group-id');
                     var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?');
                     // Make an AJAX request to perform skip tracing
                     if (confirmation) {
@@ -317,6 +322,11 @@
                                         toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
                                             timeOut: 10000, // Set the duration (5 seconds in this example)
                                         });
+                                    });
+
+                                     // You can display additional information or messages using Toastr here
+                                    toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
+                                        timeOut: 9000, // Set the duration (5 seconds in this example)
                                     });
                                 } else {
                                     // Display an error message using Toastr for failed API responses
