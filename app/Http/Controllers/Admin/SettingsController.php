@@ -20,8 +20,8 @@ class SettingsController extends Controller
         $settings = Settings::first();
         return view('back.pages.settings.index', compact('settings'));
     }
-    
-  
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -95,6 +95,11 @@ class SettingsController extends Controller
         $settings->twilio_acc_secret = $request->twilio_secret;
         $settings->call_forward_number = $request->call_forward_number;
         $settings->schedule_hours = $request->schedule_hours;
+
+        $settings->google_drive_client_id = $request->google_drive_client_id;
+        $settings->google_drive_client_secret = $request->google_drive_client_secret;
+        $settings->google_drive_developer_key = $request->google_drive_developer_key;
+
         $settings->save();
 
         $numbers=Number::all();

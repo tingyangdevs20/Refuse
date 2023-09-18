@@ -142,6 +142,10 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
+    Route::get('/create-goals', 'Admin\AdminController@createGoals')->name('create.goals');
+    Route::get('/edit_goals/{id}', 'Admin\AdminController@editGoals')->name('edit.goals');
+    Route::post('/update_goals/{id}', 'Admin\AdminController@updateGoals')->name('update.goals');
+    Route::post('/delete_goals/{id}','Admin\AdminController@deleteGoals')->name('delete.goals');
     Route::get('/send-email', 'Admin\SendGridEmailController@sendMail')->name('sendMail');
     Route::get('/test-rvm', 'Admin\RvmController@sendrvm')->name('sendrvm');
     // Source list route
@@ -282,6 +286,10 @@ Route::post('/form-templates-store', 'Admin\FormTemplatesController@store')->nam
 Route::post('/update-form-templates', 'Admin\FormTemplatesController@update')->name('update-form-templates');
 Route::post('/delete-form-templates', 'Admin\FormTemplatesController@destroy')->name('delete-form-templates');
 
+ // OPT Route
+ Route::get('opt-list','Admin\OptController@index')->name('opt.list');
+ Route::post('opt-store','Admin\OptController@storeOpt')->name('opt.store');
+
 });
 Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
@@ -319,4 +327,7 @@ Route::get('/call',[PhoneCallController::class,'index']);
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
 Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
+
+
+
 

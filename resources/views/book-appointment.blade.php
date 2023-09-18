@@ -14,12 +14,10 @@
         .center {
             border-radius: 25px;
             margin: 10px;
-            width: 60%;
             height: 650px;
             border: 2px solid #04AA6D;
             padding: 20px;
             background:#fcfcfc;
-            float:right;
         }
         .input {
             border-radius: 25px;
@@ -78,6 +76,9 @@
         .picker {
           float:left;
         }
+        .myc-date-header {
+            width: auto;
+        }
         .dt {
           padding:10px;
           font-weight:bold;
@@ -112,18 +113,22 @@
         .heading-css {
           text-align:center;
           margin-bottom:20px;
-          width: 60%;
-          float:right;
         }
+        .bookappointmentform {
+            width: 70%;
+        }
+        .existingappointments {
+            width: 30%;
+        }
+        .allappoimentsbox {
+              display: flex;
+          }
         .title-ea {
-          width: 37%;
           text-align: center;
-          position: absolute;
           margin-bottom: 0;
           margin-top: 45px;
         }
         .left{
-          width:30%;
           border-radius: 25px 10px 10px 25px;
           margin: 10px;
           height: 650px;
@@ -131,10 +136,6 @@
           border: 2px solid #04AA6D;
           padding: 20px;
           background: #fff;
-          float: left;
-          position: relative;
-          margin-top: 5.9%;
-          overflow-y:scroll;
         }
 
         .appt-card {
@@ -224,7 +225,172 @@
           display:flex;
           justify-content:center;
         }
-        
+        .left.appointments-sec {
+    border-radius: 25px;
+}
+.left.appointments-sec .appt-buttons {
+    justify-content: flex-end;
+    padding-right: 8px;
+}
+.mainbookappointment {
+    display: flex;
+}
+.bookappominetimezone {
+    width: 50%;
+}
+.bookappoimetform {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: flex-end;
+}
+@media (max-width: 1200px) {
+  .book_appointment {
+    height: auto;
+}
+.mainbookappointment {
+    display: flex;
+    flex-direction: column;
+}
+.center.bookappimentform {
+    height: auto ;
+}
+.bookappominetimezone {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+}
+.bookappoimetform {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    padding-top: 25px;
+}
+.bookappointmentform {
+    width: 50%;
+}
+.existingappointments {
+    width: 50%;
+}
+.bookappoimetform .form-group:last-child {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+}
+@media (max-width: 768.98px) {
+  .allappoimentsbox {
+    display: flex;
+    flex-direction: column;
+}  
+  .existingappointments {
+    width: 100%;
+}
+.bookappointmentform {
+    width: 100%;
+}
+.allappoimentsbox h1.heading-css {
+    font-size: 24px;
+}
+
+.left.appointments-sec {
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex-direction: column;
+}
+.left.appointments-sec .appt-card {
+    margin-bottom: 0px;
+}
+}
+@media (max-width: 425.98px) {
+  .allappoimentsbox .picker {
+    float: inherit;
+}
+.center.bookappimentform {
+    padding: 25px 0px;
+}
+.allappoimentsbox .myc-day-time-container {
+    width: 13%;
+}
+.allappoimentsbox #myc-next-week {
+    border: 1px solid #000000;
+    color: #000000;
+    height: 20px;
+    width: 20px;
+    font-size: 1.1em;
+}
+.allappoimentsbox #myc-prev-week {
+    border: 1px solid #000000;
+    color: #000000;
+    font-size: 1.1em;
+    height: 20px;
+    width: 20px;
+}
+.book_appointment {
+    height: auto;
+}
+}
+@media (max-width: 400.98px) {
+  .bookappoimetform  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+.bookappoimetform .form-group .input {
+    width: 280px;
+}
+.allappoimentsbox #myc-week-container {
+    width: fit-content;
+    margin: auto;
+}
+.bookappoimetform .form-group .input {
+    margin: 0px 5px 14px 5px;
+}
+.allappoimentsbox #myc-nav-container {
+    display: flex;
+    justify-content: center;
+} 
+.mainbookappointment .bookappoimetform .input-group {
+    text-align: center;
+}
+}
+@media (max-width: 375.98px) {
+  .bookappoimetform .form-group .input {
+    width: 260px;
+}
+.allappoimentsbox .myc-date-header {
+    padding: 10px;
+}
+.allappoimentsbox #myc-prev-week-container {
+    display: contents;
+}
+}
+@media (max-width: 320.98px) {
+  .bookappoimetform .form-group .input {
+    width: 215px;
+  }
+  .bookappominetimezone .form-group .input {
+    width: 230px;
+  }
+  .allappoimentsbox .myc-date-header {
+    padding: 6px;
+  }
+  .allappoimentsbox .myc-day-time-container {
+    width: 12.7%;
+  }
+  .allappoimentsbox .myc-available-time {
+    font-size: 10px;
+    font-weight: 600;
+  }
+}
     </style>
 </head>
 <body style="font-family: sans-serif;">
@@ -243,119 +409,123 @@
       </div>
     @endif
 
-    <h3 class="title-ea">Existing Appointments</h3>
-    <div class="left appointments-sec">
-        @if($getUserAppointments)
-          @foreach($getUserAppointments as $userAppointments)
-            <div class="appt-card">
-                <div class="appt-card-body">
-                  
-                  <!-- setting id of appointment -->
-                  <input type="hidden" class="appt_id" name="appt_id" value="{{$userAppointments->id}}">
-                  <input type="hidden" class="previous_date" name="previous_date" value="{{ date('Y-m-d', strtotime($userAppointments->appt_date)) }}">
-                  <input type="hidden" class="previous_time" name="previous_time" value="{{ date('H:i', strtotime($userAppointments->appt_time)) }}">
+    <div class="allappoimentsbox">
+      <div class="existingappointments">
+        <h1 class="heading-css">Existing Appointments</h3>
+        <div class="left appointments-sec">
+            @if($getUserAppointments)
+              @foreach($getUserAppointments as $userAppointments)
+                <div class="appt-card">
+                    <div class="appt-card-body">
+                      
+                      <!-- setting id of appointment -->
+                      <input type="hidden" class="appt_id" name="appt_id" value="{{$userAppointments->id}}">
+                      <input type="hidden" class="previous_date" name="previous_date" value="{{ date('Y-m-d', strtotime($userAppointments->appt_date)) }}">
+                      <input type="hidden" class="previous_time" name="previous_time" value="{{ date('H:i', strtotime($userAppointments->appt_time)) }}">
 
 
-                  <!-- <h4 class="appt-u-title"><b>Name: </b> {{ $userAppointments->name }}</h4>
-                  <p class="appt-u-email"><b>Email: </b>{{ $userAppointments->email }}</p>
-                  <p class="appt-u-mobile"><b>Phone: </b>{{ $userAppointments->mobile }}</p> -->
-                  <p class="appt-u-datetime"><b class="c-inner-text">When: </b>{{ date('M j Y', strtotime($userAppointments->appt_date)) }}, {{ date('H:i', strtotime($userAppointments->appt_time)) }} ({{ $userAppointments->timezone }})</p>
-                  <p class="appt-u-description"><b class="c-inner-text">Purpose: </b>{{ $userAppointments->description }}</p>
-                  <div class="appt-buttons">
-                    <button type="button" class="cancel-btn">Cancel</button>
-                    <button type="button" class="reschedule-btn">Reschedule</button>
+                      <!-- <h4 class="appt-u-title"><b>Name: </b> {{ $userAppointments->name }}</h4>
+                      <p class="appt-u-email"><b>Email: </b>{{ $userAppointments->email }}</p>
+                      <p class="appt-u-mobile"><b>Phone: </b>{{ $userAppointments->mobile }}</p> -->
+                      <p class="appt-u-datetime"><b class="c-inner-text">When: </b>{{ date('M j Y', strtotime($userAppointments->appt_date)) }}, {{ date('H:i', strtotime($userAppointments->appt_time)) }} ({{ $userAppointments->timezone }})</p>
+                      <p class="appt-u-description"><b class="c-inner-text">Purpose: </b>{{ $userAppointments->description }}</p>
+                      <div class="appt-buttons">
+                        <button type="button" class="cancel-btn">Cancel</button>
+                        <button type="button" class="reschedule-btn">Reschedule</button>
+                      </div>
+                    </div>
+                </div>
+              @endforeach
+            @endif
+            
+        </div>
+      </div>
+      <div class="bookappointmentform">
+        <h1 class="heading-css">Book Appointment</h1>
+        <div class="center bookappimentform">
+          
+          <form class="book_appointment" method="POST" action="{{ route('appointments.store') }}">
+            @csrf
+            <div class="mainbookappointment">
+              <div class="bookappominetimezone">
+                <div class="form-group">
+                  <label style="padding:10px;font-weight:bold">Time Zone</label>
+                  <div class="input-group">
+                    <select class="input form-control timezones" name="timezone" required>
+                    </select>
+                    @error('timezone')
+                      <div class="error">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
-            </div>
-          @endforeach
-        @endif
-        
-    </div>
-
-    <h1 class="heading-css">Book Appointment</h1>
-    <div class="center">
-      
-      <form class="book_appointment" method="POST" action="{{ route('appointments.store') }}">
-        @csrf
-     
-        <div>
-          <div class="form-group">
-            <label style="padding:10px;font-weight:bold">Time Zone</label>
-            <div class="input-group">
-              <select class="input form-control timezones" name="timezone" required>
-              </select>
-              @error('timezone')
-                <div class="error">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div  class="form-group">
-            <label class="dt">Select Date Time</label>
-            <input type="hidden" class="appt_date" name="appt_date" value="{{old('appt_date')}}" required>
-            <input type="hidden" class="appt_time" name="appt_time" value="{{old('appt_time')}}" required>
-            <div class="calendar-div">
-            
-              @error('appt_date')
+                <div  class="form-group">
+                  <label class="dt">Select Date Time</label>
+                  <input type="hidden" class="appt_date" name="appt_date" value="{{old('appt_date')}}" required>
+                  <input type="hidden" class="appt_time" name="appt_time" value="{{old('appt_time')}}" required>
+                  <div class="calendar-div">
+                  
+                    @error('appt_date')
+                              <div class="error">{{ $message }}</div>
+                    @enderror
+                    @error('appt_time')
                         <div class="error">{{ $message }}</div>
-              @enderror
-              @error('appt_time')
-                  <div class="error">{{ $message }}</div>
-              @enderror
-              <div class="picker"></div>
+                    @enderror
+                    <div class="picker"></div>
 
+                  </div>
+                </div>
+              </div>
+              <div class="bookappoimetform">
+                <div  class="form-group">
+                  <label style="padding:10px;font-weight:bold">Full Name</label>
+                  <div class="input-group">
+                    <input type="text"  class="input name" placeholder="Full Name"
+                      name="name" id="name" value="{{old('name')}}"  required>
+                    @error('name')
+                      <div class="error">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label style="padding:10px;font-weight:bold">Mobile</label>
+                  <div class="input-group">
+                    <input type="tel"  class="input mobile" placeholder="Mobile"
+                      name="mobile" id="mobile" value="{{old('mobile')}}" minlength="10" maxlength="10" required>
+                    @error('mobile')
+                      <div class="error">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label style="padding:10px;font-weight:bold">Email</label>
+                  <div class="input-group">
+                    <input type="email" class="input email" placeholder="Email"
+                      name="email" id="email" value="{{old('email')}}" required>
+
+                    @error('email')
+                      <div class="error">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label style="padding:10px;font-weight:bold">What do you hope to get out of this call?</label>
+                  <div class="input-group">
+                    <textarea type="text"  class="input description" style="height:100px" placeholder="What do you hope to get out of this call?"
+                      name="description" id="description" required>{{old('description')}}</textarea>
+                    
+                    @error('description')
+                      <div class="error">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="button button4">Confirm Booking</button>
+                </div>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
-        <div style="float:right;position: relative; margin-top: -145px;right:60px">
-          <div  class="form-group">
-            <label style="padding:10px;font-weight:bold">Full Name</label>
-            <div class="input-group">
-              <input type="text"  class="input name" placeholder="Full Name"
-                name="name" id="name" value="{{old('name')}}"  required>
-              @error('name')
-                <div class="error">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div class="form-group">
-            <label style="padding:10px;font-weight:bold">Mobile</label>
-            <div class="input-group">
-              <input type="tel"  class="input mobile" placeholder="Mobile"
-                name="mobile" id="mobile" value="{{old('mobile')}}" minlength="10" maxlength="10" required>
-              @error('mobile')
-                <div class="error">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div class="form-group">
-            <label style="padding:10px;font-weight:bold">Email</label>
-            <div class="input-group">
-              <input type="email" class="input email" placeholder="Email"
-                name="email" id="email" value="{{old('email')}}" required>
-
-              @error('email')
-                <div class="error">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div class="form-group">
-            <label style="padding:10px;font-weight:bold">What do you hope to get out of this call?</label>
-            <div class="input-group">
-              <textarea type="text"  class="input description" style="height:100px" placeholder="What do you hope to get out of this call?"
-                name="description" id="description" required>{{old('description')}}</textarea>
-              
-              @error('description')
-                <div class="error">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="button button4">Confirm Booking</button>
-          </div>
-        </div>
-
-        
-      </form>
+      </div>
     </div>
 
     <!-- Cancel appointment modal -->

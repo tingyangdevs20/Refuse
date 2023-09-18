@@ -30,7 +30,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use DB;
-
+use App\Model\FormTemplates;
 use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
 use Google_Service_Drive as Drive;
@@ -49,7 +49,7 @@ class GroupController extends Controller
     {
         
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
-
+        // return $groups;
         $groupCounts = $groups->map(function ($group) {
             $totalContacts = $group->contacts->count();
             $percentage = ($totalContacts / 100)*100;
@@ -65,7 +65,8 @@ class GroupController extends Controller
         $markets=Market::all();
         $tags=Tag::all();
         $campaigns = Campaign::getAllCampaigns();
-
+        $form_Template = FormTemplates::get();
+        
         if ($request->wantsJson()) {
             return response()->json([
                 'data' => $groups,
@@ -74,7 +75,7 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.index', compact('groups','groupCounts', 'sr','campaigns','markets','tags'));
+            return view('back.pages.group.index', compact('groups','groupCounts', 'sr','campaigns','markets','tags', 'form_Template'));
         }
     }
 
@@ -129,6 +130,7 @@ class GroupController extends Controller
     }
 
     public function updateinfo(Request $request){
+
         $table = $request->table;
         $id = $request->id;
         $feild_id = $request->feild_id;
@@ -299,7 +301,9 @@ class GroupController extends Controller
                             // print_r($campaignsList);die;
                             if($campaignsList){
                                 $row = $campaignsList;
-                                $template = Template::where('id',$row->template_id)->first();
+                                // $template = Template::where('id',$row->template_id)->first();
+                                $template = FormTemplates::where('id',$request->email_template)->first();
+                                $date = now()->format('d M Y');
                                 if($row->type == 'email'){
                                     //dd($contacts);
                                     //return $cont->name;
@@ -309,20 +313,23 @@ class GroupController extends Controller
                                         $email = $importData[10];
                                     }
                                     if($email != ''){
-                                        $subject = $template->subject;
+                                        $subject = $template->template_name;
                                         $subject = str_replace("{name}", $importData[0], $subject);
                                         $subject = str_replace("{street}", $importData[2], $subject);
                                         $subject = str_replace("{city}", $importData[3], $subject);
                                         $subject = str_replace("{state}", $importData[4], $subject);
                                         $subject = str_replace("{zip}", $importData[5], $subject);
-                                        $message = $template!=null ? $template->body : '';
+                                        $subject = str_replace("{date}", $date, $subject);
+                                        $message = $template!=null ? $template->content : '';
                                         $message = str_replace("{name}", $importData[0], $message);
                                         $message = str_replace("{street}", $importData[2], $message);
                                         $message = str_replace("{city}", $importData[3], $message);
                                         $message = str_replace("{state}", $importData[4], $message);
                                         $message = str_replace("{zip}", $importData[5], $message);
+                                        $message = str_replace("{date}", $date, $message);
                                         $unsub_link = url('admin/email/unsub/'.$email);
                                         $data = ['message' => $message,'subject' => $subject, 'name' =>$importData[0], 'unsub_link' =>$unsub_link];
+                                        // echo "<pre>";print_r($data);die;
                                       Mail::to($email)->send(new TestEmail($data));
                                      ;
                                     }
@@ -663,7 +670,7 @@ class GroupController extends Controller
     $pdfParser = new Parser();
     $pdf = $pdfParser->parseFile($file->path());
     $content = $pdf->getText();
-        $filenameNew =  time().'.'.$fileName;
+       $filenameNew =  time().'.'.$fileName;
        $Contractupload = Contractupload::find(1);
        $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
    

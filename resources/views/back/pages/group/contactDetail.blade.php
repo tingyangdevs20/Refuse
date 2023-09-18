@@ -2009,7 +2009,7 @@
                                                                         <div class="col-md-12">
                                                                            
                                                                             <div class="form-group" style="padding: 0 10px;">
-                                                                                <a href="{{route('admin.zoom.index')}}" type="button" id="custom-upload-button" class="btn btn-primary">Zoom Meeting</a>
+                                                                                <a href="{{route('admin.zoom.index')}}" type="button"  class="btn btn-primary">Zoom Meeting</a>
                                                                         
                                                                             </div>
                                                                         </div>
