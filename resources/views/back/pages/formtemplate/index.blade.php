@@ -16,13 +16,13 @@
               <li class="breadcrumb-item">
                 <a href="{{ route('admin.dashboard')}}">Dashboard</a>
               </li>
-              <li class="breadcrumb-item">Lead Generation</li>
+              <li class="breadcrumb-item">Settings</li>
               <li class="breadcrumb-item active">Lists</li>
             </ol>
           </div>
         </div>
         <div class="card">
-          <div class="card-header bg-soft-dark "> All Form Template <button
+          <div class="card-header bg-soft-dark "> All Digital Signing Template <button
               class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
               data-target="#newModal">
               <i class="fas fa-plus-circle"></i>
@@ -99,6 +99,11 @@
                                 <option value="0" @if($group->status==0){{'selected'}} @endif > Active </option>
                                 <option value="1" @if($group->status==1){{'selected'}} @endif > Deactive </option>
                               </select>
+                            </div>
+                            <div class="form-group pt-2">
+                              <label>Sortcode For Variables</label>
+                              <br>
+                              {name}, {street}, {city}, {state}, {zip}, {date}
                             </div>
                           </div>
                           <div class="modal-footer">
@@ -186,6 +191,11 @@
               <option value="0" checked> Active </option>
               <option value="1"> Deactive </option>
             </select>
+          </div>
+          <div class="form-group pt-2">
+            <label>Sortcode For Variables</label>
+            <br>
+            {name}, {street}, {city}, {state}, {zip}, {date}
           </div>
         </div>
         <div class="modal-footer">

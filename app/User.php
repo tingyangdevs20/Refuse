@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->original_id;
     }
+    
+    public function goals()
+    {
+        return $this->hasMany(GoalsReached::class);
+    }
 }

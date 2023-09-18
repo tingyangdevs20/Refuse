@@ -2,11 +2,6 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
-    <style>
-        span.select2-selection.select2-selection--single{
-            height: 40px;
-        }
-    </style>
     @endsection
 @section('content')
 
@@ -36,12 +31,12 @@
                             <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="{{ route('admin.savegoals') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('admin.update.goals',$goal->id) }}" enctype="multipart/form-data">
                                 @csrf <!-- CSRF Token -->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="goal">Goal</label>
-                                        <input type="text" class="form-control @error('country') is-invalid @enderror" id="goal" name="goal">
+                                        <input type="text" class="form-control @error('country') is-invalid @enderror" id="goal" name="goal" value="{{ $goal->goals }}">
                                         @error('goal')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -52,12 +47,12 @@
                                     <div class="form-group">
                                         <label for="attribute">Attribute</label>
                                         <select class="form-control @error('attribute') is-invalid @enderror" id="attribute" name="attribute"  >
-                                            <option value="">Select Attribute</option>
-                                            
+                                        <option value="{{ $goal->attribute_id }}" selected>
+                                                                {{ $goal->goal_attribute['attribute'] }}
+                                                            </option>
                                             @foreach($attributes as $data)
                                             <option value="{{$data->id}}">{{$data->attribute}}</option>
                                             @endforeach
-
                                         </select>
                                         @error('attribute')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -67,11 +62,12 @@
                                         <label for="user">User</label>
                                         <select class="form-control @error('user') is-invalid @enderror" id="user" name="user"  >
                                             <option value="">Select User</option>
+                                            <option value="{{ $goal->user_id }}" selected>
+                                                                {{ $goal->user['name'] }}
+                                                            </option>
                                             @foreach($users as $data)
                                             <option value="{{$data->id}}">{{$data->name}}</option>
                                             @endforeach
-
-
                                         </select>
                                         @error('user')
                                             <div class="invalid-feedback">{{ $message }}</div>

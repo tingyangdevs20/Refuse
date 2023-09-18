@@ -168,6 +168,16 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label>Select Email Template</label>
+                                    <select class="custom-select" name="email_template" id="email_template">
+                                        @if(count($form_Template) > 0)
+                                            @foreach($form_Template as $email_template)
+                                                <option value="{{ $email_template->id }}">{{ $email_template->template_name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
