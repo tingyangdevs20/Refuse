@@ -68,12 +68,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                             
                                     @foreach($meetings as $meeting)
+                                    
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $meeting->meeting_name }}</td>
                                         <td>{{ $meeting->meeting_date }}</td>
-                                        <td>{{ $meeting->meeting_date_timezone }}</td>
+                                        <td>{{ $meeting->time_zone}}</td>
                                         <td>{{ $meeting->duration_minute }}</td>
                                         <td>
                                         @if($meeting->meeting_status=='0')

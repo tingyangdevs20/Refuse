@@ -28,13 +28,13 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                             <li class="breadcrumb-item">Lead Generations</li>
-                            <li class="breadcrumb-item active">Templates</li>
+                            <li class="breadcrumb-item active">Digital Signing</li>
                         </ol>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
-                        All User Agreements
+                        Digital Signing
                         <button class="btn btn-outline-primary btn-sm float-right addUserAgreement" title="New"><i
                                 class="fas fa-plus-circle"></i></button>
                         <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"

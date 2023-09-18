@@ -42,12 +42,12 @@ class Email extends Controller
 
             $email = null;
 
-            // if ($cont->email1) {
-            //     $email = $cont->email1;
-            // } elseif ($cont->email2) {
-            //     $email = $cont->email2;
-            // }
-            $email = 'ayyfahim@gmail.com';
+            if ($cont->email1) {
+                $email = $cont->email1;
+            } elseif ($cont->email2) {
+                $email = $cont->email2;
+            }
+            // $email = 'ayyfahim@gmail.com';
 
             $emails = new Emails();
             $emails->to = $email;

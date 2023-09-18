@@ -40,6 +40,7 @@
                                                 <th scope="col">Zip</th>
                                                 <th scope="col">Numbers</th>
                                                 <th scope="col">Email</th>
+                                                <th scope="col">Status</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -60,6 +61,10 @@
                                                 <td>
                                                     Email1:{{ $contact->email1 }}<br>
                                                     Email2:{{ $contact->email2 }}
+                                                </td>
+                                                <td>
+                                                    {{ $contact->sts }}<br>
+                                                    
                                                 </td>
                                                 <!-- <td>
                                                     <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
