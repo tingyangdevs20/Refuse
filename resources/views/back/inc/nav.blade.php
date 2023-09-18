@@ -51,7 +51,12 @@
                     <a href="{{ route('admin.campaign.index') }}" ><i class="bx bx-home-circle"></i><span>Prospect Campaigns</span></a>
                 </li>
                  <li class="menu-title">Leads</li>
-
+                 <li>
+                    <a href="{{ route('admin.reply.index') }}">
+                        <i class="fas fa-comments"></i>
+                        <span>Conversations</span>
+                    </a>
+                </li>
                  <li>  
                     <a href="{{ route('admin.leadcampaign.index') }}" ><i class="bx bx-home-circle"></i><span>Lead Campaigns</span></a>
                 </li>
@@ -93,12 +98,7 @@
 
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('admin.reply.index') }}" class=" waves-effect">
-                        <i class="fas fa-comments"></i>
-                        <span>All Conversations</span>
-                    </a>
-                </li>
+               
                 <li style="display:none">
                     <a href="{{ route('admin.thread.show') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
