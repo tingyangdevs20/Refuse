@@ -2014,6 +2014,46 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                           
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                            <div class="card-body"> <label style="font-size:16px">Send Email</label>
+                                        <form action="{{ route('admin.single-email.store') }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('POST')
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+														<label>Subject:</label>
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control" placeholder="Subject" name="subject">
+                                                        </div>
+                                                    </div>
+                                                </div>
+												<div class="col-md-6">
+                                                    <div class="form-group">
+														<label>Send To:</label>
+                                                        <input type="text" class="form-control" value="{{ $leadinfo->owner1_email1 }}" placeholder="Sender Email" name="send_to">
+													
+                                                    </div>
+                                                </div>
+                                             
+                                            </div>
+                                            <div class="form-group ">
+                                                <label >Message</label>
+                                                <textarea id="template_text" class="form-control summernote-usage"  rows="10" required name="message"></textarea>
+                                                <div id='count' class="float-lg-right">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-2" >Send Email</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                                                        
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                     </div>
                                                                    
                                                                     <hr>
