@@ -126,6 +126,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.single-email.index') }}">Single Email</a></li>
+                        <li><a href="{{ route('admin.email-conversations.index') }}">Email Conversations</a></li>
 {{--                        <li><a href="{{ route('admin.bulk-sms.index') }}">Bulk SMS</a></li>--}}
                         {{-- <li><a href="{{ route('admin.one-at-time.index') }}">Bulk SMS One At Time</a></li> --}}
 {{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
