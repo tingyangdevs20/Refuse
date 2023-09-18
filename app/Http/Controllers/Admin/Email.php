@@ -36,13 +36,14 @@ class Email extends Controller
         $subject = $request->subject;
         $message = $request->message;    
  try {
-    $cont = Contact::where('id' , $send_to)->get();  
+    //$cont = Contact::where('id' , $send_to)->get();  
     
     $emails = new Emails();
     $emails->subject = $subject;
     $emails->message= $message;
-    $emails->contact_id= $send_to;
-    $emails->save();
+    $emails->contact_id= 1;
+    $emails->send_to=$send_to;
+    //$emails->save();
     //print_r($cont);die;    
    // $email = $cont[0]->email1 ? $cont[0]->email1: $cont[0]->email2;
     $email = 'developerweb6@gmail.com';
@@ -61,9 +62,10 @@ class Email extends Controller
                         // $message = str_replace("{city}", $cont->city, $message);
                         // $message = str_replace("{state}", $cont->state, $message);
                         // $message = str_replace("{zip}", $cont->zip, $message);
-                        $unsub_link = url('admin/email/unsub/'.$email);
-                        $data = ['message' => $message ,'subject' => $subject, 'name' =>$cont[0]->name, 'unsub_link' =>$unsub_link];
-                        Mail::to($email)->send(new TestEmail($data));
+                       // $unsub_link = url('admin/email/unsub/'.$email);
+                        //$data = ['message' => $message ,'subject' => $subject, 'name' =>$cont[0]->name, 'unsub_link' =>$unsub_link];
+                       // Mail::to($email)->send(new TestEmail($data));
+                       return redirect()->back();
  } catch (\Exception $ex) {
             dd($ex->getMessage());
             $failed_sms = new FailedSms();
