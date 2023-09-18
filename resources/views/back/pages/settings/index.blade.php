@@ -186,6 +186,19 @@
                                     </div>
                                 </div>
 
+                                <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> Connect Gmail
+                                </div>
+                                <br />
+
+                                 <div class="form-group">
+                                    @if(LaravelGmail::check())
+                                        <a href="{{ route('gmail.logout') }}" class="btn btn-secondary">Logout From Gmail</a>
+                                    @else
+                                        <a href="{{ route('gmail.login') }}" class="btn btn-secondary">Login to Gmail</a>
+                                    @endif
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">Update Settings</button>
 
                             </form>
