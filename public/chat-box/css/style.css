@@ -349,9 +349,3 @@ h3>small {
   cursor: pointer;
   border-radius: 7px;
 }
-
-.gl-start-chat-btn:hover {
-     color: unset;
-     background-color: unset;
-    border-color: unset;
-}
