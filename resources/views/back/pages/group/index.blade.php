@@ -74,7 +74,7 @@
                                                     <th scope="col">% with Phone Numbers </th>
                                                     <th scope="col">Created At</th>
                                                     <th scope="col">Skip Trace</th>
-                                                    <th scope="col">Push to</th>
+                                                    {{-- <th scope="col">Push to</th> --}}
                                                     <th scope="col">Actions</th>
                                                 </tr>
                                             </thead>
@@ -97,13 +97,13 @@
                                                     <button class="btn btn-outline-primary btn-sm model" data-group-id="{{ $group->id }}" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
 
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
                                                             data-group-id="{{ $group->id }}"
                                                             data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
                                                             data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
                                                     </button>
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <button class="btn btn-outline-danger btn-sm" title="Remove {{ $group->name }}" data-id="{{ $group->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                                 </td>

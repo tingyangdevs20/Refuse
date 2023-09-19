@@ -33,7 +33,7 @@
             @include('back.pages.partials.switch')
             <div class="dropdown d-inline-block">
 
-            Account Balance:<span style="color:#556ee6;font-weight:bold"> USD 50</span>
+            Account Balance:<span style="color:#556ee6;font-weight:bold"><a href="{{ route('account.detail') }}"> USD 50</a></span>
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"
