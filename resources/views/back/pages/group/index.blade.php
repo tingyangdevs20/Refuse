@@ -302,6 +302,8 @@
 
         $(document).ready(function() {
 
+
+
             @if (Session::has('payment_success_data'))
 
                 // Assuming payment_success_data contains the response object
@@ -320,66 +322,6 @@
                         });
                     });
 
-                    // Make an AJAX request to perform skip tracing
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('admin.skip-trace') }}', // Define the skip tracing route
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            group_id: groupId,
-                            first_name: firstName,
-                            last_name: lastName,
-                            mailing_address: mailingAddress,
-                            skip_trace_option: selectedOption,
-                        },
-                        success: function (response) {
-
-                            console.log('response',response);
-                            // Check if the API response indicates success (you may need to adjust this condition)
-                            if (response.Status === true && response.header.Status === 0) {
-                                // Iterate through the 'Data' array in the response and display each entry using Toastr
-                                response.ResponseDetail.Data.forEach(function (dataEntry) {
-                                    var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
-                                    var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
-                                    var email = dataEntry.Email;
-
-                                    // Customize the Toastr message based on your requirements
-                                    toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
-                                        timeOut: 10000, // Set the duration (5 seconds in this example)
-                                    });
-                                });
-
-                            console.log('response',response);
-                            // Check if the API response indicates success (you may need to adjust this condition)
-                            if (response.Status === true && response.header.Status === 0) {
-                                // Iterate through the 'Data' array in the response and display each entry using Toastr
-                                response.ResponseDetail.Data.forEach(function (dataEntry) {
-                                    var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
-                                    var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
-                                    var email = dataEntry.Email;
-
-
-                                    // Customize the Toastr message based on your requirements
-                                    toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
-                                        timeOut: 10000, // Set the duration (5 seconds in this example)
-                                    });
-                                });
-
-
-
-                            } else {
-                                // Display an error message using Toastr for failed API responses
-                                toastr.error('API Error: ' + response.Message, 'API Response Error', {
-                                    timeOut: 9000, // Set the duration (5 seconds in this example)
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            // Handle AJAX errors here and display using Toastr if needed
-                            toastr.error('AJAX Error: ' + error.statusText, 'AJAX Error', {
-                                timeOut: 9000, // Set the duration (5 seconds in this example)
-                            });
-                        }
                     // You can display additional information or messages using Toastr here
                     toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
                         timeOut: 9000, // Set the duration (5 seconds in this example)
@@ -391,7 +333,7 @@
                     });
                 }
 
-            @endif
+                @endif
 
 
 
