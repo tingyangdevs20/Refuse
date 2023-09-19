@@ -1951,9 +1951,10 @@
                                                                             <div class="card-body" style="font-weight:bold;color:#556ee6;font-size:16px">
                                                                             @php
                                                                             $appt_dt=substr($appt->appt_date,0,10);
+                                                                            $appt_dt2=date('d-m-Y', strtotime($appt->appt_date));
                                                                             $appt_tm=substr($appt->appt_time,0,5);
                                                                             @endphp
-                                                                            On {{ $appt_dt }}, at {{ $appt_tm }} <br/>
+                                                                            On {{ $appt_dt2 }}, at {{ $appt_tm }} <br/>
                                                                         </div>
                                                                             </div>
                                                                             @endforeach
