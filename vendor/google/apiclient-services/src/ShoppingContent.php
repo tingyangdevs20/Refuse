@@ -49,12 +49,13 @@ class ShoppingContent extends \Google\Service
   public $collectionstatuses;
   public $conversionsources;
   public $csses;
-  public $customers;
   public $datafeeds;
   public $datafeedstatuses;
   public $freelistingsprogram;
+  public $freelistingsprogram_checkoutsettings;
   public $liasettings;
   public $localinventory;
+  public $merchantsupport;
   public $orderinvoices;
   public $orderreports;
   public $orderreturns;
@@ -962,26 +963,6 @@ class ShoppingContent extends \Google\Service
           ]
         ]
     );
-    $this->customers = new ShoppingContent\Resource\Customers(
-        $this,
-        $this->serviceName,
-        'customers',
-        [
-          'methods' => [
-            'create' => [
-              'path' => '{merchantId}/customers',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
     $this->datafeeds = new ShoppingContent\Resource\Datafeeds(
         $this,
         $this->serviceName,
@@ -1161,6 +1142,46 @@ class ShoppingContent extends \Google\Service
               ],
             ],'requestreview' => [
               'path' => '{merchantId}/freelistingsprogram/requestreview',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->freelistingsprogram_checkoutsettings = new ShoppingContent\Resource\FreelistingsprogramCheckoutsettings(
+        $this,
+        $this->serviceName,
+        'checkoutsettings',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => '{merchantId}/freelistingsprogram/checkoutsettings',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => '{merchantId}/freelistingsprogram/checkoutsettings',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => '{merchantId}/freelistingsprogram/checkoutsettings',
               'httpMethod' => 'POST',
               'parameters' => [
                 'merchantId' => [
@@ -1380,6 +1401,57 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->merchantsupport = new ShoppingContent\Resource\Merchantsupport(
+        $this,
+        $this->serviceName,
+        'merchantsupport',
+        [
+          'methods' => [
+            'renderaccountissues' => [
+              'path' => '{merchantId}/merchantsupport/renderaccountissues',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timeZone' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'renderproductissues' => [
+              'path' => '{merchantId}/merchantsupport/renderproductissues/{productId}',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timeZone' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -2419,6 +2491,32 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => '{merchantId}/promotions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'countryCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
