@@ -67,10 +67,6 @@ class Environment extends \Google\Collection
    */
   public $tempStoragePrefix;
   /**
-   * @var bool
-   */
-  public $useStreamingEngineResourceBasedBilling;
-  /**
    * @var array[]
    */
   public $userAgent;
@@ -256,20 +252,6 @@ class Environment extends \Google\Collection
   public function getTempStoragePrefix()
   {
     return $this->tempStoragePrefix;
-  }
-  /**
-   * @param bool
-   */
-  public function setUseStreamingEngineResourceBasedBilling($useStreamingEngineResourceBasedBilling)
-  {
-    $this->useStreamingEngineResourceBasedBilling = $useStreamingEngineResourceBasedBilling;
-  }
-  /**
-   * @return bool
-   */
-  public function getUseStreamingEngineResourceBasedBilling()
-  {
-    return $this->useStreamingEngineResourceBasedBilling;
   }
   /**
    * @param array[]

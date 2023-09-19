@@ -3,7 +3,6 @@
 namespace Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\Deprecations\Deprecation;
 
 /**
  * Represents a GUID/UUID datatype (both are actually synonyms) in the database.
@@ -11,7 +10,7 @@ use Doctrine\Deprecations\Deprecation;
 class GuidType extends StringType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
@@ -19,7 +18,7 @@ class GuidType extends StringType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -27,19 +26,10 @@ class GuidType extends StringType
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5509',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
         return ! $platform->hasNativeGuidType();
     }
 }

@@ -30,7 +30,7 @@ class Document extends \Google\Model
   /**
    * @var string
    */
-  public $languageCode;
+  public $language;
   /**
    * @var string
    */
@@ -67,16 +67,16 @@ class Document extends \Google\Model
   /**
    * @param string
    */
-  public function setLanguageCode($languageCode)
+  public function setLanguage($language)
   {
-    $this->languageCode = $languageCode;
+    $this->language = $language;
   }
   /**
    * @return string
    */
-  public function getLanguageCode()
+  public function getLanguage()
   {
-    return $this->languageCode;
+    return $this->language;
   }
   /**
    * @param string

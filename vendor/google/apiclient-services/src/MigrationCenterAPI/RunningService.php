@@ -30,11 +30,11 @@ class RunningService extends \Google\Model
   /**
    * @var string
    */
-  public $pid;
+  public $name;
   /**
    * @var string
    */
-  public $serviceName;
+  public $pid;
   /**
    * @var string
    */
@@ -43,6 +43,10 @@ class RunningService extends \Google\Model
    * @var string
    */
   public $state;
+  /**
+   * @var string
+   */
+  public $status;
 
   /**
    * @param string
@@ -75,6 +79,20 @@ class RunningService extends \Google\Model
   /**
    * @param string
    */
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
+  }
+  /**
+   * @param string
+   */
   public function setPid($pid)
   {
     $this->pid = $pid;
@@ -85,20 +103,6 @@ class RunningService extends \Google\Model
   public function getPid()
   {
     return $this->pid;
-  }
-  /**
-   * @param string
-   */
-  public function setServiceName($serviceName)
-  {
-    $this->serviceName = $serviceName;
-  }
-  /**
-   * @return string
-   */
-  public function getServiceName()
-  {
-    return $this->serviceName;
   }
   /**
    * @param string
@@ -127,6 +131,20 @@ class RunningService extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string
+   */
+  public function setStatus($status)
+  {
+    $this->status = $status;
+  }
+  /**
+   * @return string
+   */
+  public function getStatus()
+  {
+    return $this->status;
   }
 }
 

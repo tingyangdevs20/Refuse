@@ -31,24 +31,17 @@ use function implode;
 use function is_array;
 use function is_string;
 
-/** @deprecated Use database documentation instead. */
 class ReservedWordsCommand extends Command
 {
     /** @var array<string,KeywordList> */
-    private array $keywordLists;
+    private $keywordLists;
 
-    private ConnectionProvider $connectionProvider;
+    /** @var ConnectionProvider */
+    private $connectionProvider;
 
     public function __construct(ConnectionProvider $connectionProvider)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5431',
-            'ReservedWordsCommand is deprecated. Use database documentation instead.',
-        );
-
         parent::__construct();
-
         $this->connectionProvider = $connectionProvider;
 
         $this->keywordLists = [
@@ -87,7 +80,7 @@ class ReservedWordsCommand extends Command
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/issues/4510',
             'ReservedWordsCommand::setKeywordListClass() is deprecated,'
-                . ' use ReservedWordsCommand::setKeywordList() instead.',
+                . ' use ReservedWordsCommand::setKeywordList() instead.'
         );
 
         $this->keywordLists[$name] = new $class();
@@ -105,10 +98,10 @@ class ReservedWordsCommand extends Command
                 'list',
                 'l',
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                'Keyword-List name.',
+                'Keyword-List name.'
             ),
         ])
-        ->setHelp(<<<'EOT'
+        ->setHelp(<<<EOT
 Checks if the current database contains tables and columns
 with names that are identifiers in this dialect or in other SQL dialects.
 
@@ -133,11 +126,12 @@ The following keyword lists are currently shipped with Doctrine:
     * pgsql100
     * sqlite
     * sqlserver
-EOT);
+EOT
+        );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return int
      *
@@ -145,12 +139,6 @@ EOT);
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(
-            '<comment>The <info>dbal:reserved-words</info> command is deprecated.</comment>'
-                . ' Use the documentation on the used database platform(s) instead.',
-        );
-        $output->writeln('');
-
         $conn = $this->getConnection($input);
 
         $keywordLists = $input->getOption('list');
@@ -170,7 +158,7 @@ EOT);
             if (! isset($this->keywordLists[$keywordList])) {
                 throw new InvalidArgumentException(
                     "There exists no keyword list with name '" . $keywordList . "'. " .
-                    'Known lists: ' . implode(', ', array_keys($this->keywordLists)),
+                    'Known lists: ' . implode(', ', array_keys($this->keywordLists))
                 );
             }
 
@@ -179,10 +167,10 @@ EOT);
 
         $output->write(
             'Checking keyword violations for <comment>' . implode(', ', $keywordLists) . '</comment>...',
-            true,
+            true
         );
 
-        $schema  = $conn->getSchemaManager()->introspectSchema();
+        $schema  = $conn->getSchemaManager()->createSchema();
         $visitor = new ReservedKeywordsValidator($keywords);
         $schema->visit($visitor);
 
@@ -191,7 +179,7 @@ EOT);
             $output->write(
                 'There are <error>' . count($violations) . '</error> reserved keyword violations'
                 . ' in your database schema:',
-                true,
+                true
             );
 
             foreach ($violations as $violation) {

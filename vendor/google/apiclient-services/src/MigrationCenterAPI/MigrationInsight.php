@@ -23,6 +23,10 @@ class MigrationInsight extends \Google\Model
   protected $computeEngineTargetDataType = '';
   protected $fitType = FitDescriptor::class;
   protected $fitDataType = '';
+  protected $gkeTargetType = GoogleKubernetesEngineMigrationTarget::class;
+  protected $gkeTargetDataType = '';
+  protected $vmwareEngineTargetType = VmwareEngineMigrationTarget::class;
+  protected $vmwareEngineTargetDataType = '';
 
   /**
    * @param ComputeEngineMigrationTarget
@@ -51,6 +55,34 @@ class MigrationInsight extends \Google\Model
   public function getFit()
   {
     return $this->fit;
+  }
+  /**
+   * @param GoogleKubernetesEngineMigrationTarget
+   */
+  public function setGkeTarget(GoogleKubernetesEngineMigrationTarget $gkeTarget)
+  {
+    $this->gkeTarget = $gkeTarget;
+  }
+  /**
+   * @return GoogleKubernetesEngineMigrationTarget
+   */
+  public function getGkeTarget()
+  {
+    return $this->gkeTarget;
+  }
+  /**
+   * @param VmwareEngineMigrationTarget
+   */
+  public function setVmwareEngineTarget(VmwareEngineMigrationTarget $vmwareEngineTarget)
+  {
+    $this->vmwareEngineTarget = $vmwareEngineTarget;
+  }
+  /**
+   * @return VmwareEngineMigrationTarget
+   */
+  public function getVmwareEngineTarget()
+  {
+    return $this->vmwareEngineTarget;
   }
 }
 

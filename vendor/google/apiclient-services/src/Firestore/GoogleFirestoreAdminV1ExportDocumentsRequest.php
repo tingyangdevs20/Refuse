@@ -32,10 +32,6 @@ class GoogleFirestoreAdminV1ExportDocumentsRequest extends \Google\Collection
    * @var string
    */
   public $outputUriPrefix;
-  /**
-   * @var string
-   */
-  public $snapshotTime;
 
   /**
    * @param string[]
@@ -78,20 +74,6 @@ class GoogleFirestoreAdminV1ExportDocumentsRequest extends \Google\Collection
   public function getOutputUriPrefix()
   {
     return $this->outputUriPrefix;
-  }
-  /**
-   * @param string
-   */
-  public function setSnapshotTime($snapshotTime)
-  {
-    $this->snapshotTime = $snapshotTime;
-  }
-  /**
-   * @return string
-   */
-  public function getSnapshotTime()
-  {
-    return $this->snapshotTime;
   }
 }
 

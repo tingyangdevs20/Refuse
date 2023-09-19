@@ -26,16 +26,10 @@ class GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline extends 
    * @var string
    */
   public $inputPath;
-  protected $pipelineConfigType = GoogleCloudContentwarehouseV1IngestPipelineConfig::class;
-  protected $pipelineConfigDataType = '';
   /**
    * @var string
    */
   public $processorResultsFolderPath;
-  /**
-   * @var bool
-   */
-  public $skipIngestedDocuments;
   protected $splitClassifyProcessorInfoType = GoogleCloudContentwarehouseV1ProcessorInfo::class;
   protected $splitClassifyProcessorInfoDataType = '';
 
@@ -68,20 +62,6 @@ class GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline extends 
     return $this->inputPath;
   }
   /**
-   * @param GoogleCloudContentwarehouseV1IngestPipelineConfig
-   */
-  public function setPipelineConfig(GoogleCloudContentwarehouseV1IngestPipelineConfig $pipelineConfig)
-  {
-    $this->pipelineConfig = $pipelineConfig;
-  }
-  /**
-   * @return GoogleCloudContentwarehouseV1IngestPipelineConfig
-   */
-  public function getPipelineConfig()
-  {
-    return $this->pipelineConfig;
-  }
-  /**
    * @param string
    */
   public function setProcessorResultsFolderPath($processorResultsFolderPath)
@@ -94,20 +74,6 @@ class GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline extends 
   public function getProcessorResultsFolderPath()
   {
     return $this->processorResultsFolderPath;
-  }
-  /**
-   * @param bool
-   */
-  public function setSkipIngestedDocuments($skipIngestedDocuments)
-  {
-    $this->skipIngestedDocuments = $skipIngestedDocuments;
-  }
-  /**
-   * @return bool
-   */
-  public function getSkipIngestedDocuments()
-  {
-    return $this->skipIngestedDocuments;
   }
   /**
    * @param GoogleCloudContentwarehouseV1ProcessorInfo

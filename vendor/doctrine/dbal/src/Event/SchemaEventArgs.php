@@ -6,14 +6,15 @@ use Doctrine\Common\EventArgs;
 
 /**
  * Base class for schema related events.
- *
- * @deprecated
  */
 class SchemaEventArgs extends EventArgs
 {
-    private bool $preventDefault = false;
+    /** @var bool */
+    private $preventDefault = false;
 
-    /** @return SchemaEventArgs */
+    /**
+     * @return SchemaEventArgs
+     */
     public function preventDefault()
     {
         $this->preventDefault = true;
@@ -21,7 +22,9 @@ class SchemaEventArgs extends EventArgs
         return $this;
     }
 
-    /** @return bool */
+    /**
+     * @return bool
+     */
     public function isDefaultPrevented()
     {
         return $this->preventDefault;

@@ -37,8 +37,6 @@ class Environment extends \Google\Model
    * @var string
    */
   public $state;
-  protected $storageConfigType = StorageConfig::class;
-  protected $storageConfigDataType = '';
   /**
    * @var string
    */
@@ -117,20 +115,6 @@ class Environment extends \Google\Model
   public function getState()
   {
     return $this->state;
-  }
-  /**
-   * @param StorageConfig
-   */
-  public function setStorageConfig(StorageConfig $storageConfig)
-  {
-    $this->storageConfig = $storageConfig;
-  }
-  /**
-   * @return StorageConfig
-   */
-  public function getStorageConfig()
-  {
-    return $this->storageConfig;
   }
   /**
    * @param string

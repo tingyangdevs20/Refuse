@@ -40,7 +40,7 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string tcpRouteId Required. Short name of the TcpRoute resource to
-   * be created.
+   * be created. E.g. TODO(Add an example).
    * @return Operation
    */
   public function create($parent, TcpRoute $postBody, $optParams = [])

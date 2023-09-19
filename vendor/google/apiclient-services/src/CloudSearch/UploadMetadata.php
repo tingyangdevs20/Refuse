@@ -45,8 +45,6 @@ class UploadMetadata extends \Google\Model
   public $contentType;
   protected $dlpMetricsMetadataType = AppsDynamiteSharedDlpMetricsMetadata::class;
   protected $dlpMetricsMetadataDataType = '';
-  protected $internalOnlyComponentSearchInfoType = AppsDynamiteSharedMessageComponentSearchInfo::class;
-  protected $internalOnlyComponentSearchInfoDataType = '';
   /**
    * @var string
    */
@@ -175,20 +173,6 @@ class UploadMetadata extends \Google\Model
   public function getDlpMetricsMetadata()
   {
     return $this->dlpMetricsMetadata;
-  }
-  /**
-   * @param AppsDynamiteSharedMessageComponentSearchInfo
-   */
-  public function setInternalOnlyComponentSearchInfo(AppsDynamiteSharedMessageComponentSearchInfo $internalOnlyComponentSearchInfo)
-  {
-    $this->internalOnlyComponentSearchInfo = $internalOnlyComponentSearchInfo;
-  }
-  /**
-   * @return AppsDynamiteSharedMessageComponentSearchInfo
-   */
-  public function getInternalOnlyComponentSearchInfo()
-  {
-    return $this->internalOnlyComponentSearchInfo;
   }
   /**
    * @param string

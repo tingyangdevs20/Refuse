@@ -22,12 +22,30 @@ class EnrollVmwareAdminClusterRequest extends \Google\Model
   /**
    * @var string
    */
+  public $localName;
+  /**
+   * @var string
+   */
   public $membership;
   /**
    * @var string
    */
   public $vmwareAdminClusterId;
 
+  /**
+   * @param string
+   */
+  public function setLocalName($localName)
+  {
+    $this->localName = $localName;
+  }
+  /**
+   * @return string
+   */
+  public function getLocalName()
+  {
+    return $this->localName;
+  }
   /**
    * @param string
    */

@@ -417,20 +417,6 @@ class Integrations extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'executeEvent' => [
-              'path' => 'v1alpha/{+name}:executeEvent',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'triggerId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
             ],'list' => [
               'path' => 'v1alpha/{+parent}/integrations',
               'httpMethod' => 'GET',
@@ -639,10 +625,6 @@ class Integrations extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
-                ],
-                'createSampleIntegrations' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ],
                 'newIntegration' => [
                   'location' => 'query',
@@ -1209,10 +1191,6 @@ class Integrations extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
-                ],
-                'createSampleIntegrations' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ],
                 'newIntegration' => [
                   'location' => 'query',

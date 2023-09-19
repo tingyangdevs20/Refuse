@@ -1,11 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7d3e244f2d8691f5bb908061b97c7f5a95d3960a',
-
+        'reference' => '91b1783e25819e3b2274b2158e3749c941b69002',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -45,15 +43,6 @@
                 0 => '*',
             ),
         ),
-        'dacastro4/laravel-gmail' => array(
-            'pretty_version' => 'v4.0.41',
-            'version' => '4.0.41.0',
-            'reference' => 'be3b11a4d253a7710e308b3259ccd7edb4af8a1a',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../dacastro4/laravel-gmail',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'davedevelopment/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -70,9 +59,9 @@
             'dev_requirement' => false,
         ),
         'doctrine/dbal' => array(
-            'pretty_version' => '3.6.6',
-            'version' => '3.6.6.0',
-            'reference' => '63646ffd71d1676d2f747f871be31b7e921c7864',
+            'pretty_version' => '3.3.8',
+            'version' => '3.3.8.0',
+            'reference' => 'f873a820227bc352d023791775a01f078a30dfe1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doctrine/dbal',
             'aliases' => array(),
@@ -196,9 +185,9 @@
             'dev_requirement' => true,
         ),
         'firebase/php-jwt' => array(
-            'pretty_version' => 'v6.8.1',
-            'version' => '6.8.1.0',
-            'reference' => '5dbc8959427416b8ee09a100d7a8588c00fb2e26',
+            'pretty_version' => 'v6.4.0',
+            'version' => '6.4.0.0',
+            'reference' => '4dd1e007f22a927ac77da5a3fbb067b42d3bc224',
             'type' => 'library',
             'install_path' => __DIR__ . '/../firebase/php-jwt',
             'aliases' => array(),
@@ -232,9 +221,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.316.0',
-            'version' => '0.316.0.0',
-            'reference' => '08e3579d94363716cef2bc79643f3d30fdd914b5',
+            'pretty_version' => 'v0.302.0',
+            'version' => '0.302.0.0',
+            'reference' => 'ac872f59a7b4631b12628fe990c167d18a71c783',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -475,11 +464,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7d3e244f2d8691f5bb908061b97c7f5a95d3960a',
-
+            'reference' => '91b1783e25819e3b2274b2158e3749c941b69002',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -522,9 +509,9 @@
             'dev_requirement' => false,
         ),
         'league/mime-type-detection' => array(
-            'pretty_version' => '1.13.0',
-            'version' => '1.13.0.0',
-            'reference' => 'a6dfb1194a2946fcdc1f38219445234f65b35c96',
+            'pretty_version' => '1.12.0',
+            'version' => '1.12.0.0',
+            'reference' => 'c7f2872fb273bf493811473dafc88d60ae829f48',
             'type' => 'library',
             'install_path' => __DIR__ . '/../league/mime-type-detection',
             'aliases' => array(),
@@ -753,9 +740,9 @@
             ),
         ),
         'psr/container' => array(
-            'pretty_version' => '1.1.2',
-            'version' => '1.1.2.0',
-            'reference' => '513e0666f7216c7459170d56df27dfcefe1689ea',
+            'pretty_version' => '1.1.1',
+            'version' => '1.1.1.0',
+            'reference' => '8622567409010282b7aeebe4bb841fe98b58dcaf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/container',
             'aliases' => array(),
@@ -841,9 +828,9 @@
             'dev_requirement' => false,
         ),
         'ramsey/collection' => array(
-            'pretty_version' => '1.3.0',
-            'version' => '1.3.0.0',
-            'reference' => 'ad7475d1c9e70b190ecffc58f2d989416af339b4',
+            'pretty_version' => '1.2.2',
+            'version' => '1.2.2.0',
+            'reference' => 'cccc74ee5e328031b15640b51056ee8d3bb66c0a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ramsey/collection',
             'aliases' => array(),
@@ -1014,15 +1001,6 @@
             'reference' => '0a35e99da4cb6f85b07b3b58b718ff659c39a009',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/laravel-permission',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'stripe/stripe-php' => array(
-            'pretty_version' => 'v12.3.0',
-            'version' => '12.3.0.0',
-            'reference' => '260aad072f92ddb05e03d47af13b3616d99b3444',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
