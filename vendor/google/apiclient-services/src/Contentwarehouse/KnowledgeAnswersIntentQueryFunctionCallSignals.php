@@ -81,6 +81,10 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   /**
    * @var bool
    */
+  public $isRefinedMeaning;
+  /**
+   * @var bool
+   */
   public $isUiCompositionIntent;
   protected $localSignalsType = KnowledgeAnswersIntentQueryLocalSignals::class;
   protected $localSignalsDataType = '';
@@ -122,6 +126,10 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   protected $shoppingIdsDataType = '';
   protected $signalsFallbackIntentsType = KnowledgeAnswersIntentQuerySignalComputationFallbackIntent::class;
   protected $signalsFallbackIntentsDataType = 'array';
+  /**
+   * @var bool
+   */
+  public $usesPrefulfillmentRanker;
 
   /**
    * @param string
@@ -364,6 +372,20 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   /**
    * @param bool
    */
+  public function setIsRefinedMeaning($isRefinedMeaning)
+  {
+    $this->isRefinedMeaning = $isRefinedMeaning;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsRefinedMeaning()
+  {
+    return $this->isRefinedMeaning;
+  }
+  /**
+   * @param bool
+   */
   public function setIsUiCompositionIntent($isUiCompositionIntent)
   {
     $this->isUiCompositionIntent = $isUiCompositionIntent;
@@ -570,6 +592,20 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public function getSignalsFallbackIntents()
   {
     return $this->signalsFallbackIntents;
+  }
+  /**
+   * @param bool
+   */
+  public function setUsesPrefulfillmentRanker($usesPrefulfillmentRanker)
+  {
+    $this->usesPrefulfillmentRanker = $usesPrefulfillmentRanker;
+  }
+  /**
+   * @return bool
+   */
+  public function getUsesPrefulfillmentRanker()
+  {
+    return $this->usesPrefulfillmentRanker;
   }
 }
 
