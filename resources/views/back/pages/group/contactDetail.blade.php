@@ -1955,6 +1955,7 @@
                                                                             $appt_tm=substr($appt->appt_time,0,5);
                                                                             @endphp
                                                                             On {{ $appt_dt2 }}, at {{ $appt_tm }} <br/>
+                                                                            <span style="color:#bfbfbf">{{ $appt->description }}</span>
                                                                         </div>
                                                                             </div>
                                                                             @endforeach

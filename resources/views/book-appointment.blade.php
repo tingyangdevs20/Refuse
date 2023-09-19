@@ -490,7 +490,7 @@
                   <label style="padding:10px;font-weight:bold">Mobile</label>
                   <div class="input-group">
                     <input type="tel"  class="input mobile" placeholder="Mobile"
-                      name="mobile" id="mobile" value="{{old('mobile')}}" minlength="10" maxlength="10" required>
+                      name="mobile" id="mobile" value="{{old('mobile')}}" minlength="11" maxlength="15" required>
                     @error('mobile')
                       <div class="error">{{ $message }}</div>
                     @enderror
