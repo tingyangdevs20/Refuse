@@ -38,21 +38,21 @@ class Email extends Controller
         $subject = $request->subject;
         $message = $request->message;
         try {
-            $cont = Contact::where('id', $send_to)->get();
+            // $cont = Contact::where('id', $send_to)->get();
 
-            $email = null;
+            $email = $send_to;
 
-            if ($cont->email1) {
-                $email = $cont->email1;
-            } elseif ($cont->email2) {
-                $email = $cont->email2;
-            }
+            // if ($cont->email1) {
+            //     $email = $cont->email1;
+            // } elseif ($cont->email2) {
+            //     $email = $cont->email2;
+            // }
             // $email = 'ayyfahim@gmail.com';
 
             $emails = new Emails();
             $emails->to = $email;
             $emails->from = LaravelGmail::user();
-            $emails->contact_id = $send_to;
+            $emails->contact_id = 1;
 
             $emails->is_received = 0;
             $emails->status = 0;
@@ -62,11 +62,11 @@ class Email extends Controller
             $emails->save();
 
             $unsub_link = url('admin/email/unsub/' . $email);
-            $data = ['message' => $message, 'subject' => $subject, 'name' => $cont[0]->name, 'unsub_link' => $unsub_link];
+            $data = ['message' => $message, 'subject' => $subject, 'unsub_link' => $unsub_link];
             if (LaravelGmail::check()) {
                 // Send Gmail
                 $mail = new GMAIL;
-                $mail->to($email, $data['name']);
+                $mail->to($email);
                 $mail->from(config('mail.from.address'), config('mail.from.name'));
                 $mail->subject($subject);
                 $mail->message($message);
@@ -83,7 +83,7 @@ class Email extends Controller
                 $emails->status = 1;
                 $emails->save();
 
-                $emails = Emails::where('to', $email)->where('contact_id', $send_to)->where('is_campaign', 0)->where('from', LaravelGmail::user())->where('gmail_mail_id', $mail->id)->first();
+                $emails = Emails::where('to', $email)->where('contact_id', 1)->where('is_campaign', 0)->where('from', LaravelGmail::user())->where('gmail_mail_id', $mail->id)->first();
 
                 $emails->replies()->create([
                     'to' => $email,
