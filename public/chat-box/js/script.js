@@ -14,7 +14,7 @@ window.onload = function (e) {
     // console.log("hi, inside window.onload function");
 }
 
-const baseUrl = "http://127.0.0.1:8000/api/v1/"
+const baseUrl = "https://brian-bagnall.com/bulk/bulk_sms_new/api/v1/"
 function loadStyle(url) {
     var link = document.createElement("link")
     link.type = 'text/css'
