@@ -1943,7 +1943,26 @@
                                                                                     <label>{{ $section->name }}</label>
                                                                                 </div>
                                                                             </div>
+                                                                            
+                                                                            <div class="row">
+                                                                            <div class="col-md-12">
+                                                                            @foreach($getAllAppointments as $appt)
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                            <div class="card-body" style="font-weight:bold;color:#556ee6;font-size:16px">
+                                                                            @php
+                                                                            $appt_dt=substr($appt->appt_date,0,10);
+                                                                            $appt_tm=substr($appt->appt_time,0,5);
+                                                                            @endphp
+                                                                            On {{ $appt_dt }}, at {{ $appt_tm }} <br/>
                                                                         </div>
+                                                                            </div>
+                                                                            @endforeach
+                                                                            </div>
+                                                                          
+                                                                           
+                                                                        </div>
+                                                                        
+                                                                        
                                                                         @php
                                                                             $customeFields = getsectionsFields($section->id);
                                                                         @endphp

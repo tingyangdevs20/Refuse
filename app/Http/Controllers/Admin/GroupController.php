@@ -122,8 +122,15 @@ class GroupController extends Controller
             $title_company = DB::table('title_company')->where('contact_id' , $id)->first();
         }
         //dd($property_infos);
-        $getAllAppointments = Scheduler::where('user_id', 1)->get();
-        // print_r($getAllAppointments);
+        
+        $contact=Contact::where('id',$id)->first();
+        $cnt_mob1=$contact->number;
+        $cnt_mob2=$contact->number2;
+        $cnt_mob3=$contact->number3;
+        $getAllAppointments = Scheduler::where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
+
+        //print_r($getAllAppointments);
+        //die("..");
         // exit;
         
         return view('back.pages.group.contactDetail', compact('id','title_company','leadinfo','scripts','sections','property_infos','values_conditions','property_finance_infos','selling_motivations','negotiations','leads', 'tags','getAllAppointments'));
