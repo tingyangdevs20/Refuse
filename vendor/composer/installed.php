@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '91b1783e25819e3b2274b2158e3749c941b69002',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -42,15 +42,6 @@
             'replaced' => array(
                 0 => '*',
             ),
-        ),
-        'dacastro4/laravel-gmail' => array(
-            'pretty_version' => 'v4.0.41',
-            'version' => '4.0.41.0',
-            'reference' => 'be3b11a4d253a7710e308b3259ccd7edb4af8a1a',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../dacastro4/laravel-gmail',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'davedevelopment/hamcrest-php' => array(
             'dev_requirement' => true,
@@ -473,9 +464,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '91b1783e25819e3b2274b2158e3749c941b69002',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1010,15 +1001,6 @@
             'reference' => '0a35e99da4cb6f85b07b3b58b718ff659c39a009',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/laravel-permission',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'stripe/stripe-php' => array(
-            'pretty_version' => 'v12.3.0',
-            'version' => '12.3.0.0',
-            'reference' => '260aad072f92ddb05e03d47af13b3616d99b3444',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

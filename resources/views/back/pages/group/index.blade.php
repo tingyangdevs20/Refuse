@@ -2,7 +2,6 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
 @section('content')
 
@@ -16,7 +15,6 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
                                     <h4 class="mb-0 font-size-18">Lists</h4>
                                     <div class="page-title-right">
@@ -28,7 +26,6 @@
                                     </div>
                                 </div>
                                 <div class="card">
-
                                     <div class="card-header bg-soft-dark ">
                                         All Lists
                                         <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
@@ -38,42 +35,18 @@
 
                                     </div>
                                     <div class="card-body">
-                                        @if (Session::has('payment_success'))
-                                            <div class="alert alert-success text-center">
-                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                                <p>{{ Session::get('payment_success') }}</p><br>
-                                            </div>
-                                        @endif
-
-                                        @if (Session::has('payment_error'))
-                                            <div class="alert alert-success text-center">
-                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                                <p>{{ Session::get('payment_error') }}</p><br>
-                                            </div>
-                                        @endif
-
-                                        @if (Session::has('payment_infoo'))
-                                            <div class="alert alert-success text-center">
-                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                                <p>{{ Session::get('payment_infoo') }}</p><br>
-                                            </div>
-                                        @endif
                                         <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                                 <tr>
-
+                                                    <th scope="col">#</th>
                                                     <th scope="col">List Name</th>
-                                                    <th scope="col">Contact</th>
-                                                    {{-- <th scope="col">Messages Sent</th> --}}
-                                                    <th scope="col">Date of Last Email Skip Trace</th>
-                                                    <th scope="col">Date of Last Phone Skip Trace</th>
-                                                    <th scope="col">Date of Last Name Skip Trace</th>
-                                                    <th scope="col">Date of Last Email Verification</th>
-                                                    <th scope="col">Date of Last Phone Scrub </th>
-
-                                                    <th scope="col">% with Phone Numbers </th>
+                                                    <th scope="col">Numbers</th>
+                                                    <th scope="col">Messages Sent</th>
+                                                    <th scope="col">Lists with Phone Numbers </th>
                                                     <th scope="col">Created At</th>
                                                     <th scope="col">Skip Trace</th>
+                                                    {{-- <th scope="col">Push to</th> --}}
+                                                    <th scope="col">Options</th>
                                                     {{-- <th scope="col">Push to</th> --}}
                                                     <th scope="col">Actions</th>
                                                 </tr>
@@ -81,21 +54,19 @@
                                             <tbody>
                                             @foreach($groups as $group)
                                             <tr>
-
+                                                <td>{{ $sr++ }}</td>
                                                 <td>{{ $group->name }}</td>
-                                                <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a></td>
-                                                <td>{{ @$group->email_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->phone_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->name_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->name_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->phone_scrub_date??'-' }}</td>
-                                                {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
-                                                <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View Contacts ({{ $group->getContactsCount() }}) </a></td>
+                                                <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td>
+                                                <td>%({{ $group->contacts->count() }})</td>
+                                                <td>{{ $group->created_at->format('j F Y') }}</td>
                                                 <td>
-
-                                                    <button class="btn btn-outline-primary btn-sm model" data-group-id="{{ $group->id }}" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
-
+                                                    <select class="form-control skip_trace_option" name="skip_trace_option"
+                                                            data-group-id="{{ $group->id }}">
+                                                        <option value="">Select Option</option>
+                                                        <option value="skip_entire_list">Skip Trace Entire List</option>
+                                                        <option value="skip_records_without_numbers">Skip Trace Records Without Numbers</option>
+                                                    </select>
                                                 </td>
                                                 {{-- <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
@@ -120,7 +91,7 @@
                     </div> <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-
+{{--Modals--}}
             {{--Modal New--}}
             <div class="modal fade" id="newModal" tabindex="-1" role="dialog"  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -136,7 +107,7 @@
                                 @csrf
                                 @method('POST')
                                 <div class="form-group">
-                                    <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
+                                <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
                                         <option value="0">Select Option</option>
 
                                             <option value="new">Create New List</option>
@@ -244,195 +215,77 @@
 
 
 
-            <div class="modal fade" id="skiptracingModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Skip Trace</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{ route('admin.group.destroy','test') }}" method="post" id="editFormSkip">
-                            @csrf
-                            @method('POST')
-                            <div class="modal-body">
-
-                                <div class="form-group">
-                                    <select class="from-control select2 skip_trace_option" style="width: 100%;" required  name="skip_trace_option"
-                                    data-group-id="{{ $group->id }}" >
-
-                                    <option value="">Select an Option</option>
-                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List)</option>
-                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers)</option>
-                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List)</option>
-                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails)</option>
-                                    <option value="append_names">Append Name (Records Without Name)</option>
-                                    <option value="append_emails">Append Email (Records Without Email)</option>
-                                    <option value="email_verification_entire_list">Email Verification (Entire List)</option>
-                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails)</option>
-                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List)</option>
-                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers)</option>
-
-
-                                    </select>
-                                </div>
-
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="submit"  class="btn btn-primary skip_tracing_btn" data-group-id="">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-
             {{--End Modals--}}
                 @endsection
 @section('scripts')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script >
 
         $(document).ready(function() {
-
-            @if (Session::has('payment_success_data'))
-
-                // Assuming payment_success_data contains the response object
-                var response = {!! json_encode(Session::get('payment_success_data')) !!};
-
-                if (response.Status === true && response.header.Status === 0) {
-                    // Iterate through the 'Data' array in the response and display each entry using Toastr
-                    response.ResponseDetail.Data.forEach(function (dataEntry) {
-                        var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
-                        var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
-                        var email = dataEntry.Email;
-
-                        // Customize the Toastr message based on your requirements
-                        toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
-                            timeOut: 10000, // Set the duration (5 seconds in this example)
-                        });
-                    });
-
-                    // You can display additional information or messages using Toastr here
-                    toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
-                        timeOut: 9000, // Set the duration (5 seconds in this example)
-                    });
-                } else {
-                    // Display an error message using Toastr for failed API responses
-                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
-                        timeOut: 9000, // Set the duration (5 seconds in this example)
-                    });
-                }
-
-            @endif
-
-
-
             $('#datatable').DataTable();
-            $('.select2').select2();
-            let groupId = 0;
 
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
-            $('.model').click(function(){
-                let group_id = $(this).data('group-id');
-                $('.skip_tracing_btn').attr('data-group-id', group_id);
-                groupId = group_id;
-            });
 
              // Handle when the "Skip Trace" button is clicked
-            // Add a click event listener to the submit button
-            $('.skip_tracing_btn').on('click', function (e) {
-                e.preventDefault(); // Prevent the default form submission behavior
+             $('.skip_trace_option').on('change', function () {
 
-                var selectedOption = $('.skip_trace_option').val();
+                var selectedOption = $(this).val();
                 if (selectedOption) {
-                    // var groupId = $(this).data('group-id');
 
-                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?');
+                    var groupId = $(this).data('group-id');
+                    var firstName = $(this).data('group-name');
+                    var lastName = $(this).data('group-lastname');
+                    var mailingAddress = $(this).data('group-email')
+
                     // Make an AJAX request to perform skip tracing
-                    if (confirmation) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('admin.skip-trace') }}', // Define the skip tracing route
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            group_id: groupId,
+                            first_name: firstName,
+                            last_name: lastName,
+                            mailing_address: mailingAddress,
+                            skip_trace_option: selectedOption,
+                        },
+                        success: function (response) {
+
+                            console.log('response',response);
+                            // Check if the API response indicates success (you may need to adjust this condition)
+                            if (response.Status === true && response.header.Status === 0) {
+                                // Iterate through the 'Data' array in the response and display each entry using Toastr
+                                response.ResponseDetail.Data.forEach(function (dataEntry) {
+                                    var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
+                                    var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
+                                    var email = dataEntry.Email;
+
+                                    // Customize the Toastr message based on your requirements
+                                    toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
+                                        timeOut: 10000, // Set the duration (5 seconds in this example)
+                                    });
+                                });
 
 
-                        $.ajax({
-                            type: 'POST',
-                            url: '{{ route('admin.skip-trace') }}', // Define the skip tracing route
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                group_id: groupId,
-                                skip_trace_option: selectedOption,
-                            },
-                            success: function (response) {
-                                $('#skiptracingModal').modal('hide');
-                                $('.skip_trace_option').val('');
-                                $('.skip_tracing_btn').removeAttr('data-group-id');
 
-                               if (response.error) {
-                                    // Handle the error, e.g., display an error message
-                                    console.error(response.error);
-                                }else if(response.data) {
-                                    // Capture the values from the response object
-
-                                    var skipTraceRate = response.data.skip_trace_rate;
-                                    var groupId = response.data.group_id;
-                                    var skipTraceOption = response.data.skip_trace_option;
-
-                                    // Create a string containing the parameters
-                                    var parameters = skipTraceRate + '-' + groupId + '-' + skipTraceOption;
-
-                                    // Encrypt the parameters to create a secure token
-                                    var encryptedToken = btoa(parameters);
-
-                                    // Construct the URL with the token
-                                    var redirectURL = '/secure-payment/' + encryptedToken;
-
-                                    // Redirect to the secure URL
-                                    window.location.href = redirectURL;
-                                }
-                                // Check if the API response indicates success (you may need to adjust this condition)
-                                // else if (response.Status === true && response.header.Status === 0) {
-                                //     // Iterate through the 'Data' array in the response and display each entry using Toastr
-                                //     response.ResponseDetail.Data.forEach(function (dataEntry) {
-                                //         var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
-                                //         var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
-                                //         var email = dataEntry.Email;
-
-                                //         // Customize the Toastr message based on your requirements
-                                //         toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
-                                //             timeOut: 10000, // Set the duration (5 seconds in this example)
-                                //         });
-                                //     });
-
-                                     // You can display additional information or messages using Toastr here
-                                    // toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
-                                    //     timeOut: 9000, // Set the duration (5 seconds in this example)
-                                    // });
-                                // } else {
-                                //     // Display an error message using Toastr for failed API responses
-                                //     toastr.error('API Error: ' + response.Message, 'API Response Error', {
-                                //         timeOut: 9000, // Set the duration (5 seconds in this example)
-                                //     });
-                                // }
-                            },
-                            error: function (error) {
-                                // Handle AJAX errors here and display using Toastr if needed
-                                toastr.error('AJAX Error: ' + error.statusText, 'AJAX Error', {
+                            } else {
+                                // Display an error message using Toastr for failed API responses
+                                toastr.error('API Error: ' + response.Message, 'API Response Error', {
                                     timeOut: 9000, // Set the duration (5 seconds in this example)
                                 });
-                            },
-                        });
-                    } else {
-                        console.log('User canceled the operation.');
-                    }
+                            }
+                        },
+                        error: function (error) {
+                            // Handle AJAX errors here and display using Toastr if needed
+                            toastr.error('AJAX Error: ' + error.statusText, 'AJAX Error', {
+                                timeOut: 9000, // Set the duration (5 seconds in this example)
+                            });
+                        }
+                    });
                 }
             });
-
 
             // push to
             $('.push-to-campaign').click(function () {

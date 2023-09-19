@@ -19,7 +19,11 @@ class CreateAccountsTable extends Migration
             $table->text('account_token');
             $table->text('account_copilot')->nullable();
             $table->string('account_name');
-
+            $table->string('phone_cell_append_rate')->nullable();
+            $table->string('email_append_rate')->nullable();
+            $table->string('name_append_rate')->nullable();
+            $table->string('email_verification_rate')->nullable();
+            $table->string('phone_scrub_rate')->nullable();
             $table->timestamps();
         });
     }

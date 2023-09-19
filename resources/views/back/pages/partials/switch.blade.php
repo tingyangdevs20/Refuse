@@ -16,4 +16,12 @@
 </div>
 @endif
 
+<script>
+    $(document).ready(function() {
+        // Add a click event handler for the close button
+        $("#switchRoleAlert button.close").click(function() {
+            $("#switchRoleAlert").hide(); // Hide the alert
+        });
+    });
+</script>
 

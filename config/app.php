@@ -168,8 +168,6 @@ return [
          * Package Service Providers...
          */
 
-        Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
@@ -232,7 +230,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Slybroadcast' => Riazxrazor\Slybroadcast\SlybroadcastFacade::class,
-        'LaravelGmail' => Dacastro4\LaravelGmail\Facade\LaravelGmail::class,
         'commonHelper' => App\Classes\CommonLibrary::class
     ],
 

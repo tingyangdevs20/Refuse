@@ -725,8 +725,6 @@ class GroupController extends Controller
    public function skipTrace(DatazappService $datazappService, Request $request)
    {
 
-    $accountBalance = 50.00;
-
     Session::forget('payment_info');
     Session::forget('record_detail');
 
@@ -802,6 +800,8 @@ class GroupController extends Controller
                 ]
             ]);
         }
+
+
 
 
 
