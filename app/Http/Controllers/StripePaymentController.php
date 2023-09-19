@@ -8,6 +8,7 @@ use Stripe\Stripe;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use DB;
+use App\Model\Group;
 use Session;
 use Exception;
 use Stripe\Charge;
@@ -152,6 +153,7 @@ class StripePaymentController extends Controller
          // Initialize the result variable
        $result = null;
        $paymentInfo = Session::get('record_detail');
+       $date = date('d-m-y');
 
 
        // Perform skip tracing based on the selected option
@@ -188,9 +190,22 @@ class StripePaymentController extends Controller
                         });
 
                         // Update the contact in the database with the matched phone number
+
                         if ($matchingContact) {
                             $matchingContact->update(['number' => $matchedPhone]);
                         }
+
+                        $group_data = $paymentInfo['group'];
+
+
+                        if($group_data){
+
+                            $group = Group::where('id', $group_data->id)->first();
+
+                            $group->email_skip_trace_date = $date;
+                            $group->save();
+                        }
+
                     }
                 }
             }
@@ -233,6 +248,16 @@ class StripePaymentController extends Controller
                         if ($matchingContact) {
                             $matchingContact->update(['email1' => $matchedEmail]);
                         }
+
+                        $group_data = $paymentInfo['group'];
+
+
+                        if($group_data){
+
+                            $group = Group::where('id', $group_data->id)->first();
+                            $group->email_skip_trace_date = $date;
+                            $group->save();
+                        }
                     }
                 }
             }
@@ -242,13 +267,166 @@ class StripePaymentController extends Controller
            // Implement append names logic for records without names
            $result = $datazappService->skipTrace($paymentInfo['uniqueContacts'], $paymentInfo['selectedOption']);
 
+           if ($result) {
+            // Check if $result contains the expected data structure
+            if (
+                isset($result['ResponseDetail']['Data']) &&
+                is_array($result['ResponseDetail']['Data'])
+            ) {
+                $data = $result['ResponseDetail']['Data'];
+
+                foreach ($data as $record) {
+                    // Check if the record has a matched phone number
+                    if (
+                        isset($record['Matched']) &&
+                        $record['Matched']
+                    ) {
+                        $matchedFirstName = $record['FirstName'];
+                        $matchedLastName = $record['LastName'];
+
+                        // Find the corresponding contact based on additional criteria
+                        $matchingContact = $paymentInfo['uniqueContacts']->first(function ($contact) use ($record) {
+                            return (
+
+
+                                $contact->street === $record['Address'] &&
+                                $contact->city === $record['City'] &&
+                                $contact->zip === $record['Zip']
+                            );
+                        });
+
+                        // Update the contact in the database with the matched phone number
+                        if ($matchingContact) {
+                            $matchingContact->update([
+                                'name' => $matchedFirstName,
+                                'last_name' => $matchedLastName,
+                            ]);
+                        }
+
+                        $group_data = $paymentInfo['group'];
+
+
+                        if($group_data){
+
+                            $group = Group::where('id', $group_data->id)->first();
+                            $group->name_skip_trace_date = $date;
+                            $group->save();
+                        }
+                    }
+                }
+            }
+        }
+
+
        } elseif ($paymentInfo['selectedOption'] === 'email_verification_entire_list' || $paymentInfo['selectedOption'] === 'email_verification_non_verified') {
            // Implement email verification logic for the entire list of emails
            $result = $datazappService->skipTrace($paymentInfo['uniqueContacts'], $paymentInfo['selectedOption']);
 
+           if ($result) {
+            // Check if $result contains the expected data structure
+            if (
+                isset($result['ResponseDetail']['Data']) &&
+                is_array($result['ResponseDetail']['Data'])
+            ) {
+                $data = $result['ResponseDetail']['Data'];
+
+                foreach ($data as $record) {
+                    // Check if the record has a matched phone number
+                    if (
+                        isset($record['Matched']) &&
+                        $record['Matched']
+                    ) {
+                        $matchedEmail1 = $record['Email'];
+                        $matchedEmail2 = $record['Email'];
+
+                        // Find the corresponding contact based on additional criteria
+                        $matchingContact = $paymentInfo['uniqueContacts']->first(function ($contact) use ($record) {
+                            return (
+
+                                $contact->street === $record['Address'] &&
+                                $contact->city === $record['City'] &&
+                                $contact->zip === $record['Zip']
+                            );
+                        });
+
+                        // Update the contact in the database with the matched phone number
+                        if ($matchingContact) {
+                            $matchingContact->update([
+                                'email1' => $matchedEmail1,
+                                'email2' => $matchedEmail2,
+                            ]);
+                        }
+
+                        $group_data = $paymentInfo['group'];
+
+
+                        if($group_data){
+
+                            $group = Group::where('id', $group_data->id)->first();
+                            $group->email_verification_date = $date;
+                            $group->save();
+                        }
+                    }
+                }
+            }
+        }
+
        } elseif ($paymentInfo['selectedOption'] === 'phone_scrub_entire_list' || $paymentInfo['selectedOption'] === 'phone_scrub_non_scrubbed_numbers') {
            // Implement phone scrubbing logic for the entire list of phone numbers
            $result = $datazappService->skipTrace($paymentInfo['uniqueContacts'], $paymentInfo['selectedOption']);
+
+           if ($result) {
+            // Check if $result contains the expected data structure
+            if (
+                isset($result['ResponseDetail']['Data']) &&
+                is_array($result['ResponseDetail']['Data'])
+            ) {
+                $data = $result['ResponseDetail']['Data'];
+
+                foreach ($data as $record) {
+                    // Check if the record has a matched phone number
+                    if (
+                        isset($record['Matched']) &&
+                        $record['Matched']
+                    ) {
+                        $matchedPhone1 = $record['Phone'];
+                        $matchedPhone2 = $record['Phone'];
+                        $matchedPhone3 = $record['Phone'];
+
+                        // Find the corresponding contact based on additional criteria
+                        $matchingContact = $paymentInfo['uniqueContacts']->first(function ($contact) use ($record) {
+                            return (
+
+                                $contact->name === $record['FirstName'] &&
+                                $contact->last_name === $record['LastName'] &&
+                                $contact->street === $record['Address'] &&
+                                $contact->city === $record['City'] &&
+                                $contact->zip === $record['Zip']
+                            );
+                        });
+
+                        // Update the contact in the database with the matched phone number
+                        if ($matchingContact) {
+                            $matchingContact->update([
+                                'number' => $matchedPhone1,
+                                'number2' => $matchedPhone2,
+                                'number3' => $matchedPhone3,
+                            ]);
+                        }
+
+                        $group_data = $paymentInfo['group'];
+
+
+                        if($group_data){
+
+                            $group = Group::where('id', $group_data->id)->first();
+                            $group->phone_scrub_date = $date;
+                            $group->save();
+                        }
+                    }
+                }
+            }
+        }
 
        } else {
            // Handle other options or provide an error response

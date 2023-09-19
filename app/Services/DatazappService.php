@@ -161,7 +161,6 @@ class DatazappService
         ]);
 
 
-
         return json_decode($response->getBody(), true);
     }
 

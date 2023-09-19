@@ -11,6 +11,17 @@
       'PDF' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
     ),
   ),
+  'dacastro4/laravel-gmail' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Dacastro4\\LaravelGmail\\LaravelGmailServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'LaravelGmail' => 'Dacastro4\\LaravelGmail\\Facade\\LaravelGmail',
+    ),
+  ),
   'facade/ignition' => 
   array (
     'providers' => 

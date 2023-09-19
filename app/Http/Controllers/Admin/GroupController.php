@@ -725,6 +725,10 @@ class GroupController extends Controller
    public function skipTrace(DatazappService $datazappService, Request $request)
    {
 
+    Session::forget('payment_info');
+    Session::forget('record_detail');
+
+
        $user_id = auth()->id();
        $groupId = $request->input('group_id');
        $selectedOption = $request->input('skip_trace_option');
@@ -752,8 +756,11 @@ class GroupController extends Controller
             return $contact->email1 . '|' . $contact->number;
         });
 
+
+
        $skipTraceRate = null;
        Session::put('record_detail', [
+            'group' => $group,
             'uniqueContacts' => $uniqueContacts,
             'groupId' => $groupId,
             'selectedOption' => $selectedOption,
@@ -769,6 +776,7 @@ class GroupController extends Controller
         }
         elseif($selectedOption == 'append_emails' ){
             $skipTraceRate = Account::pluck('email_append_rate');
+
         }
         elseif($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified' ){
             $skipTraceRate = Account::pluck('email_verification_rate');
@@ -781,6 +789,7 @@ class GroupController extends Controller
             return response()->json(['error' => 'Invalid skip trace option.']);
 
         }else{
+            $paymentInfo = Session::get('record_detail');
 
             return response()->json([
 

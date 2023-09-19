@@ -15,12 +15,12 @@ class CreateSkipTracingPaymentRecordsTable extends Migration
     {
         Schema::create('skip_tracing_payment_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->text('skip_trace_option_id');
-            $table->text('stripe_token');
-            $table->unsignedBigInteger('group_id');
-            $table->decimal('amount', 10, 2);
-            $table->boolean('is_paid')->default(false);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->text('skip_trace_option_id')->nullable();
+            $table->text('stripe_token')->nullable();
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
+            $table->boolean('is_paid')->default(false)->nullable();
             $table->timestamps();
         });
     }

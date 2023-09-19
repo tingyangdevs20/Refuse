@@ -84,11 +84,11 @@
 
                                                 <td>{{ $group->name }}</td>
                                                 <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a></td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td>{{ @$group->email_skip_trace_date??'-' }}</td>
+                                                <td>{{ @$group->phone_skip_trace_date??'-' }}</td>
+                                                <td>{{ @$group->name_skip_trace_date??'-' }}</td>
+                                                <td>{{ @$group->name_skip_trace_date??'-' }}</td>
+                                                <td>{{ @$group->phone_scrub_date??'-' }}</td>
                                                 {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
                                                 <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
                                                 <td>{{ $group->created_at->format('d-m-Y') }}</td>
