@@ -33,3 +33,10 @@ Route::group(['prefix' => 'agreement'], function () {
 Route::post('/verifiedcontact', 'Api\ApiController@verifiedcontact')->name('verifiedcontact');
 Route::post('/contactmail', 'Api\ApiController@contactmail')->name('contactmail');
 // Sachin 05092023
+
+Route::prefix('v1')->group(function () {
+    Route::prefix('chatroom')->group(function () {
+        Route::post('create', 'ChatController@createChatRoom');
+        Route::post('{session_id}/message/send', 'ChatController@saveMessage');
+    });
+});

@@ -51,7 +51,12 @@
                     <a href="{{ route('admin.campaign.index') }}" ><i class="bx bx-home-circle"></i><span>Prospect Campaigns</span></a>
                 </li>
                  <li class="menu-title">Leads</li>
-
+                 <li>
+                    <a href="{{ route('admin.reply.index') }}">
+                        <i class="fas fa-comments"></i>
+                        <span>Conversations</span>
+                    </a>
+                </li>
                  <li>  
                     <a href="{{ route('admin.leadcampaign.index') }}" ><i class="bx bx-home-circle"></i><span>Lead Campaigns</span></a>
                 </li>
@@ -84,7 +89,7 @@
                 </li>
 
 
-                 <li>
+                 <li style="display:none">
                    
 
                     <a href="{{ route('admin.sms.success') }}" class=" waves-effect">
@@ -93,13 +98,8 @@
 
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('admin.reply.index') }}" class=" waves-effect">
-                        <i class="fas fa-comments"></i>
-                        <span>All Conversations</span>
-                    </a>
-                </li>
-                <li>
+               
+                <li style="display:none">
                     <a href="{{ route('admin.thread.show') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
                         <span>Saved Threads</span>
@@ -113,6 +113,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.single-email.index') }}">Single Email</a></li>
+                        <li><a href="{{ route('admin.email-conversations.index') }}">Email Conversations</a></li>
 {{--                        <li><a href="{{ route('admin.bulk-sms.index') }}">Bulk SMS</a></li>--}}
                         {{-- <li><a href="{{ route('admin.one-at-time.index') }}">Bulk SMS One At Time</a></li> --}}
 {{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
@@ -133,6 +134,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#" class="waves-effect">Inspection Pending</a></li>
                         <li><a href="#" class="waves-effect">Funding Pending</a></li>
+                        <li><a href="#" class="waves-effect">Title Pending</a></li>
                     </ul>
                 </li>
                 <li>

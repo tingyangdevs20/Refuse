@@ -205,6 +205,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
+    Route::get('get/templatecontent/{tempid}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
@@ -247,6 +248,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('adminsettings','Admin\AdminSettingsController');
 
     Route::get('get/template/{id}','Admin\TemplateController@getTemplate');
+    Route::get('get/templatecontent/{tempid}','Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign','Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}','Admin\AutoReplyController@status_update');
 
@@ -289,6 +291,8 @@ Route::post('/delete-form-templates', 'Admin\FormTemplatesController@destroy')->
  // OPT Route
  Route::get('opt-list','Admin\OptController@index')->name('opt.list');
  Route::post('opt-store','Admin\OptController@storeOpt')->name('opt.store');
+
+    Route::resource('email-conversations', 'Admin\EmailConversation');
 
 });
 Auth::routes(['register' => false]);
@@ -337,6 +341,9 @@ Route::get('/payment/success', 'StripePaymentController@paymentSuccess')->name('
 Route::get('/payment/failed', 'StripePaymentController@paymentFailed')->name('payment.failed');
 Route::get('/payment/cancel', 'StripePaymentController@cancelPayment')->name('payment.cancel');
 Route::post('/payment/create_intent', 'StripePaymentController@createPaymentIntent')->name('payment.create_intent');
+Route::get('/oauth/gmail','GmailController@redirect')->name('gmail.login');
+Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
+Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
 
 
 
