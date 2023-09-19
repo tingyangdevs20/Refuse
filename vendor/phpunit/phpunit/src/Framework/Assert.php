@@ -430,6 +430,7 @@ abstract class Assert
      * or an attribute of an object contains only values of a given type.
      *
      * @param object|string $haystackClassOrObject
+     * @param bool          $isNativeType
      *
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
@@ -481,6 +482,7 @@ abstract class Assert
      * type.
      *
      * @param object|string $haystackClassOrObject
+     * @param bool          $isNativeType
      *
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception

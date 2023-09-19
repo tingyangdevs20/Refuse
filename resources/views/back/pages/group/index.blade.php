@@ -214,7 +214,6 @@
             </div>
 
 
-
             {{--End Modals--}}
                 @endsection
 @section('scripts')
@@ -261,6 +260,22 @@
                                     var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
                                     var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
                                     var email = dataEntry.Email;
+
+                                    // Customize the Toastr message based on your requirements
+                                    toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
+                                        timeOut: 10000, // Set the duration (5 seconds in this example)
+                                    });
+                                });
+
+                            console.log('response',response);
+                            // Check if the API response indicates success (you may need to adjust this condition)
+                            if (response.Status === true && response.header.Status === 0) {
+                                // Iterate through the 'Data' array in the response and display each entry using Toastr
+                                response.ResponseDetail.Data.forEach(function (dataEntry) {
+                                    var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
+                                    var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
+                                    var email = dataEntry.Email;
+
 
                                     // Customize the Toastr message based on your requirements
                                     toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {

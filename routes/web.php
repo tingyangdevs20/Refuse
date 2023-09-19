@@ -71,7 +71,10 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
 
 
 
+
     Route::get('account/detail', 'AccountDetailController@index')->name('account.detail');
+
+
 
 
 
@@ -329,6 +332,10 @@ Route::get('/call',[PhoneCallController::class,'index']);
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
 Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
+
+Route::get('/oauth/gmail','GmailController@redirect')->name('gmail.login');
+Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
+Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
 
 
 
