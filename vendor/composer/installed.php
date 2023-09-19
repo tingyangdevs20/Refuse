@@ -1,9 +1,11 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
+
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
         'reference' => '7d3e244f2d8691f5bb908061b97c7f5a95d3960a',
+
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -473,9 +475,11 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
+
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'reference' => '7d3e244f2d8691f5bb908061b97c7f5a95d3960a',
+
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -716,9 +720,9 @@
             'dev_requirement' => true,
         ),
         'phpunit/phpunit' => array(
-            'pretty_version' => '8.5.33',
-            'version' => '8.5.33.0',
-            'reference' => '7d1ff0e8c6b35db78ff13e3e05517d7cbf7aa32e',
+            'pretty_version' => '8.5.34',
+            'version' => '8.5.34.0',
+            'reference' => '622d0186707f39a4ae71df3bcf42d759bb868854',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/phpunit',
             'aliases' => array(),
@@ -1010,6 +1014,15 @@
             'reference' => '0a35e99da4cb6f85b07b3b58b718ff659c39a009',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/laravel-permission',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'stripe/stripe-php' => array(
+            'pretty_version' => 'v12.3.0',
+            'version' => '12.3.0.0',
+            'reference' => '260aad072f92ddb05e03d47af13b3616d99b3444',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

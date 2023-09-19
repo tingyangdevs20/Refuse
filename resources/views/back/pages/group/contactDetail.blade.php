@@ -65,9 +65,9 @@
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                           
+
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    
+
                                     <h4 class="mb-0 font-size-18">Contact Record</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -488,7 +488,7 @@
                                                                                         <button id="button-hangup-outgoing" class='d-none'>
                                                                                             <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
                                                                                         </button>
-                                                                                        @endif            
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -502,7 +502,7 @@
                                                                                         <button id="button-hangup-outgoing" class='d-none'>
                                                                                             <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
                                                                                         </button>
-                                                                                        @endif                
+                                                                                        @endif
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2007,10 +2007,10 @@
                                                                         </div>
                                                                         <div class="row">
                                                                         <div class="col-md-12">
-                                                                           
+
                                                                             <div class="form-group" style="padding: 0 10px;">
                                                                                 <a href="{{route('admin.zoom.index')}}" type="button"  class="btn btn-primary">Zoom Meeting</a>
-                                                                        
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2055,7 +2055,7 @@
                                                                         </div>
                                                                     </div>
                                                                     </div>
-                                                                   
+
                                                                     <hr>
                                                                 @elseif($section->id == '15')
                                                                     <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
@@ -2130,16 +2130,16 @@
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-12">
-                                                                           
+
                                                                             <div class="form-group" style="padding: 0 10px;">
-                                                                               
-                                                                                
+
+
                                                                                 <div class="form-group">
                                                                                     <label for="file">Select Files to Upload:</label>
                                                                                     <input type="file" name="file" id="file" class="form-control" multiple>
                                                                                 </div>
                                                                                 <button type="submit" id="custom-upload-button" class="btn btn-primary">Upload to Google Drive</button>
-                                                                            
+
 
                                                                             </div>
                                                                         </div>
@@ -2720,10 +2720,10 @@
             <div class="modal-body">
                 <p class="calling-response" style="text-align: center; font-size: 16px;"></p>
             </div>
-            
+
             </div>
         </div>
-    </div>                
+    </div>
 
 @endsection
 @section('scripts')
@@ -2734,7 +2734,7 @@
 
     <script >
         $(document).ready(function() {
-          
+
             // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
             $("#custom-upload-button").click(function () {
