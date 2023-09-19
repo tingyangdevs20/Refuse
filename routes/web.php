@@ -295,6 +295,8 @@ Route::post('/delete-form-templates', 'Admin\FormTemplatesController@destroy')->
  Route::get('opt-list','Admin\OptController@index')->name('opt.list');
  Route::post('opt-store','Admin\OptController@storeOpt')->name('opt.store');
 
+    Route::resource('email-conversations', 'Admin\EmailConversation');
+
 });
 Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
@@ -333,6 +335,15 @@ Route::get('/call',[PhoneCallController::class,'index']);
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
 Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
 
+Route::get('/secure-payment/{token}', 'StripePaymentController@payment')->name('secure.payment');
+
+
+Route::post('/payment/process', 'StripePaymentController@processPayment')->name('payment.process');
+Route::get('/payment/success', 'StripePaymentController@paymentSuccess')->name('payment.success');
+
+Route::get('/payment/failed', 'StripePaymentController@paymentFailed')->name('payment.failed');
+Route::get('/payment/cancel', 'StripePaymentController@cancelPayment')->name('payment.cancel');
+Route::post('/payment/create_intent', 'StripePaymentController@createPaymentIntent')->name('payment.create_intent');
 Route::get('/oauth/gmail','GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');

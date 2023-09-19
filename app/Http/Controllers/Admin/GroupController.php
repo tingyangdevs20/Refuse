@@ -47,7 +47,7 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
         // return $groups;
         $groupCounts = $groups->map(function ($group) {
@@ -66,7 +66,7 @@ class GroupController extends Controller
         $tags=Tag::all();
         $campaigns = Campaign::getAllCampaigns();
         $form_Template = FormTemplates::get();
-        
+
         if ($request->wantsJson()) {
             return response()->json([
                 'data' => $groups,
@@ -125,7 +125,7 @@ class GroupController extends Controller
         $getAllAppointments = Scheduler::where('user_id', 1)->get();
         // print_r($getAllAppointments);
         // exit;
-        
+
         return view('back.pages.group.contactDetail', compact('id','title_company','leadinfo','scripts','sections','property_infos','values_conditions','property_finance_infos','selling_motivations','negotiations','leads', 'tags','getAllAppointments'));
     }
 
@@ -600,7 +600,7 @@ class GroupController extends Controller
     {
         if(count($request->checked_id)>0){
             foreach($request->checked_id as $contactId){
-                
+
                 $contractRes = Contractupload::where("id",$request->contracttype)->first();
                 $mailcontact = Contact::where("id",$contactId)->first();
                 $subject = "Testing 05092023";
@@ -614,7 +614,7 @@ class GroupController extends Controller
                 Alert::success('Success!', 'Mail sent successfully!');
                 return redirect()->back();
         }
-    } 
+    }
 
    public function uploadcontract(Request $request){
 
@@ -637,8 +637,8 @@ class GroupController extends Controller
         $filenameNew =  time().'.'.$fileName;
     $Contractupload = new Contractupload;
        $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;        
-       $Contractupload->file =$filenameNew;     
+       $Contractupload->type_contract =$request->optiontype;
+       $Contractupload->file =$filenameNew;
        $Contractupload->save();
        $file->move('../public/contractpdf/', $filenameNew);
        Alert::success('Success!', 'Contract Uploaded successfully!');
@@ -651,7 +651,7 @@ class GroupController extends Controller
 
 
 
-   
+
    public function uploadcontractedit(Request $request){
     // dd($request->all());
 
@@ -673,13 +673,13 @@ class GroupController extends Controller
        $filenameNew =  time().'.'.$fileName;
        $Contractupload = Contractupload::find(1);
        $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
-   
+
     if(file_exists($destinationPath)){
         unlink($destinationPath);
     }
        $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;        
-       $Contractupload->file =$filenameNew;     
+       $Contractupload->type_contract =$request->optiontype;
+       $Contractupload->file =$filenameNew;
        $Contractupload->save();
        $file->move('../public/contractpdf/', $filenameNew);
        Alert::success('Success!', 'Contract Updated successfully!');
@@ -708,9 +708,9 @@ class GroupController extends Controller
     public function skipTrace(DatazappService $datazappService, Request $request)
     {
 
-       
+
         $groupId = $request->input('group_id');
-        $selectedOption = $request->input('skip_trace_option'); 
+        $selectedOption = $request->input('skip_trace_option');
 
         $group = Group::with('contacts')->find($groupId);
 
@@ -726,7 +726,7 @@ class GroupController extends Controller
             return $contact->email1 . '|' . $contact->number;
         });
 
-        
+
         // Perform skip tracing based on the selected option
         if ($selectedOption === 'skip_entire_list') {
             // Implement skip tracing logic for the entire list
@@ -756,10 +756,10 @@ class GroupController extends Controller
 
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
-    
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
-    
+
         if ($existingCampaign) {
             // Return a response to indicate that the data already exists
             return response()->json(['message' => 'Data already exists', 'success' => false]);
@@ -769,12 +769,12 @@ class GroupController extends Controller
                 'name' => $groupName,
                 'group_id' => $groupId,
             ]);
-    
+
             // Return a response to indicate success
             return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
         }
     }
 
-    
+
 
 }
