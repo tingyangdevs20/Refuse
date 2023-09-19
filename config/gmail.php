@@ -28,9 +28,9 @@ return [
 	|
 	*/
 
-	'project_id' => env('GOOGLE_PROJECT_ID'),
-	'client_id' => env('GOOGLE_CLIENT_ID'),
-	'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+	'project_id' => env('GOOGLE_PROJECT_ID', 'bulk-sms-399114'),
+	'client_id' => env('GOOGLE_CLIENT_ID', "140590860912-5amhib9941vcvc1t9ph0hfec1mt4esdg.apps.googleusercontent.com"),
+	'client_secret' => env('GOOGLE_CLIENT_SECRET', "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"),
 	'redirect_url' => env('GOOGLE_REDIRECT_URI', '/oauth/gmail/callback'),
 
 	'state' => null,
