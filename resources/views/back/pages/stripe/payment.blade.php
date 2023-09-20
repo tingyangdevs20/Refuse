@@ -1,4 +1,4 @@
-@@ -1,190 +0,0 @@
+
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
