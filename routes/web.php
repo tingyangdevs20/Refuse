@@ -166,6 +166,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
 //    Route::resource('account','Admin\RoleController');
     Route::get('/sendMail', [Click2MailController::class, 'index']);
 
+    Route::resource('email-conversations', 'Admin\EmailConversation');
     Route::resource('account', 'Admin\AccountController');
     Route::resource('quick-response', 'Admin\QuickResponseController');
     Route::resource('lead-category', 'Admin\LeadCategoryController');
@@ -330,6 +331,9 @@ Route::get('/call',[PhoneCallController::class,'index']);
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
 Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
 
+Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
+Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
+Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
 
 
 
