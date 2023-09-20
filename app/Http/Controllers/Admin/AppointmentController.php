@@ -20,7 +20,7 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($phone)
+    public function index()
     {   
     
 
@@ -31,7 +31,7 @@ class AppointmentController extends Controller
 
         // get specific user appointments based on user timezone
         $getUserAppointments = Scheduler::select('id','name','email','mobile','appt_date','appt_time','timezone','description')
-        ->where('mobile',$phone)
+       
         ->where('status','booked')
         ->where(DB::raw('CONCAT(DATE(appt_date)," ",appt_time)'),'>', $now)
         ->orderBy(DB::raw('DATE(appt_date)'), 'ASC')
@@ -96,7 +96,7 @@ class AppointmentController extends Controller
             'appt_date' => 'required',
             'appt_time' => 'required',
             'name' => 'required|min:2',
-            'mobile' => 'required|digits:10',
+            'mobile' => 'required',
             'email' => 'required|email|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'description' => 'required',
         ]);

@@ -49,12 +49,12 @@ function appointment_count($days,$user)
     if($days==0)
     {
     $appointment_count=Scheduler::whereDate('created_at', Carbon::today()->subDays($days))->where([['status', 'booked'],['user_id',$user]])->count();
-   
+
     }
     else
     {
         $appointment_count=Scheduler::whereBetween('created_at', [Carbon::today()->subDays($days),Carbon::today()])->where([['status', 'booked'],['user_id',$user]])->count();
-        
+
     }
     return $appointment_count;
 }
@@ -75,7 +75,8 @@ function getsectionsFieldValue($id,$field_id)
     }
 }
 
-function gmail_remove_reply_part($from, $to, $str) {
+function gmail_remove_reply_part($from, $to, $str)
+{
 
     $char1 = "<{$from}>";
     $char2 = "<{$to}>";
@@ -114,6 +115,5 @@ function gmail_remove_reply_part($from, $to, $str) {
     $string = implode("\n", $lines);
 
     return $string = implode("\n", $lines);
-    
 }
 
