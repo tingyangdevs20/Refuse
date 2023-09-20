@@ -28,6 +28,12 @@
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
                                         All Replies
+                                        <select>
+                                            <option>Select Type</option>
+                                            <option>SMS</option>
+                                            <option>Email</option>
+                                            <option>MMS</option>
+                                        </select>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-striped table-bordered" id="datatable">

@@ -11,6 +11,7 @@ use App\Model\Number;
 use App\Model\QuickResponse;
 use App\Model\Reply;
 use App\Model\Sms;
+use App\Model\Emails;
 use App\Model\System_messages;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -66,8 +67,10 @@ class SMSController extends Controller
         $smsInfo=Contact::where('number',$sms->client_number)->first();
        
         $leadCategories=LeadCategory::all();
+
+        $emails=Emails::all();
    
-        return view('back.pages.sms.replies',compact('sms','smsInfo',"quickResponses",'number','leadCategories'));
+        return view('back.pages.sms.replies',compact('sms','smsInfo',"quickResponses",'number','leadCategories','emails'));
     }
     public function saveThread(Request $request)
     {

@@ -50,6 +50,13 @@
                                         </select>
                                     <button class="btn btn-success btn-sm" type="submit">change</button>
                                 </form>
+                                <form style="margin-left:450px;position:relative;margin-top:-60px"><label for="" >Conversation Type</label>
+                                <select class="form-control" style="margin-bottom:20px;width:200px">
+                                                                   <option>SMS</option>
+                                                                    <option>MMS</option>
+                                                                     <option>Email</option>
+                                                               </select>
+</form>
                                    @endif
                         </div>
                         <div class="card-body">
@@ -64,7 +71,7 @@
                                                         <div class="conversation-list">
                                                             <div class="ctext-wrap">
                                                                 <p style="font-size: larger">
-                                                                    {{ $sms->message }}
+                                                                   
                                                                 </p>
                                                                 <p class="chat-time mb-0"><i
                                                                         class="bx bx-time-five align-middle mr-1"></i> {{ $sms->created_at }}
@@ -114,14 +121,14 @@
                                                 </div>
                                                 @if(!empty($smsInfo)&&$smsInfo->is_dnc!=1)
                                                 <div class="p-3 chat-input-section">
-                                                    <div class="row">
+                                                    <div class="row" style="display:none">
                                                         <div class="col">
                                                             <div class="position-relative">
                                                                 <label>Conversation Type</label>
                                                                 </div>
                                                                 </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                <div class="row" style="display:none">
                                                                 <div class="col">
                                                                 <div class="position-relative">
                                                                <select class="form-control" style="margin-bottom:20px">
