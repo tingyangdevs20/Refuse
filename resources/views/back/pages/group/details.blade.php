@@ -40,6 +40,7 @@
                                                 <th scope="col">Zip</th>
                                                 <th scope="col">Numbers</th>
                                                 <th scope="col">Email</th>
+                                                <th scope="col">No. Of Tags</th>
                                                 <th scope="col">Status</th>
                                             </tr>
                                             </thead>
@@ -48,7 +49,7 @@
                                             <tr>
                                                 {{-- <td>{{ $sr++ }}</td> --}}
                                                 <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->name }}</a></td>
-                                                <td>{{ $contact->last_name }}</td>
+                                                <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->last_name }}</a></td>
                                                 <td>{{ $contact->street }}</td>
                                                 <td>{{ $contact->city }}</td>
                                                 <td>{{ $contact->state }}</td>
@@ -61,6 +62,10 @@
                                                 <td>
                                                     Email1:{{ $contact->email1 }}<br>
                                                     Email2:{{ $contact->email2 }}
+                                                </td>
+                                                <td>
+                                                    Tags:{{ $group->getContactCountByEmailId($contact->email1,$contact->email2,$contact->number,$contact->number2,$contact->number3 ) }}<br>
+                                    
                                                 </td>
                                                 <td>
                                                     {{ $contact->sts }}<br>
