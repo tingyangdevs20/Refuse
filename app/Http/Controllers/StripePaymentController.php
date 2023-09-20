@@ -14,6 +14,13 @@ use Exception;
 use Stripe\Charge;
 use Stripe\PaymentIntent;
 use App\Services\DatazappService;
+use App\AccountDetail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Cashier\Cashier;
+
+use Stripe\PaymentMethod;
+use Stripe\Exception\CardException;
 
 class StripePaymentController extends Controller
 {
@@ -451,4 +458,62 @@ class StripePaymentController extends Controller
         Session::flash('payment_infoo', 'Payment was canceled.');
         return redirect()->route('admin.group.index');
     }
+
+
+    public function processStripePayment(Request $request)
+    {
+
+
+        try {
+            // Set your Stripe API key here
+            Stripe::setApiKey(config('services.stripe.secret'));
+
+            // Retrieve the payment method ID from the form
+            $paymentMethodId = $request->input('payment_method');
+
+            // Define the return URL
+            $returnUrl = 'https://example.com/payment-success'; // Replace with your actual success URL
+
+            // Create a payment intent with the return URL
+            $intent = \Stripe\PaymentIntent::create([
+                'amount' => $request->input('amount') * 100, // Amount in cents
+                'currency' => 'usd', // Change to your preferred currency
+                'payment_method' => $paymentMethodId,
+                'confirmation_method' => 'manual',
+                'confirm' => true,
+                'return_url' => $returnUrl, // Specify the return URL
+            ]);
+
+            // Handle successful payment
+            if ($intent->status === 'succeeded') {
+                $user = Auth::user();
+                $amount = $request->input('amount');
+                $currency = 'usd';
+
+                // Create a new record in the account_details table
+                $accountDetail = new AccountDetail();
+                $accountDetail->user_id = $user->id;
+                $accountDetail->transaction_id = $intent->id; // Payment intent ID
+                $accountDetail->payment_method = 'card'; // You can customize this based on payment method
+                $accountDetail->amount = $amount;
+                $accountDetail->currency = $currency;
+                $accountDetail->transaction_date = now(); // Current date and time
+                $accountDetail->status = 'succeeded'; // Transaction status
+                $accountDetail->save();
+
+                // Return a success response
+                return response()->json(['message' => 'Payment successful']);
+            } else {
+                // Payment failed
+                return response()->json(['error' => 'Payment failed']);
+            }
+        } catch (CardException $e) {
+            // Handle card errors (e.g., insufficient funds, card declined)
+            return response()->json(['error' => $e->getMessage()]);
+        } catch (\Exception $e) {
+            // Handle other errors
+            return response()->json(['error' => 'An error occurred while processing your payment']);
+        }
+    }
+
 }

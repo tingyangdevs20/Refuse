@@ -14,16 +14,17 @@ class CreateAccountDetailsTable extends Migration
     public function up()
     {
         Schema::create('account_details', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->decimal('amount', 10, 2)->nullable();
-            $table->string('token')->nullable();
-            $table->string('title')->nullable();
-            $table->string('platform')->nullable();
-            $table->timestamp('transaction_date')->nullable();
+            $table->unsignedBigInteger('user_id'); // Foreign key to associate the transaction with a user
+            $table->string('transaction_id'); // Unique identifier for the transaction (Stripe Payment Intent ID)
+            $table->string('payment_method'); // Payment method used (e.g., card, PayPal, etc.)
+            $table->decimal('amount', 10, 2); // Amount of the transaction
+            $table->string('currency', 3); // Currency used (e.g., USD, EUR)
+            $table->timestamp('transaction_date')->nullable(); // Date and time of the transaction
+            $table->string('status'); // Status of the transaction (e.g., succeeded, failed)
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            // Define foreign key relationship with the users table
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
