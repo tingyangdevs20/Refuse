@@ -206,7 +206,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{tempid}', 'Admin\TemplateController@getTemplateContent');
+    Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
@@ -249,7 +249,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('adminsettings','Admin\AdminSettingsController');
 
     Route::get('get/template/{id}','Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{tempid}','Admin\TemplateController@getTemplateContent');
+    Route::get('get/templatecontent/{id}','Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign','Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}','Admin\AutoReplyController@status_update');
 
