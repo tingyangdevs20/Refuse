@@ -65,15 +65,15 @@ Route::resource('campaignlist','Admin\CampaignListController');
 Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function () {
 
 
-    // ROLE SWITCH
+    // ROLE SWITCH 
     Route::get('user/switch/{user}', 'UserController@switchRole')->name('user.switch');
     Route::get('user/quit', 'UserController@quitRole')->name('user.quit')->middleware('auth');
 
 
+ 
 
 
-
-
+   
 
     // SKIP TRACING
     Route::get('admin/skip-trace','Admin\GroupController@skipTrace')->name('admin.skip-trace');
@@ -81,7 +81,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
 
     Route::get('formm','GoogleDriveController@index')->name('formm');
-
+    
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
     // Handle the GOOGLE DRIVE file upload
@@ -91,7 +91,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
 
 
     // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
-
+    
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
     Route::get('/zoom/create', 'ZoomController@create')->name('zoom.create');
     Route::post('/zoom/store', 'ZoomController@store')->name('zoom.store');
@@ -137,7 +137,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::post('delete-tasks','TaskListController@delete')->name('delete-tasks');
     Route::post('update-task','TaskListController@update')->name('update-task');
 
-
+  
     Route::get('/account','Admin\AccountController@index')->name('account.index');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
@@ -206,7 +206,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{tempid}', 'Admin\TemplateController@getTemplateContent');
+    Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
@@ -249,7 +249,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('adminsettings','Admin\AdminSettingsController');
 
     Route::get('get/template/{id}','Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{tempid}','Admin\TemplateController@getTemplateContent');
+    Route::get('get/templatecontent/{id}','Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign','Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}','Admin\AutoReplyController@status_update');
 
@@ -334,19 +334,6 @@ Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
 Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
-Route::get('/secure-payment/{token}', 'StripePaymentController@payment')->name('secure.payment');
-
-
-Route::post('/payment/process', 'StripePaymentController@processPayment')->name('payment.process');
-Route::get('/payment/success', 'StripePaymentController@paymentSuccess')->name('payment.success');
-
-Route::get('/payment/failed', 'StripePaymentController@paymentFailed')->name('payment.failed');
-Route::get('/payment/cancel', 'StripePaymentController@cancelPayment')->name('payment.cancel');
-Route::post('/payment/create_intent', 'StripePaymentController@createPaymentIntent')->name('payment.create_intent');
-Route::get('/oauth/gmail','GmailController@redirect')->name('gmail.login');
-Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
-Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
-
 
 
 

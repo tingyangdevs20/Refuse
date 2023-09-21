@@ -2,32 +2,34 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Model\Blacklist;
-use Illuminate\Support\Facades\Mail;
+use App\Gmails;
+use App\Model\Sms;
+use App\Model\Reply;
+use App\Model\Emails;
+use App\Model\Number;
 use App\Model\Contact;
 use App\Mail\TestEmail;
-use App\Model\Emails;
+use App\Model\Template;
+use App\Model\Blacklist;
 use App\Model\FailedSms;
 use App\Model\LeadCategory;
-use App\Model\Template;
-use App\Model\Number;
 use App\Model\QuickResponse;
-use App\Model\Reply;
-use App\Model\Sms;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
+use Dacastro4\LaravelGmail\Facade\LaravelGmail;
+use Dacastro4\LaravelGmail\Services\Message\Mail as GMAIL;
+use Illuminate\Support\Facades\Mail;
 
 class Email extends Controller
 {
     //
     public function index()
     {
-
         $numbers = Number::all();
         $templates = Template::all();
         $contact = Contact::all();
-        return view('back.pages.email.index', compact('numbers', 'templates','contact'));
+        return view('back.pages.email.index', compact('numbers', 'templates', 'contact'));
     }
 
     public function store(Request $request)
@@ -100,14 +102,7 @@ class Email extends Controller
             return redirect()->back();
         } catch (\Exception $ex) {
             dd($ex->getMessage());
-            $failed_sms = new FailedSms();
-            $failed_sms->client_number = $receiver_number;
-            $failed_sms->twilio_number = $sender_number;
-            $failed_sms->message = $request->message;
-            $failed_sms->media = $request->media_file == null ? 'No' : $media;
-            $failed_sms->error = $ex->getMessage();
-            $failed_sms->save();
-            Alert::error('Oops!', 'Check Failed Message Page!');
+            Alert::error('Oops!', 'An error occured!');
             return redirect()->back();
         }
     }

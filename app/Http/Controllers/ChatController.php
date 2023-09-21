@@ -14,11 +14,6 @@ class ChatController extends Controller
 {
     private $sessionPrefix = 'chat-room-';
 
-    public function getMessages($session_id){
-       $chatRoomSession =  ChatRoomSession::with('messages')->where('session_id',$session_id)->firstOrFail();
-       return $chatRoomSession;
-    }
-
     public function createChatRoom(Request $request)
     {
         $validated = $request->validate([
@@ -26,7 +21,6 @@ class ChatController extends Controller
             'number' => 'required|string|max:25'
         ]);
         $validated['group_id'] = 1; //Todo: Set Group id.
-        $validated['sts'] = '';
         $contact = Contact::firstOrCreate(['number' => $validated['number']], $validated);
         $chatRoom = ChatRoom::create([
             'uuid' => "ch_" . Str::uuid()
