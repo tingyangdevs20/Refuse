@@ -2,7 +2,10 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
+    <IfModule mod_security.c> 
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+  </IfModule>
     RewriteEngine On
 
     # Handle Authorization Header
