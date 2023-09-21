@@ -75,3 +75,45 @@ function getsectionsFieldValue($id,$field_id)
     }
 }
 
+function gmail_remove_reply_part($from, $to, $str) {
+
+    $char1 = "<{$from}>";
+    $char2 = "<{$to}>";
+    // $pos = strpos($str, $char1);
+    if (strpos($str, $char1) !== false) {
+        //$char was found, so return everything up to it.
+        $string = substr($str, 0, strpos($str, $char1) + strlen($char1));
+    } else {
+        //this will return the original string if $char is not found.  if you wish to return a blank string when not found, just change $str to ''
+        $string = $str;
+    }
+
+    $lines = explode("\n", $string);
+
+    foreach ($lines as $index => $line) {
+        if (strstr($line, $char1)) {
+            unset($lines[$index]);
+        }
+    }
+
+    $string = implode("\n", $lines);
+
+    if (strpos($string, $char2) !== false) {
+        //$char was found, so return everything up to it.
+        $string = substr($str, 0, strpos($str, $char2) + strlen($char2));
+    }
+
+    $lines = explode("\n", $string);
+
+    foreach ($lines as $index => $line) {
+        if (strstr($line, $char2)) {
+            unset($lines[$index]);
+        }
+    }
+
+    $string = implode("\n", $lines);
+
+    return $string = implode("\n", $lines);
+    
+}
+

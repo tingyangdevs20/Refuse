@@ -14,7 +14,7 @@ window.onload = function (e) {
     // console.log("hi, inside window.onload function");
 }
 
-const baseUrl = "http://127.0.0.1:8000/api/v1/"
+const baseUrl = "https://brian-bagnall.com/bulk/bulk_sms_new/api/v1/"
 function loadStyle(url) {
     var link = document.createElement("link")
     link.type = 'text/css'
@@ -70,7 +70,7 @@ var loadChatWindow = function () {
     }
     // --------- Start Chat Window HTML -------------//
     var chatWindowHTML = `
-        <div class="main-parent-box">
+        <div class="main-parent-box" style="display:none">
               <div class="gl-open-chat-box">
                <div class="chat-box-header">
                 <h3>Support Chat<br /></h3>
@@ -83,7 +83,7 @@ var loadChatWindow = function () {
               <input class="chat-user-info visitor-name" type="text" name="name" placeholder="Please enter your name" />
               <input class="chat-user-info visitor-email" type="tel" name="number" placeholder="Please enter your phone number" />
 
-              <button type="button" class="btn btn-danger">Start Chatting</button>
+              <button type="button" class="btn btn-danger gl-start-chat-btn">Start Chatting</button>
             </div>
 <!--              <div class="open-box-footer">-->
 <!--&lt;!&ndash;                <img src="https://images.unsplash.com/photo-1534135954997-e58fbd6dbbfc?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=02d536c38d9cfeb4f35f17fdfaa36619" width="30" height="30" />&ndash;&gt;-->
@@ -93,14 +93,13 @@ var loadChatWindow = function () {
 
     <div class="gl-chat-box" style="display:none" >
       <div class="chat-box-header">
-      <h3>Support Chat<br /></h3>
+        <h3>Support Chat<br /></h3>
       </div>
       <div id="chat_box_body" class="chat-box-body">
         <div id="chat_messages">
             <div class="gl-chat-suggestions">
                 <ul>
-                    <li>Need help with new account setup.</li>
-                    <li>Unable to login.</li>
+
                 </ul>
             </div>
         </div>
@@ -124,28 +123,28 @@ var loadChatWindow = function () {
     // ---------End Chat Window HTML -------------//
     setTimeout(function () {
         $("body").append(chatWindowHTML);
-        var session = function () {
+        const session = function () {
             // Retrieve the object from storage
-            console.log('calling sessions',sessionStorage.getItem('session'))
             if (sessionStorage.getItem('session')) {
-                console.log(document.getElementsByClassName('.main-parent-box'));
-                $('.main-parent-box').fadeOut();
-                $('.gl-chat-box').fadeIn();
                 return  sessionStorage.getItem('session');
-            } else {
-                $('.gl-chat-box').fadeOut();
-                $('.main-parent-box').fadeIn();
-                return null;
             }
-            // console.log('session: ', retrievedSession);
+            return null;
         }
 
-        // Call Session init
+        // // Call Session init
         const currentSession = session();
+        if(currentSession){
+            getMessagesFromServer()
+            $('.main-parent-box').fadeOut();
+            $('.gl-chat-box').fadeIn();
+        }else{
+            $('.gl-chat-box').fadeOut();
+            $('.main-parent-box').fadeIn();
+        }
         if(currentSession) {
             setInterval(function () {
                 getMessagesFromServer();
-            }, 10000);
+            }, 5000);
         }
 
 
@@ -183,6 +182,9 @@ var loadChatWindow = function () {
     function renderMessage(p, m) {
         return '<div class="message ' + p + '-message hide">' + m + '</div>';
     }
+    function resetMessageBody(){
+        $('#chat_messages').empty();
+    }
 
     function appendMessage(r) {
         $('#chat_messages').append(r);
@@ -203,23 +205,47 @@ var loadChatWindow = function () {
     }
 
     function getMessagesFromServer() {
-        console.log("Calling api to get new messages every 10 seconds");
+        $.ajax({
+            type: "GET",
+            url: baseUrl + `chatroom/${currentSession}/messages`,
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+                const userType = data.userable_type
+                const userId = data.userable_id
+                const messages = data.messages ?? [];
+                resetMessageBody()
+                for (const message of messages) {
+                    const type = userType === message.userable_type && userId === message.userable_id ? 'my':'other';
+                    messageHistory(type,message.message_text)
+                }
+            },
+            error: function(e) {
+                console.log(e,e.status)
+            }
+        });
+        // if(currentSession) {
+        //     setInterval(function () {
+        //         getMessagesFromServer();
+        //     }, 3000);
+        // }
     }
 
     function sendUserText(text) {
-        console.log("sending api for " + text + " - " + currentSession)
-        // $.ajax({
-        //     type: "POST",
-        //     url: "API URL",
-        //     contentType: "application/json",
-        //     dataType: "json",
-        //     success: function(data) {
-        //         console.log (data);
-        //     },
-        //     error: function(e) {
-        //         console.log (e);
-        //     }
-        // });
+        console.log("sending api for " + text + " - " + session())
+        $.ajax({
+            type: "POST",
+            url: baseUrl + `chatroom/${session()}/message/send`,
+            contentType: "application/json",
+            dataType: "json",
+            data:JSON.stringify({text}),
+            success: function(data) {
+
+            },
+            error: function(e) {
+                console.log(e,e.status)
+            }
+        });
     }
 
     function sendMessage(p, chatText) {
@@ -265,6 +291,34 @@ var loadChatWindow = function () {
         }
 
     }
+
+    function messageHistory(p, chatText) {
+
+            if (chatText == '') {
+                return;
+            }
+            var r = '';
+
+            // if (chatThread[chatThread.length - 1].profile !== p) {
+            //     r += renderProfile(p);
+            // }
+            if (typeof chatText === 'string') {
+                r += renderMessage(p, chatText);
+
+                chatThread.push({
+                    'profile': p,
+                    'message': chatText
+                });
+            } else {
+                r += renderMessage(p, chatText.value);
+
+                chatThread.push({
+                    'profile': p,
+                    'message': chatText.value
+                });
+            }
+            appendMessage(r);
+        }
 
     $(document).on("click", ".gl-chat-suggestions li", function () {
         $('.gl-chat-suggestions').hide();

@@ -38,5 +38,6 @@ Route::prefix('v1')->group(function () {
     Route::prefix('chatroom')->group(function () {
         Route::post('create', 'ChatController@createChatRoom');
         Route::post('{session_id}/message/send', 'ChatController@saveMessage');
+        Route::get('{session_id}/messages', 'ChatController@getMessages');
     });
 });
