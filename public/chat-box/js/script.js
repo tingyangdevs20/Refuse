@@ -14,7 +14,8 @@ window.onload = function (e) {
     // console.log("hi, inside window.onload function");
 }
 
-const baseUrl = "http://127.0.0.1:8000/api/v1/"
+var siteUrl = "https://brian-bagnall.com/bulk/bulk_sms_new/public"
+var baseUrl = `${siteUrl}/api/v1/`
 function loadStyle(url) {
     var link = document.createElement("link")
     link.type = 'text/css'
@@ -119,7 +120,7 @@ var loadChatWindow = function () {
       </div>
     </div>
     <div class="message-icon-design" id="min-chat-icon">
-       <img src="/chat-box/img/chat.svg">
+       <img src="${siteUrl}/chat-box/img/chat.svg">
    </div>
     `;
 
