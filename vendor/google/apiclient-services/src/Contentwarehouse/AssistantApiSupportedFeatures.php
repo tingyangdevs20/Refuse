@@ -136,6 +136,10 @@ class AssistantApiSupportedFeatures extends \Google\Model
    */
   public $liveCardsSupported;
   /**
+   * @var string
+   */
+  public $lottieAnimationSupport;
+  /**
    * @var bool
    */
   public $mapsDialogsSupported;
@@ -173,6 +177,14 @@ class AssistantApiSupportedFeatures extends \Google\Model
    * @var bool
    */
   public $privacyAwareLockscreenSupported;
+  /**
+   * @var bool
+   */
+  public $readMessagesTtsTaperingSupported;
+  /**
+   * @var bool
+   */
+  public $readNotificationSummarizationSupported;
   /**
    * @var bool
    */
@@ -691,6 +703,20 @@ class AssistantApiSupportedFeatures extends \Google\Model
     return $this->liveCardsSupported;
   }
   /**
+   * @param string
+   */
+  public function setLottieAnimationSupport($lottieAnimationSupport)
+  {
+    $this->lottieAnimationSupport = $lottieAnimationSupport;
+  }
+  /**
+   * @return string
+   */
+  public function getLottieAnimationSupport()
+  {
+    return $this->lottieAnimationSupport;
+  }
+  /**
    * @param bool
    */
   public function setMapsDialogsSupported($mapsDialogsSupported)
@@ -829,6 +855,34 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public function getPrivacyAwareLockscreenSupported()
   {
     return $this->privacyAwareLockscreenSupported;
+  }
+  /**
+   * @param bool
+   */
+  public function setReadMessagesTtsTaperingSupported($readMessagesTtsTaperingSupported)
+  {
+    $this->readMessagesTtsTaperingSupported = $readMessagesTtsTaperingSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getReadMessagesTtsTaperingSupported()
+  {
+    return $this->readMessagesTtsTaperingSupported;
+  }
+  /**
+   * @param bool
+   */
+  public function setReadNotificationSummarizationSupported($readNotificationSummarizationSupported)
+  {
+    $this->readNotificationSummarizationSupported = $readNotificationSummarizationSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getReadNotificationSummarizationSupported()
+  {
+    return $this->readNotificationSummarizationSupported;
   }
   /**
    * @param bool
