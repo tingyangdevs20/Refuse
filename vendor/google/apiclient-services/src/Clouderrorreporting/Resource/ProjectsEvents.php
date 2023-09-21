@@ -42,11 +42,7 @@ class ProjectsEvents extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string groupId Required. The group for which events shall be
-   * returned. The `group_id` is a unique identifier for a particular error group.
-   * The identifier is derived from key parts of the error-log content and is
-   * treated as Service Data. For information about how Service Data is handled,
-   * see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-
-   * privacy-notice).
+   * returned.
    * @opt_param int pageSize Optional. The maximum number of results to return per
    * response.
    * @opt_param string pageToken Optional. A `next_page_token` provided by a
@@ -84,8 +80,8 @@ class ProjectsEvents extends \Google\Service\Resource
    * @param string $projectName Required. The resource name of the Google Cloud
    * Platform project. Written as `projects/{projectId}`, where `{projectId}` is
    * the [Google Cloud Platform project
-   * ID](https://support.google.com/cloud/answer/6158840). Example: //
-   * `projects/my-project-123`.
+   * ID](https://support.google.com/cloud/answer/6158840). Example: // `projects
+   * /my-project-123`.
    * @param ReportedErrorEvent $postBody
    * @param array $optParams Optional parameters.
    * @return ReportErrorEventResponse

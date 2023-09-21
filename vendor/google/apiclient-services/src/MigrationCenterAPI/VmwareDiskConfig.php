@@ -26,7 +26,7 @@ class VmwareDiskConfig extends \Google\Model
   /**
    * @var string
    */
-  public $rdmCompatibility;
+  public $rdmCompatibilityMode;
   /**
    * @var bool
    */
@@ -34,7 +34,7 @@ class VmwareDiskConfig extends \Google\Model
   /**
    * @var string
    */
-  public $vmdkMode;
+  public $vmdkDiskMode;
 
   /**
    * @param string
@@ -53,16 +53,16 @@ class VmwareDiskConfig extends \Google\Model
   /**
    * @param string
    */
-  public function setRdmCompatibility($rdmCompatibility)
+  public function setRdmCompatibilityMode($rdmCompatibilityMode)
   {
-    $this->rdmCompatibility = $rdmCompatibility;
+    $this->rdmCompatibilityMode = $rdmCompatibilityMode;
   }
   /**
    * @return string
    */
-  public function getRdmCompatibility()
+  public function getRdmCompatibilityMode()
   {
-    return $this->rdmCompatibility;
+    return $this->rdmCompatibilityMode;
   }
   /**
    * @param bool
@@ -81,16 +81,16 @@ class VmwareDiskConfig extends \Google\Model
   /**
    * @param string
    */
-  public function setVmdkMode($vmdkMode)
+  public function setVmdkDiskMode($vmdkDiskMode)
   {
-    $this->vmdkMode = $vmdkMode;
+    $this->vmdkDiskMode = $vmdkDiskMode;
   }
   /**
    * @return string
    */
-  public function getVmdkMode()
+  public function getVmdkDiskMode()
   {
-    return $this->vmdkMode;
+    return $this->vmdkDiskMode;
   }
 }
 

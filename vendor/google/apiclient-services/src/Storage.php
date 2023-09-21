@@ -57,7 +57,6 @@ class Storage extends \Google\Service
   public $notifications;
   public $objectAccessControls;
   public $objects;
-  public $operations;
   public $projects_hmacKeys;
   public $projects_serviceAccount;
 
@@ -271,10 +270,6 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                   'required' => true,
-                ],
-                'enableObjectRetention' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ],
                 'predefinedAcl' => [
                   'location' => 'query',
@@ -834,17 +829,7 @@ class Storage extends \Google\Service
         'objects',
         [
           'methods' => [
-            'bulkRestore' => [
-              'path' => 'b/{bucket}/o/bulkRestore',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'bucket' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'compose' => [
+            'compose' => [
               'path' => 'b/{destinationBucket}/o/{destinationObject}/compose',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -1033,10 +1018,6 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
-                'softDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
                 'userProject' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -1156,10 +1137,6 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
-                'softDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
                 'startOffset' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -1207,55 +1184,7 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
-                'overrideUnlockedRetention' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
                 'predefinedAcl' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'projection' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'userProject' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'restore' => [
-              'path' => 'b/{bucket}/o/{object}/restore',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'bucket' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'object' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'generation' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'ifGenerationMatch' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'ifGenerationNotMatch' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'ifMetagenerationMatch' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'ifMetagenerationNotMatch' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -1439,10 +1368,6 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
-                'overrideUnlockedRetention' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
                 'predefinedAcl' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -1504,68 +1429,6 @@ class Storage extends \Google\Service
                 'versions' => [
                   'location' => 'query',
                   'type' => 'boolean',
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->operations = new Storage\Resource\Operations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'cancel' => [
-              'path' => 'b/{bucket}/operations/{operationId}/cancel',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'bucket' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'operationId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'b/{bucket}/operations/{operationId}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'bucket' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'operationId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'b/{bucket}/operations',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'bucket' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'filter' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
                 ],
               ],
             ],

@@ -74,41 +74,11 @@ class CloudComposer extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'databaseFailover' => [
-              'path' => 'v1/{+environment}:databaseFailover',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'environment' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
             ],'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'executeAirflowCommand' => [
-              'path' => 'v1/{+environment}:executeAirflowCommand',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'environment' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'fetchDatabaseProperties' => [
-              'path' => 'v1/{+environment}:fetchDatabaseProperties',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'environment' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -166,28 +136,8 @@ class CloudComposer extends \Google\Service
                   'type' => 'string',
                 ],
               ],
-            ],'pollAirflowCommand' => [
-              'path' => 'v1/{+environment}:pollAirflowCommand',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'environment' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
             ],'saveSnapshot' => [
               'path' => 'v1/{+environment}:saveSnapshot',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'environment' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'stopAirflowCommand' => [
-              'path' => 'v1/{+environment}:stopAirflowCommand',
               'httpMethod' => 'POST',
               'parameters' => [
                 'environment' => [

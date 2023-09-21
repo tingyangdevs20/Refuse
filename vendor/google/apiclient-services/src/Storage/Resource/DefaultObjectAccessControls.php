@@ -101,7 +101,7 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    * value.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
-   * @return ObjectAccessControlsModel
+   * @return ObjectAccessControls
    */
   public function listDefaultObjectAccessControls($bucket, $optParams = [])
   {

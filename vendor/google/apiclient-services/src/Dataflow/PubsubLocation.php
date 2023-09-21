@@ -24,10 +24,6 @@ class PubsubLocation extends \Google\Model
    */
   public $dropLateData;
   /**
-   * @var bool
-   */
-  public $dynamicDestinations;
-  /**
    * @var string
    */
   public $idLabel;
@@ -65,20 +61,6 @@ class PubsubLocation extends \Google\Model
   public function getDropLateData()
   {
     return $this->dropLateData;
-  }
-  /**
-   * @param bool
-   */
-  public function setDynamicDestinations($dynamicDestinations)
-  {
-    $this->dynamicDestinations = $dynamicDestinations;
-  }
-  /**
-   * @return bool
-   */
-  public function getDynamicDestinations()
-  {
-    return $this->dynamicDestinations;
   }
   /**
    * @param string

@@ -47,8 +47,6 @@ class DataExchange extends \Google\Model
    * @var string
    */
   public $primaryContact;
-  protected $sharingEnvironmentConfigType = SharingEnvironmentConfig::class;
-  protected $sharingEnvironmentConfigDataType = '';
 
   /**
    * @param string
@@ -147,20 +145,6 @@ class DataExchange extends \Google\Model
   public function getPrimaryContact()
   {
     return $this->primaryContact;
-  }
-  /**
-   * @param SharingEnvironmentConfig
-   */
-  public function setSharingEnvironmentConfig(SharingEnvironmentConfig $sharingEnvironmentConfig)
-  {
-    $this->sharingEnvironmentConfig = $sharingEnvironmentConfig;
-  }
-  /**
-   * @return SharingEnvironmentConfig
-   */
-  public function getSharingEnvironmentConfig()
-  {
-    return $this->sharingEnvironmentConfig;
   }
 }
 

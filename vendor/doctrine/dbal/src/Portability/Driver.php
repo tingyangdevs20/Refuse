@@ -7,7 +7,6 @@ use Doctrine\DBAL\Driver as DriverInterface;
 use Doctrine\DBAL\Driver\Middleware\AbstractDriverMiddleware;
 use LogicException;
 use PDO;
-use SensitiveParameter;
 
 use function method_exists;
 
@@ -16,9 +15,11 @@ use const CASE_UPPER;
 
 final class Driver extends AbstractDriverMiddleware
 {
-    private int $mode;
+    /** @var int */
+    private $mode;
 
-    private int $case;
+    /** @var int */
+    private $case;
 
     public function __construct(DriverInterface $driver, int $mode, int $case)
     {
@@ -31,15 +32,13 @@ final class Driver extends AbstractDriverMiddleware
     /**
      * {@inheritDoc}
      */
-    public function connect(
-        #[SensitiveParameter]
-        array $params
-    ) {
+    public function connect(array $params)
+    {
         $connection = parent::connect($params);
 
         $portability = (new OptimizeFlags())(
             $this->getDatabasePlatform(),
-            $this->mode,
+            $this->mode
         );
 
         $case = null;
@@ -70,7 +69,7 @@ final class Driver extends AbstractDriverMiddleware
 
         return new Connection(
             $connection,
-            new Converter($convertEmptyStringToNull, $rightTrimString, $case),
+            new Converter($convertEmptyStringToNull, $rightTrimString, $case)
         );
     }
 }

@@ -26,10 +26,6 @@ class GoogleCloudDialogflowCxV3beta1TransitionRoute extends \Google\Model
   /**
    * @var string
    */
-  public $description;
-  /**
-   * @var string
-   */
   public $intent;
   /**
    * @var string
@@ -59,20 +55,6 @@ class GoogleCloudDialogflowCxV3beta1TransitionRoute extends \Google\Model
   public function getCondition()
   {
     return $this->condition;
-  }
-  /**
-   * @param string
-   */
-  public function setDescription($description)
-  {
-    $this->description = $description;
-  }
-  /**
-   * @return string
-   */
-  public function getDescription()
-  {
-    return $this->description;
   }
   /**
    * @param string

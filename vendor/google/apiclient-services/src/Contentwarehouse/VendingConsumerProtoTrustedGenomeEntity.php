@@ -17,9 +17,8 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class VendingConsumerProtoTrustedGenomeEntity extends \Google\Collection
+class VendingConsumerProtoTrustedGenomeEntity extends \Google\Model
 {
-  protected $collection_key = 'recsTopicId';
   /**
    * @var string
    */
@@ -28,10 +27,6 @@ class VendingConsumerProtoTrustedGenomeEntity extends \Google\Collection
    * @var string
    */
   public $id;
-  /**
-   * @var bool
-   */
-  public $isLocalized;
   /**
    * @var int
    */
@@ -44,10 +39,6 @@ class VendingConsumerProtoTrustedGenomeEntity extends \Google\Collection
    * @var string
    */
   public $queryText;
-  /**
-   * @var string[]
-   */
-  public $recsTopicId;
   /**
    * @var float
    */
@@ -90,20 +81,6 @@ class VendingConsumerProtoTrustedGenomeEntity extends \Google\Collection
     return $this->id;
   }
   /**
-   * @param bool
-   */
-  public function setIsLocalized($isLocalized)
-  {
-    $this->isLocalized = $isLocalized;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsLocalized()
-  {
-    return $this->isLocalized;
-  }
-  /**
    * @param int
    */
   public function setLevel($level)
@@ -144,20 +121,6 @@ class VendingConsumerProtoTrustedGenomeEntity extends \Google\Collection
   public function getQueryText()
   {
     return $this->queryText;
-  }
-  /**
-   * @param string[]
-   */
-  public function setRecsTopicId($recsTopicId)
-  {
-    $this->recsTopicId = $recsTopicId;
-  }
-  /**
-   * @return string[]
-   */
-  public function getRecsTopicId()
-  {
-    return $this->recsTopicId;
   }
   /**
    * @param float

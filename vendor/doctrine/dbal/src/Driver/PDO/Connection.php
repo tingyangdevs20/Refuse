@@ -2,7 +2,6 @@
 
 namespace Doctrine\DBAL\Driver\PDO;
 
-use Doctrine\DBAL\Driver\PDO\PDOException as DriverPDOException;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
@@ -16,9 +15,12 @@ use function assert;
 
 final class Connection implements ServerInfoAwareConnection
 {
-    private PDO $connection;
+    /** @var PDO */
+    private $connection;
 
-    /** @internal The connection can be only instantiated by its driver. */
+    /**
+     * @internal The connection can be only instantiated by its driver.
+     */
     public function __construct(PDO $connection)
     {
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -40,7 +42,7 @@ final class Connection implements ServerInfoAwareConnection
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getServerVersion()
     {
@@ -77,15 +79,15 @@ final class Connection implements ServerInfoAwareConnection
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function quote($value, $type = ParameterType::STRING)
     {
-        return $this->connection->quote($value, ParameterTypeMap::convertParamType($type));
+        return $this->connection->quote($value, $type);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function lastInsertId($name = null)
     {
@@ -97,7 +99,7 @@ final class Connection implements ServerInfoAwareConnection
             Deprecation::triggerIfCalledFromOutside(
                 'doctrine/dbal',
                 'https://github.com/doctrine/dbal/issues/4687',
-                'The usage of Connection::lastInsertId() with a sequence name is deprecated.',
+                'The usage of Connection::lastInsertId() with a sequence name is deprecated.'
             );
 
             return $this->connection->lastInsertId($name);
@@ -108,29 +110,17 @@ final class Connection implements ServerInfoAwareConnection
 
     public function beginTransaction(): bool
     {
-        try {
-            return $this->connection->beginTransaction();
-        } catch (PDOException $exception) {
-            throw DriverPDOException::new($exception);
-        }
+        return $this->connection->beginTransaction();
     }
 
     public function commit(): bool
     {
-        try {
-            return $this->connection->commit();
-        } catch (PDOException $exception) {
-            throw DriverPDOException::new($exception);
-        }
+        return $this->connection->commit();
     }
 
     public function rollBack(): bool
     {
-        try {
-            return $this->connection->rollBack();
-        } catch (PDOException $exception) {
-            throw DriverPDOException::new($exception);
-        }
+        return $this->connection->rollBack();
     }
 
     public function getNativeConnection(): PDO
@@ -138,14 +128,16 @@ final class Connection implements ServerInfoAwareConnection
         return $this->connection;
     }
 
-    /** @deprecated Call {@see getNativeConnection()} instead. */
+    /**
+     * @deprecated Call {@see getNativeConnection()} instead.
+     */
     public function getWrappedConnection(): PDO
     {
         Deprecation::triggerIfCalledFromOutside(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/pull/5037',
             '%s is deprecated, call getNativeConnection() instead.',
-            __METHOD__,
+            __METHOD__
         );
 
         return $this->getNativeConnection();

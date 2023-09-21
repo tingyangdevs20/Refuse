@@ -29,14 +29,6 @@ class UpdateNodePoolRequest extends \Google\Collection
   /**
    * @var string
    */
-  public $diskSizeGb;
-  /**
-   * @var string
-   */
-  public $diskType;
-  /**
-   * @var string
-   */
   public $etag;
   protected $fastSocketType = FastSocket::class;
   protected $fastSocketDataType = '';
@@ -60,10 +52,6 @@ class UpdateNodePoolRequest extends \Google\Collection
   public $locations;
   protected $loggingConfigType = NodePoolLoggingConfig::class;
   protected $loggingConfigDataType = '';
-  /**
-   * @var string
-   */
-  public $machineType;
   /**
    * @var string
    */
@@ -126,34 +114,6 @@ class UpdateNodePoolRequest extends \Google\Collection
   public function getConfidentialNodes()
   {
     return $this->confidentialNodes;
-  }
-  /**
-   * @param string
-   */
-  public function setDiskSizeGb($diskSizeGb)
-  {
-    $this->diskSizeGb = $diskSizeGb;
-  }
-  /**
-   * @return string
-   */
-  public function getDiskSizeGb()
-  {
-    return $this->diskSizeGb;
-  }
-  /**
-   * @param string
-   */
-  public function setDiskType($diskType)
-  {
-    $this->diskType = $diskType;
-  }
-  /**
-   * @return string
-   */
-  public function getDiskType()
-  {
-    return $this->diskType;
   }
   /**
    * @param string
@@ -294,20 +254,6 @@ class UpdateNodePoolRequest extends \Google\Collection
   public function getLoggingConfig()
   {
     return $this->loggingConfig;
-  }
-  /**
-   * @param string
-   */
-  public function setMachineType($machineType)
-  {
-    $this->machineType = $machineType;
-  }
-  /**
-   * @return string
-   */
-  public function getMachineType()
-  {
-    return $this->machineType;
   }
   /**
    * @param string

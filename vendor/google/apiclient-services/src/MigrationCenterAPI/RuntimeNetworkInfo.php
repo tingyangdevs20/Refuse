@@ -24,7 +24,9 @@ class RuntimeNetworkInfo extends \Google\Model
   /**
    * @var string
    */
-  public $scanTime;
+  public $netstat;
+  protected $netstatTimeType = DateTime::class;
+  protected $netstatTimeDataType = '';
 
   /**
    * @param NetworkConnectionList
@@ -43,16 +45,30 @@ class RuntimeNetworkInfo extends \Google\Model
   /**
    * @param string
    */
-  public function setScanTime($scanTime)
+  public function setNetstat($netstat)
   {
-    $this->scanTime = $scanTime;
+    $this->netstat = $netstat;
   }
   /**
    * @return string
    */
-  public function getScanTime()
+  public function getNetstat()
   {
-    return $this->scanTime;
+    return $this->netstat;
+  }
+  /**
+   * @param DateTime
+   */
+  public function setNetstatTime(DateTime $netstatTime)
+  {
+    $this->netstatTime = $netstatTime;
+  }
+  /**
+   * @return DateTime
+   */
+  public function getNetstatTime()
+  {
+    return $this->netstatTime;
   }
 }
 
