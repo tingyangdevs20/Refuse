@@ -176,7 +176,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="#" class="text-decoration-none" id="paypal-option-button">
                                         <div class="card shadow text-white" style="background: #2a3042;">
                                             <div class="card-body">
                                                 <h5 class="card-title"><i class="fab fa-paypal text-primary"></i> PayPal</h5>
@@ -235,7 +235,6 @@
             </div>
         </div>
 
-
         <!-- Stripe Payment Modal -->
         <div class="modal fade" id="stripeModal" tabindex="-1" role="dialog" aria-labelledby="stripeModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -266,6 +265,33 @@
                 </div>
             </div>
         </div>
+
+
+         <!-- PayPal Payment Modal -->
+        <div class="modal fade" id="paypal-modal" tabindex="-1" role="dialog" aria-labelledby="paypalModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paypalModalLabel">PayPal Payment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="paypal-payment-form">
+                            <div class="form-group">
+                                <label for="paypal-amount">Amount ($)</label>
+                                <input type="number" class="form-control" minlength="1" id="paypal-amount" name="amount" required>
+                            </div>
+                            <div id="paypal-button-container"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div> <!-- container-fluid -->
 </div>
 
@@ -278,6 +304,9 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AZ8fz30StNKuyvQzps86oEvztS98o6NMnlA4m-gyaE5ICQD80Mi3hcb2DN3Hg1yar7DgHCvcAgTh5llf"></script>
+    <script src="{{ asset('back/assets/js/pages/stripe.js') }}"></script>
+    <script src="{{ asset('back/assets/js/pages/paypal.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable();
@@ -286,99 +315,7 @@
     </script>
 
 <script>
-   $(document).ready(function () {
-        // Initialize Stripe outside of the event handler
-        var stripe = Stripe('pk_test_51MtZDzApRCJCEL2v4N99StaGAL6Z3fTpGsbRdHiIlSiF4BlNvkheZhl2PrDVB0xZ2FH7GNtP8E66wWKTtQNk5uIj00jqUIwU2M'); // Replace with your actual Stripe public key
-        var elements = stripe.elements();
-        var cardElement = elements.create('card');
 
-        // Mount the card element to the DOM
-        cardElement.mount('#card-element');
-
-        // Flag to track whether the payment button is disabled
-        var isPaymentButtonDisabled = false;
-
-        // Get a reference to the payment button
-        var paymentButton = $('#pay-with-stripe-button');
-
-        // Handle Stripe payment form submission
-        $('#stripe-payment-form').submit(function (e) {
-            e.preventDefault();
-
-            if (isPaymentButtonDisabled) {
-                return; // Don't allow multiple submissions
-            }
-
-            // Disable the payment button and change text to "Processing..."
-            paymentButton.prop('disabled', true).text('Processing...');
-            isPaymentButtonDisabled = true;
-
-            // Create a Payment Method using the card element
-            stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement
-            }).then(function (result) {
-                if (result.error) {
-                    // Handle errors (e.g., invalid card)
-
-                    // Enable the payment button again and reset text
-                    paymentButton.prop('disabled', false).text('Pay with Stripe');
-                    isPaymentButtonDisabled = false;
-
-                    Swal.fire('Error', result.error.message, 'error');
-                } else {
-                    // Payment method successfully created, store the ID in the hidden field
-                    $('#payment_method').val(result.paymentMethod.id);
-
-                    // Now submit the form to process the payment
-                    axios.post('/process-stripe-payment', $('#stripe-payment-form').serialize())
-                        .then(function (response) {
-
-                            if (response.data.message) {
-                                // Payment successful, show a success message using SweetAlert2
-                                Swal.fire('Success', response.data.message, 'success')
-                                    .then(function () {
-                                        // Close the modal
-                                        $('#stripeModal').modal('hide');
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 1000);
-
-                                    });
-                            } else {
-                                // Handle other scenarios if needed
-                                Swal.fire('Error', 'An error occurred during payment processing', 'error');
-                            }
-                        })
-                        .catch(function (error) {
-                            // Handle payment errors and display error messages
-                            Swal.fire('Error', error.response.data.error, 'error');
-                        })
-                        .finally(function () {
-                            // Enable the payment button again and reset text
-                            paymentButton.prop('disabled', false).text('Pay with Stripe');
-                            isPaymentButtonDisabled = false;
-
-                            // Reset the form
-                            $('#stripe-payment-form')[0].reset();
-                        });
-                }
-            });
-        });
-
-        // Handle modal show event
-        $('#stripeModal').on('show.bs.modal', function () {
-            // Clear any existing card data (e.g., previous card number)
-            cardElement.clear();
-        });
-
-        // Show Stripe modal when the user clicks on the Stripe option
-        $('#stripe-option').click(function () {
-            $('#stripeModal').modal('show');
-        });
-    });
-
-
-    </script>
+</script>
 
 @endsection

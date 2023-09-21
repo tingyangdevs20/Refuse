@@ -360,3 +360,5 @@ Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout'
 
 
 Route::post('/process-stripe-payment', 'StripePaymentController@processStripePayment')->name('stripe.process');
+Route::post('/store-transaction', 'StripePaymentController@paypalStore')->name('store-transaction');
+

@@ -516,4 +516,33 @@ class StripePaymentController extends Controller
         }
     }
 
+    public function paypalStore(Request $request)
+    {
+
+        $data = $request->validate([
+            'transaction_id' => 'required',
+            'payment_method' => 'required',
+            'amount' => 'required|numeric',
+            'transaction_date' => 'required|date',
+            'status' => 'required',
+        ]);
+
+        // Create a new transaction record in the database
+        $user = Auth::user();
+        $accountDetail = new AccountDetail();
+        $accountDetail->user_id = $user->id;
+        $accountDetail->transaction_id = $request->transaction_id;
+        $accountDetail->payment_method = $request->payment_method;
+        $accountDetail->amount = $request->amount;
+        $accountDetail->currency = 'usd';
+        $accountDetail->transaction_date = $request->transaction_date;
+        $accountDetail->status = $request->status;
+        $accountDetail->save();
+
+        // You can return a success response if needed
+        return response()->json(['success' => true]);
+    }
+
+
+
 }
