@@ -34,6 +34,7 @@ use App\Model\FormTemplates;
 use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
 use Google_Service_Drive as Drive;
+use Auth;
 
 use App\Services\DatazappService;
 
@@ -122,12 +123,13 @@ class GroupController extends Controller
             $title_company = DB::table('title_company')->where('contact_id' , $id)->first();
         }
         //dd($property_infos);
-        
+
+        $uid = Auth::id();
         $contact=Contact::where('id',$id)->first();
         $cnt_mob1=$contact->number;
         $cnt_mob2=$contact->number2;
         $cnt_mob3=$contact->number3;
-        $getAllAppointments = Scheduler::where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
+        $getAllAppointments = Scheduler::where('admin_uid', $uid)->where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
 
         //print_r($getAllAppointments);
         //die("..");

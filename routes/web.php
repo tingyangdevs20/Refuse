@@ -314,6 +314,7 @@ Route::post('/appointments', 'Admin\AppointmentController@store')->name('appoint
 // Appointment Routes
 Route::resource('/appointments','Admin\AppointmentController');
 Route::post('/cancel-appointment','Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
+Route::post('/get-appointment','Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
 Route::post('/reschdule-appointment','Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
 /** google calendar routes */
 Route::get('/google-calendar/connect', 'Admin\AppointmentController@connectGoogleCalendar')->name('connectGoogleCalendar');
