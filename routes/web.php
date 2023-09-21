@@ -309,7 +309,7 @@ Route::resource('/appointments','Admin\AppointmentController');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
-Route::get('/appointment/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');
+Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('admin.appointment');
 //Route::get('/appointments/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');
 Route::post('/appointments', 'Admin\AppointmentController@store')->name('appointment.store');
 // Appointment Routes
