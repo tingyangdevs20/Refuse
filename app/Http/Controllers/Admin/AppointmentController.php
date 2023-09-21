@@ -13,6 +13,7 @@ use DB;
 use DATETIME;
 use App\Model\Contact;
 use \Illuminate\Support\Facades\View as View;
+use Redirect;
 
 class AppointmentController extends Controller
 {
@@ -68,6 +69,8 @@ class AppointmentController extends Controller
             $uid = decrypt($uid);
             
             return view('book-appointment',compact('bookedSlots','uid'));
+        }else{
+            return Redirect::back();
         }
     }
 
