@@ -15,6 +15,7 @@ use App\Model\Contact;
 use \Illuminate\Support\Facades\View as View;
 use Redirect;
 
+
 class AppointmentController extends Controller
 {
     /**
