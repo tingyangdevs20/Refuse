@@ -319,8 +319,9 @@ h3>small {
 
 .close-icon {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
 }
 
 .gl-open-chat-box .chat-user-info {
@@ -354,4 +355,23 @@ h3>small {
      color: unset;
      background-color: unset;
     border-color: unset;
+}
+
+.message-icon-design{
+    max-width: 100px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: absolute;
+    right: 30px;
+    bottom: 24px;
+}
+.message-icon-design img{
+    max-width: 100%;
+    width:100%;
+    z-index: 8888;
+    cursor: pointer;
 }

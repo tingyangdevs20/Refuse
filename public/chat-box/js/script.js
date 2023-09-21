@@ -14,7 +14,7 @@ window.onload = function (e) {
     // console.log("hi, inside window.onload function");
 }
 
-const baseUrl = "https://brian-bagnall.com/bulk/bulk_sms_new/api/v1/"
+const baseUrl = "http://127.0.0.1:8000/api/v1/"
 function loadStyle(url) {
     var link = document.createElement("link")
     link.type = 'text/css'
@@ -75,7 +75,7 @@ var loadChatWindow = function () {
                <div class="chat-box-header">
                 <h3>Support Chat<br /></h3>
                </div>
-              <i class="fa fa-times close-icon" aria-hidden="true"></i>
+              <i class="fa fa-times close-icon" id="close-icon" aria-hidden="true"></i>
               <h3>Hi There</h3>
               <p>We are here to help. </p>
               <p style="color: red;display: none" id="error-message"></p>
@@ -95,6 +95,7 @@ var loadChatWindow = function () {
       <div class="chat-box-header">
         <h3>Support Chat<br /></h3>
       </div>
+       <i class="fa fa-times close-icon" id="close-icon" aria-hidden="true"></i>
       <div id="chat_box_body" class="chat-box-body">
         <div id="chat_messages">
             <div class="gl-chat-suggestions">
@@ -117,8 +118,10 @@ var loadChatWindow = function () {
         </button>
       </div>
     </div>
+    <div class="message-icon-design" id="min-chat-icon">
+       <img src="/chat-box/img/chat.svg">
+   </div>
     `;
-
 
     // ---------End Chat Window HTML -------------//
     setTimeout(function () {
@@ -132,20 +135,34 @@ var loadChatWindow = function () {
         }
 
         // // Call Session init
-        const currentSession = session();
-        if(currentSession){
-            getMessagesFromServer()
-            $('.main-parent-box').fadeOut();
-            $('.gl-chat-box').fadeIn();
-        }else{
-            $('.gl-chat-box').fadeOut();
-            $('.main-parent-box').fadeIn();
-        }
+        var currentSession = session();
+
         if(currentSession) {
             setInterval(function () {
                 getMessagesFromServer();
             }, 5000);
         }
+
+        $(document).on("click", "#min-chat-icon", function (evt) {
+            if(currentSession){
+                getMessagesFromServer()
+                // $('.main-parent-box').fadeOut();
+                $('.gl-chat-box').fadeIn();
+            }else{
+                // $('.gl-chat-box').fadeOut();
+                $('.main-parent-box').fadeIn();
+            }
+            console.log('this',this)
+            this.style.display='none'
+            evt.preventDefault();
+        });
+
+        $(document).on("click", "#close-icon", function (evt) {
+            $('.gl-chat-box').fadeOut();
+            $('.main-parent-box').fadeOut();
+            $('#min-chat-icon').fadeIn();
+            evt.preventDefault();
+        })
 
 
 
@@ -174,6 +191,7 @@ var loadChatWindow = function () {
         sendMessage('my', $('#chat_input').val());
         evt.preventDefault();
     });
+
 
     function renderProfile(p) {
         return '<div class="profile ' + p + '-profile hide"></div>';
@@ -361,6 +379,7 @@ var loadChatWindow = function () {
             data:JSON.stringify({name,number}),
             success: function(data) {
                 if(data.status){
+                    currentSession = data.data.session_id
                     sessionStorage.setItem('session', data.data.session_id);
                     $('.main-parent-box').fadeOut();
                     $('.gl-chat-box').fadeIn();
