@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
-                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id" required>
+                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id">
                                         <option value="">Select Tag</option>
                                         @foreach($tags as $tag)
                                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>

@@ -2,34 +2,32 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Gmails;
-use App\Model\Sms;
-use App\Model\Reply;
-use App\Model\Emails;
-use App\Model\Number;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Model\Blacklist;
+use Illuminate\Support\Facades\Mail;
 use App\Model\Contact;
 use App\Mail\TestEmail;
-use App\Model\Template;
-use App\Model\Blacklist;
+use App\Model\Emails;
 use App\Model\FailedSms;
 use App\Model\LeadCategory;
+use App\Model\Template;
+use App\Model\Number;
 use App\Model\QuickResponse;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Model\Reply;
+use App\Model\Sms;
 use RealRashid\SweetAlert\Facades\Alert;
-use Dacastro4\LaravelGmail\Facade\LaravelGmail;
-use Dacastro4\LaravelGmail\Services\Message\Mail as GMAIL;
-use Illuminate\Support\Facades\Mail;
 
 class Email extends Controller
 {
     //
     public function index()
     {
+
         $numbers = Number::all();
         $templates = Template::all();
         $contact = Contact::all();
-        return view('back.pages.email.index', compact('numbers', 'templates', 'contact'));
+        return view('back.pages.email.index', compact('numbers', 'templates','contact'));
     }
 
     public function store(Request $request)
@@ -75,7 +73,7 @@ class Email extends Controller
                 // $mail->load();
                 $mail = LaravelGmail::message()->preload()->get($mail->id);
 
-                
+
                 $emails->gmail_thread_id = $mail->threadId;
                 $emails->gmail_mail_id = $mail->id;
 
@@ -102,7 +100,14 @@ class Email extends Controller
             return redirect()->back();
         } catch (\Exception $ex) {
             dd($ex->getMessage());
-            Alert::error('Oops!', 'An error occured!');
+            $failed_sms = new FailedSms();
+            $failed_sms->client_number = $receiver_number;
+            $failed_sms->twilio_number = $sender_number;
+            $failed_sms->message = $request->message;
+            $failed_sms->media = $request->media_file == null ? 'No' : $media;
+            $failed_sms->error = $ex->getMessage();
+            $failed_sms->save();
+            Alert::error('Oops!', 'Check Failed Message Page!');
             return redirect()->back();
         }
     }

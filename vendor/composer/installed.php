@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '91b1783e25819e3b2274b2158e3749c941b69002',
+        'reference' => 'd39475ea0b91f4227bbf57b1568f631def267c07',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -42,6 +42,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'dacastro4/laravel-gmail' => array(
+            'pretty_version' => 'v4.0.41',
+            'version' => '4.0.41.0',
+            'reference' => 'be3b11a4d253a7710e308b3259ccd7edb4af8a1a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../dacastro4/laravel-gmail',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'davedevelopment/hamcrest-php' => array(
             'dev_requirement' => true,
@@ -466,7 +475,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '91b1783e25819e3b2274b2158e3749c941b69002',
+            'reference' => 'd39475ea0b91f4227bbf57b1568f631def267c07',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

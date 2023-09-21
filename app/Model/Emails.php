@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\EmailReply;
+use App\Model\Contact;
 use Illuminate\Database\Eloquent\Model;
 
 class Emails extends Model

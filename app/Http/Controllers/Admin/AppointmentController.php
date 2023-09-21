@@ -11,6 +11,7 @@ use Exception;
 use Carbon\Carbon;
 use DB;
 use DATETIME;
+use App\Model\Contact;
 
 class AppointmentController extends Controller
 {
@@ -30,7 +31,7 @@ class AppointmentController extends Controller
 
         // get specific user appointments based on user timezone
         $getUserAppointments = Scheduler::select('id','name','email','mobile','appt_date','appt_time','timezone','description')
-        ->where('user_id',2)
+       
         ->where('status','booked')
         ->where(DB::raw('CONCAT(DATE(appt_date)," ",appt_time)'),'>', $now)
         ->orderBy(DB::raw('DATE(appt_date)'), 'ASC')
@@ -95,7 +96,7 @@ class AppointmentController extends Controller
             'appt_date' => 'required',
             'appt_time' => 'required',
             'name' => 'required|min:2',
-            'mobile' => 'required|digits:10',
+            'mobile' => 'required',
             'email' => 'required|email|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'description' => 'required',
         ]);
@@ -108,6 +109,9 @@ class AppointmentController extends Controller
             $now = Carbon::now();
             // print_r($request->timezone);
             // exit;
+            $eml=$request->email;
+           // $contact=Contact::where('email1',$eml)->orWhere('email2',$eml)->first();
+           // $cnt_id=$contact->id;
             $createAppointment = Scheduler::create([
                 'timezone' => $request->timezone,
                 'appt_date' => $request->appt_date,
@@ -118,8 +122,8 @@ class AppointmentController extends Controller
                 'description' => $request->description,
                 'status' => 'booked',
                 'created_at' => $now,
-                'updated_at' => $now,
-                'user_id' => 2
+                'updated_at' => $now
+               // 'user_id' => $cnt_id
             ]);
 
             if($createAppointment->id) {

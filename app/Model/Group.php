@@ -30,4 +30,13 @@ class Group extends Model
     {
         return $this->contacts()->where("contract_verified",1)->count();
     }
+    public function getContactCountByEmailId($email,$email2,$number,$number2,$number3)
+    {
+        $query=Contact::where("email1",$email);
+        if($email2!=null && $email2!=''){$query->orWhere("email2",$email2);}
+        if($number!=null && $number!='' && strlen($number)>3){$query->orWhere('number', '=', $number);}
+        if($number2!=null && $number2!='' && strlen($number2)>3){$query->orWhere('number2', '=', $number2);}
+        if($number3!=null && $number3!='' && strlen($number3)>3){$query->orWhere('number3', '=', $number3);}
+            return  $query->distinct('id')->count('id');
+    }
 }
