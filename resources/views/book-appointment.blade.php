@@ -802,7 +802,7 @@
 
     // open modal when click on cancel button
     $(document).on('click','.cancel-btn',function(){
-
+      var appt_id = $(this).attr('data-appt_id'); // appointment id
       $( ".cancel_appt_modal" ).dialog({
         width: 500,
         draggable: false,
@@ -815,8 +815,6 @@
         },
         buttons: {
           "Yes": function() {
-            
-            var appt_id = $('.appt_id').val(); // appointment id
             // alert(appt_id);
             // Ajax for cancelling appointment
             $.ajax({
@@ -871,13 +869,11 @@
 
     // open modal when click on cancel button
     $(document).on('click','.reschedule-btn',function(){
-
+        var appt_id = $(this).attr('data-appt_id'); // appointment id
         var previousDate = $('.previous_date').val();
         // alert(previousDate);
         var previousTime = $('.previous_time').val();
-        // alert(previousTime);
-
-      
+        // alert(previousTime);      
         // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
         $( ".reschedule_appt_modal" ).dialog({
           width: 500,
@@ -899,7 +895,7 @@
           buttons: {
             "Update": function() {
               
-              var appt_id = $('.appt_id').val(); // appointment id
+              
               var rescheduleDate = $('.appt_date').val(); // date
               var rescheduleTime = $('.appt_time').val(); // time
               // alert(appt_id);

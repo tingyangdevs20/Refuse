@@ -15,8 +15,8 @@
             <p class="appt-u-datetime"><b class="c-inner-text">When: </b>{{ date('M j Y', strtotime($userAppointments->appt_date)) }}, {{ date('H:i', strtotime($userAppointments->appt_time)) }} ({{ $userAppointments->timezone }})</p>
             <p class="appt-u-description"><b class="c-inner-text">Purpose: </b>{{ $userAppointments->description }}</p>
             <div class="appt-buttons">
-            <button type="button" class="cancel-btn">Cancel</button>
-            <button type="button" class="reschedule-btn">Reschedule</button>
+            <button type="button" class="cancel-btn" data-appt_id="{{$userAppointments->id}}">Cancel</button>
+            <button type="button" class="reschedule-btn" data-appt_id="{{$userAppointments->id}}">Reschedule</button>
             </div>
         </div>
     </div>
