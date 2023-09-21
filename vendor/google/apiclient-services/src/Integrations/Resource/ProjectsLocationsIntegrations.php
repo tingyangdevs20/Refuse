@@ -17,6 +17,8 @@
 
 namespace Google\Service\Integrations\Resource;
 
+use Google\Service\Integrations\ExecuteEventRequestContent;
+use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteEventResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
@@ -66,6 +68,28 @@ class ProjectsLocationsIntegrations extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('execute', [$params], GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse::class);
+  }
+  /**
+   * Executes an integration on receiving events from Integration Connector
+   * triggers, Eventarc or CPS Trigger. Input data to integration is received in
+   * body in json format (integrations.executeEvent)
+   *
+   * @param string $name Required. The integration resource name. Format:
+   * projects/{gcp_project_id}/locations/{location}/integrations/{integration_id}
+   * @param ExecuteEventRequestContent $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string triggerId Required. Id of the integration trigger config.
+   * The trigger_id is in the format: `integration_connector_trigger/projects/{gcp
+   * _project_id}/location/{location}/connections/{connection_name}/subscriptions/
+   * {subscription_name}`.
+   * @return GoogleCloudIntegrationsV1alphaExecuteEventResponse
+   */
+  public function executeEvent($name, ExecuteEventRequestContent $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('executeEvent', [$params], GoogleCloudIntegrationsV1alphaExecuteEventResponse::class);
   }
   /**
    * Returns the list of all integrations in the specified project.

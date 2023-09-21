@@ -28,6 +28,8 @@ class InstanceGroupConfig extends \Google\Collection
    * @var string
    */
   public $imageUri;
+  protected $instanceFlexibilityPolicyType = InstanceFlexibilityPolicy::class;
+  protected $instanceFlexibilityPolicyDataType = '';
   /**
    * @var string[]
    */
@@ -48,6 +50,10 @@ class InstanceGroupConfig extends \Google\Collection
    * @var string
    */
   public $minCpuPlatform;
+  /**
+   * @var int
+   */
+  public $minNumInstances;
   /**
    * @var int
    */
@@ -98,6 +104,20 @@ class InstanceGroupConfig extends \Google\Collection
   public function getImageUri()
   {
     return $this->imageUri;
+  }
+  /**
+   * @param InstanceFlexibilityPolicy
+   */
+  public function setInstanceFlexibilityPolicy(InstanceFlexibilityPolicy $instanceFlexibilityPolicy)
+  {
+    $this->instanceFlexibilityPolicy = $instanceFlexibilityPolicy;
+  }
+  /**
+   * @return InstanceFlexibilityPolicy
+   */
+  public function getInstanceFlexibilityPolicy()
+  {
+    return $this->instanceFlexibilityPolicy;
   }
   /**
    * @param string[]
@@ -182,6 +202,20 @@ class InstanceGroupConfig extends \Google\Collection
   public function getMinCpuPlatform()
   {
     return $this->minCpuPlatform;
+  }
+  /**
+   * @param int
+   */
+  public function setMinNumInstances($minNumInstances)
+  {
+    $this->minNumInstances = $minNumInstances;
+  }
+  /**
+   * @return int
+   */
+  public function getMinNumInstances()
+  {
+    return $this->minNumInstances;
   }
   /**
    * @param int

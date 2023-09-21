@@ -166,6 +166,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
 //    Route::resource('account','Admin\RoleController');
     Route::get('/sendMail', [Click2MailController::class, 'index']);
 
+    Route::resource('email-conversations', 'Admin\EmailConversation');
     Route::resource('account', 'Admin\AccountController');
     Route::resource('quick-response', 'Admin\QuickResponseController');
     Route::resource('lead-category', 'Admin\LeadCategoryController');

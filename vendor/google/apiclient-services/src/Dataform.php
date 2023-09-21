@@ -23,7 +23,8 @@ use Google\Client;
  * Service definition for Dataform (v1beta1).
  *
  * <p>
-</p>
+ * Service to develop, version control, and operationalize SQL pipelines in
+ * BigQuery.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -110,7 +111,17 @@ class Dataform extends \Google\Service
         'repositories',
         [
           'methods' => [
-            'computeAccessTokenStatus' => [
+            'commit' => [
+              'path' => 'v1beta1/{+name}:commit',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'computeAccessTokenStatus' => [
               'path' => 'v1beta1/{+name}:computeAccessTokenStatus',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -146,6 +157,24 @@ class Dataform extends \Google\Service
                 'force' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'fetchHistory' => [
+              'path' => 'v1beta1/{+name}:fetchHistory',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'fetchRemoteBranches' => [
@@ -218,6 +247,50 @@ class Dataform extends \Google\Service
                   'required' => true,
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'queryDirectoryContents' => [
+              'path' => 'v1beta1/{+name}:queryDirectoryContents',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'commitSha' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'path' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'readFile' => [
+              'path' => 'v1beta1/{+name}:readFile',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'commitSha' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'path' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
