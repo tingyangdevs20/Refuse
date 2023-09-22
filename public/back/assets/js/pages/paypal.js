@@ -67,3 +67,4 @@ $(document).ready(function() {
         $('#paypal-modal').modal('show');
     });
 });
+

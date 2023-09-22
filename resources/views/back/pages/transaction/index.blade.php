@@ -162,7 +162,13 @@
                     <div class="card-body">
                         <div class="col-12">
                             <div class="text-right mb-3">
-                                <h4 class="font-size-18">Total Deposited Amount: $</h4>
+                                @php
+                                $totalBalance = \DB::table('account_details')
+                                    ->where('user_id', auth()->user()->id)
+                                    ->where('status', 'succeeded')
+                                    ->sum('amount');
+                                @endphp
+                                <h4 class="font-size-18">Total Deposited Amount: {{  @$totalBalance }}$</h4>
                             </div>
                             <div class="row mb-4">
                                 <div class="col-md-6">
