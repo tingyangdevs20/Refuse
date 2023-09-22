@@ -2,8 +2,6 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
     @endsection
 @section('content')
 
@@ -154,8 +152,11 @@
                                 </div>
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
-                                    <select id='item_search' multiple  style="width: 100%;" id="tag" name="tag_id[]">
-                                        <option value='0'>Select Tag</option>
+                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id">
+                                        <option value="">Select Tag</option>
+                                        @foreach($tags as $tag)
+                                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -218,7 +219,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script >
 
         $(document).ready(function() {
@@ -324,34 +324,6 @@
                 });
             });
         } );
-
-        $('#item_search').select2({
-                tags: true,
-                // createTag: function (params) {
-                //     return {
-                //     id: params.term,
-                //     text: params.term,
-                //     newOption: true
-                //     }
-                // },
-                ajax: {
-                    url: "{{ route('get-items-ajax') }}",
-                    type: "get",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term // search term
-                        };
-                    },
-                    processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                    },
-                    cache: true
-                }
-            });
         
     </script>
     <script >

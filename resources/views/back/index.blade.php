@@ -119,25 +119,25 @@
                                     <tr>
                                         <th scope="col">People Reached</th>
                                         <td>{{ $goalValue}}</td>
-                                        <td>{{ $dashboardData['people_reached']['today'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['people_reached']['last_7_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['people_reached']['last_30_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['people_reached']['last_90_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['people_reached']['last_365_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['people_reached']['life_time'] ?? '' }} </td>
+                                        <td>{{ $messages_sent_today_goals }}</td>
+                                        <td>{{ $messages_sent_seven_days_goals }}</td>
+                                        <td>{{ $messages_sent_month_days_goals }}</td>
+                                        <td>{{ $messages_sent_ninety_days_goals }}</td>
+                                        <td>{{ $messages_sent_year_goals }}</td>
+                                        <td>{{ $total_sent_lifetime }} </td>
                                     </tr>
                                     <tr>
-                                        <th scope="col"># Lead</th>
+                                        <th scope="col">Lead</th>
                                         <td>{{$goal_lead}}</td>
-                                        <td>{{ $dashboardData['leads']['today'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['leads']['last_7_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['leads']['last_30_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['leads']['last_90_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['leads']['last_365_days'] ?? '' }}</td>
-                                        <td>{{ $dashboardData['leads']['life_time'] ?? '' }} </td>
+                                        <td>{{$messages_received_today}}</td>
+                                        <td>{{$messages_received_seven_days_goals}} </td>
+                                        <td>{{$messages_received_month_days_goals}}</td>
+                                        <td>{{$messages_received_ninety_days_goals}}</td>
+                                        <td>{{$messages_received_year_goals}}</td>
+                                        <td>{{$total_received_lifetime}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="col"># Appointment Show Up/Sellers Talked To</th>
+                                        <th scope="col">Phone Apointment</th>
                                         <td>{{$goal_appointment}}</td>
                                         <td>{{$appointment_todays}}</td>
                                         <td>{{$appointment_seven_day}}</td>
@@ -145,27 +145,7 @@
                                         <td>{{$appointment_ninety_day}}</td>
                                         <td>{{$appointment_year}}</td>
                                         <td>{{$appointment_lifetime}}</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Call No Show</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Call Said No</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                      
                                     </tr>
                                     <tr>
                                         <th scope="col">Contracts Out</th>
@@ -179,26 +159,6 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">Contracts Signed</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Passed Inspection</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Passed Title Search</th>
                                         <td></td>
                                         <td></td>
                                         <td></td>
