@@ -14,6 +14,12 @@ class ChatController extends Controller
 {
     private $sessionPrefix = 'chat-room-';
 
+
+    public function getMessages($session_id){
+        $chatRoomSession =  ChatRoomSession::with('messages')->where('session_id',$session_id)->firstOrFail();
+        return $chatRoomSession;
+    }
+
     public function createChatRoom(Request $request)
     {
         $validated = $request->validate([
