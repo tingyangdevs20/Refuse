@@ -152,11 +152,8 @@
                                 </div>
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
-                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id">
-                                        <option value="">Select Tag</option>
-                                        @foreach($tags as $tag)
-                                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                        @endforeach
+                                    <select id='item_search' multiple  style="width: 100%;" id="tag" name="tag_id[]">
+                                        <option value='0'>Select Tag</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -324,6 +321,34 @@
                 });
             });
         } );
+
+        $('#item_search').select2({
+                tags: true,
+                // createTag: function (params) {
+                //     return {
+                //     id: params.term,
+                //     text: params.term,
+                //     newOption: true
+                //     }
+                // },
+                ajax: {
+                    url: "{{ route('get-items-ajax') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                    return {
+                        results: response
+                    };
+                    },
+                    cache: true
+                }
+            });
         
     </script>
     <script >
