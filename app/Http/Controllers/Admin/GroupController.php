@@ -202,11 +202,6 @@ class GroupController extends Controller
                 }                
             }            
         }
-
-        // echo"<pre>";
-        // print_r($tag_id_array);
-        // exit();
-
         $existing_group_id='';
         $existing_group_id=$request->existing_group_id;
         $group_id = '';
