@@ -223,7 +223,8 @@ class GroupController extends Controller
          $group_id=$existing_group_id;
          $group = Group::where('id', $group_id)->first();
          $group->market_id = $request->market_id;
-         $group->tag_id = $request->tag_id;
+         $group->tag_id = (!empty($tag_id_array)) ? implode(',',$tag_id_array) : null;
+
          $group->save();
         }
         else
@@ -231,7 +232,8 @@ class GroupController extends Controller
 
         $group = new Group();
         $group->market_id = $request->market_id;
-        $group->tag_id = $request->tag_id;
+        $group->tag_id = (!empty($tag_id_array)) ? implode(',',$tag_id_array) : null;
+
         $group->name = $request->name;
         $group->save();
         }
