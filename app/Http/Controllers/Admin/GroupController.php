@@ -920,24 +920,24 @@ class GroupController extends Controller
        // Check if a record with the same group_id exists
        $existingCampaign = Campaign::where('group_id', $groupId)->first();
 
-    //    if ($existingCampaign) {
-    //        // Return a response to indicate that the data already exists
-    //        return response()->json(['message' => 'Data already exists', 'success' => false]);
-    //    } else {
+       if ($existingCampaign) {
+           // Return a response to indicate that the data already exists
+           return response()->json(['message' => 'Data already exists', 'success' => false]);
+       } else {
            // Insert data into the campaign table
            Campaign::create([
                'name' => $groupName,
                'group_id' => $groupId,
            ]);
-           $email = 'razasaqlain85@gmail.com';
+
            // Send email notifications
-        //    foreach ($emails as $email) {
+           foreach ($emails as $email) {
                Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-        //    }
+           }
 
            // Return a response to indicate success
            return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
-    //    }
+       }
    }
 
 
