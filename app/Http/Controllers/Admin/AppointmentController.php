@@ -14,6 +14,7 @@ use DATETIME;
 use App\Model\Contact;
 use \Illuminate\Support\Facades\View as View;
 use Redirect;
+use Illuminate\Support\Facades\Crypt;
 
 
 class AppointmentController extends Controller
@@ -67,7 +68,7 @@ class AppointmentController extends Controller
 
             $bookedSlots = json_encode($slotsArr);
 
-            $uid = decrypt($uid);
+            $uid = Crypt::decryptString($uid);
             
             return view('book-appointment',compact('bookedSlots','uid'));
         }else{

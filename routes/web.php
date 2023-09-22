@@ -337,4 +337,6 @@ Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.cal
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
 
 
+//get tags
+Route::get('/get-tags', 'Admin\TagController@get_tags_ajax')->name('get-items-ajax');
 

@@ -84,7 +84,7 @@
 {{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
 
                         <li><a href="{{ route('admin.sms.failed') }}">Failed SMS</a></li>
-                        <li><a href="{{ route('admin.appointment', [encrypt(Auth::id())]) }}">Appointments</a></li>
+                        <li><a href="{{ route('admin.appointment', [Crypt::encryptString(Auth::id())]) }}">Appointments</a></li>
                     </ul>
                 </li>
 

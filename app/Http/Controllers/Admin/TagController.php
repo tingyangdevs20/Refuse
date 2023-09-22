@@ -94,4 +94,19 @@ class TagController extends Controller
         Alert::success('Success','Tag Removed!');
         return redirect()->back();
     }
+
+    public function get_tags_ajax(Request $request){
+        $q = $request->input('q');
+        $items = Tag::where('name', 'like', '%' . $q . '%')->get();
+        $response = array();
+        foreach($items as $item){
+            $response[] = array(
+               "id" => $item['id'],
+               "text" => $item['name']
+            );
+         }
+        // Return the results as JSON
+        echo json_encode($response);
+    }
+    
 }
