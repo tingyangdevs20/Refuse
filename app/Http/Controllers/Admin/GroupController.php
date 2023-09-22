@@ -37,6 +37,8 @@ use Google_Service_Drive as Drive;
 use Session;
 use App\Services\DatazappService;
 
+use App\Mail\CampaignConfirmation;
+
 
 class GroupController extends Controller
 {
@@ -122,7 +124,7 @@ class GroupController extends Controller
             $title_company = DB::table('title_company')->where('contact_id' , $id)->first();
         }
         //dd($property_infos);
-        
+
         $contact=Contact::where('id',$id)->first();
         $cnt_mob1=$contact->number;
         $cnt_mob2=$contact->number2;
@@ -909,29 +911,34 @@ class GroupController extends Controller
 
 
 
-    public function pushToCampaign(Request $request )
-    {
+   public function pushToCampaign(Request $request)
+   {
+       $groupId = $request->input('group_id');
+       $groupName = $request->input('group_name');
+       $emails = explode(',', $request->input('email'));
 
-        $groupId = $request->input('group_id');
-        $groupName = $request->input('group_name');
+       // Check if a record with the same group_id exists
+       $existingCampaign = Campaign::where('group_id', $groupId)->first();
 
-        // Check if a record with the same group_id exists
-        $existingCampaign = Campaign::where('group_id', $groupId)->first();
+    //    if ($existingCampaign) {
+    //        // Return a response to indicate that the data already exists
+    //        return response()->json(['message' => 'Data already exists', 'success' => false]);
+    //    } else {
+           // Insert data into the campaign table
+           Campaign::create([
+               'name' => $groupName,
+               'group_id' => $groupId,
+           ]);
+           $email = 'razasaqlain85@gmail.com';
+           // Send email notifications
+        //    foreach ($emails as $email) {
+               Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+        //    }
 
-        if ($existingCampaign) {
-            // Return a response to indicate that the data already exists
-            return response()->json(['message' => 'Data already exists', 'success' => false]);
-        } else {
-            // Insert data into the campaign table
-            Campaign::create([
-                'name' => $groupName,
-                'group_id' => $groupId,
-            ]);
-
-            // Return a response to indicate success
-            return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
-        }
-    }
+           // Return a response to indicate success
+           return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
+    //    }
+   }
 
 
 

@@ -74,7 +74,7 @@
                                                     <th scope="col">% with Phone Numbers </th>
                                                     <th scope="col">Created At</th>
                                                     <th scope="col">Skip Trace</th>
-                                                    {{-- <th scope="col">Push to</th> --}}
+                                                    <th scope="col">Push to</th>
                                                     <th scope="col">Actions</th>
                                                 </tr>
                                             </thead>
@@ -97,13 +97,13 @@
                                                     <button class="btn btn-outline-primary btn-sm model" data-group-id="{{ $group->id }}" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
 
                                                 </td>
-                                                {{-- <td>
+                                                <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
                                                             data-group-id="{{ $group->id }}"
                                                             data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
                                                             data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
                                                     </button>
-                                                </td> --}}
+                                                </td>
                                                 <td>
                                                     <button class="btn btn-outline-danger btn-sm" title="Remove {{ $group->name }}" data-id="{{ $group->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                                 </td>
@@ -289,15 +289,41 @@
                 </div>
             </div>
 
+            {{-- CAMP --}}
+            <!-- The confirmation modal -->
+            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">
+                                Are you sure you want to push data to the campaign?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
             {{--End Modals--}}
                 @endsection
 @section('scripts')
+
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script >
 
         $(document).ready(function() {
@@ -333,12 +359,8 @@
                     });
                 }
 
-                @endif
+            @endif
 
-
-
-            $('#datatable').DataTable();
-            $('.select2').select2();
             let groupId = 0;
 
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -438,42 +460,65 @@
 
             // push to
             $('.push-to-campaign').click(function () {
-                var groupId = $(this).data('group-id');
-                var groupName = $(this).data('group-name');
+                var button = $(this); // Store the button element
+                var groupId = button.data('group-id');
+                var groupName = button.data('group-name');
+                var email = button.data('group-email');
 
+                // Get a reference to the confirmation modal
+                var confirmationModal = $('#confirmationModal');
 
+                // Show the modal
+                confirmationModal.modal('show');
 
-                // AJAX request to push data to the campaign table
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('admin.push-to-campaign') }}',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        group_id: groupId,
-                        group_name: groupName,
-                    },
-                    success: function (data) {
-                        // Handle success response
-                        if (data.success) {
+                // Listen for the confirmation button click in the modal
+                confirmationModal.find('#confirmButton').off('click').on('click', function () {
+                    // Close the modal
+                    confirmationModal.modal('hide');
 
-                            toastr.success('Data pushed to campaign successfully.', {
-                                    timeOut: 9000, // Set the duration (5 seconds in this example)
+                    // Disable the button
+                    button.prop('disabled', true);
+
+                    // Proceed with the AJAX request
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('admin.push-to-campaign') }}',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            group_id: groupId,
+                            group_name: groupName,
+                            email: email,
+                        },
+                        success: function (data) {
+                            // Handle success response
+                            if (data.success) {
+                                toastr.success('Data pushed to campaign successfully.', {
+                                    timeOut: 9000,
+                                });
+                            } else {
+                                toastr.error('Data already exists.', {
+                                    timeOut: 9000,
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            toastr.error('AJAX Error: ' + error.statusText, {
+                                timeOut: 9000,
                             });
-                        } else {
-
-                            toastr.error('Data already exists.', {
-                                    timeOut: 9000, // Set the duration (5 seconds in this example)
-                            });
+                        },
+                        complete: function () {
+                            // Enable the button after the request is complete (success or error)
+                            button.prop('disabled', false);
                         }
-                    },
-                    error: function (error) {
-
-                        toastr.error('AJAX Error: Name filed not found', {
-                                timeOut: 9000, // Set the duration (5 seconds in this example)
-                        });
-                    }
+                    });
                 });
             });
+
+
+
+
+            $('.select2').select2();
+            $('#datatable').DataTable();
         } );
 
     </script>

@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        // Stripe::setApiKey(config('services.stripe.secret'));
         Relation::morphMap([
             'contact' => Contact::class,
             'admin' => Admin::class

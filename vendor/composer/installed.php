@@ -1,10 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'd39475ea0b91f4227bbf57b1568f631def267c07',
+        'reference' => 'b81176b33f1ea2510955488df524f6be3e7c0c98',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -474,10 +473,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'd39475ea0b91f4227bbf57b1568f631def267c07',
+            'reference' => 'b81176b33f1ea2510955488df524f6be3e7c0c98',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -997,6 +995,30 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'sendgrid/php-http-client' => array(
+            'pretty_version' => '3.14.4',
+            'version' => '3.14.4.0',
+            'reference' => '6d589564522be290c7d7c18e51bcd8b03aeaf0b6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sendgrid/php-http-client',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'sendgrid/sendgrid' => array(
+            'pretty_version' => '8.0.1',
+            'version' => '8.0.1.0',
+            'reference' => '285381257100b73aa50d8d70f0bcfb1f48b63747',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sendgrid/sendgrid',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'sendgrid/sendgrid-php' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
         'smalot/pdfparser' => array(
             'pretty_version' => 'v2.7.0',
             'version' => '2.7.0.0',
@@ -1015,10 +1037,19 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'starkbank/ecdsa' => array(
+            'pretty_version' => '0.0.5',
+            'version' => '0.0.5.0',
+            'reference' => '484bedac47bac4012dc73df91da221f0a66845cb',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../starkbank/ecdsa',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'stripe/stripe-php' => array(
-            'pretty_version' => 'v12.3.0',
-            'version' => '12.3.0.0',
-            'reference' => '260aad072f92ddb05e03d47af13b3616d99b3444',
+            'pretty_version' => 'v12.4.0',
+            'version' => '12.4.0.0',
+            'reference' => '7d0a90772fc1c179e370971264318208533324b9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
