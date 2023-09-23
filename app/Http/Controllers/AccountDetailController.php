@@ -11,6 +11,7 @@ class AccountDetailController extends Controller
 {
     public function index(){
 
+
         $userId = Auth::id();
         $transactions = AccountDetail::where('user_id', auth()->id())
         ->orderBy('transaction_date', 'desc') // Adjust the order as needed
