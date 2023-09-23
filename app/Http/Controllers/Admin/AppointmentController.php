@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use DB;
 use DATETIME;
 use App\Model\Contact;
+use \Illuminate\Support\Facades\View as View;
 
 class AppointmentController extends Controller
 {
@@ -20,53 +21,54 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($uid='')
     {   
-    
+        if(!empty($uid)){
+            // $userTimeZone = 'Asia/Calcutta'; // user timezone
 
-        $userTimeZone = 'Asia/Calcutta'; // user timezone
+            // $now = Carbon::now($userTimeZone)->format('Y-m-d H:i:s');
+            // print_r($now);
 
-        $now = Carbon::now($userTimeZone)->format('Y-m-d H:i:s');
-        // print_r($now);
-
-        // get specific user appointments based on user timezone
-        $getUserAppointments = Scheduler::select('id','name','email','mobile','appt_date','appt_time','timezone','description')
-       
-        ->where('status','booked')
-        ->where(DB::raw('CONCAT(DATE(appt_date)," ",appt_time)'),'>', $now)
-        ->orderBy(DB::raw('DATE(appt_date)'), 'ASC')
-        ->orderBy('appt_time', 'ASC')
-        ->get();
-
-        // print_r($getUserAppointments);
-        $today = Carbon::today();
-        $todayDate = $today->toDateString(); // return today date
-
-        // getting already booked slots
-        $getBookedTimeSlots = Scheduler::select(DB::raw('DATE(appt_date) as appt_date'),'appt_time')
-        ->whereDate('appt_date',$todayDate)
-        ->orWhereDate('created_at', $todayDate)
-        ->get();
-
-        // print_r($getBookedTimeSlots);
-        // exit;
-
-        $slotsArr = array();
-
-        foreach($getBookedTimeSlots as $key => $bookedSlots) {
-
-            
-            $slotsArr[$key]['b_date'] = Carbon::createFromFormat('Y-m-d', $bookedSlots['appt_date'])->format('j');
-            $slotsArr[$key]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H');
-            $slotsArr[$key]['appt_date'] = $bookedSlots['appt_date'];
-            $slotsArr[$key]['appt_time'] = Carbon::createFromFormat('H:i:s',$bookedSlots['appt_time'])->format('H:i');
-            
-        }
-
-        $bookedSlots = json_encode($slotsArr);
+            // get specific user appointments based on user timezone
+            // $getUserAppointments = Scheduler::select('id','name','email','mobile','appt_date','appt_time','timezone','description')
         
-        return view('book-appointment',compact('bookedSlots','getUserAppointments'));
+            // ->where('status','booked')
+            // ->where(DB::raw('CONCAT(DATE(appt_date)," ",appt_time)'),'>', $now)
+            // ->orderBy(DB::raw('DATE(appt_date)'), 'ASC')
+            // ->orderBy('appt_time', 'ASC')
+            // ->get();
 
+            // print_r($getUserAppointments);
+            $today = Carbon::today();
+            $todayDate = $today->toDateString(); // return today date
+
+            // getting already booked slots
+            $getBookedTimeSlots = Scheduler::select(DB::raw('DATE(appt_date) as appt_date'),'appt_time')
+            ->whereDate('appt_date',$todayDate)
+            ->orWhereDate('created_at', $todayDate)
+            ->get();
+
+            // print_r($getBookedTimeSlots);
+            // exit;
+
+            $slotsArr = array();
+
+            foreach($getBookedTimeSlots as $key => $bookedSlots) {
+
+                
+                $slotsArr[$key]['b_date'] = Carbon::createFromFormat('Y-m-d', $bookedSlots['appt_date'])->format('j');
+                $slotsArr[$key]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H');
+                $slotsArr[$key]['appt_date'] = $bookedSlots['appt_date'];
+                $slotsArr[$key]['appt_time'] = Carbon::createFromFormat('H:i:s',$bookedSlots['appt_time'])->format('H:i');
+                
+            }
+
+            $bookedSlots = json_encode($slotsArr);
+
+            $uid = decrypt($uid);
+            
+            return view('book-appointment',compact('bookedSlots','uid'));
+        }
     }
 
     /**
@@ -87,8 +89,6 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        // print_r($request->all());
-        // exit;
 
         $validator = Validator::make($request->all(),[
             
@@ -122,7 +122,8 @@ class AppointmentController extends Controller
                 'description' => $request->description,
                 'status' => 'booked',
                 'created_at' => $now,
-                'updated_at' => $now
+                'updated_at' => $now,
+                'admin_uid' => (!empty($request->uid)) ? $request->uid : 0
                // 'user_id' => $cnt_id
             ]);
 
@@ -333,4 +334,46 @@ class AppointmentController extends Controller
     //         return $resources;
     //     }
     // }
+
+    public function getAppointments(Request $request){
+        try {
+
+            if(!empty($request->mobile) && !empty($request->uid)){
+                $userTimeZone = 'Asia/Calcutta'; // user timezone
+    
+                $now = Carbon::now($userTimeZone)->format('Y-m-d H:i:s');
+                $getUserAppointments = Scheduler::select('id','name','email','mobile','appt_date','appt_time','timezone','description')
+            
+                ->where('status','booked')
+                ->where('admin_uid',$request->uid)
+                ->where('mobile',$request->mobile)
+                // ->where(DB::raw('CONCAT(DATE(appt_date)," ",appt_time)'),'>', $now)
+                ->orderBy(DB::raw('DATE(appt_date)'), 'ASC')
+                ->orderBy('appt_time', 'ASC')
+                ->get();
+    
+                $html = View::make('appointments.booked',['getUserAppointments' => $getUserAppointments])->render();
+                if(!empty($getUserAppointments)){
+                    $response = array("success" => 1,'html' => $html);
+                    echo json_encode($response);
+                    exit;
+                }else{
+                    $response = array("success" => 0);
+                    echo json_encode($response);
+                    exit;
+                }
+            }
+            else{
+                $response = array("success" => 0);
+                echo json_encode($response);
+                exit;
+            }
+
+        } catch(Exception $e) {
+            $response = array("success" => 0, "message" => $e->getMessage());
+            echo json_encode($response);
+            exit;
+        }
+        
+    }
 }
