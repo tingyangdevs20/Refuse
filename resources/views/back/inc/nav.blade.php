@@ -204,9 +204,7 @@
                         \App\Model\AutoReply::all()->count() > 0)
                 @endif
 
-                @if (
-                    (\App\Model\Settings::first()->sms_allowed > 0 && \App\Model\AutoResponder::all()->count() > 0) ||
-                        \App\Model\AutoReply::all()->count() > 0)
+               
 
 
                     <li class="menu-title">Settings</li>
@@ -336,7 +334,7 @@
                                     <span>Lead Categories</span>
                                 </a>
                             </li>
-                @endif
+               
                 @if (\App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
                     <li>
                         <a href="#" class=" waves-effect">

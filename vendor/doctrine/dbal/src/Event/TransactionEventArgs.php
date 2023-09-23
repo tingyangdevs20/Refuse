@@ -7,10 +7,10 @@ namespace Doctrine\DBAL\Event;
 use Doctrine\Common\EventArgs;
 use Doctrine\DBAL\Connection;
 
-/** @deprecated */
 abstract class TransactionEventArgs extends EventArgs
 {
-    private Connection $connection;
+    /** @var Connection */
+    private $connection;
 
     public function __construct(Connection $connection)
     {

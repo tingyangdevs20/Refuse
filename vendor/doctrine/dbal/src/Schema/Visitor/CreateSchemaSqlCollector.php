@@ -6,40 +6,33 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\Deprecations\Deprecation;
 
 use function array_merge;
 
-/** @deprecated Use {@link CreateSchemaObjectsSQLBuilder} instead. */
 class CreateSchemaSqlCollector extends AbstractVisitor
 {
     /** @var string[] */
-    private array $createNamespaceQueries = [];
+    private $createNamespaceQueries = [];
 
     /** @var string[] */
-    private array $createTableQueries = [];
+    private $createTableQueries = [];
 
     /** @var string[] */
-    private array $createSequenceQueries = [];
+    private $createSequenceQueries = [];
 
     /** @var string[] */
-    private array $createFkConstraintQueries = [];
+    private $createFkConstraintQueries = [];
 
-    private AbstractPlatform $platform;
+    /** @var AbstractPlatform */
+    private $platform;
 
     public function __construct(AbstractPlatform $platform)
     {
-        Deprecation::trigger(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5416',
-            'CreateSchemaSqlCollector is deprecated. Use CreateSchemaObjectsSQLBuilder instead.',
-        );
-
         $this->platform = $platform;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptNamespace($namespaceName)
     {
@@ -51,7 +44,7 @@ class CreateSchemaSqlCollector extends AbstractVisitor
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptTable(Table $table)
     {
@@ -59,7 +52,7 @@ class CreateSchemaSqlCollector extends AbstractVisitor
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
     {
@@ -71,14 +64,16 @@ class CreateSchemaSqlCollector extends AbstractVisitor
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptSequence(Sequence $sequence)
     {
         $this->createSequenceQueries[] = $this->platform->getCreateSequenceSQL($sequence);
     }
 
-    /** @return void */
+    /**
+     * @return void
+     */
     public function resetQueries()
     {
         $this->createNamespaceQueries    = [];
@@ -98,7 +93,7 @@ class CreateSchemaSqlCollector extends AbstractVisitor
             $this->createNamespaceQueries,
             $this->createSequenceQueries,
             $this->createTableQueries,
-            $this->createFkConstraintQueries,
+            $this->createFkConstraintQueries
         );
     }
 }
