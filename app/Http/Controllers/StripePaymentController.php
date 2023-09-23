@@ -18,7 +18,7 @@ use App\AccountDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Cashier\Cashier;
-
+use App\TotalBalance;
 use Stripe\PaymentMethod;
 use Stripe\Exception\CardException;
 
@@ -501,6 +501,21 @@ class StripePaymentController extends Controller
                 $accountDetail->status = 'succeeded'; // Transaction status
                 $accountDetail->save();
 
+                $balance = TotalBalance::where('user_id', $user->id)->first();
+                if ($balance) {
+                    // Update existing balance record
+                    $balance->total_amount += $amount;
+                    $balance->save();
+                } else {
+                    // Create a new balance record
+                    $newBalance = new TotalBalance();
+                    $newBalance->user_id = $user->id;
+                    $newBalance->total_amount = $amount;
+                    $newBalance->save();
+                }
+
+
+
                 // Return a success response
                 return response()->json(['message' => 'Payment successful']);
             } else {
@@ -538,6 +553,19 @@ class StripePaymentController extends Controller
         $accountDetail->transaction_date = $request->transaction_date;
         $accountDetail->status = $request->status;
         $accountDetail->save();
+
+        $balance = TotalBalance::where('user_id', $user->id)->first();
+        if ($balance) {
+            // Update existing balance record
+            $balance->total_amount += $request->amount;
+            $balance->save();
+        } else {
+            // Create a new balance record
+            $newBalance = new TotalBalance();
+            $newBalance->user_id = $user->id;
+            $newBalance->total_amount = $request->amount;
+            $newBalance->save();
+        }
 
         // You can return a success response if needed
         return response()->json(['success' => true]);
