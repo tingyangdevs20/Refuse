@@ -789,7 +789,6 @@ class GroupController extends Controller
 
         }else{
 
-
             // $paymentInfo = Session::get('record_detail');
             if(isset($balance) && $balance > 0 || $balance >= $skipTraceRate){
                     // return response()->json([
