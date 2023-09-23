@@ -310,12 +310,13 @@ Route::resource('/appointments','Admin\AppointmentController');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
-Route::get('/appointment', 'Admin\AppointmentController@index')->name('admin.appointment');
-Route::get('/appointments', 'Admin\AppointmentController@index')->name('admin.appointment');
+Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('admin.appointment');
+//Route::get('/appointments/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');
 Route::post('/appointments', 'Admin\AppointmentController@store')->name('appointment.store');
 // Appointment Routes
 Route::resource('/appointments','Admin\AppointmentController');
 Route::post('/cancel-appointment','Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
+Route::post('/get-appointment','Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
 Route::post('/reschdule-appointment','Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
 /** google calendar routes */
 Route::get('/google-calendar/connect', 'Admin\AppointmentController@connectGoogleCalendar')->name('connectGoogleCalendar');
