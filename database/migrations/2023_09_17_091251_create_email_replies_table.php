@@ -16,7 +16,7 @@ class CreateEmailRepliesTable extends Migration
         Schema::create('email_replies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('email_id')->index();
-            // $table->foreign('email_id')->references('id')->on('emails');
+            $table->foreign('email_id')->references('id')->on('emails');
             $table->string('to');
             $table->string('from');
             $table->longText('reply')->nullable();

@@ -8,20 +8,12 @@ use Dacastro4\LaravelGmail\Facade\LaravelGmail;
 class GmailController extends Controller
 {
     public function redirect() {
-        try {
-            return LaravelGmail::redirect();
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+        return LaravelGmail::redirect();
     }
 
     public function callback() {
-        try {
-            LaravelGmail::makeToken();
-            return redirect()->route('admin.settings.index');
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+        LaravelGmail::makeToken();
+        return redirect()->route('admin.settings.index');
     }
 
     public function logout() {

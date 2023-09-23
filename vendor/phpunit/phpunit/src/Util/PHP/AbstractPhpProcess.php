@@ -15,8 +15,6 @@ use function array_keys;
 use function array_merge;
 use function assert;
 use function escapeshellarg;
-use function file_exists;
-use function file_get_contents;
 use function ini_get_all;
 use function restore_error_handler;
 use function set_error_handler;
@@ -26,7 +24,6 @@ use function strpos;
 use function strrpos;
 use function substr;
 use function trim;
-use function unlink;
 use function unserialize;
 use __PHP_Incomplete_Class;
 use ErrorException;
@@ -177,23 +174,16 @@ abstract class AbstractPhpProcess
      *
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function runTestJob(string $job, Test $test, TestResult $result, string $processResultFile): void
+    public function runTestJob(string $job, Test $test, TestResult $result): void
     {
         $result->startTest($test);
 
-        $processResult = '';
-        $_result       = $this->runJob($job);
-
-        if (file_exists($processResultFile)) {
-            $processResult = file_get_contents($processResultFile);
-
-            @unlink($processResultFile);
-        }
+        $_result = $this->runJob($job);
 
         $this->processChildResult(
             $test,
             $result,
-            $processResult,
+            $_result['stdout'],
             $_result['stderr']
         );
     }

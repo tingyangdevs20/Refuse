@@ -142,33 +142,33 @@
     <script>
 
 
-$('#end-call').on('click', function() {
-  $('#end-call').hide();
-  $('#answer-call').show();
-  // Do business stuff here
-  $('input[type=tel]').val('');
-  $('input[type=tel]').focus();
-});
+    $('#end-call').on('click', function() {
+    $('#end-call').hide();
+    $('#answer-call').show();
+    // Do business stuff here
+    $('input[type=tel]').val('');
+    $('input[type=tel]').focus();
+    });
 
 
 
 
 
-$('.focus-effects').on('click', function() {
-  var text = $('input[type=tel]');
-  text.val(text.val() + this.value);
+    $('.focus-effects').on('click', function() {
+    var text = $('input[type=tel]');
+    text.val(text.val() + this.value);
 
-  $(".soft-phone").find(".ans-call").attr('phone-number', text.val())
+    $(".soft-phone").find(".ans-call").attr('phone-number', text.val())
 
-  text.focus();
-});
-
-
+    text.focus();
+    });
 
 
-$('input[type=reset]').on('click', function() {
-  $('input[type=tel]').focus();
-});
+
+
+        $('input[type=reset]').on('click', function() {
+        $('input[type=tel]').focus();
+        });
 
         let modal = document.getElementById('soft-phone-modal');
 
@@ -192,9 +192,9 @@ $('input[type=reset]').on('click', function() {
             }
         });
 
-$(document).on('click',".close-dialer", function(e){
-    modal.style.display = 'none';
-});
+        $(document).on('click',".close-dialer", function(e){
+            modal.style.display = 'none';
+        });
 
     </script>
 <script src="{{ asset('chat-box/js/script.js') }}"></script>

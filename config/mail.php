@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'sendgrid'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,6 +32,13 @@ return [
     |            "postmark", "log", "array"
     |
     */
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+    ],
 
     'mailers' => [
         'smtp' => [
@@ -60,6 +67,10 @@ return [
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => '/usr/sbin/sendmail -bs',
+        ],
+        'sendgrid' => [ // Add a new 'sendgrid' mailer configuration
+            'transport' => 'sendgrid',
+            'api_key' => env('SENDGRID_API_KEY'), // Replace with your SendGrid API key
         ],
 
         'log' => [
@@ -106,5 +117,7 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
+
 
 ];

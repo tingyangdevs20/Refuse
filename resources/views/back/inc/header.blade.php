@@ -30,6 +30,32 @@
 
 
         </div>
+
+            @include('back.pages.partials.switch')
+            <div class="dropdown d-inline-block">
+                @php
+                $totalBalance = \DB::table('account_details')
+                    ->where('user_id', auth()->user()->id)
+                    ->where('status', 'succeeded')
+                    ->sum('amount');
+                @endphp
+            Account Balance:<span style="color:#556ee6;font-weight:bold"><a href="{{ route('admin.account.detail') }}"> USD {{ number_format(@$totalBalance, 2) }}</a></span>
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"
+                         alt="Header Avatar">
+                    <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
+                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                </button>
+                <button class="btn waves-effect waves-light" id="open-modal-btn">
+                    <span class='material-icons custom-size-ui'>dialpad</span>
+
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
+                    <!-- item<a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> Settings</a>
+
         @include('back.pages.partials.switch')
         <div class="dropdown d-inline-block">
 
@@ -50,6 +76,7 @@
                 <a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i
                         class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
                 <!-- item<a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> Settings</a>
+
                     <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> Lock screen</a>
                     <div class="dropdown-divider"></div>
                     -->

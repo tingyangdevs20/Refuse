@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChatRoomSessionsTables extends Migration
+class CreateTotalBalancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class ChatRoomSessionsTables extends Migration
      */
     public function up()
     {
-        Schema::create('chat_room_sessions', function (Blueprint $table) {
+        Schema::create('total_balances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('chat_room_id');
-            $table->morphs('userable');
-            $table->char('session_id',36);
-            $table->softDeletes();
+            $table->unsignedBigInteger('user_id');
+            $table->decimal('total_amount', 10, 2); // Amount of the transaction
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class ChatRoomSessionsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chat_room_sessions');
+        Schema::dropIfExists('total_balances');
     }
 }

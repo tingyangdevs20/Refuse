@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
+
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
@@ -69,7 +70,7 @@ class User extends Authenticatable
     {
         return $this->original_id;
     }
-    
+
     public function goals()
     {
         return $this->hasMany(GoalsReached::class);

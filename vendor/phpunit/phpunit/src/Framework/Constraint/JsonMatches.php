@@ -69,8 +69,9 @@ final class JsonMatches extends Constraint
     /**
      * Throws an exception for the given compared value and test description.
      *
-     * @param mixed  $other       evaluated value or object
-     * @param string $description Additional information about the test
+     * @param mixed             $other             evaluated value or object
+     * @param string            $description       Additional information about the test
+     * @param ComparisonFailure $comparisonFailure
      *
      * @throws \PHPUnit\Framework\Exception
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
