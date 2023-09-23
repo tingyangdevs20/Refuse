@@ -185,23 +185,6 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $tag_id_array=array();
-        if(!empty($request->tag_id)){
-            foreach($request->tag_id as $tag){                
-                $tag_data = Tag::find($tag);
-                if(empty($tag_data)){
-
-                    $newTag = new Tag();
-                    $newTag->name = $tag;
-                    $newTag->save();
-
-                    $tagId = $newTag->id;
-                    $tag_id_array[] = $tagId;
-                }else{
-                    $tag_id_array[] = $tag_data['id'];
-                }                
-            }            
-        }
         $existing_group_id='';
         $existing_group_id=$request->existing_group_id;
         $group_id = '';

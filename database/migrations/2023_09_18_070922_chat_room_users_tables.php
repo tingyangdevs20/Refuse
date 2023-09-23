@@ -16,8 +16,7 @@ class ChatRoomUsersTables extends Migration
         Schema::create('chat_room_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('chat_room_id');
-            $table->string('userable_type');
-            $table->unsignedBigInteger('userable_id');
+            $table->morphs('userable');
             $table->softDeletes();
             $table->timestamps();
         });

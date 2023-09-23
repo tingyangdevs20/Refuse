@@ -20,18 +20,4 @@ class Sms extends Model
     {
        return $this->leadCategory()->first()->title;
     }
-
-
-    public static function scopegetCountForLastDays($query,$days=null){
-        if($days){
-            $days = $days - 1;
-            $endDate = today();
-            $startDate = $endDate->copy()->subDays($days);
-            $query->where('created_at','>=',$startDate)->where('created_at','<=',$endDate);
-        }
-        return $query->where('is_received',1)->whereHas('replies',function($query){
-            $query->where('type','SMS');
-        })->withTrashed()->count();
-    }
-
 }

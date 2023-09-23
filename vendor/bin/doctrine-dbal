@@ -108,6 +108,7 @@ if (PHP_VERSION_ID < 80000) {
         }
     }
 
+<<<<<<< HEAD
     if (
         (function_exists('stream_get_wrappers') && in_array('phpvfscomposer', stream_get_wrappers(), true))
         || (function_exists('stream_wrapper_register') && stream_wrapper_register('phpvfscomposer', 'Composer\BinProxyWrapper'))
@@ -117,3 +118,12 @@ if (PHP_VERSION_ID < 80000) {
 }
 
 return include __DIR__ . '/..'.'/doctrine/dbal/bin/doctrine-dbal';
+=======
+    if (function_exists('stream_wrapper_register') && stream_wrapper_register('phpvfscomposer', 'Composer\BinProxyWrapper')) {
+        include("phpvfscomposer://" . __DIR__ . '/..'.'/doctrine/dbal/bin/doctrine-dbal');
+        exit(0);
+    }
+}
+
+include __DIR__ . '/..'.'/doctrine/dbal/bin/doctrine-dbal';
+>>>>>>> main

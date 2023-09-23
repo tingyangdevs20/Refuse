@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Campaign extends Model
 {
     protected $fillable = ['name', 'type', 'send_after_days', 'send_after_hours', 'schedule', 'group_id','template_id', 'active'];
-
+    
     protected $casts = [
         'schedule' => 'datetime',
         'group_id' => 'integer',
@@ -33,14 +33,5 @@ class Campaign extends Model
         return $campaigns;
     }
 
-    public static function scopegetCountForLastDays($query,$days=null){
-        if($days){
-            $days = $days - 1;
-            $endDate = today();
-            $startDate = $endDate->copy()->subDays($days);
-            $query->where('created_at','>=',$startDate)->where('created_at','<=',$endDate);
-        }
-        return $query->count();
-    }
     // Define any other relationships, accessors, mutators, or custom methods as needed
 }
