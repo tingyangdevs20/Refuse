@@ -137,6 +137,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
+                                   
                                     <div class="col-md-8">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
@@ -3887,16 +3888,20 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            
                                                                         @endforeach
                                                                     @endif
                                                                 </div>
+                                                                
                                                             </div>
                                                     @endif
                                                 @endforeach
                                             @endif
                                         </div>
+                                        
                                     </div>
-                                    <div class="col-md-4">
+                                    
+                                    <div class="col-md-4" style="margin-top:-553px;margin-left:1200px">
                                         <div class="card content-div">
                                             <div class="form-group" style="padding: 0 10px;">
                                                 <label>Load Script</label>
