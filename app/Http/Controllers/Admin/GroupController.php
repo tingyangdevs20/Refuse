@@ -1305,7 +1305,7 @@ class GroupController extends Controller
 
         }
    }
-     
+
    public function pushToCampaign(Request $request)
    {
        $groupId = $request->input('group_id');
