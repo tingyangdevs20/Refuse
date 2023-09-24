@@ -412,7 +412,31 @@
     <div class="allappoimentsbox">
       <div class="existingappointments">
         <h1 class="heading-css">Existing Appointments</h3>
-        <div class="left appointments-sec existing_appointments">
+        <div class="left appointments-sec">
+            @if($getUserAppointments)
+              @foreach($getUserAppointments as $userAppointments)
+                <div class="appt-card">
+                    <div class="appt-card-body">
+                      
+                      <!-- setting id of appointment -->
+                      <input type="hidden" class="appt_id" name="appt_id" value="{{$userAppointments->id}}">
+                      <input type="hidden" class="previous_date" name="previous_date" value="{{ date('Y-m-d', strtotime($userAppointments->appt_date)) }}">
+                      <input type="hidden" class="previous_time" name="previous_time" value="{{ date('H:i', strtotime($userAppointments->appt_time)) }}">
+
+
+                      <!-- <h4 class="appt-u-title"><b>Name: </b> {{ $userAppointments->name }}</h4>
+                      <p class="appt-u-email"><b>Email: </b>{{ $userAppointments->email }}</p>
+                      <p class="appt-u-mobile"><b>Phone: </b>{{ $userAppointments->mobile }}</p> -->
+                      <p class="appt-u-datetime"><b class="c-inner-text">When: </b>{{ date('M j Y', strtotime($userAppointments->appt_date)) }}, {{ date('H:i', strtotime($userAppointments->appt_time)) }} ({{ $userAppointments->timezone }})</p>
+                      <p class="appt-u-description"><b class="c-inner-text">Purpose: </b>{{ $userAppointments->description }}</p>
+                      <div class="appt-buttons">
+                        <button type="button" class="cancel-btn">Cancel</button>
+                        <button type="button" class="reschedule-btn">Reschedule</button>
+                      </div>
+                    </div>
+                </div>
+              @endforeach
+            @endif
             
         </div>
       </div>
@@ -422,7 +446,6 @@
           
           <form class="book_appointment" method="POST" action="{{ route('appointments.store') }}">
             @csrf
-            <input type="hidden" class="uid" name="uid" value="{{$uid}}" required>
             <div class="mainbookappointment">
               <div class="bookappominetimezone">
                 <div class="form-group">
@@ -801,8 +824,8 @@
     
 
     // open modal when click on cancel button
-    $(document).on('click','.cancel-btn',function(){
-      var appt_id = $(this).attr('data-appt_id'); // appointment id
+    $('.cancel-btn').on('click', function(){
+
       $( ".cancel_appt_modal" ).dialog({
         width: 500,
         draggable: false,
@@ -815,6 +838,8 @@
         },
         buttons: {
           "Yes": function() {
+            
+            var appt_id = $('.appt_id').val(); // appointment id
             // alert(appt_id);
             // Ajax for cancelling appointment
             $.ajax({
@@ -868,12 +893,14 @@
 
 
     // open modal when click on cancel button
-    $(document).on('click','.reschedule-btn',function(){
-        var appt_id = $(this).attr('data-appt_id'); // appointment id
+    $('.reschedule-btn').on('click', function(){
+
         var previousDate = $('.previous_date').val();
         // alert(previousDate);
         var previousTime = $('.previous_time').val();
-        // alert(previousTime);      
+        // alert(previousTime);
+
+      
         // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
         $( ".reschedule_appt_modal" ).dialog({
           width: 500,
@@ -895,7 +922,7 @@
           buttons: {
             "Update": function() {
               
-              
+              var appt_id = $('.appt_id').val(); // appointment id
               var rescheduleDate = $('.appt_date').val(); // date
               var rescheduleTime = $('.appt_time').val(); // time
               // alert(appt_id);
@@ -950,34 +977,7 @@
           }
         });
 
-     });
-
-    $('.mobile').on('keyup',function(){
-      var mobile = $(this).val();
-      var uid = $('.uid').val();
-      if(mobile.length >= '11'){
-        $.ajax({
-            type: "POST",
-            url: "{{ route('appointments.getAppointments') }}",
-            data: {mobile: mobile,uid: uid},
-            dataType: "json",
-            success: function(data) {
-                  console.log(data);
-                // Ajax call completed successfully
-                if(data.success == 1) {
-                    $('.existing_appointments').html(data.html);
-                }
-            },
-            error: function(data) {                  
-                // Some error in ajax call
-                $('.cancel_appt_modal').dialog( "close" );
-                $('.s-msg').hide();
-                $('.e-msg').html(data.message);
-                $('.e-msg').show();
-            }
         });
-      }
-    });
 
 
   

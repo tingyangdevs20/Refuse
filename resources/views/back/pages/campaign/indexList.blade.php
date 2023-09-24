@@ -90,15 +90,6 @@
                                                                                 <option value="rvm" @if($campaign->type == 'rvm') selected @endif>RVM</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="form-group mt-3">
-                                                                            <label>Template Category</label>
-                                                                            <select class="custom-select" onchange="getcontent(this)" name="cat[]" required>
-                                                                            
-                                                                              @foreach($categories as $category)
-                                                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                                              @endforeach
-                                                                            </select>
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 {{-- <div class="form-group">
@@ -342,23 +333,6 @@
                     $('.show_sms_'+id).html(d);
                 }
             });
-        }
-
-        function getcontent(ctrl)
-        {
-
-            var temp_id=21;
-           // alert(temp_id);
-            if(temp_id>0){
-                axios.get('/admin/template/'+temp_id)
-                    .then(response =>
-                        document.getElementById("template_text").value = response.data['body'],
-                    )
-                    .catch(error => console.log(error));
-            }
-            else{
-                document.getElementById("template_text").value = '';
-            }
         }
     </script>
     @endsection

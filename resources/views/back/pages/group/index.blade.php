@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
-                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id">
+                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id" required>
                                         <option value="">Select Tag</option>
                                         @foreach($tags as $tag)
                                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -446,9 +446,9 @@
                                     });
 
                                     //  You can display additional information or messages using Toastr here
-                                    toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
-                                        timeOut: 9000, // Set the duration (5 seconds in this example)
-                                    });
+                                    // toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
+                                    //     timeOut: 9000, // Set the duration (5 seconds in this example)
+                                    // });
                                 } else {
                                     // Display an error message using Toastr for failed API responses
                                     toastr.error('API Error: ' + response.Message, 'API Response Error', {

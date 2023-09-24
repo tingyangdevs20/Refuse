@@ -209,7 +209,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
+    Route::get('get/templatecontent/{tempid}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
@@ -217,7 +217,6 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
-    Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
@@ -253,7 +252,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('adminsettings','Admin\AdminSettingsController');
 
     Route::get('get/template/{id}','Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{id}','Admin\TemplateController@getTemplateContent');
+    Route::get('get/templatecontent/{tempid}','Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign','Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}','Admin\AutoReplyController@status_update');
 
@@ -315,13 +314,12 @@ Route::resource('/appointments','Admin\AppointmentController');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
-Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('admin.appointment');
-//Route::get('/appointments/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');
+Route::get('/appointment', 'Admin\AppointmentController@index')->name('admin.appointment');
+Route::get('/appointments', 'Admin\AppointmentController@index')->name('admin.appointment');
 Route::post('/appointments', 'Admin\AppointmentController@store')->name('appointment.store');
 // Appointment Routes
 Route::resource('/appointments','Admin\AppointmentController');
 Route::post('/cancel-appointment','Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
-Route::post('/get-appointment','Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
 Route::post('/reschdule-appointment','Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
 /** google calendar routes */
 Route::get('/google-calendar/connect', 'Admin\AppointmentController@connectGoogleCalendar')->name('connectGoogleCalendar');

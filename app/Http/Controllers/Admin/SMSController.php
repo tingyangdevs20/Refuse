@@ -11,7 +11,6 @@ use App\Model\Number;
 use App\Model\QuickResponse;
 use App\Model\Reply;
 use App\Model\Sms;
-use App\Model\Conversations;
 use App\Model\Emails;
 use App\Model\System_messages;
 use Illuminate\Http\Request;
@@ -69,9 +68,9 @@ class SMSController extends Controller
        
         $leadCategories=LeadCategory::all();
 
-        $conversations=Conversations::orderBy('received_on', 'ASC')->get();
+        $emails=Emails::all();
    
-        return view('back.pages.sms.replies',compact('sms','smsInfo',"quickResponses",'number','leadCategories','conversations'));
+        return view('back.pages.sms.replies',compact('sms','smsInfo',"quickResponses",'number','leadCategories','emails'));
     }
     public function saveThread(Request $request)
     {
