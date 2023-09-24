@@ -714,28 +714,12 @@ class GroupController extends Controller
        return view('back.pages.group.myFile', compact('contractres'));
    }
 
+    public function skipTrace(DatazappService $datazappService, Request $request)
+    {
 
-   public function skipTrace(DatazappService $datazappService, Request $request)
-   {
-
-    $date = now()->format('d M Y');
-    $user_id = auth()->id();
-    $balance = TotalBalance::where('user_id', $user_id)->sum('total_amount');
-
-    Session::forget('payment_info');
-    Session::forget('record_detail');
-
-
-
-    $groupId = $request->input('group_id');
-    $selectedOption = $request->input('skip_trace_option');
-
-    $checkPayment  = Session::get('payment_sucess');
-    $paymentRecord = DB::table('skip_tracing_payment_records')
-    ->where('user_id', $user_id)
-    ->where('group_id', $groupId)
-    ->where('skip_trace_option_id', $selectedOption)
-    ->first();
+       
+        $groupId = $request->input('group_id');
+        $selectedOption = $request->input('skip_trace_option'); 
 
         $group = Group::with('contacts')->find($groupId);
 
