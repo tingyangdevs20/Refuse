@@ -727,16 +727,16 @@ class GroupController extends Controller
     Session::forget('record_detail');
 
 
-       $user_id = auth()->id();
-       $groupId = $request->input('group_id');
-       $selectedOption = $request->input('skip_trace_option');
 
-       $checkPayment  = Session::get('payment_sucess');
-       $paymentRecord = DB::table('skip_tracing_payment_records')
-        ->where('user_id', $user_id)
-        ->where('group_id', $groupId)
-        ->where('skip_trace_option_id', $selectedOption)
-        ->first();
+    $groupId = $request->input('group_id');
+    $selectedOption = $request->input('skip_trace_option');
+
+    $checkPayment  = Session::get('payment_sucess');
+    $paymentRecord = DB::table('skip_tracing_payment_records')
+    ->where('user_id', $user_id)
+    ->where('group_id', $groupId)
+    ->where('skip_trace_option_id', $selectedOption)
+    ->first();
 
 
        $group = Group::with('contacts')->find($groupId);
