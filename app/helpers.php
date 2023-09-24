@@ -49,12 +49,12 @@ function appointment_count($days,$user)
     if($days==0)
     {
     $appointment_count=Scheduler::whereDate('created_at', Carbon::today()->subDays($days))->where([['status', 'booked'],['user_id',$user]])->count();
-
+   
     }
     else
     {
         $appointment_count=Scheduler::whereBetween('created_at', [Carbon::today()->subDays($days),Carbon::today()])->where([['status', 'booked'],['user_id',$user]])->count();
-
+        
     }
     return $appointment_count;
 }

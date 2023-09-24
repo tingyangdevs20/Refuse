@@ -75,6 +75,7 @@ class Email extends Controller
                 // $mail->load();
                 $mail = LaravelGmail::message()->preload()->get($mail->id);
 
+
                 $emails->gmail_thread_id = $mail->threadId;
                 $emails->gmail_mail_id = $mail->id;
 

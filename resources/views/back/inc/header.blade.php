@@ -32,13 +32,8 @@
         </div>
             @include('back.pages.partials.switch')
             <div class="dropdown d-inline-block">
-                @php
-                $totalBalance = \DB::table('account_details')
-                    ->where('user_id', auth()->user()->id)
-                    ->where('status', 'succeeded')
-                    ->sum('amount');
-                @endphp
-            Account Balance:<span style="color:#556ee6;font-weight:bold"><a href="{{ route('admin.account.detail') }}"> USD {{ number_format(@$totalBalance, 2) }}</a></span>
+
+            Account Balance:<span style="color:#556ee6;font-weight:bold"> USD 50</span>
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"

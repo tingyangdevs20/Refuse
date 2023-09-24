@@ -10,6 +10,7 @@ use Doctrine\DBAL\Driver\Mysqli\Exception\StatementError;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\Deprecations\Deprecation;
 use mysqli_sql_exception;
 use mysqli_stmt;
 
@@ -18,6 +19,7 @@ use function assert;
 use function count;
 use function feof;
 use function fread;
+use function func_num_args;
 use function get_resource_type;
 use function is_int;
 use function is_resource;
@@ -26,7 +28,7 @@ use function str_repeat;
 final class Statement implements StatementInterface
 {
     /** @var string[] */
-    private static $paramTypeMap = [
+    private static array $paramTypeMap = [
         ParameterType::ASCII => 's',
         ParameterType::STRING => 's',
         ParameterType::BINARY => 's',
@@ -36,25 +38,21 @@ final class Statement implements StatementInterface
         ParameterType::LARGE_OBJECT => 'b',
     ];
 
-    /** @var mysqli_stmt */
-    private $stmt;
+    private mysqli_stmt $stmt;
 
     /** @var mixed[] */
-    private $boundValues;
+    private array $boundValues;
 
-    /** @var string */
-    private $types;
+    private string $types;
 
     /**
      * Contains ref values for bindValue().
      *
      * @var mixed[]
      */
-    private $values = [];
+    private array $values = [];
 
-    /**
-     * @internal The statement can be only instantiated by its driver connection.
-     */
+    /** @internal The statement can be only instantiated by its driver connection. */
     public function __construct(mysqli_stmt $stmt)
     {
         $this->stmt = $stmt;
@@ -65,11 +63,29 @@ final class Statement implements StatementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @deprecated Use {@see bindValue()} instead.
      */
     public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool
     {
+        Deprecation::trigger(
+            'doctrine/dbal',
+            'https://github.com/doctrine/dbal/pull/5563',
+            '%s is deprecated. Use bindValue() instead.',
+            __METHOD__,
+        );
+
         assert(is_int($param));
+
+        if (func_num_args() < 3) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/pull/5558',
+                'Not passing $type to Statement::bindParam() is deprecated.'
+                    . ' Pass the type corresponding to the parameter being bound.',
+            );
+        }
 
         if (! isset(self::$paramTypeMap[$type])) {
             throw UnknownParameterType::new($type);
@@ -82,11 +98,20 @@ final class Statement implements StatementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function bindValue($param, $value, $type = ParameterType::STRING): bool
     {
         assert(is_int($param));
+
+        if (func_num_args() < 3) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/pull/5558',
+                'Not passing $type to Statement::bindValue() is deprecated.'
+                    . ' Pass the type corresponding to the parameter being bound.',
+            );
+        }
 
         if (! isset(self::$paramTypeMap[$type])) {
             throw UnknownParameterType::new($type);
@@ -100,10 +125,19 @@ final class Statement implements StatementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function execute($params = null): ResultInterface
     {
+        if ($params !== null) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/pull/5556',
+                'Passing $params to Statement::execute() is deprecated. Bind parameters using'
+                    . ' Statement::bindParam() or Statement::bindValue() instead.',
+            );
+        }
+
         if ($params !== null && count($params) > 0) {
             if (! $this->bindUntypedValues($params)) {
                 throw StatementError::new($this->stmt);

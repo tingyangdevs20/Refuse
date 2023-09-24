@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.2||^8.0",
         "barryvdh/laravel-dompdf": "^2.0",
-        "dacastro4/laravel-gmail": "^4.0",
         "doctrine/dbal": "^3.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
@@ -21,11 +20,10 @@
         "laravel/ui": "2.4",
         "realrashid/sweet-alert": "^3.1",
         "riazxrazor/slybroadcast": "^1.1",
-        "sendgrid/sendgrid": "^8.0",
         "smalot/pdfparser": "^2.7",
         "spatie/laravel-permission": "^5.11",
-        "stripe/stripe-php": "^12.4",
-        "twilio/sdk": "^6.10"
+        "twilio/sdk": "^6.10",
+        "dacastro4/laravel-gmail": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -45,7 +43,7 @@
         }
     },
     "autoload": {
-
+        
         "psr-4": {
             "App\\": "app/"
         },
