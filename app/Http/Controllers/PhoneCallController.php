@@ -20,12 +20,18 @@ class PhoneCallController extends Controller
     public function getAccessToken(Request $request){
         $settings = Settings::first()->toArray(); 
 
-        $TWILIO_ACCOUNT_SID=$settings['twilio_api_key']; 
-        $TWILIO_API_KEY=$settings['twilio_call_api'];  
-        $TWILIO_API_SECRET=$settings['twilio_api_call_secret'];
-        $TWILIO_TWIML_APP_SID=$settings['twilio_call_twiml_app_sid']; 
+       // $TWILIO_ACCOUNT_SID=$settings['twilio_api_key']; 
+      //  $TWILIO_API_KEY=$settings['twilio_call_api'];  
+       // $TWILIO_API_SECRET=$settings['twilio_api_call_secret'];
+       // $TWILIO_TWIML_APP_SID=$settings['twilio_call_twiml_app_sid']; 
 
-        $caller_id=$settings['twilio_call_id'];
+       // $caller_id=$settings['twilio_call_id'];
+       $TWILIO_ACCOUNT_SID="ACa068bcfb703b21e18077f86851761d44"; 
+        $TWILIO_API_KEY="SK7733e6b58d54d7150abc54e8155eadf6";  
+        $TWILIO_API_SECRET="mRNaqED0QNfUlLWVY0ZGH7gVW20hej47";
+        $TWILIO_TWIML_APP_SID="AP9150882055bff4025c1f7c6d94925d7d"; 
+
+        $caller_id="";
         
         $identity=$request['identity'];
 
@@ -79,7 +85,7 @@ class PhoneCallController extends Controller
 
         
         $dialedNumber = $request->get('To') ?? null;
-        $dialedNumber = '+919368774816';
+        $dialedNumber = '+919877640296';
       
         $voiceResponse = new VoiceResponse();
         $voiceResponse->say("Calling Now Please Wait");
