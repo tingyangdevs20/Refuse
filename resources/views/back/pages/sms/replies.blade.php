@@ -67,11 +67,23 @@
                                             <div class="chat-conversation p-3">
                                                 <ul class="list-unstyled" data-simplebar style="max-height: 470px;">
 
-                                                   
+                                                    <li class="{{ $sms->is_received==0?'right':'center' }}">
+                                                        <div class="conversation-list">
+                                                            <div class="ctext-wrap">
+                                                                <p style="font-size: larger">
+                                                                   
+                                                                </p>
+                                                                <p class="chat-time mb-0"><i
+                                                                        class="bx bx-time-five align-middle mr-1"></i> {{ $sms->created_at }}
+                                                                </p>
+                                                            </div>
 
-                                                    
-                                                   <!-- @foreach($sms->replies()->get() as $reply)
-                                                    <li class="{{ $reply->system_reply?'right':'' }}">
+                                                        </div>
+                                                    </li>
+
+                                                    {{--Person--}}
+                                                    @foreach($sms->replies()->get() as $reply)
+                                                        <li class="{{ $reply->system_reply?'right':'' }}">
                                                             <div class="conversation-list">
                                                                 <div
                                                                     class="ctext-wrap  {{ $reply->system_reply?'text-primary':'text-success' }}">
@@ -80,29 +92,6 @@
                                                                     </p>
                                                                     <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $reply->type }}</span><i
                                                                             class="bx bx-time-five align-middle mr-1"></i> {{ $reply->created_at }}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        </li>
-                                                    @endforeach-->
-                                                    @foreach($conversations as $conversation)
-                                                    <li class="{{ $reply->system_reply?'right':'' }}">
-                                                            <div class="conversation-list">
-                                                                <div
-                                                                    class="ctext-wrap  {{ $reply->system_reply?'text-primary':'text-success' }}">
-                                                                   
-                                                                   @if($conversation->is_read==0)
-                                                                    <p style="font-size: larger;font-weight:bold">
-                                                                        {!!nl2br(e($conversation->body_text))!!}
-                                                                    </p>
-                                                                    @else
-                                                                    <p style="font-size: larger;">
-                                                                        {!!nl2br(e($conversation->body_text))!!}
-                                                                    </p>
-                                                                    @endif
-                                                                    <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $conversation->conv_type }}</span><i
-                                                                            class="bx bx-time-five align-middle mr-1"></i> {{ $conversation->received_on }}
                                                                     </p>
                                                                 </div>
 

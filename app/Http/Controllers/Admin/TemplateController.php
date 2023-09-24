@@ -193,7 +193,7 @@ class TemplateController extends Controller
     }
     public function getTemplateContent($id = ''){
         $templates = Template::where('id',$id)->get();
-        return view('back.pages.campaign.ajaxTemplate', compact('templates'));
+        return view('back.pages.template.user-agreement.form', compact('templates'));
     }
 
     // sneha 04/09/2023
