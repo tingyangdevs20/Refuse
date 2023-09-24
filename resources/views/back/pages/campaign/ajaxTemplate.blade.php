@@ -1,3 +1,9 @@
+@if($templates!=null)
+
+{{ $templates->title }}
+
+@endif
+
 @if($type == 'sms')
     <div class="form-group" style=" display: none;">
         <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>

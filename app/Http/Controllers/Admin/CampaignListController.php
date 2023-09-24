@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Campaign;
+use App\Model\Category;
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Model\Group;
@@ -32,14 +33,24 @@ class CampaignListController extends Controller
         return view('back.pages.campaignlist.index', compact('groups', 'campaigns','templates'));
     }
 
+    public function getTemplateText($id='')
+    {
+        
+        $templates = Template::where();
+       
+
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
+    }
+
     public function compaignList($id = '')
     {
         $numbers = Number::all();
         $templates = Template::all();
         $files = RvmFile::all();
+        $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
     }
     
     public function schedual()
