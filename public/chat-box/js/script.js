@@ -14,8 +14,10 @@ window.onload = function (e) {
     // console.log("hi, inside window.onload function");
 }
 
+
 var siteUrl = "https://brian-bagnall.com/bulk/bulk_sms_new/public"
 var baseUrl = `${siteUrl}/api/v1/`
+
 function loadStyle(url) {
     var link = document.createElement("link")
     link.type = 'text/css'
