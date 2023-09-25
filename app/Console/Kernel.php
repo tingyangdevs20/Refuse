@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        //Commands/MailToContacts::class,
     ];
 
     /**
@@ -26,9 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //DB::table('test')->insert(['name' => 'SMS']);
-        $schedule->command('countreset:daily')->daily()->appendOutputTo('countreset.log');
-        $schedule->command('campeignschedual:daily')->everyMinute();
-        $schedule->command('MailTo:Contacts')->dailyAt('11:00');
+         $schedule->command('countreset:daily')->daily()->appendOutputTo('countreset.log');
+         $schedule->command('campeignschedual:daily')->everyMinute();
     }
 
     public function scheduleTimezone()

@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Model\Contact;
-
 class GoogleDriveController extends Controller
 {
     public $gClient;
@@ -31,27 +28,26 @@ class GoogleDriveController extends Controller
         $this->gClient->setApprovalPrompt("force");
     }
 
-    public function googleLogin(Request $request)
-    {
-
+    public function googleLogin(Request $request)  {
+      
         $rules = [
             'file' => 'required', // Adjust the allowed file types and size limit as needed
         ];
-
+    
         // Validate the request data
         $validator = Validator::make($request->all(), $rules);
-
+    
         if ($validator->fails()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'File filed is required');
         }
         $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
 
-        if ($request->get('code')) {
+        if ($request->get('code')){
 
             $this->gClient->authenticate($request->get('code'));
             $accessToken = $this->gClient->getAccessToken();
-
+          
             // Store the refresh token securely (e.g., in your database)
             $refreshToken = $this->gClient->getRefreshToken();
 
@@ -64,8 +60,8 @@ class GoogleDriveController extends Controller
             $request->session()->put('token', $accessToken);
             $request->session()->put('refreshtoken', $refreshToken);
         }
-
-        if ($request->session()->get('token')) {
+       
+        if ($request->session()->get('token')){
 
             $this->gClient->setAccessToken($request->session()->get('token'));
         }
@@ -80,75 +76,75 @@ class GoogleDriveController extends Controller
             $request->session()->put('uploaded_file_info', $fileInfo);
         }
 
-        if ($this->gClient->getAccessToken()) {
+        if ($this->gClient->getAccessToken()){
 
             // FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCESS TOKEN
             $user = User::find(1);
 
             $user->access_token = json_encode($request->session()->get('token'));
-
+        
             $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
 
-            $user->save();
-
-
+            $user->save();       
+            
+          
             return $this->googleDriveFileUpload($request);
-        } else {
-
+        
+        } else{
+            
             // FOR GUEST USER, GET GOOGLE LOGIN URL
             $authUrl = $this->gClient->createAuthUrl();
 
             return redirect()->to($authUrl);
         }
     }
-
+    
 
     public function googleDriveFileUpload(Request $request)
     {
         $rules = [
             'file' => 'required', // Adjust the allowed file types and size limit as needed
         ];
-
+    
         // Validate the request data
         $validator = Validator::make($request->all(), $rules);
-
+    
         if ($validator->fails()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'File filed is required');
         }
-        $service = new \Google_Service_Drive($this->gClient);
+       $service = new \Google_Service_Drive($this->gClient);
 
         $user = User::find(1);
 
-        $this->gClient->setAccessToken(json_decode($user->access_token, true));
+        $this->gClient->setAccessToken(json_decode($user->access_token,true));
 
         if ($this->gClient->isAccessTokenExpired()) {
-
+           
             // Get the stored refresh token from your user record
             $user = User::find(1);
             $refreshToken = $user->refresh_token;
 
             // Use the refresh token to fetch a new access token
             $this->gClient->fetchAccessTokenWithRefreshToken($refreshToken);
-
+            
             // Get the updated access token
             $accessToken = $this->gClient->getAccessToken();
 
             // Update the user's access token in the database
             $user->access_token = json_encode($accessToken);
-            $user->save();
+            $user->save();                
         }
-
+        
         $fileMetadata = new \Google_Service_Drive_DriveFile(array(
             'name' => 'BULK SMS',             // ADD YOUR GOOGLE DRIVE FOLDER NAME
-            'mimeType' => 'application/vnd.google-apps.folder'
-        ));
+            'mimeType' => 'application/vnd.google-apps.folder'));
 
         $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
 
         // printf("Folder ID: %s\n", $folder->id);
-
-        $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('file')->getClientOriginalName(), 'parents' => array($folder->id)));
+        
+        $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('file')->getClientOriginalName(),'parents' => array($folder->id)));
 
         $result = $service->files->create($file, array(
             'data' => file_get_contents($request->file('file')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
@@ -195,149 +191,4 @@ class GoogleDriveController extends Controller
         return redirect()->back()->with('upload', 'Authorization successful. You can now upload a file to Google Drive.');
     }
 
-    public function uploadPurchaseAgreement(Request $request)
-    {
-        $rules = [
-            'purchase_agreement' => 'required', // Adjust the allowed file types and size limit as needed
-        ];
-
-        // Validate the request data
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            // Validation failed, redirect back with errors
-            return redirect()->back()->with('notupload', 'Purchase agreement file is required');
-        }
-
-        $file = $request->purchase_agreement;
-        
-        $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
-        
-        if ($request->get('code')) {
-            
-            $this->gClient->authenticate($request->get('code'));
-            $accessToken = $this->gClient->getAccessToken();
-            
-            // Store the refresh token securely (e.g., in your database)
-            $refreshToken = $this->gClient->getRefreshToken();
-            
-            // Save the access token and refresh token in the user's record
-            $user = User::find(1);
-            $user->access_token = json_encode($accessToken);
-            $user->refresh_token = json_encode($refreshToken);
-            $user->save();
-            
-            $request->session()->put('token', $accessToken);
-            $request->session()->put('refreshtoken', $refreshToken);
-        }
-        
-        if ($request->session()->get('token')) {
-            
-            $this->gClient->setAccessToken($request->session()->get('token'));
-        }
-        
-        if ($request->hasFile('purchase_agreement')) {
-            // Store the uploaded file information in the session
-            $fileInfo = [
-                'name' => $request->file('purchase_agreement')->getClientOriginalName(),
-                'mime' => $request->file('purchase_agreement')->getMimeType(),
-                'path' => $request->file('purchase_agreement')->getRealPath(),
-            ];
-            $request->session()->put('uploaded_file_info', $fileInfo);
-        }
-        
-        if ($this->gClient->getAccessToken()) {
-            
-            // FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCESS TOKEN
-            $user = User::find(1);
-            
-            $user->access_token = json_encode($request->session()->get('token'));
-            
-            $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
-            
-            $user->save();
-        
-            return $this->googleDrivePurchaseAgreementUpload($request);
-        } else {
-
-            // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl();
-
-            return redirect()->to($authUrl);
-        }
-    }
-
-    public function googleDrivePurchaseAgreementUpload(Request $request)
-    {
-        $rules = [
-            'purchase_agreement' => 'required', // Adjust the allowed file types and size limit as needed
-        ];
-
-        // Validate the request data
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            // Validation failed, redirect back with errors
-            return redirect()->back()->with('notupload', 'Purchase agreement file is required');
-        }
-
-        $agreement_file = $request->purchase_agreement;
-        $contact = Contact::findOrFail($request->contact_id);
-        
-        $agreement_fileName = $agreement_file->getClientOriginalName();
-        $extension = $agreement_file->getClientOriginalExtension();
-        // Valid File Extensions
-        $valid_extension = array("pdf");
-
-        // Check file extension
-        if (in_array(strtolower($extension), $valid_extension)) {
-            $agreement_filenameNew = time() . '.' . $agreement_fileName;
-            $service = new \Google_Service_Drive($this->gClient);
-
-            $user = User::find(1);
-
-            $this->gClient->setAccessToken(json_decode($user->access_token, true));
-
-            if ($this->gClient->isAccessTokenExpired()) {
-
-                // Get the stored refresh token from your user record
-                $user = User::find(1);
-                $refreshToken = $user->refresh_token;
-
-                // Use the refresh token to fetch a new access token
-                $this->gClient->fetchAccessTokenWithRefreshToken($refreshToken);
-
-                // Get the updated access token
-                $accessToken = $this->gClient->getAccessToken();
-
-                // Update the user's access token in the database
-                $user->access_token = json_encode($accessToken);
-                $user->save();
-            }
-
-            $fileMetadata = new \Google_Service_Drive_DriveFile(array(
-                'name' => $contact->street,             // ADD YOUR GOOGLE DRIVE FOLDER NAME
-                'mimeType' => 'application/vnd.google-apps.folder'
-            ));
-
-            $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
-
-            // printf("Folder ID: %s\n", $folder->id);
-
-            $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('purchase_agreement')->getClientOriginalName(), 'parents' => array($folder->id)));
-
-            $result = $service->files->create($file, array(
-                'data' => file_get_contents($request->file('purchase_agreement')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
-                'mimeType' => 'application/octet-stream',
-                'uploadType' => 'media'
-            ));
-            $url = 'https://drive.google.com/open?id=' . $result->id;
-            $contact->purchase_agreement_name = $agreement_filenameNew;
-            $contact->save();
-            return redirect()->back()->with('upload', 'Purchase Agreement uploaded to Google Drive. URL: ' . $url);
-        } else {
-            Alert::error('Oops!', "Please enter only pdf file");
-            return redirect()->back();
-        }
-    }
 }
