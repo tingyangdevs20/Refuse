@@ -45,6 +45,10 @@ class GoogleCloudRunV2Service extends \Google\Collection
    */
   public $creator;
   /**
+   * @var string[]
+   */
+  public $customAudiences;
+  /**
    * @var string
    */
   public $deleteTime;
@@ -112,6 +116,10 @@ class GoogleCloudRunV2Service extends \Google\Collection
   protected $trafficDataType = 'array';
   protected $trafficStatusesType = GoogleCloudRunV2TrafficTargetStatus::class;
   protected $trafficStatusesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $trafficTagsCleanupThreshold;
   /**
    * @var string
    */
@@ -222,6 +230,20 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public function getCreator()
   {
     return $this->creator;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCustomAudiences($customAudiences)
+  {
+    $this->customAudiences = $customAudiences;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCustomAudiences()
+  {
+    return $this->customAudiences;
   }
   /**
    * @param string
@@ -488,6 +510,20 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public function getTrafficStatuses()
   {
     return $this->trafficStatuses;
+  }
+  /**
+   * @param string
+   */
+  public function setTrafficTagsCleanupThreshold($trafficTagsCleanupThreshold)
+  {
+    $this->trafficTagsCleanupThreshold = $trafficTagsCleanupThreshold;
+  }
+  /**
+   * @return string
+   */
+  public function getTrafficTagsCleanupThreshold()
+  {
+    return $this->trafficTagsCleanupThreshold;
   }
   /**
    * @param string

@@ -28,6 +28,10 @@ class Space extends \Google\Model
    */
   public $displayName;
   /**
+   * @var bool
+   */
+  public $externalUserAllowed;
+  /**
    * @var string
    */
   public $name;
@@ -40,7 +44,15 @@ class Space extends \Google\Model
   /**
    * @var string
    */
+  public $spaceHistoryState;
+  /**
+   * @var string
+   */
   public $spaceThreadingState;
+  /**
+   * @var string
+   */
+  public $spaceType;
   /**
    * @var bool
    */
@@ -77,6 +89,20 @@ class Space extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param bool
+   */
+  public function setExternalUserAllowed($externalUserAllowed)
+  {
+    $this->externalUserAllowed = $externalUserAllowed;
+  }
+  /**
+   * @return bool
+   */
+  public function getExternalUserAllowed()
+  {
+    return $this->externalUserAllowed;
   }
   /**
    * @param string
@@ -123,6 +149,20 @@ class Space extends \Google\Model
   /**
    * @param string
    */
+  public function setSpaceHistoryState($spaceHistoryState)
+  {
+    $this->spaceHistoryState = $spaceHistoryState;
+  }
+  /**
+   * @return string
+   */
+  public function getSpaceHistoryState()
+  {
+    return $this->spaceHistoryState;
+  }
+  /**
+   * @param string
+   */
   public function setSpaceThreadingState($spaceThreadingState)
   {
     $this->spaceThreadingState = $spaceThreadingState;
@@ -133,6 +173,20 @@ class Space extends \Google\Model
   public function getSpaceThreadingState()
   {
     return $this->spaceThreadingState;
+  }
+  /**
+   * @param string
+   */
+  public function setSpaceType($spaceType)
+  {
+    $this->spaceType = $spaceType;
+  }
+  /**
+   * @return string
+   */
+  public function getSpaceType()
+  {
+    return $this->spaceType;
   }
   /**
    * @param bool
