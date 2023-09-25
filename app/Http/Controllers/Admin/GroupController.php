@@ -57,7 +57,7 @@ class GroupController extends Controller
         // return $groups;
         $groupCounts = $groups->map(function ($group) {
             $totalContacts = $group->contacts->count();
-            $percentage = ($totalContacts / 100)*100;
+            $percentage = ($totalContacts / 100) * 100;
 
             return [
                 'group_name' => $group->name, // Replace 'name' with the actual group name attribute
@@ -67,8 +67,8 @@ class GroupController extends Controller
         });
 
         $sr = 1;;
-        $markets=Market::all();
-        $tags=Tag::all();
+        $markets = Market::all();
+        $tags = Tag::all();
         $campaigns = Campaign::getAllCampaigns();
         $form_Template = FormTemplates::get();
 
@@ -80,69 +80,70 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.index', compact('groups','groupCounts', 'sr','campaigns','markets','tags', 'form_Template'));
+            return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template'));
         }
     }
 
-    public function contactInfo(Request $request , $id = ''){
+    public function contactInfo(Request $request, $id = '')
+    {
         //return 'wertyui';
         $leads = LeadCategory::all();
         $scripts = Script::all();
         $tags = Tag::all();
-        $sections=Section::all();
-        $leadinfo = DB::table('lead_info')->where('contact_id' , $id)->first();
+        $sections = Section::all();
+        $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
-        if($leadinfo == null){
+        if ($leadinfo == null) {
             DB::table('lead_info')->insert(['contact_id' => $id]);
-            $leadinfo = DB::table('lead_info')->where('contact_id' , $id)->first();
+            $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
-        $property_infos = DB::table('property_infos')->where('contact_id' , $id)->first();
-        if($property_infos == null){
+        $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
+        if ($property_infos == null) {
             DB::table('property_infos')->insert(['contact_id' => $id]);
-            $property_infos = DB::table('property_infos')->where('contact_id' , $id)->first();
+            $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
         }
-        $values_conditions = DB::table('values_conditions')->where('contact_id' , $id)->first();
-        if($values_conditions == null){
+        $values_conditions = DB::table('values_conditions')->where('contact_id', $id)->first();
+        if ($values_conditions == null) {
             DB::table('values_conditions')->insert(['contact_id' => $id]);
-            $values_conditions = DB::table('values_conditions')->where('contact_id' , $id)->first();
+            $values_conditions = DB::table('values_conditions')->where('contact_id', $id)->first();
         }
-        $property_finance_infos = DB::table('property_finance_infos')->where('contact_id' , $id)->first();
-        if($property_finance_infos == null){
+        $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $id)->first();
+        if ($property_finance_infos == null) {
             DB::table('property_finance_infos')->insert(['contact_id' => $id]);
-            $property_finance_infos = DB::table('property_finance_infos')->where('contact_id' , $id)->first();
+            $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $id)->first();
         }
-        $selling_motivations = DB::table('selling_motivations')->where('contact_id' , $id)->first();
-        if($selling_motivations == null){
+        $selling_motivations = DB::table('selling_motivations')->where('contact_id', $id)->first();
+        if ($selling_motivations == null) {
             DB::table('selling_motivations')->insert(['contact_id' => $id]);
-            $selling_motivations = DB::table('selling_motivations')->where('contact_id' , $id)->first();
+            $selling_motivations = DB::table('selling_motivations')->where('contact_id', $id)->first();
         }
-        $negotiations = DB::table('negotiations')->where('contact_id' , $id)->first();
-        if($negotiations == null){
+        $negotiations = DB::table('negotiations')->where('contact_id', $id)->first();
+        if ($negotiations == null) {
             DB::table('negotiations')->insert(['contact_id' => $id]);
-            $negotiations = DB::table('negotiations')->where('contact_id' , $id)->first();
+            $negotiations = DB::table('negotiations')->where('contact_id', $id)->first();
         }
-        $title_company = DB::table('title_company')->where('contact_id' , $id)->first();
-        if($title_company == null){
+        $title_company = DB::table('title_company')->where('contact_id', $id)->first();
+        if ($title_company == null) {
             DB::table('title_company')->insert(['contact_id' => $id]);
-            $title_company = DB::table('title_company')->where('contact_id' , $id)->first();
+            $title_company = DB::table('title_company')->where('contact_id', $id)->first();
         }
         //dd($property_infos);
 
         $uid = Auth::id();
-        $contact=Contact::where('id',$id)->first();
-        $cnt_mob1=$contact->number;
-        $cnt_mob2=$contact->number2;
-        $cnt_mob3=$contact->number3;
+        $contact = Contact::where('id', $id)->first();
+        $cnt_mob1 = $contact->number;
+        $cnt_mob2 = $contact->number2;
+        $cnt_mob3 = $contact->number3;
         $getAllAppointments = Scheduler::where('admin_uid', $uid)->where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
 
         //print_r($getAllAppointments);
         //die("..");
         // exit;
-
-        return view('back.pages.group.contactDetail', compact('id','title_company','leadinfo','scripts','sections','property_infos','values_conditions','property_finance_infos','selling_motivations','negotiations','leads', 'tags','getAllAppointments'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact'));
     }
 
-    public function updateinfo(Request $request){
+    public function updateinfo(Request $request)
+    {
 
         $table = $request->table;
         $id = $request->id;
@@ -150,23 +151,23 @@ class GroupController extends Controller
         $section_id = $request->section_id;
         $fieldVal = $request->fieldVal;
         $fieldName = $request->fieldName;
-        if($table == 'custom_field_values'){
-            $contact = DB::table($table)->where('contact_id' , $id)->where('feild_id' , $feild_id)->first();
-            if($contact){
-                DB::table($table)->where('contact_id' , $id)->where('feild_id' , $feild_id)->update([$fieldName => $fieldVal]);
-            }else{
-                DB::table($table)->insert(['contact_id' => $id ,'feild_id' => $feild_id ,'section_id' => $section_id , $fieldName => $fieldVal]);
+        if ($table != null) {
+            if ($table == 'custom_field_values') {
+                $contact = DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->first();
+                if ($contact) {
+                    DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
+                } else {
+                    DB::table($table)->insert(['contact_id' => $id, 'feild_id' => $feild_id, 'section_id' => $section_id, $fieldName => $fieldVal]);
+                }
+            } else {
+                $contact = DB::table($table)->where('contact_id', $id)->first();
+                if ($contact) {
+                    DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
+                } else {
+                    DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+                }
             }
-        }else{
-            $contact = DB::table($table)->where('contact_id' , $id)->first();
-            if($contact){
-                DB::table($table)->where('contact_id' , $id)->update([$fieldName => $fieldVal]);
-            }else{
-                DB::table($table)->insert(['contact_id' => $id ,$fieldName => $fieldVal]);
-            }
-
         }
-
         return 'added';
         //return view('back.pages.group.contactDetail', compact('id','groups', 'campaigns','markets'));
     }
@@ -189,20 +190,21 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $existing_group_id='';
-        $existing_group_id=$request->existing_group_id;
+        $existing_group_id = '';
+        $existing_group_id = $request->existing_group_id;
         $group_id = '';
-        $campaign_id='';
+        $campaign_id = '';
         //return $request->campaign_id;
-        if($request->campaign_id != 0){
+        if ($request->campaign_id != 0) {
             $campaign_id = $request->campaign_id;
             //die($campaign_id );
-            $compain = Campaign::where('id',$campaign_id)->first();
+            $compain = Campaign::where('id', $campaign_id)->first();
             $group_id = $compain->group_id;
         }
 
         //return $group_id;
 
+<<<<<<< HEAD
         if($existing_group_id!=0){
             $group_id=$existing_group_id;
             $group = Group::where('id', $group_id)->first();
@@ -214,6 +216,20 @@ class GroupController extends Controller
             $group = new Group();
             $group->market_id = $request->market_id;
             $group->tag_id = (!empty($tag_id_array)) ? implode(',',$tag_id_array) : null;
+=======
+        if ($existing_group_id != 0) {
+
+            $group_id = $existing_group_id;
+            $group = Group::where('id', $group_id)->first();
+            $group->market_id = $request->market_id;
+            $group->tag_id = $request->tag_id;
+            $group->save();
+        } else {
+
+            $group = new Group();
+            $group->market_id = $request->market_id;
+            $group->tag_id = $request->tag_id;
+>>>>>>> d708c94bab203e26d8a9e8c71ca1af0bfccd7ee8
             $group->name = $request->name;
             $group->save();
         }
@@ -265,7 +281,7 @@ class GroupController extends Controller
                         continue;
                     }
                     for ($c = 0; $c < $num; $c++) {
-                        $importData_arr[$i][] = $filedata [$c];
+                        $importData_arr[$i][] = $filedata[$c];
                     }
                     $i++;
                 }
@@ -274,9 +290,9 @@ class GroupController extends Controller
 
                 // Insert to MySQL database
                 foreach ($importData_arr as $importData) {
-                    if($group_id != ''){
-                        $checkContact = Contact::where('number' , '+1' . preg_replace('/[^0-9]/', '', $importData[5]))->where('group_id' , $group_id)->first();
-                        if($checkContact == null){
+                    if ($group_id != '') {
+                        $checkContact = Contact::where('number', '+1' . preg_replace('/[^0-9]/', '', $importData[5]))->where('group_id', $group_id)->first();
+                        if ($checkContact == null) {
                             $insertData1 = array(
                                 "group_id" => $group_id,
                                 "name" => $importData[0],
@@ -292,35 +308,35 @@ class GroupController extends Controller
                                 "email2" => $importData[10]
                             );
                             Contact::create($insertData1);
-                            $groupsID = Group::where('id',$group_id)->first();
-                            $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
-                    if($sender_numbers){
-                        $account = Account::where('id' , $sender_numbers->account_id)->first();
-                        if($account){
-                            $sid = $account->account_id;
-                            $token = $account->account_token;
-                        }else{
-                            $sid = '';
-                            $token = '';
-                        }
-                    }
+                            $groupsID = Group::where('id', $group_id)->first();
+                            $sender_numbers = Number::where('market_id', $groupsID->market_id)->inRandomOrder()->first();
+                            if ($sender_numbers) {
+                                $account = Account::where('id', $sender_numbers->account_id)->first();
+                                if ($account) {
+                                    $sid = $account->account_id;
+                                    $token = $account->account_token;
+                                } else {
+                                    $sid = '';
+                                    $token = '';
+                                }
+                            }
 
-                            $campaignsList = CampaignList::where('campaign_id' , $campaign_id)->orderby('schedule', 'ASC')->first();
+                            $campaignsList = CampaignList::where('campaign_id', $campaign_id)->orderby('schedule', 'ASC')->first();
                             // print_r($campaignsList);die;
-                            if($campaignsList){
+                            if ($campaignsList) {
                                 $row = $campaignsList;
                                 // $template = Template::where('id',$row->template_id)->first();
-                                $template = FormTemplates::where('id',$request->email_template)->first();
+                                $template = FormTemplates::where('id', $request->email_template)->first();
                                 $date = now()->format('d M Y');
-                                if($row->type == 'email'){
+                                if ($row->type == 'email') {
                                     //dd($contacts);
                                     //return $cont->name;
-                                    if($importData[9] != ''){
+                                    if ($importData[9] != '') {
                                         $email = $importData[9];
-                                    }elseif($importData[10]){
+                                    } elseif ($importData[10]) {
                                         $email = $importData[10];
                                     }
-                                    if($email != ''){
+                                    if ($email != '') {
                                         $subject = $template->template_name;
                                         $subject = str_replace("{name}", $importData[0], $subject);
                                         $subject = str_replace("{street}", $importData[2], $subject);
@@ -328,37 +344,36 @@ class GroupController extends Controller
                                         $subject = str_replace("{state}", $importData[4], $subject);
                                         $subject = str_replace("{zip}", $importData[5], $subject);
                                         $subject = str_replace("{date}", $date, $subject);
-                                        $message = $template!=null ? $template->content : '';
+                                        $message = $template != null ? $template->content : '';
                                         $message = str_replace("{name}", $importData[0], $message);
                                         $message = str_replace("{street}", $importData[2], $message);
                                         $message = str_replace("{city}", $importData[3], $message);
                                         $message = str_replace("{state}", $importData[4], $message);
                                         $message = str_replace("{zip}", $importData[5], $message);
                                         $message = str_replace("{date}", $date, $message);
-                                        $unsub_link = url('admin/email/unsub/'.$email);
-                                        $data = ['message' => $message,'subject' => $subject, 'name' =>$importData[0], 'unsub_link' =>$unsub_link];
+                                        $unsub_link = url('admin/email/unsub/' . $email);
+                                        $data = ['message' => $message, 'subject' => $subject, 'name' => $importData[0], 'unsub_link' => $unsub_link];
                                         // echo "<pre>";print_r($data);die;
-                                      Mail::to($email)->send(new TestEmail($data));
-                                     ;
+                                        Mail::to($email)->send(new TestEmail($data));;
                                     }
-                                }elseif($row->type == 'sms'){
+                                } elseif ($row->type == 'sms') {
                                     $client = new Client($sid, $token);
-                                    if($importData[6] != ''){
+                                    if ($importData[6] != '') {
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
-                                    }elseif($importData[7] != ''){
+                                    } elseif ($importData[7] != '') {
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
-                                    }elseif($importData[8] != ''){
+                                    } elseif ($importData[8] != '') {
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
                                     }
                                     $receiver_number = $number;
                                     $sender_number = $sender_numbers->number;
-                                    $message = $template!=null && $template->body ? $template->body : '';
+                                    $message = $template != null && $template->body ? $template->body : '';
                                     $message = str_replace("{name}", $importData[0], $message);
                                     $message = str_replace("{street}", $importData[2], $message);
                                     $message = str_replace("{city}", $importData[3], $message);
                                     $message = str_replace("{state}", $importData[4], $message);
                                     $message = str_replace("{zip}", $importData[5], $message);
-                                    if($receiver_number != ''){
+                                    if ($receiver_number != '') {
                                         try {
                                             $sms_sent = $client->messages->create(
                                                 $receiver_number,
@@ -377,7 +392,7 @@ class GroupController extends Controller
                                                     $sms->media = '';
                                                     $sms->status = 1;
                                                     $sms->save();
-                                                  $this->incrementSmsCount($sender_number);
+                                                    $this->incrementSmsCount($sender_number);
                                                 } else {
                                                     $reply_message = new Reply();
                                                     $reply_message->sms_id = $old_sms->id;
@@ -386,7 +401,7 @@ class GroupController extends Controller
                                                     $reply_message->reply = $message;
                                                     $reply_message->system_reply = 1;
                                                     $reply_message->save();
-                                                   $this->incrementSmsCount($sender_number);
+                                                    $this->incrementSmsCount($sender_number);
                                                 }
                                             }
                                         } catch (\Exception $ex) {
@@ -399,24 +414,24 @@ class GroupController extends Controller
                                             $failed_sms->save();
                                         }
                                     }
-                                }elseif($row->type == 'mms'){
+                                } elseif ($row->type == 'mms') {
                                     $client = new Client($sid, $token);
-                                    if($importData[6] != ''){
+                                    if ($importData[6] != '') {
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
-                                    }elseif($importData[7] != ''){
+                                    } elseif ($importData[7] != '') {
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
-                                    }elseif($importData[8] != ''){
+                                    } elseif ($importData[8] != '') {
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
                                     }
                                     $receiver_number = $number;
                                     $sender_number = $sender_numbers->number;
-                                    $message = $template!=null ? $template->body : '';
+                                    $message = $template != null ? $template->body : '';
                                     $message = str_replace("{name}", $importData[0], $message);
                                     $message = str_replace("{street}", $importData[2], $message);
                                     $message = str_replace("{city}", $importData[3], $message);
                                     $message = str_replace("{state}", $importData[4], $message);
                                     $message = str_replace("{zip}", $importData[5], $message);
-                                    if($receiver_number != ''){
+                                    if ($receiver_number != '') {
                                         try {
                                             $sms_sent = $client->messages->create(
                                                 $receiver_number,
@@ -437,7 +452,7 @@ class GroupController extends Controller
                                                     $sms->media = $template->mediaUrl;
                                                     $sms->status = 1;
                                                     $sms->save();
-                                                   $this->incrementSmsCount($sender_number);
+                                                    $this->incrementSmsCount($sender_number);
                                                 } else {
                                                     $reply_message = new Reply();
                                                     $reply_message->sms_id = $old_sms->id;
@@ -446,9 +461,8 @@ class GroupController extends Controller
                                                     $reply_message->reply = $message;
                                                     $reply_message->system_reply = 1;
                                                     $reply_message->save();
-                                                   $this->incrementSmsCount($sender_number);
+                                                    $this->incrementSmsCount($sender_number);
                                                 }
-
                                             }
                                         } catch (\Exception $ex) {
                                             $failed_sms = new FailedSms();
@@ -460,60 +474,55 @@ class GroupController extends Controller
                                             $failed_sms->save();
                                         }
                                     }
-                                }elseif($row->type == 'rvm'){
-                                        $contactsArr = [];
-                                        if($importData[6] != ''){
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
-                                        }elseif($importData[7] != ''){
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
-                                        }elseif($importData[8] != ''){
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
-                                        }
-                                        if($number){
-                                            $c_phones = $number;
-                                            $vrm = \Slybroadcast::sendVoiceMail([
-                                                                'c_phone' => ".$c_phones.",
-                                                                'c_url' =>$template->body,
-                                                                'c_record_audio' => '',
-                                                                'c_date' => 'now',
-                                                                'c_audio' => 'Mp3',
-                                                                //'c_callerID' => "4234606442",
-                                                                'c_callerID' => $sender_numbers->number,
-                                                                //'mobile_only' => 1,
-                                                                'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
-                                                               ])->getResponse();
-                                        }
-
+                                } elseif ($row->type == 'rvm') {
+                                    $contactsArr = [];
+                                    if ($importData[6] != '') {
+                                        $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+                                    } elseif ($importData[7] != '') {
+                                        $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+                                    } elseif ($importData[8] != '') {
+                                        $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
                                     }
+                                    if ($number) {
+                                        $c_phones = $number;
+                                        $vrm = \Slybroadcast::sendVoiceMail([
+                                            'c_phone' => ".$c_phones.",
+                                            'c_url' => $template->body,
+                                            'c_record_audio' => '',
+                                            'c_date' => 'now',
+                                            'c_audio' => 'Mp3',
+                                            //'c_callerID' => "4234606442",
+                                            'c_callerID' => $sender_numbers->number,
+                                            //'mobile_only' => 1,
+                                            'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+                                        ])->getResponse();
+                                    }
+                                }
                             }
-
                         }
-
                     }
-                    if($existing_group_id==0)
-                    {
-                    $insertData = array(
-                        "group_id" => $group->id,
-                        "name" => $importData[0],
-                        "last_name" => $importData[1],
-                        "street" => $importData[2],
-                        "city" => $importData[3],
-                        "state" => $importData[4],
-                        "zip" => $importData[5],
-                        "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
-                        "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
-                        "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
-                        "email1" => $importData[9],
-                        "email2" => $importData[10]
-                    );
-                    Contact::create($insertData);
-                }
+                    if ($existing_group_id == 0) {
+                        $insertData = array(
+                            "group_id" => $group->id,
+                            "name" => $importData[0],
+                            "last_name" => $importData[1],
+                            "street" => $importData[2],
+                            "city" => $importData[3],
+                            "state" => $importData[4],
+                            "zip" => $importData[5],
+                            "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
+                            "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
+                            "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
+                            "email1" => $importData[9],
+                            "email2" => $importData[10]
+                        );
+                        Contact::create($insertData);
+                    }
                 }
                 Alert::success('Success!', 'Group Created!');
             } else {
                 Alert::error('Oops!', 'File too large. File must be less than 2MB');
             }
-
         } else {
             $group->delete();
             Alert::error('Oops!', 'Invalid File Extension.');
@@ -539,13 +548,12 @@ class GroupController extends Controller
         $sr = 1;
         $contacts = Contact::where("is_dnc", 0)->get();
         return view('back.pages.group.view_all', compact('contacts', 'sr'));
-
     }
 
     public function show(Group $group, Request $request)
     {
         $contractres = Contractupload::all()->sortByDesc("created_at");
-        $id =$group->id;
+        $id = $group->id;
         $sr = 1;
         if ($request->wantsJson()) {
             $contacts = Contact::where("group_id", $group->id)->where("is_dnc", 0)->get();
@@ -556,8 +564,8 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.details', compact('group', 'sr','contractres', 'id'));
-          //  return view('back.pages.group.details', compact('group', 'sr', 'id'));
+            return view('back.pages.group.details', compact('group', 'sr', 'contractres', 'id'));
+            //  return view('back.pages.group.details', compact('group', 'sr', 'id'));
         }
     }
 
@@ -598,150 +606,152 @@ class GroupController extends Controller
     }
 
 
-    public function getScript($id = ''){
-        $scrip = Script::where('id',$id)->first();
+    public function getScript($id = '')
+    {
+        $scrip = Script::where('id', $id)->first();
         return view('back.pages.group.ajaxScript', compact('scrip'));
     }
 
 
     public function mailcontactlist(Request $request)
     {
-        if(count($request->checked_id)>0){
-            foreach($request->checked_id as $contactId){
+        if (count($request->checked_id) > 0) {
+            foreach ($request->checked_id as $contactId) {
 
-                $contractRes = Contractupload::where("id",$request->contracttype)->first();
-                $mailcontact = Contact::where("id",$contactId)->first();
+                $contractRes = Contractupload::where("id", $request->contracttype)->first();
+                $mailcontact = Contact::where("id", $contactId)->first();
                 $subject = "Testing 05092023";
                 // $message = "Message Testing 05092023".'<br>';
                 $message = $contractRes->content;
-                $url = url('myHtml/'.$contractRes->id.'/'.$mailcontact->id);
-                $data = ['message' => $message,'subject' => $subject, 'name' =>$mailcontact->name,"contract_id"=>$contractRes->id,"contactid"=>$mailcontact->id,"Url"=>$url];
+                $url = url('myHtml/' . $contractRes->id . '/' . $mailcontact->id);
+                $data = ['message' => $message, 'subject' => $subject, 'name' => $mailcontact->name, "contract_id" => $contractRes->id, "contactid" => $mailcontact->id, "Url" => $url];
                 Mail::to($mailcontact->email1)->send(new Mailcontact($data));
-                Contact::where("id",$contactId)->update(['mail_sent'=>1]);
+                Contact::where("id", $contactId)->update(['mail_sent' => 1]);
             }
-                Alert::success('Success!', 'Mail sent successfully!');
-                return redirect()->back();
+            Alert::success('Success!', 'Mail sent successfully!');
+            return redirect()->back();
         }
     }
 
-   public function uploadcontract(Request $request){
+    public function uploadcontract(Request $request)
+    {
 
 
-    $file = $request->file;
+        $file = $request->file;
 
-    $fileName = $file->getClientOriginalName();
-    $extension = $file->getClientOriginalExtension();
-    $tempPath = $file->getRealPath();
-    $fileSize = $file->getSize();
-    $mimeType = $file->getMimeType();
+        $fileName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
 
-    // Valid File Extensions
-    $valid_extension = array("pdf");
-    // Check file extension
-    if (in_array(strtolower($extension), $valid_extension)) {
-    $pdfParser = new Parser();
-    $pdf = $pdfParser->parseFile($file->path());
-    $content = $pdf->getText();
-        $filenameNew =  time().'.'.$fileName;
-    $Contractupload = new Contractupload;
-       $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;
-       $Contractupload->file =$filenameNew;
-       $Contractupload->save();
-       $file->move('../public/contractpdf/', $filenameNew);
-       Alert::success('Success!', 'Contract Uploaded successfully!');
-       return redirect()->back();
-    } else {
-        Alert::error('Oops!', "Please enter only pdf file");
-        return redirect()->back();
+        // Valid File Extensions
+        $valid_extension = array("pdf");
+        // Check file extension
+        if (in_array(strtolower($extension), $valid_extension)) {
+            $pdfParser = new Parser();
+            $pdf = $pdfParser->parseFile($file->path());
+            $content = $pdf->getText();
+            $filenameNew =  time() . '.' . $fileName;
+            $Contractupload = new Contractupload;
+            $Contractupload->content = $content;
+            $Contractupload->type_contract = $request->optiontype;
+            $Contractupload->file = $filenameNew;
+            $Contractupload->save();
+            $file->move('../public/contractpdf/', $filenameNew);
+            Alert::success('Success!', 'Contract Uploaded successfully!');
+            return redirect()->back();
+        } else {
+            Alert::error('Oops!', "Please enter only pdf file");
+            return redirect()->back();
+        }
     }
-   }
 
 
 
 
-   public function uploadcontractedit(Request $request){
-    // dd($request->all());
+    public function uploadcontractedit(Request $request)
+    {
+        // dd($request->all());
 
-    $file = $request->file;
+        $file = $request->file;
 
-    $fileName = $file->getClientOriginalName();
-    $extension = $file->getClientOriginalExtension();
-    $tempPath = $file->getRealPath();
-    $fileSize = $file->getSize();
-    $mimeType = $file->getMimeType();
+        $fileName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
 
-    // Valid File Extensions
-    $valid_extension = array("pdf");
-    // Check file extension
-    if (in_array(strtolower($extension), $valid_extension)) {
-    $pdfParser = new Parser();
-    $pdf = $pdfParser->parseFile($file->path());
-    $content = $pdf->getText();
-       $filenameNew =  time().'.'.$fileName;
-       $Contractupload = Contractupload::find(1);
-       $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
+        // Valid File Extensions
+        $valid_extension = array("pdf");
+        // Check file extension
+        if (in_array(strtolower($extension), $valid_extension)) {
+            $pdfParser = new Parser();
+            $pdf = $pdfParser->parseFile($file->path());
+            $content = $pdf->getText();
+            $filenameNew =  time() . '.' . $fileName;
+            $Contractupload = Contractupload::find(1);
+            $destinationPath = public_path('/contractpdf/' . $Contractupload->file);
 
-    if(file_exists($destinationPath)){
-        unlink($destinationPath);
+            if (file_exists($destinationPath)) {
+                unlink($destinationPath);
+            }
+            $Contractupload->content = $content;
+            $Contractupload->type_contract = $request->optiontype;
+            $Contractupload->file = $filenameNew;
+            $Contractupload->save();
+            $file->move('../public/contractpdf/', $filenameNew);
+            Alert::success('Success!', 'Contract Updated successfully!');
+            return redirect()->back();
+        } else {
+            Alert::error('Oops!', "Please enter only pdf file");
+            return redirect()->back();
+        }
     }
-       $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;
-       $Contractupload->file =$filenameNew;
-       $Contractupload->save();
-       $file->move('../public/contractpdf/', $filenameNew);
-       Alert::success('Success!', 'Contract Updated successfully!');
-       return redirect()->back();
-    } else {
-        Alert::error('Oops!', "Please enter only pdf file");
-        return redirect()->back();
+
+    public function contractview(Request $request)
+    {
+        $contractres = Contractupload::all()->sortByDesc("created_at");
+        return view('back.pages.group.contractview', compact('contractres'));
     }
-   }
 
-   public function contractview(Request $request)
-   {
-       $contractres = Contractupload::all()->sortByDesc("created_at");
-       return view('back.pages.group.contractview', compact('contractres'));
-   }
+    public function myHtml($id, $contactid)
+    {
+        $contractRes = Contractupload::where("id", $id)->first();
+        $contactrRes = Contact::where("id", $contactid)->first();
+        $name = $contactrRes->name;
+        $contractres = str_replace('#name#', $name, $contractRes->content);
+        return view('back.pages.group.myFile', compact('contractres'));
+    }
 
-   public function myHtml($id,$contactid)
-   {
-    $contractRes = Contractupload::where("id",$id)->first();
-    $contactrRes = Contact::where("id",$contactid)->first();
-    $name =$contactrRes->name;
-    $contractres = str_replace('#name#', $name , $contractRes->content);
-       return view('back.pages.group.myFile', compact('contractres'));
-   }
+    public function skipTrace(DatazappService $datazappService, Request $request)
+    {
 
-   public function skipTrace(DatazappService $datazappService, Request $request)
-   {
+        $date = now()->format('d M Y');
+        $user_id = auth()->id();
+        $balance = TotalBalance::where('user_id', $user_id)->sum('total_amount');
 
-    $date = now()->format('d M Y');
-    $user_id = auth()->id();
-    $balance = TotalBalance::where('user_id', $user_id)->sum('total_amount');
-
-    Session::forget('payment_info');
-    Session::forget('record_detail');
+        Session::forget('payment_info');
+        Session::forget('record_detail');
 
 
-       $user_id = auth()->id();
-       $groupId = $request->input('group_id');
-       $selectedOption = $request->input('skip_trace_option');
+        $user_id = auth()->id();
+        $groupId = $request->input('group_id');
+        $selectedOption = $request->input('skip_trace_option');
 
-       $checkPayment  = Session::get('payment_sucess');
-       $paymentRecord = DB::table('skip_tracing_payment_records')
-        ->where('user_id', $user_id)
-        ->where('group_id', $groupId)
-        ->where('skip_trace_option_id', $selectedOption)
-        ->first();
+        $checkPayment  = Session::get('payment_sucess');
+        $paymentRecord = DB::table('skip_tracing_payment_records')
+            ->where('user_id', $user_id)
+            ->where('group_id', $groupId)
+            ->where('skip_trace_option_id', $selectedOption)
+            ->first();
+
+        $group = Group::with('contacts')->find($groupId);
 
 
-       $group = Group::with('contacts')->find($groupId);
-
-
-       if (!$group) {
-           return response()->json(['error' => 'Group not found.']);
-       }
+        if (!$group) {
+            return response()->json(['error' => 'Group not found.']);
+        }
 
         // Extract the contact data from the group
         $groupContacts = $group->contacts;
@@ -751,46 +761,36 @@ class GroupController extends Controller
             return $contact->email1 . '|' . $contact->number;
         });
 
-
-
-
-
-       $skipTraceRate = null;
-       Session::put('record_detail', [
+        $skipTraceRate = null;
+        Session::put('record_detail', [
             'group' => $group,
             'uniqueContacts' => $uniqueContacts,
             'groupId' => $groupId,
             'selectedOption' => $selectedOption,
         ]);
 
-        if($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone' ){
+        if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
-
-        }elseif($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails' ){
+        } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
-        }elseif($selectedOption == 'append_names' ){
+        } elseif ($selectedOption == 'append_names') {
             $skipTraceRate = Account::pluck('name_append_rate')->first();
-        }
-        elseif($selectedOption == 'append_emails' ){
+        } elseif ($selectedOption == 'append_emails') {
             $skipTraceRate = Account::pluck('email_append_rate')->first();
-
-        }
-        elseif($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified' ){
+        } elseif ($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified') {
             $skipTraceRate = Account::pluck('email_verification_rate')->first();
-        }
-        elseif($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers' ){
+        } elseif ($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers') {
             $skipTraceRate = Account::pluck('phone_scrub_rate')->first();
         }
 
         if ($skipTraceRate === null) {
 
             return response()->json(['error' => 'Invalid skip trace option.']);
-
-        }else{
+        } else {
 
             // $paymentInfo = Session::get('record_detail');
-            if(isset($balance) && $balance > 0 || $balance >= $skipTraceRate){
-                    // return response()->json([
+            if (isset($balance) && $balance > 0 || $balance >= $skipTraceRate) {
+                // return response()->json([
 
                 //     'data' => [
                 //         'skip_trace_rate' => $skipTraceRate[0] * count($uniqueContacts),
@@ -826,8 +826,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -842,7 +841,7 @@ class GroupController extends Controller
                                     }
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -867,8 +866,6 @@ class GroupController extends Controller
                             }
                         }
                     }
-
-
                 } elseif ($selectedOption === 'skip_entire_list_email' || $selectedOption === 'skip_records_without_emails') {
                     // Implement skip tracing logic for the entire list of emails
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
@@ -892,8 +889,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -906,7 +902,7 @@ class GroupController extends Controller
                                         $matchingContact->update(['email1' => $matchedEmail]);
                                     }
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -931,7 +927,6 @@ class GroupController extends Controller
                             }
                         }
                     }
-
                 } elseif ($selectedOption === 'append_names') {
                     // Implement append names logic for records without names
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
@@ -955,10 +950,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-
-
-                                            $contact->street === $record['Address'] &&
+                                        return ($contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
                                             $contact->zip === $record['Zip']
                                         );
@@ -974,7 +966,7 @@ class GroupController extends Controller
 
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -999,8 +991,7 @@ class GroupController extends Controller
                             }
                         }
                     }
-
-                } elseif ($selectedOption=== 'append_emails'){
+                } elseif ($selectedOption === 'append_emails') {
                     // Implement append names logic for records without names
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
 
@@ -1022,9 +1013,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -1041,7 +1030,7 @@ class GroupController extends Controller
 
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -1076,19 +1065,18 @@ class GroupController extends Controller
                             isset($result['ResponseDetail']['Data']) &&
                             is_array($result['ResponseDetail']['Data'])
                         ) {
-                             $data = $result['ResponseDetail']['Data'];
+                            $data = $result['ResponseDetail']['Data'];
 
                             // Assuming $data is the array from the API response
                             foreach ($data as $record) {
                                 // Check if the record has a matched email status
-                                if (isset($record['Status']) ) {
+                                if (isset($record['Status'])) {
                                     $matchedEmail = $record['Email'];
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
 
-                                        return (
-                                            $contact->email2 === $record['Email']
+                                        return ($contact->email2 === $record['Email']
 
                                         );
                                     });
@@ -1129,13 +1117,10 @@ class GroupController extends Controller
                                     // Assuming $date is defined earlier
                                     $group->email_verification_date = $date;
                                     $group->save();
-
                                 }
-
                             }
                         }
                     }
-
                 } elseif ($selectedOption === 'phone_scrub_entire_list' || $selectedOption === 'phone_scrub_non_scrubbed_numbers') {
                     // Implement phone scrubbing logic for the entire list of phone numbers
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
@@ -1160,9 +1145,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -1181,7 +1164,7 @@ class GroupController extends Controller
 
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -1206,54 +1189,47 @@ class GroupController extends Controller
                             }
                         }
                     }
-
                 } else {
                     // Handle other options or provide an error response
                     return response()->json(['error' => 'Invalid skip trace option.']);
                 }
 
                 return $result;
-            }else{
+            } else {
 
                 return response()->json(['modal' => "Please Recharge your Account Balance!"]);
+            }
+        }
+    }
 
+
+
+    public function pushToCampaign(Request $request)
+    {
+        $groupId = $request->input('group_id');
+        $groupName = $request->input('group_name');
+        $emails = explode(',', $request->input('email'));
+
+        // Check if a record with the same group_id exists
+        $existingCampaign = Campaign::where('group_id', $groupId)->first();
+
+        if ($existingCampaign) {
+            // Return a response to indicate that the data already exists
+            return response()->json(['message' => 'Data already exists', 'success' => false]);
+        } else {
+            // Insert data into the campaign table
+            Campaign::create([
+                'name' => $groupName,
+                'group_id' => $groupId,
+            ]);
+
+            // Send email notifications
+            foreach ($emails as $email) {
+                Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
             }
 
-
+            // Return a response to indicate success
+            return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
         }
-   }
-
-
-
-   public function pushToCampaign(Request $request)
-   {
-       $groupId = $request->input('group_id');
-       $groupName = $request->input('group_name');
-       $emails = explode(',', $request->input('email'));
-
-       // Check if a record with the same group_id exists
-       $existingCampaign = Campaign::where('group_id', $groupId)->first();
-
-       if ($existingCampaign) {
-           // Return a response to indicate that the data already exists
-           return response()->json(['message' => 'Data already exists', 'success' => false]);
-       } else {
-           // Insert data into the campaign table
-           Campaign::create([
-               'name' => $groupName,
-               'group_id' => $groupId,
-           ]);
-
-           // Send email notifications
-           foreach ($emails as $email) {
-               Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-           }
-
-           // Return a response to indicate success
-           return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
-       }
-   }
-
-
-
+    }
 }
