@@ -202,9 +202,21 @@ class GroupController extends Controller
             $group_id = $compain->group_id;
         }
 
-
         //return $group_id;
 
+<<<<<<< HEAD
+        if($existing_group_id!=0){
+            $group_id=$existing_group_id;
+            $group = Group::where('id', $group_id)->first();
+            $group->market_id = $request->market_id;
+            $group->tag_id = (!empty($tag_id_array)) ? implode(',',$tag_id_array) : null;
+            $group->save();
+        }
+        else{
+            $group = new Group();
+            $group->market_id = $request->market_id;
+            $group->tag_id = (!empty($tag_id_array)) ? implode(',',$tag_id_array) : null;
+=======
         if ($existing_group_id != 0) {
 
             $group_id = $existing_group_id;
@@ -217,6 +229,7 @@ class GroupController extends Controller
             $group = new Group();
             $group->market_id = $request->market_id;
             $group->tag_id = $request->tag_id;
+>>>>>>> d708c94bab203e26d8a9e8c71ca1af0bfccd7ee8
             $group->name = $request->name;
             $group->save();
         }

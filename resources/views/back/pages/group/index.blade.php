@@ -186,6 +186,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Select Email Template</label>
                                     <select class="custom-select" name="email_template" id="email_template">
@@ -316,6 +317,8 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script >
+
+
 
         $(document).ready(function() {
             $('#datatable').DataTable();
@@ -519,20 +522,13 @@
         } );
 
     </script>
-    <script >
-
-
+    <script>
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
             var modal = $(this);
             modal.find('.modal-body #id').val(id);
         });
-
-
-
-    </script>
-    <script>
 
     </script>
     @endsection
