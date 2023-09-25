@@ -18,13 +18,16 @@ use function count;
 
 final class Result implements ResultInterface
 {
-    private mysqli_stmt $statement;
+    /** @var mysqli_stmt */
+    private $statement;
 
     /**
      * Whether the statement result has columns. The property should be used only after the result metadata
      * has been fetched ({@see $metadataFetched}). Otherwise, the property value is undetermined.
+     *
+     * @var bool
      */
-    private bool $hasColumns = false;
+    private $hasColumns = false;
 
     /**
      * Mapping of statement result column indexes to their names. The property should be used only
@@ -32,10 +35,10 @@ final class Result implements ResultInterface
      *
      * @var array<int,string>
      */
-    private array $columnNames = [];
+    private $columnNames = [];
 
     /** @var mixed[] */
-    private array $boundValues = [];
+    private $boundValues = [];
 
     /**
      * @internal The result can be only instantiated by its driver connection or statement.
@@ -85,7 +88,7 @@ final class Result implements ResultInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchNumeric()
     {
@@ -127,7 +130,7 @@ final class Result implements ResultInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchOne()
     {
@@ -135,7 +138,7 @@ final class Result implements ResultInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchAllNumeric(): array
     {
@@ -143,7 +146,7 @@ final class Result implements ResultInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchAllAssociative(): array
     {
@@ -151,7 +154,7 @@ final class Result implements ResultInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchFirstColumn(): array
     {

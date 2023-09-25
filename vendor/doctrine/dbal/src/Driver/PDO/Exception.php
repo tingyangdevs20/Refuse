@@ -19,7 +19,9 @@ final class Exception extends AbstractException
         if ($exception->errorInfo !== null) {
             [$sqlState, $code] = $exception->errorInfo;
 
-            $code ??= 0;
+            if ($code === null) {
+                $code = 0;
+            }
         } else {
             $code     = $exception->getCode();
             $sqlState = null;

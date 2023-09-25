@@ -2,10 +2,8 @@
 
 namespace Doctrine\DBAL\Platforms;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\DB2SchemaManager;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\TableDiff;
@@ -25,51 +23,24 @@ use function strpos;
 
 class DB2Platform extends AbstractPlatform
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
-     */
     public function getCharMaxLength(): int
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/issues/3263',
-            'DB2Platform::getCharMaxLength() is deprecated.',
-        );
-
         return 254;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function getBinaryMaxLength()
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/issues/3263',
-            'DB2Platform::getBinaryMaxLength() is deprecated.',
-        );
-
         return 32704;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function getBinaryDefaultLength()
     {
-        Deprecation::trigger(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/issues/3263',
-            'Relying on the default binary column length is deprecated, specify the length explicitly.',
-        );
-
         return 1;
     }
 
@@ -120,7 +91,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isCommentedDoctrineType(Type $doctrineType)
     {
@@ -128,7 +99,7 @@ class DB2Platform extends AbstractPlatform
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/pull/5058',
             '%s is deprecated and will be removed in Doctrine DBAL 4.0. Use Type::requiresSQLCommentHint() instead.',
-            __METHOD__,
+            __METHOD__
         );
 
         if ($doctrineType->getName() === Types::BOOLEAN) {
@@ -143,35 +114,17 @@ class DB2Platform extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    protected function getVarcharTypeDeclarationSQLSnippet($length, $fixed/*, $lengthOmitted = false*/)
+    protected function getVarcharTypeDeclarationSQLSnippet($length, $fixed)
     {
-        if ($length <= 0 || (func_num_args() > 2 && func_get_arg(2))) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/3263',
-                'Relying on the default string column length on IBM DB2 is deprecated'
-                    . ', specify the length explicitly.',
-            );
-        }
-
         return $fixed ? ($length > 0 ? 'CHAR(' . $length . ')' : 'CHAR(254)')
                 : ($length > 0 ? 'VARCHAR(' . $length . ')' : 'VARCHAR(255)');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getBinaryTypeDeclarationSQLSnippet($length, $fixed/*, $lengthOmitted = false*/)
+    protected function getBinaryTypeDeclarationSQLSnippet($length, $fixed)
     {
-        if ($length <= 0 || (func_num_args() > 2 && func_get_arg(2))) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/3263',
-                'Relying on the default binary column length on IBM DB2 is deprecated'
-                . ', specify the length explicitly.',
-            );
-        }
-
         return $this->getVarcharTypeDeclarationSQLSnippet($length, $fixed) . ' FOR BIT DATA';
     }
 
@@ -192,7 +145,7 @@ class DB2Platform extends AbstractPlatform
         Deprecation::triggerIfCalledFromOutside(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/issues/4749',
-            'DB2Platform::getName() is deprecated. Identify platforms by their class.',
+            'DB2Platform::getName() is deprecated. Identify platforms by their class.'
         );
 
         return 'db2';
@@ -244,7 +197,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBitAndComparisonExpression($value1, $value2)
     {
@@ -252,7 +205,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBitOrComparisonExpression($value1, $value2)
     {
@@ -260,7 +213,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getDateArithmeticIntervalExpression($date, $operator, $interval, $unit)
     {
@@ -280,7 +233,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDateDiffExpression($date1, $date2)
     {
@@ -316,7 +269,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTruncateTableSQL($tableName, $cascade = false)
     {
@@ -326,8 +279,6 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * This code fragment is originally from the Zend_Db_Adapter_Db2 class, but has been edited.
      *
      * @param string $table
@@ -385,19 +336,15 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * {@inheritDoc}
      */
     public function getListTablesSQL()
     {
-        return "SELECT NAME FROM SYSIBM.SYSTABLES WHERE TYPE = 'T' AND CREATOR = CURRENT_USER";
+        return "SELECT NAME FROM SYSIBM.SYSTABLES WHERE TYPE = 'T'";
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractSchemaManager} class hierarchy.
      */
     public function getListViewsSQL($database)
     {
@@ -405,8 +352,6 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * {@inheritDoc}
      */
     public function getListTableIndexesSQL($table, $database = null)
@@ -431,8 +376,6 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * {@inheritDoc}
      */
     public function getListTableForeignKeysSQL($table)
@@ -468,25 +411,14 @@ class DB2Platform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @deprecated
      */
     public function supportsCreateDropDatabase()
     {
-        Deprecation::trigger(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5513',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
         return false;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
+     * {@inheritdoc}
      */
     public function supportsCommentOnStatement()
     {
@@ -519,8 +451,6 @@ class DB2Platform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
     public function getIndexDeclarationSQL($name, Index $index)
     {
@@ -558,10 +488,8 @@ class DB2Platform extends AbstractPlatform
         $columnSql   = [];
         $commentsSQL = [];
 
-        $tableNameSQL = ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this);
-
         $queryParts = [];
-        foreach ($diff->getAddedColumns() as $column) {
+        foreach ($diff->addedColumns as $column) {
             if ($this->onSchemaAlterTableAddColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -587,13 +515,13 @@ class DB2Platform extends AbstractPlatform
             }
 
             $commentsSQL[] = $this->getCommentOnColumnSQL(
-                $tableNameSQL,
+                $diff->getName($this)->getQuotedName($this),
                 $column->getQuotedName($this),
-                $comment,
+                $comment
             );
         }
 
-        foreach ($diff->getDroppedColumns() as $column) {
+        foreach ($diff->removedColumns as $column) {
             if ($this->onSchemaAlterTableRemoveColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -601,28 +529,27 @@ class DB2Platform extends AbstractPlatform
             $queryParts[] =  'DROP COLUMN ' . $column->getQuotedName($this);
         }
 
-        foreach ($diff->getModifiedColumns() as $columnDiff) {
+        foreach ($diff->changedColumns as $columnDiff) {
             if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
                 continue;
             }
 
-            if ($columnDiff->hasCommentChanged()) {
+            if ($columnDiff->hasChanged('comment')) {
                 $commentsSQL[] = $this->getCommentOnColumnSQL(
-                    $tableNameSQL,
-                    $columnDiff->getNewColumn()->getQuotedName($this),
-                    $this->getColumnComment($columnDiff->getNewColumn()),
+                    $diff->getName($this)->getQuotedName($this),
+                    $columnDiff->column->getQuotedName($this),
+                    $this->getColumnComment($columnDiff->column)
                 );
+
+                if (count($columnDiff->changedProperties) === 1) {
+                    continue;
+                }
             }
 
-            $this->gatherAlterColumnSQL(
-                $tableNameSQL,
-                $columnDiff,
-                $sql,
-                $queryParts,
-            );
+            $this->gatherAlterColumnSQL($diff->getName($this), $columnDiff, $sql, $queryParts);
         }
 
-        foreach ($diff->getRenamedColumns() as $oldColumnName => $column) {
+        foreach ($diff->renamedColumns as $oldColumnName => $column) {
             if ($this->onSchemaAlterTableRenameColumn($oldColumnName, $column, $diff, $columnSql)) {
                 continue;
             }
@@ -637,12 +564,12 @@ class DB2Platform extends AbstractPlatform
 
         if (! $this->onSchemaAlterTable($diff, $tableSql)) {
             if (count($queryParts) > 0) {
-                $sql[] = 'ALTER TABLE ' . $tableNameSQL . ' ' . implode(' ', $queryParts);
+                $sql[] = 'ALTER TABLE ' . $diff->getName($this)->getQuotedName($this) . ' ' . implode(' ', $queryParts);
             }
 
             // Some table alteration operations require a table reorganization.
-            if (count($diff->getDroppedColumns()) > 0 || count($diff->getModifiedColumns()) > 0) {
-                $sql[] = "CALL SYSPROC.ADMIN_CMD ('REORG TABLE " . $tableNameSQL . "')";
+            if (! empty($diff->removedColumns) || ! empty($diff->changedColumns)) {
+                $sql[] = "CALL SYSPROC.ADMIN_CMD ('REORG TABLE " . $diff->getName($this)->getQuotedName($this) . "')";
             }
 
             $sql = array_merge($sql, $commentsSQL);
@@ -650,24 +577,17 @@ class DB2Platform extends AbstractPlatform
             $newName = $diff->getNewName();
 
             if ($newName !== false) {
-                Deprecation::trigger(
-                    'doctrine/dbal',
-                    'https://github.com/doctrine/dbal/pull/5663',
-                    'Generation of "rename table" SQL using %s is deprecated. Use getRenameTableSQL() instead.',
-                    __METHOD__,
-                );
-
                 $sql[] = sprintf(
                     'RENAME TABLE %s TO %s',
-                    $tableNameSQL,
-                    $newName->getQuotedName($this),
+                    $diff->getName($this)->getQuotedName($this),
+                    $newName->getQuotedName($this)
                 );
             }
 
             $sql = array_merge(
                 $this->getPreAlterTableIndexForeignKeySQL($diff),
                 $sql,
-                $this->getPostAlterTableIndexForeignKeySQL($diff),
+                $this->getPostAlterTableIndexForeignKeySQL($diff)
             );
         }
 
@@ -675,25 +595,15 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getRenameTableSQL(string $oldName, string $newName): array
-    {
-        return [
-            sprintf('RENAME TABLE %s TO %s', $oldName, $newName),
-        ];
-    }
-
-    /**
      * Gathers the table alteration SQL for a given column diff.
      *
-     * @param string     $table      The table to gather the SQL for.
+     * @param Identifier $table      The table to gather the SQL for.
      * @param ColumnDiff $columnDiff The column diff to evaluate.
      * @param string[]   $sql        The sequence of table alteration statements to fill.
      * @param mixed[]    $queryParts The sequence of column alteration clauses to fill.
      */
     private function gatherAlterColumnSQL(
-        string $table,
+        Identifier $table,
         ColumnDiff $columnDiff,
         array &$sql,
         array &$queryParts
@@ -715,7 +625,7 @@ class DB2Platform extends AbstractPlatform
         // so we need to trigger a complete ALTER TABLE statement
         // for each ALTER COLUMN clause.
         foreach ($alterColumnClauses as $alterColumnClause) {
-            $sql[] = 'ALTER TABLE ' . $table . ' ' . $alterColumnClause;
+            $sql[] = 'ALTER TABLE ' . $table->getQuotedName($this) . ' ' . $alterColumnClause;
         }
     }
 
@@ -726,33 +636,33 @@ class DB2Platform extends AbstractPlatform
      */
     private function getAlterColumnClausesSQL(ColumnDiff $columnDiff): array
     {
-        $newColumn = $columnDiff->getNewColumn()->toArray();
+        $column = $columnDiff->column->toArray();
 
-        $alterClause = 'ALTER COLUMN ' . $columnDiff->getNewColumn()->getQuotedName($this);
+        $alterClause = 'ALTER COLUMN ' . $columnDiff->column->getQuotedName($this);
 
-        if ($newColumn['columnDefinition'] !== null) {
-            return [$alterClause . ' ' . $newColumn['columnDefinition']];
+        if ($column['columnDefinition'] !== null) {
+            return [$alterClause . ' ' . $column['columnDefinition']];
         }
 
         $clauses = [];
 
         if (
-            $columnDiff->hasTypeChanged() ||
-            $columnDiff->hasLengthChanged() ||
-            $columnDiff->hasPrecisionChanged() ||
-            $columnDiff->hasScaleChanged() ||
-            $columnDiff->hasFixedChanged()
+            $columnDiff->hasChanged('type') ||
+            $columnDiff->hasChanged('length') ||
+            $columnDiff->hasChanged('precision') ||
+            $columnDiff->hasChanged('scale') ||
+            $columnDiff->hasChanged('fixed')
         ) {
-            $clauses[] = $alterClause . ' SET DATA TYPE ' . $newColumn['type']->getSQLDeclaration($newColumn, $this);
+            $clauses[] = $alterClause . ' SET DATA TYPE ' . $column['type']->getSQLDeclaration($column, $this);
         }
 
-        if ($columnDiff->hasNotNullChanged()) {
-            $clauses[] = $newColumn['notnull'] ? $alterClause . ' SET NOT NULL' : $alterClause . ' DROP NOT NULL';
+        if ($columnDiff->hasChanged('notnull')) {
+            $clauses[] = $column['notnull'] ? $alterClause . ' SET NOT NULL' : $alterClause . ' DROP NOT NULL';
         }
 
-        if ($columnDiff->hasDefaultChanged()) {
-            if (isset($newColumn['default'])) {
-                $defaultClause = $this->getDefaultValueDeclarationSQL($newColumn);
+        if ($columnDiff->hasChanged('default')) {
+            if (isset($column['default'])) {
+                $defaultClause = $this->getDefaultValueDeclarationSQL($column);
 
                 if ($defaultClause !== '') {
                     $clauses[] = $alterClause . ' SET' . $defaultClause;
@@ -770,38 +680,38 @@ class DB2Platform extends AbstractPlatform
      */
     protected function getPreAlterTableIndexForeignKeySQL(TableDiff $diff)
     {
-        $sql = [];
+        $sql   = [];
+        $table = $diff->getName($this)->getQuotedName($this);
 
-        $tableNameSQL = ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this);
-
-        foreach ($diff->getDroppedIndexes() as $droppedIndex) {
-            foreach ($diff->getAddedIndexes() as $addedIndex) {
-                if ($droppedIndex->getColumns() !== $addedIndex->getColumns()) {
+        foreach ($diff->removedIndexes as $remKey => $remIndex) {
+            foreach ($diff->addedIndexes as $addKey => $addIndex) {
+                if ($remIndex->getColumns() !== $addIndex->getColumns()) {
                     continue;
                 }
 
-                if ($droppedIndex->isPrimary()) {
-                    $sql[] = 'ALTER TABLE ' . $tableNameSQL . ' DROP PRIMARY KEY';
-                } elseif ($droppedIndex->isUnique()) {
-                    $sql[] = 'ALTER TABLE ' . $tableNameSQL . ' DROP UNIQUE ' . $droppedIndex->getQuotedName($this);
+                if ($remIndex->isPrimary()) {
+                    $sql[] = 'ALTER TABLE ' . $table . ' DROP PRIMARY KEY';
+                } elseif ($remIndex->isUnique()) {
+                    $sql[] = 'ALTER TABLE ' . $table . ' DROP UNIQUE ' . $remIndex->getQuotedName($this);
                 } else {
-                    $sql[] = $this->getDropIndexSQL($droppedIndex, $tableNameSQL);
+                    $sql[] = $this->getDropIndexSQL($remIndex, $table);
                 }
 
-                $sql[] = $this->getCreateIndexSQL($addedIndex, $tableNameSQL);
+                $sql[] = $this->getCreateIndexSQL($addIndex, $table);
 
-                $diff->unsetAddedIndex($addedIndex);
-                $diff->unsetDroppedIndex($droppedIndex);
+                unset($diff->removedIndexes[$remKey], $diff->addedIndexes[$addKey]);
 
                 break;
             }
         }
 
-        return array_merge($sql, parent::getPreAlterTableIndexForeignKeySQL($diff));
+        $sql = array_merge($sql, parent::getPreAlterTableIndexForeignKeySQL($diff));
+
+        return $sql;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getRenameIndexSQL($oldIndexName, Index $index, $tableName)
     {
@@ -815,8 +725,6 @@ class DB2Platform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
     public function getDefaultValueDeclarationSQL($column)
     {
@@ -880,7 +788,7 @@ class DB2Platform extends AbstractPlatform
         return sprintf(
             'SELECT db22.* FROM (SELECT db21.*, ROW_NUMBER() OVER() AS DC_ROWNUM FROM (%s) db21) db22 WHERE %s',
             $query,
-            implode(' AND ', $where),
+            implode(' AND ', $where)
         );
     }
 
@@ -938,8 +846,8 @@ class DB2Platform extends AbstractPlatform
     {
         Deprecation::trigger(
             'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/1519',
-            'DB2Platform::prefersIdentityColumns() is deprecated.',
+            'https://github.com/doctrine/dbal/pulls/1519',
+            'DB2Platform::prefersIdentityColumns() is deprecated.'
         );
 
         return true;
@@ -986,13 +894,12 @@ class DB2Platform extends AbstractPlatform
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/issues/4510',
             'DB2Platform::getReservedKeywordsClass() is deprecated,'
-                . ' use DB2Platform::createReservedKeywordsList() instead.',
+                . ' use DB2Platform::createReservedKeywordsList() instead.'
         );
 
         return Keywords\DB2Keywords::class;
     }
 
-    /** @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon. */
     public function getListTableCommentsSQL(string $table): string
     {
         return sprintf(
@@ -1002,12 +909,7 @@ SELECT REMARKS
   WHERE NAME = UPPER( %s )
 SQL
             ,
-            $this->quoteStringLiteral($table),
+            $this->quoteStringLiteral($table)
         );
-    }
-
-    public function createSchemaManager(Connection $connection): DB2SchemaManager
-    {
-        return new DB2SchemaManager($connection, $this);
     }
 }

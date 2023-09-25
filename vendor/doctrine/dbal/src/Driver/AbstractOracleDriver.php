@@ -10,7 +10,6 @@ use Doctrine\DBAL\Driver\API\OCI;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\OracleSchemaManager;
-use Doctrine\Deprecations\Deprecation;
 
 use function assert;
 
@@ -20,7 +19,7 @@ use function assert;
 abstract class AbstractOracleDriver implements Driver
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDatabasePlatform()
     {
@@ -28,19 +27,10 @@ abstract class AbstractOracleDriver implements Driver
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated Use {@link OraclePlatform::createSchemaManager()} instead.
+     * {@inheritdoc}
      */
     public function getSchemaManager(Connection $conn, AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5458',
-            'AbstractOracleDriver::getSchemaManager() is deprecated.'
-                . ' Use OraclePlatform::createSchemaManager() instead.',
-        );
-
         assert($platform instanceof OraclePlatform);
 
         return new OracleSchemaManager($conn, $platform);
@@ -54,7 +44,7 @@ abstract class AbstractOracleDriver implements Driver
     /**
      * Returns an appropriate Easy Connect String for the given parameters.
      *
-     * @param array<string, mixed> $params The connection parameters to return the Easy Connect String for.
+     * @param mixed[] $params The connection parameters to return the Easy Connect String for.
      *
      * @return string
      */

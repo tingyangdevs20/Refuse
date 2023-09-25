@@ -9,9 +9,12 @@ use Doctrine\DBAL\Driver\Result as ResultInterface;
 
 final class Result extends AbstractResultMiddleware
 {
-    private Converter $converter;
+    /** @var Converter */
+    private $converter;
 
-    /** @internal The result can be only instantiated by the portability connection or statement. */
+    /**
+     * @internal The result can be only instantiated by the portability connection or statement.
+     */
     public function __construct(ResultInterface $result, Converter $converter)
     {
         parent::__construct($result);
@@ -25,7 +28,7 @@ final class Result extends AbstractResultMiddleware
     public function fetchNumeric()
     {
         return $this->converter->convertNumeric(
-            parent::fetchNumeric(),
+            parent::fetchNumeric()
         );
     }
 
@@ -35,7 +38,7 @@ final class Result extends AbstractResultMiddleware
     public function fetchAssociative()
     {
         return $this->converter->convertAssociative(
-            parent::fetchAssociative(),
+            parent::fetchAssociative()
         );
     }
 
@@ -45,7 +48,7 @@ final class Result extends AbstractResultMiddleware
     public function fetchOne()
     {
         return $this->converter->convertOne(
-            parent::fetchOne(),
+            parent::fetchOne()
         );
     }
 
@@ -55,7 +58,7 @@ final class Result extends AbstractResultMiddleware
     public function fetchAllNumeric(): array
     {
         return $this->converter->convertAllNumeric(
-            parent::fetchAllNumeric(),
+            parent::fetchAllNumeric()
         );
     }
 
@@ -65,7 +68,7 @@ final class Result extends AbstractResultMiddleware
     public function fetchAllAssociative(): array
     {
         return $this->converter->convertAllAssociative(
-            parent::fetchAllAssociative(),
+            parent::fetchAllAssociative()
         );
     }
 
@@ -75,7 +78,7 @@ final class Result extends AbstractResultMiddleware
     public function fetchFirstColumn(): array
     {
         return $this->converter->convertFirstColumn(
-            parent::fetchFirstColumn(),
+            parent::fetchFirstColumn()
         );
     }
 }

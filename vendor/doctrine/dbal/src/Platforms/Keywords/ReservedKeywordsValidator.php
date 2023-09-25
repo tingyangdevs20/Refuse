@@ -9,34 +9,30 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Visitor\Visitor;
-use Doctrine\Deprecations\Deprecation;
 
 use function count;
 use function implode;
 use function str_replace;
 
-/** @deprecated Use database documentation instead. */
 class ReservedKeywordsValidator implements Visitor
 {
     /** @var KeywordList[] */
-    private array $keywordLists;
+    private $keywordLists;
 
     /** @var string[] */
-    private array $violations = [];
+    private $violations = [];
 
-    /** @param KeywordList[] $keywordLists */
+    /**
+     * @param KeywordList[] $keywordLists
+     */
     public function __construct(array $keywordLists)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5431',
-            'ReservedKeywordsValidator is deprecated. Use database documentation instead.',
-        );
-
         $this->keywordLists = $keywordLists;
     }
 
-    /** @return string[] */
+    /**
+     * @return string[]
+     */
     public function getViolations()
     {
         return $this->violations;
@@ -79,52 +75,52 @@ class ReservedKeywordsValidator implements Visitor
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptColumn(Table $table, Column $column)
     {
         $this->addViolation(
             'Table ' . $table->getName() . ' column ' . $column->getName(),
-            $this->isReservedWord($column->getName()),
+            $this->isReservedWord($column->getName())
         );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptIndex(Table $table, Index $index)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptSchema(Schema $schema)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptSequence(Sequence $sequence)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptTable(Table $table)
     {
         $this->addViolation(
             'Table ' . $table->getName(),
-            $this->isReservedWord($table->getName()),
+            $this->isReservedWord($table->getName())
         );
     }
 }

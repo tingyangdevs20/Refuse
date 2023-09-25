@@ -13,8 +13,6 @@ use function assert;
 
 /**
  * Handles running the Console Tools inside Symfony Console context.
- *
- * @deprecated Use Symfony Console documentation to bootstrap a command-line application.
  */
 class ConsoleRunner
 {
@@ -40,7 +38,9 @@ class ConsoleRunner
         $cli->run();
     }
 
-    /** @return void */
+    /**
+     * @return void
+     */
     public static function addCommands(Application $cli, ConnectionProvider $connectionProvider)
     {
         $cli->addCommands([
