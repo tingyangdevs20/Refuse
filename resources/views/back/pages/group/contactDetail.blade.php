@@ -142,11 +142,11 @@
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
                                                     @if ($section->id == '1')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                        <div class="col-md-12" 
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
+                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -843,11 +843,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '2')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                        <div class="col-md-12" 
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
+                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -1067,11 +1067,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '3')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                        <div class="col-md-12" 
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
+                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -1291,11 +1291,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '4')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                        <div class="col-md-12" 
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
+                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -1969,11 +1969,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '5')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                        <div class="col-md-12"
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
+                                                                    <div class="form-group lead-heading"  id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -3901,7 +3901,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" style="position: relative;margin-left: 1100px;margin-top: -524px;">
                                         <div class="card content-div">
                                             <div class="form-group" style="padding: 0 10px;">
                                                 <label>Load Script</label>
