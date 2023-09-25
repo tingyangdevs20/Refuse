@@ -20,8 +20,6 @@ namespace Google\Service\Contentwarehouse;
 class KnowledgeAnswersNormalizedStringType extends \Google\Collection
 {
   protected $collection_key = 'normalizedValue';
-  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
-  protected $componentSpecificContractsDataType = '';
   /**
    * @var string[]
    */
@@ -29,20 +27,6 @@ class KnowledgeAnswersNormalizedStringType extends \Google\Collection
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
 
-  /**
-   * @param NlpMeaningComponentSpecificContracts
-   */
-  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
-  {
-    $this->componentSpecificContracts = $componentSpecificContracts;
-  }
-  /**
-   * @return NlpMeaningComponentSpecificContracts
-   */
-  public function getComponentSpecificContracts()
-  {
-    return $this->componentSpecificContracts;
-  }
   /**
    * @param string[]
    */

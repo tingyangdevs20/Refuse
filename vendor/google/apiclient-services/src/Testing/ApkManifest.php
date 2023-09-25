@@ -40,8 +40,6 @@ class ApkManifest extends \Google\Collection
    * @var string
    */
   public $packageName;
-  protected $servicesType = Service::class;
-  protected $servicesDataType = 'array';
   /**
    * @var int
    */
@@ -144,20 +142,6 @@ class ApkManifest extends \Google\Collection
   public function getPackageName()
   {
     return $this->packageName;
-  }
-  /**
-   * @param Service[]
-   */
-  public function setServices($services)
-  {
-    $this->services = $services;
-  }
-  /**
-   * @return Service[]
-   */
-  public function getServices()
-  {
-    return $this->services;
   }
   /**
    * @param int

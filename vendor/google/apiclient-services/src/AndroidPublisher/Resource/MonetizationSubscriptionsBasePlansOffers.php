@@ -152,12 +152,10 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param string $packageName Required. The parent app (package name) for which
    * the subscriptions should be read.
    * @param string $productId Required. The parent subscription (ID) for which the
-   * offers should be read. May be specified as '-' to read all offers under an
-   * app.
+   * offers should be read.
    * @param string $basePlanId Required. The parent base plan (ID) for which the
    * offers should be read. May be specified as '-' to read all offers under a
-   * subscription or an app. Must be specified as '-' if product_id is specified
-   * as '-'.
+   * subscription.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of subscriptions to return. The

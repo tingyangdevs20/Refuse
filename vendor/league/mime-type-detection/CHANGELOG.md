@@ -1,11 +1,5 @@
 # Changelog
 
-## 1.13.0 - 2022-08-05
-
-### Added
-
-- A reverse lookup mechanism to fetch one or all extensions for a given mimetype
-
 ## 1.12.0 - 2022-08-03
 
 ### Updated

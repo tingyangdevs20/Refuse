@@ -17,17 +17,12 @@
 
 namespace Google\Service\CloudIAP;
 
-class OAuthSettings extends \Google\Collection
+class OAuthSettings extends \Google\Model
 {
-  protected $collection_key = 'programmaticClients';
   /**
    * @var string
    */
   public $loginHint;
-  /**
-   * @var string[]
-   */
-  public $programmaticClients;
 
   /**
    * @param string
@@ -42,20 +37,6 @@ class OAuthSettings extends \Google\Collection
   public function getLoginHint()
   {
     return $this->loginHint;
-  }
-  /**
-   * @param string[]
-   */
-  public function setProgrammaticClients($programmaticClients)
-  {
-    $this->programmaticClients = $programmaticClients;
-  }
-  /**
-   * @return string[]
-   */
-  public function getProgrammaticClients()
-  {
-    return $this->programmaticClients;
   }
 }
 

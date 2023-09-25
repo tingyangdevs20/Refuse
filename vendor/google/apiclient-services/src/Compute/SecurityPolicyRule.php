@@ -35,8 +35,6 @@ class SecurityPolicyRule extends \Google\Model
   public $kind;
   protected $matchType = SecurityPolicyRuleMatcher::class;
   protected $matchDataType = '';
-  protected $networkMatchType = SecurityPolicyRuleNetworkMatcher::class;
-  protected $networkMatchDataType = '';
   protected $preconfiguredWafConfigType = SecurityPolicyRulePreconfiguredWafConfig::class;
   protected $preconfiguredWafConfigDataType = '';
   /**
@@ -121,20 +119,6 @@ class SecurityPolicyRule extends \Google\Model
   public function getMatch()
   {
     return $this->match;
-  }
-  /**
-   * @param SecurityPolicyRuleNetworkMatcher
-   */
-  public function setNetworkMatch(SecurityPolicyRuleNetworkMatcher $networkMatch)
-  {
-    $this->networkMatch = $networkMatch;
-  }
-  /**
-   * @return SecurityPolicyRuleNetworkMatcher
-   */
-  public function getNetworkMatch()
-  {
-    return $this->networkMatch;
   }
   /**
    * @param SecurityPolicyRulePreconfiguredWafConfig

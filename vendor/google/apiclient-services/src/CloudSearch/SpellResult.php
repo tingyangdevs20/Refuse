@@ -23,12 +23,6 @@ class SpellResult extends \Google\Model
    * @var string
    */
   public $suggestedQuery;
-  protected $suggestedQueryHtmlType = SafeHtmlProto::class;
-  protected $suggestedQueryHtmlDataType = '';
-  /**
-   * @var string
-   */
-  public $suggestionType;
 
   /**
    * @param string
@@ -43,34 +37,6 @@ class SpellResult extends \Google\Model
   public function getSuggestedQuery()
   {
     return $this->suggestedQuery;
-  }
-  /**
-   * @param SafeHtmlProto
-   */
-  public function setSuggestedQueryHtml(SafeHtmlProto $suggestedQueryHtml)
-  {
-    $this->suggestedQueryHtml = $suggestedQueryHtml;
-  }
-  /**
-   * @return SafeHtmlProto
-   */
-  public function getSuggestedQueryHtml()
-  {
-    return $this->suggestedQueryHtml;
-  }
-  /**
-   * @param string
-   */
-  public function setSuggestionType($suggestionType)
-  {
-    $this->suggestionType = $suggestionType;
-  }
-  /**
-   * @return string
-   */
-  public function getSuggestionType()
-  {
-    return $this->suggestionType;
   }
 }
 

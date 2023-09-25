@@ -33,13 +33,9 @@ class ProjectsGroups extends \Google\Service\Resource
    * Get the specified group. (groups.get)
    *
    * @param string $groupName Required. The group resource name. Written as
-   * `projects/{projectID}/groups/{group_id}`. Call groupStats.list to return a
+   * `projects/{projectID}/groups/{group_name}`. Call groupStats.list to return a
    * list of groups belonging to this project. Example: `projects/my-
-   * project-123/groups/my-group` In the group resource name, the `group_id` is a
-   * unique identifier for a particular error group. The identifier is derived
-   * from key parts of the error-log content and is treated as Service Data. For
-   * information about how Service Data is handled, see [Google Cloud Privacy
-   * Notice](https://cloud.google.com/terms/cloud-privacy-notice).
+   * project-123/groups/my-group`
    * @param array $optParams Optional parameters.
    * @return ErrorGroup
    */
@@ -53,13 +49,8 @@ class ProjectsGroups extends \Google\Service\Resource
    * Replace the data for the specified group. Fails if the group does not exist.
    * (groups.update)
    *
-   * @param string $name The group resource name. Written as
-   * `projects/{projectID}/groups/{group_id}`. Example: `projects/my-
-   * project-123/groups/my-group` In the group resource name, the `group_id` is a
-   * unique identifier for a particular error group. The identifier is derived
-   * from key parts of the error-log content and is treated as Service Data. For
-   * information about how Service Data is handled, see [Google Cloud Privacy
-   * Notice](https://cloud.google.com/terms/cloud-privacy-notice).
+   * @param string $name The group resource name. Example: projects/my-
+   * project-123/groups/CNSgkpnppqKCUw
    * @param ErrorGroup $postBody
    * @param array $optParams Optional parameters.
    * @return ErrorGroup

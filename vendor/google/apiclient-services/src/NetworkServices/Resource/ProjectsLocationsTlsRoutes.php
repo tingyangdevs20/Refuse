@@ -40,7 +40,7 @@ class ProjectsLocationsTlsRoutes extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string tlsRouteId Required. Short name of the TlsRoute resource to
-   * be created.
+   * be created. E.g. TODO(Add an example).
    * @return Operation
    */
   public function create($parent, TlsRoute $postBody, $optParams = [])

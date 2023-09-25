@@ -19,8 +19,6 @@ namespace Google\Service\ArtifactRegistry;
 
 class RemoteRepositoryConfig extends \Google\Model
 {
-  protected $aptRepositoryType = AptRepository::class;
-  protected $aptRepositoryDataType = '';
   /**
    * @var string
    */
@@ -33,23 +31,7 @@ class RemoteRepositoryConfig extends \Google\Model
   protected $npmRepositoryDataType = '';
   protected $pythonRepositoryType = PythonRepository::class;
   protected $pythonRepositoryDataType = '';
-  protected $yumRepositoryType = YumRepository::class;
-  protected $yumRepositoryDataType = '';
 
-  /**
-   * @param AptRepository
-   */
-  public function setAptRepository(AptRepository $aptRepository)
-  {
-    $this->aptRepository = $aptRepository;
-  }
-  /**
-   * @return AptRepository
-   */
-  public function getAptRepository()
-  {
-    return $this->aptRepository;
-  }
   /**
    * @param string
    */
@@ -119,20 +101,6 @@ class RemoteRepositoryConfig extends \Google\Model
   public function getPythonRepository()
   {
     return $this->pythonRepository;
-  }
-  /**
-   * @param YumRepository
-   */
-  public function setYumRepository(YumRepository $yumRepository)
-  {
-    $this->yumRepository = $yumRepository;
-  }
-  /**
-   * @return YumRepository
-   */
-  public function getYumRepository()
-  {
-    return $this->yumRepository;
   }
 }
 

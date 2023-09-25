@@ -19,7 +19,7 @@ namespace Google\Service\AccessContextManager;
 
 class EgressFrom extends \Google\Collection
 {
-  protected $collection_key = 'sources';
+  protected $collection_key = 'identities';
   /**
    * @var string[]
    */
@@ -28,12 +28,6 @@ class EgressFrom extends \Google\Collection
    * @var string
    */
   public $identityType;
-  /**
-   * @var string
-   */
-  public $sourceRestriction;
-  protected $sourcesType = EgressSource::class;
-  protected $sourcesDataType = 'array';
 
   /**
    * @param string[]
@@ -62,34 +56,6 @@ class EgressFrom extends \Google\Collection
   public function getIdentityType()
   {
     return $this->identityType;
-  }
-  /**
-   * @param string
-   */
-  public function setSourceRestriction($sourceRestriction)
-  {
-    $this->sourceRestriction = $sourceRestriction;
-  }
-  /**
-   * @return string
-   */
-  public function getSourceRestriction()
-  {
-    return $this->sourceRestriction;
-  }
-  /**
-   * @param EgressSource[]
-   */
-  public function setSources($sources)
-  {
-    $this->sources = $sources;
-  }
-  /**
-   * @return EgressSource[]
-   */
-  public function getSources()
-  {
-    return $this->sources;
   }
 }
 

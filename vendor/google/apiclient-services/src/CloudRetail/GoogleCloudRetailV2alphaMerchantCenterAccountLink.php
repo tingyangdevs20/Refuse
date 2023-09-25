@@ -53,10 +53,6 @@ class GoogleCloudRetailV2alphaMerchantCenterAccountLink extends \Google\Collecti
   /**
    * @var string
    */
-  public $source;
-  /**
-   * @var string
-   */
   public $state;
 
   /**
@@ -170,20 +166,6 @@ class GoogleCloudRetailV2alphaMerchantCenterAccountLink extends \Google\Collecti
   public function getProjectId()
   {
     return $this->projectId;
-  }
-  /**
-   * @param string
-   */
-  public function setSource($source)
-  {
-    $this->source = $source;
-  }
-  /**
-   * @return string
-   */
-  public function getSource()
-  {
-    return $this->source;
   }
   /**
    * @param string

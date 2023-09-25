@@ -19,23 +19,23 @@ namespace Google\Service\MigrationCenterAPI;
 
 class NetworkAddressList extends \Google\Collection
 {
-  protected $collection_key = 'entries';
-  protected $entriesType = NetworkAddress::class;
-  protected $entriesDataType = 'array';
+  protected $collection_key = 'addresses';
+  protected $addressesType = NetworkAddress::class;
+  protected $addressesDataType = 'array';
 
   /**
    * @param NetworkAddress[]
    */
-  public function setEntries($entries)
+  public function setAddresses($addresses)
   {
-    $this->entries = $entries;
+    $this->addresses = $addresses;
   }
   /**
    * @return NetworkAddress[]
    */
-  public function getEntries()
+  public function getAddresses()
   {
-    return $this->entries;
+    return $this->addresses;
   }
 }
 

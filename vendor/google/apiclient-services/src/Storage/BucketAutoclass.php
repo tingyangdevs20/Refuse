@@ -26,14 +26,6 @@ class BucketAutoclass extends \Google\Model
   /**
    * @var string
    */
-  public $terminalStorageClass;
-  /**
-   * @var string
-   */
-  public $terminalStorageClassUpdateTime;
-  /**
-   * @var string
-   */
   public $toggleTime;
 
   /**
@@ -49,34 +41,6 @@ class BucketAutoclass extends \Google\Model
   public function getEnabled()
   {
     return $this->enabled;
-  }
-  /**
-   * @param string
-   */
-  public function setTerminalStorageClass($terminalStorageClass)
-  {
-    $this->terminalStorageClass = $terminalStorageClass;
-  }
-  /**
-   * @return string
-   */
-  public function getTerminalStorageClass()
-  {
-    return $this->terminalStorageClass;
-  }
-  /**
-   * @param string
-   */
-  public function setTerminalStorageClassUpdateTime($terminalStorageClassUpdateTime)
-  {
-    $this->terminalStorageClassUpdateTime = $terminalStorageClassUpdateTime;
-  }
-  /**
-   * @return string
-   */
-  public function getTerminalStorageClassUpdateTime()
-  {
-    return $this->terminalStorageClassUpdateTime;
   }
   /**
    * @param string

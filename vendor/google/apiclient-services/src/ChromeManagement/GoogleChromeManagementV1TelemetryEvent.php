@@ -33,8 +33,6 @@ class GoogleChromeManagementV1TelemetryEvent extends \Google\Model
    * @var string
    */
   public $name;
-  protected $networkStateChangeEventType = GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent::class;
-  protected $networkStateChangeEventDataType = '';
   /**
    * @var string
    */
@@ -43,10 +41,6 @@ class GoogleChromeManagementV1TelemetryEvent extends \Google\Model
   protected $usbPeripheralsEventDataType = '';
   protected $userType = GoogleChromeManagementV1TelemetryUserInfo::class;
   protected $userDataType = '';
-  protected $vpnConnectionStateChangeEventType = GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent::class;
-  protected $vpnConnectionStateChangeEventDataType = '';
-  protected $wifiSignalStrengthEventType = GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent::class;
-  protected $wifiSignalStrengthEventDataType = '';
 
   /**
    * @param GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent
@@ -119,20 +113,6 @@ class GoogleChromeManagementV1TelemetryEvent extends \Google\Model
     return $this->name;
   }
   /**
-   * @param GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent
-   */
-  public function setNetworkStateChangeEvent(GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent $networkStateChangeEvent)
-  {
-    $this->networkStateChangeEvent = $networkStateChangeEvent;
-  }
-  /**
-   * @return GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent
-   */
-  public function getNetworkStateChangeEvent()
-  {
-    return $this->networkStateChangeEvent;
-  }
-  /**
    * @param string
    */
   public function setReportTime($reportTime)
@@ -173,34 +153,6 @@ class GoogleChromeManagementV1TelemetryEvent extends \Google\Model
   public function getUser()
   {
     return $this->user;
-  }
-  /**
-   * @param GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent
-   */
-  public function setVpnConnectionStateChangeEvent(GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent $vpnConnectionStateChangeEvent)
-  {
-    $this->vpnConnectionStateChangeEvent = $vpnConnectionStateChangeEvent;
-  }
-  /**
-   * @return GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent
-   */
-  public function getVpnConnectionStateChangeEvent()
-  {
-    return $this->vpnConnectionStateChangeEvent;
-  }
-  /**
-   * @param GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent
-   */
-  public function setWifiSignalStrengthEvent(GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent $wifiSignalStrengthEvent)
-  {
-    $this->wifiSignalStrengthEvent = $wifiSignalStrengthEvent;
-  }
-  /**
-   * @return GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent
-   */
-  public function getWifiSignalStrengthEvent()
-  {
-    return $this->wifiSignalStrengthEvent;
   }
 }
 

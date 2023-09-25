@@ -5,7 +5,6 @@ namespace Doctrine\DBAL\Platforms\MySQL;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Schema\Comparator as BaseComparator;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\TableDiff;
 
 use function array_diff_assoc;
 use function array_intersect_key;
@@ -22,20 +21,14 @@ class Comparator extends BaseComparator
     /** @var CollationMetadataProvider */
     private $collationMetadataProvider;
 
-    /** @internal The comparator can be only instantiated by a schema manager. */
+    /**
+     * @internal The comparator can be only instantiated by a schema manager.
+     */
     public function __construct(AbstractMySQLPlatform $platform, CollationMetadataProvider $collationMetadataProvider)
     {
         parent::__construct($platform);
 
         $this->collationMetadataProvider = $collationMetadataProvider;
-    }
-
-    public function compareTables(Table $fromTable, Table $toTable): TableDiff
-    {
-        return parent::compareTables(
-            $this->normalizeColumns($fromTable),
-            $this->normalizeColumns($toTable),
-        );
     }
 
     /**
@@ -45,7 +38,7 @@ class Comparator extends BaseComparator
     {
         return parent::diffTable(
             $this->normalizeColumns($fromTable),
-            $this->normalizeColumns($toTable),
+            $this->normalizeColumns($toTable)
         );
     }
 

@@ -30,6 +30,10 @@ class Entity extends \Google\Collection
    * @var string
    */
   public $name;
+  /**
+   * @var float
+   */
+  public $salience;
   protected $sentimentType = Sentiment::class;
   protected $sentimentDataType = '';
   /**
@@ -78,6 +82,20 @@ class Entity extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param float
+   */
+  public function setSalience($salience)
+  {
+    $this->salience = $salience;
+  }
+  /**
+   * @return float
+   */
+  public function getSalience()
+  {
+    return $this->salience;
   }
   /**
    * @param Sentiment
