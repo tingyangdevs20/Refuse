@@ -41,10 +41,6 @@ class NfsShare extends \Google\Collection
   /**
    * @var string
    */
-  public $pod;
-  /**
-   * @var string
-   */
   public $requestedSizeGib;
   /**
    * @var string
@@ -128,20 +124,6 @@ class NfsShare extends \Google\Collection
   public function getNfsShareId()
   {
     return $this->nfsShareId;
-  }
-  /**
-   * @param string
-   */
-  public function setPod($pod)
-  {
-    $this->pod = $pod;
-  }
-  /**
-   * @return string
-   */
-  public function getPod()
-  {
-    return $this->pod;
   }
   /**
    * @param string

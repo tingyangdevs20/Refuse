@@ -35,9 +35,6 @@ use Google\Client;
  */
 class SmartDeviceManagement extends \Google\Service
 {
-  /** See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.. */
-  const CLOUD_PLATFORM =
-      "https://www.googleapis.com/auth/cloud-platform";
   /** See and/or control the devices that you selected. */
   const SDM_SERVICE =
       "https://www.googleapis.com/auth/sdm.service";
@@ -102,6 +99,14 @@ class SmartDeviceManagement extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],
           ]
@@ -136,6 +141,14 @@ class SmartDeviceManagement extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],
           ]
@@ -165,6 +178,14 @@ class SmartDeviceManagement extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

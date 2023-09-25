@@ -22,6 +22,10 @@ class GoogleHomeEnterpriseSdmV1ListDevicesResponse extends \Google\Collection
   protected $collection_key = 'devices';
   protected $devicesType = GoogleHomeEnterpriseSdmV1Device::class;
   protected $devicesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $nextPageToken;
 
   /**
    * @param GoogleHomeEnterpriseSdmV1Device[]
@@ -36,6 +40,20 @@ class GoogleHomeEnterpriseSdmV1ListDevicesResponse extends \Google\Collection
   public function getDevices()
   {
     return $this->devices;
+  }
+  /**
+   * @param string
+   */
+  public function setNextPageToken($nextPageToken)
+  {
+    $this->nextPageToken = $nextPageToken;
+  }
+  /**
+   * @return string
+   */
+  public function getNextPageToken()
+  {
+    return $this->nextPageToken;
   }
 }
 

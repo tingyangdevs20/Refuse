@@ -3,7 +3,6 @@
 namespace Doctrine\DBAL\Types;
 
 use DateTime;
-use DateTimeInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 use function date_create;
@@ -18,13 +17,7 @@ use function date_create;
 class VarDateTimeType extends DateTimeType
 {
     /**
-     * {@inheritDoc}
-     *
-     * @param T $value
-     *
-     * @return (T is null ? null : DateTimeInterface)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {

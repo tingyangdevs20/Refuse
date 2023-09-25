@@ -25,6 +25,10 @@ class ComputeEnginePreferences extends \Google\Model
   public $licenseType;
   protected $machinePreferencesType = MachinePreferences::class;
   protected $machinePreferencesDataType = '';
+  /**
+   * @var string
+   */
+  public $persistentDiskType;
 
   /**
    * @param string
@@ -53,6 +57,20 @@ class ComputeEnginePreferences extends \Google\Model
   public function getMachinePreferences()
   {
     return $this->machinePreferences;
+  }
+  /**
+   * @param string
+   */
+  public function setPersistentDiskType($persistentDiskType)
+  {
+    $this->persistentDiskType = $persistentDiskType;
+  }
+  /**
+   * @return string
+   */
+  public function getPersistentDiskType()
+  {
+    return $this->persistentDiskType;
   }
 }
 

@@ -3,59 +3,26 @@
 namespace Doctrine\DBAL\Schema;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Schema\Exception\ColumnAlreadyExists;
-use Doctrine\DBAL\Schema\Exception\ColumnDoesNotExist;
-use Doctrine\DBAL\Schema\Exception\ForeignKeyDoesNotExist;
-use Doctrine\DBAL\Schema\Exception\IndexAlreadyExists;
-use Doctrine\DBAL\Schema\Exception\IndexDoesNotExist;
-use Doctrine\DBAL\Schema\Exception\IndexNameInvalid;
-use Doctrine\DBAL\Schema\Exception\NamedForeignKeyRequired;
-use Doctrine\DBAL\Schema\Exception\NamespaceAlreadyExists;
-use Doctrine\DBAL\Schema\Exception\SequenceAlreadyExists;
-use Doctrine\DBAL\Schema\Exception\SequenceDoesNotExist;
-use Doctrine\DBAL\Schema\Exception\TableAlreadyExists;
-use Doctrine\DBAL\Schema\Exception\TableDoesNotExist;
-use Doctrine\DBAL\Schema\Exception\UniqueConstraintDoesNotExist;
 
+use function implode;
 use function sprintf;
 
-/** @psalm-immutable */
+/**
+ * @psalm-immutable
+ */
 class SchemaException extends Exception
 {
-    /** @deprecated Use {@see TableDoesNotExist} instead. */
-    public const TABLE_DOESNT_EXIST = 10;
-
-    /** @deprecated Use {@see TableAlreadyExists} instead. */
-    public const TABLE_ALREADY_EXISTS = 20;
-
-    /** @deprecated Use {@see ColumnDoesNotExist} instead. */
-    public const COLUMN_DOESNT_EXIST = 30;
-
-    /** @deprecated Use {@see ColumnAlreadyExists} instead. */
-    public const COLUMN_ALREADY_EXISTS = 40;
-
-    /** @deprecated Use {@see IndexDoesNotExist} instead. */
-    public const INDEX_DOESNT_EXIST = 50;
-
-    /** @deprecated Use {@see IndexAlreadyExists} instead. */
-    public const INDEX_ALREADY_EXISTS = 60;
-
-    /** @deprecated Use {@see SequenceDoesNotExist} instead. */
-    public const SEQUENCE_DOENST_EXIST = 70;
-
-    /** @deprecated Use {@see SequenceAlreadyExists} instead. */
-    public const SEQUENCE_ALREADY_EXISTS = 80;
-
-    /** @deprecated Use {@see IndexNameInvalid} instead. */
-    public const INDEX_INVALID_NAME = 90;
-
-    /** @deprecated Use {@see ForeignKeyDoesNotExist} instead. */
-    public const FOREIGNKEY_DOESNT_EXIST = 100;
-
-    /** @deprecated Use {@see UniqueConstraintDoesNotExist} instead. */
-    public const CONSTRAINT_DOESNT_EXIST = 110;
-
-    /** @deprecated Use {@see NamespaceAlreadyExists} instead. */
+    public const TABLE_DOESNT_EXIST       = 10;
+    public const TABLE_ALREADY_EXISTS     = 20;
+    public const COLUMN_DOESNT_EXIST      = 30;
+    public const COLUMN_ALREADY_EXISTS    = 40;
+    public const INDEX_DOESNT_EXIST       = 50;
+    public const INDEX_ALREADY_EXISTS     = 60;
+    public const SEQUENCE_DOENST_EXIST    = 70;
+    public const SEQUENCE_ALREADY_EXISTS  = 80;
+    public const INDEX_INVALID_NAME       = 90;
+    public const FOREIGNKEY_DOESNT_EXIST  = 100;
+    public const CONSTRAINT_DOESNT_EXIST  = 110;
     public const NAMESPACE_ALREADY_EXISTS = 120;
 
     /**
@@ -65,7 +32,7 @@ class SchemaException extends Exception
      */
     public static function tableDoesNotExist($tableName)
     {
-        return TableDoesNotExist::new($tableName);
+        return new self("There is no table with name '" . $tableName . "' in the schema.", self::TABLE_DOESNT_EXIST);
     }
 
     /**
@@ -75,7 +42,10 @@ class SchemaException extends Exception
      */
     public static function indexNameInvalid($indexName)
     {
-        return IndexNameInvalid::new($indexName);
+        return new self(
+            sprintf('Invalid index-name %s given, has to be [a-zA-Z0-9_]', $indexName),
+            self::INDEX_INVALID_NAME
+        );
     }
 
     /**
@@ -86,7 +56,10 @@ class SchemaException extends Exception
      */
     public static function indexDoesNotExist($indexName, $table)
     {
-        return IndexDoesNotExist::new($indexName, $table);
+        return new self(
+            sprintf("Index '%s' does not exist on table '%s'.", $indexName, $table),
+            self::INDEX_DOESNT_EXIST
+        );
     }
 
     /**
@@ -97,7 +70,10 @@ class SchemaException extends Exception
      */
     public static function indexAlreadyExists($indexName, $table)
     {
-        return IndexAlreadyExists::new($indexName, $table);
+        return new self(
+            sprintf("An index with name '%s' was already defined on table '%s'.", $indexName, $table),
+            self::INDEX_ALREADY_EXISTS
+        );
     }
 
     /**
@@ -108,7 +84,10 @@ class SchemaException extends Exception
      */
     public static function columnDoesNotExist($columnName, $table)
     {
-        return ColumnDoesNotExist::new($columnName, $table);
+        return new self(
+            sprintf("There is no column with name '%s' on table '%s'.", $columnName, $table),
+            self::COLUMN_DOESNT_EXIST
+        );
     }
 
     /**
@@ -118,7 +97,10 @@ class SchemaException extends Exception
      */
     public static function namespaceAlreadyExists($namespaceName)
     {
-        return NamespaceAlreadyExists::new($namespaceName);
+        return new self(
+            sprintf("The namespace with name '%s' already exists.", $namespaceName),
+            self::NAMESPACE_ALREADY_EXISTS
+        );
     }
 
     /**
@@ -128,7 +110,7 @@ class SchemaException extends Exception
      */
     public static function tableAlreadyExists($tableName)
     {
-        return TableAlreadyExists::new($tableName);
+        return new self("The table with name '" . $tableName . "' already exists.", self::TABLE_ALREADY_EXISTS);
     }
 
     /**
@@ -139,7 +121,10 @@ class SchemaException extends Exception
      */
     public static function columnAlreadyExists($tableName, $columnName)
     {
-        return ColumnAlreadyExists::new($tableName, $columnName);
+        return new self(
+            "The column '" . $columnName . "' on table '" . $tableName . "' already exists.",
+            self::COLUMN_ALREADY_EXISTS
+        );
     }
 
     /**
@@ -149,7 +134,7 @@ class SchemaException extends Exception
      */
     public static function sequenceAlreadyExists($name)
     {
-        return SequenceAlreadyExists::new($name);
+        return new self("The sequence '" . $name . "' already exists.", self::SEQUENCE_ALREADY_EXISTS);
     }
 
     /**
@@ -159,7 +144,7 @@ class SchemaException extends Exception
      */
     public static function sequenceDoesNotExist($name)
     {
-        return SequenceDoesNotExist::new($name);
+        return new self("There exists no sequence with the name '" . $name . "'.", self::SEQUENCE_DOENST_EXIST);
     }
 
     /**
@@ -170,7 +155,10 @@ class SchemaException extends Exception
      */
     public static function uniqueConstraintDoesNotExist($constraintName, $table)
     {
-        return UniqueConstraintDoesNotExist::new($constraintName, $table);
+        return new self(
+            sprintf('There exists no unique constraint with the name "%s" on table "%s".', $constraintName, $table),
+            self::CONSTRAINT_DOESNT_EXIST
+        );
     }
 
     /**
@@ -181,13 +169,23 @@ class SchemaException extends Exception
      */
     public static function foreignKeyDoesNotExist($fkName, $table)
     {
-        return ForeignKeyDoesNotExist::new($fkName, $table);
+        return new self(
+            sprintf("There exists no foreign key with the name '%s' on table '%s'.", $fkName, $table),
+            self::FOREIGNKEY_DOESNT_EXIST
+        );
     }
 
-    /** @return SchemaException */
+    /**
+     * @return SchemaException
+     */
     public static function namedForeignKeyRequired(Table $localTable, ForeignKeyConstraint $foreignKey)
     {
-        return NamedForeignKeyRequired::new($localTable, $foreignKey);
+        return new self(
+            'The performed schema operation on ' . $localTable->getName() . ' requires a named foreign key, ' .
+            'but the given foreign key from (' . implode(', ', $foreignKey->getColumns()) . ') onto foreign table ' .
+            "'" . $foreignKey->getForeignTableName() . "' (" . implode(', ', $foreignKey->getForeignColumns()) . ')' .
+            ' is currently unnamed.'
+        );
     }
 
     /**
@@ -198,7 +196,7 @@ class SchemaException extends Exception
     public static function alterTableChangeNotSupported($changeName)
     {
         return new self(
-            sprintf("Alter table change not supported, given '%s'", $changeName),
+            sprintf("Alter table change not supported, given '%s'", $changeName)
         );
     }
 }

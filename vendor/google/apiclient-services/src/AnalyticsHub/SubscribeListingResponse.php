@@ -19,23 +19,6 @@ namespace Google\Service\AnalyticsHub;
 
 class SubscribeListingResponse extends \Google\Model
 {
-  protected $subscriptionType = Subscription::class;
-  protected $subscriptionDataType = '';
-
-  /**
-   * @param Subscription
-   */
-  public function setSubscription(Subscription $subscription)
-  {
-    $this->subscription = $subscription;
-  }
-  /**
-   * @return Subscription
-   */
-  public function getSubscription()
-  {
-    return $this->subscription;
-  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

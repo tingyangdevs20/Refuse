@@ -20,10 +20,6 @@ namespace Google\Service\ChromePolicy;
 class Proto2FileDescriptorProto extends \Google\Collection
 {
   protected $collection_key = 'messageType';
-  /**
-   * @var string
-   */
-  public $editionEnum;
   protected $enumTypeType = Proto2EnumDescriptorProto::class;
   protected $enumTypeDataType = 'array';
   protected $messageTypeType = Proto2DescriptorProto::class;
@@ -41,20 +37,6 @@ class Proto2FileDescriptorProto extends \Google\Collection
    */
   public $syntax;
 
-  /**
-   * @param string
-   */
-  public function setEditionEnum($editionEnum)
-  {
-    $this->editionEnum = $editionEnum;
-  }
-  /**
-   * @return string
-   */
-  public function getEditionEnum()
-  {
-    return $this->editionEnum;
-  }
   /**
    * @param Proto2EnumDescriptorProto[]
    */

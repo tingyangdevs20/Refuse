@@ -34,10 +34,6 @@ class RemoteModelInfo extends \Google\Model
   /**
    * @var string
    */
-  public $remoteModelVersion;
-  /**
-   * @var string
-   */
   public $remoteServiceType;
 
   /**
@@ -81,20 +77,6 @@ class RemoteModelInfo extends \Google\Model
   public function getMaxBatchingRows()
   {
     return $this->maxBatchingRows;
-  }
-  /**
-   * @param string
-   */
-  public function setRemoteModelVersion($remoteModelVersion)
-  {
-    $this->remoteModelVersion = $remoteModelVersion;
-  }
-  /**
-   * @return string
-   */
-  public function getRemoteModelVersion()
-  {
-    return $this->remoteModelVersion;
   }
   /**
    * @param string

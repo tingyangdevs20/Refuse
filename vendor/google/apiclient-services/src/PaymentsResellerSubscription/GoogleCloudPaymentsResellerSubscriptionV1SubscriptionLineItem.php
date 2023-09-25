@@ -26,8 +26,6 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem extends \Goo
    * @var string
    */
   public $description;
-  protected $finiteBillingCycleDetailsType = GoogleCloudPaymentsResellerSubscriptionV1FiniteBillingCycleDetails::class;
-  protected $finiteBillingCycleDetailsDataType = '';
   /**
    * @var string
    */
@@ -82,20 +80,6 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem extends \Goo
   public function getDescription()
   {
     return $this->description;
-  }
-  /**
-   * @param GoogleCloudPaymentsResellerSubscriptionV1FiniteBillingCycleDetails
-   */
-  public function setFiniteBillingCycleDetails(GoogleCloudPaymentsResellerSubscriptionV1FiniteBillingCycleDetails $finiteBillingCycleDetails)
-  {
-    $this->finiteBillingCycleDetails = $finiteBillingCycleDetails;
-  }
-  /**
-   * @return GoogleCloudPaymentsResellerSubscriptionV1FiniteBillingCycleDetails
-   */
-  public function getFiniteBillingCycleDetails()
-  {
-    return $this->finiteBillingCycleDetails;
   }
   /**
    * @param string

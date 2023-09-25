@@ -22,30 +22,16 @@ class GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions extends \Google\Mo
   /**
    * @var bool
    */
-  public $assuredWorkloadsMonitoring;
+  public $dataLogsViewer;
   /**
    * @var bool
    */
-  public $dataLogsViewer;
+  public $remediateFolderViolations;
   /**
    * @var bool
    */
   public $serviceAccessApprover;
 
-  /**
-   * @param bool
-   */
-  public function setAssuredWorkloadsMonitoring($assuredWorkloadsMonitoring)
-  {
-    $this->assuredWorkloadsMonitoring = $assuredWorkloadsMonitoring;
-  }
-  /**
-   * @return bool
-   */
-  public function getAssuredWorkloadsMonitoring()
-  {
-    return $this->assuredWorkloadsMonitoring;
-  }
   /**
    * @param bool
    */
@@ -59,6 +45,20 @@ class GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions extends \Google\Mo
   public function getDataLogsViewer()
   {
     return $this->dataLogsViewer;
+  }
+  /**
+   * @param bool
+   */
+  public function setRemediateFolderViolations($remediateFolderViolations)
+  {
+    $this->remediateFolderViolations = $remediateFolderViolations;
+  }
+  /**
+   * @return bool
+   */
+  public function getRemediateFolderViolations()
+  {
+    return $this->remediateFolderViolations;
   }
   /**
    * @param bool
