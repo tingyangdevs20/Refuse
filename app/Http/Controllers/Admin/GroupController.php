@@ -758,6 +758,8 @@ class GroupController extends Controller
 
 
 
+
+
        $skipTraceRate = null;
        Session::put('record_detail', [
             'group' => $group,
@@ -1081,46 +1083,37 @@ class GroupController extends Controller
                         ) {
                              $data = $result['ResponseDetail']['Data'];
 
+                            // Assuming $data is the array from the API response
                             foreach ($data as $record) {
-                                // Check if the record has a matched phone number
-                                if (
-                                    isset($result['Status']) &&
-                                    $result['Status'] == true
-                                ) {
-                                    $matchedEmail1 = $record['Email'];
-                                    $matchedEmail2 = $record['Email'];
+                                // Check if the record has a matched email status
+                                if (isset($record['Status']) ) {
+                                    $matchedEmail = $record['Email'];
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
 
-                                            $contact->street === $record['Address'] &&
-                                            $contact->city === $record['City'] &&
-                                            $contact->zip === $record['Zip']
+                                        return (
+                                            $contact->email2 === $record['Email']
+
                                         );
                                     });
 
-                                    // Update the contact in the database with the matched phone number
+                                    // Update the contact in the database with the matched email
                                     if ($matchingContact) {
                                         $matchingContact->update([
-                                            'email1' => $matchedEmail1,
-                                            'email2' => $matchedEmail2,
+                                            'email1' => $matchedEmail,
+                                            'email2' => $matchedEmail,
                                         ]);
                                     }
 
 
 
-                                    if($groupId){
+                                    // Assuming $user_id and $skipTraceRate are defined earlier
+                                    $userBalance = TotalBalance::where('user_id', $user_id)->first();
 
-                                        $group = Group::where('id', $groupId)->first();
+                                    if ($userBalance && $userBalance->total_amount >= $skipTraceRate) {
+                                        $userBalance->decrement('total_amount', $skipTraceRate);
 
-                                        $group->email_verification_date = $date;
-                                        $group->save();
-                                    }
-
-                                    $sucess = TotalBalance::where('user_id', $user_id)->decrement('total_amount', $skipTraceRate);
-
-                                    if ($sucess) {
                                         DB::table('skip_tracing_payment_records')->insert([
                                             'user_id' => $user_id,
                                             'skip_trace_option_id' => $selectedOption,
@@ -1132,6 +1125,18 @@ class GroupController extends Controller
                                         ]);
                                     }
                                 }
+                            }
+
+                            if ($groupId) {
+                                $group = Group::find($groupId);
+
+                                if ($group) {
+                                    // Assuming $date is defined earlier
+                                    $group->email_verification_date = $date;
+                                    $group->save();
+
+                                }
+
                             }
                         }
                     }

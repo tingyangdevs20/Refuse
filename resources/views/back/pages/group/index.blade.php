@@ -83,7 +83,7 @@
                                                 <td>{{ @$group->email_skip_trace_date??'-' }}</td>
                                                 <td>{{ @$group->phone_skip_trace_date??'-' }}</td>
                                                 <td>{{ @$group->name_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->name_skip_trace_date??'-' }}</td>
+                                                <td>{{ @$group->email_verification_date??'-' }}</td>
                                                 <td>{{ @$group->phone_scrub_date??'-' }}</td>
                                                 {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
                                                 <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
@@ -390,18 +390,49 @@
                                     }, 3000); // 3000 milliseconds (3 seconds)
                                 }
                                 // Check if the API response indicates success (you may need to adjust this condition)
-                                else if (response.Status === true && response.header.Status === 0) {
+                                else if (response.Status === true || response.header.Status === 0) {
                                     // Iterate through the 'Data' array in the response and display each entry using Toastr
-                                    response.ResponseDetail.Data.forEach(function (dataEntry) {
-                                        var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
-                                        var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
-                                        var email = dataEntry.Email;
+                                    if (response.ResponseDetail.OrderAmount != '$0') {
+                                        // Show a success message when the 'Data' array is empty
 
-                                        // Customize the Toastr message based on your requirements
-                                        toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
-                                            timeOut: 10000, // Set the duration (5 seconds in this example)
+
+                                        response.ResponseDetail.Data.forEach(function (dataEntry) {
+                                            var email = dataEntry.Email;
+                                            var status = dataEntry.Status;
+
+                                            // Customize the Toastr message based on your requirements
+                                            toastr.success('Email: ' + email + '<br>Status: ' + status, 'API Response', {
+                                                timeOut: 10000, // Set the duration (10 seconds in this example)
+                                            });
+
+                                            var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
+                                            var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
+                                            var email = dataEntry.Email;
+
+                                            // Customize the Toastr message based on your requirements
+                                            toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
+                                                timeOut: 10000, // Set the duration (10 seconds in this example)
+                                            });
+
+
                                         });
-                                    });
+                                        toastr.success('Sucess', 'API Response', {
+                                                timeOut: 5000, // Set the duration (5 seconds in this example)
+                                            });
+
+                                    } else {
+                                        // Iterate through the 'Data' array in the response and display each entry using Toastr
+                                        response.ResponseDetail.Data.forEach(function (dataEntry) {
+                                            var fullName = dataEntry.FirstName + ' ' + dataEntry.LastName;
+                                            var address = dataEntry.Address + ', ' + dataEntry.City + ', ' + dataEntry.Zip;
+                                            var email = dataEntry.Email;
+
+                                            // Customize the Toastr message based on your requirements
+                                            toastr.success('Full Name: ' + fullName + '<br>Address: ' + address + '<br>Email: ' + email, 'API Response', {
+                                                timeOut: 10000, // Set the duration (10 seconds in this example)
+                                            });
+                                        });
+                                    }
 
                                     //  You can display additional information or messages using Toastr here
                                     // toastr.success('Order Amount: ' + response.ResponseDetail.OrderAmount, 'API Response', {
