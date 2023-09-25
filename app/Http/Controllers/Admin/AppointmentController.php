@@ -86,17 +86,11 @@ class AppointmentController extends Controller
 
             $bookedSlots = json_encode($slotsArr);
 
-<<<<<<< Updated upstream
             $uid = decrypt($uid);
-            
-            return view('book-appointment',compact('bookedSlots','uid'));
-=======
-            $uid = Crypt::decryptString($uid);
 
             return view('book-appointment', compact('bookedSlots', 'uid', 'googleAccountConnected'));
         } else {
             return Redirect::back();
->>>>>>> Stashed changes
         }
     }
 
