@@ -11,8 +11,6 @@ use Doctrine\DBAL\Schema\Table;
 
 /**
  * Abstract Visitor with empty methods for easy extension.
- *
- * @deprecated
  */
 class AbstractVisitor implements Visitor, NamespaceVisitor
 {
@@ -21,7 +19,7 @@ class AbstractVisitor implements Visitor, NamespaceVisitor
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function acceptNamespace($namespaceName)
     {

@@ -4,7 +4,6 @@ namespace Doctrine\DBAL\Types;
 
 use DateInterval;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\Deprecations\Deprecation;
 use Throwable;
 
 use function substr;
@@ -17,7 +16,7 @@ class DateIntervalType extends Type
     public const FORMAT = '%RP%YY%MM%DDT%HH%IM%SS';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -25,23 +24,17 @@ class DateIntervalType extends Type
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
         $column['length'] = 255;
 
-        return $platform->getStringTypeDeclarationSQL($column);
+        return $platform->getVarcharTypeDeclarationSQL($column);
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param T $value
-     *
-     * @return (T is null ? null : string)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -57,13 +50,7 @@ class DateIntervalType extends Type
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param T $value
-     *
-     * @return (T is null ? null : DateInterval)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -92,19 +79,10 @@ class DateIntervalType extends Type
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5509',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
         return true;
     }
 }

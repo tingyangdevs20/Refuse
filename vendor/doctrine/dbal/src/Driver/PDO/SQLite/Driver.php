@@ -3,57 +3,54 @@
 namespace Doctrine\DBAL\Driver\PDO\SQLite;
 
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
-use Doctrine\DBAL\Driver\API\SQLite\UserDefinedFunctions;
 use Doctrine\DBAL\Driver\PDO\Connection;
 use Doctrine\DBAL\Driver\PDO\Exception;
-use Doctrine\Deprecations\Deprecation;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use PDO;
 use PDOException;
-use SensitiveParameter;
 
-use function array_intersect_key;
+use function array_merge;
 
 final class Driver extends AbstractSQLiteDriver
 {
+    /** @var mixed[] */
+    private $userDefinedFunctions = [
+        'sqrt' => ['callback' => [SqlitePlatform::class, 'udfSqrt'], 'numArgs' => 1],
+        'mod'  => ['callback' => [SqlitePlatform::class, 'udfMod'], 'numArgs' => 2],
+        'locate'  => ['callback' => [SqlitePlatform::class, 'udfLocate'], 'numArgs' => -1],
+    ];
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return Connection
      */
-    public function connect(
-        #[SensitiveParameter]
-        array $params
-    ) {
-        $driverOptions        = $params['driverOptions'] ?? [];
-        $userDefinedFunctions = [];
+    public function connect(array $params)
+    {
+        $driverOptions = $params['driverOptions'] ?? [];
 
         if (isset($driverOptions['userDefinedFunctions'])) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/5742',
-                'The SQLite-specific driver option "userDefinedFunctions" is deprecated.'
-                    . ' Register function directly on the native connection instead.',
+            $this->userDefinedFunctions = array_merge(
+                $this->userDefinedFunctions,
+                $driverOptions['userDefinedFunctions']
             );
-
-            $userDefinedFunctions = $driverOptions['userDefinedFunctions'];
             unset($driverOptions['userDefinedFunctions']);
         }
 
         try {
             $pdo = new PDO(
-                $this->constructPdoDsn(array_intersect_key($params, ['path' => true, 'memory' => true])),
+                $this->constructPdoDsn($params),
                 $params['user'] ?? '',
                 $params['password'] ?? '',
-                $driverOptions,
+                $driverOptions
             );
         } catch (PDOException $exception) {
             throw Exception::new($exception);
         }
 
-        UserDefinedFunctions::register(
-            [$pdo, 'sqliteCreateFunction'],
-            $userDefinedFunctions,
-        );
+        foreach ($this->userDefinedFunctions as $fn => $data) {
+            $pdo->sqliteCreateFunction($fn, $data['callback'], $data['numArgs']);
+        }
 
         return new Connection($pdo);
     }
@@ -61,7 +58,7 @@ final class Driver extends AbstractSQLiteDriver
     /**
      * Constructs the Sqlite PDO DSN.
      *
-     * @param array<string, mixed> $params
+     * @param mixed[] $params
      */
     private function constructPdoDsn(array $params): string
     {
