@@ -140,7 +140,7 @@ class GroupController extends Controller
         //die("..");
         // exit;
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact'));
-  }
+    }
 
     public function updateinfo(Request $request)
     {
@@ -602,11 +602,11 @@ class GroupController extends Controller
 
     public function mailcontactlist(Request $request)
     {
-        if(count($request->checked_id)>0){
-            foreach($request->checked_id as $contactId){
+        if (count($request->checked_id) > 0) {
+            foreach ($request->checked_id as $contactId) {
 
-                $contractRes = Contractupload::where("id",$request->contracttype)->first();
-                $mailcontact = Contact::where("id",$contactId)->first();
+                $contractRes = Contractupload::where("id", $request->contracttype)->first();
+                $mailcontact = Contact::where("id", $contactId)->first();
                 $subject = "Testing 05092023";
                 // $message = "Message Testing 05092023".'<br>';
                 $message = $contractRes->content;
@@ -620,77 +620,80 @@ class GroupController extends Controller
         }
     }
 
-   public function uploadcontract(Request $request){
+    public function uploadcontract(Request $request)
+    {
 
 
-    $file = $request->file;
+        $file = $request->file;
 
-    $fileName = $file->getClientOriginalName();
-    $extension = $file->getClientOriginalExtension();
-    $tempPath = $file->getRealPath();
-    $fileSize = $file->getSize();
-    $mimeType = $file->getMimeType();
+        $fileName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
 
-    // Valid File Extensions
-    $valid_extension = array("pdf");
-    // Check file extension
-    if (in_array(strtolower($extension), $valid_extension)) {
-    $pdfParser = new Parser();
-    $pdf = $pdfParser->parseFile($file->path());
-    $content = $pdf->getText();
-        $filenameNew =  time().'.'.$fileName;
-    $Contractupload = new Contractupload;
-       $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;
-       $Contractupload->file =$filenameNew;
-       $Contractupload->save();
-       $file->move('../public/contractpdf/', $filenameNew);
-       Alert::success('Success!', 'Contract Uploaded successfully!');
-       return redirect()->back();
-    } else {
-        Alert::error('Oops!', "Please enter only pdf file");
-        return redirect()->back();
+        // Valid File Extensions
+        $valid_extension = array("pdf");
+        // Check file extension
+        if (in_array(strtolower($extension), $valid_extension)) {
+            $pdfParser = new Parser();
+            $pdf = $pdfParser->parseFile($file->path());
+            $content = $pdf->getText();
+            $filenameNew =  time() . '.' . $fileName;
+            $Contractupload = new Contractupload;
+            $Contractupload->content = $content;
+            $Contractupload->type_contract = $request->optiontype;
+            $Contractupload->file = $filenameNew;
+            $Contractupload->save();
+            $file->move('../public/contractpdf/', $filenameNew);
+            Alert::success('Success!', 'Contract Uploaded successfully!');
+            return redirect()->back();
+        } else {
+            Alert::error('Oops!', "Please enter only pdf file");
+            return redirect()->back();
+        }
     }
-   }
 
 
 
 
-   public function uploadcontractedit(Request $request){
-    // dd($request->all());
+    public function uploadcontractedit(Request $request)
+    {
+        // dd($request->all());
 
-    $file = $request->file;
+        $file = $request->file;
 
-    $fileName = $file->getClientOriginalName();
-    $extension = $file->getClientOriginalExtension();
-    $tempPath = $file->getRealPath();
-    $fileSize = $file->getSize();
-    $mimeType = $file->getMimeType();
+        $fileName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
 
-    // Valid File Extensions
-    $valid_extension = array("pdf");
-    // Check file extension
-    if (in_array(strtolower($extension), $valid_extension)) {
-    $pdfParser = new Parser();
-    $pdf = $pdfParser->parseFile($file->path());
-    $content = $pdf->getText();
-       $filenameNew =  time().'.'.$fileName;
-       $Contractupload = Contractupload::find(1);
-       $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
+        // Valid File Extensions
+        $valid_extension = array("pdf");
+        // Check file extension
+        if (in_array(strtolower($extension), $valid_extension)) {
+            $pdfParser = new Parser();
+            $pdf = $pdfParser->parseFile($file->path());
+            $content = $pdf->getText();
+            $filenameNew =  time() . '.' . $fileName;
+            $Contractupload = Contractupload::find(1);
+            $destinationPath = public_path('/contractpdf/' . $Contractupload->file);
 
-    if(file_exists($destinationPath)){
-        unlink($destinationPath);
-    }
-       $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;
-       $Contractupload->file =$filenameNew;
-       $Contractupload->save();
-       $file->move('../public/contractpdf/', $filenameNew);
-       Alert::success('Success!', 'Contract Updated successfully!');
-       return redirect()->back();
-    } else {
-        Alert::error('Oops!', "Please enter only pdf file");
-        return redirect()->back();
+            if (file_exists($destinationPath)) {
+                unlink($destinationPath);
+            }
+            $Contractupload->content = $content;
+            $Contractupload->type_contract = $request->optiontype;
+            $Contractupload->file = $filenameNew;
+            $Contractupload->save();
+            $file->move('../public/contractpdf/', $filenameNew);
+            Alert::success('Success!', 'Contract Updated successfully!');
+            return redirect()->back();
+        } else {
+            Alert::error('Oops!', "Please enter only pdf file");
+            return redirect()->back();
+        }
     }
 
     public function contractview(Request $request)
@@ -708,8 +711,8 @@ class GroupController extends Controller
         return view('back.pages.group.myFile', compact('contractres'));
     }
 
-   public function skipTrace(DatazappService $datazappService, Request $request)
-   {
+    public function skipTrace(DatazappService $datazappService, Request $request)
+    {
 
         $date = now()->format('d M Y');
         $user_id = auth()->id();
@@ -719,23 +722,23 @@ class GroupController extends Controller
         Session::forget('record_detail');
 
 
-       $user_id = auth()->id();
-       $groupId = $request->input('group_id');
-       $selectedOption = $request->input('skip_trace_option');
+        $user_id = auth()->id();
+        $groupId = $request->input('group_id');
+        $selectedOption = $request->input('skip_trace_option');
 
-       $checkPayment  = Session::get('payment_sucess');
-       $paymentRecord = DB::table('skip_tracing_payment_records')
-        ->where('user_id', $user_id)
-        ->where('group_id', $groupId)
-        ->where('skip_trace_option_id', $selectedOption)
-        ->first();
+        $checkPayment  = Session::get('payment_sucess');
+        $paymentRecord = DB::table('skip_tracing_payment_records')
+            ->where('user_id', $user_id)
+            ->where('group_id', $groupId)
+            ->where('skip_trace_option_id', $selectedOption)
+            ->first();
 
-       $group = Group::with('contacts')->find($groupId);
+        $group = Group::with('contacts')->find($groupId);
 
 
-       if (!$group) {
-           return response()->json(['error' => 'Group not found.']);
-       }
+        if (!$group) {
+            return response()->json(['error' => 'Group not found.']);
+        }
 
         // Extract the contact data from the group
         $groupContacts = $group->contacts;
@@ -745,42 +748,36 @@ class GroupController extends Controller
             return $contact->email1 . '|' . $contact->number;
         });
 
-       $skipTraceRate = null;
-       Session::put('record_detail', [
+        $skipTraceRate = null;
+        Session::put('record_detail', [
             'group' => $group,
             'uniqueContacts' => $uniqueContacts,
             'groupId' => $groupId,
             'selectedOption' => $selectedOption,
         ]);
 
-        if($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone' ){
+        if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
-
-        }elseif($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails' ){
+        } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
-        }elseif($selectedOption == 'append_names' ){
+        } elseif ($selectedOption == 'append_names') {
             $skipTraceRate = Account::pluck('name_append_rate')->first();
-        }
-        elseif($selectedOption == 'append_emails' ){
+        } elseif ($selectedOption == 'append_emails') {
             $skipTraceRate = Account::pluck('email_append_rate')->first();
-
-        }
-        elseif($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified' ){
+        } elseif ($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified') {
             $skipTraceRate = Account::pluck('email_verification_rate')->first();
-        }
-        elseif($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers' ){
+        } elseif ($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers') {
             $skipTraceRate = Account::pluck('phone_scrub_rate')->first();
         }
 
         if ($skipTraceRate === null) {
 
             return response()->json(['error' => 'Invalid skip trace option.']);
-
-        }else{
+        } else {
 
             // $paymentInfo = Session::get('record_detail');
-            if(isset($balance) && $balance > 0 || $balance >= $skipTraceRate){
-                    // return response()->json([
+            if (isset($balance) && $balance > 0 || $balance >= $skipTraceRate) {
+                // return response()->json([
 
                 //     'data' => [
                 //         'skip_trace_rate' => $skipTraceRate[0] * count($uniqueContacts),
@@ -816,8 +813,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -832,7 +828,7 @@ class GroupController extends Controller
                                     }
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -857,8 +853,6 @@ class GroupController extends Controller
                             }
                         }
                     }
-
-
                 } elseif ($selectedOption === 'skip_entire_list_email' || $selectedOption === 'skip_records_without_emails') {
                     // Implement skip tracing logic for the entire list of emails
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
@@ -882,8 +876,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -896,7 +889,7 @@ class GroupController extends Controller
                                         $matchingContact->update(['email1' => $matchedEmail]);
                                     }
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -921,7 +914,6 @@ class GroupController extends Controller
                             }
                         }
                     }
-
                 } elseif ($selectedOption === 'append_names') {
                     // Implement append names logic for records without names
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
@@ -945,10 +937,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-
-
-                                            $contact->street === $record['Address'] &&
+                                        return ($contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
                                             $contact->zip === $record['Zip']
                                         );
@@ -964,7 +953,7 @@ class GroupController extends Controller
 
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -989,8 +978,7 @@ class GroupController extends Controller
                             }
                         }
                     }
-
-                } elseif ($selectedOption=== 'append_emails'){
+                } elseif ($selectedOption === 'append_emails') {
                     // Implement append names logic for records without names
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
 
@@ -1012,9 +1000,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -1031,7 +1017,7 @@ class GroupController extends Controller
 
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -1066,19 +1052,18 @@ class GroupController extends Controller
                             isset($result['ResponseDetail']['Data']) &&
                             is_array($result['ResponseDetail']['Data'])
                         ) {
-                             $data = $result['ResponseDetail']['Data'];
+                            $data = $result['ResponseDetail']['Data'];
 
                             // Assuming $data is the array from the API response
                             foreach ($data as $record) {
                                 // Check if the record has a matched email status
-                                if (isset($record['Status']) ) {
+                                if (isset($record['Status'])) {
                                     $matchedEmail = $record['Email'];
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
 
-                                        return (
-                                            $contact->email2 === $record['Email']
+                                        return ($contact->email2 === $record['Email']
 
                                         );
                                     });
@@ -1119,13 +1104,10 @@ class GroupController extends Controller
                                     // Assuming $date is defined earlier
                                     $group->email_verification_date = $date;
                                     $group->save();
-
                                 }
-
                             }
                         }
                     }
-
                 } elseif ($selectedOption === 'phone_scrub_entire_list' || $selectedOption === 'phone_scrub_non_scrubbed_numbers') {
                     // Implement phone scrubbing logic for the entire list of phone numbers
                     $result = $datazappService->skipTrace($uniqueContacts, $selectedOption);
@@ -1150,9 +1132,7 @@ class GroupController extends Controller
 
                                     // Find the corresponding contact based on additional criteria
                                     $matchingContact = $uniqueContacts->first(function ($contact) use ($record) {
-                                        return (
-
-                                            $contact->name === $record['FirstName'] &&
+                                        return ($contact->name === $record['FirstName'] &&
                                             $contact->last_name === $record['LastName'] &&
                                             $contact->street === $record['Address'] &&
                                             $contact->city === $record['City'] &&
@@ -1171,7 +1151,7 @@ class GroupController extends Controller
 
 
 
-                                    if($groupId){
+                                    if ($groupId) {
 
                                         $group = Group::where('id', $groupId)->first();
 
@@ -1196,49 +1176,47 @@ class GroupController extends Controller
                             }
                         }
                     }
-
                 } else {
                     // Handle other options or provide an error response
                     return response()->json(['error' => 'Invalid skip trace option.']);
                 }
 
                 return $result;
-            }else{
+            } else {
 
                 return response()->json(['modal' => "Please Recharge your Account Balance!"]);
-
             }
         }
-   }
+    }
 
 
 
-   public function pushToCampaign(Request $request)
-   {
-       $groupId = $request->input('group_id');
-       $groupName = $request->input('group_name');
-       $emails = explode(',', $request->input('email'));
+    public function pushToCampaign(Request $request)
+    {
+        $groupId = $request->input('group_id');
+        $groupName = $request->input('group_name');
+        $emails = explode(',', $request->input('email'));
 
-       // Check if a record with the same group_id exists
-       $existingCampaign = Campaign::where('group_id', $groupId)->first();
+        // Check if a record with the same group_id exists
+        $existingCampaign = Campaign::where('group_id', $groupId)->first();
 
-       if ($existingCampaign) {
-           // Return a response to indicate that the data already exists
-           return response()->json(['message' => 'Data already exists', 'success' => false]);
-       } else {
-           // Insert data into the campaign table
-           Campaign::create([
-               'name' => $groupName,
-               'group_id' => $groupId,
-           ]);
+        if ($existingCampaign) {
+            // Return a response to indicate that the data already exists
+            return response()->json(['message' => 'Data already exists', 'success' => false]);
+        } else {
+            // Insert data into the campaign table
+            Campaign::create([
+                'name' => $groupName,
+                'group_id' => $groupId,
+            ]);
 
-           // Send email notifications
-           foreach ($emails as $email) {
-               Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-           }
+            // Send email notifications
+            foreach ($emails as $email) {
+                Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+            }
 
-           // Return a response to indicate success
-           return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
-       }
-   }
+            // Return a response to indicate success
+            return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
+        }
+    }
 }
