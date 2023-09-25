@@ -60,59 +60,57 @@
     </style>
 @endsection
 @section('content')
-    <input type="hidden" id="_token" value="{{ csrf_token() }}">
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
+            <input type="hidden" id="_token" value="{{csrf_token()}}">
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
 
-    <div class="page-content">
-        <div class="container-fluid">
+                <div class="page-content">
+                    <div class="container-fluid">
 
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
 
-                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
 
-                        <h4 class="mb-0 font-size-18">Contact Record</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Contact</li>
-                                <li class="breadcrumb-item active">Contact Record</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header bg-soft-dark ">
-                            <i class="fas fa-edit"></i> Contact
-                        </div>
-                        <div class="card-body">
-                            @if (session('upload'))
-                                <div class="alert alert-success">
-                                    {{ session('upload') }}
+                                    <h4 class="mb-0 font-size-18">Contact Record</h4>
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
+                                            <li class="breadcrumb-item">Contact</li>
+                                            <li class="breadcrumb-item active">Contact Record</li>
+                                        </ol>
+                                    </div>
                                 </div>
-                            @endif
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        <i class="fas fa-edit"></i> Contact
+                                    </div>
+                                    <div class="card-body">
+                                    @if(session('upload'))
+                                        <div class="alert alert-success">
+                                            {{ session('upload') }}
+                                        </div>
+                                    @endif
 
-                            @if (session('notupload'))
-                                <div class="alert alert-danger">
-                                    {{ session('notupload') }}
-                                </div>
-                            @endif
-                            <form id="main_form" action="{{ route('admin.single-sms.store') }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <input hidden name="contact_id" value="{{ $contact->id }}">
-                                @method('POST')
-                                @if (count($sections) > 0)
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <ul class="dropdown-menu-new" style="padding-left: 0;">
-                                                @foreach ($sections as $section)
-                                                    <li><a class="dropdown-item"
-                                                            href="#{{ $section->id }}">{{ $section->name }}</a></li>
-                                                @endforeach
-                                                {{-- <li><a class="dropdown-item" href="#PROPERTY">PROPERTY INFO</a></li>
+                                    @if(session('notupload'))
+                                        <div class="alert alert-danger">
+                                            {{ session('notupload') }}
+                                        </div>
+                                    @endif
+                                        <form id="main_form" action="{{ route('admin.single-sms.store') }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('POST')
+                                            <input hidden name="contact_id" value="{{ $contact->id }}">
+                                            @if(count($sections) > 0)
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="dropdown-menu-new" style="padding-left: 0;">
+                                                        @foreach($sections as $section)
+                                                            <li><a class="dropdown-item" href="#{{ $section->id }}">{{ $section->name }}</a></li>
+                                                        @endforeach
+                                                        {{-- <li><a class="dropdown-item" href="#PROPERTY">PROPERTY INFO</a></li>
                                                         <li><a class="dropdown-item" href="#CONDITION">VALUE & CONDITION</a></li>
                                                         <li><a class="dropdown-item" href="#FINANCING">PROPERTY EXPENSES/FINANCING INFO</a></li>
                                                         <li><a class="dropdown-item" href="#MOTIVATION">SELLING MOTIVATION</a></li>
@@ -542,16 +540,49 @@
                                                                                 table="lead_info"
                                                                                 value="{{ $leadinfo->owner2_social_security == '' ? '' : $leadinfo->owner2_social_security }}">
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Owner 2 Date of Birth</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
-                                                                                placeholder="Date of Birth"
-                                                                                name="owner2_dob" table="lead_info"
-                                                                                value="{{ $leadinfo->owner2_dob == '' ? '' : $leadinfo->owner2_dob }}">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group" style="padding: 0 10px;">
+                                                                                    {{-- <label> Primary Number</label> --}}
+                                                                                    <div class="input-group mb-2" >
+                                                                                        <input type="text" class="form-control" placeholder=" Primary Number" name="owner3_primary_number" table="lead_info" value="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}">
+                                                                                        @if ($leadinfo->owner3_primary_number)
+                                                                                        <a id="button-call" class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group" style="padding: 0 10px;">
+                                                                                    {{-- <label> Number 2</label> --}}
+                                                                                    <div class="input-group mb-2" >
+                                                                                        <input type="text" class="form-control" placeholder=" Number 2" name="owner3_number2" table="lead_info" value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
+                                                                                        @if ($leadinfo->owner3_number2)
+                                                                                        <a id="button-call" class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group" style="padding: 0 10px;">
+                                                                                    {{-- <label> Number 3</label> --}}
+                                                                                    <div class="input-group mb-2" >
+                                                                                        <input type="text" class="form-control" placeholder=" Number 3" name="owner3_number2" table="lead_info" value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
+                                                                                        @if ($leadinfo->owner3_number3)
+                                                                                        <a id="button-call" class="outgoing-call m-1" href="javascript:void(0)" phone-number="{{ $leadinfo->owner3_number3 == '' ? '' : $leadinfo->owner3_number3 }}"><i class="fas fa-phone whatsapp-icon" style="padding: 24%"></i></a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none'>
+                                                                                            <i class="fas fa-phone whatsapp-icon hangupicon" style="padding: 24%"></i>
+                                                                                        </button>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2840,25 +2871,46 @@
                                                                                 <label>{{ $section->name }} (Custom
                                                                                     Fields)</label>
                                                                             </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
+                                                                            <div class="row">
+                                                                            <div class="col-md-12">
+                                                                            @foreach($getAllAppointments as $appt)
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                            <div class="card-body" style="font-weight:bold;color:#556ee6;font-size:16px">
                                                                             @php
                                                                                 $customeFieldValue = getsectionsFieldValue($id, $field->id);
                                                                             @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
+                                                                            On {{ $appt_dt2 }}, at {{ $appt_tm }} <br/>
+                                                                            <span style="color:#bfbfbf">{{ $appt->description }}</span>
+                                                                        </div>
+                                                                            </div>
+                                                                            @endforeach
+                                                                            </div>
+
+
+                                                                        </div>
+
+
+                                                                        @php
+                                                                            $customeFields = getsectionsFields($section->id);
+                                                                        @endphp
+                                                                        <div class="row">
+                                                                            @if(count($customeFields) > 0)
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group" style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                                        <label>{{ $section->name }} (Custom Fields)</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                @foreach($customeFields as $field)
+                                                                                    @php
+                                                                                        $customeFieldValue = getsectionsFieldValue($id,$field->id);
+                                                                                    @endphp
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="form-group" style="padding: 0 10px;">
+                                                                                            {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                            <div class="input-group mb-2" >
+                                                                                                <input type="{{$field->type}}" class="form-control" placeholder="{{ $field->label }}"  name="feild_value" section_id="{{ $section->id }}" id="{{ $field->id }}" table="custom_field_values" value="{{ $customeFieldValue }}">
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2917,46 +2969,69 @@
                                                                                         </div>
 
                                                                                     </div>
-                                                                                    <div class="form-group ">
-                                                                                        <label>Message</label>
-                                                                                        <textarea id="template_text" class="form-control summernote-usage" rows="10" required name="message"></textarea>
-                                                                                        <div id='count'
-                                                                                            class="float-lg-right">
-                                                                                        </div>
-                                                                                        <button type="submit"
-                                                                                            class="btn btn-primary mt-2">Send
-                                                                                            Email</button>
-                                                                                    </div>
-                                                                                </form>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="row">
+                                                                        <div class="col-md-12">
+
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                                <a href="{{route('admin.zoom.index')}}" type="button"  class="btn btn-primary">Zoom Meeting</a>
 
                                                                             </div>
 
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
 
-                                                            <hr>
-                                                        @elseif($section->id == '15')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="HISTORY">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
+                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                            <div class="card-body"> <label style="font-size:16px">Send Email</label>
+                                        <form action="{{ route('admin.single-email.store') }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('POST')
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+														<label>Subject:</label>
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control" placeholder="Subject" name="subject">
+                                                        </div>
+                                                    </div>
+                                                </div>
+												<div class="col-md-6">
+                                                    <div class="form-group">
+														<label>Send To:</label>
+                                                        <input type="text" class="form-control" value="{{ $leadinfo->owner1_email1 }}" placeholder="Sender Email" name="send_to">
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group ">
+                                                <label >Message</label>
+                                                <textarea id="template_text" class="form-control summernote-usage"  rows="10" required name="message"></textarea>
+                                                <div id='count' class="float-lg-right">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-2" >Send Email</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
+                                                                    </div>
+
+                                                                    <hr>
+                                                                @elseif($section->id == '15')
+                                                                    <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
+                                                                        <div class="row" id="HISTORY">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group lead-heading">
+                                                                                    <label>{{ $section->name }}</label>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                         @foreach ($customeFields as $field)
@@ -3045,9 +3120,18 @@
                                                                                 id="file" class="form-control"
                                                                                 multiple>
                                                                         </div>
-                                                                        <button type="submit" id="custom-upload-button"
-                                                                            class="btn btn-primary">Upload to Google
-                                                                            Drive</button>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+
+                                                                            <div class="form-group" style="padding: 0 10px;">
+
+
+                                                                                <div class="form-group">
+                                                                                    <label for="file">Select Files to Upload:</label>
+                                                                                    <input type="file" name="file" id="file" class="form-control" multiple>
+                                                                                </div>
+                                                                                <button type="submit" id="custom-upload-button" class="btn btn-primary">Upload to Google Drive</button>
 
 
                                                                     </div>
@@ -3939,9 +4023,9 @@
     <div class="modal fade" id="initiate-call" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content mt-2">
-                <div class="modal-body">
-                    <p class="calling-response" style="text-align: center; font-size: 16px;"></p>
-                </div>
+            <div class="modal-body">
+                <p class="calling-response" style="text-align: center; font-size: 16px;"></p>
+            </div>
 
             </div>
         </div>

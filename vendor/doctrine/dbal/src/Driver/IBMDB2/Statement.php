@@ -9,14 +9,12 @@ use Doctrine\DBAL\Driver\IBMDB2\Exception\StatementError;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\Deprecations\Deprecation;
 
 use function assert;
 use function db2_bind_param;
 use function db2_execute;
 use function error_get_last;
 use function fclose;
-use function func_num_args;
 use function is_int;
 use function is_resource;
 use function stream_copy_to_stream;
@@ -35,7 +33,7 @@ final class Statement implements StatementInterface
     private $stmt;
 
     /** @var mixed[] */
-    private array $parameters = [];
+    private $parameters = [];
 
     /**
      * Map of LOB parameter positions to the tuples containing reference to the variable bound to the driver statement
@@ -43,7 +41,7 @@ final class Statement implements StatementInterface
      *
      * @var array<int,string|resource|null>
      */
-    private array $lobs = [];
+    private $lobs = [];
 
     /**
      * @internal The statement can be only instantiated by its driver connection.
@@ -56,48 +54,21 @@ final class Statement implements StatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bindValue($param, $value, $type = ParameterType::STRING): bool
     {
         assert(is_int($param));
 
-        if (func_num_args() < 3) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/5558',
-                'Not passing $type to Statement::bindValue() is deprecated.'
-                    . ' Pass the type corresponding to the parameter being bound.',
-            );
-        }
-
         return $this->bindParam($param, $value, $type);
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated Use {@see bindValue()} instead.
+     * {@inheritdoc}
      */
     public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool
     {
-        Deprecation::trigger(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5563',
-            '%s is deprecated. Use bindValue() instead.',
-            __METHOD__,
-        );
-
         assert(is_int($param));
-
-        if (func_num_args() < 3) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/5558',
-                'Not passing $type to Statement::bindParam() is deprecated.'
-                    . ' Pass the type corresponding to the parameter being bound.',
-            );
-        }
 
         switch ($type) {
             case ParameterType::INTEGER:
@@ -132,19 +103,10 @@ final class Statement implements StatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute($params = null): ResultInterface
     {
-        if ($params !== null) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/5556',
-                'Passing $params to Statement::execute() is deprecated. Bind parameters using'
-                    . ' Statement::bindParam() or Statement::bindValue() instead.',
-            );
-        }
-
         $handles = $this->bindLobs();
 
         $result = @db2_execute($this->stmt, $params ?? $this->parameters);
@@ -182,8 +144,6 @@ final class Statement implements StatementInterface
             } else {
                 $this->bind($param, $value, DB2_PARAM_IN, DB2_CHAR);
             }
-
-            unset($value);
         }
 
         return $handles;

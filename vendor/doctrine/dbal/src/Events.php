@@ -6,8 +6,6 @@ namespace Doctrine\DBAL;
  * Container for all DBAL events.
  *
  * This class cannot be instantiated.
- *
- * @deprecated
  */
 final class Events
 {
@@ -20,45 +18,19 @@ final class Events
     {
     }
 
-    /** @deprecated */
     public const postConnect = 'postConnect';
 
-    /** @deprecated */
-    public const onSchemaCreateTable = 'onSchemaCreateTable';
-
-    /** @deprecated */
-    public const onSchemaCreateTableColumn = 'onSchemaCreateTableColumn';
-
-    /** @deprecated */
-    public const onSchemaDropTable = 'onSchemaDropTable';
-
-    /** @deprecated */
-    public const onSchemaAlterTable = 'onSchemaAlterTable';
-
-    /** @deprecated */
-    public const onSchemaAlterTableAddColumn = 'onSchemaAlterTableAddColumn';
-
-    /** @deprecated */
+    public const onSchemaCreateTable            = 'onSchemaCreateTable';
+    public const onSchemaCreateTableColumn      = 'onSchemaCreateTableColumn';
+    public const onSchemaDropTable              = 'onSchemaDropTable';
+    public const onSchemaAlterTable             = 'onSchemaAlterTable';
+    public const onSchemaAlterTableAddColumn    = 'onSchemaAlterTableAddColumn';
     public const onSchemaAlterTableRemoveColumn = 'onSchemaAlterTableRemoveColumn';
-
-    /** @deprecated */
     public const onSchemaAlterTableChangeColumn = 'onSchemaAlterTableChangeColumn';
-
-    /** @deprecated */
     public const onSchemaAlterTableRenameColumn = 'onSchemaAlterTableRenameColumn';
-
-    /** @deprecated */
-    public const onSchemaColumnDefinition = 'onSchemaColumnDefinition';
-
-    /** @deprecated */
-    public const onSchemaIndexDefinition = 'onSchemaIndexDefinition';
-
-    /** @deprecated */
-    public const onTransactionBegin = 'onTransactionBegin';
-
-    /** @deprecated */
-    public const onTransactionCommit = 'onTransactionCommit';
-
-    /** @deprecated */
-    public const onTransactionRollBack = 'onTransactionRollBack';
+    public const onSchemaColumnDefinition       = 'onSchemaColumnDefinition';
+    public const onSchemaIndexDefinition        = 'onSchemaIndexDefinition';
+    public const onTransactionBegin             = 'onTransactionBegin';
+    public const onTransactionCommit            = 'onTransactionCommit';
+    public const onTransactionRollBack          = 'onTransactionRollBack';
 }

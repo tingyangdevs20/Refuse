@@ -32,6 +32,13 @@ return [
     |            "postmark", "log", "array"
     |
     */
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+    ],
 
     'mailers' => [
         'smtp' => [
@@ -61,6 +68,10 @@ return [
             'transport' => 'sendmail',
             'path' => '/usr/sbin/sendmail -bs',
         ],
+        'sendgrid' => [ // Add a new 'sendgrid' mailer configuration
+            'transport' => 'sendgrid',
+            'api_key' => env('SENDGRID_API_KEY'), // Replace with your SendGrid API key
+        ],
 
         'log' => [
             'transport' => 'log',
@@ -84,8 +95,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'stuff@helpretire.com'),
+        'name' => env('MAIL_FROM_NAME', 'Brian Bagnall'),
     ],
 
     /*
