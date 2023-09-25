@@ -53,7 +53,7 @@ class MailToContacts extends Command
                     $data = ['message' => 'Hi this is test mail on schedule','subject' => 'test email', 'name' =>'', 'unsub_link' =>''];
                     Mail::to($email)->send(new TestEmail($data));
                 }
-                
+
             }
         }
     }
