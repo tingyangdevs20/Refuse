@@ -88,11 +88,13 @@
                                                 {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
                                                 <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
                                                 <td>{{ $group->created_at->format('d-m-Y') }}</td>
+
                                                 <td>
-
+                                                    @if($groupCounts[$loop->index]['percentage'] > 0)
                                                     <button class="btn btn-outline-primary btn-sm model" data-group-id="{{ $group->id }}" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
-
+                                                    @endif
                                                 </td>
+
                                                 <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
                                                         data-toggle="modal"
