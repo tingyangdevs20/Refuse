@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use DateTime;
 use Exception;
 use Google_Client;
@@ -13,6 +14,10 @@ class UserEventsService
 
     public function fetchUserCalendarEvents()
     {
+        $today = Carbon::today();
+        $month = $today->format("m");
+        $year = $today->format("Y");
+
         $client = new Google_Client();
         $client->setClientId(config('services.google.client_id'));
         $client->setClientSecret(config('services.google.client_secret'));
@@ -38,8 +43,8 @@ class UserEventsService
 
 
         // Calculate the start and end dates for the specified month
-        $startDate = sprintf('%04d-%02d-01T00:00:00Z', '2023', '09');
-        $endDate = sprintf('%04d-%02d-%02dT23:59:59Z', '2023', '09', date('t', strtotime("2023-09-01")));
+        $startDate = sprintf('%04d-%02d-01T00:00:00Z', $year, $month);
+        $endDate = sprintf('%04d-%02d-%02dT23:59:59Z', $year, $month, date('t', strtotime("$year-$month-01")));
 
         // Define the search query to find events with a specific summary
         $optParams = [
