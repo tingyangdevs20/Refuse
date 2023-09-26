@@ -214,7 +214,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
+    
+    // Upload Purchase Agreement to google drive
     Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
+
+    // Realtor API to fetch property's estimates
+    Route::post('contact/get-property-id', 'Admin\RealtorController@getPropertyId')->name('contact.property_id');
+    Route::post('contact/get-property-estimates', 'Admin\RealtorController@getPropertyEstimates')->name('contact.property_estimates');
+    
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');

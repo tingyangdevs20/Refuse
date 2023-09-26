@@ -142,11 +142,11 @@
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
                                                     @if ($section->id == '1')
-                                                        <div class="col-md-12" 
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
+                                                                    <div class="form-group lead-heading"
+                                                                        id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -843,11 +843,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '2')
-                                                        <div class="col-md-12" 
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
+                                                                    <div class="form-group lead-heading"
+                                                                        id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -1067,11 +1067,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '3')
-                                                        <div class="col-md-12" 
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
+                                                                    <div class="form-group lead-heading"
+                                                                        id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -1197,6 +1197,40 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <button type="button"
+                                                                                id="fetch-realtor-estimates-button"
+                                                                                class="btn btn-primary">Get Property
+                                                                                Estimates</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="propertyEstimatesFetchingId">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <strong>Fetching Property ID...</strong>
+                                                                            <div class="spinner-border spinner-border-sm ml-1"
+                                                                                role="status" aria-hidden="true"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="propertyEstimatesFetchingEstimates">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <strong>Fetching Property Estimates...</strong>
+                                                                            <div class="spinner-border spinner-border-sm ml-1"
+                                                                                role="status" aria-hidden="true"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group" style="padding: 0 10px;"
+                                                                        id="estimateContainer">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Comp 1</label> --}}
@@ -1291,11 +1325,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '4')
-                                                        <div class="col-md-12" 
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading" id="{{ $section->id }}">
+                                                                    <div class="form-group lead-heading"
+                                                                        id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -1441,7 +1475,8 @@
                                                                         <select class="custom-select"
                                                                             name="loan1_fixed_adjustable"
                                                                             onchange="updateValue(value,'loan1_fixed_adjustable','property_finance_infos')">
-                                                                            <option value="">Loan Fixed or Adjustable
+                                                                            <option value="">Loan Fixed or
+                                                                                Adjustable
                                                                             </option>
                                                                             <option value="fixed"
                                                                                 @if (isset($property_finance_infos)) @if ($property_finance_infos->loan1_fixed_adjustable == 'fixed') selected @endif
@@ -1969,11 +2004,11 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '5')
-                                                        <div class="col-md-12"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="form-group lead-heading"  id="{{ $section->id }}">
+                                                                    <div class="form-group lead-heading"
+                                                                        id="{{ $section->id }}">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
@@ -3901,7 +3936,8 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-4" style="position: relative;margin-left: 1100px;margin-top: -524px;">
+                                    <div class="col-md-4"
+                                        style="position: relative;margin-left: 1100px;margin-top: -524px;">
                                         <div class="card content-div">
                                             <div class="form-group" style="padding: 0 10px;">
                                                 <label>Load Script</label>
@@ -3976,6 +4012,10 @@
 
                 // Submit the form
                 form.submit();
+            });
+
+            $('#fetch-realtor-estimates-button').click(function() {
+                getRealtorPropertyId();
             });
         });
     </script>
@@ -4052,6 +4092,122 @@
                 }
             });
         });
+
+        function getRealtorPropertyId() {
+            $('#propertyEstimatesFetchingId').show()
+            var _token = $('input#_token').val();
+            var id = {!! $contact->id !!};
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/get-property-id'); ?>',
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                success: function(res) {
+                    $('#propertyEstimatesFetchingId').hide()
+                    if (res.status == true) {
+                        if (id != null) {
+                            getEstimates(res.id)
+                        }
+                        // Customize the Toastr message based on your requirements
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                    } else {
+                        // // If there are estimates, clear the container
+                        // estimateContainer.html('');
+                        // // Optionally, you can add a message or other content to indicate no results
+                        // estimateContainer.append("<p>No estimates found.</p>");
+                        // // Display an error message using Toastr for failed API responses
+                        toastr.error(res.message, {
+                            timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                    }
+                },
+                error: function(err) {
+                    $('#propertyEstimatesFetchingId').hide()
+                    // // If there are estimates, clear the container
+                    // estimateContainer.html('');
+                    // // Optionally, you can add a message or other content to indicate no results
+                    // estimateContainer.append("<p>No estimates found.</p>");
+                    // Display an error message using Toastr for failed API responses
+                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                    });
+                }
+            });
+        };
+
+        function getEstimates(id) {
+            $('#propertyEstimatesFetchingEstimates').show()
+            var _token = $('input#_token').val();
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/get-property-estimates'); ?>',
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                success: function(res) {
+                    $('#propertyEstimatesFetchingEstimates').hide()
+                    console.log(res)
+                    if (res.status == true) {
+
+                        var estimateContainer = $("#estimateContainer");
+
+                        // Check if there are estimates in the response
+                        if (res.estimates && res.estimates.length > 0) {
+                            // // If there are estimates, clear the container
+                            // estimateContainer.html('');
+
+                            // Iterate through the estimates array
+                            $.each(res.estimates, function(index, estimate) {
+                                // Create a div element to display the estimate
+                                var estimateDiv = $("<div>");
+
+                                // Add data to the div
+                                estimateDiv.append("<label>Source Name: " + estimate.source.name +
+                                    "</label><br>");
+                                estimateDiv.append("<label>Estimate: " + estimate.estimate +
+                                    "</label><br>");
+                                estimateDiv.append("<label>Estimate High: " + estimate.estimate_high +
+                                    "</label><br>");
+                                estimateDiv.append("<label>Estimate Low: " + estimate.estimate_low +
+                                    "</label><br>");
+                                estimateDiv.append("<label>Date: " + estimate.date +
+                                    "</label><br>");
+                                estimateDiv.append("<hr>");
+
+                                // Append the div to the container
+                                estimateContainer.append(estimateDiv);
+                            });
+                        } else {
+                            // // If there are estimates, clear the container
+                            // estimateContainer.html('');
+                            // // Optionally, you can add a message or other content to indicate no results
+                            // estimateContainer.append("<p>No estimates found.</p>");
+                        }
+                        // Customize the Toastr message based on your requirements
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                    } else {
+                        // Display an error message using Toastr for failed API responses
+                        toastr.error(res.message, {
+                            timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                    }
+                },
+                error: function(err) {
+                    $('#propertyEstimatesFetchingEstimates').hide()
+                    // Display an error message using Toastr for failed API responses
+                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                    });
+                }
+            });
+        };
 
         function updateValue(fieldVal, fieldName, table) {
             var _token = $('input#_token').val();
