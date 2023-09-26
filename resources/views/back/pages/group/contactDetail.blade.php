@@ -3987,11 +3987,32 @@
                                                                 <div class="col-md-12">
 
                                                                     <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="card">
+                                                                            <div class="card-header bg-soft-dark ">
+                                                                                <table class="table table-striped table-bordered" id="datatable">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th scope="col">No.</th>
+                                                                                            <th scope="col">Skip trace option</th>
 
+                                                                                            <th scope="col">Date of Last Email Skip Trace</th>
+                                                                                            <th scope="col">Date of Last Phone Skip Trace</th>
+                                                                                            <th scope="col">Date of Last Name Skip Trace</th>
+                                                                                            <th scope="col">Date of Last Email Verification</th>
+                                                                                            <th scope="col">Date of Last Phone Scrub </th>
 
+                                                                                            <th scope="col">Verified Numbers & Emails  </th>
+                                                                                            <th scope="col">Verified Emails</th>
+                                                                                            <th scope="col">Scam Number & Email</th>
 
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
 
-
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
