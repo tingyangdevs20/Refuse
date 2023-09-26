@@ -387,10 +387,12 @@
                 e.preventDefault(); // Prevent the default form submission behavior
 
                 var selectedOption = $('.skip_trace_option').val();
+                var selectedOptionText = $('.skip_trace_option :selected').text();
+
                 if (selectedOption) {
                     // var groupId = $(this).data('group-id');
 
-                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?');
+                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?'+selectedOptionText);
                     // Make an AJAX request to perform skip tracing
                     if (confirmation) {
                         $('#skiptracingModal').modal('hide');
