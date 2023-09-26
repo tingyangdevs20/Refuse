@@ -1224,8 +1224,8 @@ class GroupController extends Controller
         } else {
             // Insert data into the campaign table
             Campaign::create([
-                'name' => $groupName,
-                'group_id' => $groupId,
+                'name' => $groupName??'null',
+                'group_id' => $groupId??'0',
             ]);
 
             // Send email notifications
