@@ -8,6 +8,7 @@ use App\Model\Template;
 use App\Model\Helpvideo;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use \Illuminate\Support\Facades\View as View;
 
 class TemplateController extends Controller
 {
@@ -62,7 +63,7 @@ class TemplateController extends Controller
                 $media = config('app.url') . '/public/uploads/' . $path;
             }
         }
-        
+
         //return $media;
         $template = new Template();
         $template->title = $request->title;
@@ -186,7 +187,7 @@ class TemplateController extends Controller
         Alert::success('Success!', 'Template Updated');
         return redirect()->back();
     }
-    
+
     public function getTemplate($type = ''){
         $templates = Template::where('type',$type)->get();
         return view('back.pages.template.ajaxTemplate', compact('templates'));
@@ -197,9 +198,9 @@ class TemplateController extends Controller
     }
 
     // sneha 04/09/2023
-    
+
     public function helpvideo_update(Request $request,$id)
-    { 
+    {
         $helpvideoResponses = Helpvideo::find(intval($id));
         $helpvideoResponses->links = $request->input('video_url');
         $helpvideoResponses->update();
@@ -207,4 +208,14 @@ class TemplateController extends Controller
        return redirect()->back();
     }
     // sneha 04/09/2023
+
+    public function getTemplateWithCondition(Request $request){
+        $template_type = (!empty($request->template_type)) ? strtoupper($request->template_type) : '';
+        $category = $request->category;
+        $count = $request->id;
+
+        $templates = Template::where('type',$template_type)->where('category_id',$category)->first();
+        $html = View::make('back.pages.campaign.ajaxTemplate',['templates' => $templates,'count' => $count,'type'=>$request->template_type])->render();
+        echo $html;
+    }
 }
