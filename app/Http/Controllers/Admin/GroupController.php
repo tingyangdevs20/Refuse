@@ -66,7 +66,9 @@ class GroupController extends Controller
                 'contact_count' => $totalContacts,
                 'percentage' => $percentage,
             ];
-        });
+        })->values();
+
+
 
         $sr = 1;;
         $markets = Market::all();
