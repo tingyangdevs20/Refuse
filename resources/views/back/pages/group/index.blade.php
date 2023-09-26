@@ -257,16 +257,16 @@
                                     data-group-id="{{ $group->id }}" >
 
                                     <option value="">Select an Option</option>
-                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List)</option>
-                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers)</option>
-                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List)</option>
-                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails)</option>
-                                    <option value="append_names">Append Name (Records Without Name)</option>
-                                    <option value="append_emails">Append Email (Records Without Email)</option>
-                                    <option value="email_verification_entire_list">Email Verification (Entire List)</option>
-                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails)</option>
-                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List)</option>
-                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers)</option>
+                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List (${{ @$account->phone_cell_append_rate }}))</option>
+                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers (${{ @$account->phone_cell_append_rate }}))</option>
+                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List (${{ @$account->email_append_rate }}))</option>
+                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails (${{ @$account->email_append_rate }}))</option>
+                                    <option value="append_names">Append Name (Records Without Name (${{ @$account->name_append_rate }}))</option>
+                                    <option value="append_emails">Append Email (Records Without Email (${{ @$account->name_append_rate }}))</option>
+                                    <option value="email_verification_entire_list">Email Verification (Entire List (${{ @$account->email_verification_rate }}))</option>
+                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails (${{ @$account->email_verification_rate }}))</option>
+                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List ({{ @$account->phone_scrub_rate }}))</option>
+                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers (${{ @$account->phone_scrub_rate }}))</option>
 
 
                                     </select>
@@ -418,7 +418,7 @@
                                         });
                                         toastr.success('Sucess', 'API Response', {
                                                 timeOut: 5000, // Set the duration (5 seconds in this example)
-                                            });
+                                        });
 
                                     } else {
                                         // Iterate through the 'Data' array in the response and display each entry using Toastr
