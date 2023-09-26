@@ -38,6 +38,7 @@ use Auth;
 
 use Session;
 use App\AccountDetail;
+
 use App\TotalBalance;
 use App\Services\DatazappService;
 
@@ -53,8 +54,9 @@ class GroupController extends Controller
     public function index(Request $request)
     {
 
+        $account = Account::first();
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
-        // return $groups;
+
         $groupCounts = $groups->map(function ($group) {
             $totalContacts = $group->contacts->count();
             $percentage = ($totalContacts / 100) * 100;
@@ -80,7 +82,7 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template'));
+            return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template','account'));
         }
     }
 
@@ -191,6 +193,8 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $existing_group_id = '';
         $existing_group_id = $request->existing_group_id;
         $group_id = '';
@@ -1199,9 +1203,15 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
+
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
+        $campaignId = $request->input('campaign_id');
+        $marketId = $request->input('market_id');
+        $campaignName = $request->input('campaign_name');
+        $marketName = $request->input('market_name');
+
 
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();

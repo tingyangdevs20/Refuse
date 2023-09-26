@@ -95,11 +95,14 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
-                                                            data-group-id="{{ $group->id }}"
-                                                            data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
-                                                            data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
+                                                        data-toggle="modal"
+                                                        data-target="#campaignModal"
+                                                        data-group-id="{{ $group->id }}"
+                                                        data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
+                                                        data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
                                                     </button>
                                                 </td>
+
                                                 <td>
                                                     <button class="btn btn-outline-danger btn-sm" title="Remove {{ $group->name }}" data-id="{{ $group->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                                 </td>
@@ -116,7 +119,7 @@
                     </div> <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-{{--Modals--}}
+
             {{--Modal New--}}
             <div class="modal fade" id="newModal" tabindex="-1" role="dialog"  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -131,24 +134,24 @@
                             <div class="modal-body">
                                 @csrf
                                 @method('POST')
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                 <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
                                         <option value="0">Select Option</option>
 
-                                            <option value="new">Create New List</option>
+                                            <option value="new" selected>Create New List</option>
                                             <option value="update">Update Existing List</option>
 
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" >
                                     <label style="margin-right:50px">List Name</label>
                                     <input type="text" class="form-control" name="name" placeholder="Enter List Name" required>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                 <select class="from-control" style="width: 100%;" id="existing_group_id" name="existing_group_id">
                                         <option value="0">Select Existing List</option>
                                         @foreach($groups as $group)
-                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                            <option value="{{ $group->id }}" selected>{{ $group->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -157,29 +160,29 @@
                                     <input type="file" class="custom-file-input" id="customFile" name="file" required>
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label>Select Campaign</label>
-                                    <select class="custom-select" name="campaign_id" id="campaign_id">
+                                    <select class="custom-select" name="campaign_id" id="campaign_id" >
                                         <option value="0">Select Campaign</option>
                                         @if(count($campaigns) > 0)
                                             @foreach($campaigns as $campaign)
-                                                <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
+                                                <option value="{{ $campaign->id }}" selected>{{ $campaign->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
                                 </div>
-                                <div class="form-group pt-2">
+                                <div class="form-group pt-2" style="display: none">
                                     <label>Market</label><br>
-                                    <select class="from-control" style="width: 100%;" id="market" name="market_id" required>
+                                    <select class="custom-select" style="width: 100%;" id="market" name="market_id" required>
                                         <option value="">Select Market</option>
                                         @foreach($markets as $market)
-                                            <option value="{{ $market->id }}">{{ $market->name }}</option>
+                                            <option value="{{ $market->id }}" selected>{{ $market->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
-                                    <select class="from-control" style="width: 100%;" id="tag" name="tag_id">
+                                    <select class="custom-select" style="width: 100%;" id="tag" name="tag_id">
                                         <option value="">Select Tag</option>
                                         @foreach($tags as $tag)
                                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -238,6 +241,55 @@
                 </div>
             </div>
 
+            {{-- Push Campaign Modal --}}
+            <div class="modal fade" id="campaignModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Push to campaign</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post" id="campaginFormId">
+                            @csrf
+                            @method('POST')
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label>Select Campaign</label>
+                                    <select class="custom-select" name="campaign_id" id="modal_campaign_id" required>
+                                        <option value="">Select Campaign</option>
+                                        @if(count($campaigns) > 0)
+
+                                            @foreach($campaigns as $campaign)
+                                                <option value="{{ $campaign->id }}"  data-campaign-name="{{ $campaign->name }}">{{ $campaign->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="form-group pt-2">
+                                    <label>Market</label><br>
+                                    <select class="custom-select" style="width: 100%;" id="modal_market" name="market_id" required>
+                                        <option value="">Select Market</option>
+                                        @foreach($markets as $market)
+                                            <option value="{{ $market->id }}"  data-market-name="{{ $market->name }}">{{ $market->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit"  class="btn btn-primary push_to_campaign_btn" >Push</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Skip Tracing Modal --}}
             <div class="modal fade" id="skiptracingModal" tabindex="-1" role="dialog"  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -257,16 +309,16 @@
                                     data-group-id="{{ $group->id }}" >
 
                                     <option value="">Select an Option</option>
-                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List)</option>
-                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers)</option>
-                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List)</option>
-                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails)</option>
-                                    <option value="append_names">Append Name (Records Without Name)</option>
-                                    <option value="append_emails">Append Email (Records Without Email)</option>
-                                    <option value="email_verification_entire_list">Email Verification (Entire List)</option>
-                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails)</option>
-                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List)</option>
-                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers)</option>
+                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List (${{ @$account->phone_cell_append_rate }}))</option>
+                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers (${{ @$account->phone_cell_append_rate }}))</option>
+                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List (${{ @$account->email_append_rate }}))</option>
+                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails (${{ @$account->email_append_rate }}))</option>
+                                    <option value="append_names">Append Name (Records Without Name (${{ @$account->name_append_rate }}))</option>
+                                    <option value="append_emails">Append Email (Records Without Email (${{ @$account->name_append_rate }}))</option>
+                                    <option value="email_verification_entire_list">Email Verification (Entire List (${{ @$account->email_verification_rate }}))</option>
+                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails (${{ @$account->email_verification_rate }}))</option>
+                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List ({{ @$account->phone_scrub_rate }}))</option>
+                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers (${{ @$account->phone_scrub_rate }}))</option>
 
 
                                     </select>
@@ -283,6 +335,7 @@
                 </div>
             </div>
 
+            {{-- Confirmaion Modal --}}
             <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -418,7 +471,7 @@
                                         });
                                         toastr.success('Sucess', 'API Response', {
                                                 timeOut: 5000, // Set the duration (5 seconds in this example)
-                                            });
+                                        });
 
                                     } else {
                                         // Iterate through the 'Data' array in the response and display each entry using Toastr
@@ -458,15 +511,42 @@
                 }
             });
 
-            // push to
-            $('.push-to-campaign').click(function () {
-                var button = $(this); // Store the button element
+            // When the modal is shown, update its data attributes based on the button clicked
+            $('#campaignModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
                 var groupId = button.data('group-id');
                 var groupName = button.data('group-name');
                 var email = button.data('group-email');
 
-                // Get a reference to the confirmation modal
-                var confirmationModal = $('#confirmationModal');
+                // Update the form's data attributes with the values from the button
+                $('#modal_campaign_id').data('group-id', groupId);
+                $('#modal_market').data('group-name', groupName);
+                $('#modal_market').data('group-email', email);
+            });
+
+            // When the form inside the modal is submitted
+            $('#campaginFormId').submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Retrieve data from the form and data attributes
+                var groupId = $('#modal_campaign_id').data('group-id');
+                var groupName = $('#modal_market').data('group-name');
+                var email = $('#modal_market').data('group-email');
+                var campaignId = $('#modal_campaign_id').val();
+                var marketId = $('#modal_market').val();
+                var campaignName = $('#modal_campaign_id option:selected').data('campaignName');
+                var marketName = $('#modal_market option:selected').data('marketName');
+
+                console.log('campaignId',campaignId );
+                console.log('marketId',marketId );
+                console.log('campaignName',campaignName );
+                console.log('marketName',marketName );
+                console.log('groupId',groupId );
+                console.log('groupName',groupName );
+                console.log('email',email );
+
+                 // Get a reference to the confirmation modal
+                 var confirmationModal = $('#confirmationModal');
 
                 // Show the modal
                 confirmationModal.modal('show');
@@ -476,10 +556,10 @@
                     // Close the modal
                     confirmationModal.modal('hide');
 
-                    // Disable the button
-                    button.prop('disabled', true);
+                    // Disable the submit button
+                    $('.push_to_campaign_btn').prop('disabled', true);
 
-                    // Proceed with the AJAX request
+                    // Perform the AJAX request
                     $.ajax({
                         type: 'POST',
                         url: '{{ route('admin.push-to-campaign') }}',
@@ -488,6 +568,10 @@
                             group_id: groupId,
                             group_name: groupName,
                             email: email,
+                            campaign_id: campaignId,
+                            market_id: marketId,
+                            campaign_name: campaignName,
+                            market_name: marketName,
                         },
                         success: function (data) {
                             // Handle success response
@@ -507,12 +591,15 @@
                             });
                         },
                         complete: function () {
-                            // Enable the button after the request is complete (success or error)
-                            button.prop('disabled', false);
+                            // Enable the submit button after the request is complete (success or error)
+                            $('.push_to_campaign_btn').prop('disabled', false);
+                            // Close the modal
+                            $('#campaignModal').modal('hide');
                         }
                     });
                 });
             });
+
 
             $('.select2').select2();
             $('#datatable').DataTable();
@@ -521,7 +608,6 @@
     </script>
     <script >
 
-
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
@@ -529,10 +615,6 @@
             modal.find('.modal-body #id').val(id);
         });
 
-
-
     </script>
-    <script>
 
-    </script>
     @endsection
