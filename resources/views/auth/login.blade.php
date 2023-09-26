@@ -15,6 +15,13 @@
                                     <p style="color:#ffffff">Sign in to continue to REIFuze.</p>
                                 </div>
                             </div>
+                            @if (session('status'))
+                                <div class="col-12">
+                                    <div class="alert alert-success" role="alert">
+                                        {{ session('status') }}
+                                    </div>
+                                </div>
+                            @endif
                            
                         </div>
                     </div>
@@ -58,7 +65,7 @@
                         </div>
 
                         <div class="p-2" id="dvforgot" style="display:none">
-                            <form class="form-horizontal" method="POST" action="{{ route('login') }}" >
+                            <form class="form-horizontal" method="POST" action="{{ route('password.email') }}" >
                                 @csrf
                                 <p style="font-weight:bold">Forgot Password</p>
                                 <div class="form-group">

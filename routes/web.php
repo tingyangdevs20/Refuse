@@ -23,20 +23,20 @@ use App\Http\Controllers\Auth\Email;
 | contains the "web" middleware group. Now create something great!
 |
  */
+
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
-
 });
 
 Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
 });
 
- Route::get('/config-clear', function() {
+Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
- });
+});
 
- Route::get('/config-clear', function() {
+Route::get('/config-clear', function () {
     $exitCode1 = Artisan::call('cache:clear');
     $exitCode2 = Artisan::call('config:clear');
     $exitCode3 = Artisan::call('view:clear');
@@ -57,12 +57,12 @@ Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPassw
 Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-Route::get('handle-call','Admin\VoiceController@handleIncomingCall')->name('voice.handle-call');
-Route::get('access-token','Admin\VoiceController@generateAccessToken')->name('voice.access-token');
+Route::get('handle-call', 'Admin\VoiceController@handleIncomingCall')->name('voice.handle-call');
+Route::get('access-token', 'Admin\VoiceController@generateAccessToken')->name('voice.access-token');
 
-Route::resource('campaignlist','Admin\CampaignListController');
+Route::resource('campaignlist', 'Admin\CampaignListController');
 
-Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function () {
+Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], function () {
 
 
     // ROLE SWITCH
@@ -76,11 +76,11 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
 
 
     // SKIP TRACING
-    Route::get('admin/skip-trace','Admin\GroupController@skipTrace')->name('admin.skip-trace');
+    Route::get('admin/skip-trace', 'Admin\GroupController@skipTrace')->name('admin.skip-trace');
     Route::post('admin/push-to-campaign', 'Admin\GroupController@pushToCampaign')->name('push-to-campaign');
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
 
-    Route::get('formm','GoogleDriveController@index')->name('formm');
+    Route::get('formm', 'GoogleDriveController@index')->name('formm');
 
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
@@ -100,52 +100,52 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::post('/zoom/destroy/{id}', 'ZoomController@destroy')->name('zoom.destroy');
 
     // user list
-    Route::get('user-list/index','UserController@index')->name('user-list.index');
-    Route::get('user/create','UserController@create')->name('user.create');
-    Route::post('user/store','UserController@store')->name('user.store');
+    Route::get('user-list/index', 'UserController@index')->name('user-list.index');
+    Route::get('user/create', 'UserController@create')->name('user.create');
+    Route::post('user/store', 'UserController@store')->name('user.store');
 
-    Route::get('user/edit/{id}','UserController@edit')->name('user.edit');
-    Route::post('user/destroy/{id}','UserController@destroy')->name('user.destroy');
-    Route::post('user/update/{id}','UserController@update')->name('user.update');
+    Route::get('user/edit/{id}', 'UserController@edit')->name('user.edit');
+    Route::post('user/destroy/{id}', 'UserController@destroy')->name('user.destroy');
+    Route::post('user/update/{id}', 'UserController@update')->name('user.update');
 
     // roles list
-    Route::get('roles/index','RoleController@index')->name('roles.index');
-    Route::get('roles/create','RoleController@create')->name('roles.create');
-    Route::post('roles/store','RoleController@store')->name('roles.store');
-    Route::get('roles/edit/{id}','RoleController@edit')->name('roles.edit');
-    Route::post('roles/destroy/{id}','RoleController@destroy')->name('roles.destroy');
-    Route::post('roles/update/{id}','RoleController@update')->name('roles.update');
+    Route::get('roles/index', 'RoleController@index')->name('roles.index');
+    Route::get('roles/create', 'RoleController@create')->name('roles.create');
+    Route::post('roles/store', 'RoleController@store')->name('roles.store');
+    Route::get('roles/edit/{id}', 'RoleController@edit')->name('roles.edit');
+    Route::post('roles/destroy/{id}', 'RoleController@destroy')->name('roles.destroy');
+    Route::post('roles/update/{id}', 'RoleController@update')->name('roles.update');
 
     // permission list
-    Route::get('permissions/index','PermissionController@index')->name('permissions.index');
-    Route::get('permissions/create','PermissionController@create')->name('permissions.create');
-    Route::post('permissions/store','PermissionController@store')->name('permissions.store');
-    Route::get('permissions/edit/{id}','PermissionController@edit')->name('permissions.edit');
-    Route::post('permissions/update/{id}','PermissionController@update')->name('permissions.update');
-    Route::post('permissions/destroy/{id}','PermissionController@destroy')->name('permissions.destroy');
+    Route::get('permissions/index', 'PermissionController@index')->name('permissions.index');
+    Route::get('permissions/create', 'PermissionController@create')->name('permissions.create');
+    Route::post('permissions/store', 'PermissionController@store')->name('permissions.store');
+    Route::get('permissions/edit/{id}', 'PermissionController@edit')->name('permissions.edit');
+    Route::post('permissions/update/{id}', 'PermissionController@update')->name('permissions.update');
+    Route::post('permissions/destroy/{id}', 'PermissionController@destroy')->name('permissions.destroy');
 
-     // scraping list route
-     Route::get('/scraping/list', 'ScrapingSourceListController@index')->name('scraping.list');
-     Route::get('scraping/create','ScrapingSourceListController@create')->name('scraping.create');
-     Route::post('scraping/store','ScrapingSourceListController@store')->name('scraping.store');
-     Route::get('scraping/edit/{id}','ScrapingSourceListController@edit')->name('scraping.edit');
-     Route::post('scraping/update/{id}','ScrapingSourceListController@update')->name('scraping.update');
-     Route::post('scraping/destroy/{id}','ScrapingSourceListController@destroy')->name('scraping.destroy');
+    // scraping list route
+    Route::get('/scraping/list', 'ScrapingSourceListController@index')->name('scraping.list');
+    Route::get('scraping/create', 'ScrapingSourceListController@create')->name('scraping.create');
+    Route::post('scraping/store', 'ScrapingSourceListController@store')->name('scraping.store');
+    Route::get('scraping/edit/{id}', 'ScrapingSourceListController@edit')->name('scraping.edit');
+    Route::post('scraping/update/{id}', 'ScrapingSourceListController@update')->name('scraping.update');
+    Route::post('scraping/destroy/{id}', 'ScrapingSourceListController@destroy')->name('scraping.destroy');
     // user task
-    Route::get('task-list/index','TaskListController@index')->name('task-list.index');
-    Route::post('task-list/store','TaskListController@store')->name('task-list.store');
-    Route::post('delete-tasks','TaskListController@delete')->name('delete-tasks');
-    Route::post('update-task','TaskListController@update')->name('update-task');
+    Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
+    Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
+    Route::post('delete-tasks', 'TaskListController@delete')->name('delete-tasks');
+    Route::post('update-task', 'TaskListController@update')->name('update-task');
 
 
-    Route::get('/account','Admin\AccountController@index')->name('account.index');
+    Route::get('/account', 'Admin\AccountController@index')->name('account.index');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
     Route::get('/create-goals', 'Admin\AdminController@createGoals')->name('create.goals');
     Route::get('/edit_goals/{id}', 'Admin\AdminController@editGoals')->name('edit.goals');
     Route::post('/update_goals/{id}', 'Admin\AdminController@updateGoals')->name('update.goals');
-    Route::post('/delete_goals/{id}','Admin\AdminController@deleteGoals')->name('delete.goals');
+    Route::post('/delete_goals/{id}', 'Admin\AdminController@deleteGoals')->name('delete.goals');
     Route::get('/send-email', 'Admin\SendGridEmailController@sendMail')->name('sendMail');
     Route::get('/test-rvm', 'Admin\RvmController@sendrvm')->name('sendrvm');
     // Source list route
@@ -163,7 +163,7 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::resource('/campaigns', Admin\CampaignController::class);
     // Route::get('/admin/campaigns', 'Admin\CampaignController@index')->name('admin.campaigns.index');
     // Route::get('/campaigns', [CampaignController::class, 'index'])->name('admin.campaign');
-//    Route::resource('account','Admin\RoleController');
+    //    Route::resource('account','Admin\RoleController');
     Route::get('/sendMail', [Click2MailController::class, 'index']);
 
     Route::resource('email-conversations', 'Admin\EmailConversation');
@@ -214,98 +214,98 @@ Route::group(['as'=>'admin.','middleware'=>'auth','prefix'=>'admin'], function (
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
+    Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
     // Sachin 05092023
-    Route::resource('leadcampaign','Admin\CampaignLeadController');
-    Route::resource('field','Admin\CustomFieldController');
-    Route::resource('campaignlist','Admin\CampaignListController');
-    Route::resource('campaignleadlist','Admin\CampaignLeadListController');
+    Route::resource('leadcampaign', 'Admin\CampaignLeadController');
+    Route::resource('field', 'Admin\CustomFieldController');
+    Route::resource('campaignlist', 'Admin\CampaignListController');
+    Route::resource('campaignleadlist', 'Admin\CampaignLeadListController');
     //Route::resource('single-sms','Admin\SingleSMSController');
-    Route::resource('campaignlistNew','Admin\CampaignListController');
-    Route::resource('contactlist','Admin\ContactListController');
-    Route::resource('group','Admin\GroupController');
-    Route::resource('group','Admin\GroupController');
-    Route::get('get/contacts/{id}','Admin\GroupController@getContacts');
-    Route::get('group-contacts-all','Admin\GroupController@getAllContacts')->name('group-contacts-all');
-    Route::resource('auto-responder','Admin\AutoResponderController');
-    Route::get('failed-sms','Admin\SMSController@failedSms')->name('sms.failed');
-    Route::delete('failed-sms/destroy','Admin\SMSController@failedSmsDestroy')->name('failed-sms.destroy');
-    Route::get('received-sms','Admin\SMSController@receivedSms')->name('sms.success');
-     Route::get('receive','Admin\ReceiveController@index');
-    Route::post('sms/thread','Admin\SMSController@saveThread')->name('thread.save');
-    Route::get('sms/thread','Admin\SMSController@threads')->name('thread.show');
-    Route::get('sms/{sms}','Admin\SMSController@show')->name('sms.show');
-    Route::post('sms/add-to-dnc','Admin\SMSController@addToDNC')->name('sms.add-to-dnc');
-    Route::resource('reply','Admin\ReplyController');
-    Route::resource('blacklist','Admin\BlacklistController');
-    Route::resource('category','Admin\CategoryController');
-    Route::resource('tag','Admin\TagController');
-    Route::resource('rvm','Admin\CreateRvmController');
-    Route::resource('market','Admin\MarketController');
-    Route::resource('settings','Admin\SettingsController');
-    Route::resource('script','Admin\ScriptController');
-    Route::resource('adminsettings','Admin\AdminSettingsController');
+    Route::resource('campaignlistNew', 'Admin\CampaignListController');
+    Route::resource('contactlist', 'Admin\ContactListController');
+    Route::resource('group', 'Admin\GroupController');
+    Route::resource('group', 'Admin\GroupController');
+    Route::get('get/contacts/{id}', 'Admin\GroupController@getContacts');
+    Route::get('group-contacts-all', 'Admin\GroupController@getAllContacts')->name('group-contacts-all');
+    Route::resource('auto-responder', 'Admin\AutoResponderController');
+    Route::get('failed-sms', 'Admin\SMSController@failedSms')->name('sms.failed');
+    Route::delete('failed-sms/destroy', 'Admin\SMSController@failedSmsDestroy')->name('failed-sms.destroy');
+    Route::get('received-sms', 'Admin\SMSController@receivedSms')->name('sms.success');
+    Route::get('receive', 'Admin\ReceiveController@index');
+    Route::post('sms/thread', 'Admin\SMSController@saveThread')->name('thread.save');
+    Route::get('sms/thread', 'Admin\SMSController@threads')->name('thread.show');
+    Route::get('sms/{sms}', 'Admin\SMSController@show')->name('sms.show');
+    Route::post('sms/add-to-dnc', 'Admin\SMSController@addToDNC')->name('sms.add-to-dnc');
+    Route::resource('reply', 'Admin\ReplyController');
+    Route::resource('blacklist', 'Admin\BlacklistController');
+    Route::resource('category', 'Admin\CategoryController');
+    Route::resource('tag', 'Admin\TagController');
+    Route::resource('rvm', 'Admin\CreateRvmController');
+    Route::resource('market', 'Admin\MarketController');
+    Route::resource('settings', 'Admin\SettingsController');
+    Route::resource('script', 'Admin\ScriptController');
+    Route::resource('adminsettings', 'Admin\AdminSettingsController');
 
-    Route::get('get/template/{id}','Admin\TemplateController@getTemplate');
-    Route::get('get/templatecontent/{id}','Admin\TemplateController@getTemplateContent');
-    Route::get('schedual/campaign','Admin\CampaignListController@schedual');
-    Route::get('/auto-reply/status_update/{id}','Admin\AutoReplyController@status_update');
+    Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
+    Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
+    Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
+    Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
 
-    Route::get('compaign/copy/{id}','Admin\CampaignController@copy')->name('compaign.copy');
-    Route::get('campaign/list/{id}','Admin\CampaignListController@compaignList')->name('campaign.list');
-    Route::get('compaignlead/copy/{id}','Admin\CampaignLeadController@copy')->name('compaignlead.copy');
-    Route::get('compaignlead/list/{id}','Admin\CampaignLeadListController@compaignList')->name('compaignlead.list');
-    Route::get('get/leadmessage/{type}/{id}','Admin\CampaignLeadListController@getTemplate');
+    Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
+    Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');
+    Route::get('compaignlead/copy/{id}', 'Admin\CampaignLeadController@copy')->name('compaignlead.copy');
+    Route::get('compaignlead/list/{id}', 'Admin\CampaignLeadListController@compaignList')->name('compaignlead.list');
+    Route::get('get/leadmessage/{type}/{id}', 'Admin\CampaignLeadListController@getTemplate');
 
-    Route::get('get/message/{type}/{id}','Admin\CampaignListController@getTemplate');
+    Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
 
     // 01092023 sneha
-    Route::get('/systemmessages','Admin\SMSController@index')->name('systemmessages.index');
-    Route::post('/systemmsg.update','Admin\SMSController@update')->name('systemmessages.update');
+    Route::get('/systemmessages', 'Admin\SMSController@index')->name('systemmessages.index');
+    Route::post('/systemmsg.update', 'Admin\SMSController@update')->name('systemmessages.update');
     Route::put('/systemmsg.updates/{id}', 'Admin\SMSController@update')->name('systemmsg.updates');
     Route::resource('/system-messages', SystemMessages::class);
 
-    Route::put('/helpvideo.updates/{id}','Admin\TemplateController@helpvideo_update')->name('helpvideo.updates');
+    Route::put('/helpvideo.updates/{id}', 'Admin\TemplateController@helpvideo_update')->name('helpvideo.updates');
     // 01092023 sneha
 
 
-    Route::get('contact.detail/{id}','Admin\GroupController@contactInfo')->name('contact.detail');
-    Route::post('contact/detail/update','Admin\GroupController@updateinfo');
+    Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
+    Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
 
-    Route::get('load/script/{id}','Admin\GroupController@getScript');
+    Route::get('load/script/{id}', 'Admin\GroupController@getScript');
 
 
     // Sachin 05092023
-    Route::post('/mailcontactlist','Admin\GroupController@mailcontactlist')->name('mailcontactlist');
-    Route::post('/uploadcontract','Admin\GroupController@uploadcontract')->name('uploadcontract');
-    Route::post('/uploadcontractedit','Admin\GroupController@uploadcontractedit')->name('uploadcontractedit');
-    Route::get('/contractview','Admin\GroupController@contractview')->name('contractview');
+    Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
+    Route::post('/uploadcontract', 'Admin\GroupController@uploadcontract')->name('uploadcontract');
+    Route::post('/uploadcontractedit', 'Admin\GroupController@uploadcontractedit')->name('uploadcontractedit');
+    Route::get('/contractview', 'Admin\GroupController@contractview')->name('contractview');
 
     // Sachin 05092023
     Route::get('/formtemplates', 'Admin\FormTemplatesController@index')->name('formtemplates');
-Route::post('/form-templates-store', 'Admin\FormTemplatesController@store')->name('form-templates-store');
-Route::post('/update-form-templates', 'Admin\FormTemplatesController@update')->name('update-form-templates');
-Route::post('/delete-form-templates', 'Admin\FormTemplatesController@destroy')->name('delete-form-templates');
+    Route::post('/form-templates-store', 'Admin\FormTemplatesController@store')->name('form-templates-store');
+    Route::post('/update-form-templates', 'Admin\FormTemplatesController@update')->name('update-form-templates');
+    Route::post('/delete-form-templates', 'Admin\FormTemplatesController@destroy')->name('delete-form-templates');
 
- // OPT Route
- Route::get('opt-list','Admin\OptController@index')->name('opt.list');
- Route::post('opt-store','Admin\OptController@storeOpt')->name('opt.store');
-
+    // OPT Route
+    Route::get('opt-list', 'Admin\OptController@index')->name('opt.list');
+    Route::post('opt-store', 'Admin\OptController@storeOpt')->name('opt.store');
 });
 Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Sachin 05092023
-Route::get('/myHtml/{id}/{contactid}','Admin\GroupController@myHtml')->name('myHtml');
+Route::get('/myHtml/{id}/{contactid}', 'Admin\GroupController@myHtml')->name('myHtml');
 // Sachin 05092023
 
 // Sachin 08092023
 
 // Sachin 08092023
 // Appointment Routes
-Route::resource('/appointments','Admin\AppointmentController');
+Route::resource('/appointments', 'Admin\AppointmentController');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
@@ -313,10 +313,10 @@ Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('adm
 //Route::get('/appointments/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');
 Route::post('/appointments', 'Admin\AppointmentController@store')->name('appointment.store');
 // Appointment Routes
-Route::resource('/appointments','Admin\AppointmentController');
-Route::post('/cancel-appointment','Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
-Route::post('/get-appointment','Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
-Route::post('/reschdule-appointment','Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
+Route::resource('/appointments', 'Admin\AppointmentController');
+Route::post('/cancel-appointment', 'Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
+Route::post('/get-appointment', 'Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
+Route::post('/reschdule-appointment', 'Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
 /** google calendar routes */
 Route::get('/google-calendar/connect', 'Admin\AppointmentController@connectGoogleCalendar')->name('connectGoogleCalendar');
 Route::post('/google-calendar/connect', 'Admin\AppointmentController@storeGoogleCalendarCredentials')->name('storeGoogleCalendarCredentials');
@@ -325,8 +325,8 @@ Route::get('/get-resources', 'Admin\AppointmentController@getResources');
 /** end google calendar routes */
 
 require __DIR__ . '/bhavesh.php';
-Route::get('/phone/access-token',[PhoneCallController::class,'getAccessToken']);
-Route::get('/call',[PhoneCallController::class,'index']);
+Route::get('/phone/access-token', [PhoneCallController::class, 'getAccessToken']);
+Route::get('/call', [PhoneCallController::class, 'index']);
 
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
@@ -342,7 +342,7 @@ Route::get('/payment/success', 'StripePaymentController@paymentSuccess')->name('
 Route::get('/payment/failed', 'StripePaymentController@paymentFailed')->name('payment.failed');
 Route::get('/payment/cancel', 'StripePaymentController@cancelPayment')->name('payment.cancel');
 Route::post('/payment/create_intent', 'StripePaymentController@createPaymentIntent')->name('payment.create_intent');
-Route::get('/oauth/gmail','GmailController@redirect')->name('gmail.login');
+Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
 
@@ -357,3 +357,8 @@ Route::post('/process-stripe-payment', 'StripePaymentController@processStripePay
 Route::post('/store-transaction', 'StripePaymentController@paypalStore')->name('store-transaction');
 
 
+// *****************************************
+// ************* Google calendar routes
+// *****************************************
+Route::get('/auth/google', 'GoogleCalendarController@redirectUserToGoogle')->name("google.connect");
+Route::get('/auth/google/callback', 'GoogleCalendarController@handleGoogleCallback')->name("google.handle_callback");

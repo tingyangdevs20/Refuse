@@ -34,4 +34,11 @@ return [
         'publishable' => env('STRIPE_PUBLISHABLE_KEY'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID', null),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET', null),
+        'redirect_uri' => env('GOOGLE_REDIRECT_URI', null),
+        'calendar_id' => env('GOOGLE_CALENDAR_ID', null)
+    ]
+
 ];

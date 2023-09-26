@@ -391,6 +391,7 @@
     font-weight: 600;
   }
 }
+
     </style>
 </head>
 <body style="font-family: sans-serif;">
@@ -406,6 +407,16 @@
       <div class="alert-error">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         {{ session('error') }}
+      </div>
+    @endif
+
+
+    @if(!$googleAccountConnected)
+      <div class="alert alert-info">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ __('connect your google calendar to sync your appointments.') }}
+
+        <a href="{{ route("google.connect") }}" class="btn btn-success">Connect</a>
       </div>
     @endif
 
