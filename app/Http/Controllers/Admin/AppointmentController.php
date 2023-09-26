@@ -13,6 +13,7 @@ use DB;
 use DATETIME;
 use App\Model\Contact;
 use App\Services\UserEventsService;
+use Illuminate\Support\Facades\Crypt;
 use \Illuminate\Support\Facades\View as View;
 
 class AppointmentController extends Controller
@@ -40,8 +41,7 @@ class AppointmentController extends Controller
             // ->get();
 
             // print_r($getUserAppointments);
-            $today = Carbon::today();
-            $todayDate = $today->toDateString(); // return today date
+
 
 
             // check whether user google account is connected or not for appointment/event synchronization
@@ -51,47 +51,70 @@ class AppointmentController extends Controller
 
             if ($googleAccountConnected) {
                 try {
-                    $userBookedTimeSlots = (new UserEventsService())->fetchUserCalendarEvents();
 
-                    foreach ($userBookedTimeSlots as $date => $bookedSlots) {
-
-                        $slotsArr[]['b_date'] = Carbon::createFromFormat('Y-m-d', $date)->format('j');
-                        $slotsArr[]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots[0]['start'])->format('H');
-                        $slotsArr[]['appt_date'] = $date;
-                        $slotsArr[]['appt_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots[0]['start'])->format('H:i');
-                    }
+                    $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
                 } catch (\Throwable $th) {
                     $googleAccountConnected = false;
 
-                    /**
-                     * 
-                     * if google access token is expired then fetch booked slots from database
-                     * 
-                     */
-                    // getting already booked slots
-                    $getBookedTimeSlots = Scheduler::select(DB::raw('DATE(appt_date) as appt_date'), 'appt_time')
-                        ->whereDate('appt_date', $todayDate)
-                        ->orWhereDate('created_at', $todayDate)
-                        ->get();
-
-                    foreach ($getBookedTimeSlots as $key => $bookedSlots) {
-                        $slotsArr[$key]['b_date'] = Carbon::createFromFormat('Y-m-d', $bookedSlots['appt_date'])->format('j');
-                        $slotsArr[$key]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H');
-                        $slotsArr[$key]['appt_date'] = $bookedSlots['appt_date'];
-                        $slotsArr[$key]['appt_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H:i');
-                    }
+                    $slotsArr = $this->getBookedSlotsFromDatabase();
                 }
+            } else {
+
+                $slotsArr = $this->getBookedSlotsFromDatabase();
             }
 
 
             $bookedSlots = json_encode($slotsArr);
 
-            $uid = decrypt($uid);
+            // $uid = decrypt($uid);
+            $uid = Crypt::decryptString($uid);
 
             return view('book-appointment', compact('bookedSlots', 'uid', 'googleAccountConnected'));
         } else {
             return Redirect::back();
         }
+    }
+
+
+    private function getBookedSlotsFromGoogleCalendar()
+    {
+        $slotsArr = [];
+
+        $userBookedTimeSlots = (new UserEventsService())->fetchUserCalendarEvents();
+
+        foreach ($userBookedTimeSlots as $date => $bookedSlots) {
+
+            $slotsArr[]['b_date'] = Carbon::createFromFormat('Y-m-d', $date)->format('j');
+            $slotsArr[]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots[0]['start'])->format('H');
+            $slotsArr[]['appt_date'] = $date;
+            $slotsArr[]['appt_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots[0]['start'])->format('H:i');
+        }
+
+        return $slotsArr;
+    }
+
+
+    private function getBookedSlotsFromDatabase()
+    {
+        $today = Carbon::today();
+        $todayDate = $today->toDateString(); // return today date
+
+        $slotsArr = [];
+
+        // getting already booked slots
+        $getBookedTimeSlots = Scheduler::select(DB::raw('DATE(appt_date) as appt_date'), 'appt_time')
+            ->whereDate('appt_date', $todayDate)
+            ->orWhereDate('created_at', $todayDate)
+            ->get();
+
+        foreach ($getBookedTimeSlots as $key => $bookedSlots) {
+            $slotsArr[$key]['b_date'] = Carbon::createFromFormat('Y-m-d', $bookedSlots['appt_date'])->format('j');
+            $slotsArr[$key]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H');
+            $slotsArr[$key]['appt_date'] = $bookedSlots['appt_date'];
+            $slotsArr[$key]['appt_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H:i');
+        }
+
+        return $slotsArr;
     }
 
     /**
