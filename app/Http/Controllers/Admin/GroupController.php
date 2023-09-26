@@ -1204,9 +1204,6 @@ class GroupController extends Controller
     public function pushToCampaign(Request $request)
     {
 
-
-
-
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -1230,9 +1227,9 @@ class GroupController extends Controller
             ]);
 
             // Send email notifications
-            // foreach ($emails as $email) {
-            //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-            // }
+            foreach ($emails as $email) {
+                Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+            }
 
             // Return a response to indicate success
             return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
