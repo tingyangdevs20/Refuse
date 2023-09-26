@@ -10,6 +10,7 @@ use App\Model\LeadCategory;
 use App\Model\Number;
 use App\Model\Group;
 use App\Model\Market;
+use App\Model\CampaignLead;
 use App\Model\Tag;
 use App\Model\Account;
 use App\Model\Campaign;
@@ -1213,6 +1214,23 @@ class GroupController extends Controller
         $marketId = $request->input('market_id');
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
+
+        // Check if a CampaignLead record with the same group_id and campaign_name already exists
+        $existingCampaignLead = CampaignLead::where('group_id', $groupId)
+        ->where('name', $campaignName)
+        ->first();
+
+        if (!$existingCampaignLead) {
+             // Create a new CampaignLead record
+            CampaignLead::create([
+                'name' => $campaignName,
+                'group_id' => $groupId,
+                'active' => 1,
+                // Add other fields for campaign details
+            ]);
+        }
+
+
 
 
         // Check if a record with the same group_id exists
