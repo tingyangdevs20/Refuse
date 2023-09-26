@@ -3,6 +3,7 @@ $(document).ready(function () {
     var stripe = Stripe('pk_test_51MtZDzApRCJCEL2v4N99StaGAL6Z3fTpGsbRdHiIlSiF4BlNvkheZhl2PrDVB0xZ2FH7GNtP8E66wWKTtQNk5uIj00jqUIwU2M'); // Replace with your actual Stripe public key
     var elements = stripe.elements();
     var cardElement = elements.create('card');
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
     // Mount the card element to the DOM
     cardElement.mount('#card-element');
@@ -43,37 +44,41 @@ $(document).ready(function () {
                 $('#payment_method').val(result.paymentMethod.id);
 
                 // Now submit the form to process the payment
-                axios.post('/process-stripe-payment', $('#stripe-payment-form').serialize())
-                    .then(function (response) {
-
-                        if (response.data.message) {
+                $.ajax({
+                    _token: '{{ csrf_token() }}',
+                    url: paymentButton.data('route'),
+                    type: 'POST',
+                    data: $('#stripe-payment-form').serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.message) {
                             // Payment successful, show a success message using SweetAlert2
-                            Swal.fire('Success', response.data.message, 'success')
+                            Swal.fire('Success', response.message, 'success')
                                 .then(function () {
                                     // Close the modal
                                     $('#stripeModal').modal('hide');
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         location.reload();
                                     }, 1000);
-
                                 });
                         } else {
                             // Handle other scenarios if needed
                             Swal.fire('Error', 'An error occurred during payment processing', 'error');
                         }
-                    })
-                    .catch(function (error) {
+                    },
+                    error: function (error) {
                         // Handle payment errors and display error messages
-                        Swal.fire('Error', error.response.data.error, 'error');
-                    })
-                    .finally(function () {
+                        Swal.fire('Error', error.responseJSON.error, 'error');
+                    },
+                    complete: function () {
                         // Enable the payment button again and reset text
                         paymentButton.prop('disabled', false).text('Pay with Stripe');
                         isPaymentButtonDisabled = false;
 
                         // Reset the form
                         $('#stripe-payment-form')[0].reset();
-                    });
+                    }
+                });
             }
         });
     });

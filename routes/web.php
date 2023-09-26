@@ -74,6 +74,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
 
+    Route::post('process-stripe-payment', 'StripePaymentController@processStripePayment')->name('process-stripe-payment');
+    Route::post('store-transaction', 'StripePaymentController@paypalStore')->name('store-transaction');
 
     // SKIP TRACING
     Route::get('admin/skip-trace', 'Admin\GroupController@skipTrace')->name('admin.skip-trace');
@@ -356,8 +358,7 @@ Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout'
 
 
 
-Route::post('/process-stripe-payment', 'StripePaymentController@processStripePayment')->name('stripe.process');
-Route::post('/store-transaction', 'StripePaymentController@paypalStore')->name('store-transaction');
+
 
 
 // *****************************************
