@@ -15,8 +15,6 @@
                                     <p style="color:#ffffff">Sign in to continue to REIFuze.</p>
                                 </div>
                             </div>
-
-
                             @if (session('status'))
                                 <div class="col-12">
                                     <div class="alert alert-success" role="alert">
@@ -24,6 +22,7 @@
                                     </div>
                                 </div>
                             @endif
+
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
