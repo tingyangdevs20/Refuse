@@ -30,14 +30,14 @@ h1 {
 }
 
 .phone {
-   
+
   padding: 20px;
   border-radius: 0 8px 8px 0;
 
   margin: 0px auto;
   margin-bottom: 1rem;
   width: 350px;
-  
+
 }
 
 .phone .call-display .dropdown-menu {
@@ -175,8 +175,8 @@ h1 {
 }
 
 .custom-select{
-  
-  border: 0px;
+
+  border: 1px solid #ced4da;
   width: 100%;
   max-width: 100%;
 }
@@ -193,7 +193,7 @@ h1 {
     padding: 20px 10px;
     background-color: #f0f0f0;
     border-radius: 8px 0 0 8px;
-    
+
 }
 
 .power-off {
@@ -228,7 +228,7 @@ h1 {
   height: 20px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -286,7 +286,7 @@ input:checked + .slider:before {
 
 <div id="soft-phone-modal" class="modal">
         <div class="container soft-phone" style="width: 350px !important;padding-left: 0px;height: 500px;">
-        
+
             <div class="modal-sidebar">
                 <div class="sidebar-top">
                 <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}" alt="Header Avatar">                    <label class="switch">
@@ -312,9 +312,9 @@ input:checked + .slider:before {
                   <button type="button" id="button-reject-incoming" class="btn btn-primary bgred mb-3 px-5">Reject</button>
                   <button type="button" id="button-hangup-incoming" class="btn btn-primary bgred px-5">Hangup</button>
                   </div>
-                  
+
               </div>
-            </div>  
+            </div>
             <div class="phone">
               <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -327,7 +327,7 @@ input:checked + .slider:before {
 
                     <select class="custom-select" id="list-of-phonenumbers">
                         <option selected>+18886418823</option>
-                       
+
                     </select>
 
                 <div class="grid">

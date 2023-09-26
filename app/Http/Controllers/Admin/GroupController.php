@@ -193,6 +193,8 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $existing_group_id = '';
         $existing_group_id = $request->existing_group_id;
         $group_id = '';
@@ -1201,9 +1203,16 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
+
+
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
+        $campaignId = $request->input('campaign_id');
+        $marketId = $request->input('market_id');
+        $campaignName = $request->input('campaign_name');
+        $marketName = $request->input('market_name');
+
 
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
@@ -1219,9 +1228,9 @@ class GroupController extends Controller
             ]);
 
             // Send email notifications
-            foreach ($emails as $email) {
-                Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-            }
+            // foreach ($emails as $email) {
+            //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+            // }
 
             // Return a response to indicate success
             return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
