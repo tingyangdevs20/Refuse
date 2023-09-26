@@ -264,7 +264,7 @@
                             <input type="hidden" id="payment_method" name="payment_method" value="">
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" id="pay-with-stripe-button">Pay with Stripe</button>
+                                <button type="submit" class="btn btn-primary" data-route="{{ route('admin.process-stripe-payment') }}" id="pay-with-stripe-button">Pay with Stripe</button>
                             </div>
                         </form>
                     </div>

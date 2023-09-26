@@ -136,7 +136,7 @@
                             <div class="modal-body">
                                 @csrf
                                 @method('POST')
-                                <div class="form-group" style="display: none">
+                                <div class="form-group" style="display: ">
                                 <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
                                         <option value="0">Select Option</option>
 
@@ -149,7 +149,7 @@
                                     <label style="margin-right:50px">List Name</label>
                                     <input type="text" class="form-control" name="name" placeholder="Enter List Name" required>
                                 </div>
-                                <div class="form-group" style="display: none">
+                                <div class="form-group" style="display: ">
                                 <select class="from-control" style="width: 100%;" id="existing_group_id" name="existing_group_id">
                                         <option value="0">Select Existing List</option>
                                         @foreach($groups as $group)
@@ -162,7 +162,7 @@
                                     <input type="file" class="custom-file-input" id="customFile" name="file" required>
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                                <div class="form-group" style="display: none">
+                                <div class="form-group" style="display: ">
                                     <label>Select Campaign</label>
                                     <select class="custom-select" name="campaign_id" id="campaign_id" >
                                         <option value="0">Select Campaign</option>
@@ -173,7 +173,7 @@
                                         @endif
                                     </select>
                                 </div>
-                                <div class="form-group pt-2" style="display: none">
+                                <div class="form-group pt-2" style="display: ">
                                     <label>Market</label><br>
                                     <select class="custom-select" style="width: 100%;" id="market" name="market_id" required>
                                         <option value="">Select Market</option>
