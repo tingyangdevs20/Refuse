@@ -142,7 +142,7 @@
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
                                                     @if ($section->id == '1')
-                                                        <div class="col-md-12" 
+                                                        <div class="col-md-12"
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -151,6 +151,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -843,7 +844,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '2')
-                                                        <div class="col-md-12" 
+                                                        <div class="col-md-12"
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -1067,7 +1068,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '3')
-                                                        <div class="col-md-12" 
+                                                        <div class="col-md-12"
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -1291,7 +1292,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '4')
-                                                        <div class="col-md-12" 
+                                                        <div class="col-md-12"
                                                             style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -3892,6 +3893,86 @@
                                                                             Deals</button>
 
 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            @elseif($section->id == '23')
+                                                            <div class="col-md-12" id="{{ $section->id }}"
+                                                                style="padding:0px;">
+                                                                <div class="row" id="SECTION">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group lead-heading">
+                                                                            <label>{{ $section->name }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @php
+                                                                    $customeFields = getsectionsFields($section->id);
+                                                                @endphp
+                                                                <div class="row">
+                                                                    @if (count($customeFields) > 0)
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                                <label>{{ $section->name }} (Custom
+                                                                                    Fields)</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        @foreach ($customeFields as $field)
+                                                                            @php
+                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                            @endphp
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group"
+                                                                                    style="padding: 0 10px;">
+                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                    <div class="input-group mb-2">
+                                                                                        <input
+                                                                                            type="{{ $field->type }}"
+                                                                                            class="form-control"
+                                                                                            placeholder="{{ $field->label }}"
+                                                                                            name="feild_value"
+                                                                                            section_id="{{ $section->id }}"
+                                                                                            id="{{ $field->id }}"
+                                                                                            table="custom_field_values"
+                                                                                            value="{{ $customeFieldValue }}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="card">
+                                                                            <div class="card-header bg-soft-dark ">
+                                                                                <table class="table table-striped table-bordered" id="datatable">
+                                                                                    <thead>
+                                                                                        <tr>
+
+                                                                                            <th scope="col">Skip trace option</th>
+
+                                                                                            <th scope="col">Date of Last Email Skip Trace</th>
+                                                                                            <th scope="col">Date of Last Phone Skip Trace</th>
+                                                                                            <th scope="col">Date of Last Name Skip Trace</th>
+                                                                                            <th scope="col">Date of Last Email Verification</th>
+                                                                                            <th scope="col">Date of Last Phone Scrub </th>
+
+                                                                                            <th scope="col">Verified Numbers & Emails</th>
+                                                                                            <th scope="col">Scam Numbers & Emails</th>
+
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

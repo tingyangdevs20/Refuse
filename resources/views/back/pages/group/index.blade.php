@@ -88,11 +88,13 @@
                                                 {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
                                                 <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
                                                 <td>{{ $group->created_at->format('d-m-Y') }}</td>
+
                                                 <td>
-
+                                                    @if($groupCounts[$loop->index]['percentage'] > 0)
                                                     <button class="btn btn-outline-primary btn-sm model" data-group-id="{{ $group->id }}" title="Skip Trace {{ $group->name }}"  data-toggle="modal" data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
-
+                                                    @endif
                                                 </td>
+
                                                 <td>
                                                     <button class="btn btn-primary btn-sm push-to-campaign"
                                                         data-toggle="modal"
@@ -387,10 +389,12 @@
                 e.preventDefault(); // Prevent the default form submission behavior
 
                 var selectedOption = $('.skip_trace_option').val();
+                var selectedOptionText = $('.skip_trace_option :selected').text();
+
                 if (selectedOption) {
                     // var groupId = $(this).data('group-id');
 
-                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?');
+                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?'+selectedOptionText);
                     // Make an AJAX request to perform skip tracing
                     if (confirmation) {
                         $('#skiptracingModal').modal('hide');

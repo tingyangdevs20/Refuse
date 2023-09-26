@@ -10,6 +10,7 @@ use App\Model\LeadCategory;
 use App\Model\Number;
 use App\Model\Group;
 use App\Model\Market;
+use App\Model\CampaignLead;
 use App\Model\Tag;
 use App\Model\Account;
 use App\Model\Campaign;
@@ -66,7 +67,9 @@ class GroupController extends Controller
                 'contact_count' => $totalContacts,
                 'percentage' => $percentage,
             ];
-        });
+        })->values();
+
+
 
         $sr = 1;;
         $markets = Market::all();
@@ -1212,6 +1215,23 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
+        // Check if a CampaignLead record with the same group_id and campaign_name already exists
+        $existingCampaignLead = CampaignLead::where('group_id', $groupId)
+        ->where('name', $campaignName)
+        ->first();
+
+        if (!$existingCampaignLead) {
+             // Create a new CampaignLead record
+            CampaignLead::create([
+                'name' => $campaignName,
+                'group_id' => $groupId,
+                'active' => 1,
+                // Add other fields for campaign details
+            ]);
+        }
+
+
+
 
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
@@ -1222,8 +1242,8 @@ class GroupController extends Controller
         } else {
             // Insert data into the campaign table
             Campaign::create([
-                'name' => $groupName,
-                'group_id' => $groupId,
+                'name' => $groupName??'null',
+                'group_id' => $groupId??'0',
             ]);
 
             // Send email notifications
