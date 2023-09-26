@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
     paypal.Buttons({
         createOrder: function(data, actions) {
             // Get the amount from the input field
@@ -35,21 +38,29 @@ $(document).ready(function() {
                     status: 'succeeded' // You can customize this based on your needs
                 };
 
-                // Make an AJAX POST request to your server to store the data
-                axios.post('/store-transaction', transactionData)
-                    .then(function (response) {
+                route =  "{{ route('admin.store-transaction') }}"
+
+                // Make a jQuery Ajax POST request to your server to store the data
+                $.ajax({
+                    _token: '{{ csrf_token() }}',
+                    url: route,
+                    type: 'POST',
+                    data: transactionData,
+                    dataType: 'json',
+                    success: function (response) {
                         // Handle the response from your server (e.g., success or error)
-                        if (response.data.success) {
+                        if (response.success) {
                             // You can display a success message here if needed
                         } else {
                             Swal.fire('Error', 'An error occurred while storing the transaction data.', 'error');
                         }
-                    })
-                    .catch(function (error) {
-                        // Handle AJAX request errors
+                    },
+                    error: function (error) {
+                        // Handle Ajax request errors
                         Swal.fire('Error', 'An error occurred while sending the transaction data to the server.', 'error');
                         console.error(error);
-                    });
+                    }
+                });
 
                 // After successful payment, you may want to refresh the transaction table
                 location.reload();
@@ -67,4 +78,3 @@ $(document).ready(function() {
         $('#paypal-modal').modal('show');
     });
 });
-
