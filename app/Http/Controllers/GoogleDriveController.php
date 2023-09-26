@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Contact;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class GoogleDriveController extends Controller
 {
