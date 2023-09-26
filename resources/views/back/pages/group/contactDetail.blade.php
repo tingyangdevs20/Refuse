@@ -3953,7 +3953,7 @@
                                                                                 <table class="table table-striped table-bordered" id="datatable">
                                                                                     <thead>
                                                                                         <tr>
-                                                                                            <th scope="col">No.</th>
+
                                                                                             <th scope="col">Skip trace option</th>
 
                                                                                             <th scope="col">Date of Last Email Skip Trace</th>
@@ -3962,9 +3962,8 @@
                                                                                             <th scope="col">Date of Last Email Verification</th>
                                                                                             <th scope="col">Date of Last Phone Scrub </th>
 
-                                                                                            <th scope="col">Verified Numbers & Emails  </th>
-                                                                                            <th scope="col">Verified Emails</th>
-                                                                                            <th scope="col">Scam Number & Email</th>
+                                                                                            <th scope="col">Verified Numbers & Emails</th>
+                                                                                            <th scope="col">Scam Numbers & Emails</th>
 
                                                                                         </tr>
                                                                                     </thead>
