@@ -1230,9 +1230,6 @@ class GroupController extends Controller
             ]);
         }
 
-
-
-
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
 
