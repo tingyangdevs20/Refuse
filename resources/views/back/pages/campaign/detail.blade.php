@@ -37,7 +37,7 @@
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody> 
                                     @if(count($campaign->campaigns()->get()) > 0)
                                         @foreach ($campaign->campaigns()->get() as $campaignList)
                                             <tr>

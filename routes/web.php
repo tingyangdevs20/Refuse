@@ -216,7 +216,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
+    
+    // Upload Purchase Agreement to google drive
     Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
+
+    // Realtor API to fetch property's estimates
+    Route::post('contact/get-property-id', 'Admin\RealtorController@getPropertyId')->name('contact.property_id');
+    Route::post('contact/get-property-estimates', 'Admin\RealtorController@getPropertyEstimates')->name('contact.property_estimates');
+    
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
@@ -255,6 +262,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
+
+    //gurpreet
+    route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
 
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
     Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');

@@ -1,7 +1,6 @@
 @extends('auth.inc.master')
 
 @section('content')
-
 <div class="account-pages my-5 pt-sm-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -15,6 +14,8 @@
                                     <p style="color:#ffffff">Sign in to continue to REIFuze.</p>
                                 </div>
                             </div>
+
+
                             @if (session('status'))
                                 <div class="col-12">
                                     <div class="alert alert-success" role="alert">
@@ -22,15 +23,14 @@
                                     </div>
                                 </div>
                             @endif
-                           
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-                                <img src="{{ asset('back/assets/images/profile-img.png') }}" alt="" style="margin-left: -75%;margin-top: 21px;" class="img-fluid">
-                            </div>
+                        <img src="{{ asset('back/assets/images/profile-img.png') }}" alt="" style="margin-left: -75%;margin-top: 21px;" class="img-fluid">
+                    </div>
                     <div class="card-body pt-0">
-                        
-                        <div class="p-2" id="dvLogin">
+
+                        <div class="p-2" id="dvLogin" style="display:{{ (!isset($_REQUEST['type'])) ? 'block' : 'none' }} ">
                             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">
@@ -60,12 +60,12 @@
                                 </div>
                             </form>
                             <div class="mt-4 text-center" style="display: block">
-                                <a href="#" onclick="forgot_password('login')" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
+                                <a href="javascript:void(0)" onclick="forgot_password('login')" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
                             </div>
                         </div>
 
-                        <div class="p-2" id="dvforgot" style="display:none">
-                            <form class="form-horizontal" method="POST" action="{{ route('password.email') }}" >
+                        <div class="p-2" id="dvforgot" style="display:{{ (isset($_REQUEST['type']) && $_REQUEST['type'] == 'forget_password') ? 'block' : 'none' }} ">
+                            <form class="form-horizontal" method="POST" action="{{ route('password.email') }}?type=forgetpassword" >
                                 @csrf
                                 <p style="font-weight:bold">Forgot Password</p>
                                 <div class="form-group">
@@ -79,14 +79,14 @@
                                     @enderror
                                 </div>
 
-                               
+
 
                                 <div class="mt-3">
                                     <button class="btn btn-primary btn-block waves-effect waves-light" style="background:#38B6FF;border-color:#38B6FF" type="submit">Submit</button>
                                 </div>
                             </form>
                             <div class="mt-4 text-center" style="display: block">
-                                <a href="#" onclick="forgot_password('forgot')" class="text-muted"><i class="mdi mdi-lock mr-1"></i>Back To Login </a>
+                                <a href="javascript:void(0);" onclick="forgot_password('forgot')" class="text-muted"><i class="mdi mdi-lock mr-1"></i>Back To Login </a>
                             </div>
                         </div>
 
@@ -113,12 +113,21 @@
         //dvLogin
         if(ctrl=="login")
         {
-
-        $("#dvforgot").show();
-        $("#dvLogin").hide();
+            var oldURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                 var newUrl = oldURL + "?type=forget_password";
+                 if (window.history != 'undefined' && window.history.pushState != 'undefined') {
+                     window.history.pushState({ path: newUrl }, '', newUrl);
+                }
+            $("#dvforgot").show();
+            $("#dvLogin").hide();
         }else{
             $("#dvforgot").hide();
-        $("#dvLogin").show();
+            $("#dvLogin").show();
+            var oldURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                 var newUrl = oldURL;
+                 if (window.history != 'undefined' && window.history.pushState != 'undefined') {
+                     window.history.pushState({ path: newUrl }, '', newUrl);
+                }
         }
     }
     </script>

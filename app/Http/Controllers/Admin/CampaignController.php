@@ -54,7 +54,7 @@ class CampaignController extends Controller
                     $c_id = CampaignList::create($insertData);
                     $checkCompainList = CampaignList::where('campaign_id',$campaign_id)->get();
                 }
-                
+
             }
             $compain = Campaign::where('id' , $campaign_id)->first();
             $groupsID = Group::where('id',$compain->group_id)->first();
@@ -281,9 +281,9 @@ class CampaignController extends Controller
             }
         }
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
-        
+
     }
-    
+
     public function schedual()
     {
         $currentTime = date('Y-m-d H:i:s');
@@ -322,10 +322,10 @@ class CampaignController extends Controller
                                             Mail::to($cont->email1)->send(new TestEmail($data));
                                             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                                         }
-                                        
+
                                     }
                                 }
-                                 
+
                             }elseif($row->type == 'sms'){
                                 $client = new Client($sid, $token);
                                 $contacts = Contact::where('group_id' , $row->group_id)->get();
@@ -347,7 +347,7 @@ class CampaignController extends Controller
                                                 ]
                                             );
                                         }
-                                        
+
                                     }
                                 }
                             }elseif($row->type == 'mms'){
@@ -403,7 +403,7 @@ class CampaignController extends Controller
                                                         'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
                                                        ])->getResponse();
                                 }
-                                
+
                             }
                             $campaigns = CampaignList::where('id' , $row->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
                             break;
@@ -422,7 +422,7 @@ class CampaignController extends Controller
                         }
                     }
                 }
-                
+
             }
         }
         return 'success';
@@ -442,14 +442,14 @@ class CampaignController extends Controller
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
-    
-        
+
+
         // Calculate the send_after time
         $sendAfter = null;
         if ($request->send_after_days !== null && $request->send_after_hours !== null) {
             $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
         }
-    
+
         // Create the campaign
         Campaign::create([
             'name' => $request->name,
@@ -462,7 +462,7 @@ class CampaignController extends Controller
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
-        
+
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
     }
 
@@ -502,7 +502,7 @@ class CampaignController extends Controller
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
-        
+
         // Calculate the send_after time
         $sendAfter = null;
         if ($request->send_after_days !== null && $request->send_after_hours !== null) {
@@ -516,7 +516,7 @@ class CampaignController extends Controller
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
-    
+
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
     }
 

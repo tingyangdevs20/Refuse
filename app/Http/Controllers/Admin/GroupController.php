@@ -56,6 +56,7 @@ class GroupController extends Controller
     {
 
         $account = Account::first();
+        $account = Account::first();
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
 
         $groupCounts = $groups->map(function ($group) {
@@ -85,7 +86,7 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template','account'));
+            return view('back.pages.group.index', compact('groups','groupCounts', 'sr','campaigns','markets','tags', 'form_Template','account'));
         }
     }
 
@@ -1206,7 +1207,6 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -1229,9 +1229,6 @@ class GroupController extends Controller
                 // Add other fields for campaign details
             ]);
         }
-
-
-
 
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
