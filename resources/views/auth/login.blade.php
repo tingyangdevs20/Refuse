@@ -1,7 +1,6 @@
 @extends('auth.inc.master')
 
 @section('content')
-
 <div class="account-pages my-5 pt-sm-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -31,7 +30,7 @@
                     </div>
                     <div class="card-body pt-0">
 
-                        <div class="p-2" id="dvLogin">
+                        <div class="p-2" id="dvLogin" style="display:{{ (empty($errors->first('type')) || $errors->first('type') != 'forget_password') ? 'block' : 'none' }} ">
                             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">
@@ -65,7 +64,7 @@
                             </div>
                         </div>
 
-                        <div class="p-2" id="dvforgot" style="display:none">
+                        <div class="p-2" id="dvforgot" style="display:{{ (!empty($errors->first('type')) || $errors->first('type') == 'forget_password') ? 'block' : 'none' }} ">
                             <form class="form-horizontal" method="POST" action="{{ route('password.email') }}" >
                                 @csrf
                                 <p style="font-weight:bold">Forgot Password</p>

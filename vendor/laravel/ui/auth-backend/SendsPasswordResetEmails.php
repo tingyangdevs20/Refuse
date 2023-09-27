@@ -96,7 +96,7 @@ trait SendsPasswordResetEmails
 
         return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans($response)]);
+                ->withErrors(['email' => trans($response),'type' =>'forget_password']);
     }
 
     /**
