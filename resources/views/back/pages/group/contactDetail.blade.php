@@ -142,7 +142,8 @@
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
                                                     @if ($section->id == '1')
-                                                        <div class="col-md-12" style="padding:0px;">
+                                                        <div class="col-md-12"
+                                                            style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -151,6 +152,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -843,7 +845,8 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '2')
-                                                        <div class="col-md-12" style="padding:0px;">
+                                                        <div class="col-md-12"
+                                                            style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -1067,7 +1070,8 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '3')
-                                                        <div class="col-md-12" style="padding:0px;">
+                                                        <div class="col-md-12"
+                                                            style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -1325,7 +1329,8 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '4')
-                                                        <div class="col-md-12" style="padding:0px;">
+                                                        <div class="col-md-12"
+                                                            style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
