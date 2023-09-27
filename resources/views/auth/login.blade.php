@@ -30,7 +30,7 @@
                     </div>
                     <div class="card-body pt-0">
 
-                        <div class="p-2" id="dvLogin" style="display:{{ (empty($errors->first('type')) || $errors->first('type') != 'forget_password') ? 'block' : 'none' }} ">
+                        <div class="p-2" id="dvLogin" style="display:{{ (!isset($_REQUEST['type'])) ? 'block' : 'none' }} ">
                             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">
@@ -60,12 +60,12 @@
                                 </div>
                             </form>
                             <div class="mt-4 text-center" style="display: block">
-                                <a href="#" onclick="forgot_password('login')" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
+                                <a href="javascript:void(0)" onclick="forgot_password('login')" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
                             </div>
                         </div>
 
-                        <div class="p-2" id="dvforgot" style="display:{{ (!empty($errors->first('type')) || $errors->first('type') == 'forget_password') ? 'block' : 'none' }} ">
-                            <form class="form-horizontal" method="POST" action="{{ route('password.email') }}" >
+                        <div class="p-2" id="dvforgot" style="display:{{ (isset($_REQUEST['type']) && $_REQUEST['type'] == 'forget_password') ? 'block' : 'none' }} ">
+                            <form class="form-horizontal" method="POST" action="{{ route('password.email') }}?type=forgetpassword" >
                                 @csrf
                                 <p style="font-weight:bold">Forgot Password</p>
                                 <div class="form-group">
@@ -86,7 +86,7 @@
                                 </div>
                             </form>
                             <div class="mt-4 text-center" style="display: block">
-                                <a href="#" onclick="forgot_password('forgot')" class="text-muted"><i class="mdi mdi-lock mr-1"></i>Back To Login </a>
+                                <a href="javascript:void(0);" onclick="forgot_password('forgot')" class="text-muted"><i class="mdi mdi-lock mr-1"></i>Back To Login </a>
                             </div>
                         </div>
 
@@ -113,12 +113,22 @@
         //dvLogin
         if(ctrl=="login")
         {
+            var oldURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                 var newUrl = oldURL + "?type=forget_password";
+                 if (window.history != 'undefined' && window.history.pushState != 'undefined') {
+                     window.history.pushState({ path: newUrl }, '', newUrl);
+                }
 
         $("#dvforgot").show();
         $("#dvLogin").hide();
         }else{
             $("#dvforgot").hide();
-        $("#dvLogin").show();
+            $("#dvLogin").show();
+            var oldURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                 var newUrl = oldURL;
+                 if (window.history != 'undefined' && window.history.pushState != 'undefined') {
+                     window.history.pushState({ path: newUrl }, '', newUrl);
+                }
         }
     }
     </script>
