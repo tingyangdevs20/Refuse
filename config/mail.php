@@ -95,7 +95,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'stuff@helpretire.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'help@propdaddyserver.com'),
         'name' => env('MAIL_FROM_NAME', 'Brian Bagnall'),
     ],
 
