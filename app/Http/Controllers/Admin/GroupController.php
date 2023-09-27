@@ -38,6 +38,7 @@ use Auth;
 
 use Session;
 use App\AccountDetail;
+
 use App\TotalBalance;
 use App\Services\DatazappService;
 
@@ -53,8 +54,9 @@ class GroupController extends Controller
     public function index(Request $request)
     {
 
+        $account = Account::first();
         $groups = Group::with('contacts')->get()->sortByDesc("created_at");
-        // return $groups;
+
         $groupCounts = $groups->map(function ($group) {
             $totalContacts = $group->contacts->count();
             $percentage = ($totalContacts / 100) * 100;
@@ -80,7 +82,7 @@ class GroupController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template'));
+            return view('back.pages.group.index', compact('groups','groupCounts', 'sr','campaigns','markets','tags', 'form_Template','account'));
         }
     }
 
