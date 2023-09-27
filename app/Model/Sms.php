@@ -18,6 +18,14 @@ class Sms extends Model
     }
     public function getLeadName()
     {
-       return $this->leadCategory()->first()->title;
+        $lead = $this->leadCategory()->first();
+        
+        // Check if lead exists
+        if ($lead) {
+            # code...
+            return $lead->title;
+        } 
+
+        return null;
     }
 }
