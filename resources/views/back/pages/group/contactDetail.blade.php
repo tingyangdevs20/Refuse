@@ -142,8 +142,7 @@
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
                                                     @if ($section->id == '1')
-                                                        <div class="col-md-12"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -845,8 +844,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '2')
-                                                        <div class="col-md-12"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -1070,8 +1068,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '3')
-                                                        <div class="col-md-12"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -1329,8 +1326,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '4')
-                                                        <div class="col-md-12"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" style="padding:0px;">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading"
@@ -3936,7 +3932,7 @@
                                                                 </div>
                                                             </div>
                                                             <hr>
-                                                            @elseif($section->id == '23')
+                                                        @elseif($section->id == '23')
                                                             <div class="col-md-12" id="{{ $section->id }}"
                                                                 style="padding:0px;">
                                                                 <div class="row" id="SECTION">
@@ -3989,20 +3985,30 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="card">
                                                                             <div class="card-header bg-soft-dark ">
-                                                                                <table class="table table-striped table-bordered" id="datatable">
+                                                                                <table
+                                                                                    class="table table-striped table-bordered"
+                                                                                    id="datatable">
                                                                                     <thead>
                                                                                         <tr>
 
-                                                                                            <th scope="col">Skip trace option</th>
+                                                                                            <th scope="col">Skip trace
+                                                                                                option</th>
 
-                                                                                            <th scope="col">Date of Last Email Skip Trace</th>
-                                                                                            <th scope="col">Date of Last Phone Skip Trace</th>
-                                                                                            <th scope="col">Date of Last Name Skip Trace</th>
-                                                                                            <th scope="col">Date of Last Email Verification</th>
-                                                                                            <th scope="col">Date of Last Phone Scrub </th>
+                                                                                            <th scope="col">Date of
+                                                                                                Last Email Skip Trace</th>
+                                                                                            <th scope="col">Date of
+                                                                                                Last Phone Skip Trace</th>
+                                                                                            <th scope="col">Date of
+                                                                                                Last Name Skip Trace</th>
+                                                                                            <th scope="col">Date of
+                                                                                                Last Email Verification</th>
+                                                                                            <th scope="col">Date of
+                                                                                                Last Phone Scrub </th>
 
-                                                                                            <th scope="col">Verified Numbers & Emails</th>
-                                                                                            <th scope="col">Scam Numbers & Emails</th>
+                                                                                            <th scope="col">Verified
+                                                                                                Numbers & Emails</th>
+                                                                                            <th scope="col">Scam
+                                                                                                Numbers & Emails</th>
 
                                                                                         </tr>
                                                                                     </thead>
@@ -4251,14 +4257,23 @@
                                 // Create a div element to display the estimate
                                 var estimateDiv = $("<div>");
 
+                                // Format the estimate, estimate_high, and estimate_low as currency
+                                var formatter = new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                });
+
                                 // Add data to the div
                                 estimateDiv.append("<label>Source Name: " + estimate.source.name +
                                     "</label><br>");
-                                estimateDiv.append("<label>Estimate: " + estimate.estimate +
+                                estimateDiv.append("<label>Estimate: " + formatter.format(estimate
+                                        .estimate) +
                                     "</label><br>");
-                                estimateDiv.append("<label>Estimate High: " + estimate.estimate_high +
+                                estimateDiv.append("<label>Estimate High: " + formatter.format(estimate
+                                        .estimate_high) +
                                     "</label><br>");
-                                estimateDiv.append("<label>Estimate Low: " + estimate.estimate_low +
+                                estimateDiv.append("<label>Estimate Low: " + formatter.format(estimate
+                                        .estimate_low) +
                                     "</label><br>");
                                 estimateDiv.append("<label>Date: " + estimate.date +
                                     "</label><br>");

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RealtorController extends Controller
 {
@@ -19,16 +20,18 @@ class RealtorController extends Controller
             ]);
         }
 
-        // Check if user has address
-        if (!($contact->street && $contact->city && $contact->state && $contact->zip)) {
+        // Check if user has property address
+        $property_infos = DB::table('property_infos')->where('contact_id', $contact->id)->first();
+
+        if ($property_infos === null || empty($property_infos->property_address) || empty($property_infos->property_city) || empty($property_infos->property_state) || empty($property_infos->property_zip)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Contact address not found! Update Contact Address to use this.'
+                'message' => 'Property address not found. Add your property address and try again!'
             ]);
         }
 
         // Format Address
-        $address = $contact->street . ' ' . $contact->city . ', ' . $contact->state . ' ' . $contact->zip;
+        $address = $property_infos->property_address . ' ' . $property_infos->property_city . ', ' . $property_infos->property_state . ' ' . $property_infos->property_zip;
         // $address = '939 Coast Blvd Unit 20C La Jolla, CA 92037';
 
         // Call the API

@@ -15,7 +15,6 @@ use App\Model\Tag;
 use App\Model\Account;
 use App\Model\Campaign;
 use App\Model\CampaignList;
-use App\Model\Template;
 use App\Model\Script;
 use App\Model\Reply;
 use App\Model\Scheduler;
