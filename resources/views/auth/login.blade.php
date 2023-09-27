@@ -118,9 +118,8 @@
                  if (window.history != 'undefined' && window.history.pushState != 'undefined') {
                      window.history.pushState({ path: newUrl }, '', newUrl);
                 }
-
-        $("#dvforgot").show();
-        $("#dvLogin").hide();
+            $("#dvforgot").show();
+            $("#dvLogin").hide();
         }else{
             $("#dvforgot").hide();
             $("#dvLogin").show();
