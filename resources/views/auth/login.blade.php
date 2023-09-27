@@ -15,6 +15,8 @@
                                     <p style="color:#ffffff">Sign in to continue to REIFuze.</p>
                                 </div>
                             </div>
+
+
                             @if (session('status'))
                                 <div class="col-12">
                                     <div class="alert alert-success" role="alert">
@@ -22,14 +24,13 @@
                                     </div>
                                 </div>
                             @endif
-                           
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-                                <img src="{{ asset('back/assets/images/profile-img.png') }}" alt="" style="margin-left: -75%;margin-top: 21px;" class="img-fluid">
-                            </div>
+                        <img src="{{ asset('back/assets/images/profile-img.png') }}" alt="" style="margin-left: -75%;margin-top: 21px;" class="img-fluid">
+                    </div>
                     <div class="card-body pt-0">
-                        
+
                         <div class="p-2" id="dvLogin">
                             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                 @csrf
@@ -79,7 +80,7 @@
                                     @enderror
                                 </div>
 
-                               
+
 
                                 <div class="mt-3">
                                     <button class="btn btn-primary btn-block waves-effect waves-light" style="background:#38B6FF;border-color:#38B6FF" type="submit">Submit</button>

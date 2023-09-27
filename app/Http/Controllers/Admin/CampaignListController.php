@@ -29,15 +29,15 @@ class CampaignListController extends Controller
         $groups = Group::all(); // Fetch groups from the database
         $campaigns = Campaign::getAllCampaigns();
         $templates = Template::where('type' , 'SMS')->get();
-        
+
         return view('back.pages.campaignlist.index', compact('groups', 'campaigns','templates'));
     }
 
     public function getTemplateText($id='')
     {
-        
+
         $templates = Template::where();
-       
+
 
         return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
     }
@@ -52,7 +52,7 @@ class CampaignListController extends Controller
 
         return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
     }
-    
+
     public function schedual()
     {
         $currentTime = date('Y-m-d H:i:s');
@@ -107,10 +107,10 @@ class CampaignListController extends Controller
                                             Mail::to($cont->email1)->send(new TestEmail($data));
                                             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                                         }
-                                        
+
                                     }
                                 }
-                                 
+
                             }elseif($row->type == 'sms'){
                                 $client = new Client($sid, $token);
                                 $contacts = Contact::where('group_id' , $camp->group_id)->get();
@@ -161,7 +161,7 @@ class CampaignListController extends Controller
                                                         $reply_message->save();
                                                         $this->incrementSmsCount($sender_number);
                                                     }
-                                    
+
                                                 }
                                             } catch (\Exception $ex) {
                                                 $failed_sms = new FailedSms();
@@ -205,7 +205,7 @@ class CampaignListController extends Controller
                                                         'mediaUrl' => [$template->mediaUrl],
                                                     ]
                                                 );
-                                                
+
                                                 if ($sms_sent) {
                                                     $old_sms = Sms::where('client_number', $receiver_number)->first();
                                                     if ($old_sms == null) {
@@ -227,7 +227,7 @@ class CampaignListController extends Controller
                                                         $reply_message->save();
                                                         $this->incrementSmsCount($sender_number);
                                                     }
-                                    
+
                                                 }
                                             } catch (\Exception $ex) {
                                                 $failed_sms = new FailedSms();
@@ -270,7 +270,7 @@ class CampaignListController extends Controller
                                                         'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
                                                        ])->getResponse();
                                 }
-                                
+
                             }
                             $campaigns = CampaignList::where('id' , $row->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
                             break;
@@ -290,7 +290,7 @@ class CampaignListController extends Controller
                         }
                     }
                 }
-                
+
             }
         }
         return 'success';
@@ -303,7 +303,7 @@ class CampaignListController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $campaign_id = $request->campaign_id;
         $campaign_list_id = $request->campaign_list_id;
         $types = $request->type;
@@ -340,7 +340,7 @@ class CampaignListController extends Controller
                         }
                     }
                 }
-                
+
                 //return $media;
                 //return $sendAfter;
                 // Create the campaign
@@ -377,7 +377,7 @@ class CampaignListController extends Controller
         if($groupsID){
             $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
              //dd($numbers);
-          $account = Account::where('id' , $sender_numbers->account_id)->first();           
+          $account = Account::where('id' , $sender_numbers->account_id)->first();
                 if($account){
                     $sid = $account->account_id;
                     $token = $account->account_token;
@@ -386,11 +386,11 @@ class CampaignListController extends Controller
                     $token = '';
                 }
         }
-      
-    
+
+
         $checkCompainList = CampaignList::where('campaign_id',$request->campaign_id)->get();
         if(count($checkCompainList) == 1){
-            
+
             $template = Template::where('id',$request->template_id)->first();
             if($request->type == 'email'){
                 $contacts = Contact::where('group_id' , $compain->group_id)->get();
@@ -429,7 +429,7 @@ class CampaignListController extends Controller
                         //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                     }
                 }
-                 
+
             }elseif($request->type == 'sms'){
                 $client = new Client($sid, $token);
                 $contacts = Contact::where('group_id' , $compain->group_id)->get();
@@ -483,7 +483,7 @@ class CampaignListController extends Controller
                                     $reply_message->save();
                                     $this->incrementSmsCount($sender_number);
                                 }
-                
+
                             }
                         } catch (\Exception $ex) {
                             $failed_sms = new FailedSms();
@@ -550,7 +550,7 @@ class CampaignListController extends Controller
                                     $reply_message->save();
                                     $this->incrementSmsCount($sender_number);
                                 }
-                
+
                             }
                         } catch (\Exception $ex) {
                             $failed_sms = new FailedSms();
@@ -592,16 +592,16 @@ class CampaignListController extends Controller
                                             'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
                                            ])->getResponse();
                     }catch (\Exception $ex) {
-                        
+
                     }
                 }
-                
+
             }
             // $campaign->active = $request->active; // Update active
             $checkCompainList1 = CampaignList::where('campaign_id',$request->campaign_id)->first();
             $campaigns = CampaignList::where('id' , $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
         }
-        
+
         //return $request->campaign_id;
         return redirect('admin/campaign/list/'.$request->campaign_id)->with('success', 'Campaign list created successfully.');
     }
@@ -628,7 +628,7 @@ class CampaignListController extends Controller
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
-        
+
         // Calculate the send_after time
         $sendAfter = null;
         if ($request->send_after_days !== null && $request->send_after_hours !== null) {
@@ -645,7 +645,7 @@ class CampaignListController extends Controller
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
-    
+
         return redirect()->route('admin.campaign.show',$request->campaign_id)->with('success', 'Campaign list updated successfully.');
     }
 
