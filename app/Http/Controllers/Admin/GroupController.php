@@ -11,7 +11,6 @@ use App\Model\Number;
 use App\Model\Group;
 use App\Model\Market;
 use App\Model\CampaignLead;
-use App\Model\CampaignLead;
 use App\Model\Tag;
 use App\Model\Account;
 use App\Model\Campaign;
@@ -1208,8 +1207,6 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-
-
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
