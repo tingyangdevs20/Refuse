@@ -13,10 +13,10 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class FormTemplatesController extends Controller
 {
-   
+
     /**
      * Display a listing of the resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
 
@@ -25,10 +25,15 @@ class FormTemplatesController extends Controller
         $groups = FormTemplates::all()->sortByDesc("created_at");
         $sr = 1;;
         $markets=Market::all();
-        $tags=Tag::all();        
+        $tags=Tag::all();
         $campaigns = Campaign::getAllCampaigns();
 
-        return view( 'back.pages.formtemplate.index', compact('groups', 'sr','campaigns','markets','tags') ) ;
+        $short_code = array('name', 'street', 'city', 'state', 'zip', 'date', 'owner1_first_name', 'owner1_last_name', 'owner1_email1', 'owner1_email2','owner1_primary_number','
+        owner1_number2', 'owner1_number3', 'owner1_social_security', 'owner1_dob','owner1_mother_name', 'owner2_first_name', 'owner2_last_name', 'owner2_email1', 'owner2_email2','owner2_primary_number','
+        owner2_number2', 'owner2_number3', 'owner2_social_security', 'owner2_dob','owner2_mother_name', 'owner3_first_name', 'owner3_last_name', 'owner3_email1', 'owner3_email2','owner3_primary_number','
+        owner3_number2', 'owner3_number3', 'owner3_social_security', 'owner3_dob','owner3_mother_name','property_address','property_city','property_state','property_zip','map_link','zillow_link','property_type','auth_email');
+
+        return view( 'back.pages.formtemplate.index', compact('groups', 'sr','campaigns','markets','tags','short_code') ) ;
 
     }
 
@@ -50,7 +55,7 @@ class FormTemplatesController extends Controller
      */
     public function store(Request $request)
     {
-         
+
         $contact = new FormTemplates();
         $contact->template_name = $request->template_name ;
         $contact->content = $request->content;
@@ -101,9 +106,9 @@ class FormTemplatesController extends Controller
             $contact->content = $request->content;
             $contact->status = $request->status;
             $contact->save() ;
-             
+
          }
-        
+
         Alert::success('Success','Form Template Updated !');
         return redirect()->back();
     }
@@ -120,4 +125,4 @@ class FormTemplatesController extends Controller
         Alert::success('Success','Form Templates Removed!');
         return redirect()->back();
     }
-} 
+}
