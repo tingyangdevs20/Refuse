@@ -66,16 +66,16 @@ class PhoneCallController extends Controller
         $requestData = json_encode($request->all());
 
        
-        $filePath = 'C:\xampp\htdocs\bulk_sms\app\Http\Notepad.txt';
+       // $filePath = 'C:\xampp\htdocs\bulk_sms\app\Http\Notepad.txt';
 
         // Open the file for writing (create if it doesn't exist)
-        $file = fopen($filePath, 'w');
+       // $file = fopen($filePath, 'w');
 
         // Write the request data to the file
-        fwrite($file, $requestData);
+      //  fwrite($file, $requestData);
 
         // Close the file
-        fclose($file);
+       // fclose($file);
 
         
         $dialedNumber = $request->get('To') ?? null;
@@ -84,23 +84,23 @@ class PhoneCallController extends Controller
         $voiceResponse = new VoiceResponse();
         $voiceResponse->say("Calling Now Please Wait");
 
-        //if($dialedNumber != env('TWILIO_CALLER_ID'))
-       // {
+        if($dialedNumber != env('TWILIO_CALLER_ID'))
+        {
             #outbond phone call
 
-           // $number=htmlspecialchars($dialedNumber);
-           // $dial=$voiceResponse->dial('',['callerId'=>env('TWILIO_CALLER_ID')]);
+            $number=htmlspecialchars($dialedNumber);
+            $dial=$voiceResponse->dial('',['callerId'=>env('TWILIO_CALLER_ID')]);
 
-           // if(preg_match("/^[\d+\-\(\) ]+$/",$number)){
+            if(preg_match("/^[\d+\-\(\) ]+$/",$number)){
                 #standard outbond phone call to telephpone number
-              //  $dial->number($dialedNumber);
-           // }
-           // else{
+                $dial->number($dialedNumber);
+            }
+           else{
                 #client to client (user - user ) Phone call
 
-           // }
-       // }
-       // elseif($dialedNumber == env('TWILIO_CALLER_ID')){
+           }
+       }
+        elseif($dialedNumber == env('TWILIO_CALLER_ID')){
             #inboud Phone call
 
             //setup an dial response
@@ -108,9 +108,9 @@ class PhoneCallController extends Controller
 
             $dial->client('Mathew_james');
 
-       // }else{
-           // $voiceResponse->say("Thanku For calling us");
-       // }
+        }else{
+            $voiceResponse->say("Thanku For calling us");
+        }
         return (string) $voiceResponse;
     }
 }
