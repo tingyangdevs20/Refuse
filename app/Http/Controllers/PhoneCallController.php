@@ -21,11 +21,11 @@ class PhoneCallController extends Controller
         $settings = Settings::first()->toArray(); 
 
         $TWILIO_ACCOUNT_SID=$settings['twilio_api_key']; 
-        $TWILIO_API_KEY=$settings['twilio_call_api'];  
-        $TWILIO_API_SECRET=$settings['twilio_api_call_secret'];
-        $TWILIO_TWIML_APP_SID=$settings['twilio_call_twiml_app_sid']; 
+        $TWILIO_API_KEY=$settings['call_api_key'];  
+        $TWILIO_API_SECRET=$settings['call_secret_token'];
+        $TWILIO_TWIML_APP_SID=$settings['twiml_app_sid']; 
 
-        $caller_id=$settings['twilio_call_id'];
+        $caller_id=$settings['jsinghh'];
         
         $identity=$request['identity'];
 
@@ -79,28 +79,28 @@ class PhoneCallController extends Controller
 
         
         $dialedNumber = $request->get('To') ?? null;
-        $dialedNumber = '+919368774816';
+        $dialedNumber = '+919877640296';
       
         $voiceResponse = new VoiceResponse();
         $voiceResponse->say("Calling Now Please Wait");
 
-        if($dialedNumber != env('TWILIO_CALLER_ID'))
-        {
+        //if($dialedNumber != env('TWILIO_CALLER_ID'))
+       // {
             #outbond phone call
 
-            $number=htmlspecialchars($dialedNumber);
-            $dial=$voiceResponse->dial('',['callerId'=>env('TWILIO_CALLER_ID')]);
+           // $number=htmlspecialchars($dialedNumber);
+           // $dial=$voiceResponse->dial('',['callerId'=>env('TWILIO_CALLER_ID')]);
 
-            if(preg_match("/^[\d+\-\(\) ]+$/",$number)){
+           // if(preg_match("/^[\d+\-\(\) ]+$/",$number)){
                 #standard outbond phone call to telephpone number
-                $dial->number($dialedNumber);
-            }
-            else{
+              //  $dial->number($dialedNumber);
+           // }
+           // else{
                 #client to client (user - user ) Phone call
 
-            }
-        }
-        elseif($dialedNumber == env('TWILIO_CALLER_ID')){
+           // }
+       // }
+       // elseif($dialedNumber == env('TWILIO_CALLER_ID')){
             #inboud Phone call
 
             //setup an dial response
@@ -108,9 +108,9 @@ class PhoneCallController extends Controller
 
             $dial->client('Mathew_james');
 
-        }else{
-            $voiceResponse->say("Thanku For calling us");
-        }
+       // }else{
+           // $voiceResponse->say("Thanku For calling us");
+       // }
         return (string) $voiceResponse;
     }
 }
