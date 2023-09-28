@@ -116,8 +116,9 @@
                                                 <td>{{ @$group->email_verification_date??'-' }}</td>
                                                 <td>{{ @$group->phone_scrub_date??'-' }}</td>
                                                 {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
-                                                <td>{{ $groupCounts[$loop->index]['percentage'] }}%</td>
-                                                <td>{{ $group->created_at->format('d-m-Y') }}</td>
+                                                <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
+
+                                                <td>{{ $group->created_at->format('m/d/Y') }}</td>
 
                                                 <td>
                                                     @if($groupCounts[$loop->index]['percentage'] > 0)
@@ -341,16 +342,16 @@
                                     data-group-id="{{ $group->id }}" >
 
                                     <option value="">Select an Option</option>
-                                    <option value="skip_entire_list_phone">Skip Trace Phone Numbers (Entire List (${{ @$account->phone_cell_append_rate }}))</option>
-                                    <option value="skip_records_without_numbers_phone">Skip Trace Phone Numbers (Records Without Numbers (${{ @$account->phone_cell_append_rate }}))</option>
-                                    <option value="skip_entire_list_email">Skip Trace Emails (Entire List (${{ @$account->email_append_rate }}))</option>
-                                    <option value="skip_records_without_emails">Skip Trace Emails (Records Without Emails (${{ @$account->email_append_rate }}))</option>
-                                    <option value="append_names">Append Name (Records Without Name (${{ @$account->name_append_rate }}))</option>
-                                    <option value="append_emails">Append Email (Records Without Email (${{ @$account->name_append_rate }}))</option>
-                                    <option value="email_verification_entire_list">Email Verification (Entire List (${{ @$account->email_verification_rate }}))</option>
-                                    <option value="email_verification_non_verified">Email Verification (Non-Verified Emails (${{ @$account->email_verification_rate }}))</option>
-                                    <option value="phone_scrub_entire_list">Phone Scrub (Entire List ({{ @$account->phone_scrub_rate }}))</option>
-                                    <option value="phone_scrub_non_scrubbed_numbers">Phone Scrub (Non-Scrubbed Phone Numbers (${{ @$account->phone_scrub_rate }}))</option>
+                                    <option value="skip_entire_list_phone" data-amount = "${{ @$account->phone_cell_append_rate }}">Skip Trace Phone Numbers (Entire List)</option>
+                                    <option value="skip_records_without_numbers_phone" data-amount = "${{ @$account->phone_cell_append_rate }}">Skip Trace Phone Numbers (Records Without Numbers)</option>
+                                    <option value="skip_entire_list_email" data-amount = "${{ @$account->email_append_rate }}">Skip Trace Emails (Entire List)</option>
+                                    <option value="skip_records_without_emails" data-amount = "${{ @$account->email_append_rate }}">Skip Trace Emails (Records Without Emails)</option>
+                                    <option value="append_names" data-amount = "${{ @$account->name_append_rate }}">Append Name (Records Without Name)</option>
+                                    <option value="append_emails" data-amount = "${{ @$account->name_append_rate }}">Append Email (Records Without Email)</option>
+                                    <option value="email_verification_entire_list" data-amount = "${{ @$account->email_verification_rate }}">Email Verification (Entire List)</option>
+                                    <option value="email_verification_non_verified" data-amount = "${{ @$account->email_verification_rate }}">Email Verification (Non-Verified Emails)</option>
+                                    <option value="phone_scrub_entire_list" data-amount = "${{ @$account->phone_scrub_rate }}">Phone Scrub (Entire List)</option>
+                                    <option value="phone_scrub_non_scrubbed_numbers" data-amount = "${{ @$account->phone_scrub_rate }}">Phone Scrub (Non-Scrubbed Phone Numbers)</option>
 
 
                                     </select>
@@ -425,12 +426,13 @@
                 e.preventDefault(); // Prevent the default form submission behavior
 
                 var selectedOption = $('.skip_trace_option').val();
-                var selectedOptionText = $('.skip_trace_option :selected').text();
+                var selectedOptionText = $('.skip_trace_option :selected').data('amount');
 
                 if (selectedOption) {
                     // var groupId = $(this).data('group-id');
 
-                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option?'+selectedOptionText);
+                    var confirmation = confirm('Are you sure you want to perform skip tracing with the selected option? ' + selectedOptionText + ' will be deducted from your account.');
+
                     // Make an AJAX request to perform skip tracing
                     if (confirmation) {
                         $('#skiptracingModal').modal('hide');
