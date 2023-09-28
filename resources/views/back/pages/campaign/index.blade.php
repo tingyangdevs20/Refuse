@@ -131,35 +131,13 @@
                             <label for="name">Campaign Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label for="type">Campaign Type</label>-->
-                        <!--    <select name="type" id="type" class="form-control" onchange="getTemplate(value)" required>-->
-                        <!--        <option value="sms">SMS</option>-->
-                        <!--        <option value="email">Email</option>-->
-                        <!--        <option value="mms">MMS</option>-->
-                        <!--        <option value="rvm">RVM</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!--<div class="form-group" id="update-templates">-->
-                        <!--    <label>Select Template</label>-->
-                        <!--    <select class="custom-select" name="template_id" id="template-select">-->
-                        <!--        <option value="0">Select Template</option>-->
-                        <!--        @foreach($templates as $template)-->
-                        <!--            <option value="{{ $template->id }}">{{ $template->title }}</option>-->
-                        <!--        @endforeach-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                         <!-- Add schedule field -->
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_days">Send After Days</label>-->
-                        <!--    <input type="number" name="send_after_days" id="send_after_days" class="form-control" required>-->
-                        <!--</div>-->
+                     
                         
                         <!--<div class="form-group">-->
                         <!--    <label for="send_after_hours">Send After Hours</label>-->
                         <!--    <input type="number" name="send_after_hours" id="send_after_hours" class="form-control" required>-->
                         <!--</div>-->
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
                                 <option value="">Select Group/Contact List</option>
@@ -169,7 +147,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label for="active">Active Status</label>
@@ -208,45 +186,7 @@
                             <input type="hidden" name="id" id="id_edit" class="form-control" value="0" required>
                             <input type="text" name="name" id="name_edit" class="form-control" value="" required>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label for="type">Campaign Type</label>-->
-                        <!--    <select name="type" id="type_edit" class="form-control" onchange="getTemplateEdit(value)" required>-->
-                        <!--        <option value="sms" >SMS</option>-->
-                        <!--        <option value="email">Email</option>-->
-                        <!--        <option value="mms">MMS</option>-->
-                        <!--        <option value="rvm">RVM</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!--<div class="form-group" id="update-templates-edit">-->
-                        <!--    <label>Select Template</label>-->
-                        <!--    <select class="custom-select" name="template_id" id="template-select-edit">-->
-                        <!--        <option value="0">Select Template</option>-->
-                        <!--        @foreach($templates as $template)-->
-                        <!--            <option value="{{ $template->id }}">{{ $template->title }}</option>-->
-                        <!--        @endforeach-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!-- Edit schedule field -->
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_days">Send After Days</label>-->
-                        <!--    <input type="number" name="send_after_days" id="send_after_days_edit" class="form-control" value="" required>-->
-                        <!--</div>-->
-                        
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_hours">Send After Hours</label>-->
-                        <!--    <input type="number" name="send_after_hours" id="send_after_hours_edit" class="form-control" value="" required>-->
-                        <!--</div>-->
-                        <div class="form-group">
-                            <label for="group_id">Select Group/Contact List</label>
-                            <select name="group_id" id="group_id_edit" class="form-control">
-                                <option value="">Select Group/Contact List</option>
-                                @if(isset($groups))
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
+                       
 
                         <!-- Add other fields for campaign details -->
                         <!-- For example, schedule, message content, etc. -->
