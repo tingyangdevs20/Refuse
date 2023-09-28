@@ -106,7 +106,7 @@
                     </a>
                 </li>
 
-                <li>
+              <!--  <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-message-square-dots"></i>
                         <span>Email</span>
@@ -123,7 +123,7 @@
                         <li><a href="{{ route('admin.sms.failed') }}">Failed SMS</a></li> --}}
                     </ul>
                 </li>
-                         
+-->
                 
                 <li class="menu-title">Deals</li> 
                 <li>
