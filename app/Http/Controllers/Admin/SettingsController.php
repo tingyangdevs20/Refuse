@@ -89,6 +89,8 @@ class SettingsController extends Controller
         //$settings->sms_rate = $request->sms_rate;
         //$settings->sms_allowed = $request->sms_allowed;
         $settings->sender_email = $request->sender_email;
+        $settings->sender_name = $request->sender_name;
+        $settings->auth_email = $request->auth_email;
         $settings->reply_email = $request->reply_email;
         $settings->sendgrid_key = $request->sendgrid_key;
         $settings->twilio_api_key = $request->twilio_api_key;

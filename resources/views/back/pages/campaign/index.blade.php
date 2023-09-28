@@ -160,7 +160,7 @@
                         <!--    <label for="send_after_hours">Send After Hours</label>-->
                         <!--    <input type="number" name="send_after_hours" id="send_after_hours" class="form-control" required>-->
                         <!--</div>-->
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
                                 <option value="">Select Group/Contact List</option>
@@ -170,7 +170,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label for="active">Active Status</label>
