@@ -166,6 +166,53 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Lead Status</label> --}}
+                                                                        <select class="custom-select" name="lead_status"
+                                                                            table="lead_info"
+                                                                            onchange="updateValue(value,'lead_status','lead_info')">
+                                                                            <option value="">Lead Status</option>
+                                                                            <option value="None"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'None') selected @endif
+                                                                                @endif>None</option>
+                                                                            <option value="Cold Lead"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Cold Lead') selected @endif
+                                                                                @endif>Cold Lead
+                                                                            </option>
+                                                                            <option value="Warm Lead"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Warm Lead') selected @endif
+                                                                                @endif>Warm Lead
+                                                                            </option>
+                                                                            <option value="Pending"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Pending') selected @endif
+                                                                                @endif>Pending</option>
+                                                                            <option value="Non-Responsive"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Non-Responsive') selected @endif
+                                                                                @endif>Non-Responsive
+                                                                            </option>
+                                                                            <option value="Sold"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sold') selected @endif
+                                                                                @endif>Sold</option>
+                                                                            <option value="Not Interested"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Interested') selected @endif
+                                                                                @endif>Not Interested
+                                                                            </option>
+                                                                            <option value="Dead Lead"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Dead Lead') selected @endif
+                                                                                @endif>Dead Lead
+                                                                            </option>
+                                                                            <option value="Under Contract"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Under Contract') selected @endif
+                                                                                @endif>Under Contract
+                                                                            </option>
+                                                                            <option value="Pending Close"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Pending Close') selected @endif
+                                                                                @endif>Pending Close
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Lead Assigned To</label> --}}
                                                                         <select class="custom-select"
                                                                             name="lead_assigned_to"
@@ -179,6 +226,24 @@
                                                                                         >{{ $lead->title }}</option>
                                                                                 @endforeach
                                                                             @endif
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Lead Type</label> --}}
+                                                                        <select class="custom-select" name="lead_type"
+                                                                            onchange="updateValue(value,'lead_type','lead_info')">
+                                                                            <option value="">Lead Type</option>
+                                                                            <option value="seller"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'seller') selected @endif
+                                                                                @endif>Seller
+                                                                            </option>
+                                                                            
+                                                                            <option value="buyer"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'buyer') selected @endif
+                                                                                @endif>Buyer
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -755,53 +820,6 @@
                                                                                         >{{ $tag->name }}</option>
                                                                                 @endforeach
                                                                             @endif
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Lead Status</label> --}}
-                                                                        <select class="custom-select" name="lead_status"
-                                                                            table="lead_info"
-                                                                            onchange="updateValue(value,'lead_status','lead_info')">
-                                                                            <option value="">Lead Status</option>
-                                                                            <option value="None"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'None') selected @endif
-                                                                                @endif>None</option>
-                                                                            <option value="Cold Lead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Cold Lead') selected @endif
-                                                                                @endif>Cold Lead
-                                                                            </option>
-                                                                            <option value="Warm Lead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Warm Lead') selected @endif
-                                                                                @endif>Warm Lead
-                                                                            </option>
-                                                                            <option value="Pending"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Pending') selected @endif
-                                                                                @endif>Pending</option>
-                                                                            <option value="Non-Responsive"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Non-Responsive') selected @endif
-                                                                                @endif>Non-Responsive
-                                                                            </option>
-                                                                            <option value="Sold"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sold') selected @endif
-                                                                                @endif>Sold</option>
-                                                                            <option value="Not Interested"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Interested') selected @endif
-                                                                                @endif>Not Interested
-                                                                            </option>
-                                                                            <option value="Dead Lead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Dead Lead') selected @endif
-                                                                                @endif>Dead Lead
-                                                                            </option>
-                                                                            <option value="Under Contract"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Under Contract') selected @endif
-                                                                                @endif>Under Contract
-                                                                            </option>
-                                                                            <option value="Pending Close"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Pending Close') selected @endif
-                                                                                @endif>Pending Close
-                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -4324,8 +4342,9 @@
                 },
                 success: function(res) {
                     if (res.status == true) {
-                        $.notify(res.message, 'success');
-                        $("#custom_message").modal("hide");
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
                         setTimeout(function() {
                             location.reload();
                         }, 1000);

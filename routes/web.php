@@ -89,7 +89,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Handle the GOOGLE DRIVE file upload
     Route::post('/google-drive-login', 'GoogleDriveController@googleLogin')->name('google.drive.login');
     Route::get('/google-drive-callback', 'GoogleDriveController@handleGoogleCallback')->name('google-drive-callback');
-
+    // Route::get('/googledrive-callback', 'GoogleDriveController@handleGoogleCallback')->name('googledrive-callback');
 
 
     // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
