@@ -3,6 +3,36 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+
+    <style>
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+            cursor: default;
+            padding-left: 22px !important;
+            padding-right: 1px !important;
+        }
+        .select2-container--default .select2-selection--multiple {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        .select2-container--default .select2-selection__choice {
+            background-color: #007bff;
+            color: #000;
+            padding: 3px 10px; /* Adjust padding to separate text and remove button */
+            margin: 2px;
+            border-radius: 20px; /* Round the corners of the tags */
+        }
+
+        .select2-container--default .select2-selection__choice__remove {
+            margin-left: 5px; /* Add margin between text and remove button */
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
     @endsection
 @section('content')
 
@@ -136,7 +166,7 @@
                             <div class="modal-body">
                                 @csrf
                                 @method('POST')
-                                <div class="form-group" style="display: ">
+                                <div class="form-group" style="display: none">
                                 <select class="from-control" style="width: 100%;" required id="optiontype" name="optiontype">
                                         <option value="0">Select Option</option>
 
@@ -149,7 +179,7 @@
                                     <label style="margin-right:50px">List Name</label>
                                     <input type="text" class="form-control" name="name" placeholder="Enter List Name" required>
                                 </div>
-                                <div class="form-group" style="display: ">
+                                <div class="form-group" style="display: none">
                                 <select class="from-control" style="width: 100%;" id="existing_group_id" name="existing_group_id">
                                         <option value="0">Select Existing List</option>
                                         @foreach($groups as $group)
@@ -162,7 +192,7 @@
                                     <input type="file" class="custom-file-input" id="customFile" name="file" required>
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                                <div class="form-group" style="display: ">
+                                <div class="form-group" style="display: none">
                                     <label>Select Campaign</label>
                                     <select class="custom-select" name="campaign_id" id="campaign_id" >
                                         <option value="0">Select Campaign</option>
@@ -173,7 +203,7 @@
                                         @endif
                                     </select>
                                 </div>
-                                <div class="form-group pt-2" style="display: ">
+                                <div class="form-group pt-2" style="display: none">
                                     <label>Market</label><br>
                                     <select class="custom-select" style="width: 100%;" id="market" name="market_id" required>
                                         <option value="">Select Market</option>
@@ -184,7 +214,7 @@
                                 </div>
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
-                                    <select class="custom-select" style="width: 100%;" id="tag" name="tag_id">
+                                    <select class="custom-select select2" multiple="multiple" style="width: 100%;" id="tag" name="tag_id">
                                         <option value="">Select Tag</option>
                                         @foreach($tags as $tag)
                                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -371,10 +401,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
     <script >
 
         $(document).ready(function() {
             $('#datatable').DataTable();
+
+            $('.select2').select2({
+
+            });
 
             let groupId = 0;
 

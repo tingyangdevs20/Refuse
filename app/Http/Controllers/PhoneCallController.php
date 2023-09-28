@@ -20,12 +20,15 @@ class PhoneCallController extends Controller
     public function getAccessToken(Request $request){
         $settings = Settings::first()->toArray(); 
 
-        $TWILIO_ACCOUNT_SID=$settings['twilio_api_key']; 
-        $TWILIO_API_KEY=$settings['twilio_call_api'];  
-        $TWILIO_API_SECRET=$settings['twilio_api_call_secret'];
-        $TWILIO_TWIML_APP_SID=$settings['twilio_call_twiml_app_sid']; 
+        $TWILIO_ACCOUNT_SID = $settings['twilio_api_key'];
+        $TWILIO_SECRET_KEY = $settings['call_secret_token'];
+        $API_KEY = $settings['call_api_key'];
+        $TWIML_APP_SID = $settings['twiml_app_sid'];
 
-        $caller_id=$settings['twilio_call_id'];
+       
+
+        $caller_id='+13128692422';	
+        
         
         $identity=$request['identity'];
 
@@ -66,20 +69,20 @@ class PhoneCallController extends Controller
         $requestData = json_encode($request->all());
 
        
-        $filePath = 'C:\xampp\htdocs\bulk_sms\app\Http\Notepad.txt';
+       // $filePath = 'C:\xampp\htdocs\bulk_sms\app\Http\Notepad.txt';
 
         // Open the file for writing (create if it doesn't exist)
-        $file = fopen($filePath, 'w');
+       // $file = fopen($filePath, 'w');
 
         // Write the request data to the file
-        fwrite($file, $requestData);
+      //  fwrite($file, $requestData);
 
         // Close the file
-        fclose($file);
+       // fclose($file);
 
         
         $dialedNumber = $request->get('To') ?? null;
-        $dialedNumber = '+919368774816';
+        $dialedNumber = '+919877640296';
       
         $voiceResponse = new VoiceResponse();
         $voiceResponse->say("Calling Now Please Wait");
@@ -95,11 +98,11 @@ class PhoneCallController extends Controller
                 #standard outbond phone call to telephpone number
                 $dial->number($dialedNumber);
             }
-            else{
+           else{
                 #client to client (user - user ) Phone call
 
-            }
-        }
+           }
+       }
         elseif($dialedNumber == env('TWILIO_CALLER_ID')){
             #inboud Phone call
 

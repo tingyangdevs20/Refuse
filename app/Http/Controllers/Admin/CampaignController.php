@@ -18,6 +18,7 @@ use App\Model\Sms;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CampaignController extends Controller
 {
@@ -438,7 +439,7 @@ class CampaignController extends Controller
         $groups = Group::all();
         $request->validate([
             'name' => 'required|string|max:255',
-            'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
+           
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
@@ -457,7 +458,7 @@ class CampaignController extends Controller
             //'send_after_days' => $request->send_after_days,
             //'send_after_hours' => $request->send_after_hours,
             //'schedule' => $sendAfter,
-            'group_id' => $request->group_id, // Assign group_id
+           // 'group_id' => $request->group_id, // Assign group_id
             //'template_id' => $request->template_id,
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
@@ -498,7 +499,7 @@ class CampaignController extends Controller
             //'type' => 'required|in:email,sms,mms,rvm',
             //'send_after_days' => 'nullable|integer|min:0',
             //'send_after_hours' => 'nullable|integer|min:0',
-            'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
+            //'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
@@ -512,7 +513,7 @@ class CampaignController extends Controller
         Campaign::where('id' , $request->id)->update([
             'name' => $request->name,
             //'type' => $request->type,
-            'group_id' => $request->group_id, // Assign group_id
+            //'group_id' => $request->group_id, // Assign group_id
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
@@ -520,15 +521,15 @@ class CampaignController extends Controller
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
     }
 
-    public function destroy(Campaign $campaign)
+    public function destroy(Request $request)
     {
-    try {
-        CampaignList::where("campaign_id", $campaign->id)->delete();
-        $campaign->delete();
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted successfully.');
-    }
-    catch (exception $e) {
-    return redirect()->route('admin.campaigns.index')->with('error', 'Something went wrong.');
-    }
+        try {
+            Campaign::find($request->id)->delete();
+            Alert::success('Success!', 'Campaign Removed!');
+            return redirect()->back();
+        }
+            catch (exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 }
