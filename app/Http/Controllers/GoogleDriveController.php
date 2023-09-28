@@ -18,8 +18,8 @@ class GoogleDriveController extends Controller
         $this->gClient = new \Google_Client();
 
         $this->gClient->setApplicationName('Web client 1'); // ADD YOUR AUTH2 APPLICATION NAME (WHEN YOUR GENERATE SECRATE KEY)
-        $this->gClient->setClientId('356520419540-q0a594dh2vq0igohtslbi7sgudg0iqhm.apps.googleusercontent.com');
-        $this->gClient->setClientSecret('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');
+        $this->gClient->setClientId('1083247698809-47ce0f3t30qmprhjfov1sdmsrbj0frb5.apps.googleusercontent.com');
+        $this->gClient->setClientSecret('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');
         $this->gClient->setRedirectUri(route('admin.google-drive-callback'));
         $this->gClient->setDeveloperKey('AIzaSyB0JsRitCEiYehLDllpu7v5ULPwJZUpbcw');
         $this->gClient->setScopes([
@@ -28,7 +28,7 @@ class GoogleDriveController extends Controller
         ]);
 
         $this->gClient->setAccessType("offline");
-        $this->gClient->setApprovalPrompt("force");
+        // $this->gClient->setApprovalPrompt("force");
     }
 
     public function googleLogin(Request $request)
@@ -94,9 +94,8 @@ class GoogleDriveController extends Controller
 
             return $this->googleDriveFileUpload($request);
         } else {
-
             // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl();
+            $authUrl = $this->gClient->createAuthUrl(['approval_prompt' => 'none']); // Set approval_prompt to 'none'
 
             return redirect()->to($authUrl);
         }

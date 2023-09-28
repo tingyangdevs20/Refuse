@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\CampaignConfirmation;
 use App\Mail\UserAgreementSendMail;
 use App\Model\UserAgreement;
 use App\Model\UserAgreementSeller;
@@ -62,25 +63,30 @@ class UserAgreementMail extends Command
             ->where("id", $userAgreementId)
             ->first();
 
+
         if ($userAgreement) {
             $userAgreementSellers = UserAgreementSeller::where("user_agreement_id", $userAgreementId)
                 ->get();
+
             foreach ($userAgreementSellers as $userAgreementSeller) {
-                if ($userAgreementSeller->is_mail_sent != "1") {
+                if ($userAgreementSeller->is_send_mail != "1") {
                     try {
                         if ($userAgreementSeller->user->email1 != '') {
                             $userEmail = $userAgreementSeller->user->email1;
                         } elseif ($userAgreementSeller->user->email2) {
                             $userEmail = $userAgreementSeller->user->email2;
                         }
+
                         Log::info(Crypt::encrypt($userAgreementSeller->id));
+
+
                         Mail::to($userEmail)
-                            ->bcc("bhaveshvyas23@gmail.com")
-                            ->send(new UserAgreementSendMail($userAgreement, $userAgreementSeller));
-                        $userAgreementSeller->is_mail_sent = "1";
+                            ->bcc("developer@technosharks.com")
+                            ->send(new UserAgreementSendMail($userAgreement));
+
+                        $userAgreementSeller->is_send_mail = "1";
                         $userAgreementSeller->save();
                     } catch (Exception $ex) {
-
                     }
                 }
             }
