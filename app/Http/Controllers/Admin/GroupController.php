@@ -198,7 +198,6 @@ class GroupController extends Controller
     public function store(Request $request)
     {
 
-
         $existing_group_id = '';
         $existing_group_id = $request->existing_group_id;
         $group_id = '';
