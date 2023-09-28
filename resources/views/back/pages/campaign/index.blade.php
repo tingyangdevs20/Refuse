@@ -26,7 +26,7 @@
                             All Campaigns
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
                             <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
-    data-target="#helpModal">How to use</button>  
+    data-target="#helpModal">How to use</button>
                         </div>
                         <div class="card-body">
                             @if ($campaigns->isEmpty())
@@ -54,11 +54,12 @@
                                         <td>
                                             <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button data-toggle="modal" class="btn btn-outline-warning" >Copy</button></a>
                                             <button data-toggle="modal" class="btn btn-outline-primary" id="editModal" data-target="#editCampaignModal" data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}" data-template="{{ $campaign->template_id }}" data-sendafterdays="{{ $campaign->send_after_days }}" data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"  data-id="{{ $campaign->id }}">Edit</button>
-                                            <form action="{{ route('admin.campaigns.destroy', $campaign->id) }}" method="POST" style="display: inline-block;">
+                                            {{-- <form action="{{ route('admin.campaigns.destroy', $campaign->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this game?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
+                                            </form> --}}
+                                            <button class="btn btn-danger" title="Remove {{ $campaign->name }}" data-id="{{ $campaign->id }}" data-toggle="modal" data-target="#deleteModal">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -82,11 +83,11 @@
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">How to Use</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        
+
       </div>
-     
+
       <div class="modal-body">
-            
+
         <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
          <iframe src="" frameBorder="0" style="position:absolute;width:100%;height:100%;border-radius:6px;left:0;top:0" allowfullscreen="" allow="autoplay">
          </iframe>
@@ -154,12 +155,12 @@
                         <!--    <label for="send_after_days">Send After Days</label>-->
                         <!--    <input type="number" name="send_after_days" id="send_after_days" class="form-control" required>-->
                         <!--</div>-->
-                        
+
                         <!--<div class="form-group">-->
                         <!--    <label for="send_after_hours">Send After Hours</label>-->
                         <!--    <input type="number" name="send_after_hours" id="send_after_hours" class="form-control" required>-->
                         <!--</div>-->
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
                                 <option value="">Select Group/Contact List</option>
@@ -169,7 +170,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label for="active">Active Status</label>
@@ -231,7 +232,7 @@
                         <!--    <label for="send_after_days">Send After Days</label>-->
                         <!--    <input type="number" name="send_after_days" id="send_after_days_edit" class="form-control" value="" required>-->
                         <!--</div>-->
-                        
+
                         <!--<div class="form-group">-->
                         <!--    <label for="send_after_hours">Send After Hours</label>-->
                         <!--    <input type="number" name="send_after_hours" id="send_after_hours_edit" class="form-control" value="" required>-->
@@ -265,6 +266,36 @@
             </div>
         </div>
     </div>
+
+    {{--Modal Delete--}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.campaigns.destroy','test') }}" method="post" id="editForm">
+                    @method('DELETE')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="modal-body">
+                            <p class="text-center">
+                                Are you sure you want to delete this?
+                            </p>
+                            <input type="hidden" id="id" name="id" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
 <script>
@@ -281,8 +312,8 @@
             }
         });
     }
-    
-    
+
+
     $('#editCampaignModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);// Button that triggered the modal
         var name = button.data('name');
@@ -294,7 +325,7 @@
         var sendafterhours = button.data('sendafterhours');
         var group_id = button.data('group');
         var modal = $(this);
-        
+
         $('#name_edit').val(name);
         $('#id_edit').val(id);
         $('#type_edit').val(type);
@@ -302,7 +333,7 @@
         $('#send_after_hours_edit').val(sendafterhours);
         $('#group_id_edit').val(group_id);
     });
-    
+
     function getTemplateEdit(type,template_id){
         var url = '<?php echo url('/admin/get/template/') ?>/'+type;
         $.ajax({
@@ -316,9 +347,18 @@
                 setTimeout(function() {
                     $('#template-select-edit').val(template_id);
                 }, 500);
-                
+
             }
         });
     }
+    $(document).ready(function(){
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('.modal-body #id').val(id);
+        });
+    });
+
 </script>
 @endsection

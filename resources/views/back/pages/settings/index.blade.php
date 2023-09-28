@@ -47,7 +47,20 @@
                                     </select>
                                 </div>
 
+                                <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> Digital Signing
 
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                    <label>Authorized Name</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Auth. Name"
+                                            name="auth_email" id="auth_email" value="{{ $settings->auth_email }}"
+                                            required>
+                                    </div>
+                                </div>
 
                                 <div class="card-header bg-soft-dark ">
                                     <i class="fas fa-cog"></i> Email Settings
@@ -55,15 +68,7 @@
                                 </div>
                                 <br />
 
-                                <div class="form-group">
-                                    <label>Send From Email</label>
-                                    <div class="input-group mb-2">
-
-                                        <input type="text" class="form-control" placeholder="Send From Email"
-                                            name="sender_email" id="sender_email" value="{{ $settings->sender_email }}"
-                                            required>
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label>Reply To Email</label>
                                     <div class="input-group mb-2">
@@ -79,7 +84,24 @@
 
                                 </div>
                                 <br />
+                                <div class="form-group">
+                                    <label>Send From Email (Send Grid)</label>
+                                    <div class="input-group mb-2">
 
+                                        <input type="text" class="form-control" placeholder="Send From Email"
+                                            name="sender_email" id="sender_email" value="{{ $settings->sender_email }}"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>From Name (Send Grid)</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Send From Name"
+                                            name="sender_name" id="sender_name" value="{{ $settings->sender_name}}"
+                                            required>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label>Send Grid API Key</label>
                                     <div class="input-group mb-2">
@@ -90,6 +112,7 @@
                                             required>
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label>Twilio Account SID</label>
                                     <div class="input-group mb-2">

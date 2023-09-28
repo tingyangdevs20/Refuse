@@ -4,14 +4,14 @@
 
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Bulk SMS Dashboard </title>
+    <title>REIFuze</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Pet Store Dashboard" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <link rel="shortcut icon" href="{{ asset('back/assets/images/sms.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('back/assets/images/favicon.ico') }}">
+    
 
     <!-- Bootstrap Css -->
     <link href="{{ asset('back/assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />

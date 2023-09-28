@@ -33,9 +33,8 @@
             <table class="table table-striped table-bordered" id="datatable">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                 
                   <th scope="col"> Template Name </th>
-                  <th scope="col"> Content </th>
                   <th scope="col"> Status </th>
 
                   <th scope="col">Created At</th>
@@ -43,10 +42,10 @@
                 </tr>
               </thead>
               <tbody> @foreach($groups as $group) <tr>
-                  <td>{{ $sr++ }}</td>
+                  
                   <td>{{ $group->template_name }}</td>
 
-                  <td> @php print_r(substr($group->content,0,40)) @endphp</td>
+                 
                   <td> @if($group->status == 0 ) {{'Active'}} @else {{'Deactive'}} @endif </td>
                   <td>{{ $group->created_at }}</td>
                   <td>
