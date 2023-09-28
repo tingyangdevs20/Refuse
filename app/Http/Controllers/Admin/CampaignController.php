@@ -18,6 +18,7 @@ use App\Model\Sms;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CampaignController extends Controller
 {
@@ -520,15 +521,15 @@ class CampaignController extends Controller
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
     }
 
-    public function destroy(Campaign $campaign)
+    public function destroy(Request $request)
     {
-    try {
-        CampaignList::where("campaign_id", $campaign->id)->delete();
-        $campaign->delete();
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted successfully.');
-    }
-    catch (exception $e) {
-    return redirect()->route('admin.campaigns.index')->with('error', 'Something went wrong.');
-    }
+        try {
+            Campaign::find($request->id)->delete();
+            Alert::success('Success!', 'Campaign Removed!');
+            return redirect()->back();
+        }
+            catch (exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 }
