@@ -692,7 +692,6 @@ class GroupController extends Controller
     public function uploadcontractedit(Request $request)
     {
 
-
         $file = $request->file;
 
         $fileName = $file->getClientOriginalName();
