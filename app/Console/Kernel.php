@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         //DB::table('test')->insert(['name' => 'SMS']);
          $schedule->command('countreset:daily')->daily()->appendOutputTo('countreset.log');
          $schedule->command('campeignschedual:daily')->everyMinute();
+         $schedule->command('MailTo:Contacts')->dailyAt('11:00');
     }
 
     public function scheduleTimezone()

@@ -84,7 +84,7 @@
                                                                         <div class="form-group mt-3">
                                                                             <label>Campaign Type</label>
                                                                             <select class="custom-select template_type" name="type[]" onchange="getcontent('{{ $count }}')" required>
-                                                                                <option value="">select type</option>
+                                                                                <option value="">Select Type</option>
                                                                                 <option value="sms" @if($campaign->type == 'sms') selected @endif>SMS</option>
                                                                                 <option value="email" @if($campaign->type == 'email') selected @endif>Email</option>
                                                                                 <option value="mms" @if($campaign->type == 'mms') selected @endif>MMS</option>
@@ -94,7 +94,7 @@
                                                                         <div class="form-group mt-3">
                                                                             <label>Template Category</label>
                                                                             <select class="custom-select category" onchange="getcontent('{{ $count }}')" name="cat[]" required>
-                                                                                <option value="">select category</option>
+                                                                                <option value="">Select Category</option>
                                                                             @foreach($categories as $category)
                                                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                                             @endforeach
@@ -288,9 +288,9 @@
 
         function addNewRows(frm) {
             rowCount ++;
-            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">select type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
+            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">Select Type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
 
-            recRow += '<div class="form-group mt-3"><label>Template Category</label><select class="custom-select category" name="cat[]"  onchange="getcontent('+rowCount+');" required><option value="">select category</option>';
+            recRow += '<div class="form-group mt-3"><label>Template Category</label><select class="custom-select category" name="cat[]"  onchange="getcontent('+rowCount+');" required><option value="">Select Category</option>';
                 $.each( categories, function( key, value ) {
                     recRow += '<option value='+value.id+'>'+value.name+'</option>';
                 });
