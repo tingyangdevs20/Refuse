@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Artisan;
 
 class AgreementSignController extends Controller
 {
@@ -183,7 +184,8 @@ class AgreementSignController extends Controller
         if ($userAgreementSeller == $userAgreementSellerSignCount) {
             $userAgreement->is_sign = "2";
             $userAgreement->save();
-            runCURL(url("api/agreement/pdf"));
+            Artisan::call("agreement:pdf");
+            // runCURL(url("api/agreement/pdf"));
         }
 
         $response = [

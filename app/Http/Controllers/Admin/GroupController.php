@@ -174,8 +174,10 @@ class GroupController extends Controller
                 }
             }
         }
-        return 'added';
-        //return view('back.pages.group.contactDetail', compact('id','groups', 'campaigns','markets'));
+        return response()->json([
+            'status' => true,
+            'message' => 'Data updated successfully!'
+        ]);
     }
 
     /**

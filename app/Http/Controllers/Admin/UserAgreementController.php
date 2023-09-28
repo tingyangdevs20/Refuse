@@ -9,6 +9,7 @@ use App\Model\UserAgreementSeller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Artisan;
 
 class UserAgreementController extends Controller
 {
@@ -107,7 +108,8 @@ class UserAgreementController extends Controller
             $userAgreement->save();
         }
 
-        runCURL(url("api/agreement/{$userAgreement->id}/mail"));
+        Artisan::call("agreement:mail", ['userAgreementId' => $userAgreement->id]);
+        //runCURL(url("api/agreement/{$userAgreement->id}/mail"));
 
         $response = [
             'success' => true,
@@ -224,8 +226,8 @@ class UserAgreementController extends Controller
             $userAgreement->content = str_replace("<p>{SIGNATURE_USER}</p>", $replaceSignature, $userAgreement->content);
             $userAgreement->save();
         }
-
-        runCURL(url("api/agreement/{$userAgreement->id}/mail"));
+        Artisan::call("agreement:mail", ['userAgreementId' => $userAgreement->id]);
+        //runCURL(url("api/agreement/{$userAgreement->id}/mail"));
 
         $response = [
             'success' => true,

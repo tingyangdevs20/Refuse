@@ -71,6 +71,7 @@ class CampaignLeadListController extends Controller
                                 //dd($contacts);
                                 if(count($contacts) > 0){
                                     foreach($contacts as $cont){
+                                        
                                         //return $cont->name;
                                         if($cont->email1 != ''){
                                             $email = $cont->email1;
