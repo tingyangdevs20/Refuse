@@ -321,14 +321,14 @@ input:checked + .slider:before {
               </button>
                 <div class="call-display">
                     <div class="row">
-                      <input type="tel" class="phone-number" pattern="[0-9 ]+" autofocus />
+                      <input type="tel" class="phone-number" placeholder="Enter mobile number with country code" pattern="[0-9 ]+" autofocus />
                     </div>
                 </div>
 
-                    <select class="custom-select" id="list-of-phonenumbers">
+                   <!-- <select class="custom-select" id="list-of-phonenumbers">
                         <option selected>+18886418823</option>
 
-                    </select>
+                    </select>-->
 
                 <div class="grid">
                     <button class="focus-effects" value="1">1</button>
