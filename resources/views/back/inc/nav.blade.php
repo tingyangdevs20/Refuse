@@ -83,7 +83,7 @@
                         <li><a href="{{ route('admin.one-at-time.index') }}">Bulk SMS One At Time</a></li>
 {{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
 
-                        <li><a href="{{ route('admin.sms.failed') }}">Failed SMS</a></li>
+                        
                         <li><a href="{{ route('admin.appointment', [encrypt(Auth::id())]) }}">Appointments</a></li>
                     </ul>
                 </li>
@@ -222,6 +222,7 @@
                  <li><a href="{{ route('admin.auto-responder.index') }}" class=" waves-effect">Keyword Auto-Responder</a></li>
                         <li><a href="{{ route('admin.auto-reply.index') }}" class=" waves-effect">Auto-Reply</a></li>
                         <li><a href="{{ route('admin.phone.numbers') }}" class="waves-effect">Phone Numbers</a></li>
+                        <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
                         <li><a href="{{ route('admin.template.index') }}" class="waves-effect">Templates</a></li>
                         <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign. Templates</a></li>
                         <li><a href="{{ route('admin.market.index') }}" class=" waves-effect">Markets</a></li>

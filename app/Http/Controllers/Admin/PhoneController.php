@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Phone;
+use App\Model\Settings;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Http;
@@ -13,21 +14,30 @@ class PhoneController extends Controller
 {
     private $client = null;
     public function __construct() {
-        $sid = "ACa068bcfb703b21e18077f86851761d44";
-        $token = "c2f1cc6866bad1d7443792a34dfe2395";
+        $settings = Settings::first()->toArray(); 
+        
+        
+        $sid = $settings['twilio_api_key'];
+        
+        $token = $settings['twilio_acc_secret'];
+       
         $this->client = new Client($sid, $token);
     }
     public function index(){
         $context = $this->client->getAccount();
         $activeNumbers = $context->incomingPhoneNumbers;
+        
         $activeNumberArray = $activeNumbers->read();
+        //print_r($activeNumberArray);
+        //die("...");
         $numbers = [];
         foreach($activeNumberArray as $activeNumber) {
             error_log('active number = '.$activeNumber->phoneNumber);
             $numbers[] = (object)[
                 'number' => $activeNumber->phoneNumber,
                 'name' => $activeNumber->friendlyName,
-                'sid' => $activeNumber->sid
+                'sid' => $activeNumber->sid,
+                'capabilities' => $activeNumber->capabilities,
             ];
 
             $phn_num=$activeNumber->phoneNumber;
@@ -37,6 +47,7 @@ class PhoneController extends Controller
                 $phn_nums = new Phone();
                 $phn_nums->number= $phn_num;
                 $phn_nums->sid= $activeNumber->sid;
+                $phn_nums->capabilities= $activeNumber->capabilities;
                 $phn_nums->save();
 
             }
