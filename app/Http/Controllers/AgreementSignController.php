@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Artisan;
 
 class AgreementSignController extends Controller
 {
@@ -120,12 +121,13 @@ class AgreementSignController extends Controller
         }
 
         $userAgreement = $userAgreementSeller->userAgreement;
-
-        if ($userAgreement && $userAgreement->sign != "" && $userAgreementSeller->is_sign == "2" && $userAgreement->pdf_path != "") {
+        //dd($userAgreement);
+        // if ($userAgreement && $userAgreement->sign != "" && $userAgreementSeller->is_sign == "2" && $userAgreement->pdf_path != "") {
+        if ($userAgreement && $userAgreementSeller->pdf_path != "") {
             $headers = [
                 'Content-Type: application/pdf',
             ];
-            return response()->file($userAgreement->pdf_path, $headers);
+            return response()->file($userAgreementSeller->pdf_path, $headers);
         } else {
             return redirect()->route('login');
         }
@@ -183,7 +185,8 @@ class AgreementSignController extends Controller
         if ($userAgreementSeller == $userAgreementSellerSignCount) {
             $userAgreement->is_sign = "2";
             $userAgreement->save();
-            runCURL(url("api/agreement/pdf"));
+            Artisan::call("agreement:pdf");
+            // runCURL(url("api/agreement/pdf"));
         }
 
         $response = [

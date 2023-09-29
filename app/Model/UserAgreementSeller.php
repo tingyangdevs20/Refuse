@@ -23,6 +23,13 @@ class UserAgreementSeller extends Model
         return $this->belongsTo(UserAgreement::class, 'user_agreement_id', 'id');
     }
 
+    public function getPdfPathAttribute($value)
+    {
+        if (!empty($value) && $value != null) {
+            return public_path("agreement_pdf/" . $value);
+            //return asset("storage/app/public/agreement_pdf/" . $value);
+        }
+    }
     /**
      * get agreement user
      *

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Blacklist;
 use App\Model\FailedSms;
 use App\Model\Number;
+use App\Model\Phone;
 use App\Model\Reply;
 use App\Model\Sms;
 use App\Model\Template;
@@ -23,7 +24,8 @@ class SingleSMSController extends Controller
      */
     public function index()
     {
-        $numbers = Number::all();
+       // $numbers = Number::all();
+       $numbers = Phone::all();
         $templates = Template::all();
         return view('back.pages.sms.single.index', compact('numbers', 'templates'));
     }

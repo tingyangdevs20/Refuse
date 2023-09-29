@@ -8,7 +8,7 @@
 @endif
 @if(Auth::user()->hasSwitchedRole())
 <div class="alert alert-info" id="switchRoleAlert">
-    You are currently viewing <span style="color: red; font-weight: bold;" class="highlighted-text">{{ Auth::user()->name }}</span> as an account administrator.
+    You are currently viewing <span style="color: red; font-weight: bold;" class="highlighted-text">{{ Auth::user()->name }}</span> .
     <a href="{{ route('admin.user.quit') }}" class="btn btn-outline-danger btn-sm ml-2">Quit</a>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

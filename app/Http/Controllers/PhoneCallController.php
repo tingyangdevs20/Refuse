@@ -82,7 +82,7 @@ class PhoneCallController extends Controller
 
         
         $dialedNumber = $request->get('To') ?? null;
-        $dialedNumber = '+919877640296';
+        
       
         $voiceResponse = new VoiceResponse();
         $voiceResponse->say("Calling Now Please Wait");

@@ -33,7 +33,8 @@ class UserAgreement extends Model
     public function getPdfPathAttribute($value)
     {
         if (!empty($value) && $value != null) {
-            return asset("storage/agreement_pdf/" . $value);
+            return public_path("agreement_pdf/" . $value);
+            //return asset("storage/app/public/agreement_pdf/" . $value);
         }
     }
 

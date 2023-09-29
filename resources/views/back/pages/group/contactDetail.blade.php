@@ -3205,6 +3205,20 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            {{-- <label>Title Company Email</label> --}}
+                                                                            <div class="input-group mb-2">
+                                                                                <input type="text"
+                                                                                    class="form-control"
+                                                                                    placeholder="Buying/Selling Entity Details"
+                                                                                    onchange="updateValue(value,'buy_sell_entity_detail','title_company')"
+                                                                                    table="title_company"
+                                                                                    name="buy_sell_entity_detail">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 @php
                                                                     $customeFields = getsectionsFields($section->id);
