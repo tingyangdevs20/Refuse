@@ -103,9 +103,6 @@ class UserAgreementMail extends Command
                 $new_array['{auth_email}'] = $settings->auth_email;
 
 
-                dd($new_array);
-
-
 
                 $agreementDirectory = "agreement_pdf";
                 $pdfPath            = public_path($agreementDirectory);
