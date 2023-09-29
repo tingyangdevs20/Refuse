@@ -239,7 +239,7 @@
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'seller') selected @endif
                                                                                 @endif>Seller
                                                                             </option>
-                                                                            
+
                                                                             <option value="buyer"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'buyer') selected @endif
                                                                                 @endif>Buyer
@@ -3087,9 +3087,25 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-md-12">
-
+                                                                <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
+                                                                        <label for="file">Select file type to
+                                                                            upload</label>
+                                                                        <select class="custom-select" name="lead_status"
+                                                                            table="lead_info"
+                                                                            onchange="toggleFIlesUpload(value)">
+                                                                            <option value="any" selected>Any File
+                                                                            </option>
+                                                                            <option value="purchase_agreement">Purchase
+                                                                                Agreement</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;"
+                                                                        id="driveUpload">
 
 
                                                                         <div class="form-group">
@@ -3102,6 +3118,27 @@
                                                                         <button type="submit" id="custom-upload-button"
                                                                             class="btn btn-primary">Upload to Google
                                                                             Drive</button>
+
+
+                                                                    </div>
+
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="purchaseAgreementUpload">
+
+
+                                                                        <div class="form-group">
+                                                                            <label for="file">Select Files to
+                                                                                Upload:</label>
+                                                                            <input type="file"
+                                                                                name="purchase_agreement" id="file"
+                                                                                class="form-control"
+                                                                                accept="application/pdf">
+                                                                        </div>
+                                                                        <button type="submit"
+                                                                            id="agreement-upload-button"
+                                                                            class="btn btn-primary">Move Lead to
+                                                                            Deals</button>
 
 
                                                                     </div>
@@ -3879,77 +3916,6 @@
                                                                 </div>
                                                             </div>
                                                             <hr>
-                                                        @elseif($section->id == '22')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="SECTION">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-
-                                                                    <div class="form-group" style="padding: 0 10px;">
-
-
-                                                                        <div class="form-group">
-                                                                            <label for="file">Select Files to
-                                                                                Upload:</label>
-                                                                            <input type="file"
-                                                                                name="purchase_agreement" id="file"
-                                                                                class="form-control"
-                                                                                accept="application/pdf">
-                                                                        </div>
-                                                                        <button type="submit"
-                                                                            id="agreement-upload-button"
-                                                                            class="btn btn-primary">Move Lead to
-                                                                            Deals</button>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
                                                         @elseif($section->id == '23')
                                                             <div class="col-md-12" id="{{ $section->id }}"
                                                                 style="padding:0px;">
@@ -4139,6 +4105,17 @@
         }
     </script>
     <script>
+        // Check the type of file for upload to google drive
+        function toggleFIlesUpload(value) {
+            if (value == 'purchase_agreement') {
+                $('#driveUpload').hide()
+                $('#purchaseAgreementUpload').show()
+            } else {
+                $('#driveUpload').show()
+                $('#purchaseAgreementUpload').hide()
+            }
+        }
+
         function setTextareaValue(id) {
             if (id > 0) {
                 axios.get('/admin/template/' + id)

@@ -222,7 +222,7 @@
     {{--End Modal on 31-08-2023--}}
 
     {{--Modal Edit--}}
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="t???rue">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
