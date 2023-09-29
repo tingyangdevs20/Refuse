@@ -91,7 +91,7 @@ class UserAgreementMail extends Command
                     }
                 }
 
-                $users = DB::table('users')->first(["name", "email", "mobile", "address", "street", "state", "city", "zip"]);
+                $users = DB::table('users')->first(["name", "email", "mobile", "company_name" , "address", "street", "state", "city", "zip"]);
                 if(!empty($users) ){
                     foreach($users as $key => $user){
                         $new_array['{user_'.$key.'}'] = $user;
@@ -99,9 +99,19 @@ class UserAgreementMail extends Command
                 }
 
                // $new_array['{auth_email}'] =  Auth::id();
-                $settings = DB::table('settings')->where('id', '1')->first();
-                $new_array['{auth_email}'] = $settings->auth_email;
-
+                $settings = DB::table('settings')->where('id', '1')->first(["auth_email", "document_closed_by"]);
+                if(!empty($settings) ){
+                    foreach($settings as $key => $setting){
+                        $new_array['{'.$key.'}'] = $setting;
+                    }
+                }
+                //$new_array['{auth_email}'] = $settings->auth_email;
+                $title_company = DB::table('title_company')->where('contact_id', $userAgreementSeller->user_id)->first(["buy_sell_entity_detail"]);
+                if(!empty($title_company) ){
+                    foreach($title_company as $key => $title){
+                        $new_array['{'.$key.'}'] = $title;
+                    }
+                }
 
 
                 $agreementDirectory = "agreement_pdf";

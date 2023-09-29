@@ -50,15 +50,26 @@ class FormTemplatesController extends Controller
             }
         }
 
-        $users = DB::table('users')->first(["name", "email", "mobile", "address", "street", "state", "city", "zip"]);
+        $users = DB::table('users')->first(["name", "email", "mobile", "company_name" , "address", "street", "state", "city", "zip"]);
         if(!empty($users) ){
             foreach($users as $key => $user){
                 $short_code['user_'.$key] = $user;
             }
         }
 
-        $settings = DB::table('settings')->first();
-        $short_code['auth_email'] = $settings->auth_email;
+        $settings = DB::table('settings')->first(["auth_email", "document_closed_by"]);
+        if(!empty($settings) ){
+            foreach($settings as $key => $setting){
+                $short_code[$key] = $setting;
+            }
+        }
+
+        $title_company = DB::table('title_company')->first(["buy_sell_entity_detail"]);
+        if(!empty($title_company) ){
+            foreach($title_company as $key => $title){
+                $short_code[$key] = $title;
+            }
+        }
 
         $short_code = array_keys($short_code);
 
