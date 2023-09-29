@@ -39,7 +39,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Scripts</th>
+                                    
                                     <!--<th scope="col">Media URL</th>-->
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -50,8 +50,7 @@
                                         <td>{{ $sr++ }}</td>
                                         <td>{{ $script->name }}</td>
                                         <td>
-                                            <?php echo htmlspecialchars_decode(stripslashes($script->scripts)); ?>
-                                            <!--{{ $script->body}}-->
+                                          
                                         </td>
                                         <td>
                                             <button class="btn btn-outline-primary btn-sm edit-Script" title="Edit {{ $script->name }}" data-name="{{ $script->name }}" data-body="{{ htmlspecialchars_decode(stripslashes($script->scripts)) }}" data-id="{{ $script->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
