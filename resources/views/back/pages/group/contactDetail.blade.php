@@ -239,7 +239,7 @@
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'seller') selected @endif
                                                                                 @endif>Seller
                                                                             </option>
-                                                                            
+
                                                                             <option value="buyer"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'buyer') selected @endif
                                                                                 @endif>Buyer
@@ -3165,6 +3165,20 @@
                                                                                     class="form-control"
                                                                                     placeholder="Title Company Email"
                                                                                     name="SomeoneHelpingName">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            {{-- <label>Title Company Email</label> --}}
+                                                                            <div class="input-group mb-2">
+                                                                                <input type="text"
+                                                                                    class="form-control"
+                                                                                    placeholder="Buying/Selling Entity Details"
+                                                                                    onchange="updateValue(value,'buy_sell_entity_detail','title_company')"
+                                                                                    table="title_company"
+                                                                                    name="buy_sell_entity_detail">
                                                                             </div>
                                                                         </div>
                                                                     </div>

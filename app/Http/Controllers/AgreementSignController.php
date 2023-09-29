@@ -121,12 +121,13 @@ class AgreementSignController extends Controller
         }
 
         $userAgreement = $userAgreementSeller->userAgreement;
-
-        if ($userAgreement && $userAgreement->sign != "" && $userAgreementSeller->is_sign == "2" && $userAgreement->pdf_path != "") {
+        //dd($userAgreement);
+        // if ($userAgreement && $userAgreement->sign != "" && $userAgreementSeller->is_sign == "2" && $userAgreement->pdf_path != "") {
+        if ($userAgreement && $userAgreementSeller->pdf_path != "") {
             $headers = [
                 'Content-Type: application/pdf',
             ];
-            return response()->file($userAgreement->pdf_path, $headers);
+            return response()->file($userAgreementSeller->pdf_path, $headers);
         } else {
             return redirect()->route('login');
         }
