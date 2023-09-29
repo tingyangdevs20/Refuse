@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'agreement'], function () {
     Route::post('/{userAgreementId}/mail', function ($userAgreementId) {
-        Log::info("here");
+        //Log::info("here");
         Artisan::call("agreement:mail", ['userAgreementId' => $userAgreementId]);
     });
     Route::post('pdf', function () {

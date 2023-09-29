@@ -41,9 +41,9 @@
                             data-target="#helpModal">How to use</button>
                     </div>
 
-                    <?php 
+                    <?php
                     //print_r($userAgreements);
-                    
+
                     ?>
                     <div class="card-body">
                         <table class="table table-striped table-bordered" id="datatable">

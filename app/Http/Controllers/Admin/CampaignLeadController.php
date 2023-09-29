@@ -25,22 +25,23 @@ class CampaignLeadController extends Controller
     {
         $groups = Group::all(); // Fetch groups from the database
         $campaigns = CampaignLead::getAllLeadsCampaign();
-        $templates = Template::where('type' , 'SMS')->get();
-        return view('back.pages.campaignleads.index', compact('groups', 'campaigns','templates'));
+        $templates = Template::where('type', 'SMS')->get();
+        return view('back.pages.campaignleads.index', compact('groups', 'campaigns', 'templates'));
     }
 
-    public function copy($id = ''){
-        $campaigns = CampaignLead::where('id' , $id)->first();
-        if($campaigns){
+    public function copy($id = '')
+    {
+        $campaigns = CampaignLead::where('id', $id)->first();
+        if ($campaigns) {
             $compaignRes = CampaignLead::create([
                 'name' => $campaigns->name,
                 'group_id' => $campaigns->group_id,
                 'active' => $campaigns->active,
             ]);
             $campaign_id = $compaignRes->id;
-            $checkCompainList = CampaignLeadList::where('campaign_id',$id)->get();
-            if(count($checkCompainList) > 0){
-                foreach($checkCompainList as $compaign){
+            $checkCompainList = CampaignLeadList::where('campaign_id', $id)->get();
+            if (count($checkCompainList) > 0) {
+                foreach ($checkCompainList as $compaign) {
                     $insertData = array(
                         "campaign_id" => $campaign_id,
                         "type" => $compaign->type,
@@ -52,38 +53,37 @@ class CampaignLeadController extends Controller
                         "template_id" => 0
                     );
                     $c_id = CampaignLeadList::create($insertData);
-                    $checkCompainList = CampaignLeadList::where('campaign_id',$campaign_id)->get();
+                    $checkCompainList = CampaignLeadList::where('campaign_id', $campaign_id)->get();
                 }
-                
             }
-            $compain = CampaignLead::where('id' , $campaign_id)->first();
-            $groupsID = Group::where('id',$compain->group_id)->first();
-            $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
+            $compain = CampaignLead::where('id', $campaign_id)->first();
+            $groupsID = Group::where('id', $compain->group_id)->first();
+            $sender_numbers = Number::where('market_id', $groupsID->market_id)->inRandomOrder()->first();
             //dd($numbers);
-            $account = Account::where('id' , $sender_numbers->account_id)->first();
-            if($account){
+            $account = Account::where('id', $sender_numbers->account_id)->first();
+            if ($account) {
                 $sid = $account->account_id;
                 $token = $account->account_token;
-            }else{
+            } else {
                 $sid = '';
                 $token = '';
             }
-            $checkCompainList = CampaignLeadList::where('campaign_id',$campaign_id)->orderby('schedule','ASC')->first();
-            if($checkCompainList) {
+            $checkCompainList = CampaignLeadList::where('campaign_id', $campaign_id)->orderby('schedule', 'ASC')->first();
+            if ($checkCompainList) {
                 $template = Template::where('id', $checkCompainList->template_id)->first();
-                if($checkCompainList->type == 'email') {
+                if ($checkCompainList->type == 'email') {
                     $contacts = Contact::where('group_id', $compain->group_id)->get();
-                    if(count($contacts) > 0) {
-                        foreach($contacts as $cont) {
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
                             //return $cont->name;
-                            if($cont->email1 != '') {
+                            if ($cont->email1 != '') {
                                 $email = $cont->email1;
-                            } elseif($cont->email2) {
+                            } elseif ($cont->email2) {
                                 $email = $cont->email2;
                             }
-                            if($template){
+                            if ($template) {
                                 $subject = $template->subject;
-                            }else{
+                            } else {
                                 $subject = $checkCompainList->subject;
                             }
                             $subject = str_replace("{name}", $cont->name, $subject);
@@ -91,9 +91,9 @@ class CampaignLeadController extends Controller
                             $subject = str_replace("{city}", $cont->city, $subject);
                             $subject = str_replace("{state}", $cont->state, $subject);
                             $subject = str_replace("{zip}", $cont->zip, $subject);
-                            if($template){
+                            if ($template) {
                                 $message = $template->body;
-                            }else{
+                            } else {
                                 $message = $checkCompainList->body;
                             }
                             $message = str_replace("{name}", $cont->name, $message);
@@ -101,30 +101,29 @@ class CampaignLeadController extends Controller
                             $message = str_replace("{city}", $cont->city, $message);
                             $message = str_replace("{state}", $cont->state, $message);
                             $message = str_replace("{zip}", $cont->zip, $message);
-                            $unsub_link = url('admin/email/unsub/'.$email);
-                            $data = ['message' => $message ,'subject' => $subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
+                            $unsub_link = url('admin/email/unsub/' . $email);
+                            $data = ['message' => $message, 'subject' => $subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
                             Mail::to($email)->send(new TestEmail($data));
                             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                         }
                     }
-
-                } elseif($checkCompainList->type == 'sms') {
+                } elseif ($checkCompainList->type == 'sms') {
                     $client = new Client($sid, $token);
                     $contacts = Contact::where('group_id', $compain->group_id)->get();
-                    if(count($contacts) > 0) {
-                        foreach($contacts as $cont) {
-                            if($cont->number != '') {
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
+                            if ($cont->number != '') {
                                 $number = $cont->number;
-                            } elseif($cont->number2 != '') {
+                            } elseif ($cont->number2 != '') {
                                 $number = $cont->number2;
-                            } elseif($cont->number3 != '') {
+                            } elseif ($cont->number3 != '') {
                                 $number = $cont->number2;
                             }
                             $receiver_number = $number;
                             $sender_number = $sender_numbers->number;
-                            if($template){
+                            if ($template) {
                                 $message = $template->body;
-                            }else{
+                            } else {
                                 $message = $checkCompainList->body;
                             }
                             $message = str_replace("{name}", $cont->name, $message);
@@ -161,7 +160,6 @@ class CampaignLeadController extends Controller
                                         $reply_message->save();
                                         $this->incrementSmsCount($sender_number);
                                     }
-
                                 }
                             } catch (\Exception $ex) {
                                 $failed_sms = new FailedSms();
@@ -174,17 +172,17 @@ class CampaignLeadController extends Controller
                             }
                         }
                     }
-                } elseif($checkCompainList->type == 'mms') {
+                } elseif ($checkCompainList->type == 'mms') {
                     $client = new Client($sid, $token);
                     $contacts = Contact::where('group_id', $compain->group_id)->get();
-                    if(count($contacts) > 0) {
-                        foreach($contacts as $cont) {
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
                             $receiver_number = $cont->number;
                             //$receiver_number = '4234606442';
                             $sender_number = $sender_numbers->number;
-                            if($template){
+                            if ($template) {
                                 $message = $template->body;
-                            }else{
+                            } else {
                                 $message = $checkCompainList->body;
                             }
                             $message = str_replace("{name}", $cont->name, $message);
@@ -192,9 +190,9 @@ class CampaignLeadController extends Controller
                             $message = str_replace("{city}", $cont->city, $message);
                             $message = str_replace("{state}", $cont->state, $message);
                             $message = str_replace("{zip}", $cont->zip, $message);
-                            if($template){
+                            if ($template) {
                                 $mediaUrl = $template->mediaUrl;
-                            }else{
+                            } else {
                                 $mediaUrl = $checkCompainList->mediaUrl;
                             }
                             try {
@@ -228,7 +226,6 @@ class CampaignLeadController extends Controller
                                         $reply_message->save();
                                         $this->incrementSmsCount($sender_number);
                                     }
-
                                 }
                             } catch (\Exception $ex) {
                                 $failed_sms = new FailedSms();
@@ -241,104 +238,99 @@ class CampaignLeadController extends Controller
                             }
                         }
                     }
-                } elseif($checkCompainList->type == 'rvm') {
+                } elseif ($checkCompainList->type == 'rvm') {
                     $contactsArr = [];
                     $contacts = Contact::where('group_id', $compain->group_id)->get();
-                    if(count($contacts) > 0) {
-                        foreach($contacts as $cont) {
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
                             $contactsArr[] = $cont->number;
                         }
                     }
-                    if(count($contactsArr) > 0) {
+                    if (count($contactsArr) > 0) {
                         try {
                             $c_phones = implode(',', $contactsArr);
                             //$c_phones = '3128692422';
-                            if($template){
+                            if ($template) {
                                 $mediaUrl = $template->mediaUrl;
-                            }else{
+                            } else {
                                 $mediaUrl = $checkCompainList->mediaUrl;
                             }
                             $vrm = \Slybroadcast::sendVoiceMail([
-                                                'c_phone' => ".$c_phones.",
-                                                'c_url' => $mediaUrl,
-                                                'c_record_audio' => '',
-                                                'c_date' => 'now',
-                                                'c_audio' => 'Mp3',
-                                                //'c_callerID' => "4234606442",
-                                                'c_callerID' => $sender_numbers->number,
-                                                //'mobile_only' => 1,
-                                                'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
-                                            ])->getResponse();
+                                'c_phone' => ".$c_phones.",
+                                'c_url' => $mediaUrl,
+                                'c_record_audio' => '',
+                                'c_date' => 'now',
+                                'c_audio' => 'Mp3',
+                                //'c_callerID' => "4234606442",
+                                'c_callerID' => $sender_numbers->number,
+                                //'mobile_only' => 1,
+                                'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
+                            ])->getResponse();
                         } catch (\Exception $ex) {
-
                         }
                     }
-
                 }
                 // $campaign->active = $request->active; // Update active
                 $checkCompainList1 = CampaignLeadList::where('campaign_id', $campaign_id)->first();
-                $campaigns = CampaignLeadList::where('id', $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
+                $campaigns = CampaignLeadList::where('id', $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s'), 'active' => 0]);
             }
         }
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
-        
     }
-    
+
     public function schedual()
     {
         $currentTime = date('Y-m-d H:i:s');
         //$scheduleTime = '2023-08-21 07:43:02';
-        $campaigns = CampaignLead::where('active' , 1)->get();
+        $campaigns = CampaignLead::where('active', 1)->get();
         //dd($campaigns);
-        if(count($campaigns) > 0){
-            foreach($campaigns as $key1 => $camp){
-                $campaignsList = CampaignLeadList::where('campaign_id' , $camp->id)->where('active' , 1)->orderby('schedule', 'ASC')->get();
-                if(count($campaignsList) > 0){
-                    foreach($campaignsList as $key => $row){
-                        $schedule = date('Y-m-d H:i:s' , strtotime($row->schedule));
-                        if($schedule <= $currentTime){
+        if (count($campaigns) > 0) {
+            foreach ($campaigns as $key1 => $camp) {
+                $campaignsList = CampaignLeadList::where('campaign_id', $camp->id)->where('active', 1)->orderby('schedule', 'ASC')->get();
+                if (count($campaignsList) > 0) {
+                    foreach ($campaignsList as $key => $row) {
+                        $schedule = date('Y-m-d H:i:s', strtotime($row->schedule));
+                        if ($schedule <= $currentTime) {
                             $account = Account::first();
-                            if($account){
+                            if ($account) {
                                 $sid = $account->account_id;
                                 $token = $account->account_token;
-                            }else{
+                            } else {
                                 $sid = '';
                                 $token = '';
                             }
-                            $template = Template::where('id',$row->template_id)->first();
-                            if($row->type == 'email'){
-                                $contacts = Contact::where('group_id' , $row->group_id)->where('is_email',1)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
+                            $template = Template::where('id', $row->template_id)->first();
+                            if ($row->type == 'email') {
+                                $contacts = Contact::where('group_id', $row->group_id)->where('is_email', 1)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
                                         //return $cont->name;
-                                        if($cont->email1 != ''){
+                                        if ($cont->email1 != '') {
                                             $email = $cont->email1;
-                                        }elseif($cont->email2){
+                                        } elseif ($cont->email2) {
                                             $email = $cont->email2;
                                         }
-                                        if($email != ''){
-                                            $unsub_link = url('admin/email/unsub/'.$email);
-                                            $data = ['message' => $template->body,'subject' => $template->subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
+                                        if ($email != '') {
+                                            $unsub_link = url('admin/email/unsub/' . $email);
+                                            $data = ['message' => $template->body, 'subject' => $template->subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
                                             Mail::to($cont->email1)->send(new TestEmail($data));
                                             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                                         }
-                                        
                                     }
                                 }
-                                 
-                            }elseif($row->type == 'sms'){
+                            } elseif ($row->type == 'sms') {
                                 $client = new Client($sid, $token);
-                                $contacts = Contact::where('group_id' , $row->group_id)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
-                                        if($cont->number != ''){
+                                $contacts = Contact::where('group_id', $row->group_id)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
+                                        if ($cont->number != '') {
                                             $number = $cont->number;
-                                        }elseif($cont->number2 != ''){
+                                        } elseif ($cont->number2 != '') {
                                             $number = $cont->number2;
-                                        }elseif($cont->number3 != ''){
+                                        } elseif ($cont->number3 != '') {
                                             $number = $cont->number2;
                                         }
-                                        if($number != ''){
+                                        if ($number != '') {
                                             $sms_sent = $client->messages->create(
                                                 $number,
                                                 [
@@ -347,22 +339,21 @@ class CampaignLeadController extends Controller
                                                 ]
                                             );
                                         }
-                                        
                                     }
                                 }
-                            }elseif($row->type == 'mms'){
+                            } elseif ($row->type == 'mms') {
                                 $client = new Client($sid, $token);
-                                $contacts = Contact::where('group_id' , $row->group_id)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
-                                        if($cont->number != ''){
+                                $contacts = Contact::where('group_id', $row->group_id)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
+                                        if ($cont->number != '') {
                                             $number = $cont->number;
-                                        }elseif($cont->number2 != ''){
+                                        } elseif ($cont->number2 != '') {
                                             $number = $cont->number2;
-                                        }elseif($cont->number3 != ''){
+                                        } elseif ($cont->number3 != '') {
                                             $number = $cont->number2;
                                         }
-                                        if($number != ''){
+                                        if ($number != '') {
                                             $sms_sent = $client->messages->create(
                                                 $number,
                                                 [
@@ -374,55 +365,53 @@ class CampaignLeadController extends Controller
                                         }
                                     }
                                 }
-                            }elseif($row->type == 'rvm'){
+                            } elseif ($row->type == 'rvm') {
                                 $contactsArr = [];
-                                $contacts = Contact::where('group_id' , $row->group_id)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
-                                        if($cont->number != ''){
+                                $contacts = Contact::where('group_id', $row->group_id)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
+                                        if ($cont->number != '') {
                                             $number = $cont->number;
-                                        }elseif($cont->number2 != ''){
+                                        } elseif ($cont->number2 != '') {
                                             $number = $cont->number2;
-                                        }elseif($cont->number3 != ''){
+                                        } elseif ($cont->number3 != '') {
                                             $number = $cont->number2;
                                         }
                                         $contactsArr[] = $number;
                                     }
                                 }
-                                if(count($contactsArr) > 0){
-                                    $c_phones = implode(',',$contactsArr);
+                                if (count($contactsArr) > 0) {
+                                    $c_phones = implode(',', $contactsArr);
                                     $vrm = \Slybroadcast::sendVoiceMail([
-                                                        'c_phone' => ".$c_phones.",
-                                                        'c_url' =>$template->body,
-                                                        'c_record_audio' => '',
-                                                        'c_date' => 'now',
-                                                        'c_audio' => 'Mp3',
-                                                        //'c_callerID' => "4234606442",
-                                                        'c_callerID' => "18442305060",
-                                                        //'mobile_only' => 1,
-                                                        'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
-                                                       ])->getResponse();
+                                        'c_phone' => ".$c_phones.",
+                                        'c_url' => $template->body,
+                                        'c_record_audio' => '',
+                                        'c_date' => 'now',
+                                        'c_audio' => 'Mp3',
+                                        //'c_callerID' => "4234606442",
+                                        'c_callerID' => "18442305060",
+                                        //'mobile_only' => 1,
+                                        'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+                                    ])->getResponse();
                                 }
-                                
                             }
-                            $campaigns = CampaignLeadList::where('id' , $row->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
+                            $campaigns = CampaignLeadList::where('id', $row->id)->update(['updated_at' => date('Y-m-d H:i:s'), 'active' => 0]);
                             break;
-                        }else{
-                            if($key == 0){
-                                $campaignsCheck = CampaignLeadList::where('active' , 0)->orderby('updated_at', 'desc')->first();
-                                if($campaignsCheck){
-                                    $scheduledate = date('Y-m-d H:i:s' , strtotime($campaignsCheck->schedule));
+                        } else {
+                            if ($key == 0) {
+                                $campaignsCheck = CampaignLeadList::where('active', 0)->orderby('updated_at', 'desc')->first();
+                                if ($campaignsCheck) {
+                                    $scheduledate = date('Y-m-d H:i:s', strtotime($campaignsCheck->schedule));
                                     $sendAfter = null;
                                     //return (int) $campaignsCheck->send_after_days;
                                     //$sendAfter = Carbon::parse($scheduledate)->addDays($row->send_after_days)->addHours($row->send_after_hours);
                                     $sendAfter = now()->addDays($row->send_after_days)->addHours($row->send_after_hours);
-                                    $campaigns = CampaignLeadList::where('id' , $row->id)->update(['schedule' => $sendAfter]);
+                                    $campaigns = CampaignLeadList::where('id', $row->id)->update(['schedule' => $sendAfter]);
                                 }
                             }
                         }
                     }
                 }
-                
             }
         }
         return 'success';
@@ -442,14 +431,14 @@ class CampaignLeadController extends Controller
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
-    
-        
+
+
         // Calculate the send_after time
         $sendAfter = null;
         if ($request->send_after_days !== null && $request->send_after_hours !== null) {
             $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
         }
-    
+
         // Create the campaign
         CampaignLead::create([
             'name' => $request->name,
@@ -462,16 +451,16 @@ class CampaignLeadController extends Controller
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
-        
+
         return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign created successfully.');
     }
 
-    public function show(Campaign $campaign , Request $request)
+    public function show(Campaign $campaign, Request $request)
     {
         $sr = 1;
         $campaign_id = $campaign->id;
         $groups = Group::all(); // Fetch groups from the database
-        $templates = Template::where('type' , 'SMS')->get();
+        $templates = Template::where('type', 'SMS')->get();
         if ($request->wantsJson()) {
             $campaignList = CampaignLeadList::where("campaign_id", $campaign->id)->where("is_dnc", 0)->get();
             return response()->json([
@@ -481,7 +470,7 @@ class CampaignLeadController extends Controller
                 'message' => 'OK'
             ]);
         } else {
-            return view('back.pages.campaignleads.detail', compact('campaign', 'sr','templates','groups','campaign_id'));
+            return view('back.pages.campaignleads.detail', compact('campaign', 'sr', 'templates', 'groups', 'campaign_id'));
         }
         //return view('back.pages.campaign.show', compact('campaign'));
     }
@@ -502,35 +491,39 @@ class CampaignLeadController extends Controller
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
-        
+
         // Calculate the send_after time
         $sendAfter = null;
         if ($request->send_after_days !== null && $request->send_after_hours !== null) {
             $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
         }
         // Update the campaign
-        CampaignLead::where('id' , $request->id)->update([
+        CampaignLead::where('id', $request->id)->update([
             'name' => $request->name,
             //'type' => $request->type,
             'group_id' => $request->group_id, // Assign group_id
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
-    
+
         return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign updated successfully.');
     }
 
     // Fix issue by John 14-09-2023
-
     public function destroy(CampaignLead $campaignlead, $id = null)
     {
         try {
-        CampaignLeadList::where("campaign_id", $id)->delete();
-        CampaignLead::where('id' , $id)->delete();
-        return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign deleted successfully.');
-    }
-    catch (exception $e) {
-        return redirect()->route('admin.leadcampaign.index')->with('error', 'Something went wrong.');
-    }
+            CampaignLeadList::where("campaign_id", $id)->delete();
+            CampaignLead::where('id', $id)->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Lead Campaign deleted successfully!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong the server!'
+            ]);
+        }
     }
 }

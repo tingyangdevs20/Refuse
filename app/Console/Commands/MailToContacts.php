@@ -54,7 +54,6 @@ class MailToContacts extends Command
                     $groupName = null;
                     Mail::to($email)->send(new CampaignConfirmation($groupName));
                 }
-
             }
         }
     }
