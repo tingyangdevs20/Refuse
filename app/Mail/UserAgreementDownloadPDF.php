@@ -47,12 +47,18 @@ class UserAgreementDownloadPDF extends Mailable
             $url      = route("user.agreement.pdf", Crypt::encrypt($this->userAgreementSellerId));
             $userName = ucfirst($userAgreementSeller->user->name);
 
-            return $this->from(Config("mail.from.address"), Config("mail.from.name"))
-                ->view('agreement.mail')
-                ->with([
-                    'url'      => $url,
-                    'userName' => $userName,
-                ]);
+            // return $this->from(Config("mail.from.address"), Config("mail.from.name"))
+            //     ->view('agreement.mail')
+            //     ->with([
+            //         'url'      => $url,
+            //         'userName' => $userName,
+            //     ]);
+            return $this->view('agreement.mail')
+            ->subject('User Agreement')
+            ->with([
+                'url'      => $url,
+                'userName' => $userName,
+            ]);
         }
     }
 }

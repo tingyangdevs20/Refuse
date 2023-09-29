@@ -10,7 +10,7 @@ use App\Model\Tag;
 use App\Model\Campaign;
 use App\Model\FormTemplates;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use DB;
 class FormTemplatesController extends Controller
 {
 
@@ -28,10 +28,44 @@ class FormTemplatesController extends Controller
         $tags=Tag::all();
         $campaigns = Campaign::getAllCampaigns();
 
-        $short_code = array('name', 'street', 'city', 'state', 'zip', 'date', 'owner1_first_name', 'owner1_last_name', 'owner1_email1', 'owner1_email2','owner1_primary_number','
-        owner1_number2', 'owner1_number3', 'owner1_social_security', 'owner1_dob','owner1_mother_name', 'owner2_first_name', 'owner2_last_name', 'owner2_email1', 'owner2_email2','owner2_primary_number','
-        owner2_number2', 'owner2_number3', 'owner2_social_security', 'owner2_dob','owner2_mother_name', 'owner3_first_name', 'owner3_last_name', 'owner3_email1', 'owner3_email2','owner3_primary_number','
-        owner3_number2', 'owner3_number3', 'owner3_social_security', 'owner3_dob','owner3_mother_name','property_address','property_city','property_state','property_zip','map_link','zillow_link','property_type','auth_email');
+        // $short_code = array('name', 'street', 'city', 'state', 'zip', 'date', 'owner1_first_name', 'owner1_last_name', 'owner1_email1', 'owner1_email2','owner1_primary_number','
+        // owner1_number2', 'owner1_number3', 'owner1_social_security', 'owner1_dob','owner1_mother_name', 'owner2_first_name', 'owner2_last_name', 'owner2_email1', 'owner2_email2','owner2_primary_number','
+        // owner2_number2', 'owner2_number3', 'owner2_social_security', 'owner2_dob','owner2_mother_name', 'owner3_first_name', 'owner3_last_name', 'owner3_email1', 'owner3_email2','owner3_primary_number','
+        // owner3_number2', 'owner3_number3', 'owner3_social_security', 'owner3_dob','owner3_mother_name','property_address','property_city','property_state','property_zip','map_link','zillow_link','property_type','auth_email');
+
+        $short_code = [];
+        $contacts = DB::table('contacts')->first(['name','last_name','street','city','state','zip','number','number2','number3','number3','email1','email2']);
+        if(!empty($contacts)){
+            foreach($contacts as $key => $contact){
+                $short_code[$key] = $contact;
+            }
+        }
+
+        $leadinfo = DB::table('lead_info')->first(['owner1_first_name','owner1_last_name','owner1_primary_number','owner1_number2','owner1_number3','owner1_email1','owner1_email2','owner1_dob','owner1_mother_name','owner2_first_name','owner2_last_name','owner2_primary_number','owner2_number2','owner2_number3','owner2_email1','owner2_email2','owner2_social_security','owner2_dob','owner2_mother_name','owner3_first_name','owner3_last_name','owner3_primary_number','owner3_number2','owner3_number3','owner3_email1','owner3_email2','owner3_social_security','owner3_dob','owner3_mother_name']);
+        if(!empty($leadinfo)){
+            foreach($leadinfo as $key => $lead){
+                $short_code[$key] = $lead;
+            }
+        }
+
+        $property_infos = DB::table('property_infos')->first(['property_address','property_city','property_state','property_zip','map_link','zillow_link']);
+        if(!empty($property_infos) ){
+            foreach($property_infos as $key => $property){
+                $short_code[$key] = $property;
+            }
+        }
+
+        $users = DB::table('users')->first(["name", "email", "mobile", "address", "street", "state", "city", "zip"]);
+        if(!empty($users) ){
+            foreach($users as $key => $user){
+                $short_code['user_'.$key] = $user;
+            }
+        }
+
+        $settings = DB::table('settings')->first();
+        $short_code['auth_email'] = $settings->auth_email;
+
+        $short_code = array_keys($short_code);
 
         return view( 'back.pages.formtemplate.index', compact('groups', 'sr','campaigns','markets','tags','short_code') ) ;
 
