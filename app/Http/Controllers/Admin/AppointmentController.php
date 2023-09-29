@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\Account;
 use App\Model\Scheduler;
 use Illuminate\Http\Request;
 use App\Services\GoogleCalendar;
@@ -18,6 +19,21 @@ use \Illuminate\Support\Facades\View as View;
 
 class AppointmentController extends Controller
 {
+
+
+    private function setupGoogleCalendar()
+    {
+        $account = Account::find(1);
+
+        if (($account->calendar_enable === "N") || !$account->calendar_id || !$account->calendar_credentials_path) {
+            abort(500, "Please configure your google calendar from Administrative Settings.");
+        }
+
+        \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', $account->calendar_id);
+        \Illuminate\Support\Facades\Config::set('google-calendar.auth_profiles.service_account.credentials_json', storage_path('app/google-calendar/' . $account->calendar_credentials_path));
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -26,14 +42,8 @@ class AppointmentController extends Controller
     public function index($uid = '')
     {
         if (!empty($uid)) {
-            // $userTimeZone = 'Asia/Karachi'; // user timezone
 
-            // $now = Carbon::now($userTimeZone)->format('Y-m-d H:i:s');
-            // dd($now);
-
-            // \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', "hi");
-
-            // dd(config('google-calendar'));
+            $this->setupGoogleCalendar();
 
             $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
 
@@ -152,6 +162,15 @@ class AppointmentController extends Controller
             //     'endDateTime' => $endTime,
             // ]);
 
+            $account = Account::find(1);
+
+            if (($account->calendar_enable === "N") || !$account->calendar_id || !$account->calendar_credentials_path) {
+                abort(500, "Please configure your google calendar from Administrative Settings.");
+            }
+
+            \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', $account->calendar_id);
+            \Illuminate\Support\Facades\Config::set('google-calendar.auth_profiles.service_account.credentials_json', storage_path('app/google-calendar/' . $account->calendar_credentials_path));
+
 
             $now = Carbon::now();
             // print_r($request->timezone);
@@ -269,6 +288,8 @@ class AppointmentController extends Controller
 
         try {
 
+            $this->setupGoogleCalendar();
+
             $cancelAppointment = Scheduler::where('id', $request->id)->get();
 
             if (!$cancelAppointment->count()) {
@@ -306,6 +327,7 @@ class AppointmentController extends Controller
         }
     }
 
+
     // rescheduling appointments
     public function reschduleAppointment(Request $request)
     {
@@ -331,6 +353,8 @@ class AppointmentController extends Controller
         }
 
         try {
+
+            $this->setupGoogleCalendar();
 
             $rescheduleAppointment = Scheduler::where('id', $request->id)->get();
 
