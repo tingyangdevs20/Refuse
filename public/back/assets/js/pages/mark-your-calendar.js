@@ -18,7 +18,11 @@
                 <
             </div>
         `;
-        var nextHtml = `<div id="myc-next-week">></div>`;
+        var nextHtml = `
+            <div id="myc-next-week">
+                >
+            </div>
+        `;
         var defaults = {
             availability: [[], [], [], [], [], [], []], // listahan ng mga oras na pwedeng piliin
             isMultiple: false,

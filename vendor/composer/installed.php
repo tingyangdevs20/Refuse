@@ -475,7 +475,11 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< Updated upstream
             'reference' => '88ec4b5d1d8ca2ab8bdbfc395191b7aa831b90be',
+=======
+            'reference' => '057bbcc14edf172c0bf38f1fc33ad2083b2fbeff',
+>>>>>>> Stashed changes
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1001,6 +1005,15 @@
             'reference' => 'eef0263bbaec86d30801d3551ac83f4e1015d4c3',
             'type' => 'library',
             'install_path' => __DIR__ . '/../smalot/pdfparser',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'spatie/laravel-google-calendar' => array(
+            'pretty_version' => '3.6.0',
+            'version' => '3.6.0.0',
+            'reference' => '2c292b0eaa743105643987cd73c1c187d6183784',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-google-calendar',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
