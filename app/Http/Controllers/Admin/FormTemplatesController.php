@@ -20,18 +20,13 @@ class FormTemplatesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function index(Request $request)
+    public function index(Request $request)
     {
         $groups = FormTemplates::all()->sortByDesc("created_at");
         $sr = 1;;
         $markets=Market::all();
         $tags=Tag::all();
         $campaigns = Campaign::getAllCampaigns();
-
-        // $short_code = array('name', 'street', 'city', 'state', 'zip', 'date', 'owner1_first_name', 'owner1_last_name', 'owner1_email1', 'owner1_email2','owner1_primary_number','
-        // owner1_number2', 'owner1_number3', 'owner1_social_security', 'owner1_dob','owner1_mother_name', 'owner2_first_name', 'owner2_last_name', 'owner2_email1', 'owner2_email2','owner2_primary_number','
-        // owner2_number2', 'owner2_number3', 'owner2_social_security', 'owner2_dob','owner2_mother_name', 'owner3_first_name', 'owner3_last_name', 'owner3_email1', 'owner3_email2','owner3_primary_number','
-        // owner3_number2', 'owner3_number3', 'owner3_social_security', 'owner3_dob','owner3_mother_name','property_address','property_city','property_state','property_zip','map_link','zillow_link','property_type','auth_email');
 
         $short_code = [];
         $contacts = DB::table('contacts')->first(['name','last_name','street','city','state','zip','number','number2','number3','number3','email1','email2']);

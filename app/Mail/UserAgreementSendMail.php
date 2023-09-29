@@ -41,14 +41,6 @@ class UserAgreementSendMail extends Mailable
      */
     public function build()
     {
-        // $userAgreement = UserAgreement::select("user_agreements.id", "user_agreements.is_sign", "users.name as user_name", "users.email")
-        //     ->where("user_agreements.id", $this->userAgreementId)
-        //     // ->where("user_agreements.is_sign", "2")
-        //     // ->whereNotNull("user_agreements.sign")
-        //     // ->whereNotNull("user_agreements.pdf_path")
-        //     ->leftJoin("users", "users.id", "user_agreements.user_id")
-        //     ->first();
-        //dd($this->userAgreementSellerId);
         $userAgreementSeller = UserAgreementSeller::find($this->userAgreementSellerId);
 
         if ($userAgreementSeller) {
