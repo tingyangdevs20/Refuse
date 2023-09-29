@@ -83,7 +83,7 @@ class SettingsController extends Controller
             return redirect()->back();
         }
 
-        $settings=$settings->find(1);
+        $settings = $settings->find(1);
         $settings->auto_reply = $request->auto_reply;
         $settings->auto_responder = $request->auto_respond;
         //$settings->sms_rate = $request->sms_rate;
@@ -105,10 +105,10 @@ class SettingsController extends Controller
 
         $settings->save();
 
-        $numbers=Number::all();
-        if ($numbers!=null){
-            foreach ($numbers as $number){
-                $number->sms_allowed=$request->sms_allowed;
+        $numbers = Number::all();
+        if ($numbers != null) {
+            foreach ($numbers as $number) {
+                $number->sms_allowed = $request->sms_allowed;
                 $number->save();
             }
         }
