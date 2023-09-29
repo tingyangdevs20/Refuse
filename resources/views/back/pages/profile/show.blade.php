@@ -47,6 +47,14 @@
             </div>
 
             <div class="form-group">
+                <label for="company_name">Company Name</label>
+                <input type="text" name="company_name" id="company_name" class="form-control" value="{{ old('company_name', $user->company_name) }}">
+                @error('company_name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <label for="address">Address</label>
                 <input type="text" name="address" id="address" class="form-control" value="{{ old('address', $user->address) }}">
                 @error('address')

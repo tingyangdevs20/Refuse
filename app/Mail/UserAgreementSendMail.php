@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Crypt;
+use App\Model\UserAgreementSeller;
 
 class UserAgreementSendMail extends Mailable
 {
@@ -18,17 +19,18 @@ class UserAgreementSendMail extends Mailable
      * @var \App\Model\UserAgreement
      */
     public $order;
-
+    public $userAgreementSellerId;
     /**
      * Create a new message instance.
      *
      * @param int $userAgreementId
      * @author Bhavesh Vyas
      */
-    public function __construct(UserAgreement $userAgreement)
+    public function __construct(UserAgreement $userAgreement,int $userAgreementSellerId)
     {
         $this->userAgreement = $userAgreement;
         $this->userAgreementId = $userAgreement->id;
+        $this->userAgreementSellerId = $userAgreementSellerId;
     }
 
     /**
@@ -39,19 +41,11 @@ class UserAgreementSendMail extends Mailable
      */
     public function build()
     {
-        $userAgreement = UserAgreement::select("user_agreements.id", "user_agreements.studio_id", "user_agreements.studio_id", "user_agreements.is_sign", "users.name as user_name", "users.email")
-            ->where("user_agreements.id", $this->userAgreementId)
-            // ->where("user_agreements.is_sign", "2")
-            // ->whereNotNull("user_agreements.sign")
-            // ->whereNotNull("user_agreements.pdf_path")
-            ->leftJoin("users", "users.id", "user_agreements.user_id")
-            ->first();
+        $userAgreementSeller = UserAgreementSeller::find($this->userAgreementSellerId);
 
-        if ($userAgreement) {
-
-            $url      = route("user.agreement.pdf", Crypt::encrypt($userAgreement->id));
-            $userName = ucfirst($userAgreement->user_name);
-
+        if ($userAgreementSeller) {
+            $url      = route("user.agreement.pdf", Crypt::encrypt($this->userAgreementSellerId));
+            $userName = ucfirst($userAgreementSeller->user->name);
 
             return $this->view('agreement.mail')
                 ->subject('User Agreement')

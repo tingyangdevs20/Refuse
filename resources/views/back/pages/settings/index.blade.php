@@ -61,6 +61,15 @@
                                             required>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Documents Closed By</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Document Closed By"
+                                            name="document_closed_by" id="document_closed_by" value="{{ $settings->document_closed_by }}"
+                                            required>
+                                    </div>
+                                </div>
 
                                 <div class="card-header bg-soft-dark ">
                                     <i class="fas fa-cog"></i> Email Settings
@@ -68,7 +77,7 @@
                                 </div>
                                 <br />
 
-                                
+
                                 <div class="form-group">
                                     <label>Reply To Email</label>
                                     <div class="input-group mb-2">
@@ -112,7 +121,7 @@
                                             required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label>Twilio Account SID</label>
                                     <div class="input-group mb-2">
