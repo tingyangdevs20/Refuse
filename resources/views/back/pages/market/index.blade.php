@@ -36,7 +36,7 @@
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    
                                     <th scope="col">Name</th>
                                     <th scope="col">Associated Numbers</th>
                                     <th scope="col">Actions</th>
@@ -45,7 +45,7 @@
                                 <tbody>
                                 @foreach($markets as $market)
                                     <tr>
-                                        <td>{{ $sr++ }}</td>
+                                        
                                         <td>{{ $market->name }}</td>
                                         @if( $market->numbers()->get()->isEmpty())
                                             <td>None</td>
