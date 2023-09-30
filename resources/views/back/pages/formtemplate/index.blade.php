@@ -303,7 +303,7 @@
 <script></script>
 <!-- Sachin 08-09-2023 -->
 
-<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="{{ asset('back/assets/ckeditor/ckeditor.js') }}"></script>
 
 
 @endsection

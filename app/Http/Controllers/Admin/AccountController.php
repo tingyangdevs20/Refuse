@@ -99,7 +99,32 @@ class AccountController extends Controller
                 $number->save();
             }
         }
+
         Alert::success('Success', 'Account Updated!');
+        return redirect()->back();
+    }
+
+
+    public function updateGoogleCalendarSettings(Request $request)
+    {
+
+        $path = $request->calendar_credentials_path ?? null;
+
+        if ($request->hasFile('calendar_credentials_file')) {
+            $path = $request->file('calendar_credentials_file')->storeAs(
+                $request->user()->id,
+                'service-account-credentials.json',
+                'google_calendar'
+            );
+        }
+
+        $account = Account::find(1);
+        $account->calendar_id = $request->calendar_id;
+        $account->calendar_enable = $request->calendar_enable;
+        $account->calendar_credentials_path = $path;
+        $account->save();
+
+        Alert::success('Success', 'Google Calendar Settings Updated!');
         return redirect()->back();
     }
 

@@ -29,7 +29,7 @@ class GoogleCalendarController extends Controller
         $client->setRedirectUri(config('services.google.redirect_uri'));
         $client->setScopes(['https://www.googleapis.com/auth/calendar.readonly']);
         // $client->setAccessType('offline');
-
+        // dd($client);
         // dd(config('services.google.redirect_uri'));
         return redirect($client->createAuthUrl());
     }
@@ -52,6 +52,8 @@ class GoogleCalendarController extends Controller
                 'refresh_token' => isset($accessToken['refresh_token']) ? $accessToken['refresh_token'] : null,
             ]);
         }
+
+        // dd(auth()->user());
 
         return redirect(route('admin.appointment', [Crypt::encryptString(auth()->user()->id)]));
     }
