@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\Account;
 use App\Model\Scheduler;
 use Illuminate\Http\Request;
 use App\Services\GoogleCalendar;
@@ -18,6 +19,21 @@ use \Illuminate\Support\Facades\View as View;
 
 class AppointmentController extends Controller
 {
+
+
+    private function setupGoogleCalendar()
+    {
+        $account = Account::find(1);
+
+        if (($account->calendar_enable === "N") || !$account->calendar_id || !$account->calendar_credentials_path) {
+            abort(500, "Please configure your google calendar from Administrative Settings.");
+        }
+
+        \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', $account->calendar_id);
+        \Illuminate\Support\Facades\Config::set('google-calendar.auth_profiles.service_account.credentials_json', storage_path('app/google-calendar/' . $account->calendar_credentials_path));
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -26,50 +42,16 @@ class AppointmentController extends Controller
     public function index($uid = '')
     {
         if (!empty($uid)) {
-            // $userTimeZone = 'Asia/Calcutta'; // user timezone
 
-            // $now = Carbon::now($userTimeZone)->format('Y-m-d H:i:s');
-            // print_r($now);
+            $this->setupGoogleCalendar();
 
-            // get specific user appointments based on user timezone
-            // $getUserAppointments = Scheduler::select('id','name','email','mobile','appt_date','appt_time','timezone','description')
-
-            // ->where('status','booked')
-            // ->where(DB::raw('CONCAT(DATE(appt_date)," ",appt_time)'),'>', $now)
-            // ->orderBy(DB::raw('DATE(appt_date)'), 'ASC')
-            // ->orderBy('appt_time', 'ASC')
-            // ->get();
-
-            // print_r($getUserAppointments);
-
-
-
-            // check whether user google account is connected or not for appointment/event synchronization
-            $googleAccountConnected = auth()->user()->access_token ? true : false;
-
-            $slotsArr = array();
-
-            if ($googleAccountConnected) {
-                try {
-
-                    $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
-                } catch (\Throwable $th) {
-                    $googleAccountConnected = false;
-
-                    $slotsArr = $this->getBookedSlotsFromDatabase();
-                }
-            } else {
-
-                $slotsArr = $this->getBookedSlotsFromDatabase();
-            }
-
+            $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
 
             $bookedSlots = json_encode($slotsArr);
 
-            // $uid = decrypt($uid);
-            $uid = Crypt::decryptString($uid);
+            $uid = decrypt($uid);
 
-            return view('book-appointment', compact('bookedSlots', 'uid', 'googleAccountConnected'));
+            return view('book-appointment', compact('bookedSlots', 'uid'));
         } else {
             return Redirect::back();
         }
@@ -80,20 +62,25 @@ class AppointmentController extends Controller
     {
         $slotsArr = [];
 
-        $userBookedTimeSlots = (new UserEventsService())->fetchUserCalendarEvents();
+        $userBookedTimeSlots = (new UserEventsService())->fetchEventsFromGoogleCalendar();
 
         foreach ($userBookedTimeSlots as $date => $bookedSlots) {
-
-            $slotsArr[]['b_date'] = Carbon::createFromFormat('Y-m-d', $date)->format('j');
-            $slotsArr[]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots[0]['start'])->format('H');
-            $slotsArr[]['appt_date'] = $date;
-            $slotsArr[]['appt_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots[0]['start'])->format('H:i');
+            foreach ($bookedSlots as $key => $slot) {
+                $slotsArr[$date][$key]['appt_date'] = $date;
+                $slotsArr[$date][$key]['appt_time'] = Carbon::createFromFormat('H:i:s', $slot['start'])->format('H:i');
+            }
         }
 
         return $slotsArr;
     }
 
 
+    /**
+     * 
+     * @deprecated
+     * 
+     * will be removed later, not in use
+     */
     private function getBookedSlotsFromDatabase()
     {
         $today = Carbon::today();
@@ -108,8 +95,8 @@ class AppointmentController extends Controller
             ->get();
 
         foreach ($getBookedTimeSlots as $key => $bookedSlots) {
-            $slotsArr[$key]['b_date'] = Carbon::createFromFormat('Y-m-d', $bookedSlots['appt_date'])->format('j');
-            $slotsArr[$key]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H');
+            // $slotsArr[$key]['b_date'] = Carbon::createFromFormat('Y-m-d', $bookedSlots['appt_date'])->format('j');
+            // $slotsArr[$key]['b_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H');
             $slotsArr[$key]['appt_date'] = $bookedSlots['appt_date'];
             $slotsArr[$key]['appt_time'] = Carbon::createFromFormat('H:i:s', $bookedSlots['appt_time'])->format('H:i');
         }
@@ -135,7 +122,15 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd((intval($request->appt_time) + 12), $request->appt_date);
+        // $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
 
+        // $start = Carbon::parse($dateTime)->format('Y-m-d h:i:s a');
+        // $end = Carbon::parse($dateTime)->addHour()->format('Y-m-d h:i:s a');
+
+        // dd($start, $end);
+
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
 
             'timezone' => 'required',
@@ -152,6 +147,31 @@ class AppointmentController extends Controller
         }
 
         try {
+            $timezone = $request->timezone;
+            // $timezone = "";
+
+            // $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
+            // $startTime = Carbon::parse($dateTime, $timezone);
+            // $endTime = Carbon::parse($dateTime, $timezone)->addHour();
+
+            // dd($request->appt_date, $request->appt_time, $startTime->format('Y-m-d h:i:s a'), $endTime->format('Y-m-d h:i:s a'));
+
+            // $event = \Spatie\GoogleCalendar\Event::create([
+            //     'name' => 'Appointment',
+            //     'startDateTime' => $startTime,
+            //     'endDateTime' => $endTime,
+            // ]);
+
+            $account = Account::find(1);
+
+            if (($account->calendar_enable === "N") || !$account->calendar_id || !$account->calendar_credentials_path) {
+                abort(500, "Please configure your google calendar from Administrative Settings.");
+            }
+
+            \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', $account->calendar_id);
+            \Illuminate\Support\Facades\Config::set('google-calendar.auth_profiles.service_account.credentials_json', storage_path('app/google-calendar/' . $account->calendar_credentials_path));
+
+
             $now = Carbon::now();
             // print_r($request->timezone);
             // exit;
@@ -172,6 +192,23 @@ class AppointmentController extends Controller
                 'admin_uid' => (!empty($request->uid)) ? $request->uid : 0
                 // 'user_id' => $cnt_id
             ]);
+
+            $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
+            $startTime = Carbon::parse($dateTime, $timezone);
+            $endTime = Carbon::parse($dateTime, $timezone)->addHour();
+
+            $event = \Spatie\GoogleCalendar\Event::create([
+                'name' => 'Appointment',
+                'startDateTime' => $startTime,
+                'endDateTime' => $endTime,
+            ]);
+
+            // attaching event ID to appointment which can be used later 
+            // to delete or update the event in google calendar
+            $createAppointment->google_calendar_event_id = $event->id;
+            $createAppointment->save();
+
+            // dd($event, $startTime->format('Y-m-d h:i:s a'), $endTime->format('Y-m-d h:i:s a'));
 
             if ($createAppointment->id) {
                 return back()->with('success', 'Thank you! Your appointment has been booked.');
@@ -251,12 +288,30 @@ class AppointmentController extends Controller
 
         try {
 
-            $cancelAppointment = Scheduler::where('id', $request->id)->update([
+            $this->setupGoogleCalendar();
+
+            $cancelAppointment = Scheduler::where('id', $request->id)->get();
+
+            if (!$cancelAppointment->count()) {
+                throw new Exception("Appointment not found", 404);
+            }
+
+            $cancelAppointment = $cancelAppointment[0];
+            $google_calendar_event_id = $cancelAppointment->google_calendar_event_id;
+
+            $updated = $cancelAppointment->update([
                 'status' => 'canceled',
+                'google_calendar_event_id' => null,
                 'updated_at' => Carbon::now()
             ]);
 
-            if ($cancelAppointment > 0) {
+            // remove event from google calendar if exist
+            if ($google_calendar_event_id) {
+                $event = \Spatie\GoogleCalendar\Event::find($google_calendar_event_id);
+                $event->delete();
+            }
+
+            if ($updated > 0) {
                 $response = array("success" => 1, "message" => 'Your appointment canceled successfully.');
                 echo json_encode($response);
                 exit;
@@ -271,6 +326,7 @@ class AppointmentController extends Controller
             exit;
         }
     }
+
 
     // rescheduling appointments
     public function reschduleAppointment(Request $request)
@@ -298,14 +354,38 @@ class AppointmentController extends Controller
 
         try {
 
-            $reschduleAppointment = Scheduler::where('id', $request->id)->update([
+            $this->setupGoogleCalendar();
+
+            $rescheduleAppointment = Scheduler::where('id', $request->id)->get();
+
+            if (!$rescheduleAppointment->count()) {
+                throw new Exception("Appointment not found", 404);
+            }
+
+            $rescheduleAppointment = $rescheduleAppointment[0];
+
+            $updated = $rescheduleAppointment->update([
                 // 'status' => 'canceled',
                 'appt_date' => $request->appt_date,
                 'appt_time' => $request->appt_time,
                 'updated_at' => Carbon::now()
             ]);
 
-            if ($reschduleAppointment > 0) {
+            // reschedule an event in google calendar if exist
+            if ($rescheduleAppointment->google_calendar_event_id) {
+
+                $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
+                $startTime = Carbon::parse($dateTime, $rescheduleAppointment->timezone);
+                $endTime = Carbon::parse($dateTime, $rescheduleAppointment->timezone)->addHour();
+
+                $event = \Spatie\GoogleCalendar\Event::find($rescheduleAppointment->google_calendar_event_id);
+                $event->update([
+                    'startDateTime' => $startTime,
+                    'endDateTime' => $endTime,
+                ]);
+            }
+
+            if ($updated > 0) {
                 $response = array("success" => 1, "message" => 'Your appointment rescheduled successfully.');
                 echo json_encode($response);
                 exit;

@@ -1004,6 +1004,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'spatie/laravel-google-calendar' => array(
+            'pretty_version' => '3.6.0',
+            'version' => '3.6.0.0',
+            'reference' => '2c292b0eaa743105643987cd73c1c187d6183784',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-google-calendar',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'spatie/laravel-permission' => array(
             'pretty_version' => '5.11.0',
             'version' => '5.11.0.0',

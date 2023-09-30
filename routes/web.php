@@ -141,6 +141,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     Route::get('/account', 'Admin\AccountController@index')->name('account.index');
+    Route::put('account/google-calendar', 'Admin\AccountController@updateGoogleCalendarSettings')->name('admin.calendar-settings.update');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
