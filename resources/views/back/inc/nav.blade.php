@@ -24,14 +24,15 @@
 
                   <li class="menu-title">Lead Generation</li>
 
+                
+                <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
+                        <span>Lists</span></a>
+                </li>
                 <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">
                         <i class="fas fa-bars"></i>
-                        <span>Source List</span>
+                        <span>How To Source A List</span>
                     </a>
-                </li>
-                <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
-                        <span>Lists</span></a>
                 </li>
                 <li>
                     <a href="{{ route('admin.opt.list') }}" class=" waves-effect"> <i class="fas fa-bars"></i>
@@ -65,6 +66,7 @@
                          <li>
                   
                 </li>
+                <li><a href="{{ route('admin.appointment', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>
                 <li>
                    
                             <a href="{{ route('admin.user-agreement.index') }}" class="waves-effect"> <i class="fas fa-bars"></i>
@@ -84,7 +86,7 @@
 {{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
 
                         
-                        <li><a href="{{ route('admin.appointment', [encrypt(Auth::id())]) }}">Appointments</a></li>
+                        
                     </ul>
                 </li>
 
