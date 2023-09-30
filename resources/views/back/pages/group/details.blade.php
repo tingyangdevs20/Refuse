@@ -27,7 +27,7 @@
                                         All Numbers 
                                         <span><select onchange="delete_selected(this)">
                                             <option value="0">Action</option>
-                                            <option value="1">Remove Selected</option>
+                                            <option value="1">Delete Selected</option>
                                             
 </select></span>
                                         <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
