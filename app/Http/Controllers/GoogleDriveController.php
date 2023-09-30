@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Contact;
+use App\Model\Settings;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +16,18 @@ class GoogleDriveController extends Controller
 
     public function __construct()
     {
+        // Fetch Google Drive Credentials
+        $settings = Settings::first()->toArray();
+
+        $GOOGLE_DRIVE_CLIENT_ID = $settings['google_drive_client_id'];
+        $GOOGLE_DRIVE_CLIENT_SECRET = $settings['google_drive_client_secret'];
+        $GOOGLE_DRIVE_DEVELOPER_KEY = $settings['google_drive_developer_key'];
+
         $this->gClient = new \Google_Client();
 
         $this->gClient->setApplicationName('Web client 1'); // ADD YOUR AUTH2 APPLICATION NAME (WHEN YOUR GENERATE SECRATE KEY)
-        $this->gClient->setClientId('1083247698809-47ce0f3t30qmprhjfov1sdmsrbj0frb5.apps.googleusercontent.com');
-        $this->gClient->setClientSecret('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');
+        $this->gClient->setClientId($GOOGLE_DRIVE_CLIENT_ID);
+        $this->gClient->setClientSecret($GOOGLE_DRIVE_CLIENT_SECRET);
         $this->gClient->setRedirectUri(route('admin.google-drive-callback'));
         $this->gClient->setDeveloperKey('AIzaSyB0JsRitCEiYehLDllpu7v5ULPwJZUpbcw');
         $this->gClient->setScopes([
@@ -28,7 +36,7 @@ class GoogleDriveController extends Controller
         ]);
 
         $this->gClient->setAccessType("offline");
-        // $this->gClient->setApprovalPrompt("force");
+        $this->gClient->setApprovalPrompt("auto");
     }
 
     public function googleLogin(Request $request)
@@ -45,7 +53,13 @@ class GoogleDriveController extends Controller
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'File filed is required');
         }
-        $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
+
+        if (!$this->checkGoogleCredentials()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
+        }
+
+        // $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
 
         if ($request->get('code')) {
 
@@ -95,8 +109,9 @@ class GoogleDriveController extends Controller
             return $this->googleDriveFileUpload($request);
         } else {
             // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl(['approval_prompt' => 'none']); // Set approval_prompt to 'none'
-
+            $authUrl = $this->gClient->createAuthUrl([
+                'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive',
+            ]);
             return redirect()->to($authUrl);
         }
     }
@@ -114,6 +129,10 @@ class GoogleDriveController extends Controller
         if ($validator->fails()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'File filed is required');
+        }
+        if (!$this->checkGoogleCredentials()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
         $service = new \Google_Service_Drive($this->gClient);
 
@@ -167,6 +186,11 @@ class GoogleDriveController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
+        // Check if google credentials exist
+        if (!$this->checkGoogleCredentials()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
+        }
         // Check if the user denied access
         if ($request->has('error')) {
             return redirect()->back()->with('notupload', 'Access to Google Drive was denied by the user.');
@@ -208,6 +232,10 @@ class GoogleDriveController extends Controller
             return redirect()->back()->with('notupload', 'Purchase agreement file is required');
         }
 
+        if (!$this->checkGoogleCredentials()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
+        }
         $file = $request->purchase_agreement;
 
         $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
@@ -260,8 +288,10 @@ class GoogleDriveController extends Controller
         } else {
 
             // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl();
-
+            // $authUrl = $this->gClient->createAuthUrl(['scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive', 'approval_prompt' => 'none']); // Set approval_prompt to 'none'
+            $authUrl = $this->gClient->createAuthUrl([
+                'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive',
+            ]);
             return redirect()->to($authUrl);
         }
     }
@@ -278,6 +308,11 @@ class GoogleDriveController extends Controller
         if ($validator->fails()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Purchase agreement file is required');
+        }
+
+        if (!$this->checkGoogleCredentials()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
 
         $agreement_file = $request->purchase_agreement;
@@ -337,6 +372,24 @@ class GoogleDriveController extends Controller
         } else {
             Alert::error('Oops!', "Please enter only pdf file");
             return redirect()->back();
+        }
+    }
+
+    // Check Google Credentials
+    public function checkGoogleCredentials()
+    {
+        // Fetch Google Drive Credentials
+        $settings = Settings::first()->toArray();
+
+        $GOOGLE_DRIVE_CLIENT_ID = $settings['google_drive_client_id'];
+        $GOOGLE_DRIVE_CLIENT_SECRET = $settings['google_drive_client_secret'];
+        $GOOGLE_DRIVE_DEVELOPER_KEY = $settings['google_drive_developer_key'];
+
+        // Check if required credentials are missing
+        if (!$GOOGLE_DRIVE_CLIENT_ID || !$GOOGLE_DRIVE_CLIENT_SECRET) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

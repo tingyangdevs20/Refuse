@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Book Appointment</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
     <link rel="stylesheet" href="{{ asset('back/assets/css/mark-your-calendar.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
@@ -226,174 +226,175 @@
           justify-content:center;
         }
         .left.appointments-sec {
-    border-radius: 25px;
-}
-.left.appointments-sec .appt-buttons {
-    justify-content: flex-end;
-    padding-right: 8px;
-}
-.mainbookappointment {
-    display: flex;
-}
-.bookappominetimezone {
-    width: 50%;
-}
-.bookappoimetform {
-    width: 50%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-content: flex-end;
-}
-@media (max-width: 1200px) {
-  .book_appointment {
-    height: auto;
-}
-.mainbookappointment {
-    display: flex;
-    flex-direction: column;
-}
-.center.bookappimentform {
-    height: auto ;
-}
-.bookappominetimezone {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-content: center;
-}
-.bookappoimetform {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-content: center;
-    padding-top: 25px;
-}
-.bookappointmentform {
-    width: 50%;
-}
-.existingappointments {
-    width: 50%;
-}
-.bookappoimetform .form-group:last-child {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-}
-@media (max-width: 768.98px) {
-  .allappoimentsbox {
-    display: flex;
-    flex-direction: column;
-}  
-  .existingappointments {
-    width: 100%;
-}
-.bookappointmentform {
-    width: 100%;
-}
-.allappoimentsbox h1.heading-css {
-    font-size: 24px;
-}
+            border-radius: 25px;
+        }
+        .left.appointments-sec .appt-buttons {
+            justify-content: flex-end;
+            padding-right: 8px;
+        }
+        .mainbookappointment {
+            display: flex;
+        }
+        .bookappominetimezone {
+            width: 50%;
+        }
+        .bookappoimetform {
+            width: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: flex-end;
+        }
+        @media (max-width: 1200px) {
+          .book_appointment {
+            height: auto;
+        }
+        .mainbookappointment {
+            display: flex;
+            flex-direction: column;
+        }
+        .center.bookappimentform {
+            height: auto ;
+        }
+        .bookappominetimezone {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
+        }
+        .bookappoimetform {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
+            padding-top: 25px;
+        }
+        .bookappointmentform {
+            width: 50%;
+        }
+        .existingappointments {
+            width: 50%;
+        }
+        .bookappoimetform .form-group:last-child {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        }
+        @media (max-width: 768.98px) {
+          .allappoimentsbox {
+            display: flex;
+            flex-direction: column;
+        }  
+          .existingappointments {
+            width: 100%;
+        }
+        .bookappointmentform {
+            width: 100%;
+        }
+        .allappoimentsbox h1.heading-css {
+            font-size: 24px;
+        }
 
-.left.appointments-sec {
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    flex-direction: column;
-}
-.left.appointments-sec .appt-card {
-    margin-bottom: 0px;
-}
-}
-@media (max-width: 425.98px) {
-  .allappoimentsbox .picker {
-    float: inherit;
-}
-.center.bookappimentform {
-    padding: 25px 0px;
-}
-.allappoimentsbox .myc-day-time-container {
-    width: 13%;
-}
-.allappoimentsbox #myc-next-week {
-    border: 1px solid #000000;
-    color: #000000;
-    height: 20px;
-    width: 20px;
-    font-size: 1.1em;
-}
-.allappoimentsbox #myc-prev-week {
-    border: 1px solid #000000;
-    color: #000000;
-    font-size: 1.1em;
-    height: 20px;
-    width: 20px;
-}
-.book_appointment {
-    height: auto;
-}
-}
-@media (max-width: 400.98px) {
-  .bookappoimetform  .form-group {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-}
-.bookappoimetform .form-group .input {
-    width: 280px;
-}
-.allappoimentsbox #myc-week-container {
-    width: fit-content;
-    margin: auto;
-}
-.bookappoimetform .form-group .input {
-    margin: 0px 5px 14px 5px;
-}
-.allappoimentsbox #myc-nav-container {
-    display: flex;
-    justify-content: center;
-} 
-.mainbookappointment .bookappoimetform .input-group {
-    text-align: center;
-}
-}
-@media (max-width: 375.98px) {
-  .bookappoimetform .form-group .input {
-    width: 260px;
-}
-.allappoimentsbox .myc-date-header {
-    padding: 10px;
-}
-.allappoimentsbox #myc-prev-week-container {
-    display: contents;
-}
-}
-@media (max-width: 320.98px) {
-  .bookappoimetform .form-group .input {
-    width: 215px;
-  }
-  .bookappominetimezone .form-group .input {
-    width: 230px;
-  }
-  .allappoimentsbox .myc-date-header {
-    padding: 6px;
-  }
-  .allappoimentsbox .myc-day-time-container {
-    width: 12.7%;
-  }
-  .allappoimentsbox .myc-available-time {
-    font-size: 10px;
-    font-weight: 600;
-  }
-}
+        .left.appointments-sec {
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-direction: column;
+        }
+        .left.appointments-sec .appt-card {
+            margin-bottom: 0px;
+        }
+        }
+        @media (max-width: 425.98px) {
+          .allappoimentsbox .picker {
+            float: inherit;
+        }
+        .center.bookappimentform {
+            padding: 25px 0px;
+        }
+        .allappoimentsbox .myc-day-time-container {
+            width: 13%;
+        }
+        .allappoimentsbox #myc-next-week {
+            border: 1px solid #000000;
+            color: #000000;
+            height: 20px;
+            width: 20px;
+            font-size: 1.1em;
+        }
+        .allappoimentsbox #myc-prev-week {
+            border: 1px solid #000000;
+            color: #000000;
+            font-size: 1.1em;
+            height: 20px;
+            width: 20px;
+        }
+        .book_appointment {
+            height: auto;
+        }
+        }
+        @media (max-width: 400.98px) {
+          .bookappoimetform  .form-group {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+        }
+        .bookappoimetform .form-group .input {
+            width: 280px;
+        }
+        .allappoimentsbox #myc-week-container {
+            width: fit-content;
+            margin: auto;
+        }
+        .bookappoimetform .form-group .input {
+            margin: 0px 5px 14px 5px;
+        }
+        .allappoimentsbox #myc-nav-container {
+            display: flex;
+            justify-content: center;
+        } 
+        .mainbookappointment .bookappoimetform .input-group {
+            text-align: center;
+        }
+        }
+        @media (max-width: 375.98px) {
+          .bookappoimetform .form-group .input {
+            width: 260px;
+        }
+        .allappoimentsbox .myc-date-header {
+            padding: 10px;
+        }
+        .allappoimentsbox #myc-prev-week-container {
+            display: contents;
+        }
+        }
+        @media (max-width: 320.98px) {
+          .bookappoimetform .form-group .input {
+            width: 215px;
+          }
+          .bookappominetimezone .form-group .input {
+            width: 230px;
+          }
+          .allappoimentsbox .myc-date-header {
+            padding: 6px;
+          }
+          .allappoimentsbox .myc-day-time-container {
+            width: 12.7%;
+          }
+          .allappoimentsbox .myc-available-time {
+            font-size: 10px;
+            font-weight: 600;
+          }
+        }
 
     </style>
 </head>
+
 <body style="font-family: sans-serif;">
   <!-- <div class="main"> -->
     <div class="s-msg"></div>   
@@ -407,16 +408,6 @@
       <div class="alert-error">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         {{ session('error') }}
-      </div>
-    @endif
-
-
-    @if(!$googleAccountConnected)
-      <div class="alert alert-info">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        {{ __('connect your google calendar to sync your appointments.') }}
-
-        <a href="{{ route("google.connect") }}" class="btn btn-success">Connect</a>
       </div>
     @endif
 
@@ -548,259 +539,9 @@
 
   <script>
     $(document).ready(function() {
-      $('.timezones').timezones();
 
-      // function of calendar
-        (function($) {
-          $('.picker').markyourcalendar({
-            availability:[
-              ['01:00', '02:00', '03:00', '04:00', '05:00'],
-              ['02:00'],
-              ['03:00'],
-              ['04:00'],
-              ['05:00'],
-              ['06:00'],
-              ['07:00']
-            ],
-            isMultiple: false,
-            onClick: function(ev, data) {
-              // data is a list of datetimes
-              $('.myc-available-time').css({'pointer-events':'all', 'opacity':'1'})
-              console.log(data);
-              var html = ``;
-              $.each(data, function() {
-                var d = this.split(' ')[0];
-                var t = this.split(' ')[1];
-                // html += `<p>` + d + ` ` + t + `</p>`;
-                 console.log(t); 
-                // setting values of date & time in input fields
-                $('.appt_date').val(d);
-                $('.appt_time').val(t);
-
-                
-              });
-
-              // $('#selected-dates').html(html);
-            },
-            onClickNavigator: function(ev, instance) {
-              var arr = [
-
-                [
-                  ['01:00', '02:00', '03:00', '04:00', '05:00'],
-                  ['02:00'],
-                  ['03:00'],
-                  ['04:00'],
-                  ['05:00'],
-                  ['06:00'],
-                  ['07:00']
-                ],
-                [
-                  ['04:00', '05:00', '06:00', '07:00', '08:00'],
-                  ['01:00', '05:00'],
-                  ['02:00', '05:00'],
-                  ['03:30'],
-                  ['02:00', '05:00'],
-                  ['02:00', '05:00'],
-                  ['02:00', '05:00']
-                ],
-                [
-                  ['02:00', '05:00'],
-                  ['04:00', '05:00', '06:00', '07:00', '08:00'],
-                  ['04:00', '05:00'],
-                  ['02:00', '05:00'],
-                  ['02:00', '05:00'],
-                  ['02:00', '05:00'],
-                  ['02:00', '05:00']
-                ],
-                [
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00', '06:00', '07:00', '08:00'],
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00']
-                ],
-                [
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00', '06:00', '07:00', '08:00'],
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00'],
-                  ['04:00', '05:00']
-                ],
-                [
-                  ['04:00', '06:00'],
-                  ['04:00', '06:00'],
-                  ['04:00', '06:00'],
-                  ['04:00', '06:00'],
-                  ['04:00', '05:00', '06:00', '07:00', '08:00'],
-                  ['04:00', '06:00'],
-                  ['04:00', '06:00']
-                ],
-                [
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00'],
-                  ['03:00', '06:00'],
-                  ['04:00', '05:00', '06:00', '07:00', '08:00'],
-                  ['03:00', '06:00']
-                ],
-                [
-                  ['03:00', '04:00'],
-                  ['03:00', '04:00'],
-                  ['03:00', '04:00'],
-                  ['03:00', '04:00'],
-                  ['03:00', '04:00'],
-                  ['03:00', '04:00'],
-                  ['04:00', '05:00', '06:00', '07:00', '08:00']
-                ]
-              ]
-              var rn = Math.floor(Math.random() * 10) % 7;
-              instance.setAvailability(arr[rn]);
-            }
-
-            
-          });
-
-          // Function to get available slots based on booking data and current date
-          // function getAvailableSlots() {
-          //   const currentDate = new Date();
-          //   // currentDate.toLocaleString({
-          //   //   timeZone: 'Asia/Calcutta'
-          //   // });
-          //   // console.log(currentDate);
-
-          //   // Get year, month, and day part from the date
-          //   // var year = currentDate.toLocaleString("default", { year: "numeric" });
-          //   // var month = currentDate.toLocaleString("default", { month: "2-digit" });
-          //   // var day = currentDate.toLocaleString("default", { day: "2-digit" });
-
-          //   // var todayDate = year + "-" + month + "-" + '07';
-          //   // var todayDate = currentDate.getTime();
-          //   // console.log(todayDate);
-
-
-          //   const bookedAppointments = 
-          //     // booked appointment data
-          //     {!! $bookedSlots !!} ;
-          //     console.log(bookedAppointments);
-
-          //   // Create a matrix to represent availability slots
-          //   const availableSlots = [
-          //     ['01:00', '02:00', '03:00', '04:00', '05:00'],
-          //     ['02:00'],
-          //     ['03:00'],
-          //     ['04:00'],
-          //     ['05:00'],
-          //     ['06:00'],
-          //     ['07:00']
-          //   ];
-
-            
-          //   // console.log(currentDate.getHours());
-          //   // console.log(currentDate.getDate());
-          //   // Iterate through booked appointments and remove slots that are booked or in the past
-          //   for (const appointment of bookedAppointments) {
-          //     const apptDate = new Date(appointment.appt_date);
-          //     // const apptTime = parseInt(appointment.appt_time.split(':')[0]);
-          //     console.log(appointment.appt_date);
-          //     // console.log("today : "+ todayDate);
-          //     // console.log(appointment.b_date);
-          //     // console.log("date : "+ currentDate.getDate());
-          //     // console.log(appointment.b_time);
-          //     console.log("time : "+ currentDate.getHours());
-          //     console.log(appointment.appt_time);
-          //     // console.log("time : "+ currentDate.getHours());
-          //     if (
-          //       // apptDate < currentDate 
-          //       // ||
-          //       // (
-          //         // apptDate.getTime() == currentDate.getTime()
-          //         //  &&
-          //         appointment.b_time <= currentDate.getHours()
-          //         // )
-          //     ) 
-              
-          //     // if (
-          //     //   apptDate < currentDate ||
-          //     //   (apptDate.getTime() === currentDate.getTime() && apptTime <= currentDate.getHours())
-          //     // ) 
-          //     {
-                
-
-          //       console.log("ok");
-          //       // Mark the slot as booked or in the past
-          //       const rowIndex = availableSlots.findIndex(
-          //         slots => slots.includes(appointment.appt_time)
-                  
-          //       );
-          //       console.log(rowIndex);
-          //       if (rowIndex !== -1) {
-          //         const columnIndex = availableSlots[rowIndex].indexOf(
-          //           appointment.appt_time
-          //         );
-          //         if (columnIndex !== -1) {
-          //           availableSlots[rowIndex].splice(columnIndex, 1);
-                    
-          //         }
-          //       }
-          //     }
-          //   }
-          //   console.log(availableSlots);
-          //   return availableSlots;
-          // }
-
-        })(jQuery);
-
-
-        // hiding the past slots
-        // var dateTime = new Date();
-        // var currentTime = dateTime.getHours() + ":" + dateTime.getMinutes();
-        // var calTimeSlot = $('.myc-day-time-container a').attr('data-time');
-        // console.log(currentTime);
-        // console.log(calTimeSlot);
-
-        // if(calTimeSlot < currentTime) {
-        //   $('.myc-day-time-container a[data-time="'+calTimeSlot+'"]').hide();
-        // }
-        
-        
-    });
-  </script>
-
-  <script>
-    $(document).ready(function() {
-
-      // already booked slots today
-    
-      var Slots = {!! $bookedSlots !!}; //directly output the value of $bookedSlots
-
-      /**
-        * loop through all the slots
-        * passing json object in each loop
-      */
-      $.each(Slots, function(index,slot) {
-        
-        // console.log(slot);
-        // disbale slots based on attribute value of anchor tag
-        $('.myc-day-time-container a[data-time="'+slot.appt_time+'"][data-date="'+slot.appt_date+'"]').hide();
-        
-      });
-
-    });
-    
-    
-   
-
-
-  </script>
-
-  <script>
-
-    $(document).ready(function() {
+      console.log("timezone");
+      console.log(moment().format('Z'));
 
       // setup ajax token
       $.ajaxSetup({
@@ -808,9 +549,75 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-    })
-    
 
+      // init timezones
+      $('.timezones').timezones();
+      
+      // booked slots are fetched from google calendar
+      var bookingDays = {!! $bookedSlots !!};
+
+      // slots to be shown to user in the calendar.
+      var allSlots = [
+        ['01:00', '02:00', '03:00', '04:00', '05:00'],
+        ['01:00', '02:00', '03:00', '04:00', '05:00'],
+        ['01:00', '02:00', '03:00', '04:00', '05:00'],
+        ['01:00', '02:00', '03:00', '04:00', '05:00'],
+        ['01:00', '02:00', '03:00', '04:00', '05:00'],
+        ['01:00', '02:00', '03:00', '04:00', '05:00'],
+        ['01:00', '02:00', '03:00', '04:00', '05:00']
+      ];
+
+      // function to hide booked time slots
+      function hideBookedTimeSlots() {
+        $.each(bookingDays, function(index, day) {
+          $.each(day, function (key, slot) {
+            // disbale slots based on attribute value of anchor tag
+            $('.myc-day-time-container a[data-time="'+slot.appt_time+'"][data-date="'+slot.appt_date+'"]').hide();
+          });
+        });
+      }
+
+      // function of calendar
+      (function($) {
+        $('.picker').markyourcalendar({
+          availability: allSlots,
+          isMultiple: false,
+          onClick: function(ev, data) {
+            // data is a list of datetimes
+            $('.myc-available-time').css({'pointer-events':'all', 'opacity':'1'});
+            var html = ``;
+            $.each(data, function() {
+              var d = this.split(' ')[0];
+              var t = this.split(' ')[1];
+              // setting values of date & time in input fields
+              $('.appt_date').val(d);
+              $('.appt_time').val(t);
+            });
+
+            // $('#selected-dates').html(html);
+          },
+          onClickNavigator: function(ev, instance) {
+            // var rn = Math.floor(Math.random() * 10) % 7;
+            instance.setAvailability(allSlots);
+
+            hideBookedTimeSlots();
+          }
+
+          
+        });
+
+        // Hide booked slots when the slot picker is rendered for the first time.
+        hideBookedTimeSlots();
+
+      })(jQuery);
+        
+        
+    });
+  </script>
+
+
+  <script>
+    
     // open modal when click on cancel button
     $(document).on('click','.cancel-btn',function(){
       var appt_id = $(this).attr('data-appt_id'); // appointment id
@@ -880,89 +687,90 @@
 
     // open modal when click on cancel button
     $(document).on('click','.reschedule-btn',function(){
-        var appt_id = $(this).attr('data-appt_id'); // appointment id
-        var previousDate = $('.previous_date').val();
-        // alert(previousDate);
-        var previousTime = $('.previous_time').val();
-        // alert(previousTime);      
-        // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
-        $( ".reschedule_appt_modal" ).dialog({
-          width: 500,
-          draggable: false,
-          modal:true,
-          create: function( event, ui ) {
-            $('body').css({overflow: 'hidden'});
-            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').removeAttr('style');
-            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
-            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
-          },
-          beforeClose: function(event, ui) {
-            $('body').css({ overflow: 'inherit' });
-            $(this).find('a').removeClass('selected');
-            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
-            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
+      var appt_id = $(this).attr('data-appt_id'); // appointment id
+      var previousDate = $('.previous_date').val();
+      // alert(previousDate);
+      var previousTime = $('.previous_time').val();
+      // alert(previousTime);      
+      // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
+      $( ".reschedule_appt_modal" ).dialog({
+        width: 500,
+        draggable: false,
+        modal:true,
+        create: function( event, ui ) {
+          $('body').css({overflow: 'hidden'});
+          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').removeAttr('style');
+          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
+          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
+        },
+        beforeClose: function(event, ui) {
+          $('body').css({ overflow: 'inherit' });
+          $(this).find('a').removeClass('selected');
+          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
+          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
+
+        },
+        buttons: {
+          "Update": function() {
+            
+            
+            var rescheduleDate = $('.appt_date').val(); // date
+            var rescheduleTime = $('.appt_time').val(); // time
+            // alert(appt_id);
+            // Ajax for cancelling appointment
+            $.ajax({
+                type: "POST",
+                url: "{{ route('appointments.reschduleAppointment') }}",
+                data: {
+                  id: appt_id,
+                  appt_date: rescheduleDate,
+                  appt_time: rescheduleTime,
+                },
+                dataType: "json",
+                success: function(data) {
+                      console.log(data);
+                    // Ajax call completed successfully
+                    if(data.success == 1) {
+                        $('.reschedule_appt_modal').dialog( "close" );
+                        $('.s-msg').html(data.message);
+                        $('.s-msg').show();
+                        $('.e-msg').hide();
+
+                        setTimeout(() => {
+                          window.location.reload();
+                          
+                        }, 2500);
+  
+                    } else {
+                        $('.reschedule_appt_modal').dialog( "close" );
+                        $('.s-msg').hide();
+                        $('.e-msg').html(data.message);
+                        $('.e-msg').show();
+
+                    }
+
+                },
+                error: function(data) {
+                      
+                    // Some error in ajax call
+                    $('.reschedule_appt_modal').dialog( "close" );
+                    $('.s-msg').hide();
+                    $('.e-msg').html(data.message);
+                    $('.e-msg').show();
+                }
+            });
+
 
           },
-          buttons: {
-            "Update": function() {
-              
-              
-              var rescheduleDate = $('.appt_date').val(); // date
-              var rescheduleTime = $('.appt_time').val(); // time
-              // alert(appt_id);
-              // Ajax for cancelling appointment
-              $.ajax({
-                  type: "POST",
-                  url: "{{ route('appointments.reschduleAppointment') }}",
-                  data: {
-                    id: appt_id,
-                    appt_date: rescheduleDate,
-                    appt_time: rescheduleTime,
-                  },
-                  dataType: "json",
-                  success: function(data) {
-                        console.log(data);
-                      // Ajax call completed successfully
-                      if(data.success == 1) {
-                          $('.reschedule_appt_modal').dialog( "close" );
-                          $('.s-msg').html(data.message);
-                          $('.s-msg').show();
-                          $('.e-msg').hide();
-
-                          setTimeout(() => {
-                            window.location.reload();
-                            
-                          }, 2500);
-   
-                      } else {
-                          $('.reschedule_appt_modal').dialog( "close" );
-                          $('.s-msg').hide();
-                          $('.e-msg').html(data.message);
-                          $('.e-msg').show();
-
-                      }
-
-                  },
-                  error: function(data) {
-                        
-                      // Some error in ajax call
-                      $('.reschedule_appt_modal').dialog( "close" );
-                      $('.s-msg').hide();
-                      $('.e-msg').html(data.message);
-                      $('.e-msg').show();
-                  }
-              });
-
-
-            },
-            "Close": function() {
-              $( this ).dialog( "close" );
-            }
+          "Close": function() {
+            $( this ).dialog( "close" );
           }
-        });
+        }
+      });
 
-     });
+    });
 
+    // fetching user existing bookings
     $('.mobile').on('keyup',function(){
       var mobile = $(this).val();
       var uid = $('.uid').val();
@@ -989,9 +797,6 @@
         });
       }
     });
-
-
-  
 
   </script>
 </body>

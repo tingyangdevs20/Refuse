@@ -31,7 +31,7 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Active Twilio Phone Numbers
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
+                            <button class="btn btn-outline-primary btn-sm float-right" title="New" style="display:none" data-toggle="modal"
                                     data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
 
                         </div>
@@ -42,9 +42,10 @@
                                 <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">SNO</th>
+                                    
                                   
                                     <th scope="col">Phone Number</th>
+                                    <th scope="col">Capabilities</th>
                                     <th scope="col">Status</th>
                                     
                                 </tr>
@@ -54,10 +55,12 @@
                                 $count = 1;      
                                 @endphp
                                 @foreach ($all_phone_nums as $p_num)
+
                                     <tr>
-                                        <td>{{ $count }}</td>
+                                        
                                        
                                         <td>{{ $p_num->number }}</td>
+                                        <td>{{ $p_num->capabilities }}</td>
                                        
                                         <td>
                                           

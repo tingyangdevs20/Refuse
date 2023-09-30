@@ -84,11 +84,19 @@
                                             class="badge badge-danger">Pending</span> @endif
                                     </td>
                                     <td>
-                                        @if($useragreement->pdf_path != "")
-                                        <a href="{{ $useragreement->pdf_path }}" target="_blank"
-                                            class="btn btn-outline-primary btn-sm" title="View PDF"><i
-                                                class="fas fa-eye"></i>
-                                        </a>
+                                        @if(isset($useragreement->userAgreementSeller) &&
+                                        $useragreement->userAgreementSeller->count() > 0)
+                                            @foreach ($useragreement->userAgreementSeller as $pdf)
+                                                @php
+                                                    $path = $pdf->pdf_path;
+                                                    $path_array = explode('/',$path);
+                                                    $path = end($path_array);
+                                                @endphp
+                                                <a href="{{ asset('agreement_pdf/'.$path) }}" target="_blank"
+                                                    class="btn btn-outline-primary btn-sm" title="View PDF"><i
+                                                        class="fas fa-eye"></i>
+                                                </a>
+                                            @endforeach
                                         @endif
                                     </td>
                                     <td>

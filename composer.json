@@ -22,8 +22,10 @@
         "realrashid/sweet-alert": "^3.1",
         "riazxrazor/slybroadcast": "^1.1",
         "smalot/pdfparser": "^2.7",
+        "spatie/laravel-google-calendar": "^3.6",
         "spatie/laravel-permission": "^5.11",
         "stripe/stripe-php": "^12.4",
+        "tecnickcom/tcpdf": "^6.6",
         "twilio/sdk": "^6.10"
     },
     "require-dev": {

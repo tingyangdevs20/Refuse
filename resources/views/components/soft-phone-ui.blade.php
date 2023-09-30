@@ -74,13 +74,15 @@ h1 {
   position: relative;
 }
 .phone input[type=tel] {
-  color: #63b9c8;
+  color: grey;
   letter-spacing: 0.1rem;
   text-align: center;
   width: 100%;
   border: 0;
   outline: 0;
   background: 0;
+  font-size:20px;
+  
 }
 .phone input[type=reset] {
   background: 0;
@@ -109,7 +111,7 @@ h1 {
   border: 0;
   background: 0;
   color: black;
-  padding: 1rem;
+  padding: 5px;
   outline: 0;
 }
 .phone .grid button:nth-last-child(-n+3) {
@@ -121,7 +123,7 @@ h1 {
   display: block;
   color: #9A9A9A;
   font-size: 0.7rem;
-  letter-spacing: 0.3rem;
+  
 }
 .phone .ans-call {
     color: #998c8c;
@@ -176,9 +178,10 @@ h1 {
 
 .custom-select{
 
-  border: 1px solid #ced4da;
+  border: 1px solid #efefef;
   width: 100%;
   max-width: 100%;
+  
 }
 
 .soft-phone{
@@ -226,6 +229,7 @@ h1 {
   display: inline-block;
   width: 50px;
   height: 20px;
+  margin-top:20px;
 }
 
 .switch input {
@@ -259,11 +263,11 @@ h1 {
 }
 
 input:checked + .slider {
-  background-color: #43d743;
+  background-color: #556ee6;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #556ee6;
 }
 
 input:checked + .slider:before {
@@ -296,9 +300,9 @@ input:checked + .slider:before {
                 </div>
 
                 <div class="sidebar-end">
-                    <span class="material-icons">star_half</span>
-                    <span class='material-icons'>settings</span>
-                    <span class="material-icons power-off">power_settings_new</span>
+                    <span class="material-icons" style="color:#708090;margin-bottom: 10px;">star_half</span>
+                    <span class='material-icons' style="color:#708090;margin-bottom: 10px;">settings</span>
+                    <span class="material-icons power-off" style="margin-bottom: 15px;color:#708090">power_settings_new</span>
                 </div>
             </div>
 
@@ -321,32 +325,32 @@ input:checked + .slider:before {
               </button>
                 <div class="call-display">
                     <div class="row">
-                      <input type="tel" class="phone-number" placeholder="Enter mobile number with country code" pattern="[0-9 ]+" autofocus />
+                      <input type="tel" class="phone-number" placeholder="Dial Number" pattern="[0-9 ]+" autofocus />
                     </div>
                 </div>
 
-                   <!-- <select class="custom-select" id="list-of-phonenumbers">
-                        <option selected>+18886418823</option>
+                    <select class="custom-select" style="color:#C0C0C0;margin-top:5px" id="list-of-phonenumbers">
+                        <option selected>Call From Number</option>
 
-                    </select>-->
+                    </select>
 
                 <div class="grid">
-                    <button class="focus-effects" value="1">1</button>
-                    <button class="focus-effects" value="2">2 <span class="number-text">ABC</span></button>
-                    <button class="focus-effects" value="3">3 <span class="number-text">DEF</span></button>
-                    <button class="focus-effects" value="4">4 <span class="number-text">GHI</span></button>
-                    <button class="focus-effects" value="5">5 <span class="number-text">JKL</span></button>
-                    <button class="focus-effects" value="6">6 <span class="number-text">MNO</span></button>
-                    <button class="focus-effects" value="7">7 <span class="number-text">PQRS</span></button>
-                    <button class="focus-effects" value="8">8 <span class="number-text">TUV</span></button>
-                    <button class="focus-effects" value="9">9 <span class="number-text">WXYZ</span></button>
-                    <button class="focus-effects" value="+">+</button>
-                    <button class="focus-effects"value="0">0</button>
-                    <button class="focus-effects" value="#">#</button>
+                    <button class="focus-effects" style="margin-bottom: 15px;font-size: 16px;" value="1">1</button>
+                    <button class="focus-effects" style="font-size: 16px;" value="2">2 <span class="number-text">ABC</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="3">3 <span class="number-text">DEF</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="4">4 <span class="number-text">GHI</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="5">5 <span class="number-text">JKL</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="6">6 <span class="number-text">MNO</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="7">7 <span class="number-text">PQRS</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="8">8 <span class="number-text">TUV</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="9">9 <span class="number-text">WXYZ</span></button>
+                    <button class="focus-effects" style="font-size: 16px;" value="+">+</button>
+                    <button class="focus-effects" style="font-size: 16px;" value="0">0</button>
+                    <button class="focus-effects" style="font-size: 16px;" value="#">#</button>
                 </div>
 
-                <div class="d-flex justify-content-center">
-                    <button id="answer-call" class="ans-call" >
+                <div class="d-flex justify-content-center" style="margin-bottom:10px">
+                    <button style="margin-top: 10px;" id="answer-call" class="ans-call" >
                         <i class="fa fa-phone" aria-hidden="true"></i>
                     </button>
                     <button id="end-call" class="end-call d-none">
@@ -360,15 +364,15 @@ input:checked + .slider:before {
                   </button>
                 </div>   -->
 
-                <div class="row dialer-icons mt-2">
+                <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
                     <div class="col-4" style="left: 28px;">
-                        <span class='material-icons custom-size-ui'>dialpad</span>
+                        <span class='material-icons custom-size-ui' style="margin-left: 14px;color: #D3D3D3;">dialpad</span>
                     </div>
                     <div class="col-4" style="left: 28px;">
-                        <span class='material-icons custom-size-ui'>support_agent</span>
+                        <span class='material-icons custom-size-ui' style="color: #D3D3D3;">support_agent</span>
                     </div>
                     <div class="col-4" style="left: 28px;">
-                        <i class="fa fa-phone custome-size"></i>
+                        <i class="fa fa-phone custom-size-ui" style="color: #D3D3D3;font-size:x-large"></i>
                     </div>
                 </div>
             </div>

@@ -137,7 +137,7 @@
                 <div class="form-group pt-2">
                     <label> Template Content </label>
                     <br>
-                    <textarea class="form-control ckeditor" style="width: 100%;" id="market" name="content"
+                    <textarea class="form-control ckeditor" style="width: 100%;" id="addcontent" name="content"
                         required> </textarea>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             <div class="form-group pt-2">
                 <label>Insert Short Codes</label>
                 <br>
-                <select class="form-control insert_code" name="short_code" id="insert_code">
+                <select class="form-control insert_code" name="short_code" id="insert_code" data-type = "add">
                     <option value="">Select Code</option>
                     @foreach($short_code as $code)
                         <option value="{{$code}}"> {{$code}} </option>
@@ -160,7 +160,7 @@
             <br>
             <select class="form-control" name="status" required>
               <option value="">Select Status</option>
-              <option value="0" checked> Active </option>
+              <option value="0" selected> Active </option>
               <option value="1"> Deactive </option>
             </select>
           </div>
@@ -219,7 +219,7 @@
                     <div class="form-group pt-2">
                         <label>Insert Short Codes</label>
                         <br>
-                        <select class="form-control insert_code" name="short_code" id="insert_code">
+                        <select class="form-control insert_code" name="short_code" id="insert_code" data-type = "update">
                             <option value="">Select Code</option>
                             @foreach($short_code as $code)
                                 <option value="{{$code}}"> {{$code}} </option>
@@ -281,12 +281,20 @@
     });
     $('.insert_code').on('change',function(){
         if($(this).val() != ''){
-            //var text_area_value = $(this).closest("form").find("#editcontent").val();
-            var text_area_value = CKEDITOR.instances.editcontent.getData();
-            text_area_value += ' {'+$(this).val()+'}';
-            // console.log('text_area_value',text_area_value);
-            $(this).closest("form").find("#editcontent").html(text_area_value);
-            CKEDITOR.instances.editcontent.setData(text_area_value);
+
+            if($(this).attr('data-type') == 'add'){
+                var text_area_value = CKEDITOR.instances.addcontent.getData();
+                text_area_value += ' {'+$(this).val()+'}';
+                $(this).closest("form").find("#addcontent").html(text_area_value);
+                CKEDITOR.instances.addcontent.setData(text_area_value);
+            }else{
+                var text_area_value = CKEDITOR.instances.editcontent.getData();
+                text_area_value += ' {'+$(this).val()+'}';
+                $(this).closest("form").find("#editcontent").html(text_area_value);
+                CKEDITOR.instances.editcontent.setData(text_area_value);
+            }
+
+
 
             $(this).val('');
         }
@@ -295,7 +303,7 @@
 <script></script>
 <!-- Sachin 08-09-2023 -->
 
-<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="{{ asset('back/assets/ckeditor/ckeditor.js') }}"></script>
 
 
 @endsection

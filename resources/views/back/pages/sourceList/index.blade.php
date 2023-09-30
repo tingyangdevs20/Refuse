@@ -27,20 +27,23 @@
                         </div>
                     </div>
                     <div class="ct_message_text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                       
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            All Source List
+                            How To Source A List
                             
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
-                                    data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
+                           
                             
                             <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
                                     data-target="#helpModal">How to use</button>
 
                         </div>
                     </div>
+                    <div style="position:relative;height:0;width:100%;padding-bottom:42%"><iframe src="https://sendspark.com/embed/2ry8kxjajzny3rhsya73a58cociufh9o" frameBorder="0" style="position:absolute;width:100%;height:100%;border-radius:6px;left:0;top:0" allowfullscreen=""></iframe></div>
+<div style="font-weight:bold;font-size:18px;text-align:center;margin-top:20px">To signup for a PropStream account, please click here to get a 7 day free trial.
+                    </div>
+
                 </div>
             </div>
             <!-- end page title -->

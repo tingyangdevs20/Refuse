@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Model\Phone;
+use App\Model\Number;
+use App\Model\Settings;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Http;
@@ -13,31 +14,46 @@ class PhoneController extends Controller
 {
     private $client = null;
     public function __construct() {
-        $sid = "ACa068bcfb703b21e18077f86851761d44";
-        $token = "c2f1cc6866bad1d7443792a34dfe2395";
+        $settings = Settings::first()->toArray(); 
+        
+        
+        $sid = $settings['twilio_api_key'];
+        
+        $token = $settings['twilio_acc_secret'];
+       
         $this->client = new Client($sid, $token);
     }
     public function index(){
         $context = $this->client->getAccount();
         $activeNumbers = $context->incomingPhoneNumbers;
+        
         $activeNumberArray = $activeNumbers->read();
+        //print_r($activeNumberArray);
+        //die("...");
         $numbers = [];
         foreach($activeNumberArray as $activeNumber) {
             error_log('active number = '.$activeNumber->phoneNumber);
             $numbers[] = (object)[
                 'number' => $activeNumber->phoneNumber,
                 'name' => $activeNumber->friendlyName,
-                'sid' => $activeNumber->sid
+                'sid' => $activeNumber->sid,
+                'capabilities' => $activeNumber->capabilities,
             ];
 
             $phn_num=$activeNumber->phoneNumber;
-            $phone_number = Phone::where('number', $phn_num)->first();
+            $phone_number = Number::where('number', $phn_num)->first();
             if(!$phone_number)
             {
-                $phn_nums = new Phone();
+                $phn_nums = new Number();
                 $phn_nums->number= $phn_num;
                 $phn_nums->sid= $activeNumber->sid;
+                $phn_nums->capabilities= $activeNumber->capabilities;
+                $phn_nums->sms_allowed=Settings::first()->sms_allowed;
+                $phn_nums->account_id = null;
+                $phn_nums->market_id=null;
                 $phn_nums->save();
+
+       
 
             }
        }
@@ -46,14 +62,14 @@ class PhoneController extends Controller
 
        
        //die(".");
-       $all_phone_nums=Phone::all();
+       $all_phone_nums=Number::all();
         return view('back.pages.phone.index', compact('all_phone_nums'));
     }
     public function changeStatus(Request $request)
     {
-        $phn = Phone::find($request->phn_id); 
+        $phn = Number::find($request->phn_id); 
         $phn->is_active = $request->sts; 
-        $product->save(); 
+        $phn->save(); 
         return response()->json(['success'=>'Status changed successfully.']); 
     }
 }

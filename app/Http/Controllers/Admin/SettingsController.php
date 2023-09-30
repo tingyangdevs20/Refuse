@@ -83,7 +83,7 @@ class SettingsController extends Controller
             return redirect()->back();
         }
 
-        $settings=$settings->find(1);
+        $settings = $settings->find(1);
         $settings->auto_reply = $request->auto_reply;
         $settings->auto_responder = $request->auto_respond;
         //$settings->sms_rate = $request->sms_rate;
@@ -91,6 +91,7 @@ class SettingsController extends Controller
         $settings->sender_email = $request->sender_email;
         $settings->sender_name = $request->sender_name;
         $settings->auth_email = $request->auth_email;
+        $settings->document_closed_by = $request->document_closed_by;
         $settings->reply_email = $request->reply_email;
         $settings->sendgrid_key = $request->sendgrid_key;
         $settings->twilio_api_key = $request->twilio_api_key;
@@ -104,10 +105,10 @@ class SettingsController extends Controller
 
         $settings->save();
 
-        $numbers=Number::all();
-        if ($numbers!=null){
-            foreach ($numbers as $number){
-                $number->sms_allowed=$request->sms_allowed;
+        $numbers = Number::all();
+        if ($numbers != null) {
+            foreach ($numbers as $number) {
+                $number->sms_allowed = $request->sms_allowed;
                 $number->save();
             }
         }

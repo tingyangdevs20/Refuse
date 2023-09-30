@@ -64,8 +64,6 @@
 								     <b>REIFuze</b></p>
 								     </td>
                                     </tr>
-
-
                                 </table>
                             </td>
                         </tr>

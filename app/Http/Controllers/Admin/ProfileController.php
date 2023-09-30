@@ -36,6 +36,7 @@ class ProfileController extends Controller
         $user->website_link     =$request->input('website_link');
         $user->time_zone        =$request->input('time_zone');
         $user->address          =$request->input('address');
+        $user->company_name          =$request->input('company_name');
         $user->mobile           =$request->input('mobile');
         // $user->status           =$request->input('status');
         $user->street           =$request->input('street');
