@@ -56,18 +56,18 @@ class OneSMSController extends Controller
     {
        // dd("in here");
      
-        $numbers = Number::where('market_id', $request->sender_market)->get();
+        $numbers = Number::where('id', 1)->get();
+        //print_r($numbers);
+       // die("--");
         $contact = Contact::where('number', $request->number)->first();
         $templates = Template::where('category_id', $request->category)->get();
-        $market = Market::find($request->sender_market);
+       // $market = Market::find($request->sender_market);
         $settings = Settings::first()->toArray(); 
-                
         $sid = $settings['twilio_api_key'];
-        
         $token = $settings['twilio_acc_secret'];
 
         $templateCounter = rand(0, $templates->count() - 1);
-        $numberCounter = rand(0, $numbers->count() - 1);
+        $numberCounter = 0;
         $message = $this->messageFormat($templates[$templateCounter]->body, $contact->name, $contact->street, $contact->city, $contact->state, $contact->zip);
         try {
            $client = new Client($sid, $token);
