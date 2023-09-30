@@ -82,7 +82,6 @@ class AccountController extends Controller
         // $account->account_token=$request->account_token;
         // $account->account_copilot=$request->account_copilot;
         // $account->account_name=$request->account_name;
-
         $account->sms_rate = $request->sms_rate;
         $account->sms_allowed = $request->sms_allowed;
         $account->phone_cell_append_rate    = $request->phone_cell_append_rate;
@@ -90,6 +89,7 @@ class AccountController extends Controller
         $account->name_append_rate          = $request->name_append_rate;
         $account->email_verification_rate   = $request->email_verification_rate;
         $account->phone_scrub_rate          = $request->phone_scrub_rate;
+        $account->scraping_charge_per_record          = $request->scraping_charge_per_record;
         $account->save();
 
         $numbers = Number::all();

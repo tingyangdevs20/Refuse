@@ -113,6 +113,17 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label>Scraping Charge Per Record </label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Per Record Scraping Rate" name="scraping_charge_per_record"
+                                        id="scraping_charge_per_record" value="{{ $accounts->scraping_charge_per_record }}" step="0.00001" min="0" required>
+                                </div>
+                            </div>
+
 
 
 
