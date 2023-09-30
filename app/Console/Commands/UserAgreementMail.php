@@ -150,9 +150,11 @@ class UserAgreementMail extends Command
                             ->send(new UserAgreementSendMail($userAgreement,$userAgreementSeller->id));
 
                         $userAgreementSeller->is_send_mail = "1";
-                        //$userAgreementSeller->save();
+                        $userAgreementSeller->save();
+                        $userAgreement->is_sign = '2';
+                        $userAgreement->save();
                     } catch (Exception $ex) {
-                        dd($ex->getFile().'-- '.$ex->getLine().' --'.$ex->getMessage());
+                        
                     }
                 }
             }
