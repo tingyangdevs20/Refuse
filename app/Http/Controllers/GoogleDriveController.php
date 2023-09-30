@@ -29,14 +29,14 @@ class GoogleDriveController extends Controller
         $this->gClient->setClientId($GOOGLE_DRIVE_CLIENT_ID);
         $this->gClient->setClientSecret($GOOGLE_DRIVE_CLIENT_SECRET);
         $this->gClient->setRedirectUri(route('admin.google-drive-callback'));
-        $this->gClient->setDeveloperKey($GOOGLE_DRIVE_DEVELOPER_KEY);
+        $this->gClient->setDeveloperKey('AIzaSyB0JsRitCEiYehLDllpu7v5ULPwJZUpbcw');
         $this->gClient->setScopes([
             'https://www.googleapis.com/auth/drive.file',
             'https://www.googleapis.com/auth/drive',
         ]);
 
         $this->gClient->setAccessType("offline");
-        // $this->gClient->setApprovalPrompt("force");
+        $this->gClient->setApprovalPrompt("auto");
     }
 
     public function googleLogin(Request $request)
@@ -109,8 +109,9 @@ class GoogleDriveController extends Controller
             return $this->googleDriveFileUpload($request);
         } else {
             // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl(['approval_prompt' => 'none']); // Set approval_prompt to 'none'
-
+            $authUrl = $this->gClient->createAuthUrl([
+                'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive',
+            ]);
             return redirect()->to($authUrl);
         }
     }
@@ -287,8 +288,10 @@ class GoogleDriveController extends Controller
         } else {
 
             // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl();
-
+            // $authUrl = $this->gClient->createAuthUrl(['scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive', 'approval_prompt' => 'none']); // Set approval_prompt to 'none'
+            $authUrl = $this->gClient->createAuthUrl([
+                'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive',
+            ]);
             return redirect()->to($authUrl);
         }
     }

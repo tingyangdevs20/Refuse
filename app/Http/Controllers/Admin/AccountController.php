@@ -19,8 +19,8 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = Account::first();
-        
-        return view('back.pages.account.index',compact('accounts'));
+
+        return view('back.pages.account.index', compact('accounts'));
     }
 
     /**
@@ -42,7 +42,7 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         Account::create($request->all());
-        Alert::success('Success','Account Created!');
+        Alert::success('Success', 'Account Created!');
         return redirect()->back();
     }
 
@@ -77,28 +77,29 @@ class AccountController extends Controller
      */
     public function update(Request $request)
     {
-        $account=Account::find(1);
+        $account = Account::find(1);
         //$account->account_id=$request->account_id;
-       // $account->account_token=$request->account_token;
-       // $account->account_copilot=$request->account_copilot;
-       // $account->account_name=$request->account_name;
-         $account->sms_rate=$request->sms_rate;
-        $account->sms_allowed=$request->sms_allowed;
-        $account->phone_cell_append_rate    =$request->phone_cell_append_rate;
-        $account->email_append_rate         =$request->email_append_rate;
-        $account->name_append_rate          =$request->name_append_rate;
-        $account->email_verification_rate   =$request->email_verification_rate;
-        $account->phone_scrub_rate          =$request->phone_scrub_rate;
+        // $account->account_token=$request->account_token;
+        // $account->account_copilot=$request->account_copilot;
+        // $account->account_name=$request->account_name;
+        $account->sms_rate = $request->sms_rate;
+        $account->sms_allowed = $request->sms_allowed;
+        $account->phone_cell_append_rate    = $request->phone_cell_append_rate;
+        $account->email_append_rate         = $request->email_append_rate;
+        $account->name_append_rate          = $request->name_append_rate;
+        $account->email_verification_rate   = $request->email_verification_rate;
+        $account->phone_scrub_rate          = $request->phone_scrub_rate;
+        $account->scraping_charge_per_record          = $request->scraping_charge_per_record;
         $account->save();
-        
-        $numbers=Number::all();
-        if ($numbers!=null){
-            foreach ($numbers as $number){
-                $number->sms_allowed=$request->sms_allowed;
+
+        $numbers = Number::all();
+        if ($numbers != null) {
+            foreach ($numbers as $number) {
+                $number->sms_allowed = $request->sms_allowed;
                 $number->save();
             }
         }
-        Alert::success('Success','Account Updated!');
+        Alert::success('Success', 'Account Updated!');
         return redirect()->back();
     }
 
@@ -111,7 +112,7 @@ class AccountController extends Controller
     public function destroy(Request $request)
     {
         Account::find($request->account_id)->delete();
-        Alert::success('Success','Account Removed!');
+        Alert::success('Success', 'Account Removed!');
         return redirect()->back();
     }
 }
