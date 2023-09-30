@@ -227,6 +227,8 @@
             $("input:checkbox[name=type]:checked").each(function() {
                 array.push($(this).val());
             });
+
+           
             
         }
         }
