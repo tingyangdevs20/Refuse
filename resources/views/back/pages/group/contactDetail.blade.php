@@ -4172,7 +4172,7 @@
                                                                         <div class="card">
                                                                             <div class="card-header bg-soft-dark ">
                                                                                 <table
-                                                                                    class="table table-striped table-bordered"
+                                                                                    class="table  table-bordered"
                                                                                     id="datatable">
                                                                                     <thead>
                                                                                         <tr>
@@ -4200,6 +4200,8 @@
                                                                                         </tr>
                                                                                     </thead>
                                                                                     <tbody>
+                                                                                        @foreach ($collection as $skipTraceRecord)
+
                                                                                         <tr>
                                                                                             <td>{{ $skipTraceRecord->select_option??"-" }}</td>
                                                                                             <td>{{ $skipTraceRecord->email_skip_trace_date??"-" }}</td>
@@ -4211,6 +4213,9 @@
                                                                                             <td>{{ $skipTraceRecord->scam_numbers }}- {{ @$skipTraceRecord->scam_emails }}</td>
                                                                                             <td>{{ $skipTraceRecord->append_names }}- {{ @$skipTraceRecord->append_emails }}</td>
                                                                                         </tr>
+
+
+                                                                                        @endforeach
                                                                                     </tbody>
                                                                                 </table>
                                                                             </div>
