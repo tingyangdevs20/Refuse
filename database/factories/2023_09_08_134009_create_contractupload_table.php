@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountsTable extends Migration
+class CreateContractuploadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
-            $table->text('account_id');
-            $table->text('account_token');
-            $table->text('account_copilot')->nullable();
-            $table->string('account_name');
+        Schema::create('contractupload', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->longText('content')->nullable();
+            $table->longText('file')->nullable();
+            $table->string('type_contract')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('contractupload');
     }
 }

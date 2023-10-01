@@ -16,8 +16,8 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
-            $table->bigint('market_id');
+            $table->bigInteger('market_id');
+            // $table->bigint('market_id');
             $table->string('skip_trace_optiontype');
             $table->timestamps();
         });

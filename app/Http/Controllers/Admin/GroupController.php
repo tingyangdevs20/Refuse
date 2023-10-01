@@ -782,10 +782,6 @@ class GroupController extends Controller
             return $contact->email1 . '|' . $contact->number;
         });
 
-
-
-
-
         $skipTraceRate = null;
         Session::put('record_detail', [
             'group' => $group,
