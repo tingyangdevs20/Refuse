@@ -24,14 +24,19 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        All Numbers
+                                        All Numbers 
+                                        <span><select onchange="delete_selected(this)">
+                                            <option value="0">Action</option>
+                                            <option value="1">Delete Selected</option>
+                                            
+</select></span>
                                         <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                             <tr>
-                                                {{-- <th scope="col">#</th> --}}
+                                                <th scope="col"><input onclick="allSelected()" type="checkbox"/></th> 
                                                 <th scope="col">First Name</th>
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Street</th>
@@ -45,9 +50,10 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                                
                                             @foreach($group->contacts()->get() as $contact)
                                             <tr>
-                                                {{-- <td>{{ $sr++ }}</td> --}}
+                                                 <td><input id="chk{{ $contact->id }}" class="jpCheckbox" type="checkbox"/></td> 
                                                 <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->name }}</a></td>
                                                 <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->last_name }}</a></td>
                                                 <td>{{ $contact->street }}</td>
@@ -77,7 +83,7 @@
                                                     </a>
                                                     <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
                                                 </td> -->
-                                            </tr>
+                                          
                                             @endforeach
                                             </tbody>
                                         </table>
@@ -182,8 +188,50 @@
 
     <script >
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            $('#datatable').DataTable({
+
+                'columnDefs': [{
+         
+         'render': function (data, type, full, meta){
+             return '<input type="checkbox" name="id[]" value="">';
+         }
+      }],
+            }
+
+
+            );
         } );
+
+        var isChecked = false;
+
+        function allSelected() 
+        {
+           
+            // this line is for toggle the check
+            isChecked = !isChecked;
+
+            //below line refers to 'jpCheckbox' class
+            $('input:checkbox.jpCheckbox').attr('checked',isChecked);
+
+            //OR,
+            //$('input:checkbox.jpCheckbox').attr('checked','checked');
+        }
+
+        function delete_selected(ctrl)
+        {
+            var array = [];
+           // alert(ctrl.value);
+           if(ctrl.value!="0")
+           {
+            
+            $("input:checkbox[name=type]:checked").each(function() {
+                array.push($(this).val());
+            });
+
+           
+            
+        }
+        }
     </script>
 
     @endsection

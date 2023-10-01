@@ -26,7 +26,7 @@
 
                 
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
-                        <span>Lists</span></a>
+                        <span>My Lists</span></a>
                 </li>
                 <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">
