@@ -168,9 +168,7 @@ class GroupController extends Controller
         $cnt_mob3 = $contact->number3;
         $getAllAppointments = Scheduler::where('admin_uid', $uid)->where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
 
-        //print_r($getAllAppointments);
-        //die("..");
-        // exit;
+
 
 
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','skipTraceRecord'));
