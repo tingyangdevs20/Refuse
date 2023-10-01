@@ -4201,9 +4201,7 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="card">
                                                                             <div class="card-header bg-soft-dark ">
-                                                                                <table
-                                                                                    class="table  table-bordered"
-                                                                                    id="datatable">
+                                                                                <table class="table table-bordered table-striped table-hover table-condensed">
                                                                                     <thead>
                                                                                         <tr>
 
