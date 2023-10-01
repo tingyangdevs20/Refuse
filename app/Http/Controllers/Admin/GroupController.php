@@ -121,7 +121,7 @@ class GroupController extends Controller
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
 
-        $skipTraceRecord = SkipTracingDetail::where('group_id', $contact->group_id)->first();
+        $collection = SkipTracingDetail::where('group_id', $contact->group_id)->get();
 
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
@@ -171,7 +171,7 @@ class GroupController extends Controller
 
 
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','skipTraceRecord'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection'));
     }
 
     public function updateinfo(Request $request)
