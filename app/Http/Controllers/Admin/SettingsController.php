@@ -103,6 +103,13 @@ class SettingsController extends Controller
         $settings->google_drive_client_secret = $request->google_drive_client_secret;
         $settings->google_drive_developer_key = $request->google_drive_developer_key;
 
+        $settings->stripe_screct_key = $request->stripe_screct_key;
+        $settings->strip_publishable_key = $request->strip_publishable_key;
+
+        $settings->paypal_client_id = $request->paypal_client_id;
+        $settings->paypal_secret_key = $request->paypal_secret_key;
+
+
         $settings->save();
 
         $numbers = Number::all();

@@ -431,7 +431,7 @@
                                                                                 @endif>Website
                                                                             </option>
 
-                                                                           
+
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -4118,7 +4118,7 @@
                                                                 </div>
                                                             </div>
                                                             <hr>
-                                                        @elseif($section->id == '23')
+                                                        @elseif($section->id == '22')
                                                             <div class="col-md-12" id="{{ $section->id }}"
                                                                 style="padding:0px;">
                                                                 <div class="row" id="SECTION">
@@ -4179,7 +4179,6 @@
 
                                                                                             <th scope="col">Skip trace
                                                                                                 option</th>
-
                                                                                             <th scope="col">Date of
                                                                                                 Last Email Skip Trace</th>
                                                                                             <th scope="col">Date of
@@ -4190,16 +4189,28 @@
                                                                                                 Last Email Verification</th>
                                                                                             <th scope="col">Date of
                                                                                                 Last Phone Scrub </th>
-
                                                                                             <th scope="col">Verified
                                                                                                 Numbers & Emails</th>
                                                                                             <th scope="col">Scam
                                                                                                 Numbers & Emails</th>
+                                                                                            <th scope="col">Append Name & Emails
+
+                                                                                            </th>
 
                                                                                         </tr>
                                                                                     </thead>
                                                                                     <tbody>
-
+                                                                                        <tr>
+                                                                                            <td>{{ $skipTraceRecord->select_option??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->email_skip_trace_date??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->phone_skip_trace_date??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->name_skip_trace_date??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->email_verification_date??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->phone_scrub_date??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->verified_emails }} - {{ @$skipTraceRecord->verified_numbers }}</td>
+                                                                                            <td>{{ $skipTraceRecord->scam_numbers }}- {{ @$skipTraceRecord->scam_emails }}</td>
+                                                                                            <td>{{ $skipTraceRecord->append_names }}- {{ @$skipTraceRecord->append_emails }}</td>
+                                                                                        </tr>
                                                                                     </tbody>
                                                                                 </table>
                                                                             </div>

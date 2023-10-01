@@ -219,6 +219,55 @@
                                 </div>
 
                                 <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> Stripe Keys
+
+                                </div>
+                                <br />
+
+                                <div class="form-group">
+                                    <label>Stripe Secret Key</label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter Stripe Secret Key" name="stripe_screct_key"
+                                            id="stripe_screct_key" value="{{ $settings->stripe_screct_key }}" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Stripe Publishable Key </label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter Stripe Publishable Key" name="strip_publishable_key"
+                                            id="strip_publishable_key" value="{{ $settings->strip_publishable_key }}" >
+                                    </div>
+                                </div>
+
+                                <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> PayPal Keys
+
+                                </div>
+                                <br />
+
+                                <div class="form-group">
+                                    <label>PayPal Client ID</label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter PayPal Client ID" name="paypal_client_id"
+                                            id="paypal_client_id" value="{{ $settings->paypal_client_id }}" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>PayPal Secret Key </label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter PayPal Secret Key" name="paypal_secret_key"
+                                            id="paypal_secret_key" value="{{ $settings->paypal_secret_key }}" >
+                                    </div>
+                                </div>
+
+
+                                <div class="card-header bg-soft-dark ">
                                     <i class="fas fa-cog"></i> Connect Gmail
                                 </div>
                                 <br />
