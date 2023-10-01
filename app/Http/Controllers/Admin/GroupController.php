@@ -172,6 +172,7 @@ class GroupController extends Controller
         //die("..");
         // exit;
 
+
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','skipTraceRecord'));
     }
 
