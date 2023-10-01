@@ -60,6 +60,8 @@ class AppointmentController extends Controller
 
             $appointmentSettings = CalendarSetting::first() ?? new CalendarSetting();
 
+            $this->setupGoogleCalendar();
+
             $availableSlots = $this->getAvailableSlots($appointmentSettings, $request->timezone);
             $bookedSlots = $this->getBookedSlotsFromGoogleCalendar($appointmentSettings, $request->timezone);
 
@@ -85,7 +87,13 @@ class AppointmentController extends Controller
         $appointmentSettings = $appointmentSettings->toArray();
 
         // Transform the data into the desired format
-        $daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        $d = Carbon::now()->setTimezone($userTimezone);
+        $daysOfWeek = [];
+        for ($i = 1; $i < 8; $i++) {
+            $daysOfWeek[] = strtolower($d->format("l"));
+            $d->addDay();
+        }
+
         $result = [];
 
         foreach ($daysOfWeek as $day) {
@@ -224,14 +232,7 @@ class AppointmentController extends Controller
                 return back()->with('error', 'You have already booked an appointment.');
             }
 
-            $account = Account::find(1);
-
-            if (($account->calendar_enable === "N") || !$account->calendar_id || !$account->calendar_credentials_path) {
-                abort(500, "Please configure your google calendar from Administrative Settings.");
-            }
-
-            \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', $account->calendar_id);
-            \Illuminate\Support\Facades\Config::set('google-calendar.auth_profiles.service_account.credentials_json', storage_path('app/google-calendar/' . $account->calendar_credentials_path));
+            $this->setupGoogleCalendar();
 
 
             $now = Carbon::now();
