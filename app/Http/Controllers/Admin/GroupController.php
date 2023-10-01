@@ -110,8 +110,6 @@ class GroupController extends Controller
         }
 
 
-
-
     }
 
     public function contactInfo(Request $request, $id = '')
@@ -121,6 +119,10 @@ class GroupController extends Controller
         $scripts = Script::all();
         $tags = Tag::all();
         $sections = Section::all();
+        $contact = Contact::where('id', $id)->first();
+
+        $skipTraceRecord = SkipTracingDetail::where('group_id', $contact->group_id)->first();
+
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
         if ($leadinfo == null) {
@@ -166,11 +168,10 @@ class GroupController extends Controller
         $cnt_mob3 = $contact->number3;
         $getAllAppointments = Scheduler::where('admin_uid', $uid)->where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
 
-        //print_r($getAllAppointments);
-        //die("..");
-        // exit;
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact'));
+
+
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','skipTraceRecord'));
     }
 
     public function updateinfo(Request $request)
@@ -229,31 +230,32 @@ class GroupController extends Controller
         $group_id = '';
         $campaign_id = '';
         //return $request->campaign_id;
-        if ($request->campaign_id != 0) {
-            $campaign_id = $request->campaign_id;
-            //die($campaign_id );
-            $compain = Campaign::where('id', $campaign_id)->first();
-            $group_id = $compain->group_id;
-        }
+        // if ($request->campaign_id != 0) {
+        //     $campaign_id = $request->campaign_id;
+        //     //die($campaign_id );
+        //     $compain = Campaign::where('id', $campaign_id)->first();
+        //     $group_id = $compain->group_id;
+        // }
 
 
         //return $group_id;
 
-        if ($existing_group_id != 0) {
+        // if ($existing_group_id != 0) {
 
-            $group_id = $existing_group_id;
-            $group = Group::where('id', $group_id)->first();
-            $group->market_id = $request->market_id;
-            $group->tag_id = $request->tag_id;
-            $group->save();
-        } else {
+        //     $group_id = $existing_group_id;
+        //     $group = Group::where('id', $group_id)->first();
+        //     $group->market_id = $request->market_id;
+        //     $group->tag_id = $request->tag_id;
+        //     $group->save();
+        // } else {
 
             $group = new Group();
-            $group->market_id = $request->market_id;
+            $group->market_id = $request->market_id??'0';
             $group->tag_id = $request->tag_id;
+            // $group->tag_id = json_encode($request->tag_id);
             $group->name = $request->name;
             $group->save();
-        }
+        // }
 
 
 
@@ -558,12 +560,7 @@ class GroupController extends Controller
         $number->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Model\Group $group
-     * @return \Illuminate\Http\Response
-     */
+
     public function getAllContacts(Request $request)
     {
         $sr = 1;
@@ -590,35 +587,19 @@ class GroupController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Model\Group $group
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Group $group)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Model\Group $group
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Group $group)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Model\Group $group
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request)
     {
         Group::find($request->id)->delete();
@@ -886,7 +867,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->phone_skip_trace_date = $date;
                                     $skipTraceDetail->verified_numbers = $record['Phone'];
                                     $skipTraceDetail->scam_numbers = null;
@@ -913,7 +894,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->phone_skip_trace_date = $date;
                                     $skipTraceDetail->verified_numbers = $record['Phone'];
                                     $skipTraceDetail->scam_numbers = null;
@@ -978,7 +959,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = $date;
                                     $skipTraceDetail->verified_emails = $record['Email'];
                                     $skipTraceDetail->scam_numbers = null;
@@ -1015,7 +996,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = $date;
                                     $skipTraceDetail->verified_emails = $record['Email'];
                                     $skipTraceDetail->scam_numbers = null;
@@ -1084,7 +1065,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = null;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = $date;
@@ -1129,7 +1110,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = null;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = $date;
@@ -1206,7 +1187,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = $date;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = null;
@@ -1251,7 +1232,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = $date;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = null;
@@ -1343,7 +1324,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = null;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = null;
@@ -1377,7 +1358,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = null;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = null;
@@ -1473,7 +1454,7 @@ class GroupController extends Controller
                                     $skipTraceDetail = new SkipTracingDetail();
                                     $skipTraceDetail->user_id = $user_id;
                                     $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $skipTraceRate;
+                                    $skipTraceDetail->select_option = $selectedOption;
                                     $skipTraceDetail->email_skip_trace_date = null;
                                     $skipTraceDetail->phone_skip_trace_date = null;
                                     $skipTraceDetail->name_skip_trace_date = null;

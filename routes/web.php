@@ -214,7 +214,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
     Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');
-    Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
+    Route::get('get/message/{type}/{id}', 'Admin\CampaignListConttroller@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
 
