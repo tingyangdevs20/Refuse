@@ -229,31 +229,32 @@ class GroupController extends Controller
         $group_id = '';
         $campaign_id = '';
         //return $request->campaign_id;
-        if ($request->campaign_id != 0) {
-            $campaign_id = $request->campaign_id;
-            //die($campaign_id );
-            $compain = Campaign::where('id', $campaign_id)->first();
-            $group_id = $compain->group_id;
-        }
+        // if ($request->campaign_id != 0) {
+        //     $campaign_id = $request->campaign_id;
+        //     //die($campaign_id );
+        //     $compain = Campaign::where('id', $campaign_id)->first();
+        //     $group_id = $compain->group_id;
+        // }
 
 
         //return $group_id;
 
-        if ($existing_group_id != 0) {
+        // if ($existing_group_id != 0) {
 
-            $group_id = $existing_group_id;
-            $group = Group::where('id', $group_id)->first();
-            $group->market_id = $request->market_id;
-            $group->tag_id = $request->tag_id;
-            $group->save();
-        } else {
+        //     $group_id = $existing_group_id;
+        //     $group = Group::where('id', $group_id)->first();
+        //     $group->market_id = $request->market_id;
+        //     $group->tag_id = $request->tag_id;
+        //     $group->save();
+        // } else {
 
             $group = new Group();
-            $group->market_id = $request->market_id;
+            $group->market_id = $request->market_id??'null';
             $group->tag_id = $request->tag_id;
+            // $group->tag_id = json_encode($request->tag_id);
             $group->name = $request->name;
             $group->save();
-        }
+        // }
 
 
 

@@ -7,6 +7,26 @@
 
     <style>
 
+        /* Adjust the margin between the input and dropdown arrow */
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            margin-right: 10px;
+        }
+
+        /* Remove the blinking line under the input */
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+
+            margin-right: 10px;
+        }
+
+        .select2-container--default .select2-search--inline .select2-search__field {
+            background: transparent;
+            border: none;
+            outline: 0;
+            display: none;
+            box-shadow: none;
+            -webkit-appearance: textfield;
+        }
+
         .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
             cursor: default;
             padding-left: 22px !important;
@@ -216,18 +236,18 @@
                                 <div class="form-group pt-2">
                                     <label>Select Tag</label><br>
                                     <select class="custom-select select2" multiple="multiple" style="width: 100%;" id="tag" name="tag_id">
-                                        <option value="">Select Tag</option>
+                                        <option value="" disabled>Select Tag</option>
                                         @foreach($tags as $tag)
                                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label>Select Email Template</label>
                                     <select class="custom-select" name="email_template" id="email_template">
                                         @if(count($form_Template) > 0)
                                             @foreach($form_Template as $email_template)
-                                                <option value="{{ $email_template->id }}">{{ $email_template->template_name }}</option>
+                                                <option value="{{ $email_template->id }}" selected>{{ $email_template->template_name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -275,7 +295,7 @@
             </div>
 
             {{-- Push Campaign Modal --}}
-            <div class="modal fade" id="campaignModal" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal fade first-modal" id="campaignModal" tabindex="-1" role="dialog"  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -321,7 +341,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             {{-- Skip Tracing Modal --}}
             <div class="modal fade" id="skiptracingModal" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -410,7 +430,7 @@
             $('#datatable').DataTable();
 
             $('.select2').select2({
-
+                theme: 'bootstrap4',
             });
 
             let groupId = 0;
@@ -580,16 +600,28 @@
                 var campaignName = $('#modal_campaign_id option:selected').data('campaignName');
                 var marketName = $('#modal_market option:selected').data('marketName');
 
-                console.log('campaignId',campaignId );
-                console.log('marketId',marketId );
-                console.log('campaignName',campaignName );
-                console.log('marketName',marketName );
-                console.log('groupId',groupId );
-                console.log('groupName',groupName );
-                console.log('email',email );
+                // console.log('campaignId',campaignId );
+                // console.log('marketId',marketId );
+                // console.log('campaignName',campaignName );
+                // console.log('marketName',marketName );
+                // console.log('groupId',groupId );
+                // console.log('groupName',groupName );
+                // console.log('email',email );
 
-                 // Get a reference to the confirmation modal
-                 var confirmationModal = $('#confirmationModal');
+                var confirmationModal = $('#confirmationModal');
+                var campaignModal = $('#campaignModal');
+
+                // Hide the first modal when the confirmation modal is shown
+                confirmationModal.on('show.bs.modal', function () {
+                    campaignModal.addClass('d-none'); // Add a class to hide the first modal
+                });
+
+                // Restore the first modal's opacity when the confirmation modal is hidden
+                confirmationModal.on('hidden.bs.modal', function () {
+                    campaignModal.removeClass('d-none'); // Remove the class to show the first modal
+                });
+
+
 
                 // Show the modal
                 confirmationModal.modal('show');
@@ -660,4 +692,4 @@
 
     </script>
 
-    @endsection
+@endsection
