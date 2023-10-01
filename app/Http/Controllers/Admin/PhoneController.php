@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Model\Phone;
+use App\Model\Number;
 use App\Model\Settings;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -41,14 +41,19 @@ class PhoneController extends Controller
             ];
 
             $phn_num=$activeNumber->phoneNumber;
-            $phone_number = Phone::where('number', $phn_num)->first();
+            $phone_number = Number::where('number', $phn_num)->first();
             if(!$phone_number)
             {
-                $phn_nums = new Phone();
+                $phn_nums = new Number();
                 $phn_nums->number= $phn_num;
                 $phn_nums->sid= $activeNumber->sid;
                 $phn_nums->capabilities= $activeNumber->capabilities;
+                $phn_nums->sms_allowed=Settings::first()->sms_allowed;
+                $phn_nums->account_id = null;
+                $phn_nums->market_id=null;
                 $phn_nums->save();
+
+       
 
             }
        }
@@ -57,14 +62,14 @@ class PhoneController extends Controller
 
        
        //die(".");
-       $all_phone_nums=Phone::all();
+       $all_phone_nums=Number::all();
         return view('back.pages.phone.index', compact('all_phone_nums'));
     }
     public function changeStatus(Request $request)
     {
-        $phn = Phone::find($request->phn_id); 
+        $phn = Number::find($request->phn_id); 
         $phn->is_active = $request->sts; 
-        $product->save(); 
+        $phn->save(); 
         return response()->json(['success'=>'Status changed successfully.']); 
     }
 }

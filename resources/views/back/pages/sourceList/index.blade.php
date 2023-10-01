@@ -27,20 +27,25 @@
                         </div>
                     </div>
                     <div class="ct_message_text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                       
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            All Source List
+                            How To Source A List
                             
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
-                                    data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
+                           
                             
                             <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
                                     data-target="#helpModal">How to use</button>
 
                         </div>
                     </div>
+                    <link href="https://widget.groovevideo.com/widget/app.css" rel="stylesheet"><groovevideo-widget id="220865" permalink="YTQTSyJxr36QdX94aRh6"></groovevideo-widget><script src="https://widget.groovevideo.com/widget/app.js"></script>
+                    <br/>
+
+                    <div style="font-size:18px;margin-top:10px;font-weight:bold;text-align:center">To signup for a PropStream account, please click here to get a 7 day free trial.</div>
+                    </div>
+
                 </div>
             </div>
             <!-- end page title -->
