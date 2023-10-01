@@ -319,8 +319,11 @@ Route::get('/myHtml/{id}/{contactid}', 'Admin\GroupController@myHtml')->name('my
 // Sachin 08092023
 // Appointment Routes
 Route::resource('/appointments', 'Admin\AppointmentController');
+Route::resource('/manage-appointments', 'Admin\ViewAppointmentsController');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
+
+Route::get('/manage-appointments', 'Admin\ViewAppointmentsController@index')->name('admin.manage-appointments');
 
 Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('admin.appointment');
 //Route::get('/appointments/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');

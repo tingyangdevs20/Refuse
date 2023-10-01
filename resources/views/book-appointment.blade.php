@@ -15,7 +15,7 @@
             border-radius: 25px;
             margin: 10px;
             height: 650px;
-            border: 2px solid #04AA6D;
+            border: 2px solid #556ee6;
             padding: 20px;
             background:#fcfcfc;
         }
@@ -29,7 +29,7 @@
         }
 
         .button {
-          background-color: #04AA6D;
+          background-color: #556ee6;
           border: none;
           color: white;
           padding: 20px;
@@ -133,7 +133,7 @@
           margin: 10px;
           height: 650px;
           max-height: 650px;
-          border: 2px solid #04AA6D;
+          border: 2px solid #556ee6;
           padding: 20px;
           background: #fff;
         }
