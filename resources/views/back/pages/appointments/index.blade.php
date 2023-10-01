@@ -25,10 +25,8 @@
                         <div class="card-header bg-soft-dark">
                             All Appointments
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target=""><i class="fas fa-plus-circle"></i></button>
-                            <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
-    data-target="#helpModal">How to use</button>
-    <button class="btn btn-outline-primary btn-sm float-right" onclick="share({{ route('admin.manage-appointments', [encrypt(Auth::id())]) }} )" title="helpModal" data-toggle="modal"
-    >Share Link</button>
+                            <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal" data-target="#helpModal">How to use</button>
+                            <a href="{{ url('appointment', [encrypt(Auth::id())]) }}" target="_blank" class="btn btn-outline-primary btn-sm float-right" title="appointments">Share Link</a>
                         </div>
                         <div class="card-body">
                             @if ($appointments->isEmpty())

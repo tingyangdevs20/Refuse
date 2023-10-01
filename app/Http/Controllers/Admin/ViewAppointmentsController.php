@@ -19,22 +19,22 @@ use \Illuminate\Support\Facades\View as View;
 
 class ViewAppointmentsController extends Controller
 {
-    public function index()
-    {
-        //if (!empty($uid)) {
+  public function index()
+  {
+    //if (!empty($uid)) {
 
-          //  $this->setupGoogleCalendar();
+    //  $this->setupGoogleCalendar();
 
-          //  $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
+    //  $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
 
-          //  $bookedSlots = json_encode($slotsArr);
+    //  $bookedSlots = json_encode($slotsArr);
 
-          //  $uid = decrypt($uid);
-          $appointments = Scheduler::select(DB::raw('DATE(appt_date) as appt_date'), 'appt_time','name','email','mobile','status')->orderBy('appt_date','DESC')->get();
+    //  $uid = decrypt($uid);
+    $appointments = Scheduler::select(DB::raw('DATE(appt_date) as appt_date'), 'appt_time', 'name', 'email', 'mobile', 'status')->orderBy('appt_date', 'DESC')->get();
 
-            return view('back.pages.appointments.index', compact('appointments'));
-       // } else {
-          //  return Redirect::back();
-       // }
-    }
+    return view('back.pages.appointments.index', compact('appointments'));
+    // } else {
+    //  return Redirect::back();
+    // }
+  }
 }
