@@ -142,6 +142,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::get('/account', 'Admin\AccountController@index')->name('account.index');
     Route::put('account/google-calendar', 'Admin\AccountController@updateGoogleCalendarSettings')->name('admin.calendar-settings.update');
+    Route::post('account/appointment-calendar-settings', 'Admin\AccountController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
@@ -330,6 +331,7 @@ Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('adm
 Route::post('/appointments', 'Admin\AppointmentController@store')->name('appointment.store');
 // Appointment Routes
 Route::resource('/appointments', 'Admin\AppointmentController');
+Route::post('/fetch-all-slots', 'Admin\AppointmentController@fetchAllSlotsForBooking')->name('appointments.fetchAllSlots');
 Route::post('/cancel-appointment', 'Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
 Route::post('/get-appointment', 'Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
 Route::post('/reschdule-appointment', 'Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
@@ -366,14 +368,3 @@ Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout'
 Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
-
-
-
-
-
-
-// *****************************************
-// ************* Google calendar routes
-// *****************************************
-Route::get('/auth/google', 'GoogleCalendarController@redirectUserToGoogle')->name("google.connect");
-Route::get('/auth/google/callback', 'GoogleCalendarController@handleGoogleCallback')->name("google.handle_callback");
