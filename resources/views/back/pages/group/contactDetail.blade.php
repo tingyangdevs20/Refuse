@@ -171,6 +171,9 @@
                                                                             table="lead_info"
                                                                             onchange="">
                                                                             <option value="">Lead Status</option>
+                                                                            <option value="New Prospect"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'New Prospect')  @endif
+                                                                                @endif>New Prospect</option>
                                                                             <option value="New Lead"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'New Lead')  @endif
                                                                                 @endif>New Lead</option>
