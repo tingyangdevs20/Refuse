@@ -247,7 +247,7 @@ class GroupController extends Controller
         // } else {
 
             $group = new Group();
-            $group->market_id = $request->market_id??'null';
+            $group->market_id = $request->market_id??'0';
             $group->tag_id = $request->tag_id;
             // $group->tag_id = json_encode($request->tag_id);
             $group->name = $request->name;
