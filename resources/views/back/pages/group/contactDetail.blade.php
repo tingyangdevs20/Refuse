@@ -4118,7 +4118,7 @@
                                                                 </div>
                                                             </div>
                                                             <hr>
-                                                        @elseif($section->id == '22')
+                                                        @elseif($section->id == '23')
                                                             <div class="col-md-12" id="{{ $section->id }}"
                                                                 style="padding:0px;">
                                                                 <div class="row" id="SECTION">
