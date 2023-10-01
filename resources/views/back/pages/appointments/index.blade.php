@@ -27,6 +27,8 @@
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target=""><i class="fas fa-plus-circle"></i></button>
                             <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
     data-target="#helpModal">How to use</button>
+    <button class="btn btn-outline-primary btn-sm float-right" onclick="share({{ route('admin.manage-appointments', [encrypt(Auth::id())]) }} )" title="helpModal" data-toggle="modal"
+    >Share Link</button>
                         </div>
                         <div class="card-body">
                             @if ($appointments->isEmpty())
@@ -221,6 +223,11 @@
 @endsection
 @section('scripts')
 <script>
+    function share(lnk)
+    {
+        var lnnk=lnk;
+        window.location.href = lnnk;
+    }
     function getTemplate(type){
         var url = '<?php echo url('/admin/get/template/') ?>/'+type;
         $.ajax({
