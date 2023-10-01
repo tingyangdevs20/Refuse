@@ -235,15 +235,171 @@
                                                                         <select class="custom-select" name="lead_type"
                                                                             onchange="updateValue(value,'lead_type','lead_info')">
                                                                             <option value="">Lead Type</option>
-                                                                            <option value="seller"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'seller') selected @endif
+                                                                            <option value="Agents"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Agents') selected @endif
+                                                                                @endif>Agents
+                                                                            </option>
+
+                                                                            <option value="Attorney"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Attorney') selected @endif
+                                                                                @endif>Attorney
+                                                                            </option>
+
+                                                                            <option value="Buyer (Investors)"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Investors)') selected @endif
+                                                                                @endif>Buyer (Investors)
+                                                                            </option>
+
+                                                                            <option value="Buyer (Owner Financing)"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Owner Financing)') selected @endif
+                                                                                @endif>Buyer (Owner Financing)
+                                                                            </option>
+
+                                                                            <option value="Buyer (Retail)"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Retail)') selected @endif
+                                                                                @endif>Buyer (Retail)
+                                                                            </option>
+
+                                                                            <option value="Code Enforcement"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Code Enforcement') selected @endif
+                                                                                @endif>Code Enforcement
+                                                                            </option>
+
+                                                                            <option value="Mortgage Brokers"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Mortgage Brokers') selected @endif
+                                                                                @endif>Mortgage Brokers
+                                                                            </option>
+
+                                                                            <option value="Seller"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Seller') selected @endif
                                                                                 @endif>Seller
                                                                             </option>
 
-                                                                            <option value="buyer"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'buyer') selected @endif
-                                                                                @endif>Buyer
+                                                                            <option value="Title Company"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Title Company') selected @endif
+                                                                                @endif>Title Company
                                                                             </option>
+
+                                                                            <option value="Wholesaler"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Wholesaler') selected @endif
+                                                                                @endif>Wholesaler
+                                                                            </option>
+
+                                                                            <option value="Other"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Other') selected @endif
+                                                                                @endif>Other
+                                                                            </option>
+
+
+
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Lead Source</label> --}}
+                                                                        <select class="custom-select" name="lead_source"
+                                                                            onchange="updateValue(value,'lead_source','lead_info')">
+                                                                            <option value="">Lead Source</option>
+                                                                            <option value="Bandit Signs"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Bandit Signs') selected @endif
+                                                                                @endif>Bandit Signs
+                                                                            </option>
+                                                                            <option value="Billboards"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Billboards') selected @endif
+                                                                                @endif>Billboards
+                                                                            </option>
+                                                                            <option value="Cold Calling"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Cold Calling') selected @endif
+                                                                                @endif>Cold Calling
+                                                                            </option>
+                                                                            <option value="Direct Mail"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Direct Mail') selected @endif
+                                                                                @endif>Direct Mail
+                                                                            </option>
+                                                                            <option value="Door Knocking"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Door Knocking') selected @endif
+                                                                                @endif>Door Knocking
+                                                                            </option>
+                                                                            <option value="Email"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Email') selected @endif
+                                                                                @endif>Email
+                                                                            </option>
+                                                                            <option value="Facebook Ads"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Facebook Ads') selected @endif
+                                                                                @endif>Facebook Ads
+                                                                            </option>
+                                                                            <option value="Flyers"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Flyers') selected @endif
+                                                                                @endif>Flyers
+                                                                            </option>
+                                                                            <option value="Instagram Ads"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Instagram Ads') selected @endif
+                                                                                @endif>Instagram Ads
+                                                                            </option>
+                                                                            <option value="iSpeedToLead"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'iSpeedToLead') selected @endif
+                                                                                @endif>iSpeedToLead
+                                                                            </option>
+                                                                            <option value="LinkedIn Ads"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'LinkedIn Ads') selected @endif
+                                                                                @endif>LinkedIn Ads
+                                                                            </option>
+                                                                            <option value="Magazine"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Magazine') selected @endif
+                                                                                @endif>Magazine
+                                                                            </option>
+                                                                            <option value="MMS"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'MMS') selected @endif
+                                                                                @endif>MMS
+                                                                            </option>
+                                                                            <option value="Newspaper"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Newspaper') selected @endif
+                                                                                @endif>Newspaper
+                                                                            </option>
+                                                                            <option value="Phone Call (Incoming)"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Phone Call (Incoming)') selected @endif
+                                                                                @endif>Phone Call (Incoming)
+                                                                            </option>
+                                                                            <option value="Referral"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Referral') selected @endif
+                                                                                @endif>Referral
+                                                                            </option>
+                                                                            <option value="Retargeting"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Retargeting') selected @endif
+                                                                                @endif>Retargeting
+                                                                            </option>
+                                                                            <option value="RVM"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Retargeting') selected @endif
+                                                                                @endif>RVM
+                                                                            </option>
+                                                                            <option value="SEO"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'SEO') selected @endif
+                                                                                @endif>SEO
+                                                                            </option>
+                                                                            <option value="SMS"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'SMS') selected @endif
+                                                                                @endif>SMS
+                                                                            </option>
+                                                                            <option value="Social Media"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Social Media') selected @endif
+                                                                                @endif>Social Media
+                                                                            </option>
+                                                                            <option value="Tiktok Ads"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Tiktok Ads') selected @endif
+                                                                                @endif>Tiktok Ads
+                                                                            </option>
+                                                                            <option value="Twitter Ads"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Twitter Ads') selected @endif
+                                                                                @endif>Twitter Ads
+                                                                            </option>
+                                                                            <option value="Website"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Website') selected @endif
+                                                                                @endif>Website
+                                                                            </option>
+
+                                                                           
                                                                         </select>
                                                                     </div>
                                                                 </div>
