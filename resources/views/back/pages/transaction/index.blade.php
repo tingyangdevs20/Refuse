@@ -305,23 +305,27 @@
 
 @endsection
 @section('scripts')
+
+<script>
+      var stripeKey = "{{ config('services.stripe.publishable') }}";
+    console.log('stripeKey',stripeKey)
+</script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=AZ8fz30StNKuyvQzps86oEvztS98o6NMnlA4m-gyaE5ICQD80Mi3hcb2DN3Hg1yar7DgHCvcAgTh5llf"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config('services.paypal.client_id') }}"></script>
     <script src="{{ asset('back/assets/js/pages/stripe.js') }}"></script>
     <script src="{{ asset('back/assets/js/pages/paypal.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable();
+            var paypalClientId = "{{ config('services.paypal.client_id') }}";
+
 
         });
     </script>
 
-<script>
-
-</script>
 
 @endsection

@@ -34,6 +34,11 @@ return [
         'publishable' => env('STRIPE_PUBLISHABLE_KEY'),
     ],
 
+    'paypal' => [
+        'client_id' => env('PAPAL_CLIENT_ID'),
+        'secret' => env('PAYPAL_SECRET_KEY'),
+    ],
+
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID', null),
         'client_secret' => env('GOOGLE_CLIENT_SECRET', null),

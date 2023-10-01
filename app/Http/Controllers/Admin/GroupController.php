@@ -110,8 +110,6 @@ class GroupController extends Controller
         }
 
 
-
-
     }
 
     public function contactInfo(Request $request, $id = '')
