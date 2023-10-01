@@ -40,8 +40,10 @@
 
                         </div>
                     </div>
-                    <div style="position:relative;height:0;width:100%;padding-bottom:42%"><iframe src="https://sendspark.com/embed/2ry8kxjajzny3rhsya73a58cociufh9o" frameBorder="0" style="position:absolute;width:100%;height:100%;border-radius:6px;left:0;top:0" allowfullscreen=""></iframe></div>
-<div style="font-weight:bold;font-size:18px;text-align:center;margin-top:20px">To signup for a PropStream account, please click here to get a 7 day free trial.
+                    <link href="https://widget.groovevideo.com/widget/app.css" rel="stylesheet"><groovevideo-widget id="220865" permalink="YTQTSyJxr36QdX94aRh6"></groovevideo-widget><script src="https://widget.groovevideo.com/widget/app.js"></script>
+                    <br/>
+
+                    <div style="font-size:18px;margin-top:10px;font-weight:bold;text-align:center">To signup for a PropStream account, please click here to get a 7 day free trial.</div>
                     </div>
 
                 </div>

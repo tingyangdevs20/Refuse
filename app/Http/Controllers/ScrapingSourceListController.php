@@ -62,8 +62,6 @@ class ScrapingSourceListController extends Controller
             'file' => 'nullable|file|mimes:csv,txt,xlsx', // You can specify the allowed file types
         ]);
 
-
-
         $data =  new ScrapingSourceList();
         $data->country = $request->country ;
         $data->state = $request->state ;

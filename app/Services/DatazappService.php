@@ -58,7 +58,7 @@ class DatazappService
 
         // Prepare the request data based on the selected skip trace option
         $requestData = [
-            "ApiKey" => "IFFVVZBJTO", // Replace with your API key
+            "ApiKey" => "IFFVVZBJTO",
             "Data" => [],
         ];
 
@@ -163,7 +163,4 @@ class DatazappService
 
         return json_decode($response->getBody(), true);
     }
-
-
-
 }
