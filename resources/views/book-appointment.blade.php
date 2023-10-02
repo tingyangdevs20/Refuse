@@ -115,7 +115,8 @@
           margin-bottom:20px;
         }
         .bookappointmentform {
-            width: 70%;
+            /* width: 70%; */
+            width: 100%;
         }
         .existingappointments {
             width: 30%;
@@ -417,7 +418,7 @@
     @endif
 
     <div class="allappoimentsbox">
-      <div class="existingappointments">
+      <div class="existingappointments hide">
         <h1 class="heading-css">Existing Appointments</h3>
         <div class="left appointments-sec existing_appointments">
             
