@@ -6,7 +6,8 @@ use App\Model\Scheduler;
 use App\Model\CustomField;
 use App\Model\CustomFieldValue;
 use Carbon\Carbon;
-
+use App\Model\UserAgreement;
+use App\Model\UserAgreementSeller;
 function getReportingDataOfSMS($days)
 {
     $messages_sent_today_goals=0;
@@ -48,16 +49,68 @@ function appointment_count($days,$user)
     $messages_sent_today_goals=0;
     if($days==0)
     {
-    $appointment_count=Scheduler::whereDate('created_at', Carbon::today()->subDays($days))->where([['status', 'booked'],['user_id',$user]])->count();
-   
+        $appointment_count=Scheduler::whereDate('created_at', Carbon::today()->subDays($days))->where([['status', 'booked'],['user_id',$user]])->count();
+
     }
     else
     {
         $appointment_count=Scheduler::whereBetween('created_at', [Carbon::today()->subDays($days),Carbon::today()])->where([['status', 'booked'],['user_id',$user]])->count();
-        
+
     }
     return $appointment_count;
 }
+
+
+function deal_count($days,$user)
+{
+    $messages_sent_today_goals=0;
+    if($days==0)
+    {
+        $deals_count=UserAgreementSeller::whereDate('created_at', Carbon::today()->subDays($days))->where([['is_sign', '2'],['user_id',$user]])->count();
+
+    }
+    else
+    {
+        $deals_count=UserAgreementSeller::whereBetween('created_at', [Carbon::today()->subDays($days),Carbon::today()])->where([['is_sign', '2'],['user_id',$user]])->count();
+
+    }
+    return $deals_count;
+}
+
+function contracts_signed_count($days,$user)
+{
+    $messages_sent_today_goals=0;
+    if($days==0)
+    {
+        $contracts_signed_count=UserAgreementSeller::whereDate('created_at', Carbon::today()->subDays($days))->where([['is_sign', '2'],['user_id',$user]])->count();
+
+    }
+    else
+    {
+        $contracts_signed_count=UserAgreementSeller::whereBetween('created_at', [Carbon::today()->subDays($days),Carbon::today()])->where([['is_sign', '2'],['user_id',$user]])->count();
+
+    }
+    return $contracts_signed_count;
+}
+
+
+function contracts_out_count($days,$user)
+{
+    $messages_sent_today_goals=0;
+    if($days==0)
+    {
+        $contracts_out_count=UserAgreementSeller::whereDate('created_at', Carbon::today()->subDays($days))->where([['user_id',$user]])->count();
+
+    }
+    else
+    {
+        $contracts_out_count=UserAgreementSeller::whereBetween('created_at', [Carbon::today()->subDays($days),Carbon::today()])->where([['user_id',$user]])->count();
+
+    }
+    return $contracts_out_count;
+}
+
+
 
 
 function getsectionsFields($section_id)

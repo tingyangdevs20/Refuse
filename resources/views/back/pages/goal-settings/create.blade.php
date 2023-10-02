@@ -32,7 +32,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            Create Goal 
+                            Create Goal
                             <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
                         </div>
                         <div class="card-body">
@@ -41,7 +41,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="goal">Goal</label>
-                                        <input type="text" class="form-control @error('country') is-invalid @enderror" id="goal" name="goal">
+                                        <input type="text" class="form-control @error('country') is-invalid @enderror" id="goal" name="goal" placeholder="10">
                                         @error('goal')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -50,10 +50,53 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="money_per_month">How much money do you want to make per month?</label>
+                                        <input type="text" class="form-control @error('money_per_month') is-invalid @enderror" id="money_per_month" name="money_per_month" placeholder="10000">
+                                        @error('money_per_month')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gross_profit">What is your average gross profit per deal?</label>
+                                        <input type="text" class="form-control @error('gross_profit') is-invalid @enderror" id="gross_profit" name="gross_profit" placeholder="1000">
+                                        @error('gross_profit')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact_trun_into_lead">What percentage of the people you contact turn into leads?</label>
+                                        <input type="text" class="form-control @error('contact_trun_into_lead') is-invalid @enderror" id="contact_trun_into_lead" name="contact_trun_into_lead" placeholder="10%">
+                                        @error('contact_trun_into_lead')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="leads_into_phone">What percentage of your leads are you able to get on the phone?</label>
+                                        <input type="text" class="form-control @error('leads_into_phone') is-invalid @enderror" id="leads_into_phone" name="leads_into_phone" placeholder="10%">
+                                        @error('leads_into_phone')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="attribute">Attribute</label>
                                         <select class="form-control @error('attribute') is-invalid @enderror" id="attribute" name="attribute"  >
                                             <option value="">Select Attribute</option>
-                                            
+
                                             @foreach($attributes as $data)
                                             <option value="{{$data->id}}">{{$data->attribute}}</option>
                                             @endforeach
@@ -80,7 +123,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    
+
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add Data</button>
                             </form>
