@@ -4229,7 +4229,7 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="card">
                                                                             <div class="card-header bg-soft-dark ">
-                                                                                <table class="table table-bordered table-striped table-hover table-condensed">
+                                                                                <table class="table table-bordered  table-hover table-condensed">
                                                                                     <thead>
                                                                                         <tr>
 
@@ -4260,11 +4260,42 @@
 
                                                                                         <tr>
                                                                                             <td>{{ $skipTraceRecord->select_option??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->email_skip_trace_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->phone_skip_trace_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->name_skip_trace_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->email_verification_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->phone_scrub_date??"-" }}</td>
+                                                                                            <td>
+                                                                                                @if ($skipTraceRecord->email_skip_trace_date)
+                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->email_skip_trace_date)->format('m/d/Y') }}
+                                                                                                @else
+                                                                                                    {{ "-" }}
+                                                                                                @endif
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @if ($skipTraceRecord->phone_skip_trace_date)
+                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->phone_skip_trace_date)->format('m/d/Y') }}
+                                                                                                @else
+                                                                                                    {{ "-" }}
+                                                                                                @endif
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @if ($skipTraceRecord->name_skip_trace_date)
+                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->name_skip_trace_date)->format('m/d/Y') }}
+                                                                                                @else
+                                                                                                    {{ "-" }}
+                                                                                                @endif
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @if ($skipTraceRecord->email_verification_date)
+                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->email_verification_date)->format('m/d/Y') }}
+                                                                                                @else
+                                                                                                    {{ "-" }}
+                                                                                                @endif
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @if ($skipTraceRecord->phone_scrub_date)
+                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->phone_scrub_date)->format('m/d/Y') }}
+                                                                                                @else
+                                                                                                    {{ "-" }}
+                                                                                                @endif
+                                                                                            </td>
+
                                                                                             <td>{{ @$skipTraceRecord->verified_numbers }} - {{ $skipTraceRecord->verified_emails }} - </td>
                                                                                             <td>{{ $skipTraceRecord->scam_numbers }} - {{ @$skipTraceRecord->scam_emails }}</td>
                                                                                             <td>{{ $skipTraceRecord->append_names }}- {{ @$skipTraceRecord->append_emails }}</td>
