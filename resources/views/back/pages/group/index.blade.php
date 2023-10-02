@@ -130,11 +130,43 @@
                                             <tr>
                                                 <td>{{ $group->name }}</td>
                                                 <td><a href="{{ route('admin.group.show',$group->id) }}" id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a></td>
-                                                <td>{{ @$group->email_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->phone_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->name_skip_trace_date??'-' }}</td>
-                                                <td>{{ @$group->email_verification_date??'-' }}</td>
-                                                <td>{{ @$group->phone_scrub_date??'-' }}</td>
+                                                <td>
+                                                    @if ($group->email_skip_trace_date)
+                                                        {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->email_skip_trace_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->phone_skip_trace_date)
+                                                        {{ \Carbon\Carbon::parse($group->phone_skip_trace_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->phone_skip_trace_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->name_skip_trace_date)
+                                                        {{ \Carbon\Carbon::parse($group->name_skip_trace_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->name_skip_trace_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->email_verification_date)
+                                                        {{ \Carbon\Carbon::parse($group->email_verification_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->email_verification_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->phone_scrub_date)
+                                                        {{ \Carbon\Carbon::parse($group->phone_scrub_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->phone_scrub_date }}
+                                                    @endif
+                                                </td>
+
+
                                                 {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
                                                 <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
 

@@ -109,7 +109,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Monthly Goal</th>
+                                    <th scope="col">Goal</th>
                                     <th scope="col">Today</th>
                                     <th scope="col">Past 7 days</th>
                                     <th scope="col">Past 30 days</th>
@@ -130,7 +130,7 @@
                                         <td>{{ $total_sent_lifetime??'0' }} </td>
                                     </tr>
                                     <tr>
-                                        <th scope="col">Lead</th>
+                                        <th scope="col">#Lead</th>
                                         <td>{{$goal_lead??'0'}}</td>
                                         <td>{{$messages_received_today??'0'}}</td>
                                         <td>{{$messages_received_seven_days_goals??'0'}} </td>
@@ -140,7 +140,7 @@
                                         <td>{{$total_received_lifetime??'0'}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="col">Phone Apointment</th>
+                                        <th scope="col">#Phone Apointment</th>
                                         <td>{{$goal_appointment??'0'}}</td>
                                         <td>{{$appointment_todays??'0'}}</td>
                                         <td>{{$appointment_seven_day??'0'}}</td>
@@ -190,7 +190,7 @@
                                         <td>{{ @$expected_money_year }}</td>
                                         <td>{{ @$expected_money_lifetime }}</td>
                                     </tr>
-                                    {{-- <tr>
+                                    <tr>
                                         <th scope="col">Money Collected</th>
                                         <td>{{ number_format($money_collected, 2) }}</td>
                                         <td>{{ number_format($money_collected_todays, 2) }}</td>
@@ -199,7 +199,7 @@
                                         <td>{{ number_format($money_collected_ninety_day, 2) }}</td>
                                         <td>{{ number_format($money_collected_year, 2) }}</td>
                                         <td>{{ number_format($money_collected_lifetime, 2) }}</td>
-                                    </tr> --}}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -4228,23 +4228,19 @@
 
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="card">
-                                                                            <div class="card-header bg-soft-dark ">
-                                                                                <table class="table table-bordered table-striped table-hover table-condensed">
+                                                                            <div class="">
+
+                                                                                <table class="table table-striped table-bordered" id="datatable">
                                                                                     <thead>
                                                                                         <tr>
 
                                                                                             <th scope="col">Skip trace
                                                                                                 option</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Email Skip Trace</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Phone Skip Trace</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Name Skip Trace</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Email Verification</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Phone Scrub </th>
+                                                                                            <th scope="col">Name</th>
+                                                                                            <th scope="col">Address</th>
+                                                                                            <th scope="col">City</th>
+                                                                                            <th scope="col">Zip</th>
+
                                                                                             <th scope="col">Verified
                                                                                                 Numbers & Emails</th>
                                                                                             <th scope="col">Scam
@@ -4260,11 +4256,12 @@
 
                                                                                         <tr>
                                                                                             <td>{{ $skipTraceRecord->select_option??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->email_skip_trace_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->phone_skip_trace_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->name_skip_trace_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->email_verification_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->phone_scrub_date??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->first_name??"-" }} {{ $skipTraceRecord->last_name??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->address??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->city??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->zip??"-" }}</td>
+
+
                                                                                             <td>{{ @$skipTraceRecord->verified_numbers }} - {{ $skipTraceRecord->verified_emails }} - </td>
                                                                                             <td>{{ $skipTraceRecord->scam_numbers }} - {{ @$skipTraceRecord->scam_emails }}</td>
                                                                                             <td>{{ $skipTraceRecord->append_names }}- {{ @$skipTraceRecord->append_emails }}</td>

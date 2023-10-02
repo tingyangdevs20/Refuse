@@ -121,7 +121,22 @@ class GroupController extends Controller
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
 
-        $collection = SkipTracingDetail::where('group_id', $contact->group_id)->get();
+        $collection = SkipTracingDetail::where('group_id', $contact->group_id)
+        ->whereIn('id', function ($query) use ($contact) {
+            $query->select(DB::raw('MAX(id)'))
+                ->from('skip_tracing_details')
+                ->where('group_id', $contact->group_id)
+                ->groupBy('user_id', 'select_option');
+        })
+        ->whereNotNull('first_name')
+        ->whereNotNull('last_name')
+        ->whereNotNull('address')
+        ->whereNotNull('zip')
+        ->get();
+
+
+
+
 
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
