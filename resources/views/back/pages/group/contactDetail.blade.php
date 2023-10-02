@@ -4281,16 +4281,16 @@
                                                                                         @foreach ($collection as $skipTraceRecord)
 
                                                                                         <tr>
-                                                                                            <td>{{ $skipTraceRecord->select_option??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->first_name??"-" }} {{ $skipTraceRecord->last_name??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->address??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->city??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->zip??"-" }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->select_option }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->first_name }} {{ @$skipTraceRecord->last_name }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->address }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->city }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->zip }}</td>
 
 
-                                                                                            <td>{{ @$skipTraceRecord->verified_numbers }} - {{ $skipTraceRecord->verified_emails }} - </td>
-                                                                                            <td>{{ $skipTraceRecord->scam_numbers }} - {{ @$skipTraceRecord->scam_emails }}</td>
-                                                                                            <td>{{ $skipTraceRecord->append_names }}- {{ @$skipTraceRecord->append_emails }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->verified_numbers }}  {{ @$skipTraceRecord->verified_emails }} </td>
+                                                                                            <td>{{ @$skipTraceRecord->scam_numbers }}  {{ @$skipTraceRecord->scam_emails }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->append_names }} {{ @$skipTraceRecord->append_emails }}</td>
                                                                                         </tr>
 
 
