@@ -4265,8 +4265,8 @@
                                                                                             <td>{{ $skipTraceRecord->name_skip_trace_date??"-" }}</td>
                                                                                             <td>{{ $skipTraceRecord->email_verification_date??"-" }}</td>
                                                                                             <td>{{ $skipTraceRecord->phone_scrub_date??"-" }}</td>
-                                                                                            <td>{{ $skipTraceRecord->verified_emails }} - {{ @$skipTraceRecord->verified_numbers }}</td>
-                                                                                            <td>{{ $skipTraceRecord->scam_numbers }}- {{ @$skipTraceRecord->scam_emails }}</td>
+                                                                                            <td>{{ @$skipTraceRecord->verified_numbers }} - {{ $skipTraceRecord->verified_emails }} - </td>
+                                                                                            <td>{{ $skipTraceRecord->scam_numbers }} - {{ @$skipTraceRecord->scam_emails }}</td>
                                                                                             <td>{{ $skipTraceRecord->append_names }}- {{ @$skipTraceRecord->append_emails }}</td>
                                                                                         </tr>
 

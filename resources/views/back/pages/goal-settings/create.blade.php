@@ -71,7 +71,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="contact_trun_into_lead">What percentage of the people you contact turn into leads?</label>
-                                        <input type="text" class="form-control @error('contact_trun_into_lead') is-invalid @enderror" id="contact_trun_into_lead" name="contact_trun_into_lead" placeholder="10%">
+                                        <input type="text" class="form-control @error('contact_trun_into_lead') is-invalid @enderror" id="contact_trun_into_lead" name="contact_trun_into_lead" placeholder="10">
                                         @error('contact_trun_into_lead')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -81,7 +81,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="leads_into_phone">What percentage of your leads are you able to get on the phone?</label>
-                                        <input type="text" class="form-control @error('leads_into_phone') is-invalid @enderror" id="leads_into_phone" name="leads_into_phone" placeholder="10%">
+                                        <input type="text" class="form-control @error('leads_into_phone') is-invalid @enderror" id="leads_into_phone" name="leads_into_phone" placeholder="10">
                                         @error('leads_into_phone')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
