@@ -4228,8 +4228,9 @@
 
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="card">
-                                                                            <div class="card-header bg-soft-dark ">
-                                                                                <table class="table table-bordered  table-hover table-condensed">
+                                                                            <div class="">
+
+                                                                                <table class="table table-striped table-bordered" id="datatable">
                                                                                     <thead>
                                                                                         <tr>
 
