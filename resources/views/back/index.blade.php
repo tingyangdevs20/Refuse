@@ -100,6 +100,9 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                           Goals Data
+                          @if(auth()->user()->can('administrator'))
+                          <a href="{{route('admin.create.goals')}}"class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-plus-circle"></i></a>
+                          @endif
                         </div>
                         <div class="card-body mt-5">
                             <table class="table table-striped table-bordered" id="datatable">
@@ -187,7 +190,7 @@
                                         <td>{{ @$expected_money_year }}</td>
                                         <td>{{ @$expected_money_lifetime }}</td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <th scope="col">Money Collected</th>
                                         <td>{{ number_format($money_collected, 2) }}</td>
                                         <td>{{ number_format($money_collected_todays, 2) }}</td>
@@ -196,7 +199,7 @@
                                         <td>{{ number_format($money_collected_ninety_day, 2) }}</td>
                                         <td>{{ number_format($money_collected_year, 2) }}</td>
                                         <td>{{ number_format($money_collected_lifetime, 2) }}</td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
