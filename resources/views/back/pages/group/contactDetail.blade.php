@@ -171,7 +171,10 @@
                                                                             table="lead_info"
                                                                             onchange="">
                                                                             <option value="">Lead Status</option>
-                                                                            <option value="None"
+                                                                            <option value="New Prospect"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'New Prospect')  @endif
+                                                                                @endif>New Prospect</option>
+                                                                            <option value="New Lead"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'New Lead')  @endif
                                                                                 @endif>New Lead</option>
                                                                             <option value="None/Unknown"
@@ -189,13 +192,34 @@
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'No Longer for Sale')  @endif
                                                                                 @endif>No Longer for Sale
                                                                             </option>
-                                                                            <option value="Not Interested in Our Offer"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Interested in Our Offer')  @endif
-                                                                                @endif>Not Interested in Our Offer</option>
+                                                                            <option value="Not Interested"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Interested')  @endif
+                                                                                @endif>Not Interested</option>
                                                                             <option value="Maybe to Our Offer"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Maybe to Our Offer')  @endif
                                                                                 @endif>Maybe to Our Offer
                                                                             </option>
+
+                                                                            <option value="Phone Call - Scheduled"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Scheduled')  @endif
+                                                                                @endif>Phone Call - Scheduled
+                                                                            </option>
+
+                                                                            <option value="Phone Call - Completed"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Completed')  @endif
+                                                                                @endif>Phone Call - Completed
+                                                                            </option>
+
+                                                                            <option value="Phone Call - No Show"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - No Show')  @endif
+                                                                                @endif>Phone Call - No Show
+                                                                            </option>
+
+                                                                            <option value="Phone Call - Said No"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Said No')  @endif
+                                                                                @endif>Phone Call - Said No
+                                                                            </option>
+
                                                                             <option value="Non-Responsive"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Non-Responsive')  @endif
                                                                                 @endif>Non-Responsive
@@ -207,6 +231,10 @@
                                                                             <option value="Our Contract Out to Seller"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Our Contract Out to Seller')  @endif
                                                                                 @endif>Our Contract Out to Seller
+                                                                            </option>
+                                                                            <option value="Our Contract Out to Buyer"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Our Contract Out to Buyer')  @endif
+                                                                                @endif>Our Contract Out to Buyer
                                                                             </option>
                                                                             <option value="Under Contract (with 3rd Party)"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Under Contract (with 3rd Party)')  @endif
@@ -2439,6 +2467,36 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Past Due Amount of Mortgage/Taxes/HOA"
                                                                                 name="PastDueAmountMortgage">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Profit Expected</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Profit Expected"
+                                                                                name="rofitExpected">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Profit Collected</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Profit Collected"
+                                                                                name="ProfitCollected">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Monthly Passive Income</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Monthly Passive Income"
+                                                                                name="MonthlyPassiveIncome">
                                                                         </div>
                                                                     </div>
                                                                 </div>
