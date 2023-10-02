@@ -4236,16 +4236,11 @@
 
                                                                                             <th scope="col">Skip trace
                                                                                                 option</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Email Skip Trace</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Phone Skip Trace</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Name Skip Trace</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Email Verification</th>
-                                                                                            <th scope="col">Date of
-                                                                                                Last Phone Scrub </th>
+                                                                                            <th scope="col">Name</th>
+                                                                                            <th scope="col">Address</th>
+                                                                                            <th scope="col">City</th>
+                                                                                            <th scope="col">Zip</th>
+
                                                                                             <th scope="col">Verified
                                                                                                 Numbers & Emails</th>
                                                                                             <th scope="col">Scam
@@ -4261,41 +4256,11 @@
 
                                                                                         <tr>
                                                                                             <td>{{ $skipTraceRecord->select_option??"-" }}</td>
-                                                                                            <td>
-                                                                                                @if ($skipTraceRecord->email_skip_trace_date)
-                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->email_skip_trace_date)->format('m/d/Y') }}
-                                                                                                @else
-                                                                                                    {{ "-" }}
-                                                                                                @endif
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @if ($skipTraceRecord->phone_skip_trace_date)
-                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->phone_skip_trace_date)->format('m/d/Y') }}
-                                                                                                @else
-                                                                                                    {{ "-" }}
-                                                                                                @endif
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @if ($skipTraceRecord->name_skip_trace_date)
-                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->name_skip_trace_date)->format('m/d/Y') }}
-                                                                                                @else
-                                                                                                    {{ "-" }}
-                                                                                                @endif
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @if ($skipTraceRecord->email_verification_date)
-                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->email_verification_date)->format('m/d/Y') }}
-                                                                                                @else
-                                                                                                    {{ "-" }}
-                                                                                                @endif
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @if ($skipTraceRecord->phone_scrub_date)
-                                                                                                    {{ \Carbon\Carbon::parse($skipTraceRecord->phone_scrub_date)->format('m/d/Y') }}
-                                                                                                @else
-                                                                                                    {{ "-" }}
-                                                                                                @endif
-                                                                                            </td>
+                                                                                            <td>{{ $skipTraceRecord->first_name??"-" }} {{ $skipTraceRecord->last_name??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->address??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->city??"-" }}</td>
+                                                                                            <td>{{ $skipTraceRecord->zip??"-" }}</td>
+
 
                                                                                             <td>{{ @$skipTraceRecord->verified_numbers }} - {{ $skipTraceRecord->verified_emails }} - </td>
                                                                                             <td>{{ $skipTraceRecord->scam_numbers }} - {{ @$skipTraceRecord->scam_emails }}</td>
