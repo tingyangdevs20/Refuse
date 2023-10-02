@@ -118,68 +118,68 @@
                                 <tbody>
                                     <tr>
                                         <th scope="col">People Reached</th>
-                                        <td>{{ $goalValue}}</td>
-                                        <td>{{ $messages_sent_today_goals }}</td>
-                                        <td>{{ $messages_sent_seven_days_goals }}</td>
-                                        <td>{{ $messages_sent_month_days_goals }}</td>
-                                        <td>{{ $messages_sent_ninety_days_goals }}</td>
-                                        <td>{{ $messages_sent_year_goals }}</td>
-                                        <td>{{ $total_sent_lifetime }} </td>
+                                        <td>{{ $goalValue??'0'}}</td>
+                                        <td>{{ $messages_sent_today_goals??'0' }}</td>
+                                        <td>{{ $messages_sent_seven_days_goals??'0' }}</td>
+                                        <td>{{ $messages_sent_month_days_goals??'0' }}</td>
+                                        <td>{{ $messages_sent_ninety_days_goals??'0' }}</td>
+                                        <td>{{ $messages_sent_year_goals??'0' }}</td>
+                                        <td>{{ $total_sent_lifetime??'0' }} </td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Lead</th>
-                                        <td>{{$goal_lead}}</td>
-                                        <td>{{$messages_received_today}}</td>
-                                        <td>{{$messages_received_seven_days_goals}} </td>
-                                        <td>{{$messages_received_month_days_goals}}</td>
-                                        <td>{{$messages_received_ninety_days_goals}}</td>
-                                        <td>{{$messages_received_year_goals}}</td>
-                                        <td>{{$total_received_lifetime}}</td>
+                                        <td>{{$goal_lead??'0'}}</td>
+                                        <td>{{$messages_received_today??'0'}}</td>
+                                        <td>{{$messages_received_seven_days_goals??'0'}} </td>
+                                        <td>{{$messages_received_month_days_goals??'0'}}</td>
+                                        <td>{{$messages_received_ninety_days_goals??'0'}}</td>
+                                        <td>{{$messages_received_year_goals??'0'}}</td>
+                                        <td>{{$total_received_lifetime??'0'}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Phone Apointment</th>
-                                        <td>{{$goal_appointment}}</td>
-                                        <td>{{$appointment_todays}}</td>
-                                        <td>{{$appointment_seven_day}}</td>
-                                        <td>{{$appointment_month}}</td>
-                                        <td>{{$appointment_ninety_day}}</td>
-                                        <td>{{$appointment_year}}</td>
-                                        <td>{{$appointment_lifetime}}</td>
-                                      
+                                        <td>{{$goal_appointment??'0'}}</td>
+                                        <td>{{$appointment_todays??'0'}}</td>
+                                        <td>{{$appointment_seven_day??'0'}}</td>
+                                        <td>{{$appointment_month??'0'}}</td>
+                                        <td>{{$appointment_ninety_day??'0'}}</td>
+                                        <td>{{$appointment_year??'0'}}</td>
+                                        <td>{{$appointment_lifetime??'0'}}</td>
+
                                     </tr>
                                     <tr>
                                         <th scope="col">Contracts Out</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $contacts_out??'0' }}</td>
+                                        <td>{{ $contracts_out_todays??'0' }}</td>
+                                        <td>{{ $contracts_out_seven_day??'0' }}</td>
+                                        <td>{{ $contracts_out_month??'0' }}</td>
+                                        <td>{{ $contracts_out_ninety_day??'0' }}</td>
+                                        <td>{{ $contracts_out_year??'0' }}</td>
+                                        <td>{{ $contracts_out_lifetime??'0' }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Contracts Signed</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $contacts_signed??'0' }}</td>
+                                        <td>{{ $contracts_signed_todays ??'0'}}</td>
+                                        <td>{{ $contracts_signed_seven_day??'0' }}</td>
+                                        <td>{{ $contracts_signed_month??'0' }}</td>
+                                        <td>{{ $contracts_signed_ninety_day??'0' }}</td>
+                                        <td>{{ $contracts_signed_year??'0' }}</td>
+                                        <td>{{ $contracts_signed_lifetime??'0' }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Deals Closed</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $deal_closed??'0' }}</td>
+                                        <td>{{ $deals_todays??'0' }}</td>
+                                        <td>{{ $deals_seven_day??'0' }}</td>
+                                        <td>{{ $deals_month??'0' }}</td>
+                                        <td>{{ $deals_ninety_day??'0' }}</td>
+                                        <td>{{ $deals_year??'0' }}</td>
+                                        <td>{{ $deals_lifetime??'0' }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Money Expected</th>
-                                        <td></td>
+                                        <td>{{ $money_expected??'0' }}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -189,7 +189,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">Money Collected</th>
-                                        <td></td>
+                                        <td>{{ $money_collected??'0' }}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
