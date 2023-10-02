@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Account;
-use App\Model\CalendarSetting;
 use App\Model\Number;
 use App\Model\Market;
 use Illuminate\Http\Request;
@@ -21,12 +20,7 @@ class AccountController extends Controller
     {
         $accounts = Account::first();
 
-        $timezones = timezone_identifiers_list();
-        $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
-
-        $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting;
-
-        return view('back.pages.account.index', compact('accounts', 'timezones', 'appointmentSetting'));
+        return view('back.pages.account.index', compact('accounts'));
     }
 
     /**
@@ -107,22 +101,6 @@ class AccountController extends Controller
         }
 
         Alert::success('Success', 'Account Updated!');
-        return redirect()->back();
-    }
-
-
-    public function updateAppointmentCalendarSettings(Request $request)
-    {
-        $data = $request->all();
-        $data['calendar_type'] = "Appointments";
-
-        if ($appointmentSetting = CalendarSetting::first()) {
-            $appointmentSetting->update($data);
-        } else {
-            $appointmentSetting = CalendarSetting::create($data);
-        }
-
-        Alert::success('Success', 'Appointments Calendar Settings Updated!');
         return redirect()->back();
     }
 
