@@ -111,6 +111,8 @@ function contracts_out_count($days,$user)
 }
 
 
+
+
 function getsectionsFields($section_id)
 {
     return CustomField::where('section_id',$section_id)->get();
