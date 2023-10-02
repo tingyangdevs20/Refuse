@@ -142,7 +142,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::get('/account', 'Admin\AccountController@index')->name('account.index');
     Route::put('account/google-calendar', 'Admin\AccountController@updateGoogleCalendarSettings')->name('admin.calendar-settings.update');
-    Route::post('account/appointment-calendar-settings', 'Admin\AccountController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
@@ -257,6 +256,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
+    Route::post('settings/appointment-calendar-settings', 'Admin\SettingsController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
+
+
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
 

@@ -228,7 +228,7 @@ class AppointmentController extends Controller
         try {
 
             // if user have already booked an appointment which is not [completed, canceld, expired] then show an error message.
-            if (Scheduler::where('admin_uid', $request->uid)->where('status', 'booked')->count()) {
+            if (Scheduler::where('mobile', $request->mobile)->where('status', 'booked')->count()) {
                 return back()->with('error', 'You have already booked an appointment.');
             }
 
