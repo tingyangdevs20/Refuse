@@ -61,13 +61,13 @@
                                                 <td>{{ $contact->state }}</td>
                                                 <td>{{ $contact->zip }}</td>
                                                 <td>
-                                                    Number1:{{ $contact->number }}<br>
-                                                    Number2:{{ $contact->number2 }}<br>
-                                                    Number3:{{ $contact->number3 }}
+                                                    {{ $contact->number }}<br>
+                                                    {{ $contact->number2 }}<br>
+                                                    {{ $contact->number3 }}
                                                 </td>
                                                 <td>
-                                                    Email1:{{ $contact->email1 }}<br>
-                                                    Email2:{{ $contact->email2 }}
+                                                    {{ $contact->email1 }}<br>
+                                                    {{ $contact->email2 }}
                                                 </td>
                                                 <td>
                                                     {{ $group->getContactCountByEmailId($contact->email1,$contact->email2,$contact->number,$contact->number2,$contact->number3 ) }}<br>
