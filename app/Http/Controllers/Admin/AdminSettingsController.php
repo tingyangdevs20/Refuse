@@ -11,10 +11,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AdminSettingsController extends Controller
 {
     //
-     public function index()
+    public function index()
     {
         $adminsettings = AdminSettings::first();
         return view('back.pages.adminsettings.index', compact('adminsettings'));
     }
-    
 }

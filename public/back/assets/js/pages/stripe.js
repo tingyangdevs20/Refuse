@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Initialize Stripe outside of the event handler
-    var stripe = Stripe('pk_test_51MtZDzApRCJCEL2v4N99StaGAL6Z3fTpGsbRdHiIlSiF4BlNvkheZhl2PrDVB0xZ2FH7GNtP8E66wWKTtQNk5uIj00jqUIwU2M'); // Replace with your actual Stripe public key
+    var stripe = Stripe(stripeKey); // Replace with your actual Stripe public key
     var elements = stripe.elements();
     var cardElement = elements.create('card');
     const csrfToken = $('meta[name="csrf-token"]').attr('content');

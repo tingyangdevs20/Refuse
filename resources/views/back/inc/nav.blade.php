@@ -66,7 +66,9 @@
                          <li>
                   
                 </li>
-                <li><a href="{{ route('admin.appointment', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>
+               <!--<li><a href="{{ route('admin.manage-appointments', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>-->
+                <li><a href="{{ route('admin.manage-appointments') }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>
+
                 <li>
                    
                             <a href="{{ route('admin.user-agreement.index') }}" class="waves-effect"> <i class="fas fa-bars"></i>

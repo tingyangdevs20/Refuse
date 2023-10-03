@@ -15,7 +15,7 @@
             border-radius: 25px;
             margin: 10px;
             height: 650px;
-            border: 2px solid #04AA6D;
+            border: 2px solid #556ee6;
             padding: 20px;
             background:#fcfcfc;
         }
@@ -29,7 +29,7 @@
         }
 
         .button {
-          background-color: #04AA6D;
+          background-color: #556ee6;
           border: none;
           color: white;
           padding: 20px;
@@ -115,7 +115,8 @@
           margin-bottom:20px;
         }
         .bookappointmentform {
-            width: 70%;
+            /* width: 70%; */
+            width: 100%;
         }
         .existingappointments {
             width: 30%;
@@ -133,7 +134,7 @@
           margin: 10px;
           height: 650px;
           max-height: 650px;
-          border: 2px solid #04AA6D;
+          border: 2px solid #556ee6;
           padding: 20px;
           background: #fff;
         }
@@ -392,6 +393,11 @@
           }
         }
 
+        #myc-available-time-container {
+          max-height: 300px;
+          overflow-y: auto;
+        }
+
     </style>
 </head>
 
@@ -412,7 +418,7 @@
     @endif
 
     <div class="allappoimentsbox">
-      <div class="existingappointments">
+      <div class="existingappointments hide">
         <h1 class="heading-css">Existing Appointments</h3>
         <div class="left appointments-sec existing_appointments">
             
@@ -431,7 +437,11 @@
                   <label style="padding:10px;font-weight:bold">Time Zone</label>
                   <div class="input-group">
                     <select class="input form-control timezones" name="timezone" required>
+                        @foreach($timezones as $timezone) 
+                        <option value="{{ $timezone }}" {{ $timezone == $adminTimezone ? "selected" : "" }}>{{ $timezone }}</option>
+                        @endforeach
                     </select>
+
                     @error('timezone')
                       <div class="error">{{ $message }}</div>
                     @enderror
@@ -540,76 +550,299 @@
   <script>
     $(document).ready(function() {
 
-      console.log("timezone");
-      console.log(moment().format('Z'));
-
       // setup ajax token
       $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-
-      // init timezones
-      $('.timezones').timezones();
       
       // booked slots are fetched from google calendar
-      var bookingDays = {!! $bookedSlots !!};
-
-      // slots to be shown to user in the calendar.
-      var allSlots = [
-        ['01:00', '02:00', '03:00', '04:00', '05:00'],
-        ['01:00', '02:00', '03:00', '04:00', '05:00'],
-        ['01:00', '02:00', '03:00', '04:00', '05:00'],
-        ['01:00', '02:00', '03:00', '04:00', '05:00'],
-        ['01:00', '02:00', '03:00', '04:00', '05:00'],
-        ['01:00', '02:00', '03:00', '04:00', '05:00'],
-        ['01:00', '02:00', '03:00', '04:00', '05:00']
-      ];
+      var bookedSlots = {!! $bookedSlots !!};
+      var allSlots = {!! $availableSlots !!};
 
       // function to hide booked time slots
       function hideBookedTimeSlots() {
-        $.each(bookingDays, function(index, day) {
+        $.each(bookedSlots, function(index, day) {
           $.each(day, function (key, slot) {
+
             // disbale slots based on attribute value of anchor tag
             $('.myc-day-time-container a[data-time="'+slot.appt_time+'"][data-date="'+slot.appt_date+'"]').hide();
           });
         });
+
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth() + 1;
+        currentMonth = currentMonth < 10 ? '0' + currentMonth : currentMonth;
+        currentDate = currentDate.getDate();
+
+        // disbale all previous slots
+        document.querySelectorAll('.myc-day-time-container a').forEach(slot => {
+
+          let slotDate = slot.dataset.date.split("-");
+
+          if (slotDate[0] < currentYear) {
+            $(slot).hide();
+          } else if (slotDate[0] == currentYear) {
+            if(slotDate[1] < currentMonth) {
+              $(slot).hide();
+            } else if (slotDate[1] == currentMonth) {
+              if(slotDate[2] < currentDate) {
+                $(slot).hide();
+              }
+            }
+          }
+        });
       }
 
-      // function of calendar
-      (function($) {
-        $('.picker').markyourcalendar({
-          availability: allSlots,
-          isMultiple: false,
-          onClick: function(ev, data) {
-            // data is a list of datetimes
-            $('.myc-available-time').css({'pointer-events':'all', 'opacity':'1'});
-            var html = ``;
-            $.each(data, function() {
-              var d = this.split(' ')[0];
-              var t = this.split(' ')[1];
-              // setting values of date & time in input fields
-              $('.appt_date').val(d);
-              $('.appt_time').val(t);
-            });
+      var slotPicker = $('.picker').markyourcalendar({
+        availability: allSlots,
+        isMultiple: false,
+        onClick: function(ev, data) {
+          // data is a list of datetimes
+          $('.myc-available-time').css({'pointer-events':'all', 'opacity':'1'});
+          var html = ``;
+          $.each(data, function() {
+            var d = this.split(' ')[0];
+            var t = this.split(' ')[1];
+            // setting values of date & time in input fields
+            $('.appt_date').val(d);
+            $('.appt_time').val(t);
+          });
+          console.log("slot selected");
 
-            // $('#selected-dates').html(html);
+          // $('#selected-dates').html(html);
+        },
+        onClickNavigator: function(ev, instance) {
+          // var rn = Math.floor(Math.random() * 10) % 7;
+          // console.log(ev);
+          instance.setAvailability(allSlots);
+
+          hideBookedTimeSlots();
+        }          
+      });
+
+      // hide booked slots after initializing slot picker
+      hideBookedTimeSlots();
+
+      // fetch available slots when user change timezone.
+      $(document).on('change','.timezones',function(){
+        let timezone = $(this).val();
+        document.querySelector('#myc-available-time-container').innerHTML = "";
+
+        $.ajax({
+          type: "POST",
+          url: "{{ route('appointments.fetchAllSlots') }}",
+          data: { timezone: timezone },
+          dataType: "json",
+          success: function(data) {
+
+            // Ajax call completed successfully
+            if(data.status == 200) {
+
+              allSlots = data.availableSlots;
+              bookedSlots = data.bookedSlots;
+
+              slotPicker.setAvailability(allSlots);
+              hideBookedTimeSlots();
+
+            } else {
+              $('.s-msg').hide();
+              $('.e-msg').html(data.message);
+              $('.e-msg').show();
+            }
           },
-          onClickNavigator: function(ev, instance) {
-            // var rn = Math.floor(Math.random() * 10) % 7;
-            instance.setAvailability(allSlots);
-
-            hideBookedTimeSlots();
+          error: function(data) {
+                
+            // Some error in ajax call
+            $('.s-msg').hide();
+            $('.e-msg').html(data.message);
+            $('.e-msg').show();
           }
+        });
+        
+      });
+      
+      // open modal when click on cancel button
+      $(document).on('click','.cancel-btn',function(){
+        var appt_id = $(this).attr('data-appt_id'); // appointment id
+        $( ".cancel_appt_modal" ).dialog({
+          width: 500,
+          draggable: false,
+          modal:true,
+          create: function( event, ui ) {
+            $('body').css({overflow: 'hidden'})
+          },
+          beforeClose: function(event, ui) {
+            $('body').css({ overflow: 'inherit' })
+          },
+          buttons: {
+            "Yes": function() {
+              // alert(appt_id);
+              // Ajax for cancelling appointment
+              $.ajax({
+                  type: "POST",
+                  url: "{{ route('appointments.cancelAppointment') }}",
+                  data: {id: appt_id},
+                  dataType: "json",
+                  success: function(data) {
+                        console.log(data);
+                      // Ajax call completed successfully
+                      if(data.success == 1) {
+                          $('.cancel_appt_modal').dialog( "close" );
+                          $('.s-msg').html(data.message);
+                          $('.s-msg').show();
+                          $('.e-msg').hide();
 
-          
+                          setTimeout(() => {
+                            window.location.reload();
+                            
+                          }, 2500);
+
+                          
+                      } else {
+                          $('.cancel_appt_modal').dialog( "close" );
+                          $('.s-msg').hide();
+                          $('.e-msg').html(data.message);
+                          $('.e-msg').show();
+
+                      }
+
+                  },
+                  error: function(data) {
+                        
+                      // Some error in ajax call
+                      $('.cancel_appt_modal').dialog( "close" );
+                      $('.s-msg').hide();
+                      $('.e-msg').html(data.message);
+                      $('.e-msg').show();
+                  }
+              });
+
+
+            },
+            "No": function() {
+              $( this ).dialog( "close" );
+            }
+          }
+        });
+        
+      });
+
+
+      // open modal when click on cancel button
+      $(document).on('click','.reschedule-btn',function(){
+        var appt_id = $(this).attr('data-appt_id'); // appointment id
+        var previousDate = $('.previous_date').val();
+        // alert(previousDate);
+        var previousTime = $('.previous_time').val();
+        // alert(previousTime);      
+        // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
+        $( ".reschedule_appt_modal" ).dialog({
+          width: 500,
+          draggable: false,
+          modal:true,
+          create: function( event, ui ) {
+            $('body').css({overflow: 'hidden'});
+            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').removeAttr('style');
+            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
+            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
+          },
+          beforeClose: function(event, ui) {
+            $('body').css({ overflow: 'inherit' });
+            $(this).find('a').removeClass('selected');
+            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
+            $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
+
+          },
+          buttons: {
+            "Update": function() {
+              
+              
+              var rescheduleDate = $('.appt_date').val(); // date
+              var rescheduleTime = $('.appt_time').val(); // time
+              // alert(appt_id);
+              // Ajax for cancelling appointment
+              $.ajax({
+                  type: "POST",
+                  url: "{{ route('appointments.reschduleAppointment') }}",
+                  data: {
+                    id: appt_id,
+                    appt_date: rescheduleDate,
+                    appt_time: rescheduleTime,
+                  },
+                  dataType: "json",
+                  success: function(data) {
+                        console.log(data);
+                      // Ajax call completed successfully
+                      if(data.success == 1) {
+                          $('.reschedule_appt_modal').dialog( "close" );
+                          $('.s-msg').html(data.message);
+                          $('.s-msg').show();
+                          $('.e-msg').hide();
+
+                          setTimeout(() => {
+                            window.location.reload();
+                            
+                          }, 2500);
+    
+                      } else {
+                          $('.reschedule_appt_modal').dialog( "close" );
+                          $('.s-msg').hide();
+                          $('.e-msg').html(data.message);
+                          $('.e-msg').show();
+
+                      }
+
+                  },
+                  error: function(data) {
+                        
+                      // Some error in ajax call
+                      $('.reschedule_appt_modal').dialog( "close" );
+                      $('.s-msg').hide();
+                      $('.e-msg').html(data.message);
+                      $('.e-msg').show();
+                  }
+              });
+
+
+            },
+            "Close": function() {
+              $( this ).dialog( "close" );
+            }
+          }
         });
 
-        // Hide booked slots when the slot picker is rendered for the first time.
-        hideBookedTimeSlots();
+      });
 
-      })(jQuery);
+      // fetching user existing bookings
+      $('.mobile').on('keyup',function(){
+        var mobile = $(this).val();
+        var uid = $('.uid').val();
+        if(mobile.length >= '11'){
+          $.ajax({
+              type: "POST",
+              url: "{{ route('appointments.getAppointments') }}",
+              data: {mobile: mobile,uid: uid},
+              dataType: "json",
+              success: function(data) {
+                    console.log(data);
+                  // Ajax call completed successfully
+                  if(data.success == 1) {
+                      $('.existing_appointments').html(data.html);
+                  }
+              },
+              error: function(data) {                  
+                  // Some error in ajax call
+                  $('.cancel_appt_modal').dialog( "close" );
+                  $('.s-msg').hide();
+                  $('.e-msg').html(data.message);
+                  $('.e-msg').show();
+              }
+          });
+        }
+      });
         
         
     });
@@ -617,186 +850,8 @@
 
 
   <script>
+
     
-    // open modal when click on cancel button
-    $(document).on('click','.cancel-btn',function(){
-      var appt_id = $(this).attr('data-appt_id'); // appointment id
-      $( ".cancel_appt_modal" ).dialog({
-        width: 500,
-        draggable: false,
-        modal:true,
-        create: function( event, ui ) {
-          $('body').css({overflow: 'hidden'})
-        },
-        beforeClose: function(event, ui) {
-          $('body').css({ overflow: 'inherit' })
-        },
-        buttons: {
-          "Yes": function() {
-            // alert(appt_id);
-            // Ajax for cancelling appointment
-            $.ajax({
-                type: "POST",
-                url: "{{ route('appointments.cancelAppointment') }}",
-                data: {id: appt_id},
-                dataType: "json",
-                success: function(data) {
-                      console.log(data);
-                    // Ajax call completed successfully
-                    if(data.success == 1) {
-                        $('.cancel_appt_modal').dialog( "close" );
-                        $('.s-msg').html(data.message);
-                        $('.s-msg').show();
-                        $('.e-msg').hide();
-
-                        setTimeout(() => {
-                          window.location.reload();
-                          
-                        }, 2500);
-
-                        
-                    } else {
-                        $('.cancel_appt_modal').dialog( "close" );
-                        $('.s-msg').hide();
-                        $('.e-msg').html(data.message);
-                        $('.e-msg').show();
-
-                    }
-
-                },
-                error: function(data) {
-                      
-                    // Some error in ajax call
-                    $('.cancel_appt_modal').dialog( "close" );
-                    $('.s-msg').hide();
-                    $('.e-msg').html(data.message);
-                    $('.e-msg').show();
-                }
-            });
-
-
-          },
-          "No": function() {
-            $( this ).dialog( "close" );
-          }
-        }
-      });
-      
-    });
-
-
-    // open modal when click on cancel button
-    $(document).on('click','.reschedule-btn',function(){
-      var appt_id = $(this).attr('data-appt_id'); // appointment id
-      var previousDate = $('.previous_date').val();
-      // alert(previousDate);
-      var previousTime = $('.previous_time').val();
-      // alert(previousTime);      
-      // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
-      $( ".reschedule_appt_modal" ).dialog({
-        width: 500,
-        draggable: false,
-        modal:true,
-        create: function( event, ui ) {
-          $('body').css({overflow: 'hidden'});
-          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').removeAttr('style');
-          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
-          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
-        },
-        beforeClose: function(event, ui) {
-          $('body').css({ overflow: 'inherit' });
-          $(this).find('a').removeClass('selected');
-          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').css({'pointer-events':'none','opacity':'0.5'});
-          $(this).find('a[data-time="'+previousTime+'"][data-date="'+previousDate+'"]').addClass('selected');
-
-        },
-        buttons: {
-          "Update": function() {
-            
-            
-            var rescheduleDate = $('.appt_date').val(); // date
-            var rescheduleTime = $('.appt_time').val(); // time
-            // alert(appt_id);
-            // Ajax for cancelling appointment
-            $.ajax({
-                type: "POST",
-                url: "{{ route('appointments.reschduleAppointment') }}",
-                data: {
-                  id: appt_id,
-                  appt_date: rescheduleDate,
-                  appt_time: rescheduleTime,
-                },
-                dataType: "json",
-                success: function(data) {
-                      console.log(data);
-                    // Ajax call completed successfully
-                    if(data.success == 1) {
-                        $('.reschedule_appt_modal').dialog( "close" );
-                        $('.s-msg').html(data.message);
-                        $('.s-msg').show();
-                        $('.e-msg').hide();
-
-                        setTimeout(() => {
-                          window.location.reload();
-                          
-                        }, 2500);
-  
-                    } else {
-                        $('.reschedule_appt_modal').dialog( "close" );
-                        $('.s-msg').hide();
-                        $('.e-msg').html(data.message);
-                        $('.e-msg').show();
-
-                    }
-
-                },
-                error: function(data) {
-                      
-                    // Some error in ajax call
-                    $('.reschedule_appt_modal').dialog( "close" );
-                    $('.s-msg').hide();
-                    $('.e-msg').html(data.message);
-                    $('.e-msg').show();
-                }
-            });
-
-
-          },
-          "Close": function() {
-            $( this ).dialog( "close" );
-          }
-        }
-      });
-
-    });
-
-    // fetching user existing bookings
-    $('.mobile').on('keyup',function(){
-      var mobile = $(this).val();
-      var uid = $('.uid').val();
-      if(mobile.length >= '11'){
-        $.ajax({
-            type: "POST",
-            url: "{{ route('appointments.getAppointments') }}",
-            data: {mobile: mobile,uid: uid},
-            dataType: "json",
-            success: function(data) {
-                  console.log(data);
-                // Ajax call completed successfully
-                if(data.success == 1) {
-                    $('.existing_appointments').html(data.html);
-                }
-            },
-            error: function(data) {                  
-                // Some error in ajax call
-                $('.cancel_appt_modal').dialog( "close" );
-                $('.s-msg').hide();
-                $('.e-msg').html(data.message);
-                $('.e-msg').show();
-            }
-        });
-      }
-    });
 
   </script>
 </body>

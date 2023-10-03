@@ -22,6 +22,7 @@
                             </ol>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             <i class="fas fa-cog"></i> General Settings
@@ -219,6 +220,55 @@
                                 </div>
 
                                 <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> Stripe Keys
+
+                                </div>
+                                <br />
+
+                                <div class="form-group">
+                                    <label>Stripe Secret Key</label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter Stripe Secret Key" name="stripe_screct_key"
+                                            id="stripe_screct_key" value="{{ $settings->stripe_screct_key }}" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Stripe Publishable Key </label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter Stripe Publishable Key" name="strip_publishable_key"
+                                            id="strip_publishable_key" value="{{ $settings->strip_publishable_key }}" >
+                                    </div>
+                                </div>
+
+                                <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> PayPal Keys
+
+                                </div>
+                                <br />
+
+                                <div class="form-group">
+                                    <label>PayPal Client ID</label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter PayPal Client ID" name="paypal_client_id"
+                                            id="paypal_client_id" value="{{ $settings->paypal_client_id }}" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>PayPal Secret Key </label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter PayPal Secret Key" name="paypal_secret_key"
+                                            id="paypal_secret_key" value="{{ $settings->paypal_secret_key }}" >
+                                    </div>
+                                </div>
+
+
+                                <div class="card-header bg-soft-dark ">
                                     <i class="fas fa-cog"></i> Connect Gmail
                                 </div>
                                 <br />
@@ -230,6 +280,194 @@
                                         <a href="{{ route('gmail.login') }}" class="btn btn-secondary">Login to Gmail</a>
                                     @endif
                                 </div>
+
+                                <button type="submit" class="btn btn-primary">Update Settings</button>
+
+                            </form>
+                        </div>
+                    </div>
+                
+                    <div class="card">
+                        <div class="card-header bg-soft-dark ">
+                            <i class="fas fa-cog"></i> Appointment Calendar Settings
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ url('admin/settings/appointment-calendar-settings') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+
+
+                                <div class="form-group">
+                                    <label>Timezone</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-clock"></i></div>
+                                        </div>
+
+                                        <select class="input form-control timezones" name="timezone" required>
+                                            @foreach($timezones as $timezone) 
+                                            <option value="{{ $timezone }}" {{ $timezone === $appointmentSetting->timezone ? "selected" : "" }}>{{ $timezone }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Appointment Period Duration <small>(in minutes)</small></label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-clock"></i></div>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="Appointment Period Duration" name="period_duration"
+                                            id="appointmentPeriodDuration" value="{{ $appointmentSetting->period_duration }}" required>
+                                    </div>
+                                </div>
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Day</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Closed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Monday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="monday_start_time" value="{{ $appointmentSetting->monday_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="monday_end_time" value="{{ $appointmentSetting->monday_end_time }}" />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->monday_close == 1 ? "checked" : "" }} id="monday_close_yes" name="monday_close" value="1">
+                                                    <label class="form-check-label" for="monday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->monday_close == 0 ? "checked" : "" }} id="monday_close_no" name="monday_close" value="0">
+                                                    <label class="form-check-label" for="monday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tuesday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="tuesday_start_time" value="{{ $appointmentSetting->tuesday_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="tuesday_end_time" value="{{ $appointmentSetting->tuesday_end_time }}" />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->tuesday_close == 1 ? "checked" : "" }} id="tuesday_close_yes" name="tuesday_close" value="1">
+                                                    <label class="form-check-label" for="tuesday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->tuesday_close == 0 ? "checked" : "" }} id="tuesday_close_no" name="tuesday_close" value="0">
+                                                    <label class="form-check-label" for="tuesday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wednesday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="wednesday_start_time" value="{{ $appointmentSetting->wednesday_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="wednesday_end_time" value="{{ $appointmentSetting->wednesday_end_time }}" />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->wednesday_close == 1 ? "checked" : "" }} id="wednesday_close_yes" name="wednesday_close" value="1">
+                                                    <label class="form-check-label" for="wednesday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->wednesday_close == 0 ? "checked" : "" }} id="wednesday_close_no" name="wednesday_close" value="0">
+                                                    <label class="form-check-label" for="wednesday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Thursday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="thursday_start_time" value="{{ $appointmentSetting->thursday_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="thursday_end_time" value="{{ $appointmentSetting->thursday_end_time }}" />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->thursday_close == 1 ? "checked" : "" }} id="thursday_close_yes" name="thursday_close" value="1">
+                                                    <label class="form-check-label" for="thursday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->thursday_close == 0 ? "checked" : "" }} id="thursday_close_no" name="thursday_close" value="0">
+                                                    <label class="form-check-label" for="thursday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Friday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="friday_start_time" value="{{ $appointmentSetting->friday_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="friday_end_time" value="{{ $appointmentSetting->friday_end_time }}" />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->friday_close == 1 ? "checked" : "" }} id="friday_close_yes" name="friday_close" value="1">
+                                                    <label class="form-check-label" for="friday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->friday_close == 0 ? "checked" : "" }} id="friday_close_no" name="friday_close" value="0">
+                                                    <label class="form-check-label" for="friday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Saturday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="saturday_start_time" value="{{ $appointmentSetting->saturday_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="saturday_end_time" value="{{ $appointmentSetting->saturday_end_time }}" />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->saturday_close == 1 ? "checked" : "" }} id="saturday_close_yes" name="saturday_close" value="1">
+                                                    <label class="form-check-label" for="saturday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->saturday_close == 0 ? "checked" : "" }} id="saturday_close_no" name="saturday_close" value="0">
+                                                    <label class="form-check-label" for="saturday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sunday</th>
+                                            <td>
+                                                <input type="time" class="form-control" name="sunday_start_time" value="{{ $appointmentSetting->sudnay_start_time }}" />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" name="sunday_end_time" value="{{ $appointmentSetting->sudnay_end_time }}"  />
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" {{ $appointmentSetting->sunday_close == 1 ? "checked" : "" }} id="sunday_close_yes" name="sunday_close" value="1">
+                                                    <label class="form-check-label" for="sunday_close_yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" id="sunday_close_no" {{ $appointmentSetting->sunday_close == 0 ? "checked" : "" }} name="sunday_close" value="0">
+                                                    <label class="form-check-label" for="sunday_close_no">No</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
                                 <button type="submit" class="btn btn-primary">Update Settings</button>
 

@@ -131,13 +131,13 @@
     padding: 10px 0px 10px 0px;
     text-align: center;
     text-decoration: none;
-    border: 1px solid #04AA6D;
+    border: 1px solid #556ee6;
     font-size: 13px;
 }
 
 .myc-available-time.selected,
 .myc-available-time:hover {
-    background-color: #04AA6D;
+    background-color: #556ee6;
     color:#fff
 }
 
