@@ -169,8 +169,13 @@ class GroupController extends Controller
         //print_r($getAllAppointments);
         //die("..");
         // exit;
-
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact'));
+        $checkGoogleCredentials =  $response = app()->call('App\Http\Controllers\GoogleDriveController@checkGoogleCredentials');
+        $googleDriveFiles = null;
+        if($checkGoogleCredentials) {
+            $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
+        }
+        
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'googleDriveFiles'));
     }
 
     public function updateinfo(Request $request)
