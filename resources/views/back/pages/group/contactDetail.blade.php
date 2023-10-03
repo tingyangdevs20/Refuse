@@ -178,6 +178,9 @@
                                                                             <option value="Prospect"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Prospect')  @endif
                                                                                 @endif>Prospect</option>
+                                                                            <option value="DNC"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'DNC')  @endif
+                                                                                @endif>DNC</option>
                                                                             <option value="Lead-New"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Lead-New')  @endif
                                                                                 @endif>Lead-New</option>
