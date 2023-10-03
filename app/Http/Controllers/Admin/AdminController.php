@@ -116,6 +116,15 @@ class AdminController extends Controller
                 $expected_money_month = 0.00;
                 $expected_money_ninety_day = 0.00;
                 $expected_money_year = 0.00;
+                $expected_money_lifetime = 0.00;
+                $money_collected_lifetime = 0.00;
+                $money_collected_todays = 0.00;
+                $money_collected_seven_day = 0.00;
+                $money_collected_month = 0.00;
+                $money_collected_ninety_day = 0.00;
+                $money_collected_year = 0.00;
+
+                $money_collected_lifetime = 0.00;
 
             }else{
                 $expected_money_lifetime = 0;
