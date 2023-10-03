@@ -3420,6 +3420,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            @if ($googleDriveFiles != null)
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -3427,6 +3428,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                                
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -3493,6 +3495,7 @@
                                                                     @endif
                                                                 @endforeach
                                                             </div>
+                                                            @endif
                                                         <hr>
                                                         @elseif($section->id == '17')
                                                             <div class="col-md-12" id="{{ $section->id }}"

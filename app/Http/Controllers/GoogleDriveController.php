@@ -132,39 +132,39 @@ class GoogleDriveController extends Controller
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'File filed is required');
         }
-        
+
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
         $service = new \Google_Service_Drive($this->gClient);
-        
+
         $user = User::find(1);
-        
+
         $this->gClient->setAccessToken(json_decode($user->access_token, true));
-        
+
         if ($this->gClient->isAccessTokenExpired()) {
-            
+
             // Get the stored refresh token from your user record
             $user = User::find(1);
             $refreshToken = $user->refresh_token;
-            
+
             // Use the refresh token to fetch a new access token
             $this->gClient->fetchAccessTokenWithRefreshToken($refreshToken);
-            
+
             // Get the updated access token
             $accessToken = $this->gClient->getAccessToken();
-            
+
             // Update the user's access token in the database
             $user->access_token = json_encode($accessToken);
             $user->save();
         }
-        
+
         $fileMetadata = new \Google_Service_Drive_DriveFile(array(
             'name' => 'REIFuze',             // ADD YOUR GOOGLE DRIVE FOLDER NAME
             'mimeType' => 'application/vnd.google-apps.folder'
         ));
-        
+
         $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
 
         // printf("Folder ID: %s\n", $folder->id);
@@ -187,6 +187,9 @@ class GoogleDriveController extends Controller
 
     public function fetchFilesByFolderName()
     {
+        if(!$this->hasGoogleDriveAccess()){
+            return null;
+        }
 
         $folderName = 'REIFuze';
         if (!$this->checkGoogleCredentials()) {
@@ -211,8 +214,8 @@ class GoogleDriveController extends Controller
 
         // Get the folder ID by name
         $folderId = $this->getFolderIdByName($service, $folderName);
-        $subfolderId = $this->getFolderIdByName($service, 'purchase_agreement' , $folderId);
-        
+        $subfolderId = $this->getFolderIdByName($service, 'purchase_agreement', $folderId);
+
         if (!$folderId) {
             return redirect()->back()->with('notupload', 'Folder not found on Google Drive.');
         }
@@ -220,9 +223,9 @@ class GoogleDriveController extends Controller
         $files = $service->files->listFiles([
             'q' => "'$folderId' in parents",
         ]);
-        
+
         // Process the files, you can display them or do further actions
-        
+
         $googleDrivefile = [];
         foreach ($files as $file) {
             if ($file->mimeType == 'application/vnd.google-apps.folder') {
@@ -231,10 +234,9 @@ class GoogleDriveController extends Controller
             }
             $file->is_sub = false;
             $googleDrivefile[] = $file;
-            
         }
 
-        if($subfolderId){
+        if ($subfolderId) {
 
             $subfiles = $service->files->listFiles([
                 'q' => "'$subfolderId' in parents",
@@ -247,10 +249,9 @@ class GoogleDriveController extends Controller
                 }
                 $file->is_sub = true;
                 $googleDrivefile[] = $file;
-                
             }
         }
-        
+
         return $googleDrivefile;
         // You can pass the $files data to a view or use it as needed
 
@@ -259,11 +260,17 @@ class GoogleDriveController extends Controller
 
     private function getFolderIdByName(DriveService $driveService, $folderName, $parentFolderId = null)
     {
+
         // Check if google credentials exist
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
+
+        if(!$this->hasGoogleDriveAccess()){
+            return null;
+        }
+
         $pageToken = null;
         $query = "mimeType='application/vnd.google-apps.folder' and name='$folderName'";
 
@@ -473,7 +480,7 @@ class GoogleDriveController extends Controller
             }
 
             $subFolderId = $this->getFolderIdByName($service, 'purchase_agreement', $parentFolderId);
-            
+
             if (!$subFolderId) {
                 // Now create the subfolder within the parent folder
                 $fileMetadata = new \Google_Service_Drive_DriveFile([
@@ -490,7 +497,7 @@ class GoogleDriveController extends Controller
                 'name' => $request->file('purchase_agreement')->getClientOriginalName(),
                 'parents' => [$subFolderId]
             ]);
-            
+
             // printf("Folder ID: %s\n", $folder->id);
 
             // $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('purchase_agreement')->getClientOriginalName(), 'parents' => array($subfolder->id)));
@@ -526,5 +533,30 @@ class GoogleDriveController extends Controller
         } else {
             return true;
         }
+    }
+
+    // Add this function to your GoogleDriveController class
+    public function hasGoogleDriveAccess()
+    {
+        // Check if Google Drive credentials exist
+        if (!$this->checkGoogleCredentials()) {
+            return false; // Google Drive credentials are missing
+        }
+        
+        $user = User::find(1);
+        
+        // Check if the user has an access token
+        if (!$user || empty($user->access_token)) {
+            return false; // User does not have access token
+        }
+        
+        $accessToken = json_decode($user->access_token, true);
+        
+        // Check if the access token is valid and not expired
+        if (empty($accessToken) && $this->gClient->isAccessTokenExpired()) {
+            return false; // Access token is invalid or expired
+        }
+
+        return true; // User has valid Google Drive access
     }
 }
