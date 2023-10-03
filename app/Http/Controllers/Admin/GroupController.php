@@ -184,9 +184,10 @@ class GroupController extends Controller
         $getAllAppointments = Scheduler::where('admin_uid', $uid)->where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
 
 
-        $checkGoogleCredentials =  $response = app()->call('App\Http\Controllers\GoogleDriveController@checkGoogleCredentials');
+        $hasGoogleDriveAccess =  $response = app()->call('App\Http\Controllers\GoogleDriveController@hasGoogleDriveAccess');
         $googleDriveFiles = null;
-        if($checkGoogleCredentials) {
+
+        if($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
 
