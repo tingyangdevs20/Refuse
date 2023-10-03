@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Google\Service\Drive as DriveService;
+use Illuminate\Support\Facades\Log;
 
 class GoogleDriveController extends Controller
 {
@@ -187,7 +188,7 @@ class GoogleDriveController extends Controller
 
     public function fetchFilesByFolderName()
     {
-        if(!$this->hasGoogleDriveAccess()){
+        if (!$this->hasGoogleDriveAccess()) {
             return null;
         }
 
@@ -217,7 +218,7 @@ class GoogleDriveController extends Controller
         $subfolderId = $this->getFolderIdByName($service, 'purchase_agreement', $folderId);
 
         if (!$folderId) {
-            return redirect()->back()->with('notupload', 'Folder not found on Google Drive.');
+            return redirect()->back();
         }
         // List files in the specified folder
         $files = $service->files->listFiles([
@@ -267,7 +268,7 @@ class GoogleDriveController extends Controller
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
 
-        if(!$this->hasGoogleDriveAccess()){
+        if (!$this->hasGoogleDriveAccess()) {
             return null;
         }
 
@@ -279,18 +280,24 @@ class GoogleDriveController extends Controller
         }
 
         do {
-            $response = $driveService->files->listFiles([
-                'q'          => $query,
-                'spaces'     => 'drive',
-                'pageToken'  => $pageToken,
-            ]);
+            try {
+                $response = $driveService->files->listFiles([
+                    'q'          => $query,
+                    'spaces'     => 'drive',
+                    'pageToken'  => $pageToken,
+                ]);
 
+                foreach ($response->files as $folder) {
+                    return $folder->id;
+                }
 
-            foreach ($response->files as $folder) {
-                return $folder->id;
+                $pageToken = $response->nextPageToken;
+            } catch (\Google\Service\Exception $e) {
+                // Handle the exception and log the error for debugging.
+                // You can inspect $e to get more details about the error.
+                Log::error('Google Drive API Error: ' . $e->getMessage());
+                return null;
             }
-
-            $pageToken = $response->nextPageToken;
         } while ($pageToken != null);
 
         // If the folder is not found
@@ -542,16 +549,16 @@ class GoogleDriveController extends Controller
         if (!$this->checkGoogleCredentials()) {
             return false; // Google Drive credentials are missing
         }
-        
+
         $user = User::find(1);
-        
+
         // Check if the user has an access token
         if (!$user || empty($user->access_token)) {
             return false; // User does not have access token
         }
-        
+
         $accessToken = json_decode($user->access_token, true);
-        
+
         // Check if the access token is valid and not expired
         if (empty($accessToken) && $this->gClient->isAccessTokenExpired()) {
             return false; // Access token is invalid or expired
