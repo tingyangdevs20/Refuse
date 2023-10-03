@@ -26,15 +26,9 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            @if($smsInfo!=null)
                            
-                                Chatting
-                                With {{ $sms->client_number ."  ".$smsInfo->name." - ".$smsInfo->street.", ".$smsInfo->city.", ".$smsInfo->state}}
-                            @else
-                                Chatting With {{ $sms->client_number}}
-                            @endif
                             <span
-                                class="float-lg-right">Available Sends: {{$number ? $number->sms_allowed - $number->sms_count :''}}</span>
+                                class="float-lg-right" style="display:none">Available Sends: {{$number ? $number->sms_allowed - $number->sms_count :''}}</span>
                                @if(!empty($smsInfo)&&$smsInfo->is_dnc!=1)
                                 <form action="{{ route('admin.sms.add-to-dnc') }}" class="mt-2" method="POST">
                                     @csrf
@@ -48,16 +42,21 @@
                                                 <option value="{{ $lead->id }}" {{ $sms->lead_category_id==$lead->id?'selected':'' }} >{{ $lead->title }}</option>
                                             @endforeach
                                         </select>
-                                    <button class="btn btn-success btn-sm" type="submit">change</button>
+                                    <button class="btn btn-success btn-sm" style="background-color:#556ee6;" type="submit">Change</button>
                                 </form>
-                                <form style="margin-left:450px;position:relative;margin-top:-60px"><label for="" >Conversation Type</label>
-                                <select class="form-control" style="margin-bottom:20px;width:200px">
-                                                                   <option>SMS</option>
-                                                                    <option>MMS</option>
-                                                                     <option>Email</option>
-                                                               </select>
-</form>
+                               
                                    @endif
+                                   @if($smsInfo!=null)
+                           <div style="margin-left:360px;margin-top: -24px;">
+                          <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span> <span style="margin-left:5px;"> {{ $number->number}}</span>
+                          <span style="font-size: 14px;font-weight: bold;margin-left:5px">With </span> <span style="margin-left:10px"><i class="fa fa-phone" aria-hidden="true"></i>
+ <a href="" style="color:#black">{{ $sms->client_number }} </a></span>    <span style="margin-left:50px"><i class="fa fa-envelope" aria-hidden="true"></i>
+{{ $smsInfo->email1}}</span>
+                       
+                       @endif
+
+                      <a style="float:right" href="/admin/contact.detail/224" target="_blank"> View Contact Details</a>
+</div>
                         </div>
                         <div class="card-body">
                             <div class="d-lg-flex">
@@ -101,10 +100,13 @@
                                                                         {!!nl2br(e($conversation->body_text))!!}
                                                                     </p>
                                                                     @endif
-                                                                    <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $conversation->conv_type }}</span><i
+                                                                    <p class="chat-time mb-0"><span style="color:#afafaf;padding-right:5px">{{ $conversation->conv_type }}</span><i
                                                                             class="bx bx-time-five align-middle mr-1"></i> {{ $conversation->received_on }}
                                                                     </p>
+                                                                   
                                                                 </div>
+                                                                <p style="float:right;color:#bfbfcf"><i class="fa fa-reply" aria-hidden="true"></i><a href="#" style="text-decoration:none;margin-left:2px;color:#bfbfcf">Reply</a>
+</p>
 
                                                             </div>
                                                         </li>
@@ -121,7 +123,7 @@
                                                 <div class="p-3 chat-input-section">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <div class="position-relative">
+                                                            <div class="position-relative" style="display:none">
                                                                 @foreach($quickResponses as $quickResponse)
                                                                     <button class="btn btn-primary btn-sm"
                                                                             onclick="getValue({{ $quickResponse->id }});return false;">{{ $quickResponse->title }}</button>
@@ -130,32 +132,38 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @if(!empty($smsInfo)&&$smsInfo->is_dnc!=1)
+                                                
                                                 <div class="p-3 chat-input-section">
-                                                    <div class="row" style="display:none">
+                                                    <div class="row" style="display:block">
                                                         <div class="col">
                                                             <div class="position-relative">
-                                                                <label>Conversation Type</label>
-                                                                </div>
-                                                                </div>
-                                                                </div>
-                                                                <div class="row" style="display:none">
-                                                                <div class="col">
-                                                                <div class="position-relative">
-                                                               <select class="form-control" style="margin-bottom:20px">
-                                                                   <option>SMS</option>
-                                                                    <option>MMS</option>
-                                                                     <option>Email</option>
-                                                               </select>
+                                                                
                                                                 </div>
                                                                 </div>
                                                                 </div>
                                                                 <div class="row">
+                                                                <div class="col">
+                                                                <div class="position-relative">
+                                                               
+                                                                </div>
+                                                                </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div>
+                                                                    <select class="form-control" style="margin-bottom:20px;width:150px">
+                                                                    <option>Message Type</option>
+                                                                   <option>SMS</option>
+                                                                    <option>MMS</option>
+                                                                     <option>Email</option>
+                                                               </select>
+</div>
                                                         <div class="col">
+                                                       
                                                             <div class="position-relative">
-                                                                <input type="text" class="form-control chat-input"
+                                                            
+                                                                <textarea style="width:100%;border-width:1px;border-color:#efefef" rows="6" class="form-control"
                                                                        id="replyArea" name="reply"
-                                                                       placeholder="Enter Message..." required>
+                                                                       placeholder="Enter Message..." required></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-auto">
@@ -169,8 +177,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                  @endif
-                                                   @if(!empty($smsInfo)&&$smsInfo->is_dnc==1)
+                                                 
+                                                   @if($smsInfo->is_dnc==1)
                                                 <div class="p-3 chat-input-section">
                                                     <div class="row">
                                                         <div class="col">
