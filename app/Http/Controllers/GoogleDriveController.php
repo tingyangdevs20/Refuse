@@ -284,7 +284,7 @@ class GoogleDriveController extends Controller
                 'spaces'     => 'drive',
                 'pageToken'  => $pageToken,
             ]);
-
+            dd($response->files);
 
             foreach ($response->files as $folder) {
                 return $folder->id;
