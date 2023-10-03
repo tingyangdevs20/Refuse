@@ -31,8 +31,7 @@ class CampaignController extends Controller
     }
     public function changeStatus(Request $request)
     {
-        print_r($request);
-        die("----");
+        
         $id=$request->id;
         $camp = Campaign::where('id' , $id)->first();
         $camp->active = $request->sts; 
