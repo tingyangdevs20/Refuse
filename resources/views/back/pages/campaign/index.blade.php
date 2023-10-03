@@ -138,13 +138,7 @@
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
                       
-                        <div class="form-group">
-                            <label for="active">Active Status</label>
-                            <select name="active" id="active" class="form-control" required>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
+                       
 
                         <button type="submit" class="btn btn-primary">Save Campaign</button>
                     </form>
@@ -179,13 +173,7 @@
 
                         <!-- Add other fields for campaign details -->
                         <!-- For example, schedule, message content, etc. -->
-                        <div class="form-group">
-                            <label for="active">Active Status</label>
-                            <select name="active" id="active" class="form-control" required>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
+                        
 
                         <button type="submit" class="btn btn-primary">Update Campaign</button>
                     </form>
