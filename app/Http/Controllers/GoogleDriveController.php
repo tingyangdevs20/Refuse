@@ -186,6 +186,7 @@ class GoogleDriveController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
+        // https://brian-bagnall.com/bulk/bulk_sms_new/public/admin/google-drive-callback?code=4%2F0AfJohXm8CHuZ4ZSpgcffenxi6qNH8n3seTJ1I4LodGtCBpCMiJu4XQtXxyzCYjOti6K5mA&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file
         // Check if google credentials exist
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
