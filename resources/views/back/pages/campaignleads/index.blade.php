@@ -216,7 +216,7 @@
          $('.toggle-class').change(function() { 
             var status = $(this).prop('checked') == true ? 1 : 0;  
            var camp_id = $(this).data('id');  
-           alert(camp_id);
+          // alert(camp_id);
         let data = {
             camp_id: camp_id,
                 sts: status,
