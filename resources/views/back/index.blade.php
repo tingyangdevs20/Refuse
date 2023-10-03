@@ -182,24 +182,24 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">Money Expected</th>
-                                        <td>{{ $money_expected??'0' }}</td>
-                                        <td>{{ @$expected_money_todays }}</td>
-                                        <td>{{ @$expected_money_seven_day }}</td>
-                                        <td>{{ @$expected_money_month }}</td>
-                                        <td>{{ @$expected_money_ninety_day }}</td>
-                                        <td>{{ @$expected_money_year }}</td>
-                                        <td>{{ @$expected_money_lifetime }}</td>
+                                        <td>{{ number_format($money_expected, 2) }}</td>
+                                        <td>{{ number_format(@$expected_money_todays, 2) }}</td>
+                                        <td>{{ number_format(@$expected_money_seven_day, 2) }}</td>
+                                        <td>{{ number_format(@$expected_money_month, 2) }}</td>
+                                        <td>{{ number_format(@$expected_money_ninety_day, 2) }}</td>
+                                        <td>{{ number_format(@$expected_money_year, 2) }}</td>
+                                        <td>{{ number_format(@$expected_money_lifetime, 2) }}</td>
                                     </tr>
-                                    {{-- <tr>
+                                    <tr>
                                         <th scope="col">Money Collected</th>
-                                        <td>{{ number_format($money_collected, 2) }}</td>
-                                        <td>{{ number_format($money_collected_todays, 2) }}</td>
-                                        <td>{{ number_format($money_collected_seven_day, 2) }}</td>
-                                        <td>{{ number_format($money_collected_month, 2) }}</td>
-                                        <td>{{ number_format($money_collected_ninety_day, 2) }}</td>
-                                        <td>{{ number_format($money_collected_year, 2) }}</td>
-                                        <td>{{ number_format($money_collected_lifetime, 2) }}</td>
-                                    </tr> --}}
+                                        <td>{{ number_format(@$money_collected, 2) }}</td>
+                                        <td>{{ number_format(@$money_collected_todays, 2) }}</td>
+                                        <td>{{ number_format(@$money_collected_seven_day, 2) }}</td>
+                                        <td>{{ number_format(@$money_collected_month, 2) }}</td>
+                                        <td>{{ number_format(@$money_collected_ninety_day, 2) }}</td>
+                                        <td>{{ number_format(@$money_collected_year, 2) }}</td>
+                                        <td>{{ number_format(@$money_collected_lifetime, 2) }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

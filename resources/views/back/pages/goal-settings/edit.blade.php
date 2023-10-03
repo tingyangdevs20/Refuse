@@ -27,7 +27,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            Create Goal 
+                            Create Goal
                             <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
                         </div>
                         <div class="card-body">
@@ -45,8 +45,68 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="money_per_month">How much money do you want to make per month?</label>
+                                        <input type="number" class="form-control @error('money_per_month') is-invalid @enderror" value="{{ $goal->money_per_month }}" id="money_per_month" name="money_per_month" placeholder="10000" step="any">
+                                        @error('money_per_month')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gross_profit">What is your average gross profit per deal?</label>
+                                        <input type="number" class="form-control @error('gross_profit') is-invalid @enderror" id="gross_profit" value="{{ $goal->gross_profit }}" name="gross_profit" placeholder="1000" step="any">
+                                        @error('gross_profit')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact_trun_into_lead">What percentage of the people you contact turn into leads? (Average is 1.5%)</label>
+                                        <input type="number" class="form-control @error('contact_trun_into_lead') is-invalid @enderror"  value="{{ $goal->contact_trun_into_lead }}" id="contact_trun_into_lead" step="any" name="contact_trun_into_lead" placeholder="10">
+                                        @error('contact_trun_into_lead')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="leads_into_phone">What percentage of your leads are you able to get on the phone? (Average is 50%)</label>
+                                        <input type="number" class="form-control @error('leads_into_phone') is-invalid @enderror" value="{{ $goal->leads_into_phone }}" id="leads_into_phone" step="any" name="leads_into_phone" placeholder="10">
+                                        @error('leads_into_phone')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="signed_agreements">Of the people you talk to on the phone, what percentage will you get a signed purchase agreement from? (Average is 10%)</label>
+                                        <input type="number" class="form-control @error('signed_agreements') is-invalid @enderror" value="{{ $goal->signed_agreements }}" id="signed_agreements" step="any" name="signed_agreements" step="any" placeholder="10%">
+                                        @error('signed_agreements')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="escrow_closure">Of the signed contracts you get back, what percentage close escrow? (Average is 80%)</label>
+                                        <input type="number" class="form-control @error('escrow_closure') is-invalid @enderror" value="{{ $goal->escrow_closure }}" id="escrow_closure" step="any" name="escrow_closure" step="any" placeholder="80%">
+                                        @error('escrow_closure')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="attribute">Attribute</label>
-                                        <select class="form-control @error('attribute') is-invalid @enderror" id="attribute" name="attribute"  >
+                                        <select class="form-control @error('attribute') is-invalid @enderror" id="attribute"  name="attribute"  >
                                         <option value="{{ $goal->attribute_id }}" selected>
                                                                 {{ $goal->goal_attribute['attribute'] }}
                                                             </option>
@@ -76,7 +136,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    
+
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add Data</button>
                             </form>

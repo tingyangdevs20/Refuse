@@ -21,7 +21,17 @@ class UserController extends Controller
             return abort(401);
         }
 
-        $users = User::all();
+        $superAdminRole = Role::where('name', 'Super Admin')->first();
+
+        if ($superAdminRole) {
+            // Retrieve users excluding those with the "Super Admin" role
+            $users = User::whereDoesntHave('roles', function ($query) use ($superAdminRole) {
+                $query->where('name', $superAdminRole->name);
+            })->get();
+        } else {
+            // "Super Admin" role doesn't exist, so you can retrieve all users
+            $users = User::all();
+        }
 
         return view('back.pages.userlist.index',compact('users'));
 
