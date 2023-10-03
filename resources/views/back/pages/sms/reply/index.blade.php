@@ -27,19 +27,13 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        All Replies
-                                        <select>
-                                            <option>Select Type</option>
-                                            <option>SMS</option>
-                                            <option>Email</option>
-                                            <option>MMS</option>
-                                        </select>
+                                        All Conversations
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                             <tr>
-                                                <th scope="col">#</th>
+                                                
                                                  <th scope="col">Type</th>
                                                 <th scope="col">Number</th>
                                                 <th scope="col">Replies</th>
@@ -50,7 +44,7 @@
                                             <tbody>
                                             @foreach($msg as $sms)
                                             <tr>
-                                                <td>{{ $sr++ }}</td>
+                                                
                                                  <td>SMS</td>
                                                 <td>{{ $sms->client_number }}</td>
                                                 <td>{{ $sms->replies()->count() }}</td>
