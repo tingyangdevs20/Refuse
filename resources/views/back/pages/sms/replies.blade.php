@@ -48,7 +48,7 @@
                                    @endif
                                    @if($smsInfo!=null)
                            <div style="margin-left:360px;margin-top: -24px;">
-                          <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span> <span style="margin-left:5px;"> +18886418823</span>
+                          <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span> <span style="margin-left:5px;"> {{ $number->number}}</span>
                           <span style="font-size: 14px;font-weight: bold;margin-left:5px">With </span> <span style="margin-left:10px"><i class="fa fa-phone" aria-hidden="true"></i>
  <a href="" style="color:#black">{{ $sms->client_number }} </a></span>    <span style="margin-left:50px"><i class="fa fa-envelope" aria-hidden="true"></i>
 {{ $smsInfo->email1}}</span>
