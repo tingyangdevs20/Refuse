@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\CalendarSetting;
 use App\Model\Number;
 use App\Model\Settings;
 use Illuminate\Http\Request;
@@ -18,7 +19,13 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = Settings::first();
-        return view('back.pages.settings.index', compact('settings'));
+
+        $timezones = timezone_identifiers_list();
+        $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
+
+        $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting();
+
+        return view('back.pages.settings.index', compact('settings', 'timezones', 'appointmentSetting'));
     }
 
 
@@ -134,5 +141,21 @@ class SettingsController extends Controller
     public function destroy(Settings $settings)
     {
         //
+    }
+
+
+    public function updateAppointmentCalendarSettings(Request $request)
+    {
+        $data = $request->all();
+        $data['calendar_type'] = "Appointments";
+
+        if ($appointmentSetting = CalendarSetting::first()) {
+            $appointmentSetting->update($data);
+        } else {
+            $appointmentSetting = CalendarSetting::create($data);
+        }
+
+        Alert::success('Success', 'Appointments Calendar Settings Updated!');
+        return redirect()->back();
     }
 }

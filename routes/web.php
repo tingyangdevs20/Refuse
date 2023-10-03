@@ -81,8 +81,12 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('admin/skip-trace', 'Admin\GroupController@skipTrace')->name('admin.skip-trace');
     Route::post('admin/push-to-campaign', 'Admin\GroupController@pushToCampaign')->name('push-to-campaign');
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
+   
+    
+
 
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
+    Route::get('formms', 'GoogleDriveController@fetchFilesByFolderName')->name('formms');
 
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
@@ -142,7 +146,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::get('/account', 'Admin\AccountController@index')->name('account.index');
     Route::put('account/google-calendar', 'Admin\AccountController@updateGoogleCalendarSettings')->name('admin.calendar-settings.update');
-    Route::post('account/appointment-calendar-settings', 'Admin\AccountController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
     Route::get('/set-goals', 'Admin\AdminController@setGoals')->name('setgoals');
     Route::post('/save-goals', 'Admin\AdminController@saveGoals')->name('savegoals');
@@ -158,6 +161,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Phone Numbers Route
     Route::get('/phones', 'Admin\PhoneController@index')->name('phone.numbers');
     Route::get('/phone/changeStatus', 'Admin\PhoneController@changeStatus');
+
     // skip tracing
     Route::post('/skip-trace', 'Admin\GroupController@skipTrace')->name('skip-trace');
     // Profile page route
@@ -165,6 +169,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Campaigns
     Route::resource('/campaigns', Admin\CampaignController::class);
+    Route::get('/campaign/changeStatus', 'Admin\CampaignController@changeStatus');
+    Route::get('/leadcampaign/changeStatus', 'Admin\CampaignLeadController@changeStatus');
     // Route::get('/admin/campaigns', 'Admin\CampaignController@index')->name('admin.campaigns.index');
     // Route::get('/campaigns', [CampaignController::class, 'index'])->name('admin.campaign');
     //    Route::resource('account','Admin\RoleController');
@@ -257,6 +263,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
+    Route::post('settings/appointment-calendar-settings', 'Admin\SettingsController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
+
+
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
 
@@ -368,3 +377,5 @@ Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout'
 Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
+
+

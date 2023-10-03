@@ -168,105 +168,156 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Lead Status</label> --}}
                                                                         <select class="custom-select" name="lead_status"
-                                                                            table="lead_info"
-                                                                            onchange="">
+                                                                            table="lead_info" onchange="">
                                                                             <option value="">Lead Status</option>
-                                                                            <option value="New Prospect"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'New Prospect')  @endif
-                                                                                @endif>New Prospect</option>
-                                                                            <option value="New Lead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'New Lead')  @endif
-                                                                                @endif>New Lead</option>
                                                                             <option value="None/Unknown"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'None/Unknown')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'None/Unknown') @endif
                                                                                 @endif>None/Unknown
                                                                             </option>
-                                                                            <option value="Cold Lead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Cold Lead')  @endif
-                                                                                @endif>Cold Lead
+                                                                            <option value="Prospect"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Prospect') @endif
+                                                                                @endif>Prospect
                                                                             </option>
-                                                                            <option value="Warm Lead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Warm Lead')  @endif
-                                                                                @endif>Warm Lead</option>
-                                                                            <option value="No Longer for Sale"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'No Longer for Sale')  @endif
-                                                                                @endif>No Longer for Sale
+                                                                            <option value="DNC"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'DNC') @endif
+                                                                                @endif>DNC</option>
+                                                                            <option value="Lead-New"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Lead-New') @endif
+                                                                                @endif>Lead-New
                                                                             </option>
+
+                                                                            <option value="Lead-Cold"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Lead-Cold') @endif
+                                                                                @endif>Lead-Cold
+                                                                            </option>
+                                                                            <option value="Lead-Warm"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Lead-Warm') @endif
+                                                                                @endif>Lead-Warm
+                                                                            </option>
+                                                                            <option value="Lead-Hot"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Lead-Hot') @endif
+                                                                                @endif>Lead-Hot
+                                                                            </option>
+                                                                            <option value="Send to Research"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Send to Research') @endif
+                                                                                @endif>Send to Research
+                                                                            </option>
+
+                                                                            <option value="Not Available - Not Selling"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Available - Not Selling') @endif
+                                                                                @endif>Not Available -
+                                                                                Not Selling
+                                                                            </option>
+
+                                                                            <option value="Not Available - Sold Property"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Available - Sold Property') @endif
+                                                                                @endif>Not Available -
+                                                                                Sold Property
+                                                                            </option>
+
+                                                                            <option
+                                                                                value="Not Available - Under Contract w/3rd Party"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Available - Under Contract w/3rd Party') @endif
+                                                                                @endif>Not Available -
+                                                                                Under Contract w/3rd Party
+                                                                            </option>
+
+
                                                                             <option value="Not Interested"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Interested')  @endif
-                                                                                @endif>Not Interested</option>
-                                                                            <option value="Maybe to Our Offer"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Maybe to Our Offer')  @endif
-                                                                                @endif>Maybe to Our Offer
-                                                                            </option>
-
-                                                                            <option value="Phone Call - Scheduled"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Scheduled')  @endif
-                                                                                @endif>Phone Call - Scheduled
-                                                                            </option>
-
-                                                                            <option value="Phone Call - Completed"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Completed')  @endif
-                                                                                @endif>Phone Call - Completed
-                                                                            </option>
-
-                                                                            <option value="Phone Call - No Show"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - No Show')  @endif
-                                                                                @endif>Phone Call - No Show
-                                                                            </option>
-
-                                                                            <option value="Phone Call - Said No"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Said No')  @endif
-                                                                                @endif>Phone Call - Said No
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Not Interested') @endif
+                                                                                @endif>Not Interested
                                                                             </option>
 
                                                                             <option value="Non-Responsive"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Non-Responsive')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Non-Responsive') @endif
                                                                                 @endif>Non-Responsive
                                                                             </option>
-                                                                            <option value="Sold Property"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sold Property')  @endif
-                                                                                @endif>Sold Property
+
+                                                                            <option value="Maybe to Our Offer"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Maybe to Our Offer') @endif
+                                                                                @endif>Maybe to Our
+                                                                                Offer
                                                                             </option>
-                                                                            <option value="Our Contract Out to Seller"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Our Contract Out to Seller')  @endif
-                                                                                @endif>Our Contract Out to Seller
+
+                                                                            <option value="Phone Call - Scheduled"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Scheduled') @endif
+                                                                                @endif>Phone Call -
+                                                                                Scheduled
                                                                             </option>
-                                                                            <option value="Our Contract Out to Buyer"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Our Contract Out to Buyer')  @endif
-                                                                                @endif>Our Contract Out to Buyer
+
+                                                                            <option value="Phone Call - Completed"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Completed') @endif
+                                                                                @endif>Phone Call -
+                                                                                Completed
                                                                             </option>
-                                                                            <option value="Under Contract (with 3rd Party)"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Under Contract (with 3rd Party)')  @endif
-                                                                                @endif>Under Contract (with 3rd Party)
+
+                                                                            <option value="Phone Call - No Show"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - No Show') @endif
+                                                                                @endif>Phone Call - No
+                                                                                Show
                                                                             </option>
-                                                                            <option value="We Have Under Contract to Buy"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'We Have Under Contract to Buy')  @endif
-                                                                                @endif>We Have Under Contract to Buy
+
+                                                                            <option value="Phone Call - Said No"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Phone Call - Said No') @endif
+                                                                                @endif>Phone Call -
+                                                                                Said No
                                                                             </option>
+
+                                                                            <option value="Contract Out - Buy Side"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Out - Buy Side') @endif
+                                                                                @endif>Contract Out -
+                                                                                Buy Side
+                                                                            </option>
+
+                                                                            <option value="Contract Out - Sell Side"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Out - Sell Side') @endif
+                                                                                @endif>Contract Out -
+                                                                                Sell Side
+                                                                            </option>
+
+                                                                            <option value="Contract Signed - Buy Side"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Signed - Buy Side') @endif
+                                                                                @endif>Contract Signed
+                                                                                - Buy Side
+                                                                            </option>
+
+                                                                            <option value="Contract Signed - Sell Side"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Signed - Sell Side') @endif
+                                                                                @endif>Contract Signed
+                                                                                - Sell Side
+                                                                            </option>
+
                                                                             <option value="Closed Deal - Buy Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Buy Side')  @endif
-                                                                                @endif>Closed Deal - Buy Side
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Buy Side') @endif
+                                                                                @endif>Closed Deal -
+                                                                                Buy Side
+                                                                            </option>
+                                                                            <option value="Closed Deal - Sell Side"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Sell Side') @endif
+                                                                                @endif>Closed Deal -
+                                                                                Sell Side
                                                                             </option>
                                                                             <option value="Rehab in Process"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Rehab in Process')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Rehab in Process') @endif
                                                                                 @endif>Rehab in Process
                                                                             </option>
                                                                             <option value="Hold - Rental"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Hold - Rental')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Hold - Rental') @endif
                                                                                 @endif>Hold - Rental
                                                                             </option>
                                                                             <option value="For Sale (by Us)"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'For Sale (by Us)')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'For Sale (by Us)') @endif
                                                                                 @endif>For Sale (by Us)
                                                                             </option>
-                                                                            <option value="We Have Under Contract to Sell"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'We Have Under Contract to Sell')  @endif
-                                                                                @endif>We Have Under Contract to Sell
+                                                                            <option value="Closed Deal - Buy Side"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Buy Side') @endif
+                                                                                @endif>Closed Deal -
+                                                                                Buy Side
                                                                             </option>
                                                                             <option value="Closed Deal - Sell Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Sell Side')  @endif
-                                                                                @endif>Closed Deal - Sell Side
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Sell Side') @endif
+                                                                                @endif>Closed Deal -
+                                                                                Sell Side
                                                                             </option>
                                                                         </select>
                                                                     </div>
@@ -277,7 +328,8 @@
                                                                         <select class="custom-select"
                                                                             name="lead_assigned_to"
                                                                             onchange="updateValue(value,'lead_assigned_to','lead_info')">
-                                                                            <option value="">Lead Assigned To</option>
+                                                                            <option value="">Lead Assigned To
+                                                                            </option>
                                                                             @if (count($leads) > 0)
                                                                                 @foreach ($leads as $lead)
                                                                                     <option value="{{ $lead->id }}"
@@ -296,57 +348,59 @@
                                                                             onchange="">
                                                                             <option value="">Lead Type</option>
                                                                             <option value="Agents"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Agents')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Agents') @endif
                                                                                 @endif>Agents
                                                                             </option>
 
                                                                             <option value="Attorney"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Attorney')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Attorney') @endif
                                                                                 @endif>Attorney
                                                                             </option>
 
                                                                             <option value="Buyer (Investors)"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Investors)') selected @endif
-                                                                                @endif>Buyer (Investors)
+                                                                                @endif>Buyer
+                                                                                (Investors)
                                                                             </option>
 
                                                                             <option value="Buyer (Owner Financing)"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Owner Financing)')  @endif
-                                                                                @endif>Buyer (Owner Financing)
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Owner Financing)') @endif
+                                                                                @endif>Buyer (Owner
+                                                                                Financing)
                                                                             </option>
 
                                                                             <option value="Buyer (Retail)"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Retail)')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Buyer (Retail)') @endif
                                                                                 @endif>Buyer (Retail)
                                                                             </option>
 
                                                                             <option value="Code Enforcement"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Code Enforcement')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Code Enforcement') @endif
                                                                                 @endif>Code Enforcement
                                                                             </option>
 
                                                                             <option value="Mortgage Brokers"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Mortgage Brokers')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Mortgage Brokers') @endif
                                                                                 @endif>Mortgage Brokers
                                                                             </option>
 
                                                                             <option value="Seller"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Seller')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Seller') @endif
                                                                                 @endif>Seller
                                                                             </option>
 
                                                                             <option value="Title Company"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Title Company')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Title Company') @endif
                                                                                 @endif>Title Company
                                                                             </option>
 
                                                                             <option value="Wholesaler"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Wholesaler')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Wholesaler') @endif
                                                                                 @endif>Wholesaler
                                                                             </option>
 
                                                                             <option value="Other"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Other')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Other') @endif
                                                                                 @endif>Other
                                                                             </option>
 
@@ -363,99 +417,100 @@
                                                                             onchange="">
                                                                             <option value="">Lead Source</option>
                                                                             <option value="Bandit Signs"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Bandit Signs')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Bandit Signs') @endif
                                                                                 @endif>Bandit Signs
                                                                             </option>
                                                                             <option value="Billboards"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Billboards')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Billboards') @endif
                                                                                 @endif>Billboards
                                                                             </option>
                                                                             <option value="Cold Calling"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Cold Calling')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Cold Calling') @endif
                                                                                 @endif>Cold Calling
                                                                             </option>
                                                                             <option value="Direct Mail"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Direct Mail')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Direct Mail') @endif
                                                                                 @endif>Direct Mail
                                                                             </option>
                                                                             <option value="Door Knocking"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Door Knocking')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Door Knocking') @endif
                                                                                 @endif>Door Knocking
                                                                             </option>
                                                                             <option value="Email"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Email')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Email') @endif
                                                                                 @endif>Email
                                                                             </option>
                                                                             <option value="Facebook Ads"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Facebook Ads')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Facebook Ads') @endif
                                                                                 @endif>Facebook Ads
                                                                             </option>
                                                                             <option value="Flyers"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Flyers')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Flyers') @endif
                                                                                 @endif>Flyers
                                                                             </option>
                                                                             <option value="Instagram Ads"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Instagram Ads')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Instagram Ads') @endif
                                                                                 @endif>Instagram Ads
                                                                             </option>
                                                                             <option value="iSpeedToLead"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'iSpeedToLead')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'iSpeedToLead') @endif
                                                                                 @endif>iSpeedToLead
                                                                             </option>
                                                                             <option value="LinkedIn Ads"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'LinkedIn Ads')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'LinkedIn Ads') @endif
                                                                                 @endif>LinkedIn Ads
                                                                             </option>
                                                                             <option value="Magazine"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Magazine')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Magazine') @endif
                                                                                 @endif>Magazine
                                                                             </option>
                                                                             <option value="MMS"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'MMS')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'MMS') @endif
                                                                                 @endif>MMS
                                                                             </option>
                                                                             <option value="Newspaper"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Newspaper')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Newspaper') @endif
                                                                                 @endif>Newspaper
                                                                             </option>
                                                                             <option value="Phone Call (Incoming)"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Phone Call (Incoming)')  @endif
-                                                                                @endif>Phone Call (Incoming)
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Phone Call (Incoming)') @endif
+                                                                                @endif>Phone Call
+                                                                                (Incoming)
                                                                             </option>
                                                                             <option value="Referral"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Referral')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Referral') @endif
                                                                                 @endif>Referral
                                                                             </option>
                                                                             <option value="Retargeting"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Retargeting')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Retargeting') @endif
                                                                                 @endif>Retargeting
                                                                             </option>
                                                                             <option value="RVM"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Retargeting')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Retargeting') @endif
                                                                                 @endif>RVM
                                                                             </option>
                                                                             <option value="SEO"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'SEO')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'SEO') @endif
                                                                                 @endif>SEO
                                                                             </option>
                                                                             <option value="SMS"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'SMS')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'SMS') @endif
                                                                                 @endif>SMS
                                                                             </option>
                                                                             <option value="Social Media"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Social Media')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Social Media') @endif
                                                                                 @endif>Social Media
                                                                             </option>
                                                                             <option value="Tiktok Ads"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Tiktok Ads')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Tiktok Ads') @endif
                                                                                 @endif>Tiktok Ads
                                                                             </option>
                                                                             <option value="Twitter Ads"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Twitter Ads')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Twitter Ads') @endif
                                                                                 @endif>Twitter Ads
                                                                             </option>
                                                                             <option value="Website"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Website')  @endif
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Website') @endif
                                                                                 @endif>Website
                                                                             </option>
 
@@ -469,8 +524,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Mailing Address</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Mailing Address" name="mailing_address"
-                                                                                table="lead_info"> {{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
+                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Mailing Address"
+                                                                                name="mailing_address" table="lead_info"> {{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2850,18 +2905,18 @@
                                                                         {{-- <label>Property currently listed with an agent </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                name="property_listed_agent"
+                                                                                onchange="updateValue(value,'property_listed_agent','agent_infos')">
                                                                                 <option value="">Property currently
                                                                                     listed with an agent </option>
                                                                                 <option value="yes"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'yes') selected @endif
                                                                                     @endif>Yes</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'no') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'no') selected @endif
                                                                                     @endif>No</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'expire') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'expire') selected @endif
                                                                                     @endif>Expiring
                                                                                     soon</option>
                                                                             </select>
@@ -2873,15 +2928,15 @@
                                                                         {{-- <label>Does agent need to be involved? </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                name="agent_involvent"
+                                                                                onchange="updateValue(value,'agent_involvent','agent_infos')">
                                                                                 <option value="">Does agent need to
                                                                                     be involved? </option>
                                                                                 <option value="yes"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->agent_involvent == 'yes') selected @endif
                                                                                     @endif>Yes</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'no') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->agent_involvent == 'no') selected @endif
                                                                                     @endif>No</option>
 
                                                                             </select>
@@ -2894,7 +2949,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_name"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_name','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2904,7 +2962,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Office Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_office_name"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_office_name','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_office_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2914,7 +2975,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_phone"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_phone','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2924,7 +2988,24 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Email"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_email"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_email','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_email }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Agent Email</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Days on Market"
+                                                                                name="days_on_market"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'days_on_market','agent_infos')"
+                                                                                value="{{ $agent_infos->days_on_market }}"
+                                                                            >
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3390,6 +3471,86 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            @if (!empty($googleDriveFiles) && (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) && count($googleDriveFiles) > 0)
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            <label>Files Fetched from Google Drive</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            <h3>../REIFuze</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($googleDriveFiles as $file)
+                                                                        @if (!$file->is_sub)
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group text-center"
+                                                                                    style="padding: 0 10px;">
+                                                                                    <!-- Display a file icon based on the file type -->
+                                                                                    @php
+                                                                                        $extension = pathinfo($file->name, PATHINFO_EXTENSION);
+                                                                                    @endphp
+                                                                                    @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
+                                                                                        <i
+                                                                                            class="fas fa-file-pdf fa-3x"></i>
+                                                                                    @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
+                                                                                        <i
+                                                                                            class="fas fa-file-word fa-3x"></i>
+                                                                                    @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
+                                                                                        <i
+                                                                                            class="fas fa-file-excel fa-3x"></i>
+                                                                                    @else
+                                                                                        <i class="fas fa-file fa-3x"></i>
+                                                                                    @endif
+
+                                                                                    <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
+                                                                                            target="_blank">{{ $file->name }}</a>
+                                                                                    </h5>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endforeach
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            <h3>../REIFuze/purchase_agreement</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($googleDriveFiles as $file)
+                                                                        @if ($file->is_sub)
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group text-center"
+                                                                                    style="padding: 0 10px;">
+                                                                                    <!-- Display a file icon based on the file type -->
+                                                                                    @php
+                                                                                        $extension = pathinfo($file->name, PATHINFO_EXTENSION);
+                                                                                    @endphp
+                                                                                    @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
+                                                                                    <i class="fas fa-file-pdf fa-3x"></i>
+                                                                                @elseif (Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
+                                                                                    <i class="fas fa-file-word fa-3x"></i>
+                                                                                @elseif (Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
+                                                                                    <i class="fas fa-file-excel fa-3x"></i>
+                                                                                @else
+                                                                                    <i class="fas fa-file fa-3x"></i>
+                                                                                @endif
+                                                                                
+                                                                                <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}" target="_blank">{{ $file->name }}</a></h5>
+                                                                                
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
                                                             <hr>
                                                         @elseif($section->id == '17')
                                                             <div class="col-md-12" id="{{ $section->id }}"
@@ -3500,6 +3661,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         @endforeach
+                                                                        $file->is_sub
                                                                     @endif
                                                                 </div>
                                                             </div>
@@ -4230,14 +4392,17 @@
                                                                         <div class="card">
                                                                             <div class="">
 
-                                                                                <table class="table table-striped table-bordered" id="datatable">
+                                                                                <table
+                                                                                    class="table table-striped table-bordered"
+                                                                                    id="datatable">
                                                                                     <thead>
                                                                                         <tr>
 
                                                                                             <th scope="col">Skip trace
                                                                                                 option</th>
                                                                                             <th scope="col">Name</th>
-                                                                                            <th scope="col">Address</th>
+                                                                                            <th scope="col">Address
+                                                                                            </th>
                                                                                             <th scope="col">City</th>
                                                                                             <th scope="col">Zip</th>
 
@@ -4245,7 +4410,8 @@
                                                                                                 Numbers & Emails</th>
                                                                                             <th scope="col">Scam
                                                                                                 Numbers & Emails</th>
-                                                                                            <th scope="col">Append Name & Emails
+                                                                                            <th scope="col">Append Name
+                                                                                                & Emails
 
                                                                                             </th>
 
@@ -4253,21 +4419,30 @@
                                                                                     </thead>
                                                                                     <tbody>
                                                                                         @foreach ($collection as $skipTraceRecord)
+                                                                                            <tr>
+                                                                                                <td>{{ @$skipTraceRecord->select_option }}
+                                                                                                </td>
+                                                                                                <td>{{ @$skipTraceRecord->first_name }}
+                                                                                                    {{ @$skipTraceRecord->last_name }}
+                                                                                                </td>
+                                                                                                <td>{{ @$skipTraceRecord->address }}
+                                                                                                </td>
+                                                                                                <td>{{ @$skipTraceRecord->city }}
+                                                                                                </td>
+                                                                                                <td>{{ @$skipTraceRecord->zip }}
+                                                                                                </td>
 
-                                                                                        <tr>
-                                                                                            <td>{{ @$skipTraceRecord->select_option }}</td>
-                                                                                            <td>{{ @$skipTraceRecord->first_name }} {{ @$skipTraceRecord->last_name }}</td>
-                                                                                            <td>{{ @$skipTraceRecord->address }}</td>
-                                                                                            <td>{{ @$skipTraceRecord->city }}</td>
-                                                                                            <td>{{ @$skipTraceRecord->zip }}</td>
 
-
-                                                                                            <td>{{ @$skipTraceRecord->verified_numbers }}  {{ @$skipTraceRecord->verified_emails }} </td>
-                                                                                            <td>{{ @$skipTraceRecord->scam_numbers }}  {{ @$skipTraceRecord->scam_emails }}</td>
-                                                                                            <td>{{ @$skipTraceRecord->append_names }} {{ @$skipTraceRecord->append_emails }}</td>
-                                                                                        </tr>
-
-
+                                                                                                <td>{{ @$skipTraceRecord->verified_numbers }}
+                                                                                                    {{ @$skipTraceRecord->verified_emails }}
+                                                                                                </td>
+                                                                                                <td>{{ @$skipTraceRecord->scam_numbers }}
+                                                                                                    {{ @$skipTraceRecord->scam_emails }}
+                                                                                                </td>
+                                                                                                <td>{{ @$skipTraceRecord->append_names }}
+                                                                                                    {{ @$skipTraceRecord->append_emails }}
+                                                                                                </td>
+                                                                                            </tr>
                                                                                         @endforeach
                                                                                     </tbody>
                                                                                 </table>

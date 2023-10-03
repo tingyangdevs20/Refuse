@@ -6,9 +6,12 @@ use App\Model\Contact;
 use App\Model\Settings;
 use Illuminate\Http\Request;
 use App\User;
+use Google\Service\Drive\Drive;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Google\Service\Drive as DriveService;
+use Illuminate\Support\Facades\Log;
 
 class GoogleDriveController extends Controller
 {
@@ -130,6 +133,7 @@ class GoogleDriveController extends Controller
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'File filed is required');
         }
+
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
@@ -158,7 +162,7 @@ class GoogleDriveController extends Controller
         }
 
         $fileMetadata = new \Google_Service_Drive_DriveFile(array(
-            'name' => 'BULK SMS',             // ADD YOUR GOOGLE DRIVE FOLDER NAME
+            'name' => 'REIFuze',             // ADD YOUR GOOGLE DRIVE FOLDER NAME
             'mimeType' => 'application/vnd.google-apps.folder'
         ));
 
@@ -167,7 +171,6 @@ class GoogleDriveController extends Controller
         // printf("Folder ID: %s\n", $folder->id);
 
         $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('file')->getClientOriginalName(), 'parents' => array($folder->id)));
-
         $result = $service->files->create($file, array(
             'data' => file_get_contents($request->file('file')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
             'mimeType' => 'application/octet-stream',
@@ -183,9 +186,128 @@ class GoogleDriveController extends Controller
         return view('google');
     }
 
+    public function fetchFilesByFolderName()
+    {
+        if (!$this->hasGoogleDriveAccess()) {
+            return null;
+        }
+
+        $folderName = 'REIFuze';
+        if (!$this->checkGoogleCredentials()) {
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
+        }
+
+        $service = new \Google_Service_Drive($this->gClient);
+
+        // Get the user's access token
+        $user = User::find(1);
+        $this->gClient->setAccessToken(json_decode($user->access_token, true));
+
+        // Check if the access token is expired and refresh if needed
+        if ($this->gClient->isAccessTokenExpired()) {
+            $user = User::find(1);
+            $refreshToken = $user->refresh_token;
+            $this->gClient->fetchAccessTokenWithRefreshToken($refreshToken);
+            $accessToken = $this->gClient->getAccessToken();
+            $user->access_token = json_encode($accessToken);
+            $user->save();
+        }
+
+        // Get the folder ID by name
+        $folderId = $this->getFolderIdByName($service, $folderName);
+        $subfolderId = $this->getFolderIdByName($service, 'purchase_agreement', $folderId);
+
+        if (!$folderId) {
+            return redirect()->back();
+        }
+        // List files in the specified folder
+        $files = $service->files->listFiles([
+            'q' => "'$folderId' in parents",
+        ]);
+
+        // Process the files, you can display them or do further actions
+
+        $googleDrivefile = [];
+        foreach ($files as $file) {
+            if ($file->mimeType == 'application/vnd.google-apps.folder') {
+                // It's a subfolder, skip processing
+                continue;
+            }
+            $file->is_sub = false;
+            $googleDrivefile[] = $file;
+        }
+
+        if ($subfolderId) {
+
+            $subfiles = $service->files->listFiles([
+                'q' => "'$subfolderId' in parents",
+            ]);
+            // Process the files, you can display them or do further actions
+            foreach ($subfiles as $file) {
+                if ($file->mimeType == 'application/vnd.google-apps.folder') {
+                    // It's a subfolder, skip processing
+                    continue;
+                }
+                $file->is_sub = true;
+                $googleDrivefile[] = $file;
+            }
+        }
+
+        return $googleDrivefile;
+        // You can pass the $files data to a view or use it as needed
+
+        // return view('files.index', compact('files'));
+    }
+
+    private function getFolderIdByName(DriveService $driveService, $folderName, $parentFolderId = null)
+    {
+
+        // Check if google credentials exist
+        if (!$this->checkGoogleCredentials()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
+        }
+
+        if (!$this->hasGoogleDriveAccess()) {
+            return null;
+        }
+
+        $pageToken = null;
+        $query = "mimeType='application/vnd.google-apps.folder' and name='$folderName'";
+
+        if ($parentFolderId) {
+            $query .= " and '$parentFolderId' in parents";
+        }
+
+        do {
+            try {
+                $response = $driveService->files->listFiles([
+                    'q'          => $query,
+                    'spaces'     => 'drive',
+                    'pageToken'  => $pageToken,
+                ]);
+
+                foreach ($response->files as $folder) {
+                    return $folder->id;
+                }
+
+                $pageToken = $response->nextPageToken;
+            } catch (\Google\Service\Exception $e) {
+                // Handle the exception and log the error for debugging.
+                // You can inspect $e to get more details about the error.
+                Log::error('Google Drive API Error: ' . $e->getMessage());
+                return null;
+            }
+        } while ($pageToken != null);
+
+        // If the folder is not found
+        return null;
+    }
+
 
     public function handleGoogleCallback(Request $request)
     {
+        // https://brian-bagnall.com/bulk/bulk_sms_new/public/admin/google-drive-callback?code=4%2F0AfJohXm8CHuZ4ZSpgcffenxi6qNH8n3seTJ1I4LodGtCBpCMiJu4XQtXxyzCYjOti6K5mA&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file
         // Check if google credentials exist
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
@@ -349,16 +471,43 @@ class GoogleDriveController extends Controller
                 $user->save();
             }
 
-            $fileMetadata = new \Google_Service_Drive_DriveFile(array(
-                'name' => $contact->street,             // ADD YOUR GOOGLE DRIVE FOLDER NAME
-                'mimeType' => 'application/vnd.google-apps.folder'
-            ));
+            $parentFolderName = 'REIFuze';
 
-            $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
+            // Check if the parent folder exists
+            $parentFolderId = $this->getFolderIdByName($service, $parentFolderName, null);
+            // If the parent folder doesn't exist, create it
+            if (!$parentFolderId) {
+                $parentFolderMetadata = new \Google_Service_Drive_DriveFile([
+                    'name' => $parentFolderName,
+                    'mimeType' => 'application/vnd.google-apps.folder'
+                ]);
+
+                $parentFolder = $service->files->create($parentFolderMetadata, ['fields' => 'id']);
+                $parentFolderId = $parentFolder->id;
+            }
+
+            $subFolderId = $this->getFolderIdByName($service, 'purchase_agreement', $parentFolderId);
+
+            if (!$subFolderId) {
+                // Now create the subfolder within the parent folder
+                $fileMetadata = new \Google_Service_Drive_DriveFile([
+                    'name' => 'purchase_agreement',
+                    'parents' => [$parentFolderId],
+                    'mimeType' => 'application/vnd.google-apps.folder'
+                ]);
+
+                $subfolder = $service->files->create($fileMetadata, ['fields' => 'id']);
+                $subFolderId = $subfolder->id;
+            }
+            // Now upload the file into the subfolder
+            $file = new \Google_Service_Drive_DriveFile([
+                'name' => $request->file('purchase_agreement')->getClientOriginalName(),
+                'parents' => [$subFolderId]
+            ]);
 
             // printf("Folder ID: %s\n", $folder->id);
 
-            $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('purchase_agreement')->getClientOriginalName(), 'parents' => array($folder->id)));
+            // $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('purchase_agreement')->getClientOriginalName(), 'parents' => array($subfolder->id)));
 
             $result = $service->files->create($file, array(
                 'data' => file_get_contents($request->file('purchase_agreement')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
@@ -391,5 +540,30 @@ class GoogleDriveController extends Controller
         } else {
             return true;
         }
+    }
+
+    // Add this function to your GoogleDriveController class
+    public function hasGoogleDriveAccess()
+    {
+        // Check if Google Drive credentials exist
+        if (!$this->checkGoogleCredentials()) {
+            return false; // Google Drive credentials are missing
+        }
+
+        $user = User::find(1);
+
+        // Check if the user has an access token
+        if (!$user || empty($user->access_token)) {
+            return false; // User does not have access token
+        }
+
+        $accessToken = json_decode($user->access_token, true);
+
+        // Check if the access token is valid and not expired
+        if (empty($accessToken) && $this->gClient->isAccessTokenExpired()) {
+            return false; // Access token is invalid or expired
+        }
+
+        return true; // User has valid Google Drive access
     }
 }

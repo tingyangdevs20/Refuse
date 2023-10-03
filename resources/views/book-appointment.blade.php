@@ -115,7 +115,8 @@
           margin-bottom:20px;
         }
         .bookappointmentform {
-            width: 70%;
+            /* width: 70%; */
+            width: 100%;
         }
         .existingappointments {
             width: 30%;
@@ -392,6 +393,11 @@
           }
         }
 
+        #myc-available-time-container {
+          max-height: 300px;
+          overflow-y: auto;
+        }
+
     </style>
 </head>
 
@@ -412,17 +418,17 @@
     @endif
 
     <div class="allappoimentsbox">
-      <div class="existingappointments">
+      <div class="existingappointments hide">
         <h1 class="heading-css">Existing Appointments</h3>
-        <div class="left appointments-sec existing_appointments" style="height: auto; min-height: 650px;">
+        <div class="left appointments-sec existing_appointments">
             
         </div>
       </div>
-      <div class="bookappointmentform" style="height: auto;">
+      <div class="bookappointmentform">
         <h1 class="heading-css">Book Appointment</h1>
-        <div class="center bookappimentform" style="height: auto;">
+        <div class="center bookappimentform">
           
-          <form class="book_appointment" style="height: auto;" method="POST" action="{{ route('appointments.store') }}">
+          <form class="book_appointment" method="POST" action="{{ route('appointments.store') }}">
             @csrf
             <input type="hidden" class="uid" name="uid" value="{{$uid}}" required>
             <div class="mainbookappointment">
@@ -552,12 +558,12 @@
       });
       
       // booked slots are fetched from google calendar
-      var bookingDays = {!! $bookedSlots !!};
+      var bookedSlots = {!! $bookedSlots !!};
       var allSlots = {!! $availableSlots !!};
 
       // function to hide booked time slots
       function hideBookedTimeSlots() {
-        $.each(bookingDays, function(index, day) {
+        $.each(bookedSlots, function(index, day) {
           $.each(day, function (key, slot) {
 
             // disbale slots based on attribute value of anchor tag
@@ -590,41 +596,35 @@
         });
       }
 
+      var slotPicker = $('.picker').markyourcalendar({
+        availability: allSlots,
+        isMultiple: false,
+        onClick: function(ev, data) {
+          // data is a list of datetimes
+          $('.myc-available-time').css({'pointer-events':'all', 'opacity':'1'});
+          var html = ``;
+          $.each(data, function() {
+            var d = this.split(' ')[0];
+            var t = this.split(' ')[1];
+            // setting values of date & time in input fields
+            $('.appt_date').val(d);
+            $('.appt_time').val(t);
+          });
+          console.log("slot selected");
 
-      function initCalendar()
-      {
-        $('.picker').markyourcalendar({
-          availability: allSlots,
-          isMultiple: false,
-          onClick: function(ev, data) {
-            // data is a list of datetimes
-            $('.myc-available-time').css({'pointer-events':'all', 'opacity':'1'});
-            var html = ``;
-            $.each(data, function() {
-              var d = this.split(' ')[0];
-              var t = this.split(' ')[1];
-              // setting values of date & time in input fields
-              $('.appt_date').val(d);
-              $('.appt_time').val(t);
-            });
+          // $('#selected-dates').html(html);
+        },
+        onClickNavigator: function(ev, instance) {
+          // var rn = Math.floor(Math.random() * 10) % 7;
+          // console.log(ev);
+          instance.setAvailability(allSlots);
 
-            // $('#selected-dates').html(html);
-          },
-          onClickNavigator: function(ev, instance) {
-            // var rn = Math.floor(Math.random() * 10) % 7;
-            // console.log(ev);
-            instance.setAvailability(allSlots);
+          hideBookedTimeSlots();
+        }          
+      });
 
-            hideBookedTimeSlots();
-          }          
-        });
-
-        hideBookedTimeSlots();
-      }
-
-      // initialize calendar when the page is loaded.
-      initCalendar();
-
+      // hide booked slots after initializing slot picker
+      hideBookedTimeSlots();
 
       // fetch available slots when user change timezone.
       $(document).on('change','.timezones',function(){
@@ -637,18 +637,15 @@
           data: { timezone: timezone },
           dataType: "json",
           success: function(data) {
-            console.log("all slots data:");
-            console.log(data);
 
             // Ajax call completed successfully
             if(data.status == 200) {
 
-              // console.log("all slots data:");
-              // console.log(data.data);
-
               allSlots = data.availableSlots;
-              bookingDays = data.bookedSlots;
-              initCalendar();
+              bookedSlots = data.bookedSlots;
+
+              slotPicker.setAvailability(allSlots);
+              hideBookedTimeSlots();
 
             } else {
               $('.s-msg').hide();
