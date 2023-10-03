@@ -2990,9 +2990,9 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Days on Market"
                                                                                 name="daysOnMarket"
-                                                                                table="custom_field_values"
+                                                                                table="selling_motivations"
                                                                                 onchange="updateValue(value,'days_on_market','selling_motivations')"
-                                                                                value=""
+                                                                                value="{{ $selling_motivations->days_on_market }}"
                                                                             >
                                                                         </div>
                                                                     </div>
