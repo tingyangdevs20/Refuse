@@ -2989,10 +2989,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Days on Market"
-                                                                                name="daysOnMarket"
-                                                                                table="selling_motivations"
-                                                                                onchange="updateValue(value,'days_on_market','selling_motivations')"
-                                                                                value="{{ $selling_motivations->days_on_market }}"
+                                                                                name="days_on_market"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'days_on_market','agent_infos')"
+                                                                                value="{{ $agent_infos->days_on_market }}"
                                                                             >
                                                                         </div>
                                                                     </div>
