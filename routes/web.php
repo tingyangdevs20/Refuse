@@ -170,6 +170,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Campaigns
     Route::resource('/campaigns', Admin\CampaignController::class);
     Route::get('/campaign/changeStatus', 'Admin\CampaignController@changeStatus');
+    Route::get('/leadcampaign/changeStatus', 'Admin\CampaignLeadController@changeStatus');
     // Route::get('/admin/campaigns', 'Admin\CampaignController@index')->name('admin.campaigns.index');
     // Route::get('/campaigns', [CampaignController::class, 'index'])->name('admin.campaign');
     //    Route::resource('account','Admin\RoleController');

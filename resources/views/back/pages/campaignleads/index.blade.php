@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endsection
 @section('content')
     <div class="page-content">
@@ -41,6 +42,8 @@
                                             <!--<th scope="col">Send after hours</th>-->
                                             <th scope="col">Contact list</th>
                                             <th scope="col">Action</th>
+                                            <th scope="col">Status</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,6 +77,10 @@
                                                         </button>
                                                     </form>
                                                 </td>
+                                                <td>
+                                                <input data-id="{{$campaign->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $campaign->active ? 'checked' : '' }}>
+                    
+</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -106,36 +113,7 @@
                             <label for="name">Campaign Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label for="type">Campaign Type</label>-->
-                        <!--    <select name="type" id="type" class="form-control" onchange="getTemplate(value)" required>-->
-                        <!--        <option value="sms">SMS</option>-->
-                        <!--        <option value="email">Email</option>-->
-                        <!--        <option value="mms">MMS</option>-->
-                        <!--        <option value="rvm">RVM</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!--<div class="form-group" id="update-templates">-->
-                        <!--    <label>Select Template</label>-->
-                        <!--    <select class="custom-select" name="template_id" id="template-select">-->
-                        <!--        <option value="0">Select Template</option>-->
-                        <!--        @foreach ($templates as $template)
-    -->
-                        <!--            <option value="{{ $template->id }}">{{ $template->title }}</option>-->
-                        <!--
-    @endforeach-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!-- Add schedule field -->
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_days">Send After Days</label>-->
-                        <!--    <input type="number" name="send_after_days" id="send_after_days" class="form-control" required>-->
-                        <!--</div>-->
-
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_hours">Send After Hours</label>-->
-                        <!--    <input type="number" name="send_after_hours" id="send_after_hours" class="form-control" required>-->
-                        <!--</div>-->
+                        
                         <div class="form-group">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
@@ -148,14 +126,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="active">Active Status</label>
-                            <select name="active" id="active" class="form-control" required>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
-
+                       
                         <button type="submit" class="btn btn-primary">Save Campaign</button>
                     </form>
                 </div>
@@ -187,36 +158,7 @@
                                 <input type="text" name="name" id="name_edit" class="form-control" value=""
                                     required>
                             </div>
-                            <!--<div class="form-group">-->
-                            <!--    <label for="type">Campaign Type</label>-->
-                            <!--    <select name="type" id="type_edit" class="form-control" onchange="getTemplateEdit(value)" required>-->
-                            <!--        <option value="sms" >SMS</option>-->
-                            <!--        <option value="email">Email</option>-->
-                            <!--        <option value="mms">MMS</option>-->
-                            <!--        <option value="rvm">RVM</option>-->
-                            <!--    </select>-->
-                            <!--</div>-->
-                            <!--<div class="form-group" id="update-templates-edit">-->
-                            <!--    <label>Select Template</label>-->
-                            <!--    <select class="custom-select" name="template_id" id="template-select-edit">-->
-                            <!--        <option value="0">Select Template</option>-->
-                            <!--        @foreach ($templates as $template)
-        -->
-                            <!--            <option value="{{ $template->id }}">{{ $template->title }}</option>-->
-                            <!--
-        @endforeach-->
-                            <!--    </select>-->
-                            <!--</div>-->
-                            <!-- Edit schedule field -->
-                            <!--<div class="form-group">-->
-                            <!--    <label for="send_after_days">Send After Days</label>-->
-                            <!--    <input type="number" name="send_after_days" id="send_after_days_edit" class="form-control" value="" required>-->
-                            <!--</div>-->
-
-                            <!--<div class="form-group">-->
-                            <!--    <label for="send_after_hours">Send After Hours</label>-->
-                            <!--    <input type="number" name="send_after_hours" id="send_after_hours_edit" class="form-control" value="" required>-->
-                            <!--</div>-->
+                            
                             <div class="form-group">
                                 <label for="group_id">Select Group/Contact List</label>
                                 <select name="group_id" id="group_id_edit" class="form-control">
@@ -231,13 +173,7 @@
 
                             <!-- Add other fields for campaign details -->
                             <!-- For example, schedule, message content, etc. -->
-                            <div class="form-group">
-                                <label for="active">Active Status</label>
-                                <select name="active" id="active" class="form-control" required>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
+                          
 
                             <button type="submit" class="btn btn-primary">Update Campaign</button>
                         </form>
@@ -271,7 +207,37 @@
     @endsection
     @section('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-        <script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<script>
+    
+    
+         $('.toggle-class').change(function() { 
+            var status = $(this).prop('checked') == true ? 1 : 0;  
+           var camp_id = $(this).data('id');  
+          // alert(camp_id);
+        let data = {
+            camp_id: camp_id,
+                sts: status,
+               
+            }
+            
+                axios.post('leadcampaign/changeStatus', data)
+                    .then(response => {
+                            if (response.data.status == 200) {
+                               //alert("updated");
+                            }
+                                })
+                            
+                        }
+                    )
+                  
+            
+  
+   
+</script>
+<script>
             $(document).ready(function() {
                 $(".delete-btn").click(function() {
                     // Get the form associated with this delete button
