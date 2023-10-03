@@ -2983,6 +2983,20 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Agent Email</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Days on Market"
+                                                                                name="days_on_market"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'days_on_market','agent_infos')"
+                                                                                value="{{ $agent_infos->days_on_market }}"
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
