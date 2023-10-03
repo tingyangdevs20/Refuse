@@ -8,6 +8,8 @@ use App\Model\LeadCategory;
 use App\Model\Number;
 use App\Model\Reply;
 use App\Model\Sms;
+use App\Model\Settings;
+use App\Model\Conversations;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Twilio\Rest\Client;
@@ -52,8 +54,13 @@ class ReplyController extends Controller
         $number=Number::where('number',$request->twilio_number)->first();
         if($number){
             // Your Account SID and Auth Token from twilio.com/console
-            $sid    = $number->accountInfo()->account_id;
-            $token  = $number->accountInfo()->account_token;
+            $settings = Settings::first()->toArray(); 
+        
+            $sid = $settings['twilio_api_key'];
+            
+            $token = $settings['twilio_acc_secret'];
+           
+            
         }
       
         try {
@@ -68,15 +75,34 @@ class ReplyController extends Controller
 
             if($sms_sent)
             {
-                $reply=new Reply();
-                $reply->sms_id=$request->sms_id;
-                $reply->to=$request->to;
-                $reply->from=$request->twilio_number;
-                $reply->reply=$request->reply;
-                 $reply->type='SMS';
-                $reply->system_reply=1;
-                $reply->save();
+
+
+                //$reply=new Reply();
+               // $reply->sms_id=$request->sms_id;
+               // $reply->to=$request->to;
+               // $reply->from=$request->twilio_number;
+               // $reply->reply=$request->reply;
+               //  $reply->type='SMS';
+               // $reply->system_reply=1;
+               // $reply->save();
+               // $this->incrementSmsCount($request->twilio_number);
+
+                $conversation =new Conversations();
+                $conversation->sms_id=$request->sms_id;
+                $conversation->sent_to=$request->to;
+                $conversation->sent_from=$request->twilio_number;
+                $conversation->body_text=$request->reply;
+                $conversation->conv_type='SMS';
+                $conversation->system_reply=0;
+                $conversation->save();
                 $this->incrementSmsCount($request->twilio_number);
+
+
+
+
+
+
+
             }
             Alert::success('Success','Message Sent To '.$request->from);
            
