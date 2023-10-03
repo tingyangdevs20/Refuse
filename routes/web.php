@@ -157,6 +157,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Phone Numbers Route
     Route::get('/phones', 'Admin\PhoneController@index')->name('phone.numbers');
     Route::get('/phone/changeStatus', 'Admin\PhoneController@changeStatus');
+
     // skip tracing
     Route::post('/skip-trace', 'Admin\GroupController@skipTrace')->name('skip-trace');
     // Profile page route
@@ -164,6 +165,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Campaigns
     Route::resource('/campaigns', Admin\CampaignController::class);
+    Route::get('/campaign/changeStatus', 'Admin\CampaignController@changeStatus');
     // Route::get('/admin/campaigns', 'Admin\CampaignController@index')->name('admin.campaigns.index');
     // Route::get('/campaigns', [CampaignController::class, 'index'])->name('admin.campaign');
     //    Route::resource('account','Admin\RoleController');
@@ -370,3 +372,5 @@ Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout'
 Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
+
+
