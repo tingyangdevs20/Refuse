@@ -107,7 +107,8 @@ class AdminController extends Controller
 
 
              // Clean the input values and convert percentages to decimals
-            $moneyExpected = GoalsReached::where([['user_id','=',$user]])->first();
+            $moneyExpected = GoalsReached::where([['user_id','=',$user],['attribute_id','7']])->first();
+            $collectedExpected = GoalsReached::where([['user_id','=',$user],['attribute_id','8']])->first();
 
             if (!$moneyExpected) {
 
@@ -116,10 +117,11 @@ class AdminController extends Controller
                 $expected_money_month = 0.00;
                 $expected_money_ninety_day = 0.00;
                 $expected_money_year = 0.00;
+                $expected_money_lifetime = 0.00;
+
 
             }else{
                 $expected_money_lifetime = 0;
-                $money_collected_lifetime = 0;
 
                 $monthlyIncome = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->goals);
                 $grossProfit = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->gross_profit);
@@ -127,6 +129,40 @@ class AdminController extends Controller
                 $phoneContact = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->leads_into_phone) / 100;
                 $signedAgreements = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->signed_agreements) / 100;
                 $escrowClosure = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->escrow_closure) / 100;
+
+                $expected_money_todays = $monthlyIncome / 30;
+                $expected_money_seven_day = $expected_money_todays * 7;
+                $expected_money_month = $monthlyIncome;
+                $expected_money_ninety_day = $monthlyIncome * 3;
+                $expected_money_year = $monthlyIncome * 12;
+                if ($leadConversion == 0 && $phoneContact == 0 && $signedAgreements == 0 && $escrowClosure == 0) {
+                    $expected_money_lifetime = 0.00; // All conversion rates are zero, set expected money to zero
+                } else {
+                    $expected_money_lifetime = $monthlyIncome / (1 - (1 - $leadConversion) * (1 - $phoneContact) * (1 - $signedAgreements) * (1 - $escrowClosure));
+                }
+            }
+
+            if (!$collectedExpected) {
+
+
+                $money_collected_lifetime = 0.00;
+                $money_collected_todays = 0.00;
+                $money_collected_seven_day = 0.00;
+                $money_collected_month = 0.00;
+                $money_collected_ninety_day = 0.00;
+                $money_collected_year = 0.00;
+                $money_collected_lifetime = 0.00;
+
+            }else{
+
+                $money_collected_lifetime = 0;
+
+                $monthlyIncome = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->goals);
+                $grossProfit = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->gross_profit);
+                $leadConversion = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->contact_trun_into_lead) / 100;
+                $phoneContact = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->leads_into_phone) / 100;
+                $signedAgreements = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->signed_agreements) / 100;
+                $escrowClosure = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->escrow_closure) / 100;
 
                 $money_collected_todays = $monthlyIncome * $leadConversion * $phoneContact * $signedAgreements * $escrowClosure;
                 $money_collected_seven_day = $money_collected_todays * 7;
@@ -143,17 +179,6 @@ class AdminController extends Controller
                     $money_collected_lifetime = 0.00;
                 }
 
-
-                $expected_money_todays = $monthlyIncome / 30;
-                $expected_money_seven_day = $expected_money_todays * 7;
-                $expected_money_month = $monthlyIncome;
-                $expected_money_ninety_day = $monthlyIncome * 3;
-                $expected_money_year = $monthlyIncome * 12;
-                if ($leadConversion == 0 && $phoneContact == 0 && $signedAgreements == 0 && $escrowClosure == 0) {
-                    $expected_money_lifetime = 0.00; // All conversion rates are zero, set expected money to zero
-                } else {
-                    $expected_money_lifetime = $monthlyIncome / (1 - (1 - $leadConversion) * (1 - $phoneContact) * (1 - $signedAgreements) * (1 - $escrowClosure));
-                }
             }
 
 
