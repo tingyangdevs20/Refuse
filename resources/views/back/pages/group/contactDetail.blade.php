@@ -2905,18 +2905,18 @@
                                                                         {{-- <label>Property currently listed with an agent </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                name="property_listed_agent"
+                                                                                onchange="updateValue(value,'property_listed_agent','agent_infos')">
                                                                                 <option value="">Property currently
                                                                                     listed with an agent </option>
                                                                                 <option value="yes"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'yes') selected @endif
                                                                                     @endif>Yes</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'no') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'no') selected @endif
                                                                                     @endif>No</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'expire') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'expire') selected @endif
                                                                                     @endif>Expiring
                                                                                     soon</option>
                                                                             </select>
@@ -2928,15 +2928,15 @@
                                                                         {{-- <label>Does agent need to be involved? </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                name="agent_involvent"
+                                                                                onchange="updateValue(value,'agent_involvent','agent_infos')">
                                                                                 <option value="">Does agent need to
                                                                                     be involved? </option>
                                                                                 <option value="yes"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->agent_involvent == 'yes') selected @endif
                                                                                     @endif>Yes</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'no') selected @endif
+                                                                                    @if (isset($agent_infos)) @if ($agent_infos->agent_involvent == 'no') selected @endif
                                                                                     @endif>No</option>
 
                                                                             </select>
@@ -2949,7 +2949,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_name"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_name','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2959,7 +2962,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Office Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_office_name"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_office_name','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_office_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2969,7 +2975,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_phone"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_phone','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2979,7 +2988,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Email"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="agent_email"
+                                                                                table="agent_infos"
+                                                                                onchange="updateValue(value,'agent_email','agent_infos')"
+                                                                                value="{{ $agent_infos->agent_email }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
