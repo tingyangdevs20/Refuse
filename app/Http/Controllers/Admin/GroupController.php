@@ -175,6 +175,11 @@ class GroupController extends Controller
             $title_company = DB::table('title_company')->where('contact_id', $id)->first();
         }
 
+        $agent_infos = DB::table('agent_infos')->where('contact_id', $id)->first();
+        if ($agent_infos == null) {
+            DB::table('agent_infos')->insert(['contact_id' => $id]);
+            $agent_infos = DB::table('agent_infos')->where('contact_id', $id)->first();
+        }
 
         $uid = Auth::id();
         $contact = Contact::where('id', $id)->first();
@@ -191,12 +196,11 @@ class GroupController extends Controller
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
         
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos'));
     }
 
     public function updateinfo(Request $request)
     {
-
         $table = $request->table;
         $id = $request->id;
         $feild_id = $request->feild_id;
