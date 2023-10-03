@@ -29,6 +29,16 @@ class CampaignController extends Controller
         $templates = Template::where('type' , 'SMS')->get();
         return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
     }
+    public function changeStatus(Request $request)
+    {
+        
+        $id=$request->id;
+        $camp = Campaign::where('id' , $id)->first();
+        $camp->active = $request->sts; 
+        
+        $camp->save(); 
+        return response()->json(['success'=>'Status changed successfully.']); 
+    }
 
     public function copy($id = ''){
         $campaigns = Campaign::where('id' , $id)->first();
@@ -440,7 +450,7 @@ class CampaignController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
            
-            'active' => 'required|boolean', // Add validation for active status
+            //'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
 
@@ -460,7 +470,7 @@ class CampaignController extends Controller
             //'schedule' => $sendAfter,
            // 'group_id' => $request->group_id, // Assign group_id
             //'template_id' => $request->template_id,
-            'active' => $request->active, // Set active status
+            //'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
 
@@ -500,7 +510,7 @@ class CampaignController extends Controller
             //'send_after_days' => 'nullable|integer|min:0',
             //'send_after_hours' => 'nullable|integer|min:0',
             //'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
-            'active' => 'required|boolean', // Add validation for active status
+           // 'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
 
@@ -514,7 +524,7 @@ class CampaignController extends Controller
             'name' => $request->name,
             //'type' => $request->type,
             //'group_id' => $request->group_id, // Assign group_id
-            'active' => $request->active, // Set active status
+           // 'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
 
