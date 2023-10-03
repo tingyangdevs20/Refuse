@@ -3445,7 +3445,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @if ($googleDriveFiles != null && count($googleDriveFiles) > 0)
+                                                            @if (!empty($googleDriveFiles) && (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) && count($googleDriveFiles) > 0)
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group"
