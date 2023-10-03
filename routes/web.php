@@ -81,8 +81,12 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('admin/skip-trace', 'Admin\GroupController@skipTrace')->name('admin.skip-trace');
     Route::post('admin/push-to-campaign', 'Admin\GroupController@pushToCampaign')->name('push-to-campaign');
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
+   
+    
+
 
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
+    Route::get('formms', 'GoogleDriveController@fetchFilesByFolderName')->name('formms');
 
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
@@ -214,7 +218,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
     Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');
-    Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
+    Route::get('get/message/{type}/{id}', 'Admin\CampaignListConttroller@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
 
@@ -256,6 +260,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
+    Route::post('settings/appointment-calendar-settings', 'Admin\SettingsController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
+
+
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
 
@@ -319,14 +326,18 @@ Route::get('/myHtml/{id}/{contactid}', 'Admin\GroupController@myHtml')->name('my
 // Sachin 08092023
 // Appointment Routes
 Route::resource('/appointments', 'Admin\AppointmentController');
+Route::resource('/manage-appointments', 'Admin\ViewAppointmentsController');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
+
+Route::get('/manage-appointments', 'Admin\ViewAppointmentsController@index')->name('admin.manage-appointments');
 
 Route::get('/appointment/{id?}', 'Admin\AppointmentController@index')->name('admin.appointment');
 //Route::get('/appointments/{id}', 'Admin\AppointmentController@index')->name('admin.appointment');
 Route::post('/appointments', 'Admin\AppointmentController@store')->name('appointment.store');
 // Appointment Routes
 Route::resource('/appointments', 'Admin\AppointmentController');
+Route::post('/fetch-all-slots', 'Admin\AppointmentController@fetchAllSlotsForBooking')->name('appointments.fetchAllSlots');
 Route::post('/cancel-appointment', 'Admin\AppointmentController@cancelAppointment')->name('appointments.cancelAppointment');
 Route::post('/get-appointment', 'Admin\AppointmentController@getAppointments')->name('appointments.getAppointments');
 Route::post('/reschdule-appointment', 'Admin\AppointmentController@reschduleAppointment')->name('appointments.reschduleAppointment');
@@ -363,14 +374,3 @@ Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout'
 Route::get('/oauth/gmail', 'GmailController@redirect')->name('gmail.login');
 Route::get('/oauth/gmail/callback', 'GmailController@callback')->name('gmail.callback');
 Route::get('/oauth/gmail/logout', 'GmailController@logout')->name('gmail.logout');
-
-
-
-
-
-
-// *****************************************
-// ************* Google calendar routes
-// *****************************************
-Route::get('/auth/google', 'GoogleCalendarController@redirectUserToGoogle')->name("google.connect");
-Route::get('/auth/google/callback', 'GoogleCalendarController@handleGoogleCallback')->name("google.handle_callback");

@@ -194,5 +194,8 @@
         };
 
         render();
+
+        // extended the library to add ajax support. By: JAWAD KHAN -> jawadk116@gmail.com. 03 Oct 2023
+        return instance;
     };
 })(jQuery);

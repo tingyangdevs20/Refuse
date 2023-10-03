@@ -154,6 +154,15 @@
             </div>
         </div>
         </div>
+        <div class="form-group pt-2">
+            <label>Document Type</label>
+            <br>
+            <select class="form-control" name="status" required>
+              <option value="">Select Document Type</option>
+              <option value="Miscellaneous" selected> Miscellaneous. </option>
+              
+            </select>
+          </div>
 
           <div class="form-group pt-2">
             <label>Status</label>
@@ -164,7 +173,7 @@
               <option value="1"> Deactive </option>
             </select>
           </div>
-          <div class="form-group pt-2">
+          <div class="form-group pt-2" style="display:none">
             <label>Sortcode For Variables</label>
             <br>
             {{ '{' . implode('} ,{', $short_code) . '}' }}

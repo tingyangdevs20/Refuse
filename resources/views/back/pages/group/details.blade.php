@@ -24,11 +24,11 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        All Numbers 
+                                        All Numbers
                                         <span><select onchange="delete_selected(this)">
                                             <option value="0">Action</option>
                                             <option value="1">Delete Selected</option>
-                                            
+
 </select></span>
                                         <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                                     </div>
@@ -36,7 +36,7 @@
                                         <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                             <tr>
-                                                <th scope="col"><input onclick="allSelected()" type="checkbox"/></th> 
+                                                <th scope="col"><input onclick="allSelected()" type="checkbox"/></th>
                                                 <th scope="col">First Name</th>
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Street</th>
@@ -50,10 +50,10 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                
+
                                             @foreach($group->contacts()->get() as $contact)
                                             <tr>
-                                                 <td><input id="chk{{ $contact->id }}" class="jpCheckbox" type="checkbox"/></td> 
+                                                 <td><input id="chk{{ $contact->id }}" class="jpCheckbox" type="checkbox"/></td>
                                                 <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->name }}</a></td>
                                                 <td><a href="{{ route('admin.contact.detail',$contact->id) }}">{{ $contact->last_name }}</a></td>
                                                 <td>{{ $contact->street }}</td>
@@ -70,12 +70,12 @@
                                                     Email2:{{ $contact->email2 }}
                                                 </td>
                                                 <td>
-                                                    Tags:{{ $group->getContactCountByEmailId($contact->email1,$contact->email2,$contact->number,$contact->number2,$contact->number3 ) }}<br>
-                                    
+                                                    {{ $group->getContactCountByEmailId($contact->email1,$contact->email2,$contact->number,$contact->number2,$contact->number3 ) }}<br>
+
                                                 </td>
                                                 <td>
                                                     {{ $contact->sts }}<br>
-                                                    
+
                                                 </td>
                                                 <!-- <td>
                                                     <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
@@ -83,7 +83,7 @@
                                                     </a>
                                                     <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
                                                 </td> -->
-                                          
+
                                             @endforeach
                                             </tbody>
                                         </table>
@@ -94,9 +94,9 @@
                         <!-- end page title -->
 
                     </div> <!-- container-fluid -->
-                    
-    
-   
+
+
+
 
 
 
@@ -156,7 +156,7 @@
                             <label>Email 2</label>
                             <input type="text" class="form-control" name="email2" placeholder="Enter email" required>
                         </div>
-                        
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Create</button>
@@ -174,7 +174,7 @@
                 <div class="modal-body">
                     <p class="calling-response" style="text-align: center;color: green; font-size: 16px;" aria-hidden="true"></p>
                 </div>
-                
+
                 </div>
             </div>
     </div>
@@ -191,7 +191,7 @@
             $('#datatable').DataTable({
 
                 'columnDefs': [{
-         
+
          'render': function (data, type, full, meta){
              return '<input type="checkbox" name="id[]" value="">';
          }
@@ -204,9 +204,9 @@
 
         var isChecked = false;
 
-        function allSelected() 
+        function allSelected()
         {
-           
+
             // this line is for toggle the check
             isChecked = !isChecked;
 
@@ -223,13 +223,13 @@
            // alert(ctrl.value);
            if(ctrl.value!="0")
            {
-            
+
             $("input:checkbox[name=type]:checked").each(function() {
                 array.push($(this).val());
             });
 
-           
-            
+
+
         }
         }
     </script>

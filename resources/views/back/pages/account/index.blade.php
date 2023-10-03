@@ -124,10 +124,6 @@
                                 </div>
                             </div>
 
-
-
-
-
                             <button type="submit" class="btn btn-primary">Update Settings</button>
 
                         </form>

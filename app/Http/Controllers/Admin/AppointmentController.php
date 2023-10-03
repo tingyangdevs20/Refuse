@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Account;
+use App\Model\CalendarSetting;
 use App\Model\Scheduler;
 use Illuminate\Http\Request;
 use App\Services\GoogleCalendar;
@@ -13,12 +14,113 @@ use Carbon\Carbon;
 use DB;
 use DATETIME;
 use App\Model\Contact;
-use App\Services\UserEventsService;
+use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Crypt;
 use \Illuminate\Support\Facades\View as View;
 
 class AppointmentController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $rq, $uid = '')
+    {
+        if (!empty($uid)) {
+
+            $this->setupGoogleCalendar();
+
+            $appointmentSettings = CalendarSetting::first() ?? new CalendarSetting();
+            $adminTimezone = $appointmentSettings->timezone;
+
+            $timezones = timezone_identifiers_list();
+
+            $availableSlots = json_encode(
+                $this->getAvailableSlots($appointmentSettings, $adminTimezone)
+            );
+
+            $bookedSlots = json_encode(
+                $this->getBookedSlotsFromGoogleCalendar($appointmentSettings, $adminTimezone)
+            );
+
+            $uid = decrypt($uid);
+
+            return view('book-appointment', compact('timezones', 'adminTimezone', 'availableSlots', 'bookedSlots', 'uid'));
+        } else {
+            return Redirect::back();
+        }
+    }
+
+
+    public function fetchAllSlotsForBooking(Request $request)
+    {
+        try {
+
+            $appointmentSettings = CalendarSetting::first() ?? new CalendarSetting();
+
+            $this->setupGoogleCalendar();
+
+            $availableSlots = $this->getAvailableSlots($appointmentSettings, $request->timezone);
+            $bookedSlots = $this->getBookedSlotsFromGoogleCalendar($appointmentSettings, $request->timezone);
+
+            return response()->json([
+                "status" => 200,
+                "message" => "List of time slots in user preferred timezone for appointment booking.",
+                "availableSlots" => $availableSlots,
+                "bookedSlots" => $bookedSlots
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "status" => 500,
+                "message" => $th->getMessage() ?? "Oops! something went wrong.",
+                "availableSlots" => [],
+                "bookedSlots" => [],
+            ]);
+        }
+    }
+
+
+    private function getAvailableSlots($appointmentSettings, $userTimezone)
+    {
+        $appointmentSettings = $appointmentSettings->toArray();
+
+        // Transform the data into the desired format
+        $d = Carbon::now()->setTimezone($userTimezone);
+        $daysOfWeek = [];
+        for ($i = 1; $i < 8; $i++) {
+            $daysOfWeek[] = strtolower($d->format("l"));
+            $d->addDay();
+        }
+
+        $result = [];
+
+        foreach ($daysOfWeek as $day) {
+
+            $startTime = $appointmentSettings[$day . '_close'] ? null : $appointmentSettings[$day . '_start_time'];
+            $endTime = $appointmentSettings[$day . '_close'] ? null : $appointmentSettings[$day . '_end_time'];
+
+            $slots = [];
+            $currentTime = strtotime($startTime);
+
+            if ($startTime) {
+                while ($currentTime < strtotime($endTime)) {
+                    $inAdminTimezone = \Carbon\Carbon::parse($currentTime)
+                        ->settings(['timezone' => $appointmentSettings['timezone']]);
+
+                    // convert it to user timezone and push it into slots array.
+                    $slots[] = $inAdminTimezone->setTimezone($userTimezone)->format("H:i");
+
+                    $currentTime += $appointmentSettings['period_duration'] * 60; // Increment by $period_duration minutes
+                }
+            }
+
+            $result[] = $slots;
+        }
+
+        return $result;
+    }
 
 
     private function setupGoogleCalendar()
@@ -34,40 +136,26 @@ class AppointmentController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($uid = '')
-    {
-        if (!empty($uid)) {
-
-            $this->setupGoogleCalendar();
-
-            $slotsArr = $this->getBookedSlotsFromGoogleCalendar();
-
-            $bookedSlots = json_encode($slotsArr);
-
-            $uid = decrypt($uid);
-
-            return view('book-appointment', compact('bookedSlots', 'uid'));
-        } else {
-            return Redirect::back();
-        }
-    }
-
-
-    private function getBookedSlotsFromGoogleCalendar()
+    private function getBookedSlotsFromGoogleCalendar($appointmentSettings, $userTimezone = null)
     {
         $slotsArr = [];
 
-        $userBookedTimeSlots = (new UserEventsService())->fetchEventsFromGoogleCalendar();
+        $userBookedTimeSlots = (new GoogleCalendarService())->fetchEventsFromGoogleCalendar();
 
         foreach ($userBookedTimeSlots as $date => $bookedSlots) {
             foreach ($bookedSlots as $key => $slot) {
-                $slotsArr[$date][$key]['appt_date'] = $date;
-                $slotsArr[$date][$key]['appt_time'] = Carbon::createFromFormat('H:i:s', $slot['start'])->format('H:i');
+                $dateTime = $date . " " . $slot['start'];
+
+                $dateTime = \Carbon\Carbon::parse($dateTime)
+                    ->settings(['timezone' => $appointmentSettings->timezone]);
+
+                // convert it to user timezone and push it into slots array.
+                $dateTime = $dateTime->setTimezone($userTimezone ?? $appointmentSettings->timezone);
+
+                $dateTime->format("H:i");
+
+                $slotsArr[$date][$key]['appt_date'] = $dateTime->format("Y-m-d"); //$date;
+                $slotsArr[$date][$key]['appt_time'] = $dateTime->format('H:i');
             }
         }
 
@@ -122,15 +210,6 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        // dd((intval($request->appt_time) + 12), $request->appt_date);
-        // $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
-
-        // $start = Carbon::parse($dateTime)->format('Y-m-d h:i:s a');
-        // $end = Carbon::parse($dateTime)->addHour()->format('Y-m-d h:i:s a');
-
-        // dd($start, $end);
-
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
 
             'timezone' => 'required',
@@ -147,37 +226,21 @@ class AppointmentController extends Controller
         }
 
         try {
-            $timezone = $request->timezone;
-            // $timezone = "";
 
-            // $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
-            // $startTime = Carbon::parse($dateTime, $timezone);
-            // $endTime = Carbon::parse($dateTime, $timezone)->addHour();
-
-            // dd($request->appt_date, $request->appt_time, $startTime->format('Y-m-d h:i:s a'), $endTime->format('Y-m-d h:i:s a'));
-
-            // $event = \Spatie\GoogleCalendar\Event::create([
-            //     'name' => 'Appointment',
-            //     'startDateTime' => $startTime,
-            //     'endDateTime' => $endTime,
-            // ]);
-
-            $account = Account::find(1);
-
-            if (($account->calendar_enable === "N") || !$account->calendar_id || !$account->calendar_credentials_path) {
-                abort(500, "Please configure your google calendar from Administrative Settings.");
+            // if user have already booked an appointment which is not [completed, canceld, expired] then show an error message.
+            if (Scheduler::where('mobile', $request->mobile)->where('status', 'booked')->count()) {
+                return back()->with('error', 'You have already booked an appointment.');
             }
 
-            \Illuminate\Support\Facades\Config::set('google-calendar.calendar_id', $account->calendar_id);
-            \Illuminate\Support\Facades\Config::set('google-calendar.auth_profiles.service_account.credentials_json', storage_path('app/google-calendar/' . $account->calendar_credentials_path));
+            $this->setupGoogleCalendar();
 
 
             $now = Carbon::now();
-            // print_r($request->timezone);
-            // exit;
             $eml = $request->email;
+
             // $contact=Contact::where('email1',$eml)->orWhere('email2',$eml)->first();
             // $cnt_id=$contact->id;
+
             $createAppointment = Scheduler::create([
                 'timezone' => $request->timezone,
                 'appt_date' => $request->appt_date,
@@ -193,9 +256,13 @@ class AppointmentController extends Controller
                 // 'user_id' => $cnt_id
             ]);
 
-            $dateTime = $request->appt_date . " " . (intval($request->appt_time) + 12) . ":00";
-            $startTime = Carbon::parse($dateTime, $timezone);
-            $endTime = Carbon::parse($dateTime, $timezone)->addHour();
+            $appointmentSettings = CalendarSetting::first();
+
+            $dateTime = $request->appt_date . " " . $request->appt_time;
+            $startTime = Carbon::parse($dateTime, $request->timezone)->setTimezone($appointmentSettings->timezone);
+
+            // default period_duration is set to 60 minutes
+            $endTime = Carbon::parse($dateTime, $request->timezone)->setTimezone($appointmentSettings->timezone)->addMinutes($appointmentSettings->period_duration ?? 60);
 
             $event = \Spatie\GoogleCalendar\Event::create([
                 'name' => 'Appointment',
@@ -207,8 +274,6 @@ class AppointmentController extends Controller
             // to delete or update the event in google calendar
             $createAppointment->google_calendar_event_id = $event->id;
             $createAppointment->save();
-
-            // dd($event, $startTime->format('Y-m-d h:i:s a'), $endTime->format('Y-m-d h:i:s a'));
 
             if ($createAppointment->id) {
                 return back()->with('success', 'Thank you! Your appointment has been booked.');
