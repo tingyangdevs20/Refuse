@@ -29,6 +29,17 @@ class CampaignController extends Controller
         $templates = Template::where('type' , 'SMS')->get();
         return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
     }
+    public function changeStatus(Request $request)
+    {
+        print_r($request);
+        die("----");
+        $id=$request->id;
+        $camp = Campaign::where('id' , $id)->first();
+        $camp->active = $request->sts; 
+        
+        $camp->save(); 
+        return response()->json(['success'=>'Status changed successfully.']); 
+    }
 
     public function copy($id = ''){
         $campaigns = Campaign::where('id' , $id)->first();

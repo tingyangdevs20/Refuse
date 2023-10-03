@@ -3,6 +3,7 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
 @endsection
 @section('content')
@@ -23,7 +24,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark">
-                            All Campaigns
+                            Prospect Campaigns
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
                             <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
     data-target="#helpModal">How to use</button>
@@ -35,22 +36,22 @@
                                 <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <!--<th scope="col">Type</th>-->
-                                    <!--<th scope="col">Send after days</th>-->
-                                    <!--<th scope="col">Send after hours</th>-->
+                                    <th scope="col">Contact Campaign Name</th>
+                                    
                                     <th scope="col">Contact list</th>
+                                    
+
                                     <th scope="col">Action</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($campaigns as $campaign)
                                     <tr>
                                         <td><a href="{{ route('admin.campaign.list',$campaign->id) }}">{{ $campaign->name }}</a></td>
-                                        <!--<td>{{ $campaign->type }}</td>-->
-                                        <!--<td>{{ $campaign->send_after_days }}</td>-->
-                                        <!--<td>{{ $campaign->send_after_hours }}</td>-->
+                                     
                                         <td>{{ optional($campaign->group)->name ?? "N/A" }}</td>
+                                      
                                         <td>
                                             <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button data-toggle="modal" class="btn btn-outline-warning" >Copy</button></a>
                                             <button data-toggle="modal" class="btn btn-outline-primary" id="editModal" data-target="#editCampaignModal" data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}" data-template="{{ $campaign->template_id }}" data-sendafterdays="{{ $campaign->send_after_days }}" data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"  data-id="{{ $campaign->id }}">Edit</button>
@@ -60,6 +61,10 @@
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                             </form> --}}
                                             <button class="btn btn-danger" title="Remove {{ $campaign->name }}" data-id="{{ $campaign->id }}" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                        </td>
+                                        <td>
+                                        <input data-id="{{$campaign->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $campaign->active ? 'checked' : '' }}>
+                    
                                         </td>
                                     </tr>
                                 @endforeach
@@ -132,46 +137,7 @@
                             <label for="name">Campaign Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label for="type">Campaign Type</label>-->
-                        <!--    <select name="type" id="type" class="form-control" onchange="getTemplate(value)" required>-->
-                        <!--        <option value="sms">SMS</option>-->
-                        <!--        <option value="email">Email</option>-->
-                        <!--        <option value="mms">MMS</option>-->
-                        <!--        <option value="rvm">RVM</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!--<div class="form-group" id="update-templates">-->
-                        <!--    <label>Select Template</label>-->
-                        <!--    <select class="custom-select" name="template_id" id="template-select">-->
-                        <!--        <option value="0">Select Template</option>-->
-                        <!--        @foreach($templates as $template)-->
-                        <!--            <option value="{{ $template->id }}">{{ $template->title }}</option>-->
-                        <!--        @endforeach-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                         <!-- Add schedule field -->
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_days">Send After Days</label>-->
-                        <!--    <input type="number" name="send_after_days" id="send_after_days" class="form-control" required>-->
-                        <!--</div>-->
-
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_hours">Send After Hours</label>-->
-                        <!--    <input type="number" name="send_after_hours" id="send_after_hours" class="form-control" required>-->
-                        <!--</div>-->
-                        <!--<div class="form-group">
-                            <label for="group_id">Select Group/Contact List</label>
-                            <select name="group_id" id="group_id" class="form-control">
-                                <option value="">Select Group/Contact List</option>
-                                @if(isset($groups))
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>-->
-
+                      
                         <div class="form-group">
                             <label for="active">Active Status</label>
                             <select name="active" id="active" class="form-control" required>
@@ -209,45 +175,7 @@
                             <input type="hidden" name="id" id="id_edit" class="form-control" value="0" required>
                             <input type="text" name="name" id="name_edit" class="form-control" value="" required>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label for="type">Campaign Type</label>-->
-                        <!--    <select name="type" id="type_edit" class="form-control" onchange="getTemplateEdit(value)" required>-->
-                        <!--        <option value="sms" >SMS</option>-->
-                        <!--        <option value="email">Email</option>-->
-                        <!--        <option value="mms">MMS</option>-->
-                        <!--        <option value="rvm">RVM</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!--<div class="form-group" id="update-templates-edit">-->
-                        <!--    <label>Select Template</label>-->
-                        <!--    <select class="custom-select" name="template_id" id="template-select-edit">-->
-                        <!--        <option value="0">Select Template</option>-->
-                        <!--        @foreach($templates as $template)-->
-                        <!--            <option value="{{ $template->id }}">{{ $template->title }}</option>-->
-                        <!--        @endforeach-->
-                        <!--    </select>-->
-                        <!--</div>-->
-                        <!-- Edit schedule field -->
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_days">Send After Days</label>-->
-                        <!--    <input type="number" name="send_after_days" id="send_after_days_edit" class="form-control" value="" required>-->
-                        <!--</div>-->
-
-                        <!--<div class="form-group">-->
-                        <!--    <label for="send_after_hours">Send After Hours</label>-->
-                        <!--    <input type="number" name="send_after_hours" id="send_after_hours_edit" class="form-control" value="" required>-->
-                        <!--</div>-->
-                        <!-- <div class="form-group">
-                            <label for="group_id">Select Group/Contact List</label>
-                            <select name="group_id" id="group_id_edit" class="form-control">
-                                <option value="">Select Group/Contact List</option>
-                                @if(isset($groups))
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>-->
+                       
 
                         <!-- Add other fields for campaign details -->
                         <!-- For example, schedule, message content, etc. -->
@@ -298,7 +226,38 @@
     </div>
 @endsection
 @section('scripts')
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+    
+    
+         $('.toggle-class').change(function() { 
+            var status = $(this).prop('checked') == true ? 1 : 0;  
+           var camp_id = $(this).data('id');  
+          // alert(camp_id);
+        let data = {
+            camp_id: camp_id,
+                sts: status,
+               
+            }
+            
+                axios.post('campaign/changeStatus', data)
+                    .then(response => {
+                            if (response.data.status == 200) {
+                               //alert("updated");
+                            }
+                                })
+                            
+                        }
+                    )
+                  
+            
+  
+   
+</script>
+<script>
+
     function getTemplate(type){
         var url = '<?php echo url('/admin/get/template/') ?>/'+type;
         $.ajax({
