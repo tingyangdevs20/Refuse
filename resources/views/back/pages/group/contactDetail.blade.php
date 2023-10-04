@@ -1,8 +1,59 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
+        /* Adjust the margin between the input and dropdown arrow */
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            margin-right: 10px;
+        }
+
+        /* Remove the blinking line under the input */
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+
+            margin-right: 10px;
+        }
+
+        .select2-container--default .select2-search--inline .select2-search__field {
+            background: transparent;
+            border: none;
+            outline: 0;
+            display: none;
+            box-shadow: none;
+            -webkit-appearance: textfield;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+            cursor: default;
+            padding-left: 22px !important;
+            padding-right: 1px !important;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        .select2-container--default .select2-selection__choice {
+            background-color: #007bff;
+            color: #000;
+            padding: 3px 10px;
+            /* Adjust padding to separate text and remove button */
+            margin: 2px;
+            border-radius: 20px;
+            /* Round the corners of the tags */
+        }
+
+        .select2-container--default .select2-selection__choice__remove {
+            margin-left: 5px;
+            /* Add margin between text and remove button */
+            color: #fff;
+            cursor: pointer;
+        }
+
         /* Style for the placeholder label */
         .placeholder {
             position: absolute;
@@ -438,9 +489,9 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <select class="custom-select">
-                                                                            <option value="">Select Tag
-                                                                            </option>
+                                                                        <select class="custom-select select2"
+                                                                            multiple="multiple" style="width: 100%;">
+                                                                            <option value="" selected>Select Tags </option>
                                                                             @if (count($tags) > 0)
                                                                                 @foreach ($tags as $tag)
                                                                                     <option value="{{ $tag->id }}"
@@ -4590,7 +4641,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -4619,10 +4670,16 @@
 
             // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
+
+            // Initialize Select2
             $('.select2').select2({
-                theme: 'bootstrap4',
+                // placeholder: "Select options",
+                allowClear: true, // Show a clear button to remove the selection
             });
-            $('.select2').select2();
+
+            // Refresh Select2 to apply the changes
+            $('.select2').trigger('change.select2');
+
             $("#custom-upload-button").click(function() {
                 var form = $("#main_form");
 
