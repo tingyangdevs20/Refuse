@@ -104,7 +104,7 @@
                       
                         <div class="form-group pt-2">
                             <label>Message Type</label><br>
-                            <select class="from-control" style="width: 100%;" id="type" name="type" onchange="messageType(value)" required>
+                            <select class="from-control" style="width: 100%;" id="type" name="type"  required>
                                 <option value="">Select Type</option>
                                 <option value="SMS">SMS</option>
                                 <option value="MMS">MMS</option>
@@ -231,7 +231,7 @@
                        
                         <div class="form-group pt-2">
                             <label>Message Type</label><br>
-                            <select class="from-control" style="width: 100%;" id="type" name="type" onchange="messageTypeEdit(value)" required>
+                            <select class="from-control" style="width: 100%;" id="type" name="type"  required>
                                 <option value="">Select Type</option>
                                 <option value="SMS">SMS</option>
                                 <option value="MMS">MMS</option>
