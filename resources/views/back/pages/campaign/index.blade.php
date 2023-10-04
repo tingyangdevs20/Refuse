@@ -39,7 +39,7 @@
                                     <th scope="col">Contact Campaign Name</th>
                                     
                                     <th scope="col">Contact list</th>
-                                    
+                                    <th scope="col">Created On</th>
 
                                     <th scope="col">Action</th>
                                     <th scope="col">Status</th>
@@ -51,6 +51,7 @@
                                         <td><a href="{{ route('admin.campaign.list',$campaign->id) }}">{{ $campaign->name }}</a></td>
                                      
                                         <td>{{ optional($campaign->group)->name ?? "N/A" }}</td>
+                                        <td>{{ $campaign->created_at }}</td>
                                       
                                         <td>
                                             <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button data-toggle="modal" class="btn btn-outline-warning" >Copy</button></a>
