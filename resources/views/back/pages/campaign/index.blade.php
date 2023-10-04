@@ -51,7 +51,7 @@
                                         <td><a href="{{ route('admin.campaign.list',$campaign->id) }}">{{ $campaign->name }}</a></td>
                                      
                                         <td>{{ optional($campaign->group)->name ?? "N/A" }}</td>
-                                        <td>{{ $campaign->created_at }}</td>
+                                        <td> {{ date('M j Y', strtotime($campaign->created_at))  }}</td>
                                       
                                         <td>
                                             <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button data-toggle="modal" class="btn btn-outline-warning" >Copy</button></a>
