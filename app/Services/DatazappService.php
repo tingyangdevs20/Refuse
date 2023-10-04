@@ -10,7 +10,7 @@ class DatazappService
 {
     protected $apiUrl = 'https://api.datazapp.com/';
 
-    protected $apiKey; // Set your Datazapp API key here
+    protected $apiKey;
 
     public function __construct()
     {
@@ -28,6 +28,7 @@ class DatazappService
 
         if ($skipTraceOption === 'skip_entire_list_phone') {
             $contactsToSkipTrace = $contacts;
+
         } elseif ($skipTraceOption === 'skip_records_without_numbers_phone') {
             $contactsToSkipTrace = $contacts;
 
@@ -35,16 +36,22 @@ class DatazappService
             $contactsToSkipTrace = $contacts;
         } elseif ($skipTraceOption === 'skip_records_without_emails') {
             $contactsToSkipTrace = $contacts;
+
         } elseif ($skipTraceOption === 'append_names'){
             $contactsToSkipTrace = $contacts;
+
         } elseif ($skipTraceOption === 'email_verification_entire_list'){
             $contactsToSkipTrace = $contacts->where('email1','!=', '');
+
         } elseif ($skipTraceOption === 'email_verification_non_verified'){
             $contactsToSkipTrace = $contacts->where('email1','!=', '');
+
         } elseif ($skipTraceOption === 'phone_scrub_entire_list'){
             $contactsToSkipTrace = $contacts;
+
         } elseif ($skipTraceOption === 'phone_scrub_non_scrubbed_numbers'){
             $contactsToSkipTrace = $contacts;
+
         } elseif ($skipTraceOption === 'append_emails'){
             $contactsToSkipTrace = $contacts;
         } else {
@@ -76,9 +83,6 @@ class DatazappService
                     "Address" => $contact->street,
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
-
-
-                    // Add other required parameters for phone append
                 ];
 
             } elseif ($skipTraceOption === 'skip_entire_list_email' || $skipTraceOption === 'skip_records_without_emails') {
@@ -93,7 +97,6 @@ class DatazappService
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
 
-                    // Add other required parameters for email append
                 ];
             }elseif($skipTraceOption === 'append_names'){
                 // Name Append API request
@@ -106,7 +109,6 @@ class DatazappService
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
 
-                    // Add other required parameters for email append
                 ];
             }
             elseif($skipTraceOption === 'append_emails'){
@@ -121,7 +123,6 @@ class DatazappService
                     "City" => $contact->city,
                     "Zip" => $contact->zip,
 
-                    // Add other required parameters for email append
                 ];
 
             }elseif($skipTraceOption === 'email_verification_entire_list' || $skipTraceOption === 'email_verification_non_verified'){
@@ -133,8 +134,6 @@ class DatazappService
                      "Email" => $contact->email1,
                      "Email" => $contact->email2,
 
-
-                     // Add other required parameters for email append
                  ];
             } elseif($skipTraceOption === 'phone_scrub_entire_list' || $skipTraceOption === 'phone_scrub_non_scrubbed_numbers'){
                  // phone scrubbing API request
@@ -146,8 +145,6 @@ class DatazappService
                      "Phone" => $contact->number2,
                      "Phone" => $contact->number3,
 
-
-                     // Add other required parameters for email append
                  ];
             }else {
                 // Handle other skip trace options if needed
@@ -159,7 +156,6 @@ class DatazappService
         $response = $client->post('https://secureapi.datazapp.com/Appendv2', [
             'json' => $requestData,
         ]);
-
 
         return json_decode($response->getBody(), true);
     }

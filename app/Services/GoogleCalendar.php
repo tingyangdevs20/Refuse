@@ -5,18 +5,17 @@ use Google_Service_Calendar;
 use Google_Service_Directory;
 use Illuminate\Http\Request;
 
-class GoogleCalendar 
+class GoogleCalendar
 {
-    public function getClient() { 
-        // print_r("ok");
-        // exit;
+    public function getClient() {
+
         $client = new Google_Client();
         print_r($client);
-        
+
         $client->setApplicationName(env('APP_NAME'));
         $client->setScopes(Google_Service_Directory::ADMIN_DIRECTORY_RESOURCE_CALENDAR_READONLY);
-        // print_r($client);
-        
+
+
         $client->setAuthConfig(storage_path('gcalendar-keys/client_calendar_secret.json')); //setting keys from secret file
         print_r($client);
         exit;
@@ -26,24 +25,16 @@ class GoogleCalendar
         $redirect_uri = url('/google-calendar/auth-callback');
         $client->setRedirectUri($redirect_uri);
 
-        
+
         // exit;
         return $client;
     }
 
-    /**
 
- * Returns an authorized API client.
-
- * @return Google_Client the authorized client object
-
- */
 
     public function oauth() {
 
         $client = $this->getClient();
-
-        // Load previously authorized credentials from a file.
 
         $credentialsPath = storage_path('keys/client_secret_generated.json');
 
