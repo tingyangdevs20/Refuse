@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use App\Model\Template;
+use App\Model\TemplateMessages;
 use App\Model\Helpvideo;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -23,6 +24,13 @@ class TemplateController extends Controller
         $categories = Category::all();
         $sr = 1;
         return view('back.pages.template.index', compact('templates', 'categories', 'sr'));
+    }
+
+    public function view($id = '')
+    {
+        $templates = TemplateMessages::where('template_id',$id)->get();
+        $sr = 1;
+        return view('back.pages.template.view', compact('templates', 'sr'));
     }
 
     /**

@@ -270,6 +270,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
 
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
+    Route::get('template/view/{id}', 'Admin\TemplateController@view');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');

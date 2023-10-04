@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Templates</h4>
+                        <h4 class="mb-0 font-size-18">Template Messages</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            All Templates
+                            Template Messages
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
                                     data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
 
@@ -42,9 +42,10 @@
                                 <thead>
                                 <tr>
                                    
-                                    <th scope="col">Template Name</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Messages Count</th>
+                                    <th scope="col">Message Title</th>
+                                    <th scope="col">Content</th>
+                                   
+                                    
                                   
                                     
                                     <!--<th scope="col">Media URL</th>-->
@@ -55,15 +56,13 @@
                                 @foreach($templates as $template)
                                     <tr>
                                         
-                                        <td><a href="template/view/{{ $template->id }}">{{ $template->title }}</a></td>
-                                        <td>{{ $template->type }}</td>
+                                        <td>{{ $template->msg_title }}</td>
+                                        <td>{{ $template->msg_content }}</td>
                                         
-                                        <td>
-                                           3
-                                        </td>
+                                        
                                        
                                         <td>
-                                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->title }}" data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}" data-category="{{ $template->category_id }}" data-type="{{ $template->type }}" data-subject="{{ $template->subject }}" data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}" data-id="{{ $template->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->msg_title }}" data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}" data-category="{{ $template->category_id }}" data-type="{{ $template->type }}" data-subject="{{ $template->subject }}" data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}" data-id="{{ $template->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
                                             -
                                             <button class="btn btn-outline-danger btn-sm" title="Remove {{ $template->title }}" data-id="{{ $template->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                         </td>
@@ -189,7 +188,7 @@
         <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
         
         </div>
-        <form action="{{ route('admin.helpvideo.updates',helpvideolink()->id) }}" method="post"
+        <form action="" method="post"
                                   enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
