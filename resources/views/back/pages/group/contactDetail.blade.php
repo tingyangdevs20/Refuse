@@ -3,6 +3,22 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <style>
+        /* Style for the placeholder label */
+        .placeholder {
+            position: absolute;
+            pointer-events: none;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Style to hide the label when the input is focused or has a value */
+        .date-input-container input:focus+.placeholder,
+        .date-input-container input:not(:placeholder-shown)+.placeholder {
+            transform: translateY(-100%) scale(0.8);
+        }
+
         #hidden_div {
             display: none;
         }
@@ -137,7 +153,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-10">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
@@ -159,9 +175,20 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="date" class="form-control"
                                                                                 placeholder="Date Added" name="date_added"
-                                                                                value="{{ $leadinfo->date_added == '' ? '' : $leadinfo->date_added }}"
-                                                                                table="lead_info">
+                                                                                id="date_added" table="lead_info">
                                                                         </div>
+
+                                                                        <script>
+                                                                            // Get the current date in the format "YYYY-MM-DD"
+                                                                            var currentDate = new Date().toISOString().slice(0, 10);
+
+                                                                            // Check if a value was fetched from the database
+                                                                            var databaseValue = "{{ $leadinfo->date_added }}";
+
+                                                                            // Set the input field's value to the database value if available, or the current date if not
+                                                                            document.getElementById('date_added').value = databaseValue || currentDate;
+                                                                        </script>
+
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
@@ -346,7 +373,8 @@
                                                                         {{-- <label>Lead Type</label> --}}
                                                                         <select class="custom-select" name="lead_type"
                                                                             onchange="">
-                                                                            <option value="">Lead Type</option>
+                                                                            <option value="" disabled>Lead Type
+                                                                            </option>
                                                                             <option value="Agents"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Agents') @endif
                                                                                 @endif>Agents
@@ -403,13 +431,27 @@
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Other') @endif
                                                                                 @endif>Other
                                                                             </option>
-
-
-
-
                                                                         </select>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <select class="custom-select">
+                                                                            <option value="" disabled>Select Tag
+                                                                            </option>
+                                                                            @if (count($tags) > 0)
+                                                                                @foreach ($tags as $tag)
+                                                                                    <option value="{{ $tag->id }}"
+                                                                                        @if (isset($leadinfo) && is_array($leadinfo->tag_id) && in_array($tag->id, $leadinfo->tag_id)) selected @endif>
+                                                                                        {{ $tag->name }}</option>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        </select>
+                                                                    </div>
+
+
+                                                                </div>
+
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Lead Source</label> --}}
@@ -524,7 +566,7 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Mailing Address</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Mailing Address"
+                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder=" Mailing Address"
                                                                                 name="mailing_address" table="lead_info"> {{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
                                                                         </div>
                                                                     </div>
@@ -629,7 +671,7 @@
                                                                         {{-- <label>Primary Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Primary Number"
+                                                                                placeholder="Primary Phone Number"
                                                                                 name="owner1_primary_number"
                                                                                 table="lead_info"
                                                                                 value="{{ $leadinfo->owner1_primary_number == '' ? '' : $leadinfo->owner1_primary_number }}">
@@ -654,7 +696,7 @@
                                                                         {{-- <label>Number 2</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Number 2"
+                                                                                placeholder="Phone Number 2"
                                                                                 name="owner1_number2" table="lead_info"
                                                                                 value="{{ $leadinfo->owner1_number2 == '' ? '' : $leadinfo->owner1_number2 }}">
                                                                             @if ($leadinfo->owner1_number2)
@@ -678,7 +720,7 @@
                                                                         {{-- <label>Number 3</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Number 3"
+                                                                                placeholder="Phone Number 3"
                                                                                 name="owner1_number3" table="lead_info"
                                                                                 value="{{ $leadinfo->owner1_number3 == '' ? '' : $leadinfo->owner1_number3 }}">
                                                                             @if ($leadinfo->owner1_number3)
@@ -715,10 +757,20 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Owner 1 Date of Birth</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
-                                                                                placeholder="Date of Birth"
+                                                                            <!-- Display the date as text -->
+                                                                            <input class="form-control date-input-text"
+                                                                                type="text" placeholder="Date of Birth"
                                                                                 name="owner1_dob" table="lead_info"
+                                                                                onchange="updateValue(value,'loan1_type','property_finance_infos')"
                                                                                 value="{{ $leadinfo->owner1_dob == '' ? '' : $leadinfo->owner1_dob }}">
+
+                                                                            <!-- Hidden date input -->
+                                                                            <input class="form-control date-input-hidden"
+                                                                                type="date" style="display: none;"
+                                                                                name="owner1_dob" table="lead_info"
+                                                                                onchange="updateValue(value,'loan1_type','property_finance_infos')"
+                                                                                value="{{ $leadinfo->owner1_dob == '' ? '' : $leadinfo->owner1_dob }}">
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -799,7 +851,7 @@
                                                                         {{-- <label> Primary Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder=" Primary Number"
+                                                                                placeholder="Primary Phone Number"
                                                                                 name="owner2_primary_number"
                                                                                 table="lead_info"
                                                                                 value="{{ $leadinfo->owner2_primary_number == '' ? '' : $leadinfo->owner2_primary_number }}">
@@ -824,7 +876,7 @@
                                                                         {{-- <label> Number 2</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder=" Number 2"
+                                                                                placeholder="Phone Number 2"
                                                                                 name="owner2_number2" table="lead_info"
                                                                                 value="{{ $leadinfo->owner2_number2 == '' ? '' : $leadinfo->owner2_number2 }}">
                                                                             @if ($leadinfo->owner2_number2)
@@ -848,7 +900,7 @@
                                                                         {{-- <label> Number 3</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder=" Number 3"
+                                                                                placeholder="Phone Number 3"
                                                                                 name="owner2_number3" table="lead_info"
                                                                                 value="{{ $leadinfo->owner2_number3 == '' ? '' : $leadinfo->owner2_number3 }}">
                                                                             @if ($leadinfo->owner2_number3)
@@ -885,9 +937,11 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Owner 2 Date of Birth</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
+                                                                            <input class="form-control"
                                                                                 placeholder="Date of Birth"
                                                                                 name="owner2_dob" table="lead_info"
+                                                                                onfocus="(this.type='date')"
+                                                                                onblur="( this.type='text')"
                                                                                 value="{{ $leadinfo->owner2_dob == '' ? '' : $leadinfo->owner2_dob }}">
                                                                         </div>
                                                                     </div>
@@ -969,7 +1023,7 @@
                                                                         {{-- <label> Primary Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder=" Primary Number"
+                                                                                placeholder="Phone Primary Number"
                                                                                 name="owner3_primary_number"
                                                                                 table="lead_info"
                                                                                 value="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}">
@@ -994,7 +1048,7 @@
                                                                         {{-- <label> Number 2</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder=" Number 2"
+                                                                                placeholder="Phone Number 2"
                                                                                 name="owner3_number2" table="lead_info"
                                                                                 value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
                                                                             @if ($leadinfo->owner3_number2)
@@ -1018,7 +1072,7 @@
                                                                         {{-- <label> Number 3</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder=" Number 3"
+                                                                                placeholder="Phone Number 3"
                                                                                 name="owner3_number2" table="lead_info"
                                                                                 value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
                                                                             @if ($leadinfo->owner3_number3)
@@ -1055,9 +1109,11 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Owner 3 Date of Birth</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
+                                                                            <input class="form-control"
                                                                                 placeholder="Date of Birth"
                                                                                 name="owner3_dob" table="lead_info"
+                                                                                onfocus="(this.type='date')"
+                                                                                onblur="( this.type='text')"
                                                                                 value="{{ $leadinfo->owner3_dob == '' ? '' : $leadinfo->owner3_dob }}">
                                                                         </div>
                                                                     </div>
@@ -1075,26 +1131,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Tags </label> --}}
-                                                                        <select class="custom-select" name="tag_id"
-                                                                            table="lead_info"
-                                                                            onchange="updateValue(value,'tag_id','lead_info')">
-                                                                            <option value="">Select Tag</option>
-                                                                            @if (count($tags) > 0)
-                                                                                @foreach ($tags as $tag)
-                                                                                    <option value="{{ $tag->id }}"
-                                                                                        @if (isset($leadinfo)) @if ($tag->id == $leadinfo->tag_id) selected @endif
-                                                                                        @endif
-                                                                                        >{{ $tag->name }}</option>
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
                                                             @endphp
@@ -1147,7 +1184,7 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Property Address</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Property Address"
+                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder="Property Address"
                                                                                 name="property_address" table="property_infos">{{ $property_infos->property_address == '' ? '' : $property_infos->property_address }}</textarea>
                                                                         </div>
                                                                     </div>
@@ -1186,30 +1223,6 @@
                                                                                 placeholder="Property Zip"
                                                                                 name="property_zip" table="property_infos"
                                                                                 value="{{ $property_infos->property_zip == '' ? '' : $property_infos->property_zip }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Google Maps Link</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Google Maps Link"
-                                                                                name="map_link" table="property_infos"
-                                                                                value="{{ $property_infos->map_link == '' ? '' : $property_infos->map_link }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Zillow Link to Address</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Zillow Link to Address"
-                                                                                name="zillow_link" table="property_infos"
-                                                                                value="{{ $property_infos->zillow_link == '' ? '' : $property_infos->zillow_link }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1414,6 +1427,17 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Notes About Condition</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Notes About Condition"
+                                                                                table="values_conditions" name="notes_condition">{{ $values_conditions->notes_condition == '' ? '' : $values_conditions->notes_condition }}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Repair Cost</label> --}}
@@ -1478,17 +1502,6 @@
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Notes About Condition</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Notes About Condition"
-                                                                                table="values_conditions" name="notes_condition">{{ $values_conditions->notes_condition == '' ? '' : $values_conditions->notes_condition }}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-realtor-estimates-button"
@@ -1517,6 +1530,30 @@
                                                                     <div class="form-group" style="padding: 0 10px;"
                                                                         id="estimateContainer">
 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Google Maps Link</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Google Maps Link"
+                                                                                name="map_link" table="property_infos"
+                                                                                value="{{ $property_infos->map_link == '' ? '' : $property_infos->map_link }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Zillow Link to Address</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Zillow Link to Address"
+                                                                                name="zillow_link" table="property_infos"
+                                                                                value="{{ $property_infos->zillow_link == '' ? '' : $property_infos->zillow_link }}">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1625,6 +1662,19 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-md-12">
+
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Notes About Condition</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder="Financing Notes"
+                                                                                table="property_finance_infos" name="financing_notes">{{ $property_finance_infos->financing_notes == '' ? '' : $property_finance_infos->financing_notes }}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>HOA Dues per month</label> --}}
@@ -1634,18 +1684,6 @@
                                                                                 name="dues_per_month"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->dues_per_month == '' ? '' : $property_finance_infos->dues_per_month }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Financing Notes</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Financing Notes"
-                                                                                name="financing_notes"
-                                                                                table="property_finance_infos"
-                                                                                value="{{ $property_finance_infos->financing_notes == '' ? '' : $property_finance_infos->financing_notes }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1675,8 +1713,17 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Origination Date</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
+                                                                            <!-- Display the date as text -->
+                                                                            <input class="form-control date-input-text"
+                                                                                type="text"
                                                                                 placeholder="Origination Date"
+                                                                                name="loan1_origination_date"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->loan1_origination_date == '' ? '' : $property_finance_infos->loan1_origination_date }}">
+
+                                                                            <!-- Hidden date input -->
+                                                                            <input class="form-control date-input-hidden"
+                                                                                type="date" style="display: none;"
                                                                                 name="loan1_origination_date"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_origination_date == '' ? '' : $property_finance_infos->loan1_origination_date }}">
@@ -1828,7 +1875,7 @@
                                                                         {{-- <label>Loan  Monthly PITIH Payment</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Monthly PITIH Payment"
+                                                                                placeholder="Loan Monthly PITIH Payment"
                                                                                 name="loan1_month_pitih_payment"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_month_pitih_payment == '' ? '' : $property_finance_infos->loan1_month_pitih_payment }}">
@@ -1852,7 +1899,7 @@
                                                                         {{-- <label>Loan  Mortgage Company Phone</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Phone"
+                                                                                placeholder="Loan Mortgage Company Phone"
                                                                                 name="loan1_mor_comp_phone"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_mor_comp_phone == '' ? '' : $property_finance_infos->loan1_mor_comp_phone }}">
@@ -1864,7 +1911,7 @@
                                                                         {{-- <label>Loan  Account Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Account Number"
+                                                                                placeholder="Loan Account Number"
                                                                                 name="loan1_account_nmbr"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_account_nmbr == '' ? '' : $property_finance_infos->loan1_account_nmbr }}">
@@ -1876,7 +1923,7 @@
                                                                         {{-- <label>Loan  Online Access Link</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Online Access Link"
+                                                                                placeholder="Loan Online Access Link"
                                                                                 name="loan1_online_link"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_online_link == '' ? '' : $property_finance_infos->loan1_online_link }}">
@@ -1888,7 +1935,7 @@
                                                                         {{-- <label>Loan Online Access User Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Online Access User Name"
+                                                                                placeholder="Loan Online Access User Name"
                                                                                 name="loan1_user_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_user_name == '' ? '' : $property_finance_infos->loan1_user_name }}">
@@ -1919,23 +1966,20 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan Day of Month Due</label> --}}
-                                                                        <select class="custom-select"
-                                                                            name="loan1_due_day_month"
-                                                                            onchange="updateValue(value,'loan1_due_day_month','property_finance_infos')">
-                                                                            <option value="">Loan Day of Month Due
-                                                                            </option>
-                                                                            <option value="1"
-                                                                                @if (isset($property_finance_infos)) @if ($property_finance_infos->loan1_due_day_month == '1') selected @endif
-                                                                                @endif>1</option>
-                                                                            <option value="15"
-                                                                                @if (isset($property_finance_infos)) @if ($property_finance_infos->loan1_due_day_month == '15') selected @endif
-                                                                                @endif>15</option>
-                                                                        </select>
+                                                                        {{-- <label>Loan Account PIN/Codeword</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Loan Day of Month Due"
+                                                                                name="loan1_due_day_month"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->loan1_due_day_month == '' ? '' : $property_finance_infos->loan1_due_day_month }}">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -1950,8 +1994,22 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Origination Date</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
+                                                                            {{-- <input type="date" class="form-control"
                                                                                 placeholder="Origination Date"
+                                                                                name="loan2_origination_date"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}"> --}}
+                                                                            <!-- Display the date as text -->
+                                                                            <input class="form-control date-input-text"
+                                                                                type="text"
+                                                                                placeholder="Origination Date"
+                                                                                name="loan2_origination_date"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
+
+                                                                            <!-- Hidden date input -->
+                                                                            <input class="form-control date-input-hidden"
+                                                                                type="date" style="display: none;"
                                                                                 name="loan2_origination_date"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
@@ -2311,17 +2369,16 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Impact</label> --}}
+                                                                        {{-- <label>Reason for Selling/Needs/Greeds</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Impact" name="impact"
-                                                                                table="selling_motivations"
-                                                                                value="{{ $selling_motivations->impact == '' ? '' : $selling_motivations->impact }}">
+                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Impact" name="impact"
+                                                                                table="selling_motivations">{{ $selling_motivations->impact == '' ? '' : $selling_motivations->impact }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Serious About Solving Now?</label> --}}
@@ -2515,16 +2572,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Past Due Amount of Mortgage/Taxes/HOA</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Past Due Amount of Mortgage/Taxes/HOA"
-                                                                                name="PastDueAmountMortgage">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Profit Expected</label> --}}
@@ -2553,6 +2601,16 @@
                                                                                 placeholder="Monthly Passive Income"
                                                                                 name="MonthlyPassiveIncome">
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Past Due Amount of Mortgage/Taxes/HOA</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <textarea id="template_text" class="form-control" rows="2"
+                                                                                placeholder="Past Due Amount of Mortgage/Taxes/HOA" name="PastDueAmountMortgage"></textarea>
+                                                                        </div>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2665,8 +2723,8 @@
                                                                         {{-- <label>Do you have someone that’s helping you make the decision to sell this house?</label> --}}
                                                                         <select class="custom-select" name="solving_now"
                                                                             onchange="updateValue(value,'solving_now','selling_motivations')">
-                                                                            <option value="">Do you have someone
-                                                                                that’s helping you make the decision to sell
+                                                                            <option value="">Someone helping helping
+                                                                                them to make decision?
                                                                                 this house?</option>
                                                                             <option value="yes"
                                                                                 @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
@@ -2753,16 +2811,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Send zoom link button (to email and sms)</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Send zoom link button (to email and sms)"
-                                                                                name="SomeoneHelpingName">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+
 
                                                             </div>
                                                             @php
@@ -2833,14 +2882,19 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>If no good pictures are online, ask them for recent pictures</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input style="margin-right:5px"
-                                                                                type="checkbox" name="recent_pics"> If
-                                                                            no good pictures are online, ask them for recent
-                                                                            pictures
+                                                                            <label
+                                                                                style="display: flex; align-items: center;">
+                                                                                <input style="margin-right: 5px;"
+                                                                                    type="checkbox" id="recent_pics"
+                                                                                    name="recent_pics">
+                                                                                If no good pictures are online, ask them for
+                                                                                recent pictures
+                                                                            </label>
                                                                         </div>
                                                                     </div>
+
+
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -2908,7 +2962,7 @@
                                                                                 name="property_listed_agent"
                                                                                 onchange="updateValue(value,'property_listed_agent','agent_infos')">
                                                                                 <option value="">Property currently
-                                                                                    listed with an agent </option>
+                                                                                    listed with an agent? </option>
                                                                                 <option value="yes"
                                                                                     @if (isset($agent_infos)) @if ($agent_infos->property_listed_agent == 'yes') selected @endif
                                                                                     @endif>Yes</option>
@@ -2949,8 +3003,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Name"
-                                                                                name="agent_name"
-                                                                                table="agent_infos"
+                                                                                name="agent_name" table="agent_infos"
                                                                                 onchange="updateValue(value,'agent_name','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_name }}">
                                                                         </div>
@@ -2975,8 +3028,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Phone"
-                                                                                name="agent_phone"
-                                                                                table="agent_infos"
+                                                                                name="agent_phone" table="agent_infos"
                                                                                 onchange="updateValue(value,'agent_phone','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_phone }}">
                                                                         </div>
@@ -2988,8 +3040,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Email"
-                                                                                name="agent_email"
-                                                                                table="agent_infos"
+                                                                                name="agent_email" table="agent_infos"
                                                                                 onchange="updateValue(value,'agent_email','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_email }}">
                                                                         </div>
@@ -3004,8 +3055,7 @@
                                                                                 name="days_on_market"
                                                                                 table="agent_infos"
                                                                                 onchange="updateValue(value,'days_on_market','agent_infos')"
-                                                                                value="{{ $agent_infos->days_on_market }}"
-                                                                            >
+                                                                                value="{{ $agent_infos->days_on_market }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3257,6 +3307,18 @@
 
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            {{-- <label>Send zoom link button (to email and sms)</label> --}}
+                                                                            <div class="input-group mb-2">
+                                                                                <input type="text"
+                                                                                    class="form-control"
+                                                                                    placeholder="Send zoom link button (to email and sms)"
+                                                                                    name="SomeoneHelpingName">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
@@ -3471,7 +3533,10 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @if (!empty($googleDriveFiles) && (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) && count($googleDriveFiles) > 0)
+                                                            @if (
+                                                                !empty($googleDriveFiles) &&
+                                                                    (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) &&
+                                                                    count($googleDriveFiles) > 0)
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group"
@@ -3534,17 +3599,22 @@
                                                                                         $extension = pathinfo($file->name, PATHINFO_EXTENSION);
                                                                                     @endphp
                                                                                     @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
-                                                                                    <i class="fas fa-file-pdf fa-3x"></i>
-                                                                                @elseif (Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
-                                                                                    <i class="fas fa-file-word fa-3x"></i>
-                                                                                @elseif (Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
-                                                                                    <i class="fas fa-file-excel fa-3x"></i>
-                                                                                @else
-                                                                                    <i class="fas fa-file fa-3x"></i>
-                                                                                @endif
-                                                                                
-                                                                                <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}" target="_blank">{{ $file->name }}</a></h5>
-                                                                                
+                                                                                        <i
+                                                                                            class="fas fa-file-pdf fa-3x"></i>
+                                                                                    @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
+                                                                                        <i
+                                                                                            class="fas fa-file-word fa-3x"></i>
+                                                                                    @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
+                                                                                        <i
+                                                                                            class="fas fa-file-excel fa-3x"></i>
+                                                                                    @else
+                                                                                        <i class="fas fa-file fa-3x"></i>
+                                                                                    @endif
+
+                                                                                    <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
+                                                                                            target="_blank">{{ $file->name }}</a>
+                                                                                    </h5>
+
                                                                                 </div>
                                                                             </div>
                                                                         @endif
@@ -4458,7 +4528,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4"
-                                        style="position: relative;margin-left: 1100px;margin-top: -524px;">
+                                        style="position: relative;margin-left: 1000px;margin-top: -524px;">
                                         <div class="card content-div">
                                             <div class="form-group" style="padding: 0 10px;">
                                                 <label>Load Script</label>
@@ -4510,11 +4580,39 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+
     <script>
         $(document).ready(function() {
 
+            // Initially hide the date input
+            $('.date-input-hidden').hide();
+
+            // When the text input is clicked, hide it and show the hidden date input
+            $('.date-input-text').on('click', function() {
+                if (!$(this).val()) {
+                    console.log('has no value');
+                    $(this).hide();
+                    $('.date-input-hidden').show().focus();
+                }
+            });
+
+            // When the date input loses focus, hide it and show the text input if it's empty
+            $('.date-input-hidden').on('blur', function() {
+                if (!$(this).val()) {
+                    $(this).hide();
+                    $('.date-input-text').show();
+                }
+            });
+
+
             // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
+            $('.select2').select2({
+                theme: 'bootstrap4',
+            });
+            $('.select2').select2();
             $("#custom-upload-button").click(function() {
                 var form = $("#main_form");
 
