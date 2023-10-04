@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Templates</h4>
+                        <h4 class="mb-0 font-size-18">Template Messages</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            All Templates
+                            Template Messages
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
                                     data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
 
@@ -42,9 +42,10 @@
                                 <thead>
                                 <tr>
                                    
-                                    <th scope="col">Template Name</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Messages Count</th>
+                                    <th scope="col">Message Title</th>
+                                    <th scope="col">Content</th>
+                                   
+                                    
                                   
                                     
                                     <!--<th scope="col">Media URL</th>-->
@@ -55,15 +56,13 @@
                                 @foreach($templates as $template)
                                     <tr>
                                         
-                                        <td><a href="template/view/{{ $template->id }}">{{ $template->title }}</a></td>
-                                        <td>{{ $template->type }}</td>
+                                        <td>{{ $template->msg_title }}</td>
+                                        <td>{{ $template->msg_content }}</td>
                                         
-                                        <td>
-                                           3
-                                        </td>
+                                        
                                        
                                         <td>
-                                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->title }}" data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}" data-category="{{ $template->category_id }}" data-type="{{ $template->type }}" data-subject="{{ $template->subject }}" data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}" data-id="{{ $template->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->msg_title }}" data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}" data-category="{{ $template->category_id }}" data-type="{{ $template->type }}" data-subject="{{ $template->subject }}" data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}" data-id="{{ $template->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
                                             -
                                             <button class="btn btn-outline-danger btn-sm" title="Remove {{ $template->title }}" data-id="{{ $template->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                         </td>
@@ -104,7 +103,7 @@
                       
                         <div class="form-group pt-2">
                             <label>Message Type</label><br>
-                            <select class="from-control" style="width: 100%;" id="type" name="type"  required>
+                            <select class="from-control" style="width: 100%;" id="type" name="type" onchange="messageType(value)" required>
                                 <option value="">Select Type</option>
                                 <option value="SMS">SMS</option>
                                 <option value="MMS">MMS</option>
@@ -189,7 +188,7 @@
         <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
         
         </div>
-        <form action="{{ route('admin.helpvideo.updates',helpvideolink()->id) }}" method="post"
+        <form action="" method="post"
                                   enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -231,13 +230,50 @@
                        
                         <div class="form-group pt-2">
                             <label>Message Type</label><br>
-                            <select class="from-control" style="width: 100%;" id="type" name="type"  required>
+                            <select class="from-control" style="width: 100%;" id="type" name="type" onchange="messageTypeEdit(value)" required>
                                 <option value="">Select Type</option>
                                 <option value="SMS">SMS</option>
                                 <option value="MMS">MMS</option>
                                 <option value="Email">Email</option>
                                 
                             </select>
+                        </div>
+                        <!--//////-->
+                        <div class="show_media_rvm_edit" style="display:none;">
+                            <div class="form-group">
+                                <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
+                                <input type="file" class="form-control-file" name="media_file">
+                                <label>(<small class="text-danger font-weight-bold file-name"></small>)</label>
+                            </div>
+                        </div>
+                        <div class="show_media_mms_edit" style="display:none;">
+                            <div class="form-group">
+                                <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
+                                <input type="file" class="form-control-file" name="media_file_mms">
+                                <label>(<small class="text-danger font-weight-bold file-name"></small>)</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Body</label>
+                                <textarea class="form-control text112 mms_body" id="mms_body_edit" name="mms_body" rows="10"></textarea>
+                                <div id='count112' class="float-lg-right"></div>
+                            </div>
+                            <div class="form-group">
+    
+                                <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
+                                        respective fields</b></small>
+                            </div>
+                        </div>
+                        <div class="show_sms_edit" style="display:none;">
+                            <div class="form-group">
+                                <label>Body</label>
+                                <textarea class="form-control text2 body_sms_edit" id="body_sms" name="body" rows="10"></textarea>
+                                <div id='count2' class="float-lg-right"></div>
+                            </div>
+                            <div class="form-group">
+    
+                                <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
+                                        respective fields</b></small>
+                            </div>
                         </div>
                        
 
@@ -294,19 +330,140 @@
         $(".summernote-usage").summernote({
     	    height: 200,
     	});
-      
+        function messageType(val){
+            if(val === 'SMS'){
+                $(".email_body").removeAttr("required");
+                $(".body_sms").attr("required", "true");
+                
+                $('.show_media').hide();
+                $('.show_email').hide();
+                $('.show_media_rvm').hide();
+                $('.show_media_mms').hide();
+                $('.show_sms').show();
+            }else if(val === 'MMS'){
+                $(".body_sms").removeAttr("required");
+                $(".email_body").removeAttr("required");
+                $('.show_email').hide();
+                $('.show_sms').hide();
+                $('.show_media_rvm').hide();
+                $('.show_media_mms').show();
+            }else if(val === 'Email'){
+                $(".body_sms").removeAttr("required");
+                $(".email_body").attr("required", "true");
+                $('.show_sms').hide();
+                $('.show_media').hide();
+                $('.show_media_rvm').hide();
+                $('.show_media_mms').hide();
+                $('.show_email').show();
+            }else if(val === 'RVM'){
+                $(".body_sms").removeAttr("required");
+                $(".email_body").removeAttr("required");
+                $('.show_email').hide();
+                $('.show_sms').hide();
+                $('.show_media_mms').hide();
+                $('.show_media_rvm').show();
+            }
+        }
+        function messageTypeEdit(val){
+            if(val === 'SMS'){
+                $(".email_body_edit").removeAttr("required");
+                $(".body_sms_edit").attr("required", "true");
+                $('.show_media_rvm_edit').hide();
+                $('.show_media_mms_edit').hide();
+                $('.show_email_edit').hide();
+                $('.show_sms_edit').show();
+            }else if(val === 'MMS'){
+                $(".body_sms_edit").removeAttr("required");
+                $(".email_body_edit").removeAttr("required");
+                $('.show_email_edit').hide();
+                $('.show_sms_edit').hide();
+                $('.show_media_rvm_edit').hide();
+                $('.show_media_mms_edit').show();
+                
+            }else if(val === 'Email'){
+                $(".body_sms_edit").removeAttr("required");
+                $(".email_body_edit").attr("required", "true");
+                $('.show_sms_edit').hide();
+               $('.show_media_rvm_edit').hide();
+                $('.show_media_mms_edit').hide();
+                $('.show_email_edit').show();
+            }else if(val === 'RVM'){
+                $(".body_sms_edit").removeAttr("required");
+                $(".email_body_edit").removeAttr("required");
+                $('.show_email_edit').hide();
+                $('.show_sms_edit').hide();
+                $('.show_media_mms_edit').hide();
+                $('.show_media_rvm_edit').show();
+            }
+        }
         $(document).ready(function () {
             $('#datatable').DataTable();
         });
-      
+        $(document).ready(function () {
+            $('#categories').select2();
+        });
         $(document).ready(function () {
             $('#type').select2();
         });
-       
+        $(document).ready(function () {
+            $('#categories2').select2();
+        });
         
     </script>
     <script>
-      
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);// Button that triggered the modal
+            var title = button.data('title');
+            var body = button.data('body');
+            var id = button.data('id');
+            var type = button.data('type');
+            var subject = button.data('subject');
+            var category = button.data('category');
+            var mediaurl = button.data('mediaurl');
+            var modal = $(this);
+            if(type === 'SMS'){
+                $(".email_body").removeAttr("required");
+                $(".body_sms").attr("required", "true");
+                $('.show_media_rvm_edit').hide();
+                $('.show_media_mms_edit').hide();
+                $('.show_email_edit').hide();
+                $('.show_sms_edit').show();
+                modal.find('.modal-body #body_sms').val(body);
+            }else if(type === 'MMS'){
+                $(".body_sms").removeAttr("required");
+                $(".email_body").removeAttr("required");
+                $('.show_email_edit').hide();
+                $('.show_sms_edit').hide();
+                $('.show_media_rvm_edit').hide();
+                $('.show_media_mms_edit').show();
+                modal.find('.modal-body #mms_body_edit').val(body);
+                $('.file-name').html(mediaurl);
+            }else if(type === 'Email'){
+                $(".body_sms").removeAttr("required");
+                $(".email_body").attr("required", "true");
+                $('.show_sms_edit').hide();
+                $('.show_media_rvm_edit').hide();
+                $('.show_media_mms_edit').hide();
+                $('.show_email_edit').show();
+                modal.find('.modal-body #subject').val(subject);
+                $('#body_email').summernote ('code', body);
+                //$('#body_email').val(body);
+            }else if(type === 'RVM'){
+                $(".body_sms").removeAttr("required");
+                $(".email_body").removeAttr("required");
+                $('.show_email_edit').hide();
+                $('.show_sms_edit').hide();
+                $('.show_media_mms_edit').hide();
+                $('.show_media_rvm_edit').show();
+                $('.file-name').html(body);
+            }
+            modal.find('.modal-body #title').val(title);
+            
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #type').val(type);
+            $("#categories2").val(category).trigger('change');
+
+        });
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
