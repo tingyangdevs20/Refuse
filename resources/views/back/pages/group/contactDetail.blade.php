@@ -196,7 +196,7 @@
                                                                         {{-- <label>Lead Status</label> --}}
                                                                         <select class="custom-select" name="lead_status"
                                                                             table="lead_info" onchange="">
-                                                                            <option value="" selected disabled>Lead
+                                                                            <option value="">Lead
                                                                                 Status</option>
                                                                             <option value="None/Unknown"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'None/Unknown') @endif
@@ -374,7 +374,7 @@
                                                                         {{-- <label>Lead Type</label> --}}
                                                                         <select class="custom-select" name="lead_type"
                                                                             onchange="">
-                                                                            <option value="" selected disabled>Lead
+                                                                            <option value="">Lead
                                                                                 Type
                                                                             </option>
                                                                             <option value="Agents"
@@ -439,7 +439,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <select class="custom-select">
-                                                                            <option value="" disabled>Select Tag
+                                                                            <option value="">Select Tag
                                                                             </option>
                                                                             @if (count($tags) > 0)
                                                                                 @foreach ($tags as $tag)
@@ -459,7 +459,7 @@
                                                                         {{-- <label>Lead Source</label> --}}
                                                                         <select class="custom-select" name="lead_source"
                                                                             onchange="">
-                                                                            <option value="" selected disabled>Lead Source</option>
+                                                                            <option value="">Lead Source</option>
                                                                             <option value="Bandit Signs"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Bandit Signs') @endif
                                                                                 @endif>Bandit Signs
