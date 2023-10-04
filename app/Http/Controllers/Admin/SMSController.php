@@ -61,13 +61,20 @@ class SMSController extends Controller
     public function show(Sms $sms)
     {   // code here
         // echo "<pre>";
-        // print_r($sms);die;
+       // print_r($sms);die;
+        
         $quickResponses=QuickResponse::all();
         $number=Number::where('number',$sms->twilio_number)->first();
+        //print_r($number);
+       // die('..');
      
         $smsInfo=Contact::where('number',$sms->client_number)->first();
-       
+       // print_r($smsInfo);
+       // die('..');
+
         $leadCategories=LeadCategory::all();
+        //print_r($leadCategories);
+        //die('..');
 
         $conversations=Conversations::orderBy('received_on', 'ASC')->get();
    

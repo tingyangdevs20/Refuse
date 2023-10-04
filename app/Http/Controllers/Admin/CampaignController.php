@@ -69,16 +69,23 @@ class CampaignController extends Controller
             }
             $compain = Campaign::where('id' , $campaign_id)->first();
             $groupsID = Group::where('id',$compain->group_id)->first();
-            $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
-            //dd($numbers);
-            $account = Account::where('id' , $sender_numbers->account_id)->first();
-            if($account){
-                $sid = $account->account_id;
-                $token = $account->account_token;
-            }else{
-                $sid = '';
-                $token = '';
+            if($groupsID){
+
+                $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
+                if($sender_numbers){
+                    $account = Account::where('id' , $sender_numbers->account_id)->first();
+                    if($account){
+                        $sid = $account->account_id;
+                        $token = $account->account_token;
+                    }else{
+                        $sid = '';
+                        $token = '';
+                    }
+                }
             }
+
+
+
             $checkCompainList = CampaignList::where('campaign_id',$campaign_id)->orderby('schedule','ASC')->first();
             if($checkCompainList) {
                 $template = Template::where('id', $checkCompainList->template_id)->first();
@@ -449,8 +456,10 @@ class CampaignController extends Controller
         $groups = Group::all();
         $request->validate([
             'name' => 'required|string|max:255',
+
            
             //'active' => 'required|boolean', // Add validation for active status
+
             // Add other validation rules for campaign details
         ]);
 

@@ -22,6 +22,8 @@ class AdminController extends Controller
 {
         public function index()
         {
+
+
             $settings=Settings::first();
             $messages_sent_today=(Sms::whereDate('created_at', Carbon::today())->where('is_received',0)->withTrashed()->count())+(Reply::where('system_reply',1)->whereDate('created_at', Carbon::today())->withTrashed()->count());
             $messages_received_today=(Sms::whereDate('created_at', Carbon::today())->where('is_received',1)->withTrashed()->count())+(Reply::where('system_reply',0)->whereDate('created_at', Carbon::today())->withTrashed()->count());
@@ -32,7 +34,8 @@ class AdminController extends Controller
             $messages_sent_month_days_goals=getReportingDataOfSMS(30);
             $messages_sent_ninety_days_goals=getReportingDataOfSMS(90);
             $messages_sent_year_goals=getReportingDataOfSMS(365);
-        //Received sms
+
+            //Received sms
             $messages_received_today_goals=getReportingDataOfSMSreceived(0);
             $messages_received_seven_days_goals=getReportingDataOfSMSreceived(7);
             $messages_received_month_days_goals=getReportingDataOfSMSreceived(30);
@@ -101,50 +104,82 @@ class AdminController extends Controller
             $contracts_out_ninety_day=contracts_out_count(90,$user);
             $contracts_out_year=contracts_out_count(365,$user);
 
-            // Money Expected
-            $moneyExpected = GoalsReached::where([['user_id','=',$user]])->first();
-            $monthlyGoal = preg_replace('/[^0-9]/', '', $moneyExpected->goals);
-            $expectedLifespanYears = 80;
-           // Calculate expected money for different time intervals
-            $expected_money_todays = $monthlyGoal / 30; // Assuming a month has 30 days
-            $expected_money_seven_day = $expected_money_todays * 7;
-            $expected_money_month = $monthlyGoal;
-            $expected_money_ninety_day = $expected_money_todays * 90;
-            $expected_money_year = $monthlyGoal * 12;
-            $expected_money_lifetime = $monthlyGoal * 12 * $expectedLifespanYears;
-
-            // COLLECTEDMONEY
-
-            // Function to calculate money collected based on leads count and conversion rates
-            function calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, $days) {
-                $phoneConversationsCount = $leadsCount * $leadsToPhoneConversionRate * $days / 365;
-                $signedPurchaseAgreementsCount = $phoneConversationsCount * $phoneToSignedConversionRate;
-                $closedEscrowCount = $signedPurchaseAgreementsCount * $signedToClosedEscrowConversionRate;
 
 
-                $grossProfitPerDeal = 1000; // Replace this with the actual gross profit per deal
+             // Clean the input values and convert percentages to decimals
+            $moneyExpected = GoalsReached::where([['user_id','=',$user],['attribute_id','7']])->first();
+            $collectedExpected = GoalsReached::where([['user_id','=',$user],['attribute_id','8']])->first();
 
-                return $closedEscrowCount * $grossProfitPerDeal;
+            if (!$moneyExpected) {
+
+                $expected_money_todays = 0.00;
+                $expected_money_seven_day = 0.00;
+                $expected_money_month = 0.00;
+                $expected_money_ninety_day = 0.00;
+                $expected_money_year = 0.00;
+                $expected_money_lifetime = 0.00;
+
+
+            }else{
+                $expected_money_lifetime = 0;
+
+                $monthlyIncome = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->goals);
+                $grossProfit = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->gross_profit);
+                $leadConversion = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->contact_trun_into_lead) / 100;
+                $phoneContact = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->leads_into_phone) / 100;
+                $signedAgreements = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->signed_agreements) / 100;
+                $escrowClosure = (float) preg_replace('/[^0-9.]/', '', $moneyExpected->escrow_closure) / 100;
+
+                $expected_money_todays = $monthlyIncome / 30;
+                $expected_money_seven_day = $expected_money_todays * 7;
+                $expected_money_month = $monthlyIncome;
+                $expected_money_ninety_day = $monthlyIncome * 3;
+                $expected_money_year = $monthlyIncome * 12;
+                if ($leadConversion == 0 && $phoneContact == 0 && $signedAgreements == 0 && $escrowClosure == 0) {
+                    $expected_money_lifetime = 0.00; // All conversion rates are zero, set expected money to zero
+                } else {
+                    $expected_money_lifetime = $monthlyIncome / (1 - (1 - $leadConversion) * (1 - $phoneContact) * (1 - $signedAgreements) * (1 - $escrowClosure));
+                }
             }
 
-            $initialGoal = preg_replace('/[^0-9]/', '', $money_collected); // Remove non-digit characters
-            $leadsCount = preg_replace('/[^0-9]/', '', $goal_lead) ?? 0;
+            if (!$collectedExpected) {
 
-            // Define conversion rates (as decimals)
-            $leadsToPhoneConversionRate = 0.5;
-            $phoneToSignedConversionRate = 0.1;
-            $signedToClosedEscrowConversionRate = 0.8;
 
-            // Calculate money collected for different time periods based on conversion rates and leads count
-            $money_collected_todays = calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, 1);
-            $money_collected_seven_day = calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, 7);
-            $money_collected_month = calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, 30);
-            $money_collected_ninety_day = calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, 90);
-            $money_collected_year = calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, 365);
-            $money_collected_lifetime = calculateMoneyCollected($leadsCount, $leadsToPhoneConversionRate, $phoneToSignedConversionRate, $signedToClosedEscrowConversionRate, PHP_INT_MAX); // PHP_INT_MAX represents a very large number, practically infinite
+                $money_collected_lifetime = 0.00;
+                $money_collected_todays = 0.00;
+                $money_collected_seven_day = 0.00;
+                $money_collected_month = 0.00;
+                $money_collected_ninety_day = 0.00;
+                $money_collected_year = 0.00;
+                $money_collected_lifetime = 0.00;
 
-            // Calculate the remaining goal
-            $remainingGoal = $initialGoal - $money_collected_lifetime;
+            }else{
+
+                $money_collected_lifetime = 0;
+
+                $monthlyIncome = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->goals);
+                $grossProfit = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->gross_profit);
+                $leadConversion = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->contact_trun_into_lead) / 100;
+                $phoneContact = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->leads_into_phone) / 100;
+                $signedAgreements = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->signed_agreements) / 100;
+                $escrowClosure = (float) preg_replace('/[^0-9.]/', '', $collectedExpected->escrow_closure) / 100;
+
+                $money_collected_todays = $monthlyIncome * $leadConversion * $phoneContact * $signedAgreements * $escrowClosure;
+                $money_collected_seven_day = $money_collected_todays * 7;
+                $money_collected_month = $monthlyIncome * $leadConversion * $phoneContact * $signedAgreements * $escrowClosure;
+                $money_collected_ninety_day = $money_collected_month * 3;
+                $money_collected_year = $money_collected_month * 12;
+
+                $money_collected_lifetime = $monthlyIncome;
+
+                if ($leadConversion > 0 && $phoneContact > 0 && $signedAgreements > 0 && $escrowClosure > 0) {
+                    $money_collected_lifetime *= $leadConversion * $phoneContact * $signedAgreements * $escrowClosure;
+                } else {
+                    // Handle the case where any conversion rate is zero
+                    $money_collected_lifetime = 0.00;
+                }
+
+            }
 
 
             //    $messages_sent_week=(Sms::whereDate('created_at', Carbon::today())->where('is_received',0)->withTrashed()->count())+(Reply::where('system_reply',1)->whereDate('created_at', Carbon::today())->withTrashed()->count());
@@ -169,7 +204,7 @@ class AdminController extends Controller
             'contracts_out_seven_day','contracts_out_month','contracts_out_ninety_day','contracts_out_year',
             'expected_money_todays','expected_money_seven_day','expected_money_month','expected_money_ninety_day',
             'expected_money_year','expected_money_lifetime','money_collected_todays','money_collected_seven_day','money_collected_month',
-            'money_collected_ninety_day','money_collected_year','money_collected_lifetime','remainingGoal'));
+            'money_collected_ninety_day','money_collected_year','money_collected_lifetime'));
     }
 
     public function setGoals(Request $request)
@@ -210,6 +245,8 @@ class AdminController extends Controller
         $goal->gross_profit=$request->gross_profit??0;
         $goal->contact_trun_into_lead=$request->contact_trun_into_lead??0;
         $goal->leads_into_phone=$request->leads_into_phone??0;
+        $goal->signed_agreements=$request->signed_agreements??0;
+        $goal->escrow_closure=$request->escrow_closure??0;
         $goal->save();
         // Alert::success('Success','Goal Saved!');
         return redirect()->route('admin.setgoals')->with('Success','Goal Saved!');
