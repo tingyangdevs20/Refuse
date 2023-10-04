@@ -153,7 +153,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-8">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
@@ -196,7 +196,8 @@
                                                                         {{-- <label>Lead Status</label> --}}
                                                                         <select class="custom-select" name="lead_status"
                                                                             table="lead_info" onchange="">
-                                                                            <option value="">Lead Status</option>
+                                                                            <option value="" selected disabled>Lead
+                                                                                Status</option>
                                                                             <option value="None/Unknown"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'None/Unknown') @endif
                                                                                 @endif>None/Unknown
@@ -373,7 +374,8 @@
                                                                         {{-- <label>Lead Type</label> --}}
                                                                         <select class="custom-select" name="lead_type"
                                                                             onchange="">
-                                                                            <option value="" disabled>Lead Type
+                                                                            <option value="" selected disabled>Lead
+                                                                                Type
                                                                             </option>
                                                                             <option value="Agents"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Agents') @endif
@@ -457,7 +459,7 @@
                                                                         {{-- <label>Lead Source</label> --}}
                                                                         <select class="custom-select" name="lead_source"
                                                                             onchange="">
-                                                                            <option value="">Lead Source</option>
+                                                                            <option value="" selected disabled>Lead Source</option>
                                                                             <option value="Bandit Signs"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Bandit Signs') @endif
                                                                                 @endif>Bandit Signs
@@ -1719,6 +1721,7 @@
                                                                                 placeholder="Origination Date"
                                                                                 name="loan1_origination_date"
                                                                                 table="property_finance_infos"
+                                                                                onchange="updateValue(value,'loan1_origination_date','property_finance_infos')"
                                                                                 value="{{ $property_finance_infos->loan1_origination_date == '' ? '' : $property_finance_infos->loan1_origination_date }}">
 
                                                                             <!-- Hidden date input -->
@@ -1726,6 +1729,7 @@
                                                                                 type="date" style="display: none;"
                                                                                 name="loan1_origination_date"
                                                                                 table="property_finance_infos"
+                                                                                onchange="updateValue(value,'loan1_origination_date','property_finance_infos')"
                                                                                 value="{{ $property_finance_infos->loan1_origination_date == '' ? '' : $property_finance_infos->loan1_origination_date }}">
                                                                         </div>
                                                                     </div>
@@ -2001,17 +2005,20 @@
                                                                                 value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}"> --}}
                                                                             <!-- Display the date as text -->
                                                                             <input class="form-control date-input-text"
-                                                                                type="text"
+                                                                                id="date_input_text" type="text"
                                                                                 placeholder="Origination Date"
                                                                                 name="loan2_origination_date"
                                                                                 table="property_finance_infos"
+                                                                                onchange="updateValue(value,'loan2_origination_date','property_finance_infos')"
                                                                                 value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
 
                                                                             <!-- Hidden date input -->
                                                                             <input class="form-control date-input-hidden"
-                                                                                type="date" style="display: none;"
+                                                                                id="date_input_hidden" type="date"
+                                                                                style="display: none;"
                                                                                 name="loan2_origination_date"
                                                                                 table="property_finance_infos"
+                                                                                onchange="updateValue(value,'loan2_origination_date','property_finance_infos')"
                                                                                 value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
                                                                         </div>
                                                                     </div>
@@ -4527,38 +4534,40 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-4"
-                                        style="position: relative;margin-left: 1000px;margin-top: -524px;">
-                                        <div class="card content-div">
-                                            <div class="form-group" style="padding: 0 10px;">
-                                                <label>Load Script</label>
-                                                <select class="custom-select" name="lead_assigned_to"
-                                                    onchange="loadScript(value)">
-                                                    <option value="">Load Script</option>
-                                                    @if (count($scripts) > 0)
-                                                        @foreach ($scripts as $script)
-                                                            <option value="{{ $script->id }}">{{ $script->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            <div class="load_script"></div>
-                                        </div>
-                                    </div>
-
                                 </div>
-                                {{-- <button type="submit" class="btn btn-primary mt-2" >Send SMS</button>
-                                            </div> --}}
-                            </form>
 
+                                <div class="col-md-4"
+                                    style="position: relative;margin-left: 1000px;margin-top: -524px;">
+                                    <div class="card content-div">
+                                        <div class="form-group" style="padding: 0 10px;">
+                                            <label>Load Script</label>
+                                            <select class="custom-select" name="lead_assigned_to"
+                                                onchange="loadScript(value)">
+                                                <option value="">Load Script</option>
+                                                @if (count($scripts) > 0)
+                                                    @foreach ($scripts as $script)
+                                                        <option value="{{ $script->id }}">{{ $script->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+                                        <div class="load_script"></div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
+                    {{-- <button type="submit" class="btn btn-primary mt-2" >Send SMS</button>
+                                            </div> --}}
+
                 </div>
             </div>
-            <!-- end page title -->
+        </div>
+    </div>
+    <!-- end page title -->
 
-        </div> <!-- container-fluid -->
+    </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
 
@@ -4591,11 +4600,9 @@
 
             // When the text input is clicked, hide it and show the hidden date input
             $('.date-input-text').on('click', function() {
-                if (!$(this).val()) {
-                    console.log('has no value');
-                    $(this).hide();
-                    $('.date-input-hidden').show().focus();
-                }
+                $(this).hide();
+                $('.date-input-hidden').show().focus();
+
             });
 
             // When the date input loses focus, hide it and show the text input if it's empty
@@ -4603,6 +4610,9 @@
                 if (!$(this).val()) {
                     $(this).hide();
                     $('.date-input-text').show();
+                } else {
+                    $(this).show();
+                    $('.date-input-text').hide();
                 }
             });
 
