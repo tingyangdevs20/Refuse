@@ -334,7 +334,6 @@ class GroupController extends Controller
                 }
                 fclose($file);
 
-
                 // Insert to MySQL database
                 foreach ($importData_arr as $importData) {
                     if ($group_id != '') {
