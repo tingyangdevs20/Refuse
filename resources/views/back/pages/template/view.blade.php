@@ -60,14 +60,14 @@
                                     <tr>
                                     
                                         <td>{{ $template->msg_title }}</td>
-                                        <td>{{ $template->msg_content }}</td>
+                                        <td>{{ strip_tags($template->msg_content) }}</td>
                                         
                                         
                                        
                                         <td>
-                                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->msg_title }}" data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}" data-category="{{ $template->category_id }}" data-type="{{ $template->type }}" data-subject="{{ $template->subject }}" data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}" data-id="{{ $template->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->msg_title }}" data-title="{{ $template->msg_title }}" data-mediaurl="{{ $template->mediaUrl }}"   data-subject="{{ $template->subject }}" data-body="{{ htmlspecialchars_decode(stripslashes($template->message_content)) }}" data-id="{{ $template->id }}"  data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
                                             -
-                                            <button class="btn btn-outline-danger btn-sm" title="Remove {{ $template->title }}" data-id="{{ $template->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
+                                            <button class="btn btn-outline-danger btn-sm" title="Remove {{ $template->msg_title }}" data-id="{{ $template->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -117,7 +117,7 @@
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                 <input type="file" class="form-control-file" name="media_file_mms">
                             </div>
-                            <div class="form-group" style="display:none;">
+                            <div class="form-group">
                                 <label>Content</label>
                                 <textarea class="form-control text111 mms_body" name="mms_body" rows="10"></textarea>
                                 <div id='count111' class="float-lg-right"></div>
@@ -218,30 +218,27 @@
                     <input id="tmpid" style="display:none" value="{{ $id }}"/>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Template Name</label>
+                            <label>Message Title</label>
                             <input type="hidden" id="id" name="id" value="">
                             <input type="text" class="form-control" name="title" id="title" required>
                         </div>
                         
-                       
-                        <div class="form-group pt-2">
-                            <label>Message Type</label><br>
-                            <select class="from-control" style="width: 100%;" id="type" name="type" onchange="messageTypeEdit(value)" required>
-                                <option value="">Select Type</option>
-                                <option value="SMS">SMS</option>
-                                <option value="MMS">MMS</option>
-                                <option value="Email">Email</option>
-                                
-                            </select>
-                        </div>
-                        <!--//////-->
-                        <div class="show_media_rvm_edit" style="display:none;">
+                        <div class="email_body_edit" style="display:none;">
+                            
                             <div class="form-group">
-                                <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
-                                <input type="file" class="form-control-file" name="media_file">
-                                <label>(<small class="text-danger font-weight-bold file-name"></small>)</label>
+                                <label>Content</label>
+                                <textarea class="form-control text112 mms_body" id="mms_body_edit" name="mms_body" rows="10"></textarea>
+                                <div id='count112' class="float-lg-right"></div>
+                            </div>
+                            <div class="form-group">
+    
+                                <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
+                                        respective fields</b></small>
                             </div>
                         </div>
+                       
+                        <!--//////-->
+                       
                         <div class="show_media_mms_edit" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
@@ -249,7 +246,7 @@
                                 <label>(<small class="text-danger font-weight-bold file-name"></small>)</label>
                             </div>
                             <div class="form-group">
-                                <label>Body</label>
+                                <label>Content</label>
                                 <textarea class="form-control text112 mms_body" id="mms_body_edit" name="mms_body" rows="10"></textarea>
                                 <div id='count112' class="float-lg-right"></div>
                             </div>
@@ -261,7 +258,7 @@
                         </div>
                         <div class="show_sms_edit" style="display:none;">
                             <div class="form-group">
-                                <label>Body</label>
+                                <label>Content</label>
                                 <textarea class="form-control text2 body_sms_edit" id="body_sms" name="body" rows="10"></textarea>
                                 <div id='count2' class="float-lg-right"></div>
                             </div>
@@ -293,7 +290,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.template.destroy','test') }}" method="post" id="editForm">
+                <form action="{{ route('admin.template.msg.destroy') }}" method="post" id="editForm">
                     @method('DELETE')
                     @csrf
                     <div class="modal-body">
@@ -302,6 +299,7 @@
                                 Are you sure you want to delete this?
                             </p>
                             <input type="hidden" id="id" name="id" value="">
+                            <input name="tmpid" style="display:none" value="{{ $id }}"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -325,6 +323,7 @@
     <script>
         var typ=$("#tmp_type").val();
         messageType(typ);
+        messageTypeEdit(typ);
         //alert(typ);
         $(".summernote-usage").summernote({
     	    height: 200,
@@ -360,7 +359,7 @@
             if(val === 'SMS'){
                 $(".email_body_edit").removeAttr("required");
                 $(".body_sms_edit").attr("required", "true");
-                $('.show_media_rvm_edit').hide();
+               
                 $('.show_media_mms_edit').hide();
                 $('.show_email_edit').hide();
                 $('.show_sms_edit').show();
@@ -369,37 +368,23 @@
                 $(".email_body_edit").removeAttr("required");
                 $('.show_email_edit').hide();
                 $('.show_sms_edit').hide();
-                $('.show_media_rvm_edit').hide();
+               
                 $('.show_media_mms_edit').show();
                 
             }else if(val === 'Email'){
                 $(".body_sms_edit").removeAttr("required");
                 $(".email_body_edit").attr("required", "true");
                 $('.show_sms_edit').hide();
-               $('.show_media_rvm_edit').hide();
+               
                 $('.show_media_mms_edit').hide();
                 $('.show_email_edit').show();
-            }else if(val === 'RVM'){
-                $(".body_sms_edit").removeAttr("required");
-                $(".email_body_edit").removeAttr("required");
-                $('.show_email_edit').hide();
-                $('.show_sms_edit').hide();
-                $('.show_media_mms_edit').hide();
-                $('.show_media_rvm_edit').show();
             }
         }
         $(document).ready(function () {
             $('#datatable').DataTable();
         });
-        $(document).ready(function () {
-            $('#categories').select2();
-        });
-        $(document).ready(function () {
-            $('#type').select2();
-        });
-        $(document).ready(function () {
-            $('#categories2').select2();
-        });
+        
+       
         
     </script>
     <script>
@@ -408,52 +393,43 @@
             var title = button.data('title');
             var body = button.data('body');
             var id = button.data('id');
-            var type = button.data('type');
             var subject = button.data('subject');
-            var category = button.data('category');
             var mediaurl = button.data('mediaurl');
             var modal = $(this);
-            if(type === 'SMS'){
+            if(typ === 'SMS'){
                 $(".email_body").removeAttr("required");
                 $(".body_sms").attr("required", "true");
-                $('.show_media_rvm_edit').hide();
+        
                 $('.show_media_mms_edit').hide();
                 $('.show_email_edit').hide();
                 $('.show_sms_edit').show();
                 modal.find('.modal-body #body_sms').val(body);
-            }else if(type === 'MMS'){
+            }else if(typ === 'MMS'){
+                alert(body);
                 $(".body_sms").removeAttr("required");
                 $(".email_body").removeAttr("required");
                 $('.show_email_edit').hide();
                 $('.show_sms_edit').hide();
-                $('.show_media_rvm_edit').hide();
+               
                 $('.show_media_mms_edit').show();
                 modal.find('.modal-body #mms_body_edit').val(body);
                 $('.file-name').html(mediaurl);
-            }else if(type === 'Email'){
+            }else if(typ === 'Email'){
                 $(".body_sms").removeAttr("required");
                 $(".email_body").attr("required", "true");
                 $('.show_sms_edit').hide();
-                $('.show_media_rvm_edit').hide();
+                
                 $('.show_media_mms_edit').hide();
                 $('.show_email_edit').show();
                 modal.find('.modal-body #subject').val(subject);
                 $('#body_email').summernote ('code', body);
                 //$('#body_email').val(body);
-            }else if(type === 'RVM'){
-                $(".body_sms").removeAttr("required");
-                $(".email_body").removeAttr("required");
-                $('.show_email_edit').hide();
-                $('.show_sms_edit').hide();
-                $('.show_media_mms_edit').hide();
-                $('.show_media_rvm_edit').show();
-                $('.file-name').html(body);
             }
             modal.find('.modal-body #title').val(title);
             
             modal.find('.modal-body #id').val(id);
-            modal.find('.modal-body #type').val(type);
-            $("#categories2").val(category).trigger('change');
+            
+           
 
         });
         $('#deleteModal').on('show.bs.modal', function (event) {

@@ -279,6 +279,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
 
     Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
+    Route::delete('/del-temp-message', 'Admin\TemplateMessagesController@destroy')->name('template.msg.destroy');
     
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
