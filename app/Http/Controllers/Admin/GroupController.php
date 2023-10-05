@@ -141,7 +141,8 @@ class GroupController extends Controller
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
         if ($leadinfo == null) {
-            DB::table('lead_info')->insert(['contact_id' => $id]);
+            $dateAdded = Carbon::now()->toDateString();
+            DB::table('lead_info')->insert(['contact_id' => $id , 'date_added'=> $dateAdded]);
             $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
@@ -191,10 +192,10 @@ class GroupController extends Controller
 
         $hasGoogleDriveAccess =  $response = app()->call('App\Http\Controllers\GoogleDriveController@hasGoogleDriveAccess');
         $googleDriveFiles = null;
-
         if($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
+
         
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos'));
     }
@@ -333,7 +334,6 @@ class GroupController extends Controller
                     $i++;
                 }
                 fclose($file);
-
 
                 // Insert to MySQL database
                 foreach ($importData_arr as $importData) {

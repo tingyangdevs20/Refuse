@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
 use App\Model\Template;
+use App\Model\TemplateMessages;
 use App\Model\Helpvideo;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -20,9 +21,21 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = Template::all();
+        
         $categories = Category::all();
         $sr = 1;
         return view('back.pages.template.index', compact('templates', 'categories', 'sr'));
+    }
+
+    public function view($id = '')
+    {
+        $templates = TemplateMessages::where('template_id',$id)->get();
+        $template_type = Template::where('id',$id)->first();
+       
+        $type=$template_type->type;
+       
+        $sr = 1;
+        return view('back.pages.template.view', compact('templates', 'id','type'));
     }
 
     /**
@@ -44,42 +57,42 @@ class TemplateController extends Controller
     public function store(Request $request)
     {
         $media = null;
-        if($request->type == 'MMS'){
-            if ($request->media_file_mms != null) {
-                $media = $request->file('media_file_mms');
-                $filename = $media->getClientOriginalName();
-                $extension = $media->getClientOriginalExtension();
-                $tmpname = 'MMS_'.time() .'.'. $extension;
-                $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-                $media = config('app.url') . '/public/uploads/' . $path;
-            }
-        }else{
-            if ($request->media_file != null) {
-                $media = $request->file('media_file');
-                $filename = $media->getClientOriginalName();
-                $extension = $media->getClientOriginalExtension();
-                $tmpname = 'RVM_'.time() .'.'. $extension;
-                $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-                $media = config('app.url') . '/public/uploads/' . $path;
-            }
-        }
+      //  if($request->type == 'MMS'){
+           // if ($request->media_file_mms != null) {
+            //    $media = $request->file('media_file_mms');
+            //    $filename = $media->getClientOriginalName();
+            //    $extension = $media->getClientOriginalExtension();
+             //   $tmpname = 'MMS_'.time() .'.'. $extension;
+            //    $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
+             //   $media = config('app.url') . '/public/uploads/' . $path;
+          //  }
+      //  }else{
+           // if ($request->media_file != null) {
+            //    $media = $request->file('media_file');
+           //     $filename = $media->getClientOriginalName();
+           //     $extension = $media->getClientOriginalExtension();
+           //     $tmpname = 'RVM_'.time() .'.'. $extension;
+          //      $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
+            //    $media = config('app.url') . '/public/uploads/' . $path;
+         //   }
+        
 
         //return $media;
         $template = new Template();
         $template->title = $request->title;
         $template->type = $request->type;
-        $template->category_id = $request->category_id;
-        if($request->type == 'SMS'){
-            $template->body = $request->body;
-        }elseif($request->type == 'MMS'){
-            $template->mediaUrl = $media;
-            $template->body = $request->mms_body;
-        }elseif($request->type == 'Email'){
-            $template->subject = $request->subject;
-            $template->body = $request->email_body;
-        }elseif($request->type == 'RVM'){
-            $template->body = $media;
-        }
+       // $template->category_id = $request->category_id;
+       // if($request->type == 'SMS'){
+            //$template->body = $request->body;
+       //}elseif($request->type == 'MMS'){
+           // $template->mediaUrl = $media;
+          //  $template->body = $request->mms_body;
+      //  }elseif($request->type == 'Email'){
+          //  $template->subject = $request->subject;
+          //  $template->body = $request->email_body;
+      //  }elseif($request->type == 'RVM'){
+          //  $template->body = $media;
+      //  }
         $template->save();
         Alert::success('Success!', 'Template Created!');
         return redirect()->back();
@@ -128,48 +141,48 @@ class TemplateController extends Controller
         //     $template = Template::find($request->id);
         //     $media = $template->body;
         // }
-        if($request->type == 'MMS'){
-            if ($request->media_file_mms != null) {
-                $media = $request->file('media_file_mms');
-                $filename = $media->getClientOriginalName();
-                $extension = $media->getClientOriginalExtension();
-                $tmpname = 'MMS_'.time() .'.'. $extension;
-                $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-                $media = config('app.url') . '/public/uploads/' . $path;
-            }else{
-                $template = Template::find($request->id);
-                $media = $template->mediaUrl;
-            }
-        }else{
-            if ($request->media_file != null) {
-                $media = $request->file('media_file');
-                $filename = $media->getClientOriginalName();
-                $extension = $media->getClientOriginalExtension();
-                $tmpname = 'RVM_'.time() .'.'. $extension;
-                $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-                $media = config('app.url') . '/public/uploads/' . $path;
-            }else{
-                $template = Template::find($request->id);
-                $media = $template->body;
-            }
-        }
+      //  if($request->type == 'MMS'){
+           // if ($request->media_file_mms != null) {
+            //    $media = $request->file('media_file_mms');
+             //   $filename = $media->getClientOriginalName();
+            //    $extension = $media->getClientOriginalExtension();
+             //   $tmpname = 'MMS_'.time() .'.'. $extension;
+             //   $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
+            //    $media = config('app.url') . '/public/uploads/' . $path;
+        //    }else{
+             //   $template = Template::find($request->id);
+              //  $media = $template->mediaUrl;
+          //  }
+      //  }else{
+            //if ($request->media_file != null) {
+              //  $media = $request->file('media_file');
+               // $filename = $media->getClientOriginalName();
+               // $extension = $media->getClientOriginalExtension();
+              //  $tmpname = 'RVM_'.time() .'.'. $extension;
+               // $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
+               // $media = config('app.url') . '/public/uploads/' . $path;
+           // }else{
+              //  $template = Template::find($request->id);
+              //  $media = $template->body;
+          //  }
+       // }
 
         $template = Template::find($request->id);
         $template->title = $request->title;
         $template->type = $request->type;
         //$template->body = $request->body . "\n" . $media;
-        $template->category_id = $request->category_id;
-        if($request->type == 'SMS'){
-            $template->body = $request->body;
-        }elseif($request->type == 'MMS'){
-            $template->mediaUrl = $media;
-            $template->body = $request->mms_body;
-        }elseif($request->type == 'Email'){
-            $template->subject = $request->subject;
-            $template->body = $request->email_body;
-        }elseif($request->type == 'RVM'){
-            $template->body = $media;
-        }
+      //  $template->category_id = $request->category_id;
+       // if($request->type == 'SMS'){
+         //   $template->body = $request->body;
+      //  }elseif($request->type == 'MMS'){
+        //    $template->mediaUrl = $media;
+         //   $template->body = $request->mms_body;
+       // }elseif($request->type == 'Email'){
+        //    $template->subject = $request->subject;
+         //   $template->body = $request->email_body;
+      //  }elseif($request->type == 'RVM'){
+        //    $template->body = $media;
+      //  }
         $template->save();
         Alert::success('Success!', 'Template Updated');
         return redirect()->back();

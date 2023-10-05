@@ -273,10 +273,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
 
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
+    Route::get('template/view/{id}', 'Admin\TemplateController@view');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
 
+    Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
+    Route::delete('/del-temp-message', 'Admin\TemplateMessagesController@destroy')->name('template.msg.destroy');
+    
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
 
