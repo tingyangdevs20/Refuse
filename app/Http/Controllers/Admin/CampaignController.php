@@ -27,17 +27,18 @@ class CampaignController extends Controller
         $groups = Group::all(); // Fetch groups from the database
         $campaigns = Campaign::getAllCampaigns();
         $templates = Template::where('type' , 'SMS')->get();
-        return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
+        return view('back.pages.campaign.index', compact(
+            'groups', 'campaigns','templates'));
     }
     public function changeStatus(Request $request)
     {
-        
+
         $id=$request->id;
         $camp = Campaign::where('id' , $id)->first();
-        $camp->active = $request->sts; 
-        
-        $camp->save(); 
-        return response()->json(['success'=>'Status changed successfully.']); 
+        $camp->active = $request->sts;
+
+        $camp->save();
+        return response()->json(['success'=>'Status changed successfully.']);
     }
 
     public function copy($id = ''){
@@ -457,7 +458,7 @@ class CampaignController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
 
-           
+
             //'active' => 'required|boolean', // Add validation for active status
 
             // Add other validation rules for campaign details

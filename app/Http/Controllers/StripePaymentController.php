@@ -54,7 +54,6 @@ class StripePaymentController extends Controller
     public function createPaymentIntent(Request $request)
     {
 
-
         Stripe::setApiKey('sk_test_51MtZDzApRCJCEL2vCbKHJHE0dMDGNMyC7eaqwXvl5HpIgmb85GfWgaL3BoYPhlDHmcgOLC8cWxuARc2vHhbwifwk00sXNic2le'); // Replace with your actual Stripe secret key
 
         $paymentInfo = Session::get('payment_info');
@@ -91,8 +90,7 @@ class StripePaymentController extends Controller
         $amount = $paymentInfo['price'] * 100; // Convert to cents
 
         try {
-            // Retrieve the PaymentIntent based on a unique identifier (e.g., order ID)
-           // Replace with your order ID logic
+
             $paymentIntent = \Stripe\PaymentIntent::retrieve($paymentIntentId);
 
             // Check the PaymentIntent status

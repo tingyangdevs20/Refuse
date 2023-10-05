@@ -16,6 +16,7 @@ use App\Http\Requests\Admin\UpdateUsersRequest;
 
 class UserController extends Controller
 {
+
     public function index()  {
         if (! Gate::allows('administrator') ||  !Gate::allows('user_module')||  !Gate::allows('access_all')) {
             return abort(401);
@@ -24,12 +25,12 @@ class UserController extends Controller
         $superAdminRole = Role::where('name', 'Super Admin')->first();
 
         if ($superAdminRole) {
-            // Retrieve users excluding those with the "Super Admin" role
+
             $users = User::whereDoesntHave('roles', function ($query) use ($superAdminRole) {
                 $query->where('name', $superAdminRole->name);
             })->get();
         } else {
-            // "Super Admin" role doesn't exist, so you can retrieve all users
+
             $users = User::all();
         }
 

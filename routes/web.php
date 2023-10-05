@@ -65,9 +65,7 @@ Route::resource('campaignlist', 'Admin\CampaignListController');
 Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], function () {
 
 
-    // ROLE SWITCH
-    Route::get('user/switch/{user}', 'UserController@switchRole')->name('user.switch');
-    Route::get('user/quit', 'UserController@quitRole')->name('user.quit')->middleware('auth');
+
 
 
     Route::get('account/detail', 'AccountDetailController@index')->name('account.detail');
@@ -81,8 +79,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('admin/skip-trace', 'Admin\GroupController@skipTrace')->name('admin.skip-trace');
     Route::post('admin/push-to-campaign', 'Admin\GroupController@pushToCampaign')->name('push-to-campaign');
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
-   
-    
+
+
 
 
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
@@ -161,6 +159,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Phone Numbers Route
     Route::get('/phones', 'Admin\PhoneController@index')->name('phone.numbers');
     Route::get('/phone/changeStatus', 'Admin\PhoneController@changeStatus');
+
+
+    // ROLE SWITCH
+    Route::get('user/switch/{user}', 'UserController@switchRole')->name('user.switch');
+    Route::get('user/quit', 'UserController@quitRole')->name('user.quit')->middleware('auth');
 
     // skip tracing
     Route::post('/skip-trace', 'Admin\GroupController@skipTrace')->name('skip-trace');
