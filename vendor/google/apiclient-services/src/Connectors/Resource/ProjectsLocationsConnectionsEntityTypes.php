@@ -17,7 +17,6 @@
 
 namespace Google\Service\Connectors\Resource;
 
-use Google\Service\Connectors\EntityType;
 use Google\Service\Connectors\ListEntityTypesResponse;
 
 /**
@@ -31,21 +30,6 @@ use Google\Service\Connectors\ListEntityTypesResponse;
 class ProjectsLocationsConnectionsEntityTypes extends \Google\Service\Resource
 {
   /**
-   * Gets metadata of given entity type (entityTypes.get)
-   *
-   * @param string $name Required. Resource name of the Entity Type. Format: proje
-   * cts/{project}/locations/{location}/connections/{connection}/entityTypes/{enti
-   * tyType}
-   * @param array $optParams Optional parameters.
-   * @return EntityType
-   */
-  public function get($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], EntityType::class);
-  }
-  /**
    * Lists metadata related to all entity types present in the external system.
    * (entityTypes.listProjectsLocationsConnectionsEntityTypes)
    *
@@ -57,8 +41,6 @@ class ProjectsLocationsConnectionsEntityTypes extends \Google\Service\Resource
    * @opt_param string pageToken Page token, return from a previous
    * ListEntityTypes call, that can be used retrieve the next page of content. If
    * unspecified, the request returns the first page of entity types.
-   * @opt_param string view Specifies which fields of the Entity Type are returned
-   * in the response.
    * @return ListEntityTypesResponse
    */
   public function listProjectsLocationsConnectionsEntityTypes($parent, $optParams = [])

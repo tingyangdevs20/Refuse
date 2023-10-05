@@ -20,10 +20,6 @@ namespace Google\Service\Connectors;
 class InputParameter extends \Google\Model
 {
   /**
-   * @var array[]
-   */
-  public $additionalDetails;
-  /**
    * @var string
    */
   public $dataType;
@@ -35,8 +31,6 @@ class InputParameter extends \Google\Model
    * @var string
    */
   public $description;
-  protected $jsonSchemaType = JsonSchema::class;
-  protected $jsonSchemaDataType = '';
   /**
    * @var string
    */
@@ -46,20 +40,6 @@ class InputParameter extends \Google\Model
    */
   public $nullable;
 
-  /**
-   * @param array[]
-   */
-  public function setAdditionalDetails($additionalDetails)
-  {
-    $this->additionalDetails = $additionalDetails;
-  }
-  /**
-   * @return array[]
-   */
-  public function getAdditionalDetails()
-  {
-    return $this->additionalDetails;
-  }
   /**
    * @param string
    */
@@ -101,20 +81,6 @@ class InputParameter extends \Google\Model
   public function getDescription()
   {
     return $this->description;
-  }
-  /**
-   * @param JsonSchema
-   */
-  public function setJsonSchema(JsonSchema $jsonSchema)
-  {
-    $this->jsonSchema = $jsonSchema;
-  }
-  /**
-   * @return JsonSchema
-   */
-  public function getJsonSchema()
-  {
-    return $this->jsonSchema;
   }
   /**
    * @param string

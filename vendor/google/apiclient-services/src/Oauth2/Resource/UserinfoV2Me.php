@@ -33,7 +33,7 @@ class UserinfoV2Me extends \Google\Service\Resource
    * (me.get)
    *
    * @param array $optParams Optional parameters.
-   * @return UserinfoModel
+   * @return Userinfo
    */
   public function get($optParams = [])
   {

@@ -25,16 +25,14 @@ class GuestRuntimeDetails extends \Google\Model
   public $domain;
   protected $installedAppsType = GuestInstalledApplicationList::class;
   protected $installedAppsDataType = '';
-  /**
-   * @var string
-   */
-  public $lastBootTime;
+  protected $lastUptimeType = Date::class;
+  protected $lastUptimeDataType = '';
   /**
    * @var string
    */
   public $machineName;
-  protected $networkType = RuntimeNetworkInfo::class;
-  protected $networkDataType = '';
+  protected $networkInfoType = RuntimeNetworkInfo::class;
+  protected $networkInfoDataType = '';
   protected $openFileListType = OpenFileList::class;
   protected $openFileListDataType = '';
   protected $processesType = RunningProcessList::class;
@@ -71,18 +69,18 @@ class GuestRuntimeDetails extends \Google\Model
     return $this->installedApps;
   }
   /**
-   * @param string
+   * @param Date
    */
-  public function setLastBootTime($lastBootTime)
+  public function setLastUptime(Date $lastUptime)
   {
-    $this->lastBootTime = $lastBootTime;
+    $this->lastUptime = $lastUptime;
   }
   /**
-   * @return string
+   * @return Date
    */
-  public function getLastBootTime()
+  public function getLastUptime()
   {
-    return $this->lastBootTime;
+    return $this->lastUptime;
   }
   /**
    * @param string
@@ -101,16 +99,16 @@ class GuestRuntimeDetails extends \Google\Model
   /**
    * @param RuntimeNetworkInfo
    */
-  public function setNetwork(RuntimeNetworkInfo $network)
+  public function setNetworkInfo(RuntimeNetworkInfo $networkInfo)
   {
-    $this->network = $network;
+    $this->networkInfo = $networkInfo;
   }
   /**
    * @return RuntimeNetworkInfo
    */
-  public function getNetwork()
+  public function getNetworkInfo()
   {
-    return $this->network;
+    return $this->networkInfo;
   }
   /**
    * @param OpenFileList

@@ -23,8 +23,7 @@ use Google\Client;
  * Service definition for Dataform (v1beta1).
  *
  * <p>
- * Service to develop, version control, and operationalize SQL pipelines in
- * BigQuery.</p>
+</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -40,7 +39,6 @@ class Dataform extends \Google\Service
       "https://www.googleapis.com/auth/cloud-platform";
 
   public $projects_locations;
-  public $projects_locations_collections;
   public $projects_locations_repositories;
   public $projects_locations_repositories_compilationResults;
   public $projects_locations_repositories_releaseConfigs;
@@ -106,67 +104,13 @@ class Dataform extends \Google\Service
           ]
         ]
     );
-    $this->projects_locations_collections = new Dataform\Resource\ProjectsLocationsCollections(
-        $this,
-        $this->serviceName,
-        'collections',
-        [
-          'methods' => [
-            'getIamPolicy' => [
-              'path' => 'v1beta1/{+resource}:getIamPolicy',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'options.requestedPolicyVersion' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-              ],
-            ],'setIamPolicy' => [
-              'path' => 'v1beta1/{+resource}:setIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'testIamPermissions' => [
-              'path' => 'v1beta1/{+resource}:testIamPermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
     $this->projects_locations_repositories = new Dataform\Resource\ProjectsLocationsRepositories(
         $this,
         $this->serviceName,
         'repositories',
         [
           'methods' => [
-            'commit' => [
-              'path' => 'v1beta1/{+name}:commit',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'computeAccessTokenStatus' => [
+            'computeAccessTokenStatus' => [
               'path' => 'v1beta1/{+name}:computeAccessTokenStatus',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -202,24 +146,6 @@ class Dataform extends \Google\Service
                 'force' => [
                   'location' => 'query',
                   'type' => 'boolean',
-                ],
-              ],
-            ],'fetchHistory' => [
-              'path' => 'v1beta1/{+name}:fetchHistory',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
                 ],
               ],
             ],'fetchRemoteBranches' => [
@@ -292,50 +218,6 @@ class Dataform extends \Google\Service
                   'required' => true,
                 ],
                 'updateMask' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'queryDirectoryContents' => [
-              'path' => 'v1beta1/{+name}:queryDirectoryContents',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'commitSha' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'path' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'readFile' => [
-              'path' => 'v1beta1/{+name}:readFile',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'commitSha' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'path' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

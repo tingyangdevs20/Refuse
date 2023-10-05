@@ -15,11 +15,13 @@ use function sprintf;
  */
 final class InvalidOption extends AbstractException
 {
-    /** @param mixed $value */
+    /**
+     * @param mixed $value
+     */
     public static function fromOption(int $option, $value): self
     {
         return new self(
-            sprintf('Failed to set option %d with value "%s"', $option, $value),
+            sprintf('Failed to set option %d with value "%s"', $option, $value)
         );
     }
 }

@@ -26,10 +26,6 @@ class GoogleCloudDataplexV1JobEvent extends \Google\Model
   /**
    * @var string
    */
-  public $executionTrigger;
-  /**
-   * @var string
-   */
   public $jobId;
   /**
    * @var string
@@ -73,20 +69,6 @@ class GoogleCloudDataplexV1JobEvent extends \Google\Model
   public function getEndTime()
   {
     return $this->endTime;
-  }
-  /**
-   * @param string
-   */
-  public function setExecutionTrigger($executionTrigger)
-  {
-    $this->executionTrigger = $executionTrigger;
-  }
-  /**
-   * @return string
-   */
-  public function getExecutionTrigger()
-  {
-    return $this->executionTrigger;
   }
   /**
    * @param string

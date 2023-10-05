@@ -3,7 +3,6 @@
 namespace Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\Deprecations\Deprecation;
 
 use function is_resource;
 use function restore_error_handler;
@@ -14,13 +13,11 @@ use function unserialize;
 
 /**
  * Type that maps a PHP object to a clob SQL type.
- *
- * @deprecated Use {@link JsonType} instead.
  */
 class ObjectType extends Type
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
@@ -28,11 +25,7 @@ class ObjectType extends Type
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param mixed $value
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -40,7 +33,7 @@ class ObjectType extends Type
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -62,7 +55,7 @@ class ObjectType extends Type
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -70,19 +63,10 @@ class ObjectType extends Type
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5509',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
         return true;
     }
 }

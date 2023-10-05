@@ -38,10 +38,6 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   /**
    * @var string
    */
-  public $earliestVersionTime;
-  /**
-   * @var string
-   */
   public $etag;
   /**
    * @var string
@@ -58,10 +54,6 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   /**
    * @var string
    */
-  public $pointInTimeRecoveryEnablement;
-  /**
-   * @var string
-   */
   public $type;
   /**
    * @var string
@@ -71,10 +63,6 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
    * @var string
    */
   public $updateTime;
-  /**
-   * @var string
-   */
-  public $versionRetentionPeriod;
 
   /**
    * @param string
@@ -135,20 +123,6 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   /**
    * @param string
    */
-  public function setEarliestVersionTime($earliestVersionTime)
-  {
-    $this->earliestVersionTime = $earliestVersionTime;
-  }
-  /**
-   * @return string
-   */
-  public function getEarliestVersionTime()
-  {
-    return $this->earliestVersionTime;
-  }
-  /**
-   * @param string
-   */
   public function setEtag($etag)
   {
     $this->etag = $etag;
@@ -205,20 +179,6 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   /**
    * @param string
    */
-  public function setPointInTimeRecoveryEnablement($pointInTimeRecoveryEnablement)
-  {
-    $this->pointInTimeRecoveryEnablement = $pointInTimeRecoveryEnablement;
-  }
-  /**
-   * @return string
-   */
-  public function getPointInTimeRecoveryEnablement()
-  {
-    return $this->pointInTimeRecoveryEnablement;
-  }
-  /**
-   * @param string
-   */
   public function setType($type)
   {
     $this->type = $type;
@@ -257,20 +217,6 @@ class GoogleFirestoreAdminV1Database extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
-  }
-  /**
-   * @param string
-   */
-  public function setVersionRetentionPeriod($versionRetentionPeriod)
-  {
-    $this->versionRetentionPeriod = $versionRetentionPeriod;
-  }
-  /**
-   * @return string
-   */
-  public function getVersionRetentionPeriod()
-  {
-    return $this->versionRetentionPeriod;
   }
 }
 

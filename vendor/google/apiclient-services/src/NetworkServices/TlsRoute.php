@@ -35,10 +35,6 @@ class TlsRoute extends \Google\Collection
   /**
    * @var string[]
    */
-  public $labels;
-  /**
-   * @var string[]
-   */
   public $meshes;
   /**
    * @var string
@@ -96,20 +92,6 @@ class TlsRoute extends \Google\Collection
   public function getGateways()
   {
     return $this->gateways;
-  }
-  /**
-   * @param string[]
-   */
-  public function setLabels($labels)
-  {
-    $this->labels = $labels;
-  }
-  /**
-   * @return string[]
-   */
-  public function getLabels()
-  {
-    return $this->labels;
   }
   /**
    * @param string[]

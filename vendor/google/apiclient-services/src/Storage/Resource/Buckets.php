@@ -100,8 +100,6 @@ class Buckets extends \Google\Service\Resource
    * @param Bucket $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool enableObjectRetention When set to true, object retention is
-   * enabled for this bucket.
    * @opt_param string predefinedAcl Apply a predefined set of access controls to
    * this bucket.
    * @opt_param string predefinedDefaultObjectAcl Apply a predefined set of

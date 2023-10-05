@@ -19,7 +19,6 @@ namespace Google\Service\WorkflowExecutions\Resource;
 
 use Google\Service\WorkflowExecutions\CancelExecutionRequest;
 use Google\Service\WorkflowExecutions\Execution;
-use Google\Service\WorkflowExecutions\ExportDataResponse;
 use Google\Service\WorkflowExecutions\ListExecutionsResponse;
 
 /**
@@ -65,22 +64,6 @@ class ProjectsLocationsWorkflowsExecutions extends \Google\Service\Resource
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('create', [$params], Execution::class);
-  }
-  /**
-   * Returns all metadata stored about an execution, excluding most data that is
-   * already accessible using other API methods. (executions.exportData)
-   *
-   * @param string $name Required. Name of the execution for which data is to be
-   * exported. Format: projects/{project}/locations/{location}/workflows/{workflow
-   * }/executions/{execution}
-   * @param array $optParams Optional parameters.
-   * @return ExportDataResponse
-   */
-  public function exportData($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('exportData', [$params], ExportDataResponse::class);
   }
   /**
    * Returns an execution of the given name. (executions.get)

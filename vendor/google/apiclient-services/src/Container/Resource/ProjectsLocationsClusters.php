@@ -17,7 +17,6 @@
 
 namespace Google\Service\Container\Resource;
 
-use Google\Service\Container\CheckAutopilotCompatibilityResponse;
 use Google\Service\Container\Cluster;
 use Google\Service\Container\CompleteIPRotationRequest;
 use Google\Service\Container\CreateClusterRequest;
@@ -47,21 +46,6 @@ use Google\Service\Container\UpdateMasterRequest;
  */
 class ProjectsLocationsClusters extends \Google\Service\Resource
 {
-  /**
-   * Checks the cluster compatibility with Autopilot mode, and returns a list of
-   * compatibility issues. (clusters.checkAutopilotCompatibility)
-   *
-   * @param string $name The name (project, location, cluster) of the cluster to
-   * retrieve. Specified in the format `projects/locations/clusters`.
-   * @param array $optParams Optional parameters.
-   * @return CheckAutopilotCompatibilityResponse
-   */
-  public function checkAutopilotCompatibility($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('checkAutopilotCompatibility', [$params], CheckAutopilotCompatibilityResponse::class);
-  }
   /**
    * Completes master IP rotation. (clusters.completeIpRotation)
    *
@@ -114,9 +98,9 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * @opt_param string clusterId Deprecated. The name of the cluster to delete.
    * This field has been deprecated and replaced by the name field.
    * @opt_param string projectId Deprecated. The Google Developers Console
-   * [project ID or project number](https://cloud.google.com/resource-
-   * manager/docs/creating-managing-projects). This field has been deprecated and
-   * replaced by the name field.
+   * [project ID or project number](https://cloud.google.com/resource-manager/docs
+   * /creating-managing-projects). This field has been deprecated and replaced by
+   * the name field.
    * @opt_param string zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -139,9 +123,9 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * @opt_param string clusterId Deprecated. The name of the cluster to retrieve.
    * This field has been deprecated and replaced by the name field.
    * @opt_param string projectId Deprecated. The Google Developers Console
-   * [project ID or project number](https://cloud.google.com/resource-
-   * manager/docs/creating-managing-projects). This field has been deprecated and
-   * replaced by the name field.
+   * [project ID or project number](https://cloud.google.com/resource-manager/docs
+   * /creating-managing-projects). This field has been deprecated and replaced by
+   * the name field.
    * @opt_param string zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -180,9 +164,9 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string projectId Deprecated. The Google Developers Console
-   * [project ID or project number](https://cloud.google.com/resource-
-   * manager/docs/creating-managing-projects). This field has been deprecated and
-   * replaced by the parent field.
+   * [project ID or project number](https://cloud.google.com/resource-manager/docs
+   * /creating-managing-projects). This field has been deprecated and replaced by
+   * the parent field.
    * @opt_param string zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides, or "-" for all zones. This field has been deprecated and

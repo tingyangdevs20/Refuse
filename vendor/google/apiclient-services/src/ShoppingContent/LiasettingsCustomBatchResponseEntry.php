@@ -34,8 +34,6 @@ class LiasettingsCustomBatchResponseEntry extends \Google\Collection
   public $kind;
   protected $liaSettingsType = LiaSettings::class;
   protected $liaSettingsDataType = '';
-  protected $omnichannelExperienceType = LiaOmnichannelExperience::class;
-  protected $omnichannelExperienceDataType = '';
   protected $posDataProvidersType = PosDataProviders::class;
   protected $posDataProvidersDataType = 'array';
 
@@ -108,20 +106,6 @@ class LiasettingsCustomBatchResponseEntry extends \Google\Collection
   public function getLiaSettings()
   {
     return $this->liaSettings;
-  }
-  /**
-   * @param LiaOmnichannelExperience
-   */
-  public function setOmnichannelExperience(LiaOmnichannelExperience $omnichannelExperience)
-  {
-    $this->omnichannelExperience = $omnichannelExperience;
-  }
-  /**
-   * @return LiaOmnichannelExperience
-   */
-  public function getOmnichannelExperience()
-  {
-    return $this->omnichannelExperience;
   }
   /**
    * @param PosDataProviders[]

@@ -20,7 +20,6 @@ namespace Google\Service\Dialogflow\Resource;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3Agent;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3AgentValidationResult;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ExportAgentRequest;
-use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3GenerativeSettings;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ListAgentsResponse;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3RestoreAgentRequest;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ValidateAgentRequest;
@@ -73,9 +72,8 @@ class ProjectsLocationsAgents extends \Google\Service\Resource
    * Exports the specified agent to a binary file. This method is a [long-running
    * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
    * operation). The returned `Operation` type has the following method-specific
-   * fields: - `metadata`: An empty [Struct
-   * message](https://developers.google.com/protocol-
-   * buffers/docs/reference/google.protobuf#struct) - `response`:
+   * fields: - `metadata`: An empty [Struct message](https://developers.google.com
+   * /protocol-buffers/docs/reference/google.protobuf#struct) - `response`:
    * ExportAgentResponse (agents.export)
    *
    * @param string $name Required. The name of the agent to export. Format:
@@ -103,23 +101,6 @@ class ProjectsLocationsAgents extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], GoogleCloudDialogflowCxV3Agent::class);
-  }
-  /**
-   * Gets the generative settings for the agent. (agents.getGenerativeSettings)
-   *
-   * @param string $name Required. Format:
-   * `projects//locations//agents//generativeSettings`.
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string languageCode Required. Language code of the generative
-   * settings.
-   * @return GoogleCloudDialogflowCxV3GenerativeSettings
-   */
-  public function getGenerativeSettings($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('getGenerativeSettings', [$params], GoogleCloudDialogflowCxV3GenerativeSettings::class);
   }
   /**
    * Gets the latest agent validation result. Agent validation is performed when
@@ -187,10 +168,9 @@ class ProjectsLocationsAgents extends \Google\Service\Resource
    * entity types, flows) will be removed. This method is a [long-running
    * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
    * operation). The returned `Operation` type has the following method-specific
-   * fields: - `metadata`: An empty [Struct
-   * message](https://developers.google.com/protocol-
-   * buffers/docs/reference/google.protobuf#struct) - `response`: An [Empty
-   * message](https://developers.google.com/protocol-
+   * fields: - `metadata`: An empty [Struct message](https://developers.google.com
+   * /protocol-buffers/docs/reference/google.protobuf#struct) - `response`: An
+   * [Empty message](https://developers.google.com/protocol-
    * buffers/docs/reference/google.protobuf#empty) Note: You should always train
    * flows prior to sending them queries. See the [training
    * documentation](https://cloud.google.com/dialogflow/cx/docs/concept/training).
@@ -207,25 +187,6 @@ class ProjectsLocationsAgents extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('restore', [$params], GoogleLongrunningOperation::class);
-  }
-  /**
-   * Updates the generative settings for the agent.
-   * (agents.updateGenerativeSettings)
-   *
-   * @param string $name Format:
-   * `projects//locations//agents//generativeSettings`.
-   * @param GoogleCloudDialogflowCxV3GenerativeSettings $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string updateMask Optional. The mask to control which fields get
-   * updated. If the mask is not present, all fields will be updated.
-   * @return GoogleCloudDialogflowCxV3GenerativeSettings
-   */
-  public function updateGenerativeSettings($name, GoogleCloudDialogflowCxV3GenerativeSettings $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('updateGenerativeSettings', [$params], GoogleCloudDialogflowCxV3GenerativeSettings::class);
   }
   /**
    * Validates the specified agent and creates or updates validation results. The

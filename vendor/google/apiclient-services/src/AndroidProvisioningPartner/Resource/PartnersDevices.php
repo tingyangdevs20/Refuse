@@ -27,8 +27,6 @@ use Google\Service\AndroidProvisioningPartner\FindDevicesByDeviceIdentifierReque
 use Google\Service\AndroidProvisioningPartner\FindDevicesByDeviceIdentifierResponse;
 use Google\Service\AndroidProvisioningPartner\FindDevicesByOwnerRequest;
 use Google\Service\AndroidProvisioningPartner\FindDevicesByOwnerResponse;
-use Google\Service\AndroidProvisioningPartner\GetDeviceSimLockStateRequest;
-use Google\Service\AndroidProvisioningPartner\GetDeviceSimLockStateResponse;
 use Google\Service\AndroidProvisioningPartner\Operation;
 use Google\Service\AndroidProvisioningPartner\UnclaimDeviceRequest;
 use Google\Service\AndroidProvisioningPartner\UnclaimDevicesRequest;
@@ -63,8 +61,8 @@ class PartnersDevices extends \Google\Service\Resource
   }
   /**
    * Claims a batch of devices for a customer asynchronously. Adds the devices to
-   * zero-touch enrollment. To learn more, read [Long‑running batch
-   * operations](/zero-touch/guides/how-it-works#operations). (devices.claimAsync)
+   * zero-touch enrollment. To learn more, read [Long‑running batch operations
+   * ](/zero-touch/guides/how-it-works#operations). (devices.claimAsync)
    *
    * @param string $partnerId Required. The ID of the reseller partner.
    * @param ClaimDevicesRequest $postBody
@@ -122,20 +120,6 @@ class PartnersDevices extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Device::class);
-  }
-  /**
-   * Gets a device's SIM lock state. (devices.getSimLockState)
-   *
-   * @param string $partnerId Required. The ID of the partner.
-   * @param GetDeviceSimLockStateRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GetDeviceSimLockStateResponse
-   */
-  public function getSimLockState($partnerId, GetDeviceSimLockStateRequest $postBody, $optParams = [])
-  {
-    $params = ['partnerId' => $partnerId, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('getSimLockState', [$params], GetDeviceSimLockStateResponse::class);
   }
   /**
    * Updates reseller metadata associated with the device. Android devices only.

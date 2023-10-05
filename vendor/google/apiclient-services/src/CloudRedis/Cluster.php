@@ -19,65 +19,63 @@ namespace Google\Service\CloudRedis;
 
 class Cluster extends \Google\Collection
 {
-  protected $collection_key = 'pscConnections';
+  protected $collection_key = 'slots';
   /**
    * @var string
    */
-  public $authorizationMode;
+  public $clusterUid;
   /**
    * @var string
    */
   public $createTime;
-  protected $discoveryEndpointsType = DiscoveryEndpoint::class;
-  protected $discoveryEndpointsDataType = 'array';
+  /**
+   * @var string
+   */
+  public $customerManagedKey;
+  /**
+   * @var int
+   */
+  public $defaultReplicaCount;
+  /**
+   * @var string
+   */
+  public $displayName;
+  protected $endpointsType = Endpoint::class;
+  protected $endpointsDataType = 'array';
   /**
    * @var string
    */
   public $name;
-  protected $pscConfigsType = PscConfig::class;
-  protected $pscConfigsDataType = 'array';
-  protected $pscConnectionsType = PscConnection::class;
-  protected $pscConnectionsDataType = 'array';
+  protected $privateServiceConnectType = PrivateServiceConnect::class;
+  protected $privateServiceConnectDataType = '';
   /**
-   * @var int
+   * @var string[]
    */
-  public $replicaCount;
-  /**
-   * @var int
-   */
-  public $shardCount;
-  /**
-   * @var int
-   */
-  public $sizeGb;
+  public $redisConfigs;
+  protected $slotsType = ClusterSlots::class;
+  protected $slotsDataType = 'array';
   /**
    * @var string
    */
   public $state;
-  protected $stateInfoType = StateInfo::class;
-  protected $stateInfoDataType = '';
   /**
-   * @var string
+   * @var int
    */
-  public $transitEncryptionMode;
-  /**
-   * @var string
-   */
-  public $uid;
+  public $totalMemorySizeGb;
 
   /**
    * @param string
    */
-  public function setAuthorizationMode($authorizationMode)
+  public function setClusterUid($clusterUid)
   {
-    $this->authorizationMode = $authorizationMode;
+    $this->clusterUid = $clusterUid;
   }
   /**
    * @return string
    */
-  public function getAuthorizationMode()
+  public function getClusterUid()
   {
-    return $this->authorizationMode;
+    return $this->clusterUid;
   }
   /**
    * @param string
@@ -94,18 +92,60 @@ class Cluster extends \Google\Collection
     return $this->createTime;
   }
   /**
-   * @param DiscoveryEndpoint[]
+   * @param string
    */
-  public function setDiscoveryEndpoints($discoveryEndpoints)
+  public function setCustomerManagedKey($customerManagedKey)
   {
-    $this->discoveryEndpoints = $discoveryEndpoints;
+    $this->customerManagedKey = $customerManagedKey;
   }
   /**
-   * @return DiscoveryEndpoint[]
+   * @return string
    */
-  public function getDiscoveryEndpoints()
+  public function getCustomerManagedKey()
   {
-    return $this->discoveryEndpoints;
+    return $this->customerManagedKey;
+  }
+  /**
+   * @param int
+   */
+  public function setDefaultReplicaCount($defaultReplicaCount)
+  {
+    $this->defaultReplicaCount = $defaultReplicaCount;
+  }
+  /**
+   * @return int
+   */
+  public function getDefaultReplicaCount()
+  {
+    return $this->defaultReplicaCount;
+  }
+  /**
+   * @param string
+   */
+  public function setDisplayName($displayName)
+  {
+    $this->displayName = $displayName;
+  }
+  /**
+   * @return string
+   */
+  public function getDisplayName()
+  {
+    return $this->displayName;
+  }
+  /**
+   * @param Endpoint[]
+   */
+  public function setEndpoints($endpoints)
+  {
+    $this->endpoints = $endpoints;
+  }
+  /**
+   * @return Endpoint[]
+   */
+  public function getEndpoints()
+  {
+    return $this->endpoints;
   }
   /**
    * @param string
@@ -122,74 +162,46 @@ class Cluster extends \Google\Collection
     return $this->name;
   }
   /**
-   * @param PscConfig[]
+   * @param PrivateServiceConnect
    */
-  public function setPscConfigs($pscConfigs)
+  public function setPrivateServiceConnect(PrivateServiceConnect $privateServiceConnect)
   {
-    $this->pscConfigs = $pscConfigs;
+    $this->privateServiceConnect = $privateServiceConnect;
   }
   /**
-   * @return PscConfig[]
+   * @return PrivateServiceConnect
    */
-  public function getPscConfigs()
+  public function getPrivateServiceConnect()
   {
-    return $this->pscConfigs;
+    return $this->privateServiceConnect;
   }
   /**
-   * @param PscConnection[]
+   * @param string[]
    */
-  public function setPscConnections($pscConnections)
+  public function setRedisConfigs($redisConfigs)
   {
-    $this->pscConnections = $pscConnections;
+    $this->redisConfigs = $redisConfigs;
   }
   /**
-   * @return PscConnection[]
+   * @return string[]
    */
-  public function getPscConnections()
+  public function getRedisConfigs()
   {
-    return $this->pscConnections;
+    return $this->redisConfigs;
   }
   /**
-   * @param int
+   * @param ClusterSlots[]
    */
-  public function setReplicaCount($replicaCount)
+  public function setSlots($slots)
   {
-    $this->replicaCount = $replicaCount;
+    $this->slots = $slots;
   }
   /**
-   * @return int
+   * @return ClusterSlots[]
    */
-  public function getReplicaCount()
+  public function getSlots()
   {
-    return $this->replicaCount;
-  }
-  /**
-   * @param int
-   */
-  public function setShardCount($shardCount)
-  {
-    $this->shardCount = $shardCount;
-  }
-  /**
-   * @return int
-   */
-  public function getShardCount()
-  {
-    return $this->shardCount;
-  }
-  /**
-   * @param int
-   */
-  public function setSizeGb($sizeGb)
-  {
-    $this->sizeGb = $sizeGb;
-  }
-  /**
-   * @return int
-   */
-  public function getSizeGb()
-  {
-    return $this->sizeGb;
+    return $this->slots;
   }
   /**
    * @param string
@@ -206,46 +218,18 @@ class Cluster extends \Google\Collection
     return $this->state;
   }
   /**
-   * @param StateInfo
+   * @param int
    */
-  public function setStateInfo(StateInfo $stateInfo)
+  public function setTotalMemorySizeGb($totalMemorySizeGb)
   {
-    $this->stateInfo = $stateInfo;
+    $this->totalMemorySizeGb = $totalMemorySizeGb;
   }
   /**
-   * @return StateInfo
+   * @return int
    */
-  public function getStateInfo()
+  public function getTotalMemorySizeGb()
   {
-    return $this->stateInfo;
-  }
-  /**
-   * @param string
-   */
-  public function setTransitEncryptionMode($transitEncryptionMode)
-  {
-    $this->transitEncryptionMode = $transitEncryptionMode;
-  }
-  /**
-   * @return string
-   */
-  public function getTransitEncryptionMode()
-  {
-    return $this->transitEncryptionMode;
-  }
-  /**
-   * @param string
-   */
-  public function setUid($uid)
-  {
-    $this->uid = $uid;
-  }
-  /**
-   * @return string
-   */
-  public function getUid()
-  {
-    return $this->uid;
+    return $this->totalMemorySizeGb;
   }
 }
 

@@ -100,14 +100,10 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
    * @var bool
    */
   public $isNimbleAnnotation;
+  protected $locationType = GeostorePointProto::class;
   protected $locationDataType = '';
-  public $locationClassificationScore;
   protected $locationMarkersSignalsType = KnowledgeAnswersIntentQueryLocationMarkersSignals::class;
   protected $locationMarkersSignalsDataType = '';
-  /**
-   * @var string
-   */
-  public $locationType;
   protected $mediaEntitySignalsType = KnowledgeAnswersIntentQueryMediaEntitySignals::class;
   protected $mediaEntitySignalsDataType = '';
   protected $mergedImpliedEntityType = KnowledgeAnswersIntentQueryImpliedEntity::class;
@@ -531,14 +527,6 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   {
     return $this->location;
   }
-  public function setLocationClassificationScore($locationClassificationScore)
-  {
-    $this->locationClassificationScore = $locationClassificationScore;
-  }
-  public function getLocationClassificationScore()
-  {
-    return $this->locationClassificationScore;
-  }
   /**
    * @param KnowledgeAnswersIntentQueryLocationMarkersSignals
    */
@@ -552,20 +540,6 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public function getLocationMarkersSignals()
   {
     return $this->locationMarkersSignals;
-  }
-  /**
-   * @param string
-   */
-  public function setLocationType($locationType)
-  {
-    $this->locationType = $locationType;
-  }
-  /**
-   * @return string
-   */
-  public function getLocationType()
-  {
-    return $this->locationType;
   }
   /**
    * @param KnowledgeAnswersIntentQueryMediaEntitySignals

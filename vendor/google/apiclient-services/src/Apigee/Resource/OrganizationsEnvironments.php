@@ -17,12 +17,10 @@
 
 namespace Google\Service\Apigee\Resource;
 
-use Google\Service\Apigee\GoogleCloudApigeeV1AddonsConfig;
 use Google\Service\Apigee\GoogleCloudApigeeV1ApiSecurityRuntimeConfig;
 use Google\Service\Apigee\GoogleCloudApigeeV1DebugMask;
 use Google\Service\Apigee\GoogleCloudApigeeV1Environment;
 use Google\Service\Apigee\GoogleCloudApigeeV1EnvironmentConfig;
-use Google\Service\Apigee\GoogleCloudApigeeV1SecurityActionsConfig;
 use Google\Service\Apigee\GoogleCloudApigeeV1Subscription;
 use Google\Service\Apigee\GoogleCloudApigeeV1TraceConfig;
 use Google\Service\Apigee\GoogleIamV1Policy;
@@ -93,20 +91,6 @@ class OrganizationsEnvironments extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleCloudApigeeV1Environment::class);
   }
   /**
-   * Gets the add-ons config of an environment. (environments.getAddonsConfig)
-   *
-   * @param string $name Required. Name of the add-ons config. Must be in the
-   * format of `/organizations/{org}/environments/{env}/addonsConfig`
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudApigeeV1AddonsConfig
-   */
-  public function getAddonsConfig($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('getAddonsConfig', [$params], GoogleCloudApigeeV1AddonsConfig::class);
-  }
-  /**
    * Gets the API Security runtime configuration for an environment. This named
    * ApiSecurityRuntimeConfig to prevent conflicts with ApiSecurityConfig from
    * addon config. (environments.getApiSecurityRuntimeConfig)
@@ -158,10 +142,9 @@ class OrganizationsEnvironments extends \Google\Service\Resource
   /**
    * Gets the IAM policy on an environment. For more information, see [Manage
    * users, roles, and permissions using the
-   * API](https://cloud.google.com/apigee/docs/api-platform/system-
-   * administration/manage-users-roles). You must have the
-   * `apigee.environments.getIamPolicy` permission to call this API.
-   * (environments.getIamPolicy)
+   * API](https://cloud.google.com/apigee/docs/api-platform/system-administration
+   * /manage-users-roles). You must have the `apigee.environments.getIamPolicy`
+   * permission to call this API. (environments.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
    * requested. See [Resource
@@ -188,22 +171,6 @@ class OrganizationsEnvironments extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
-  }
-  /**
-   * GetSecurityActionConfig returns the current SecurityActions configuration.
-   * (environments.getSecurityActionsConfig)
-   *
-   * @param string $name Required. The name of the SecurityActionsConfig to
-   * retrieve. This will always be:
-   * `organizations/{org}/environments/{env}/security_actions_config`
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudApigeeV1SecurityActionsConfig
-   */
-  public function getSecurityActionsConfig($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('getSecurityActionsConfig', [$params], GoogleCloudApigeeV1SecurityActionsConfig::class);
   }
   /**
    * Get distributed trace configuration in an environment.
@@ -375,26 +342,6 @@ class OrganizationsEnvironments extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('updateEnvironment', [$params], GoogleCloudApigeeV1Environment::class);
-  }
-  /**
-   * UpdateSecurityActionConfig updates the current SecurityActions configuration.
-   * This method is used to enable/disable the feature at the environment level.
-   * (environments.updateSecurityActionsConfig)
-   *
-   * @param string $name This is a singleton resource, the name will always be set
-   * by SecurityActions and any user input will be ignored. The name is always:
-   * `organizations/{org}/environments/{env}/security_actions_config`
-   * @param GoogleCloudApigeeV1SecurityActionsConfig $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string updateMask The list of fields to update.
-   * @return GoogleCloudApigeeV1SecurityActionsConfig
-   */
-  public function updateSecurityActionsConfig($name, GoogleCloudApigeeV1SecurityActionsConfig $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('updateSecurityActionsConfig', [$params], GoogleCloudApigeeV1SecurityActionsConfig::class);
   }
   /**
    * Updates the trace configurations in an environment. Note that the repeated

@@ -47,10 +47,6 @@ class AccessApprovalSettings extends \Google\Collection
    */
   public $notificationEmails;
   /**
-   * @var string
-   */
-  public $notificationPubsubTopic;
-  /**
    * @var bool
    */
   public $preferNoBroadApprovalRequests;
@@ -156,20 +152,6 @@ class AccessApprovalSettings extends \Google\Collection
   public function getNotificationEmails()
   {
     return $this->notificationEmails;
-  }
-  /**
-   * @param string
-   */
-  public function setNotificationPubsubTopic($notificationPubsubTopic)
-  {
-    $this->notificationPubsubTopic = $notificationPubsubTopic;
-  }
-  /**
-   * @return string
-   */
-  public function getNotificationPubsubTopic()
-  {
-    return $this->notificationPubsubTopic;
   }
   /**
    * @param bool
