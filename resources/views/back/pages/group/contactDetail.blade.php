@@ -204,7 +204,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
@@ -490,7 +490,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <select class="custom-select select2" multiple="multiple" name="tag_id" style="width: 100%;">
-                                                                            <option value="" disabled>Select Tags</option>
+                                                                            <option value="" disabled selected>Select Tags</option>
                                                                             @if (count($tags) > 0)
                                                                                 @foreach ($tags as $tag)
                                                                                     <option value="{{ $tag->id }}"
@@ -620,8 +620,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Mailing Address</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder=" Mailing Address"
-                                                                                name="mailing_address" table="lead_info"> {{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
+                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder="Mailing Address"
+                                                                                name="mailing_address" table="lead_info">{{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1469,7 +1469,7 @@
                                                                         {{-- <label>Repair Details</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <textarea id="template_text"  class="form-control" rows="2" placeholder="Repair Details" name="repair_detail"
-                                                                                table="values_conditions"> {{ $values_conditions->repair_detail == null ? null : $values_conditions->repair_detail }}</textarea>
+                                                                                table="values_conditions">{{ $values_conditions->repair_detail == null ? null : $values_conditions->repair_detail }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1889,7 +1889,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Balloon</label> --}}
+                                                                        {{-- <label>Loan Balloon</label> --}}
                                                                         <select class="custom-select"
                                                                             name="loan1_ballons"
                                                                             onchange="updateValue(value,'loan1_ballons','property_finance_infos')">
@@ -1922,7 +1922,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Monthly PITIH Payment</label> --}}
+                                                                        {{-- <label>Loan Monthly PITIH Payment</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Monthly PITIH Payment"
@@ -1934,10 +1934,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Name</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Name"
+                                                                                placeholder="Loan Mortgage Company Name"
                                                                                 name="loan1_mor_comp_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_mor_comp_name == '' ? '' : $property_finance_infos->loan1_mor_comp_name }}">
@@ -1946,7 +1946,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Phone</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Phone</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Mortgage Company Phone"
@@ -1958,7 +1958,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Account Number</label> --}}
+                                                                        {{-- <label>Loan Account Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Account Number"
@@ -1970,7 +1970,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Online Access Link</label> --}}
+                                                                        {{-- <label>Loan Online Access Link</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Online Access Link"
@@ -2161,7 +2161,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Balloon</label> --}}
+                                                                        {{-- <label>Loan Balloon</label> --}}
                                                                         <select class="custom-select"
                                                                             name="loan2_baloons"
                                                                             onchange="updateValue(value,'loan2_baloons','property_finance_infos')">
@@ -2195,10 +2195,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Monthly PITIH Payment</label> --}}
+                                                                        {{-- <label>Loan Monthly PITIH Payment</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Monthly PITIH Payment"
+                                                                                placeholder="Loan Monthly PITIH Payment"
                                                                                 name="loan2_month_pitih_payment"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_month_pitih_payment == '' ? '' : $property_finance_infos->loan2_month_pitih_payment }}">
@@ -2207,10 +2207,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Name</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Name"
+                                                                                placeholder="Loan Mortgage Company Name"
                                                                                 name="loan2_mor_comp_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_mor_comp_name == '' ? '' : $property_finance_infos->loan2_mor_comp_name }}">
@@ -2219,10 +2219,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Phone</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Phone</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Phone"
+                                                                                placeholder="Loan Mortgage Company Phone"
                                                                                 name="loan2_mor_comp_phone"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_mor_comp_phone == '' ? '' : $property_finance_infos->loan2_mor_comp_phone }}">
@@ -2231,10 +2231,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Account Number</label> --}}
+                                                                        {{-- <label>Loan Account Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Account Number"
+                                                                                placeholder="Loan Account Number"
                                                                                 name="loan2_account_nmbr"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_account_nmbr == '' ? '' : $property_finance_infos->loan2_account_nmbr }}">
@@ -2243,10 +2243,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Online Access Link</label> --}}
+                                                                        {{-- <label>Loan Online Access Link</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Online Access Link"
+                                                                                placeholder="Loan Online Access Link"
                                                                                 name="loan2_online_link"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_online_link == '' ? '' : $property_finance_infos->loan2_online_link }}">
@@ -2258,7 +2258,7 @@
                                                                         {{-- <label>Loan Online Access User Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Online Access User Name"
+                                                                                placeholder="Loan Online Access User Name"
                                                                                 name="loan2_user_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_user_name == '' ? '' : $property_finance_infos->loan2_user_name }}">
@@ -2770,8 +2770,7 @@
                                                                         {{-- <label>Do you have someone that’s helping you make the decision to sell this house?</label> --}}
                                                                         <select class="custom-select" name="solving_now"
                                                                             onchange="updateValue(value,'solving_now','selling_motivations')">
-                                                                            <option value="">Someone helping helping
-                                                                                them to make decision?
+                                                                            <option value="">Someone helping them to make decision?
                                                                                 this house?</option>
                                                                             <option value="yes"
                                                                                 @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
@@ -2907,7 +2906,7 @@
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Get email</label> --}}
                                                                         <div class="input-group mb-2">
@@ -2917,7 +2916,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Get all names on title</label> --}}
                                                                         <div class="input-group mb-2">
@@ -2927,7 +2926,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <label
@@ -2943,7 +2942,7 @@
 
 
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Explain next steps: Inspection, search, 10 minute closing process</label> --}}
                                                                         <div class="input-group mb-2">
@@ -3991,6 +3990,16 @@
                                                                             <label>{{ $section->name }}</label>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                                <label>Seller 1</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
                                                                     <div class="col-md-4">
                                                                         <div class="form-group"
                                                                             style="padding: 0 10px;">
@@ -4099,6 +4108,16 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>Seller 2</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
                                                                     <div class="col-md-4">
                                                                         <div class="form-group"
                                                                             style="padding: 0 10px;">
@@ -4207,6 +4226,16 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>Seller 3</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
                                                                     <div class="col-md-4">
                                                                         <div class="form-group"
                                                                             style="padding: 0 10px;">
@@ -4534,9 +4563,9 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-md-2 offset-1"
-                                    style="position: relative;margin-left: 1000px;margin-top: -524px;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3"
+                                    style="position: relative;margin-left: 1100px;margin-top: -524px;">
                                     <div class="card content-div">
                                         <div class="form-group" style="padding: 0 10px;">
                                             <label>Load Script</label>
