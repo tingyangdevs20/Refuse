@@ -1,21 +1,23 @@
 @extends('back.inc.master')
 @section('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-o9b12nEp6qOBHnpd3b05NUOBtJ9osd/Jfnvs59GpTcf6bd3NUGw+XtfPpCUVHsWqvyd2uuOVxOwXaVRoO2s2KQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-o9b12nEp6qOBHnpd3b05NUOBtJ9osd/Jfnvs59GpTcf6bd3NUGw+XtfPpCUVHsWqvyd2uuOVxOwXaVRoO2s2KQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    @endsection
+@endsection
 @section('content')
-    <div class="page-content">
-        <div class="container-fluid">
+<div class="page-content">
+    <div class="container-fluid">
 
-           <!-- start page title -->
-            <!-- <div class="row">
+        <!-- start page title -->
+        <!-- <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">BulkSMS</h4> -->
 
-                         <!-- class="mb-0 font-size-18">Command Central</h4>-->
-                        <!-- <p><span style="color:orange;font-size:16px;margin-right:10px" class="blink">Campaign Status:</span>5 Out of 10 uploaded contacts pending send. Your daily send message limit is 5. <a href="#">Update Limit Now</a> </p>
+        <!-- class="mb-0 font-size-18">Command Central</h4>-->
+        <!-- <p><span style="color:orange;font-size:16px;margin-right:10px" class="blink">Campaign Status:</span>5 Out of 10 uploaded contacts pending send. Your daily send message limit is 5. <a href="#">Update Limit Now</a> </p>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -26,9 +28,9 @@
                     </div>
                 </div>
             </div> -->
-            <!-- end page title -->
+        <!-- end page title -->
 
-            <!-- <div class="row">
+        <!-- <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
@@ -84,133 +86,135 @@
                                 </div>
                             </div>
                             <!-- end row -->
-                        <!-- </div>
+        <!-- </div>
                     </div>
                 </div>
             </div>  -->
         -->
-            <!-- end row -->
-            <div class="page-content">
-        <div class="container-fluid">
+        <!-- end row -->
+        <div class="page-content">
+            <div class="container-fluid">
 
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    @include('back.pages.partials.messages')
-                    <div class="card">
-                        <div class="card-header bg-soft-dark ">
-                          Goals Data
-                          @if(auth()->user()->can('administrator'))
-                          <a href="{{route('admin.create.goals')}}"class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-plus-circle"></i></a>
-                          @endif
-                        </div>
-                        <div class="card-body mt-5">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Goal</th>
-                                    <th scope="col">Today</th>
-                                    <th scope="col">Past 7 days</th>
-                                    <th scope="col">Past 30 days</th>
-                                    <th scope="col">Past 90 days</th>
-                                    <th scope="col">Past Year</th>
-                                    <th scope="col">Life time</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">People Reached</th>
-                                        <td>{{ $goalValue??'0'}}</td>
-                                        <td>{{ $messages_sent_today_goals??'0' }}</td>
-                                        <td>{{ $messages_sent_seven_days_goals??'0' }}</td>
-                                        <td>{{ $messages_sent_month_days_goals??'0' }}</td>
-                                        <td>{{ $messages_sent_ninety_days_goals??'0' }}</td>
-                                        <td>{{ $messages_sent_year_goals??'0' }}</td>
-                                        <td>{{ $total_sent_lifetime??'0' }} </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">#Lead</th>
-                                        <td>{{$goal_lead??'0'}}</td>
-                                        <td>{{$messages_received_today??'0'}}</td>
-                                        <td>{{$messages_received_seven_days_goals??'0'}} </td>
-                                        <td>{{$messages_received_month_days_goals??'0'}}</td>
-                                        <td>{{$messages_received_ninety_days_goals??'0'}}</td>
-                                        <td>{{$messages_received_year_goals??'0'}}</td>
-                                        <td>{{$total_received_lifetime??'0'}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">#Phone Apointment</th>
-                                        <td>{{$goal_appointment??'0'}}</td>
-                                        <td>{{$appointment_todays??'0'}}</td>
-                                        <td>{{$appointment_seven_day??'0'}}</td>
-                                        <td>{{$appointment_month??'0'}}</td>
-                                        <td>{{$appointment_ninety_day??'0'}}</td>
-                                        <td>{{$appointment_year??'0'}}</td>
-                                        <td>{{$appointment_lifetime??'0'}}</td>
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        @include('back.pages.partials.messages')
+                        <div class="card">
+                            <div class="card-header bg-soft-dark ">
+                                Goals Data
+                                @if(auth()->user()->can('administrator'))
+                                <a href="{{route('admin.create.goals')}}"
+                                    class="btn btn-outline-primary btn-sm float-right" title="New"><i
+                                        class="fas fa-plus-circle"></i></a>
+                                @endif
+                            </div>
+                            <div class="card-body mt-5">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Goal</th>
+                                            <th scope="col">Today</th>
+                                            <th scope="col">Past 7 days</th>
+                                            <th scope="col">Past 30 days</th>
+                                            <th scope="col">Past 90 days</th>
+                                            <th scope="col">Past Year</th>
+                                            <th scope="col">Life time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">People Reached</th>
+                                            <td>{{ $goalValue??'0'}}</td>
+                                            <td>{{ $messages_sent_today_goals??'0' }}</td>
+                                            <td>{{ $messages_sent_seven_days_goals??'0' }}</td>
+                                            <td>{{ $messages_sent_month_days_goals??'0' }}</td>
+                                            <td>{{ $messages_sent_ninety_days_goals??'0' }}</td>
+                                            <td>{{ $messages_sent_year_goals??'0' }}</td>
+                                            <td>{{ $total_sent_lifetime??'0' }} </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">#Lead</th>
+                                            <td>{{$goal_lead??'0'}}</td>
+                                            <td>{{$messages_received_today??'0'}}</td>
+                                            <td>{{$messages_received_seven_days_goals??'0'}} </td>
+                                            <td>{{$messages_received_month_days_goals??'0'}}</td>
+                                            <td>{{$messages_received_ninety_days_goals??'0'}}</td>
+                                            <td>{{$messages_received_year_goals??'0'}}</td>
+                                            <td>{{$total_received_lifetime??'0'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">#Phone Apointment</th>
+                                            <td>{{$goal_appointment??'0'}}</td>
+                                            <td>{{$appointment_todays??'0'}}</td>
+                                            <td>{{$appointment_seven_day??'0'}}</td>
+                                            <td>{{$appointment_month??'0'}}</td>
+                                            <td>{{$appointment_ninety_day??'0'}}</td>
+                                            <td>{{$appointment_year??'0'}}</td>
+                                            <td>{{$appointment_lifetime??'0'}}</td>
 
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Contracts Out</th>
-                                        <td>{{ $contacts_out??'0' }}</td>
-                                        <td>{{ $contracts_out_todays??'0' }}</td>
-                                        <td>{{ $contracts_out_seven_day??'0' }}</td>
-                                        <td>{{ $contracts_out_month??'0' }}</td>
-                                        <td>{{ $contracts_out_ninety_day??'0' }}</td>
-                                        <td>{{ $contracts_out_year??'0' }}</td>
-                                        <td>{{ $contracts_out_lifetime??'0' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Contracts Signed</th>
-                                        <td>{{ $contacts_signed??'0' }}</td>
-                                        <td>{{ $contracts_signed_todays ??'0'}}</td>
-                                        <td>{{ $contracts_signed_seven_day??'0' }}</td>
-                                        <td>{{ $contracts_signed_month??'0' }}</td>
-                                        <td>{{ $contracts_signed_ninety_day??'0' }}</td>
-                                        <td>{{ $contracts_signed_year??'0' }}</td>
-                                        <td>{{ $contracts_signed_lifetime??'0' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Deals Closed</th>
-                                        <td>{{ $deal_closed??'0' }}</td>
-                                        <td>{{ $deals_todays??'0' }}</td>
-                                        <td>{{ $deals_seven_day??'0' }}</td>
-                                        <td>{{ $deals_month??'0' }}</td>
-                                        <td>{{ $deals_ninety_day??'0' }}</td>
-                                        <td>{{ $deals_year??'0' }}</td>
-                                        <td>{{ $deals_lifetime??'0' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Money Expected</th>
-                                        <td>{{ number_format($money_expected, 2) }}</td>
-                                        <td>{{ number_format(@$expected_money_todays, 2) }}</td>
-                                        <td>{{ number_format(@$expected_money_seven_day, 2) }}</td>
-                                        <td>{{ number_format(@$expected_money_month, 2) }}</td>
-                                        <td>{{ number_format(@$expected_money_ninety_day, 2) }}</td>
-                                        <td>{{ number_format(@$expected_money_year, 2) }}</td>
-                                        <td>{{ number_format(@$expected_money_lifetime, 2) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Money Collected</th>
-                                        <td>{{ number_format(@$money_collected, 2) }}</td>
-                                        <td>{{ number_format(@$money_collected_todays, 2) }}</td>
-                                        <td>{{ number_format(@$money_collected_seven_day, 2) }}</td>
-                                        <td>{{ number_format(@$money_collected_month, 2) }}</td>
-                                        <td>{{ number_format(@$money_collected_ninety_day, 2) }}</td>
-                                        <td>{{ number_format(@$money_collected_year, 2) }}</td>
-                                        <td>{{ number_format(@$money_collected_lifetime, 2) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Contracts Out</th>
+                                            <td>{{ $contacts_out??'0' }}</td>
+                                            <td>{{ $contracts_out_todays??'0' }}</td>
+                                            <td>{{ $contracts_out_seven_day??'0' }}</td>
+                                            <td>{{ $contracts_out_month??'0' }}</td>
+                                            <td>{{ $contracts_out_ninety_day??'0' }}</td>
+                                            <td>{{ $contracts_out_year??'0' }}</td>
+                                            <td>{{ $contracts_out_lifetime??'0' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Contracts Signed</th>
+                                            <td>{{ $contacts_signed??'0' }}</td>
+                                            <td>{{ $contracts_signed_todays ??'0'}}</td>
+                                            <td>{{ $contracts_signed_seven_day??'0' }}</td>
+                                            <td>{{ $contracts_signed_month??'0' }}</td>
+                                            <td>{{ $contracts_signed_ninety_day??'0' }}</td>
+                                            <td>{{ $contracts_signed_year??'0' }}</td>
+                                            <td>{{ $contracts_signed_lifetime??'0' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Deals Closed</th>
+                                            <td>{{ $deal_closed??'0' }}</td>
+                                            <td>{{ $deals_todays??'0' }}</td>
+                                            <td>{{ $deals_seven_day??'0' }}</td>
+                                            <td>{{ $deals_month??'0' }}</td>
+                                            <td>{{ $deals_ninety_day??'0' }}</td>
+                                            <td>{{ $deals_year??'0' }}</td>
+                                            <td>{{ $deals_lifetime??'0' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Money Expected</th>
+                                            <td>{{ number_format($money_expected, 2) }}</td>
+                                            <td>{{ number_format(@$expected_money_todays, 2) }}</td>
+                                            <td>{{ number_format(@$expected_money_seven_day, 2) }}</td>
+                                            <td>{{ number_format(@$expected_money_month, 2) }}</td>
+                                            <td>{{ number_format(@$expected_money_ninety_day, 2) }}</td>
+                                            <td>{{ number_format(@$expected_money_year, 2) }}</td>
+                                            <td>{{ number_format(@$expected_money_lifetime, 2) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Money Collected</th>
+                                            <td>{{ number_format(@$money_collected, 2) }}</td>
+                                            <td>{{ number_format(@$money_collected_todays, 2) }}</td>
+                                            <td>{{ number_format(@$money_collected_seven_day, 2) }}</td>
+                                            <td>{{ number_format(@$money_collected_month, 2) }}</td>
+                                            <td>{{ number_format(@$money_collected_ninety_day, 2) }}</td>
+                                            <td>{{ number_format(@$money_collected_year, 2) }}</td>
+                                            <td>{{ number_format(@$money_collected_lifetime, 2) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end page title -->
+                <!-- end page title -->
 
-        </div> <!-- container-fluid -->
-    </div>
-            <!-- <div class="row">
+            </div> <!-- container-fluid -->
+        </div>
+        <!-- <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="col-sm-3">
@@ -331,7 +335,7 @@
                 </div>
             </div> -->
 
-            <!-- <div class="row">
+        <!-- <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="col-sm-4">
@@ -398,7 +402,7 @@
             </div> -->
 
 
-            <!-- <div class="row">
+        <!-- <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="col-sm-4">
@@ -464,7 +468,7 @@
             </div> -->
 
 
-            <!-- <div class="row">
+        <!-- <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="col-sm-4">
@@ -528,7 +532,7 @@
                     </div>
                 </div>
             </div> -->
-            {{--
+        {{--
                         <div class="card">
                             <div class="card-header bg-soft-dark">
                                 Latest Replies
@@ -570,14 +574,13 @@
                         </div>
                         <!-- end row -->
             --}}
-        </div> <!-- container-fluid -->
-    </div>
+    </div> <!-- container-fluid -->
+</div>
 @endsection
 @section('scripts')
 
 <script>
-
-    function blink_text() {
+function blink_text() {
     $('.blink').fadeOut(500);
     $('.blink').fadeIn(500);
 }
