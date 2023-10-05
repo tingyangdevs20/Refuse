@@ -66,17 +66,6 @@ class AdminController extends Controller
 
 
 
-
-
-            //appointment
-            $appointment_lifetime=(Scheduler::where([['user_id',$user],['status','booked']])->count());
-            $appointment_todays=appointment_count(0,$user);
-            $appointment_seven_day=appointment_count(7,$user);
-            $appointment_month=appointment_count(30,$user);
-            $appointment_ninety_day=appointment_count(90,$user);
-            $appointment_year=appointment_count(365,$user);
-
-
             // Deals Closed
 
             $deals_lifetime=(UserAgreementSeller::where([['user_id',$user],['is_sign','2']])->count());
@@ -85,6 +74,16 @@ class AdminController extends Controller
             $deals_month=deal_count(30,$user);
             $deals_ninety_day=deal_count(90,$user);
             $deals_year=deal_count(365,$user);
+
+               //appointment
+               $appointment_lifetime=(Scheduler::where([['user_id',$user],['status','booked']])->count());
+               $appointment_todays=appointment_count(0,$user);
+               $appointment_seven_day=appointment_count(7,$user);
+               $appointment_month=appointment_count(30,$user);
+               $appointment_ninety_day=appointment_count(90,$user);
+               $appointment_year=appointment_count(365,$user);
+
+
 
             // Contracts Signed
 

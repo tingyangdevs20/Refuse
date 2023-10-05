@@ -111,13 +111,11 @@
                                                 <tr>
                                                     <th scope="col">List Name</th>
                                                     <th scope="col">Contact</th>
-                                                    {{-- <th scope="col">Messages Sent</th> --}}
                                                     <th scope="col">Date of Last Email Skip Trace</th>
                                                     <th scope="col">Date of Last Phone Skip Trace</th>
                                                     <th scope="col">Date of Last Name Skip Trace</th>
                                                     <th scope="col">Date of Last Email Verification</th>
                                                     <th scope="col">Date of Last Phone Scrub </th>
-
                                                     <th scope="col">% with Phone Numbers </th>
                                                     <th scope="col">Created At</th>
                                                     <th scope="col">Skip Trace</th>
@@ -165,9 +163,6 @@
                                                         {{ $group->phone_scrub_date }}
                                                     @endif
                                                 </td>
-
-
-                                                {{-- <td>{{ $group->getMessageSentCount() }}/{{ $group->getContactsCount() }}</td> --}}
                                                 <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
 
                                                 <td>{{ $group->created_at->format('m/d/Y') }}</td>
@@ -465,6 +460,10 @@
                 theme: 'bootstrap4',
             });
 
+
+            $('.select2').select2();
+            $('#datatable').DataTable();
+
             let groupId = 0;
 
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -708,8 +707,6 @@
             });
 
 
-            $('.select2').select2();
-            $('#datatable').DataTable();
         } );
 
     </script>

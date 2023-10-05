@@ -13,11 +13,7 @@ use Spatie\GoogleCalendar\Event;
 class GoogleCalendarService
 {
 
-    /**
-     * 
-     * fetch events/appointments from google calendar of Admin.
-     * 
-     */
+
     public function fetchEventsFromGoogleCalendar()
     {
         // check whether admin has configured his google calendar or not.

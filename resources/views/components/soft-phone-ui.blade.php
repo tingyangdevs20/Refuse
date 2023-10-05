@@ -325,12 +325,20 @@ input:checked + .slider:before {
               </button>
                 <div class="call-display">
                     <div class="row">
-                      <input type="tel" class="phone-number" placeholder="Dial Number" pattern="[0-9 ]+" autofocus />
+                      <input type="tel" class="phone-number"  placeholder="Dial Number" pattern="[0-9 ]+" autofocus />
                     </div>
                 </div>
 
-                    <select class="custom-select" style="color:#C0C0C0;margin-top:5px" id="list-of-phonenumbers">
-                        <option selected>Call From Number</option>
+                  <span style="color:#C0C0C0;">Call Using</span>  <select class="custom-select"  style="color:#C0C0C0;margin-top:5px" id="call_from">
+                        
+                        @php
+                        use App\Model\Number;
+                        $twilio_number=Number::first()->toArray();
+                        $caller_id=$twilio_number['number'];
+        
+
+                        @endphp
+                        <option selected>{{$caller_id}}</option>
 
                     </select>
 
