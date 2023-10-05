@@ -53,6 +53,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    @if($templates!=null)
                                 @foreach($templates as $template)
                                     <tr>
                                         
@@ -68,6 +69,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>

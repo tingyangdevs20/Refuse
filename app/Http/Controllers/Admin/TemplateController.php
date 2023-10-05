@@ -21,6 +21,7 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = Template::all();
+        
         $categories = Category::all();
         $sr = 1;
         return view('back.pages.template.index', compact('templates', 'categories', 'sr'));

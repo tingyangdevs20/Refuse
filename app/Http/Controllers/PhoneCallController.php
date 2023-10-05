@@ -7,6 +7,7 @@ use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VoiceGrant;
 use Twilio\TwiML\VoiceResponse;
 use App\Model\Settings;
+use App\Model\Number;
 
  
 class PhoneCallController extends Controller
@@ -14,6 +15,7 @@ class PhoneCallController extends Controller
     public function index()
     {
         $settings = Settings::first()->toArray(); 
+        $twilio_number=Number::first()->toArray();
         return view('phoneCall.call_view');
     }
 
@@ -25,9 +27,8 @@ class PhoneCallController extends Controller
         $API_KEY = $settings['call_api_key'];
         $TWIML_APP_SID = $settings['twiml_app_sid'];
 
-       
-
-        $caller_id='+13128692422';	
+        $twilio_number=Number::first()->toArray();
+        $caller_id=$twilio_number['number'];
         
         
         $identity=$request['identity'];
