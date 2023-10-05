@@ -207,7 +207,8 @@ class AdminController extends Controller
     }
 
     public function setGoals(Request $request)
-    {
+    { 
+       
         $user=Auth::id();
         $goal=GoalsReached::all();
         $goal->load(['goal_attribute','user']);
@@ -216,12 +217,13 @@ class AdminController extends Controller
 
     public function createGoals(Request $request)
     {
+       
         $users=User::all();
         $attributes=goal_attribute::all();
         return view('back.pages.goal-settings.create',compact('users','attributes'));
     }
     public function editGoals(Request $request,$id)
-    {
+    { 
         $goal=GoalsReached::where('id','=',$id)->first();
         $goal->load(['goal_attribute','user']);
         $users=User::all();
@@ -229,7 +231,7 @@ class AdminController extends Controller
         return view('back.pages.goal-settings.edit',compact('goal','users','attributes'));
     }
     public function updateGoals(Request $request,$id)
-    {
+    { 
         $validatedData = $request->validate([
             'goal' => 'required|numeric',
             'user' => 'required',
@@ -246,6 +248,9 @@ class AdminController extends Controller
         $goal->leads_into_phone=$request->leads_into_phone??0;
         $goal->signed_agreements=$request->signed_agreements??0;
         $goal->escrow_closure=$request->escrow_closure??0;
+        $goal->passed_inspection=$request->passed_inspection??0;
+        $goal->passed_title_search=$request->passed_title_search??0;
+        $goal->deal_closed=$request->deal_closed??0;
         $goal->save();
         // Alert::success('Success','Goal Saved!');
         return redirect()->route('admin.setgoals')->with('Success','Goal Saved!');
@@ -258,6 +263,7 @@ class AdminController extends Controller
     }
     public function saveGoals(Request $request)
     {
+        // return "Test";
         $validatedData = $request->validate([
             'goal' => 'required|numeric',
             'user' => 'required',
@@ -270,6 +276,9 @@ class AdminController extends Controller
         $goal->attribute_id=$request->attribute;
         $goal->money_per_month=$request->money_per_month??0;
         $goal->gross_profit=$request->gross_profit??0;
+        $goal->passed_inspection=$request->passed_inspection??0;
+        $goal->passed_title_search=$request->passed_title_search??0;
+        $goal->deal_closed=$request->deal_closed??0;
         $goal->contact_trun_into_lead=$request->contact_trun_into_lead??0;
         $goal->leads_into_phone=$request->leads_into_phone??0;
         $goal->save();

@@ -36,7 +36,7 @@ class ProjectsLocationsServiceConnectionTokens extends \Google\Service\Resource
    * (serviceConnectionTokens.create)
    *
    * @param string $parent Required. The parent resource's name of the
-   * ServiceConnectionToken.
+   * ServiceConnectionToken. ex. projects/123/locations/us-east1
    * @param ServiceConnectionToken $postBody
    * @param array $optParams Optional parameters.
    *
@@ -70,6 +70,9 @@ class ProjectsLocationsServiceConnectionTokens extends \Google\Service\Resource
    * delete.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string etag Optional. The etag is computed by the server, and may
+   * be sent on update and delete requests to ensure the client has an up-to-date
+   * value before proceeding.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server will know to ignore the request if it has already been completed.
@@ -107,7 +110,8 @@ class ProjectsLocationsServiceConnectionTokens extends \Google\Service\Resource
    * Lists ServiceConnectionTokens in a given project and location.
    * (serviceConnectionTokens.listProjectsLocationsServiceConnectionTokens)
    *
-   * @param string $parent Required. The parent resource's name.
+   * @param string $parent Required. The parent resource's name. ex.
+   * projects/123/locations/us-east1
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter A filter expression that filters the results listed

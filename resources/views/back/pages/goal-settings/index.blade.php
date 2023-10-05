@@ -51,7 +51,7 @@
                                     @foreach($goal as $data)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $data->goal_attribute['attribute'] }}</td>
+                                        <td>{{ $data->goal_attribute['attribute'] ??""}}</td>
                                         <td>{{ $data->goals }}</td>
                                         <td>{{ $data->user['name'] }}</td>
                                         <td> @if(auth()->user()->can('administrator'))
