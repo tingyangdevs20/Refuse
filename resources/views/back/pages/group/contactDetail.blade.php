@@ -204,7 +204,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
@@ -489,17 +489,18 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <select class="custom-select select2"
-                                                                            multiple="multiple" style="width: 100%;">
-                                                                            <option value="" selected>Select Tags </option>
+                                                                        <select class="custom-select select2" multiple="multiple" name="tag_id" style="width: 100%;">
+                                                                            <option value="" disabled>Select Tags</option>
                                                                             @if (count($tags) > 0)
                                                                                 @foreach ($tags as $tag)
                                                                                     <option value="{{ $tag->id }}"
                                                                                         @if (isset($leadinfo) && is_array($leadinfo->tag_id) && in_array($tag->id, $leadinfo->tag_id)) selected @endif>
-                                                                                        {{ $tag->name }}</option>
+                                                                                        {{ $tag->name }}
+                                                                                    </option>
                                                                                 @endforeach
                                                                             @endif
                                                                         </select>
+                                                                        
                                                                     </div>
 
 
@@ -656,7 +657,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Mailing Zip"
-                                                                                name="mailing_zip" table="lead_info">
+                                                                                name="mailing_zip" table="lead_info"
+                                                                                value="{{ $leadinfo->mailing_zip == '' ? '' : $leadinfo->mailing_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -811,19 +813,12 @@
                                                                         {{-- <label>Owner 1 Date of Birth</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <!-- Display the date as text -->
-                                                                            <input class="form-control date-input-text"
-                                                                                type="text" placeholder="Date of Birth"
-                                                                                name="owner1_dob" table="lead_info"
-                                                                                onchange="updateValue(value,'loan1_type','property_finance_infos')"
+                                                                            <input class="form-control"
+                                                                            placeholder="Date of Birth"
+                                                                            name="owner1_dob" table="lead_info"
+                                                                            type="date"
+                                                                                onchange="updateValue(value,'owner1_dob','lead_info')"
                                                                                 value="{{ $leadinfo->owner1_dob == '' ? '' : $leadinfo->owner1_dob }}">
-
-                                                                            <!-- Hidden date input -->
-                                                                            <input class="form-control date-input-hidden"
-                                                                                type="date" style="display: none;"
-                                                                                name="owner1_dob" table="lead_info"
-                                                                                onchange="updateValue(value,'loan1_type','property_finance_infos')"
-                                                                                value="{{ $leadinfo->owner1_dob == '' ? '' : $leadinfo->owner1_dob }}">
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -993,8 +988,8 @@
                                                                             <input class="form-control"
                                                                                 placeholder="Date of Birth"
                                                                                 name="owner2_dob" table="lead_info"
-                                                                                onfocus="(this.type='date')"
-                                                                                onblur="( this.type='text')"
+                                                                                type="date"
+                                                                                onchange="updateValue(value,'owner2_dob','lead_info')"
                                                                                 value="{{ $leadinfo->owner2_dob == '' ? '' : $leadinfo->owner2_dob }}">
                                                                         </div>
                                                                     </div>
@@ -1126,7 +1121,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Phone Number 3"
-                                                                                name="owner3_number2" table="lead_info"
+                                                                                name="owner3_number3" table="lead_info"
                                                                                 value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
                                                                             @if ($leadinfo->owner3_number3)
                                                                                 <a id="button-call"
@@ -1165,8 +1160,8 @@
                                                                             <input class="form-control"
                                                                                 placeholder="Date of Birth"
                                                                                 name="owner3_dob" table="lead_info"
-                                                                                onfocus="(this.type='date')"
-                                                                                onblur="( this.type='text')"
+                                                                                type="date"
+                                                                                onchange="updateValue(value,'owner2_dob','lead_info')"
                                                                                 value="{{ $leadinfo->owner3_dob == '' ? '' : $leadinfo->owner3_dob }}">
                                                                         </div>
                                                                     </div>
@@ -1473,8 +1468,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Repair Details</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Repair Details" name="repair_detail"
-                                                                                table="values_conditions"> {{ $values_conditions->repair_detail == '' ? '' : $values_conditions->repair_detail }}</textarea>
+                                                                            <textarea id="template_text"  class="form-control" rows="2" placeholder="Repair Details" name="repair_detail"
+                                                                                table="values_conditions"> {{ $values_conditions->repair_detail == null ? null : $values_conditions->repair_detail }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2049,28 +2044,13 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Origination Date</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            {{-- <input type="date" class="form-control"
-                                                                                placeholder="Origination Date"
-                                                                                name="loan2_origination_date"
-                                                                                table="property_finance_infos"
-                                                                                value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}"> --}}
-                                                                            <!-- Display the date as text -->
-                                                                            <input class="form-control date-input-text"
-                                                                                id="date_input_text" type="text"
+                                                                            <input type="date" class="form-control"
                                                                                 placeholder="Origination Date"
                                                                                 name="loan2_origination_date"
                                                                                 table="property_finance_infos"
                                                                                 onchange="updateValue(value,'loan2_origination_date','property_finance_infos')"
                                                                                 value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
-
-                                                                            <!-- Hidden date input -->
-                                                                            <input class="form-control date-input-hidden"
-                                                                                id="date_input_hidden" type="date"
-                                                                                style="display: none;"
-                                                                                name="loan2_origination_date"
-                                                                                table="property_finance_infos"
-                                                                                onchange="updateValue(value,'loan2_origination_date','property_finance_infos')"
-                                                                                value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2342,8 +2322,7 @@
                                                                         <select class="custom-select"
                                                                             name="include_property_taxes"
                                                                             onchange="updateValue(value,'include_property_taxes','property_finance_infos')">
-                                                                            <option value="">Does mortgage
-                                                                                payment(s) include property taxes?</option>
+                                                                            <option value="">Include property taxes?</option>
                                                                             <option value="yes"
                                                                                 @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_taxes == 'yes') selected @endif
                                                                                 @endif>Yes</option>
@@ -2359,8 +2338,7 @@
                                                                         <select class="custom-select"
                                                                             name="include_property_insurance"
                                                                             onchange="updateValue(value,'include_property_insurance','property_finance_infos')">
-                                                                            <option value="">Does mortgage
-                                                                                payment(s) include property insurance?
+                                                                            <option value="">Include property insurance?
                                                                             </option>
                                                                             <option value="yes"
                                                                                 @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_insurance == 'yes') selected @endif
@@ -2559,8 +2537,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Taking Loan 1 Subject 2</label> --}}
                                                                         <select class="custom-select"
-                                                                            name="Loan1Subject2" required>
-                                                                            <option value="">Loan 1 Subject 2
+                                                                            name="Loan1Subject2">
+                                                                            <option value="">Loan 1 Subject 2?
                                                                             </option>
                                                                             <option value="yes">Yes</option>
                                                                             <option value="no">No</option>
@@ -2571,8 +2549,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Taking Loan 2 Subject 2</label> --}}
                                                                         <select class="custom-select"
-                                                                            name="Loan2Subject2" required>
-                                                                            <option value="">Loan 2 Subject 2
+                                                                            name="Loan2Subject2">
+                                                                            <option value="">Loan 2 Subject 2?
                                                                             </option>
                                                                             <option value="yes">yes</option>
                                                                             <option value="no">no</option>
@@ -2661,12 +2639,23 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Monthly Passive Income</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Past Due Amount of Mortgage/Taxes/HOA"
+                                                                                name="PastDueAmountMortgage">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Past Due Amount of Mortgage/Taxes/HOA</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <textarea id="template_text" class="form-control" rows="2"
-                                                                                placeholder="Past Due Amount of Mortgage/Taxes/HOA" name="PastDueAmountMortgage"></textarea>
+                                                                                placeholder="Negotiations Notes" name="negotiations_notes"></textarea>
                                                                         </div>
 
                                                                     </div>
@@ -2958,10 +2947,13 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Explain next steps: Inspection, search, 10 minute closing process</label> --}}
                                                                         <div class="input-group mb-2">
+                                                                            <label
+                                                                            style="display: flex; align-items: center;">
                                                                             <input style="margin-right:5px"
                                                                                 type="checkbox" name="next_steps">
                                                                             Explain next steps: Inspection, search, 10
                                                                             minute closing process
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3004,7 +2996,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '11')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                       <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="AGENT">
                                                                 <div class="col-md-12">
@@ -3014,7 +3006,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Property currently listed with an agent </label> --}}
+                                                                       {{-- <label>Property currently listed with an agent </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
                                                                                 name="property_listed_agent"
@@ -3155,86 +3147,6 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                    @elseif($section->id == '12')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
-                                                            style="padding:0px;">
-                                                            <div class="row" id="SEQUENCE">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
-                                                                        <label>{{ $section->name }}</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Schedule Follow up Reminder </label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
-                                                                                <option value="">Schedule Follow up
-                                                                                    Reminder </option>
-                                                                                <option value="1"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '1') selected @endif
-                                                                                    @endif>1 Day
-                                                                                </option>
-                                                                                <option value="2"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '2') selected @endif
-                                                                                    @endif>2 Days
-                                                                                </option>
-                                                                                <option value="3"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '3') selected @endif
-                                                                                    @endif>4 Days
-                                                                                </option>
-                                                                                <option value="4"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '4') selected @endif
-                                                                                    @endif>1 Week
-                                                                                </option>
-
-                                                                            </select>
-                                                                        </div>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary mt-2">Stop
-                                                                            Followup</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            @php
-                                                                $customeFields = getsectionsFields($section->id);
-                                                            @endphp
-                                                            <div class="row">
-                                                                @if (count($customeFields) > 0)
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                            <label>{{ $section->name }} (Custom
-                                                                                Fields)</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($customeFields as $field)
-                                                                        @php
-                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                        @endphp
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
-                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                <div class="input-group mb-2">
-                                                                                    <input type="{{ $field->type }}"
-                                                                                        class="form-control"
-                                                                                        placeholder="{{ $field->label }}"
-                                                                                        name="feild_value"
-                                                                                        section_id="{{ $section->id }}"
-                                                                                        id="{{ $field->id }}"
-                                                                                        table="custom_field_values"
-                                                                                        value="{{ $customeFieldValue }}">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                        <hr>
                                                     @elseif($section->id == '13')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
@@ -3322,6 +3234,40 @@
                                                                     $customeFields = getsectionsFields($section->id);
                                                                 @endphp
                                                                 <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group" style="padding: 0 10px;">
+                                                                            {{-- <label>Schedule Follow up Reminder </label> --}}
+                                                                            <div class="input-group mb-2">
+                                                                                <select class="custom-select"
+                                                                                    name="solving_now"
+                                                                                    onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                    <option value="">Schedule Follow up
+                                                                                        Reminder </option>
+                                                                                    <option value="1"
+                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '1') selected @endif
+                                                                                        @endif>1 Day
+                                                                                    </option>
+                                                                                    <option value="2"
+                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '2') selected @endif
+                                                                                        @endif>2 Days
+                                                                                    </option>
+                                                                                    <option value="3"
+                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '3') selected @endif
+                                                                                        @endif>4 Days
+                                                                                    </option>
+                                                                                    <option value="4"
+                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '4') selected @endif
+                                                                                        @endif>1 Week
+                                                                                    </option>
+    
+                                                                                </select>
+                                                                            </div>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary mt-2">Stop
+                                                                                Followup</button>
+                                                                        </div>
+                                                                        
+                                                                    </div>
                                                                     @if (count($customeFields) > 0)
                                                                         <div class="col-md-12">
                                                                             <div class="form-group"
@@ -3354,7 +3300,8 @@
                                                                         @endforeach
                                                                     @endif
                                                                 </div>
-                                                                <div class="row">
+                                                                <hr>
+                                                                <div class="row mt-2">
                                                                     <div class="col-md-12">
 
                                                                         <div class="form-group"
@@ -3420,7 +3367,7 @@
                                                                                     </div>
                                                                                     <div class="form-group ">
                                                                                         <label>Message</label>
-                                                                                        <textarea id="template_text" class="form-control summernote-usage" rows="10" required name="message"></textarea>
+                                                                                        <textarea id="template_text" class="form-control summernote-usage" rows="10"  name="message"></textarea>
                                                                                         <div id='count'
                                                                                             class="float-lg-right">
                                                                                         </div>
@@ -3541,10 +3488,12 @@
                                                                         <select class="custom-select" name="lead_status"
                                                                             table="lead_info"
                                                                             onchange="toggleFIlesUpload(value)">
-                                                                            <option value="any" selected>Any File
-                                                                            </option>
-                                                                            <option value="purchase_agreement">Purchase
-                                                                                Agreement</option>
+                                                                            <option value="miscellaneous" selected>Miscellaneous</option>
+                                                                            <option value="photo">Photo</option>
+                                                                            <option value="purchase_agreement_seller">Purchase
+                                                                                Agreement / Sell Side</option>
+                                                                                <option value="purchase_agreement_buyer">Purchase
+                                                                                    Agreement / Buy Side</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -3561,6 +3510,7 @@
                                                                             <input type="file" name="file"
                                                                                 id="file" class="form-control"
                                                                                 multiple>
+                                                                                
                                                                         </div>
                                                                         <button type="submit" id="custom-upload-button"
                                                                             class="btn btn-primary">Upload to Google
@@ -3586,8 +3536,6 @@
                                                                             id="agreement-upload-button"
                                                                             class="btn btn-primary">Move Lead to
                                                                             Deals</button>
-
-
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -4587,7 +4535,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4"
+                                <div class="col-md-2 offset-1"
                                     style="position: relative;margin-left: 1000px;margin-top: -524px;">
                                     <div class="card content-div">
                                         <div class="form-group" style="padding: 0 10px;">
@@ -4648,6 +4596,7 @@
 
             // Initially hide the date input
             $('.date-input-hidden').hide();
+            setupDateInputHandling();
 
             // When the text input is clicked, hide it and show the hidden date input
             $('.date-input-text').on('click', function() {
@@ -4718,7 +4667,7 @@
     <script>
         // Check the type of file for upload to google drive
         function toggleFIlesUpload(value) {
-            if (value == 'purchase_agreement') {
+            if (value == 'purchase_agreement_seller' || value == 'purchase_agreement_buyer') {
                 $('#driveUpload').hide()
                 $('#purchaseAgreementUpload').show()
             } else {
@@ -4789,6 +4738,34 @@
                 }
             });
         });
+
+        function setupDateInputHandling() {
+            // Get all input elements with type 'date'
+            var dateInputs = document.querySelectorAll('input[type="date"]');
+
+            // Add event listeners to each 'date' input
+            dateInputs.forEach(function(dateInput) {
+                
+                if (dateInput.value === '' || dateInput.value === null) {
+                    dateInput.type = 'text';
+                } else {
+                    dateInput.type = 'date';
+                }
+                dateInput.addEventListener('focus', function() {
+                    if (this.value !== '' || this.value !== null ) {
+                        this.type = 'date';
+                    }
+                });
+
+                dateInput.addEventListener('blur', function() {
+                    if (this.value === '' || this.value === null) {
+                        this.type = 'text';
+                    } else {
+                    this.type = 'date';
+                }
+                });
+            });
+        }
 
         function getRealtorPropertyId() {
             $('#propertyEstimatesFetchingId').show()
@@ -4933,9 +4910,9 @@
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
+                        // setTimeout(function() {
+                        //     location.reload();
+                        // }, 10000);
                     } else {
                         $.notify(res.message, 'error');
                     }
@@ -4962,4 +4939,48 @@
             });
         }
     </script>
+<script>
+    var dropZone = document.getElementById('drop-zone');
+    var fileInput = document.getElementById('file');
+
+    dropZone.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        this.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', function (e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+
+        var files = e.dataTransfer.files;
+        fileInput.files = files;
+
+        // You can now access the selected files in JavaScript as fileInput.files
+        console.log('Selected Files:', fileInput.files);
+    });
+
+    // Optional: If you want to allow clicking on the drop zone to trigger the file input
+    dropZone.addEventListener('click', function () {
+        fileInput.click();
+    });
+
+    // Optional: Display the selected file names (for multiple files)
+    fileInput.addEventListener('change', function () {
+        var fileList = document.getElementById('file-list');
+        fileList.innerHTML = '';
+
+        for (var i = 0; i < this.files.length; i++) {
+            var fileName = this.files[i].name;
+            var listItem = document.createElement('li');
+            listItem.textContent = fileName;
+            fileList.appendChild(listItem);
+        }
+    });
+</script>
+
 @endsection
