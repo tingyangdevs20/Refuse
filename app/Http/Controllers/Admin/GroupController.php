@@ -141,7 +141,8 @@ class GroupController extends Controller
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
         if ($leadinfo == null) {
-            DB::table('lead_info')->insert(['contact_id' => $id]);
+            $dateAdded = Carbon::now()->toDateString();
+            DB::table('lead_info')->insert(['contact_id' => $id , 'date_added'=> $dateAdded]);
             $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
