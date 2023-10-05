@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css">
+    
+
     <style>
         /* Style for the placeholder label */
         .placeholder {
@@ -597,7 +600,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Mailing Zip"
-                                                                                name="mailing_zip" table="lead_info">
+                                                                                name="mailing_zip" table="lead_info"
+                                                                                value="{{ $leadinfo->mailing_zip == '' ? '' : $leadinfo->mailing_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2470,7 +2474,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Final Price"
-                                                                                name="FinalPrice">
+                                                                                name="final_price"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->final_price == '' ? '' : $negotiations->final_price }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2478,23 +2484,35 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Taking Loan 1 Subject 2</label> --}}
                                                                         <select class="custom-select"
-                                                                            name="Loan1Subject2" >
+                                                                            name="loan1_subject1" 
+                                                                            table="negotiations"
+                                                                            onchange="updateValue(value,'loan1_subject1','negotiations')">
                                                                             <option value="">Loan 1 Subject 2?
                                                                             </option>
-                                                                            <option value="yes">Yes</option>
-                                                                            <option value="no">No</option>
-                                                                        </select>
+                                                                            <option value="Yes"
+                                                                                @if (isset($negotiations)) @if ($negotiations->loan1_subject1 == 'Yes') selected @endif
+                                                                                @endif>Yes</option>
+                                                                                <option value="No"
+                                                                                @if (isset($negotiations)) @if ($negotiations->loan1_subject1 == 'No') selected @endif
+                                                                                @endif>No</option>
+                                                                            </select>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Taking Loan 2 Subject 2</label> --}}
                                                                         <select class="custom-select"
-                                                                            name="Loan2Subject2">
+                                                                            name="loan2_subject2"
+                                                                            table="negotiations"
+                                                                            onchange="updateValue(value,'loan2_subject2','negotiations')">>
                                                                             <option value="">Loan 2 Subject 2?
                                                                             </option>
-                                                                            <option value="yes">yes</option>
-                                                                            <option value="no">no</option>
+                                                                            <option value="Yes"
+                                                                                @if (isset($negotiations)) @if ($negotiations->loan2_subject2 == 'Yes') selected @endif
+                                                                                @endif>Yes</option>
+                                                                                <option value="No"
+                                                                                @if (isset($negotiations)) @if ($negotiations->loan2_subject2 == 'No') selected @endif
+                                                                                @endif>No</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -2505,7 +2523,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Owner Financing Amount"
-                                                                                name="OwnerFinancingAmount">
+                                                                                name="finance_amount"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->finance_amount == '' ? '' : $negotiations->finance_amount }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2515,7 +2535,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Owner Financing Interest Rate"
-                                                                                name="OwnerFinancingInterestRate">
+                                                                                name="finance_interest_rate"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->finance_interest_rate == '' ? '' : $negotiations->finance_interest_rate }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2525,7 +2547,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Owner Financing Term"
-                                                                                name="OwnerFinancingTerm">
+                                                                                name="finance_term"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->finance_term == '' ? '' : $negotiations->finance_term }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2535,7 +2559,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Monthly Owner Financing Payment"
-                                                                                name="MonthlyOwnerFinancingPayment">
+                                                                                name="month_finance_payment"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->month_finance_payment == '' ? '' : $negotiations->month_finance_payment }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2545,7 +2571,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Owner Financing Balloon Payment Due (in Months)"
-                                                                                name="OwnerFinancingBalloonPaymentDue">
+                                                                                name="baloon_due_payment"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->baloon_due_payment == '' ? '' : $negotiations->baloon_due_payment }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2556,7 +2584,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Profit Expected"
-                                                                                name="rofitExpected">
+                                                                                name="expected_profit"
+                                                                                value="{{ $negotiations->expected_profit == '' ? '' : $negotiations->expected_profit }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2566,7 +2595,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Profit Collected"
-                                                                                name="ProfitCollected">
+                                                                                name="actual_profit"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->actual_profit == '' ? '' : $negotiations->actual_profit }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2576,7 +2607,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Monthly Passive Income"
-                                                                                name="MonthlyPassiveIncome">
+                                                                                name="monthly_passive_income"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->monthly_passive_income == '' ? '' : $negotiations->monthly_passive_income }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2586,7 +2619,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Past Due Amount of Mortgage/Taxes/HOA"
-                                                                                name="PastDueAmountMortgage">
+                                                                                name="past_due_mortage"
+                                                                                table="negotiations"
+                                                                                value="{{ $negotiations->past_due_mortage == '' ? '' : $negotiations->past_due_mortage }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2595,7 +2630,8 @@
                                                                         {{-- <label>Past Due Amount of Mortgage/Taxes/HOA</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <textarea id="template_text" class="form-control" rows="2"
-                                                                            placeholder="Negotiations Notes" name="negotiations_notes"></textarea>
+                                                                            placeholder="Negotiations Notes" name="negotiations_notes"
+                                                                            table="negotiations">{{ $negotiations->negotiations_notes == '' ? '' : $negotiations->negotiations_notes }}</textarea>
                                                                         </div>
 
                                                                     </div>
@@ -3283,6 +3319,7 @@
                                                                     @endforeach
                                                                 @endif
                                                             </div>
+                                                            <hr>
                                                             <div class="row">
                                                                 <div class="col-md-12">
 
@@ -3477,7 +3514,7 @@
                                                                     id="driveUpload">
 
 
-                                                                    <div class="form-group">
+                                                                    <div class="form-group dropzone" id="my-dropzone">
                                                                         <label for="file">Select Files to
                                                                             Upload:</label>
                                                                         <input type="file" name="file"
@@ -4488,6 +4525,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     <script>
@@ -4504,6 +4543,46 @@
                 $('.date-input-hidden').show().focus();
 
             });
+
+
+            Dropzone.options.myDropzone = {
+            url: "admin/contact/purchase-agreement",                 // URL where files will be uploaded (replace with your actual endpoint)
+            paramName: "file",             // The name that will be used for the uploaded file
+            maxFilesize: 5,                // Maximum file size (in MB)
+            acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
+            maxFiles: 5,                   // Maximum number of files that can be uploaded
+            autoProcessQueue: true,         // Automatically process the queue when files are added
+            addRemoveLinks: true,          // Show remove links on uploaded files
+            dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
+            dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
+            dictFallbackText: "Please use the fallback form below to upload your files.",
+            dictRemoveFile: "Remove",      // Text for the remove file link
+            dictCancelUpload: "Cancel",    // Text for the cancel upload link
+            dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+            init: function() {
+                this.on("addedfile", function(file) {
+                    // Event handler when a file is added to the queue
+                });
+
+                this.on("success", function(file, response) {
+                    // Event handler when a file upload is successful
+                });
+
+                this.on("removedfile", function(file) {
+                    // Event handler when a file is removed from the queue
+                });
+
+                this.on("error", function(file, errorMessage) {
+                    // Event handler when a file upload encounters an error
+                });
+            }
+        };
+
+
+
+            };
+
+
 
             // When the date input loses focus, hide it and show the text input if it's empty
             $('.date-input-hidden').on('blur', function() {
@@ -4806,9 +4885,9 @@
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
+                        // setTimeout(function() {
+                        //     location.reload();
+                        // }, 1000);
                     } else {
                         $.notify(res.message, 'error');
                     }
