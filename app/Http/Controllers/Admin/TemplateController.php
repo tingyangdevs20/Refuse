@@ -30,8 +30,12 @@ class TemplateController extends Controller
     public function view($id = '')
     {
         $templates = TemplateMessages::where('template_id',$id)->get();
+        $template_type = Template::where('id',$id)->first();
+       
+        $type=$template_type->type;
+       
         $sr = 1;
-        return view('back.pages.template.view', compact('templates', 'sr'));
+        return view('back.pages.template.view', compact('templates', 'id','type'));
     }
 
     /**
