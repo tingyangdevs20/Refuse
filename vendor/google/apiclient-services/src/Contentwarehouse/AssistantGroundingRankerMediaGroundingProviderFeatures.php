@@ -28,14 +28,6 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
    */
   public $ambiguityClassifier;
   /**
-   * @var string
-   */
-  public $entityMid;
-  /**
-   * @var bool
-   */
-  public $hasCastVideoDeeplink;
-  /**
    * @var bool
    */
   public $hasTypeSemanticEdge;
@@ -46,15 +38,7 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
   /**
    * @var bool
    */
-  public $isExclusiveOriginalProvider;
-  /**
-   * @var bool
-   */
   public $isMediaSearchQuerySubsetOfEntityNameAndArtist;
-  /**
-   * @var bool
-   */
-  public $isMostRecentSongAlbumAmbiguous;
   /**
    * @var bool
    */
@@ -63,10 +47,6 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
    * @var bool
    */
   public $isSeedRadioRequest;
-  /**
-   * @var bool
-   */
-  public $isYoutubeMusicSeeking;
   /**
    * @var string
    */
@@ -112,34 +92,6 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
     return $this->ambiguityClassifier;
   }
   /**
-   * @param string
-   */
-  public function setEntityMid($entityMid)
-  {
-    $this->entityMid = $entityMid;
-  }
-  /**
-   * @return string
-   */
-  public function getEntityMid()
-  {
-    return $this->entityMid;
-  }
-  /**
-   * @param bool
-   */
-  public function setHasCastVideoDeeplink($hasCastVideoDeeplink)
-  {
-    $this->hasCastVideoDeeplink = $hasCastVideoDeeplink;
-  }
-  /**
-   * @return bool
-   */
-  public function getHasCastVideoDeeplink()
-  {
-    return $this->hasCastVideoDeeplink;
-  }
-  /**
    * @param bool
    */
   public function setHasTypeSemanticEdge($hasTypeSemanticEdge)
@@ -170,20 +122,6 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
   /**
    * @param bool
    */
-  public function setIsExclusiveOriginalProvider($isExclusiveOriginalProvider)
-  {
-    $this->isExclusiveOriginalProvider = $isExclusiveOriginalProvider;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsExclusiveOriginalProvider()
-  {
-    return $this->isExclusiveOriginalProvider;
-  }
-  /**
-   * @param bool
-   */
   public function setIsMediaSearchQuerySubsetOfEntityNameAndArtist($isMediaSearchQuerySubsetOfEntityNameAndArtist)
   {
     $this->isMediaSearchQuerySubsetOfEntityNameAndArtist = $isMediaSearchQuerySubsetOfEntityNameAndArtist;
@@ -194,20 +132,6 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
   public function getIsMediaSearchQuerySubsetOfEntityNameAndArtist()
   {
     return $this->isMediaSearchQuerySubsetOfEntityNameAndArtist;
-  }
-  /**
-   * @param bool
-   */
-  public function setIsMostRecentSongAlbumAmbiguous($isMostRecentSongAlbumAmbiguous)
-  {
-    $this->isMostRecentSongAlbumAmbiguous = $isMostRecentSongAlbumAmbiguous;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsMostRecentSongAlbumAmbiguous()
-  {
-    return $this->isMostRecentSongAlbumAmbiguous;
   }
   /**
    * @param bool
@@ -236,20 +160,6 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
   public function getIsSeedRadioRequest()
   {
     return $this->isSeedRadioRequest;
-  }
-  /**
-   * @param bool
-   */
-  public function setIsYoutubeMusicSeeking($isYoutubeMusicSeeking)
-  {
-    $this->isYoutubeMusicSeeking = $isYoutubeMusicSeeking;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsYoutubeMusicSeeking()
-  {
-    return $this->isYoutubeMusicSeeking;
   }
   /**
    * @param string

@@ -5,7 +5,6 @@ namespace Doctrine\DBAL\Types;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\Deprecations\Deprecation;
 
 use function array_map;
 use function get_class;
@@ -48,9 +47,12 @@ abstract class Type
         Types::TIME_IMMUTABLE       => TimeImmutableType::class,
     ];
 
-    private static ?TypeRegistry $typeRegistry = null;
+    /** @var TypeRegistry|null */
+    private static $typeRegistry;
 
-    /** @internal Do not instantiate directly - use {@see Type::addType()} method instead. */
+    /**
+     * @internal Do not instantiate directly - use {@see Type::addType()} method instead.
+     */
     final public function __construct()
     {
     }
@@ -100,16 +102,19 @@ abstract class Type
     /**
      * Gets the name of this type.
      *
-     * @deprecated this method will be removed in Doctrine DBAL 4.0,
-     *             use {@see TypeRegistry::lookupName()} instead.
-     *
      * @return string
+     *
+     * @todo Needed?
      */
     abstract public function getName();
 
     final public static function getTypeRegistry(): TypeRegistry
     {
-        return self::$typeRegistry ??= self::createTypeRegistry();
+        if (self::$typeRegistry === null) {
+            self::$typeRegistry = self::createTypeRegistry();
+        }
+
+        return self::$typeRegistry;
     }
 
     private static function createTypeRegistry(): TypeRegistry
@@ -136,16 +141,6 @@ abstract class Type
     public static function getType($name)
     {
         return self::getTypeRegistry()->get($name);
-    }
-
-    /**
-     * Finds a name for the given type.
-     *
-     * @throws Exception
-     */
-    public static function lookupName(self $type): string
-    {
-        return self::getTypeRegistry()->lookupName($type);
     }
 
     /**
@@ -215,7 +210,7 @@ abstract class Type
             static function (Type $type): string {
                 return get_class($type);
             },
-            self::getTypeRegistry()->getMap(),
+            self::getTypeRegistry()->getMap()
         );
     }
 
@@ -278,19 +273,10 @@ abstract class Type
      * one of those types as commented, which will have Doctrine use an SQL
      * comment to typehint the actual Doctrine Type.
      *
-     * @deprecated
-     *
      * @return bool
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5509',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
         return false;
     }
 }

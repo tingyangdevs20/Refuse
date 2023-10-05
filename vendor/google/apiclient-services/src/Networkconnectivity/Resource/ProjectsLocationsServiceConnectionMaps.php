@@ -40,7 +40,7 @@ class ProjectsLocationsServiceConnectionMaps extends \Google\Service\Resource
    * (serviceConnectionMaps.create)
    *
    * @param string $parent Required. The parent resource's name of the
-   * ServiceConnectionMap. ex. projects/123/locations/us-east1
+   * ServiceConnectionMap.
    * @param ServiceConnectionMap $postBody
    * @param array $optParams Optional parameters.
    *
@@ -73,9 +73,6 @@ class ProjectsLocationsServiceConnectionMaps extends \Google\Service\Resource
    * @param string $name Required. The name of the ServiceConnectionMap to delete.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string etag Optional. The etag is computed by the server, and may
-   * be sent on update and delete requests to ensure the client has an up-to-date
-   * value before proceeding.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
    * the server will know to ignore the request if it has already been completed.
@@ -143,8 +140,7 @@ class ProjectsLocationsServiceConnectionMaps extends \Google\Service\Resource
    * Lists ServiceConnectionMaps in a given project and location.
    * (serviceConnectionMaps.listProjectsLocationsServiceConnectionMaps)
    *
-   * @param string $parent Required. The parent resource's name. ex.
-   * projects/123/locations/us-east1
+   * @param string $parent Required. The parent resource's name.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter A filter expression that filters the results listed

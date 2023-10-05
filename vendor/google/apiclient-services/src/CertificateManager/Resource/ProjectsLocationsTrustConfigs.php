@@ -41,7 +41,7 @@ class ProjectsLocationsTrustConfigs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string trustConfigId Required. A user-provided name of the
-   * TrustConfig. Must match the regexp `[a-z0-9-]{1,63}`.
+   * TrustConfig.
    * @return Operation
    */
   public function create($parent, TrustConfig $postBody, $optParams = [])
@@ -118,9 +118,8 @@ class ProjectsLocationsTrustConfigs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The update mask applies to the
-   * resource. For the `FieldMask` definition, see
-   * https://developers.google.com/protocol-
-   * buffers/docs/reference/google.protobuf#fieldmask.
+   * resource. For the `FieldMask` definition, see https://developers.google.com
+   * /protocol-buffers/docs/reference/google.protobuf#fieldmask.
    * @return Operation
    */
   public function patch($name, TrustConfig $postBody, $optParams = [])

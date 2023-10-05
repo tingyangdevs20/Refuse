@@ -21,10 +21,6 @@ class StatefulPolicyPreservedState extends \Google\Model
 {
   protected $disksType = StatefulPolicyPreservedStateDiskDevice::class;
   protected $disksDataType = 'map';
-  protected $externalIPsType = StatefulPolicyPreservedStateNetworkIp::class;
-  protected $externalIPsDataType = 'map';
-  protected $internalIPsType = StatefulPolicyPreservedStateNetworkIp::class;
-  protected $internalIPsDataType = 'map';
 
   /**
    * @param StatefulPolicyPreservedStateDiskDevice[]
@@ -39,34 +35,6 @@ class StatefulPolicyPreservedState extends \Google\Model
   public function getDisks()
   {
     return $this->disks;
-  }
-  /**
-   * @param StatefulPolicyPreservedStateNetworkIp[]
-   */
-  public function setExternalIPs($externalIPs)
-  {
-    $this->externalIPs = $externalIPs;
-  }
-  /**
-   * @return StatefulPolicyPreservedStateNetworkIp[]
-   */
-  public function getExternalIPs()
-  {
-    return $this->externalIPs;
-  }
-  /**
-   * @param StatefulPolicyPreservedStateNetworkIp[]
-   */
-  public function setInternalIPs($internalIPs)
-  {
-    $this->internalIPs = $internalIPs;
-  }
-  /**
-   * @return StatefulPolicyPreservedStateNetworkIp[]
-   */
-  public function getInternalIPs()
-  {
-    return $this->internalIPs;
   }
 }
 

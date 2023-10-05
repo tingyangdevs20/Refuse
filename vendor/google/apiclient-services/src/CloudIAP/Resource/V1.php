@@ -23,7 +23,6 @@ use Google\Service\CloudIAP\Policy;
 use Google\Service\CloudIAP\SetIamPolicyRequest;
 use Google\Service\CloudIAP\TestIamPermissionsRequest;
 use Google\Service\CloudIAP\TestIamPermissionsResponse;
-use Google\Service\CloudIAP\ValidateIapAttributeExpressionResponse;
 
 /**
  * The "v1" collection of methods.
@@ -133,25 +132,6 @@ class V1 extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('updateIapSettings', [$params], IapSettings::class);
-  }
-  /**
-   * Validates a given CEL expression conforms to IAP restrictions.
-   * (v1.validateAttributeExpression)
-   *
-   * @param string $name Required. The resource name of the IAP protected
-   * resource.
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string expression Required. User input string expression. Should
-   * be of the form 'attributes.saml_attributes.filter(attribute, attribute.name
-   * in ['{attribute_name}', '{attribute_name}'])'
-   * @return ValidateIapAttributeExpressionResponse
-   */
-  public function validateAttributeExpression($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('validateAttributeExpression', [$params], ValidateIapAttributeExpressionResponse::class);
   }
 }
 

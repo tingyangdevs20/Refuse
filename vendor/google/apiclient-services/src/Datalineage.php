@@ -76,20 +76,6 @@ class Datalineage extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'processOpenLineageRunEvent' => [
-              'path' => 'v1/{+parent}:processOpenLineageRunEvent',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'requestId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
             ],'searchLinks' => [
               'path' => 'v1/{+parent}:searchLinks',
               'httpMethod' => 'POST',

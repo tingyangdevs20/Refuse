@@ -40,10 +40,6 @@ class GoogleAppsCardV1TextInput extends \Google\Model
   /**
    * @var string
    */
-  public $placeholderText;
-  /**
-   * @var string
-   */
   public $type;
   /**
    * @var string
@@ -133,20 +129,6 @@ class GoogleAppsCardV1TextInput extends \Google\Model
   public function getOnChangeAction()
   {
     return $this->onChangeAction;
-  }
-  /**
-   * @param string
-   */
-  public function setPlaceholderText($placeholderText)
-  {
-    $this->placeholderText = $placeholderText;
-  }
-  /**
-   * @return string
-   */
-  public function getPlaceholderText()
-  {
-    return $this->placeholderText;
   }
   /**
    * @param string

@@ -42,8 +42,6 @@ class GooglePrivacyDlpV2InspectConfig extends \Google\Collection
    * @var string
    */
   public $minLikelihood;
-  protected $minLikelihoodPerInfoTypeType = GooglePrivacyDlpV2InfoTypeLikelihood::class;
-  protected $minLikelihoodPerInfoTypeDataType = 'array';
   protected $ruleSetType = GooglePrivacyDlpV2InspectionRuleSet::class;
   protected $ruleSetDataType = 'array';
 
@@ -144,20 +142,6 @@ class GooglePrivacyDlpV2InspectConfig extends \Google\Collection
   public function getMinLikelihood()
   {
     return $this->minLikelihood;
-  }
-  /**
-   * @param GooglePrivacyDlpV2InfoTypeLikelihood[]
-   */
-  public function setMinLikelihoodPerInfoType($minLikelihoodPerInfoType)
-  {
-    $this->minLikelihoodPerInfoType = $minLikelihoodPerInfoType;
-  }
-  /**
-   * @return GooglePrivacyDlpV2InfoTypeLikelihood[]
-   */
-  public function getMinLikelihoodPerInfoType()
-  {
-    return $this->minLikelihoodPerInfoType;
   }
   /**
    * @param GooglePrivacyDlpV2InspectionRuleSet[]

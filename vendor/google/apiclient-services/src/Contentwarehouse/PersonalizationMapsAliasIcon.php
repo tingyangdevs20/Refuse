@@ -45,8 +45,6 @@ class PersonalizationMapsAliasIcon extends \Google\Model
   public $nickname;
   protected $pointType = GeostorePointProto::class;
   protected $pointDataType = '';
-  protected $ptokenType = PtokenPToken::class;
-  protected $ptokenDataType = '';
   /**
    * @var string
    */
@@ -171,20 +169,6 @@ class PersonalizationMapsAliasIcon extends \Google\Model
   public function getPoint()
   {
     return $this->point;
-  }
-  /**
-   * @param PtokenPToken
-   */
-  public function setPtoken(PtokenPToken $ptoken)
-  {
-    $this->ptoken = $ptoken;
-  }
-  /**
-   * @return PtokenPToken
-   */
-  public function getPtoken()
-  {
-    return $this->ptoken;
   }
   /**
    * @param string

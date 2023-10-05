@@ -22,8 +22,6 @@ class Finding extends \Google\Collection
   protected $collection_key = 'processes';
   protected $accessType = Access::class;
   protected $accessDataType = '';
-  protected $attackExposureType = AttackExposure::class;
-  protected $attackExposureDataType = '';
   /**
    * @var string
    */
@@ -150,20 +148,6 @@ class Finding extends \Google\Collection
   public function getAccess()
   {
     return $this->access;
-  }
-  /**
-   * @param AttackExposure
-   */
-  public function setAttackExposure(AttackExposure $attackExposure)
-  {
-    $this->attackExposure = $attackExposure;
-  }
-  /**
-   * @return AttackExposure
-   */
-  public function getAttackExposure()
-  {
-    return $this->attackExposure;
   }
   /**
    * @param string
