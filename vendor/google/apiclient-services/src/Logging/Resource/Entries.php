@@ -67,7 +67,7 @@ class Entries extends \Google\Service\Resource
     return $this->call('list', [$params], ListLogEntriesResponse::class);
   }
   /**
-   * Streaming read of log entries as they are ingested. Until the stream is
+   * Streaming read of log entries as they are received. Until the stream is
    * terminated, it will continue reading logs. (entries.tail)
    *
    * @param TailLogEntriesRequest $postBody
@@ -85,7 +85,8 @@ class Entries extends \Google\Service\Resource
    * entries to Logging. This method is used, directly or indirectly, by the
    * Logging agent (fluentd) and all logging libraries configured to use Logging.
    * A single request may contain log entries for a maximum of 1000 different
-   * resources (projects, organizations, billing accounts or folders)
+   * resource names (projects, organizations, billing accounts or folders), where
+   * the resource name for a log entry is determined from its logName field.
    * (entries.write)
    *
    * @param WriteLogEntriesRequest $postBody
