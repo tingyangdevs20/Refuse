@@ -204,7 +204,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-9">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
@@ -2947,10 +2947,13 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Explain next steps: Inspection, search, 10 minute closing process</label> --}}
                                                                         <div class="input-group mb-2">
+                                                                            <label
+                                                                            style="display: flex; align-items: center;">
                                                                             <input style="margin-right:5px"
                                                                                 type="checkbox" name="next_steps">
                                                                             Explain next steps: Inspection, search, 10
                                                                             minute closing process
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4532,7 +4535,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2"
+                                <div class="col-md-2 offset-1"
                                     style="position: relative;margin-left: 1000px;margin-top: -524px;">
                                     <div class="card content-div">
                                         <div class="form-group" style="padding: 0 10px;">
