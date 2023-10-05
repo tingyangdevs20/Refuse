@@ -59,7 +59,7 @@ class TemplateMessagesController extends Controller
        $msg_cnt= $templates->message_count;
        if($msg_cnt>=0)
        {
-        $templates->message_count -=0;
+        $templates->message_count -=1;
        }
         $templates->save();
         TemplateMessages::find($request->id)->delete();
