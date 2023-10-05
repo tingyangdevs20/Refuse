@@ -11,9 +11,12 @@ use PDOStatement;
 
 final class Result implements ResultInterface
 {
-    private PDOStatement $statement;
+    /** @var PDOStatement */
+    private $statement;
 
-    /** @internal The result can be only instantiated by its driver connection or statement. */
+    /**
+     * @internal The result can be only instantiated by its driver connection or statement.
+     */
     public function __construct(PDOStatement $statement)
     {
         $this->statement = $statement;
@@ -91,9 +94,7 @@ final class Result implements ResultInterface
     }
 
     /**
-     * @psalm-param PDO::FETCH_* $mode
-     *
-     * @return mixed
+     * @return mixed|false
      *
      * @throws Exception
      */
@@ -107,8 +108,6 @@ final class Result implements ResultInterface
     }
 
     /**
-     * @psalm-param PDO::FETCH_* $mode
-     *
      * @return list<mixed>
      *
      * @throws Exception

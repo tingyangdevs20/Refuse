@@ -2,12 +2,11 @@
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\Visitor\CreateSchemaSqlCollector;
+use Doctrine\DBAL\Schema\Visitor\DropSchemaSqlCollector;
 use Doctrine\DBAL\Schema\Visitor\NamespaceVisitor;
 use Doctrine\DBAL\Schema\Visitor\Visitor;
-use Doctrine\DBAL\SQL\Builder\CreateSchemaObjectsSQLBuilder;
-use Doctrine\DBAL\SQL\Builder\DropSchemaObjectsSQLBuilder;
 use Doctrine\Deprecations\Deprecation;
 
 use function array_keys;
@@ -45,7 +44,7 @@ class Schema extends AbstractAsset
      *
      * @var string[]
      */
-    private array $namespaces = [];
+    private $namespaces = [];
 
     /** @var Table[] */
     protected $_tables = [];
@@ -69,7 +68,9 @@ class Schema extends AbstractAsset
         ?SchemaConfig $schemaConfig = null,
         array $namespaces = []
     ) {
-        $schemaConfig ??= new SchemaConfig();
+        if ($schemaConfig === null) {
+            $schemaConfig = new SchemaConfig();
+        }
 
         $this->_schemaConfig = $schemaConfig;
         $this->_setName($schemaConfig->getName() ?? 'public');
@@ -97,7 +98,7 @@ class Schema extends AbstractAsset
         Deprecation::trigger(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/pull/4822',
-            'Schema::hasExplicitForeignKeyIndexes() is deprecated.',
+            'Schema::hasExplicitForeignKeyIndexes() is deprecated.'
         );
 
         return $this->_schemaConfig->hasExplicitForeignKeyIndexes();
@@ -191,7 +192,9 @@ class Schema extends AbstractAsset
         return $this->_tables[$name];
     }
 
-    /** @param string $name */
+    /**
+     * @param string $name
+     */
     private function getFullQualifiedAssetName($name): string
     {
         $name = $this->getUnquotedAssetName($name);
@@ -264,7 +267,7 @@ class Schema extends AbstractAsset
             'https://github.com/doctrine/dbal/pull/4800',
             'Schema::getTableNames() is deprecated.'
             . ' Use Schema::getTables() and Table::getName() instead.',
-            __METHOD__,
+            __METHOD__
         );
 
         return array_keys($this->_tables);
@@ -299,7 +302,9 @@ class Schema extends AbstractAsset
         return $this->_sequences[$name];
     }
 
-    /** @return Sequence[] */
+    /**
+     * @return Sequence[]
+     */
     public function getSequences()
     {
         return $this->_sequences;
@@ -422,29 +427,27 @@ class Schema extends AbstractAsset
     /**
      * Returns an array of necessary SQL queries to create the schema on the given platform.
      *
-     * @return list<string>
-     *
-     * @throws Exception
+     * @return string[]
      */
     public function toSql(AbstractPlatform $platform)
     {
-        $builder = new CreateSchemaObjectsSQLBuilder($platform);
+        $sqlCollector = new CreateSchemaSqlCollector($platform);
+        $this->visit($sqlCollector);
 
-        return $builder->buildSQL($this);
+        return $sqlCollector->getQueries();
     }
 
     /**
      * Return an array of necessary SQL queries to drop the schema on the given platform.
      *
-     * @return list<string>
-     *
-     * @throws Exception
+     * @return string[]
      */
     public function toDropSql(AbstractPlatform $platform)
     {
-        $builder = new DropSchemaObjectsSQLBuilder($platform);
+        $dropSqlCollector = new DropSchemaSqlCollector($platform);
+        $this->visit($dropSqlCollector);
 
-        return $builder->buildSQL($this);
+        return $dropSqlCollector->getQueries();
     }
 
     /**
@@ -476,18 +479,10 @@ class Schema extends AbstractAsset
     }
 
     /**
-     * @deprecated
-     *
      * @return void
      */
     public function visit(Visitor $visitor)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5435',
-            'Schema::visit() is deprecated.',
-        );
-
         $visitor->acceptSchema($this);
 
         if ($visitor instanceof NamespaceVisitor) {

@@ -2,19 +2,15 @@
 
 namespace Doctrine\DBAL\Platforms;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
-use Doctrine\DBAL\Schema\MySQLSchemaManager;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types\BlobType;
 use Doctrine\DBAL\Types\TextType;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
 use InvalidArgumentException;
 
@@ -23,17 +19,13 @@ use function array_merge;
 use function array_unique;
 use function array_values;
 use function count;
-use function func_get_arg;
 use function func_get_args;
-use function func_num_args;
 use function implode;
 use function in_array;
 use function is_numeric;
 use function is_string;
 use function sprintf;
 use function str_replace;
-use function strcasecmp;
-use function strtolower;
 use function strtoupper;
 use function trim;
 
@@ -71,17 +63,9 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @deprecated Use {@see quoteIdentifier()} to quote identifiers instead.
      */
     public function getIdentifierQuoteCharacter()
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5388',
-            'AbstractMySQLPlatform::getIdentifierQuoteCharacter() is deprecated. Use quoteIdentifier() instead.',
-        );
-
         return '`';
     }
 
@@ -114,7 +98,7 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getDateArithmeticIntervalExpression($date, $operator, $interval, $unit)
     {
@@ -146,8 +130,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractSchemaManager} class hierarchy.
      */
     public function getListDatabasesSQL()
     {
@@ -155,8 +137,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     }
 
     /**
-     * @deprecated
-     *
      * {@inheritDoc}
      */
     public function getListTableConstraintsSQL($table)
@@ -165,8 +145,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * {@inheritDoc}
      *
      * Two approaches to listing the table indexes. The information_schema is
@@ -187,8 +165,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractSchemaManager} class hierarchy.
      */
     public function getListViewsSQL($database)
     {
@@ -196,8 +172,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * @param string      $table
      * @param string|null $database
      *
@@ -223,35 +197,17 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    protected function getVarcharTypeDeclarationSQLSnippet($length, $fixed/*, $lengthOmitted = false*/)
+    protected function getVarcharTypeDeclarationSQLSnippet($length, $fixed)
     {
-        if ($length <= 0 || (func_num_args() > 2 && func_get_arg(2))) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/3263',
-                'Relying on the default string column length on MySQL is deprecated'
-                    . ', specify the length explicitly.',
-            );
-        }
-
         return $fixed ? ($length > 0 ? 'CHAR(' . $length . ')' : 'CHAR(255)')
                 : ($length > 0 ? 'VARCHAR(' . $length . ')' : 'VARCHAR(255)');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getBinaryTypeDeclarationSQLSnippet($length, $fixed/*, $lengthOmitted = false*/)
+    protected function getBinaryTypeDeclarationSQLSnippet($length, $fixed)
     {
-        if ($length <= 0 || (func_num_args() > 2 && func_get_arg(2))) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/3263',
-                'Relying on the default binary column length on MySQL is deprecated'
-                . ', specify the length explicitly.',
-            );
-        }
-
         return $fixed
             ? 'BINARY(' . ($length > 0 ? $length : 255) . ')'
             : 'VARBINARY(' . ($length > 0 ? $length : 255) . ')';
@@ -335,8 +291,8 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     {
         Deprecation::trigger(
             'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/1519',
-            'AbstractMySQLPlatform::prefersIdentityColumns() is deprecated.',
+            'https://github.com/doctrine/dbal/pulls/1519',
+            'AbstractMySQLPlatform::prefersIdentityColumns() is deprecated.'
         );
 
         return true;
@@ -354,8 +310,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
     public function supportsInlineColumnComments()
     {
@@ -364,8 +318,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
     public function supportsColumnCollation()
     {
@@ -373,8 +325,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * {@inheritDoc}
      */
     public function getListTablesSQL()
@@ -383,8 +333,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
     }
 
     /**
-     * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
-     *
      * {@inheritDoc}
      */
     public function getListTableColumnsSQL($table, $database = null)
@@ -397,19 +345,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
                ' ORDER BY ORDINAL_POSITION ASC';
     }
 
-    /**
-     * The SQL snippets required to elucidate a column type
-     *
-     * Returns an array of the form [column type SELECT snippet, additional JOIN statement snippet]
-     *
-     * @return array{string, string}
-     */
-    public function getColumnTypeSQLSnippets(string $tableAlias = 'c'): array
-    {
-        return [$tableAlias . '.COLUMN_TYPE', ''];
-    }
-
-    /** @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon. */
     public function getListTableMetadataSQL(string $table, ?string $database = null): string
     {
         return sprintf(
@@ -427,41 +362,8 @@ WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = %s AND TABLE_NAME = %s
 SQL
             ,
             $this->getDatabaseNameSQL($database),
-            $this->quoteStringLiteral($table),
+            $this->quoteStringLiteral($table)
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCreateTablesSQL(array $tables): array
-    {
-        $sql = [];
-
-        foreach ($tables as $table) {
-            $sql = array_merge($sql, $this->getCreateTableWithoutForeignKeysSQL($table));
-        }
-
-        foreach ($tables as $table) {
-            if (! $table->hasOption('engine') || $this->engineSupportsForeignKeys($table->getOption('engine'))) {
-                foreach ($table->getForeignKeys() as $foreignKey) {
-                    $sql[] = $this->getCreateForeignKeySQL(
-                        $foreignKey,
-                        $table->getQuotedName($this),
-                    );
-                }
-            } elseif (count($table->getForeignKeys()) > 0) {
-                Deprecation::trigger(
-                    'doctrine/dbal',
-                    'https://github.com/doctrine/dbal/pull/5414',
-                    'Relying on the DBAL not generating DDL for foreign keys on MySQL engines'
-                        . ' other than InnoDB is deprecated.'
-                        . ' Define foreign key constraints only if they are necessary.',
-                );
-            }
-        }
-
-        return $sql;
     }
 
     /**
@@ -500,22 +402,17 @@ SQL
         $query .= $this->buildTableOptions($options);
         $query .= $this->buildPartitionOptions($options);
 
-        $sql = [$query];
+        $sql    = [$query];
+        $engine = 'INNODB';
+
+        if (isset($options['engine'])) {
+            $engine = strtoupper(trim($options['engine']));
+        }
 
         // Propagate foreign key constraints only for InnoDB.
-        if (isset($options['foreignKeys'])) {
-            if (! isset($options['engine']) || $this->engineSupportsForeignKeys($options['engine'])) {
-                foreach ($options['foreignKeys'] as $definition) {
-                    $sql[] = $this->getCreateForeignKeySQL($definition, $name);
-                }
-            } elseif (count($options['foreignKeys']) > 0) {
-                Deprecation::trigger(
-                    'doctrine/dbal',
-                    'https://github.com/doctrine/dbal/pull/5414',
-                    'Relying on the DBAL not generating DDL for foreign keys on MySQL engines'
-                    . ' other than InnoDB is deprecated.'
-                    . ' Define foreign key constraints only if they are necessary.',
-                );
+        if (isset($options['foreignKeys']) && $engine === 'INNODB') {
+            foreach ((array) $options['foreignKeys'] as $definition) {
+                $sql[] = $this->getCreateForeignKeySQL($definition, $name);
             }
         }
 
@@ -523,9 +420,7 @@ SQL
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
+     * {@inheritdoc}
      */
     public function getDefaultValueDeclarationSQL($column)
     {
@@ -558,11 +453,6 @@ SQL
         $tableOptions[] = sprintf('DEFAULT CHARACTER SET %s', $options['charset']);
 
         if (isset($options['collate'])) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/5214',
-                'The "collate" option is deprecated in favor of "collation" and will be removed in 4.0.',
-            );
             $options['collation'] = $options['collate'];
         }
 
@@ -610,11 +500,6 @@ SQL
             : '';
     }
 
-    private function engineSupportsForeignKeys(string $engine): bool
-    {
-        return strcasecmp(trim($engine), 'InnoDB') === 0;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -625,32 +510,22 @@ SQL
         $newName    = $diff->getNewName();
 
         if ($newName !== false) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/5663',
-                'Generation of SQL that renames a table using %s is deprecated. Use getRenameTableSQL() instead.',
-                __METHOD__,
-            );
-
             $queryParts[] = 'RENAME TO ' . $newName->getQuotedName($this);
         }
 
-        foreach ($diff->getAddedColumns() as $column) {
+        foreach ($diff->addedColumns as $column) {
             if ($this->onSchemaAlterTableAddColumn($column, $diff, $columnSql)) {
                 continue;
             }
 
-            $columnProperties = array_merge($column->toArray(), [
+            $columnArray = array_merge($column->toArray(), [
                 'comment' => $this->getColumnComment($column),
             ]);
 
-            $queryParts[] = 'ADD ' . $this->getColumnDeclarationSQL(
-                $column->getQuotedName($this),
-                $columnProperties,
-            );
+            $queryParts[] = 'ADD ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
         }
 
-        foreach ($diff->getDroppedColumns() as $column) {
+        foreach ($diff->removedColumns as $column) {
             if ($this->onSchemaAlterTableRemoveColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -658,79 +533,55 @@ SQL
             $queryParts[] =  'DROP ' . $column->getQuotedName($this);
         }
 
-        foreach ($diff->getModifiedColumns() as $columnDiff) {
+        foreach ($diff->changedColumns as $columnDiff) {
             if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
                 continue;
             }
 
-            $newColumn = $columnDiff->getNewColumn();
+            $column      = $columnDiff->column;
+            $columnArray = $column->toArray();
 
-            $newColumnProperties = array_merge($newColumn->toArray(), [
-                'comment' => $this->getColumnComment($newColumn),
-            ]);
+            // Don't propagate default value changes for unsupported column types.
+            if (
+                $columnDiff->hasChanged('default') &&
+                count($columnDiff->changedProperties) === 1 &&
+                ($columnArray['type'] instanceof TextType || $columnArray['type'] instanceof BlobType)
+            ) {
+                continue;
+            }
 
-            $oldColumn = $columnDiff->getOldColumn() ?? $columnDiff->getOldColumnName();
-
-            $queryParts[] =  'CHANGE ' . $oldColumn->getQuotedName($this) . ' '
-                . $this->getColumnDeclarationSQL($newColumn->getQuotedName($this), $newColumnProperties);
+            $columnArray['comment'] = $this->getColumnComment($column);
+            $queryParts[]           =  'CHANGE ' . ($columnDiff->getOldColumnName()->getQuotedName($this)) . ' '
+                    . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
         }
 
-        foreach ($diff->getRenamedColumns() as $oldColumnName => $column) {
+        foreach ($diff->renamedColumns as $oldColumnName => $column) {
             if ($this->onSchemaAlterTableRenameColumn($oldColumnName, $column, $diff, $columnSql)) {
                 continue;
             }
 
-            $oldColumnName = new Identifier($oldColumnName);
-
-            $columnProperties = array_merge($column->toArray(), [
-                'comment' => $this->getColumnComment($column),
-            ]);
-
-            $queryParts[] = 'CHANGE ' . $oldColumnName->getQuotedName($this) . ' '
-                . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnProperties);
+            $oldColumnName          = new Identifier($oldColumnName);
+            $columnArray            = $column->toArray();
+            $columnArray['comment'] = $this->getColumnComment($column);
+            $queryParts[]           =  'CHANGE ' . $oldColumnName->getQuotedName($this) . ' '
+                    . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
         }
 
-        $addedIndexes    = $this->indexAssetsByLowerCaseName($diff->getAddedIndexes());
-        $modifiedIndexes = $this->indexAssetsByLowerCaseName($diff->getModifiedIndexes());
-        $diffModified    = false;
-
-        if (isset($addedIndexes['primary'])) {
-            $keyColumns   = array_unique(array_values($addedIndexes['primary']->getColumns()));
+        if (isset($diff->addedIndexes['primary'])) {
+            $keyColumns   = array_unique(array_values($diff->addedIndexes['primary']->getColumns()));
             $queryParts[] = 'ADD PRIMARY KEY (' . implode(', ', $keyColumns) . ')';
-            unset($addedIndexes['primary']);
-            $diffModified = true;
-        } elseif (isset($modifiedIndexes['primary'])) {
-            $addedColumns = $this->indexAssetsByLowerCaseName($diff->getAddedColumns());
-
+            unset($diff->addedIndexes['primary']);
+        } elseif (isset($diff->changedIndexes['primary'])) {
             // Necessary in case the new primary key includes a new auto_increment column
-            foreach ($modifiedIndexes['primary']->getColumns() as $columnName) {
-                if (isset($addedColumns[$columnName]) && $addedColumns[$columnName]->getAutoincrement()) {
-                    $keyColumns   = array_unique(array_values($modifiedIndexes['primary']->getColumns()));
+            foreach ($diff->changedIndexes['primary']->getColumns() as $columnName) {
+                if (isset($diff->addedColumns[$columnName]) && $diff->addedColumns[$columnName]->getAutoincrement()) {
+                    $keyColumns   = array_unique(array_values($diff->changedIndexes['primary']->getColumns()));
                     $queryParts[] = 'DROP PRIMARY KEY';
                     $queryParts[] = 'ADD PRIMARY KEY (' . implode(', ', $keyColumns) . ')';
-                    unset($modifiedIndexes['primary']);
-                    $diffModified = true;
+                    unset($diff->changedIndexes['primary']);
                     break;
                 }
             }
-        }
-
-        if ($diffModified) {
-            $diff = new TableDiff(
-                $diff->name,
-                $diff->getAddedColumns(),
-                $diff->getModifiedColumns(),
-                $diff->getDroppedColumns(),
-                array_values($addedIndexes),
-                array_values($modifiedIndexes),
-                $diff->getDroppedIndexes(),
-                $diff->getOldTable(),
-                $diff->getAddedForeignKeys(),
-                $diff->getModifiedForeignKeys(),
-                $diff->getDroppedForeignKeys(),
-                $diff->getRenamedColumns(),
-                $diff->getRenamedIndexes(),
-            );
         }
 
         $sql      = [];
@@ -738,14 +589,14 @@ SQL
 
         if (! $this->onSchemaAlterTable($diff, $tableSql)) {
             if (count($queryParts) > 0) {
-                $sql[] = 'ALTER TABLE ' . ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this) . ' '
+                $sql[] = 'ALTER TABLE ' . $diff->getName($this)->getQuotedName($this) . ' '
                     . implode(', ', $queryParts);
             }
 
             $sql = array_merge(
                 $this->getPreAlterTableIndexForeignKeySQL($diff),
                 $sql,
-                $this->getPostAlterTableIndexForeignKeySQL($diff),
+                $this->getPostAlterTableIndexForeignKeySQL($diff)
             );
         }
 
@@ -757,38 +608,36 @@ SQL
      */
     protected function getPreAlterTableIndexForeignKeySQL(TableDiff $diff)
     {
-        $sql = [];
+        $sql   = [];
+        $table = $diff->getName($this)->getQuotedName($this);
 
-        $tableNameSQL = ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this);
-
-        foreach ($diff->getModifiedIndexes() as $changedIndex) {
+        foreach ($diff->changedIndexes as $changedIndex) {
             $sql = array_merge($sql, $this->getPreAlterTableAlterPrimaryKeySQL($diff, $changedIndex));
         }
 
-        foreach ($diff->getDroppedIndexes() as $droppedIndex) {
-            $sql = array_merge($sql, $this->getPreAlterTableAlterPrimaryKeySQL($diff, $droppedIndex));
+        foreach ($diff->removedIndexes as $remKey => $remIndex) {
+            $sql = array_merge($sql, $this->getPreAlterTableAlterPrimaryKeySQL($diff, $remIndex));
 
-            foreach ($diff->getAddedIndexes() as $addedIndex) {
-                if ($droppedIndex->getColumns() !== $addedIndex->getColumns()) {
+            foreach ($diff->addedIndexes as $addKey => $addIndex) {
+                if ($remIndex->getColumns() !== $addIndex->getColumns()) {
                     continue;
                 }
 
-                $indexClause = 'INDEX ' . $addedIndex->getName();
+                $indexClause = 'INDEX ' . $addIndex->getName();
 
-                if ($addedIndex->isPrimary()) {
+                if ($addIndex->isPrimary()) {
                     $indexClause = 'PRIMARY KEY';
-                } elseif ($addedIndex->isUnique()) {
-                    $indexClause = 'UNIQUE INDEX ' . $addedIndex->getName();
+                } elseif ($addIndex->isUnique()) {
+                    $indexClause = 'UNIQUE INDEX ' . $addIndex->getName();
                 }
 
-                $query  = 'ALTER TABLE ' . $tableNameSQL . ' DROP INDEX ' . $droppedIndex->getName() . ', ';
+                $query  = 'ALTER TABLE ' . $table . ' DROP INDEX ' . $remIndex->getName() . ', ';
                 $query .= 'ADD ' . $indexClause;
-                $query .= ' (' . $this->getIndexFieldDeclarationListSQL($addedIndex) . ')';
+                $query .= ' (' . $this->getIndexFieldDeclarationListSQL($addIndex) . ')';
 
                 $sql[] = $query;
 
-                $diff->unsetAddedIndex($addedIndex);
-                $diff->unsetDroppedIndex($droppedIndex);
+                unset($diff->removedIndexes[$remKey], $diff->addedIndexes[$addKey]);
 
                 break;
             }
@@ -796,10 +645,8 @@ SQL
 
         $engine = 'INNODB';
 
-        $table = $diff->getOldTable();
-
-        if ($table !== null && $table->hasOption('engine')) {
-            $engine = strtoupper(trim($table->getOption('engine')));
+        if ($diff->fromTable instanceof Table && $diff->fromTable->hasOption('engine')) {
+            $engine = strtoupper(trim($diff->fromTable->getOption('engine')));
         }
 
         // Suppress foreign key constraint propagation on non-supporting engines.
@@ -813,7 +660,7 @@ SQL
             $sql,
             $this->getPreAlterTableAlterIndexForeignKeySQL($diff),
             parent::getPreAlterTableIndexForeignKeySQL($diff),
-            $this->getPreAlterTableRenameIndexForeignKeySQL($diff),
+            $this->getPreAlterTableRenameIndexForeignKeySQL($diff)
         );
 
         return $sql;
@@ -826,27 +673,21 @@ SQL
      */
     private function getPreAlterTableAlterPrimaryKeySQL(TableDiff $diff, Index $index): array
     {
-        if (! $index->isPrimary()) {
-            return [];
-        }
-
-        $table = $diff->getOldTable();
-
-        if ($table === null) {
-            return [];
-        }
-
         $sql = [];
 
-        $tableNameSQL = ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this);
+        if (! $index->isPrimary() || ! $diff->fromTable instanceof Table) {
+            return $sql;
+        }
+
+        $tableName = $diff->getName($this)->getQuotedName($this);
 
         // Dropping primary keys requires to unset autoincrement attribute on the particular column first.
         foreach ($index->getColumns() as $columnName) {
-            if (! $table->hasColumn($columnName)) {
+            if (! $diff->fromTable->hasColumn($columnName)) {
                 continue;
             }
 
-            $column = $table->getColumn($columnName);
+            $column = $diff->fromTable->getColumn($columnName);
 
             if ($column->getAutoincrement() !== true) {
                 continue;
@@ -854,7 +695,7 @@ SQL
 
             $column->setAutoincrement(false);
 
-            $sql[] = 'ALTER TABLE ' . $tableNameSQL . ' MODIFY ' .
+            $sql[] = 'ALTER TABLE ' . $tableName . ' MODIFY ' .
                 $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
 
             // original autoincrement information might be needed later on by other parts of the table alteration
@@ -873,45 +714,18 @@ SQL
      */
     private function getPreAlterTableAlterIndexForeignKeySQL(TableDiff $diff): array
     {
-        $table = $diff->getOldTable();
+        $sql   = [];
+        $table = $diff->getName($this)->getQuotedName($this);
 
-        if ($table === null) {
-            return [];
-        }
-
-        $primaryKey = $table->getPrimaryKey();
-
-        if ($primaryKey === null) {
-            return [];
-        }
-
-        $primaryKeyColumns = [];
-
-        foreach ($primaryKey->getColumns() as $columnName) {
-            if (! $table->hasColumn($columnName)) {
-                continue;
-            }
-
-            $primaryKeyColumns[] = $table->getColumn($columnName);
-        }
-
-        if (count($primaryKeyColumns) === 0) {
-            return [];
-        }
-
-        $sql = [];
-
-        $tableNameSQL = $table->getQuotedName($this);
-
-        foreach ($diff->getModifiedIndexes() as $changedIndex) {
+        foreach ($diff->changedIndexes as $changedIndex) {
             // Changed primary key
-            if (! $changedIndex->isPrimary()) {
+            if (! $changedIndex->isPrimary() || ! ($diff->fromTable instanceof Table)) {
                 continue;
             }
 
-            foreach ($primaryKeyColumns as $column) {
+            foreach ($diff->fromTable->getPrimaryKeyColumns() as $columnName => $column) {
                 // Check if an autoincrement column was dropped from the primary key.
-                if (! $column->getAutoincrement() || in_array($column->getName(), $changedIndex->getColumns(), true)) {
+                if (! $column->getAutoincrement() || in_array($columnName, $changedIndex->getColumns(), true)) {
                     continue;
                 }
 
@@ -919,7 +733,7 @@ SQL
                 // before we can drop and recreate the primary key.
                 $column->setAutoincrement(false);
 
-                $sql[] = 'ALTER TABLE ' . $tableNameSQL . ' MODIFY ' .
+                $sql[] = 'ALTER TABLE ' . $table . ' MODIFY ' .
                     $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
 
                 // Restore the autoincrement attribute as it might be needed later on
@@ -938,16 +752,15 @@ SQL
      */
     protected function getPreAlterTableRenameIndexForeignKeySQL(TableDiff $diff)
     {
-        $sql = [];
-
-        $tableNameSQL = ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this);
+        $sql       = [];
+        $tableName = $diff->getName($this)->getQuotedName($this);
 
         foreach ($this->getRemainingForeignKeyConstraintsRequiringRenamedIndexes($diff) as $foreignKey) {
-            if (in_array($foreignKey, $diff->getModifiedForeignKeys(), true)) {
+            if (in_array($foreignKey, $diff->changedForeignKeys, true)) {
                 continue;
             }
 
-            $sql[] = $this->getDropForeignKeySQL($foreignKey->getQuotedName($this), $tableNameSQL);
+            $sql[] = $this->getDropForeignKeySQL($foreignKey, $tableName);
         }
 
         return $sql;
@@ -965,25 +778,19 @@ SQL
      */
     private function getRemainingForeignKeyConstraintsRequiringRenamedIndexes(TableDiff $diff): array
     {
-        if (count($diff->getRenamedIndexes()) === 0) {
-            return [];
-        }
-
-        $table = $diff->getOldTable();
-
-        if ($table === null) {
+        if (empty($diff->renamedIndexes) || ! $diff->fromTable instanceof Table) {
             return [];
         }
 
         $foreignKeys = [];
         /** @var ForeignKeyConstraint[] $remainingForeignKeys */
         $remainingForeignKeys = array_diff_key(
-            $table->getForeignKeys(),
-            $diff->getDroppedForeignKeys(),
+            $diff->fromTable->getForeignKeys(),
+            $diff->removedForeignKeys
         );
 
         foreach ($remainingForeignKeys as $foreignKey) {
-            foreach ($diff->getRenamedIndexes() as $index) {
+            foreach ($diff->renamedIndexes as $index) {
                 if ($foreignKey->intersectsIndexColumns($index)) {
                     $foreignKeys[] = $foreignKey;
 
@@ -996,13 +803,13 @@ SQL
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getPostAlterTableIndexForeignKeySQL(TableDiff $diff)
     {
         return array_merge(
             parent::getPostAlterTableIndexForeignKeySQL($diff),
-            $this->getPostAlterTableRenameIndexForeignKeySQL($diff),
+            $this->getPostAlterTableRenameIndexForeignKeySQL($diff)
         );
     }
 
@@ -1017,17 +824,17 @@ SQL
         $newName = $diff->getNewName();
 
         if ($newName !== false) {
-            $tableNameSQL = $newName->getQuotedName($this);
+            $tableName = $newName->getQuotedName($this);
         } else {
-            $tableNameSQL = ($diff->getOldTable() ?? $diff->getName($this))->getQuotedName($this);
+            $tableName = $diff->getName($this)->getQuotedName($this);
         }
 
         foreach ($this->getRemainingForeignKeyConstraintsRequiringRenamedIndexes($diff) as $foreignKey) {
-            if (in_array($foreignKey, $diff->getModifiedForeignKeys(), true)) {
+            if (in_array($foreignKey, $diff->changedForeignKeys, true)) {
                 continue;
             }
 
-            $sql[] = $this->getCreateForeignKeySQL($foreignKey, $tableNameSQL);
+            $sql[] = $this->getCreateForeignKeySQL($foreignKey, $tableName);
         }
 
         return $sql;
@@ -1075,7 +882,7 @@ SQL
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFloatDeclarationSQL(array $column)
     {
@@ -1083,7 +890,7 @@ SQL
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDecimalTypeDeclarationSQL(array $column)
     {
@@ -1115,8 +922,6 @@ SQL
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
     public function getColumnCharsetDeclarationSQL($charset)
     {
@@ -1125,8 +930,14 @@ SQL
 
     /**
      * {@inheritDoc}
-     *
-     * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
+     */
+    public function getColumnCollationDeclarationSQL($collation)
+    {
+        return 'COLLATE ' . $this->quoteSingleIdentifier($collation);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey)
     {
@@ -1146,34 +957,20 @@ SQL
     public function getDropIndexSQL($index, $table = null)
     {
         if ($index instanceof Index) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/4798',
-                'Passing $index as an Index object to %s is deprecated. Pass it as a quoted name instead.',
-                __METHOD__,
-            );
-
             $indexName = $index->getQuotedName($this);
         } elseif (is_string($index)) {
             $indexName = $index;
         } else {
             throw new InvalidArgumentException(
-                __METHOD__ . '() expects $index parameter to be string or ' . Index::class . '.',
+                __METHOD__ . '() expects $index parameter to be string or ' . Index::class . '.'
             );
         }
 
         if ($table instanceof Table) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/4798',
-                'Passing $table as a Table object to %s is deprecated. Pass it as a quoted name instead.',
-                __METHOD__,
-            );
-
             $table = $table->getQuotedName($this);
         } elseif (! is_string($table)) {
             throw new InvalidArgumentException(
-                __METHOD__ . '() expects $table parameter to be string or ' . Table::class . '.',
+                __METHOD__ . '() expects $table parameter to be string or ' . Table::class . '.'
             );
         }
 
@@ -1222,7 +1019,7 @@ SQL
         Deprecation::triggerIfCalledFromOutside(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/issues/4749',
-            'AbstractMySQLPlatform::getName() is deprecated. Identify platforms by their class.',
+            'AbstractMySQLPlatform::getName() is deprecated. Identify platforms by their class.'
         );
 
         return 'mysql';
@@ -1242,68 +1039,52 @@ SQL
     protected function initializeDoctrineTypeMappings()
     {
         $this->doctrineTypeMapping = [
-            'bigint'     => Types::BIGINT,
-            'binary'     => Types::BINARY,
-            'blob'       => Types::BLOB,
-            'char'       => Types::STRING,
-            'date'       => Types::DATE_MUTABLE,
-            'datetime'   => Types::DATETIME_MUTABLE,
-            'decimal'    => Types::DECIMAL,
-            'double'     => Types::FLOAT,
-            'float'      => Types::FLOAT,
-            'int'        => Types::INTEGER,
-            'integer'    => Types::INTEGER,
-            'longblob'   => Types::BLOB,
-            'longtext'   => Types::TEXT,
-            'mediumblob' => Types::BLOB,
-            'mediumint'  => Types::INTEGER,
-            'mediumtext' => Types::TEXT,
-            'numeric'    => Types::DECIMAL,
-            'real'       => Types::FLOAT,
-            'set'        => Types::SIMPLE_ARRAY,
-            'smallint'   => Types::SMALLINT,
-            'string'     => Types::STRING,
-            'text'       => Types::TEXT,
-            'time'       => Types::TIME_MUTABLE,
-            'timestamp'  => Types::DATETIME_MUTABLE,
-            'tinyblob'   => Types::BLOB,
-            'tinyint'    => Types::BOOLEAN,
-            'tinytext'   => Types::TEXT,
-            'varbinary'  => Types::BINARY,
-            'varchar'    => Types::STRING,
-            'year'       => Types::DATE_MUTABLE,
+            'bigint'     => 'bigint',
+            'binary'     => 'binary',
+            'blob'       => 'blob',
+            'char'       => 'string',
+            'date'       => 'date',
+            'datetime'   => 'datetime',
+            'decimal'    => 'decimal',
+            'double'     => 'float',
+            'float'      => 'float',
+            'int'        => 'integer',
+            'integer'    => 'integer',
+            'longblob'   => 'blob',
+            'longtext'   => 'text',
+            'mediumblob' => 'blob',
+            'mediumint'  => 'integer',
+            'mediumtext' => 'text',
+            'numeric'    => 'decimal',
+            'real'       => 'float',
+            'set'        => 'simple_array',
+            'smallint'   => 'smallint',
+            'string'     => 'string',
+            'text'       => 'text',
+            'time'       => 'time',
+            'timestamp'  => 'datetime',
+            'tinyblob'   => 'blob',
+            'tinyint'    => 'boolean',
+            'tinytext'   => 'text',
+            'varbinary'  => 'binary',
+            'varchar'    => 'string',
+            'year'       => 'date',
         ];
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @deprecated
      */
     public function getVarcharMaxLength()
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/issues/3263',
-            'AbstractMySQLPlatform::getVarcharMaxLength() is deprecated.',
-        );
-
         return 65535;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function getBinaryMaxLength()
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/issues/3263',
-            'AbstractMySQLPlatform::getBinaryMaxLength() is deprecated.',
-        );
-
         return 65535;
     }
 
@@ -1318,7 +1099,7 @@ SQL
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/issues/4510',
             'AbstractMySQLPlatform::getReservedKeywordsClass() is deprecated,'
-                . ' use AbstractMySQLPlatform::createReservedKeywordsList() instead.',
+                . ' use AbstractMySQLPlatform::createReservedKeywordsList() instead.'
         );
 
         return Keywords\MySQLKeywords::class;
@@ -1333,17 +1114,10 @@ SQL
     public function getDropTemporaryTableSQL($table)
     {
         if ($table instanceof Table) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/issues/4798',
-                'Passing $table as a Table object to %s is deprecated. Pass it as a quoted name instead.',
-                __METHOD__,
-            );
-
             $table = $table->getQuotedName($this);
         } elseif (! is_string($table)) {
             throw new InvalidArgumentException(
-                __METHOD__ . '() expects $table parameter to be string or ' . Table::class . '.',
+                __METHOD__ . '() expects $table parameter to be string or ' . Table::class . '.'
             );
         }
 
@@ -1381,7 +1155,7 @@ SQL
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function quoteStringLiteral($str)
     {
@@ -1391,7 +1165,7 @@ SQL
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultTransactionIsolationLevel()
     {
@@ -1403,35 +1177,12 @@ SQL
         return true;
     }
 
-    protected function getDatabaseNameSQL(?string $databaseName): string
+    private function getDatabaseNameSQL(?string $databaseName): string
     {
         if ($databaseName !== null) {
             return $this->quoteStringLiteral($databaseName);
         }
 
         return $this->getCurrentDatabaseExpression();
-    }
-
-    public function createSchemaManager(Connection $connection): MySQLSchemaManager
-    {
-        return new MySQLSchemaManager($connection, $this);
-    }
-
-    /**
-     * @param list<T> $assets
-     *
-     * @return array<string,T>
-     *
-     * @template T of AbstractAsset
-     */
-    private function indexAssetsByLowerCaseName(array $assets): array
-    {
-        $result = [];
-
-        foreach ($assets as $asset) {
-            $result[strtolower($asset->getName())] = $asset;
-        }
-
-        return $result;
     }
 }
