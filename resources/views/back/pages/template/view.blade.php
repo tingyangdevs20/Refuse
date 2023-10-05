@@ -38,6 +38,7 @@
                                     data-target="#helpModal">How to use</button>
                         </div>
                         <div class="card-body">
+                        <input id="tmp_type" style="display:none" value="{{ $type }}"/>
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
@@ -54,9 +55,10 @@
                                 </thead>
                                 <tbody>
                                     @if($templates!=null)
+                                   
                                 @foreach($templates as $template)
                                     <tr>
-                                        
+                                    
                                         <td>{{ $template->msg_title }}</td>
                                         <td>{{ $template->msg_content }}</td>
                                         
@@ -87,46 +89,36 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Template</h5>
+                
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Message</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.template.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.template.savemsg') }}" method="POST" enctype="multipart/form-data">
+
                     <div class="modal-body">
                         @csrf
                         @method('POST')
+                        <input name="tmpid" style="display:none" value="{{ $id }}"/>
+                        <input name="type" style="display:none" value="{{ $type }}"/>
                         <div class="form-group">
-                            <label>Template Name</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Template Name"
+                            <label>Message Title</label>
+                            <input type="text" class="form-control" name="title" placeholder="Enter Message Title"
                                    required>
                         </div>
                        
                       
-                        <div class="form-group pt-2">
-                            <label>Message Type</label><br>
-                            <select class="from-control" style="width: 100%;" id="type" name="type" onchange="messageType(value)" required>
-                                <option value="">Select Type</option>
-                                <option value="SMS">SMS</option>
-                                <option value="MMS">MMS</option>
-                                <option value="Email">Email</option>
-                              
-                            </select>
-                        </div>
+                      
                         
-                        <div class="show_media_rvm" style="display:none;">
-                            <div class="form-group">
-                                <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
-                                <input type="file" class="form-control-file" name="media_file">
-                            </div>
-                        </div>
+                        
                         <div class="show_media_mms" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                 <input type="file" class="form-control-file" name="media_file_mms">
                             </div>
-                            <div class="form-group">
-                                <label>Body</label>
+                            <div class="form-group" style="display:none;">
+                                <label>Content</label>
                                 <textarea class="form-control text111 mms_body" name="mms_body" rows="10"></textarea>
                                 <div id='count111' class="float-lg-right"></div>
                             </div>
@@ -138,7 +130,7 @@
                         </div>
                         <div class="show_sms" style="display:none;">
                             <div class="form-group">
-                                <label>Body</label>
+                                <label>Content</label>
                                 <textarea class="form-control text1 body_sms" name="body" rows="10"></textarea>
                                 <div id='count' class="float-lg-right"></div>
                             </div>
@@ -154,7 +146,7 @@
                                 <input type="text" class="form-control email_body" name="subject" placeholder="Enter Subject" >
                             </div>
                             <div class="form-group">
-                                <label>Body</label>
+                                <label>Content</label>
                                 <textarea class="form-control email_body summernote-usage" name="email_body" rows="10"></textarea>
                                 <!--<div id='count11' class="float-lg-right"></div>-->
                             </div>
@@ -194,6 +186,7 @@
                                   enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
+                                <input id="tmpid" style="display:none" value="{{ $id }}"/>
             <div class="form-group">
                 <label>Video Url</label>
            </div>
@@ -222,6 +215,7 @@
                 <form action="{{ route('admin.template.update','test') }}" method="post" id="editForm" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
+                    <input id="tmpid" style="display:none" value="{{ $id }}"/>
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Template Name</label>
@@ -329,6 +323,9 @@
     <link rel="stylesheet" href="{{asset('/summernote/dist/summernote-bs4.css')}}" />
     <script src="{{asset('/summernote/dist/summernote-bs4.min.js')}}"></script>
     <script>
+        var typ=$("#tmp_type").val();
+        messageType(typ);
+        //alert(typ);
         $(".summernote-usage").summernote({
     	    height: 200,
     	});
@@ -339,7 +336,7 @@
                 
                 $('.show_media').hide();
                 $('.show_email').hide();
-                $('.show_media_rvm').hide();
+              
                 $('.show_media_mms').hide();
                 $('.show_sms').show();
             }else if(val === 'MMS'){
@@ -347,23 +344,16 @@
                 $(".email_body").removeAttr("required");
                 $('.show_email').hide();
                 $('.show_sms').hide();
-                $('.show_media_rvm').hide();
+               
                 $('.show_media_mms').show();
             }else if(val === 'Email'){
                 $(".body_sms").removeAttr("required");
                 $(".email_body").attr("required", "true");
                 $('.show_sms').hide();
                 $('.show_media').hide();
-                $('.show_media_rvm').hide();
+                
                 $('.show_media_mms').hide();
                 $('.show_email').show();
-            }else if(val === 'RVM'){
-                $(".body_sms").removeAttr("required");
-                $(".email_body").removeAttr("required");
-                $('.show_email').hide();
-                $('.show_sms').hide();
-                $('.show_media_mms').hide();
-                $('.show_media_rvm').show();
             }
         }
         function messageTypeEdit(val){

@@ -278,6 +278,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
     Route::get('/auto-reply/status_update/{id}', 'Admin\AutoReplyController@status_update');
 
+    Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
+    
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
 
