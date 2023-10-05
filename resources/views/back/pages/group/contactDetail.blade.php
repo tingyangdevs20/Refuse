@@ -4,56 +4,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        /* Adjust the margin between the input and dropdown arrow */
-        .select2-container .select2-selection--multiple .select2-selection__rendered {
-            margin-right: 10px;
-        }
-
-        /* Remove the blinking line under the input */
-        .select2-container .select2-selection--multiple .select2-selection__rendered {
-
-            margin-right: 10px;
-        }
-
-        .select2-container--default .select2-search--inline .select2-search__field {
-            background: transparent;
-            border: none;
-            outline: 0;
-            display: none;
-            box-shadow: none;
-            -webkit-appearance: textfield;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-            cursor: default;
-            padding-left: 22px !important;
-            padding-right: 1px !important;
-        }
-
-        .select2-container--default .select2-selection--multiple {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-        }
-
-        .select2-container--default .select2-selection__choice {
-            background-color: #007bff;
-            color: #000;
-            padding: 3px 10px;
-            /* Adjust padding to separate text and remove button */
-            margin: 2px;
-            border-radius: 20px;
-            /* Round the corners of the tags */
-        }
-
-        .select2-container--default .select2-selection__choice__remove {
-            margin-left: 5px;
-            /* Add margin between text and remove button */
-            color: #fff;
-            cursor: pointer;
-        }
-
         /* Style for the placeholder label */
         .placeholder {
             position: absolute;
@@ -204,7 +154,7 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                         <div class="card content-div">
                                             @if (count($sections) > 0)
                                                 @foreach ($sections as $section)
@@ -489,18 +439,19 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <select class="custom-select select2" multiple="multiple" name="tag_id" style="width: 100%;">
-                                                                            <option value="" disabled>Select Tags</option>
+                                                                        <select class="custom-select select2"
+                                                                            multiple="multiple" name="tag_id"
+                                                                            style="width: 100%;">
+                                                                            <option value="" disabled selected>Select
+                                                                                Tags</option>
                                                                             @if (count($tags) > 0)
                                                                                 @foreach ($tags as $tag)
                                                                                     <option value="{{ $tag->id }}"
                                                                                         @if (isset($leadinfo) && is_array($leadinfo->tag_id) && in_array($tag->id, $leadinfo->tag_id)) selected @endif>
-                                                                                        {{ $tag->name }}
-                                                                                    </option>
+                                                                                        {{ $tag->name }}</option>
                                                                                 @endforeach
                                                                             @endif
                                                                         </select>
-                                                                        
                                                                     </div>
 
 
@@ -620,8 +571,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Mailing Address</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder=" Mailing Address"
-                                                                                name="mailing_address" table="lead_info"> {{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
+                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder="Mailing Address"
+                                                                                name="mailing_address" table="lead_info">{{ $leadinfo->mailing_address == '' ? '' : $leadinfo->mailing_address }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -657,8 +608,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Mailing Zip"
-                                                                                name="mailing_zip" table="lead_info"
-                                                                                value="{{ $leadinfo->mailing_zip == '' ? '' : $leadinfo->mailing_zip }}">
+                                                                                name="mailing_zip" table="lead_info">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -813,12 +763,19 @@
                                                                         {{-- <label>Owner 1 Date of Birth</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <!-- Display the date as text -->
-                                                                            <input class="form-control"
-                                                                            placeholder="Date of Birth"
-                                                                            name="owner1_dob" table="lead_info"
-                                                                            type="date"
-                                                                                onchange="updateValue(value,'owner1_dob','lead_info')"
+                                                                            <input class="form-control date-input-text"
+                                                                                type="text" placeholder="Date of Birth"
+                                                                                name="owner1_dob" table="lead_info"
+                                                                                onchange="updateValue(value,'loan1_type','property_finance_infos')"
                                                                                 value="{{ $leadinfo->owner1_dob == '' ? '' : $leadinfo->owner1_dob }}">
+
+                                                                            <!-- Hidden date input -->
+                                                                            <input class="form-control date-input-hidden"
+                                                                                type="date" style="display: none;"
+                                                                                name="owner1_dob" table="lead_info"
+                                                                                onchange="updateValue(value,'loan1_type','property_finance_infos')"
+                                                                                value="{{ $leadinfo->owner1_dob == '' ? '' : $leadinfo->owner1_dob }}">
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -988,8 +945,8 @@
                                                                             <input class="form-control"
                                                                                 placeholder="Date of Birth"
                                                                                 name="owner2_dob" table="lead_info"
-                                                                                type="date"
-                                                                                onchange="updateValue(value,'owner2_dob','lead_info')"
+                                                                                onfocus="(this.type='date')"
+                                                                                onblur="( this.type='text')"
                                                                                 value="{{ $leadinfo->owner2_dob == '' ? '' : $leadinfo->owner2_dob }}">
                                                                         </div>
                                                                     </div>
@@ -1121,7 +1078,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Phone Number 3"
-                                                                                name="owner3_number3" table="lead_info"
+                                                                                name="owner3_number2" table="lead_info"
                                                                                 value="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}">
                                                                             @if ($leadinfo->owner3_number3)
                                                                                 <a id="button-call"
@@ -1160,8 +1117,8 @@
                                                                             <input class="form-control"
                                                                                 placeholder="Date of Birth"
                                                                                 name="owner3_dob" table="lead_info"
-                                                                                type="date"
-                                                                                onchange="updateValue(value,'owner2_dob','lead_info')"
+                                                                                onfocus="(this.type='date')"
+                                                                                onblur="( this.type='text')"
                                                                                 value="{{ $leadinfo->owner3_dob == '' ? '' : $leadinfo->owner3_dob }}">
                                                                         </div>
                                                                     </div>
@@ -1468,8 +1425,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Repair Details</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text"  class="form-control" rows="2" placeholder="Repair Details" name="repair_detail"
-                                                                                table="values_conditions"> {{ $values_conditions->repair_detail == null ? null : $values_conditions->repair_detail }}</textarea>
+                                                                            <textarea id="template_text" class="form-control" rows="2" placeholder="Repair Details" name="repair_detail"
+                                                                                table="values_conditions">{{ $values_conditions->repair_detail == null ? null : $values_conditions->repair_detail }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1889,7 +1846,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Balloon</label> --}}
+                                                                        {{-- <label>Loan Balloon</label> --}}
                                                                         <select class="custom-select"
                                                                             name="loan1_ballons"
                                                                             onchange="updateValue(value,'loan1_ballons','property_finance_infos')">
@@ -1922,7 +1879,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Monthly PITIH Payment</label> --}}
+                                                                        {{-- <label>Loan Monthly PITIH Payment</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Monthly PITIH Payment"
@@ -1934,10 +1891,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Name</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Name"
+                                                                                placeholder="Loan Mortgage Company Name"
                                                                                 name="loan1_mor_comp_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_mor_comp_name == '' ? '' : $property_finance_infos->loan1_mor_comp_name }}">
@@ -1946,7 +1903,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Phone</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Phone</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Mortgage Company Phone"
@@ -1958,7 +1915,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Account Number</label> --}}
+                                                                        {{-- <label>Loan Account Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Account Number"
@@ -1970,7 +1927,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Online Access Link</label> --}}
+                                                                        {{-- <label>Loan Online Access Link</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Loan Online Access Link"
@@ -2044,13 +2001,28 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Origination Date</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="date" class="form-control"
+                                                                            {{-- <input type="date" class="form-control"
+                                                                                placeholder="Origination Date"
+                                                                                name="loan2_origination_date"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}"> --}}
+                                                                            <!-- Display the date as text -->
+                                                                            <input class="form-control date-input-text"
+                                                                                id="date_input_text" type="text"
                                                                                 placeholder="Origination Date"
                                                                                 name="loan2_origination_date"
                                                                                 table="property_finance_infos"
                                                                                 onchange="updateValue(value,'loan2_origination_date','property_finance_infos')"
                                                                                 value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
-                                                                            
+
+                                                                            <!-- Hidden date input -->
+                                                                            <input class="form-control date-input-hidden"
+                                                                                id="date_input_hidden" type="date"
+                                                                                style="display: none;"
+                                                                                name="loan2_origination_date"
+                                                                                table="property_finance_infos"
+                                                                                onchange="updateValue(value,'loan2_origination_date','property_finance_infos')"
+                                                                                value="{{ $property_finance_infos->loan2_origination_date == '' ? '' : $property_finance_infos->loan2_origination_date }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2161,7 +2133,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Balloon</label> --}}
+                                                                        {{-- <label>Loan Balloon</label> --}}
                                                                         <select class="custom-select"
                                                                             name="loan2_baloons"
                                                                             onchange="updateValue(value,'loan2_baloons','property_finance_infos')">
@@ -2195,10 +2167,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Monthly PITIH Payment</label> --}}
+                                                                        {{-- <label>Loan Monthly PITIH Payment</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Monthly PITIH Payment"
+                                                                                placeholder="Loan Monthly PITIH Payment"
                                                                                 name="loan2_month_pitih_payment"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_month_pitih_payment == '' ? '' : $property_finance_infos->loan2_month_pitih_payment }}">
@@ -2207,10 +2179,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Name</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Name"
+                                                                                placeholder="Loan Mortgage Company Name"
                                                                                 name="loan2_mor_comp_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_mor_comp_name == '' ? '' : $property_finance_infos->loan2_mor_comp_name }}">
@@ -2219,10 +2191,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Mortgage Company Phone</label> --}}
+                                                                        {{-- <label>Loan Mortgage Company Phone</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Mortgage Company Phone"
+                                                                                placeholder="Loan Mortgage Company Phone"
                                                                                 name="loan2_mor_comp_phone"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_mor_comp_phone == '' ? '' : $property_finance_infos->loan2_mor_comp_phone }}">
@@ -2231,10 +2203,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Account Number</label> --}}
+                                                                        {{-- <label>Loan Account Number</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Account Number"
+                                                                                placeholder="Loan Account Number"
                                                                                 name="loan2_account_nmbr"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_account_nmbr == '' ? '' : $property_finance_infos->loan2_account_nmbr }}">
@@ -2243,10 +2215,10 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan  Online Access Link</label> --}}
+                                                                        {{-- <label>Loan Online Access Link</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Online Access Link"
+                                                                                placeholder="Loan Online Access Link"
                                                                                 name="loan2_online_link"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_online_link == '' ? '' : $property_finance_infos->loan2_online_link }}">
@@ -2258,7 +2230,7 @@
                                                                         {{-- <label>Loan Online Access User Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan  Online Access User Name"
+                                                                                placeholder="Loan Online Access User Name"
                                                                                 name="loan2_user_name"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_user_name == '' ? '' : $property_finance_infos->loan2_user_name }}">
@@ -2322,7 +2294,8 @@
                                                                         <select class="custom-select"
                                                                             name="include_property_taxes"
                                                                             onchange="updateValue(value,'include_property_taxes','property_finance_infos')">
-                                                                            <option value="">Include property taxes?</option>
+                                                                            <option value="">Does mortgage
+                                                                                payment(s) include property taxes?</option>
                                                                             <option value="yes"
                                                                                 @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_taxes == 'yes') selected @endif
                                                                                 @endif>Yes</option>
@@ -2338,7 +2311,8 @@
                                                                         <select class="custom-select"
                                                                             name="include_property_insurance"
                                                                             onchange="updateValue(value,'include_property_insurance','property_finance_infos')">
-                                                                            <option value="">Include property insurance?
+                                                                            <option value="">Does mortgage
+                                                                                payment(s) include property insurance?
                                                                             </option>
                                                                             <option value="yes"
                                                                                 @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_insurance == 'yes') selected @endif
@@ -2537,8 +2511,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Taking Loan 1 Subject 2</label> --}}
                                                                         <select class="custom-select"
-                                                                            name="Loan1Subject2">
-                                                                            <option value="">Loan 1 Subject 2?
+                                                                            name="Loan1Subject2" required>
+                                                                            <option value="">Loan 1 Subject 2
                                                                             </option>
                                                                             <option value="yes">Yes</option>
                                                                             <option value="no">No</option>
@@ -2549,8 +2523,8 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Taking Loan 2 Subject 2</label> --}}
                                                                         <select class="custom-select"
-                                                                            name="Loan2Subject2">
-                                                                            <option value="">Loan 2 Subject 2?
+                                                                            name="Loan2Subject2" required>
+                                                                            <option value="">Loan 2 Subject 2
                                                                             </option>
                                                                             <option value="yes">yes</option>
                                                                             <option value="no">no</option>
@@ -2639,23 +2613,12 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Monthly Passive Income</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Past Due Amount of Mortgage/Taxes/HOA"
-                                                                                name="PastDueAmountMortgage">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Past Due Amount of Mortgage/Taxes/HOA</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <textarea id="template_text" class="form-control" rows="2"
-                                                                                placeholder="Negotiations Notes" name="negotiations_notes"></textarea>
+                                                                                placeholder="Past Due Amount of Mortgage/Taxes/HOA" name="PastDueAmountMortgage"></textarea>
                                                                         </div>
 
                                                                     </div>
@@ -2770,8 +2733,8 @@
                                                                         {{-- <label>Do you have someone that’s helping you make the decision to sell this house?</label> --}}
                                                                         <select class="custom-select" name="solving_now"
                                                                             onchange="updateValue(value,'solving_now','selling_motivations')">
-                                                                            <option value="">Someone helping helping
-                                                                                them to make decision?
+                                                                            <option value="">Someone helping them to
+                                                                                make decision?
                                                                                 this house?</option>
                                                                             <option value="yes"
                                                                                 @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
@@ -2907,7 +2870,7 @@
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Get email</label> --}}
                                                                         <div class="input-group mb-2">
@@ -2917,7 +2880,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Get all names on title</label> --}}
                                                                         <div class="input-group mb-2">
@@ -2927,7 +2890,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <label
@@ -2943,17 +2906,14 @@
 
 
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Explain next steps: Inspection, search, 10 minute closing process</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <label
-                                                                            style="display: flex; align-items: center;">
                                                                             <input style="margin-right:5px"
                                                                                 type="checkbox" name="next_steps">
                                                                             Explain next steps: Inspection, search, 10
                                                                             minute closing process
-                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2996,7 +2956,7 @@
                                                         </div>
                                                         <hr>
                                                     @elseif($section->id == '11')
-                                                       <div class="col-md-12" id="{{ $section->id }}"
+                                                        <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="AGENT">
                                                                 <div class="col-md-12">
@@ -3006,7 +2966,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                       {{-- <label>Property currently listed with an agent </label> --}}
+                                                                        {{-- <label>Property currently listed with an agent </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
                                                                                 name="property_listed_agent"
@@ -3147,6 +3107,86 @@
                                                             </div>
                                                         </div>
                                                         <hr>
+                                                    @elseif($section->id == '12')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="SEQUENCE">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Schedule Follow up Reminder </label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <select class="custom-select"
+                                                                                name="solving_now"
+                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                <option value="">Schedule Follow up
+                                                                                    Reminder </option>
+                                                                                <option value="1"
+                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '1') selected @endif
+                                                                                    @endif>1 Day
+                                                                                </option>
+                                                                                <option value="2"
+                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '2') selected @endif
+                                                                                    @endif>2 Days
+                                                                                </option>
+                                                                                <option value="3"
+                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '3') selected @endif
+                                                                                    @endif>4 Days
+                                                                                </option>
+                                                                                <option value="4"
+                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '4') selected @endif
+                                                                                    @endif>1 Week
+                                                                                </option>
+
+                                                                            </select>
+                                                                        </div>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary mt-2">Stop
+                                                                            Followup</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
                                                     @elseif($section->id == '13')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
@@ -3219,1350 +3259,1232 @@
                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                            <hr>
-                                                        @elseif($section->id == '14')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="COMMUNICATIONS">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group" style="padding: 0 10px;">
-                                                                            {{-- <label>Schedule Follow up Reminder </label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <select class="custom-select"
-                                                                                    name="solving_now"
-                                                                                    onchange="updateValue(value,'solving_now','selling_motivations')">
-                                                                                    <option value="">Schedule Follow up
-                                                                                        Reminder </option>
-                                                                                    <option value="1"
-                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '1') selected @endif
-                                                                                        @endif>1 Day
-                                                                                    </option>
-                                                                                    <option value="2"
-                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '2') selected @endif
-                                                                                        @endif>2 Days
-                                                                                    </option>
-                                                                                    <option value="3"
-                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '3') selected @endif
-                                                                                        @endif>4 Days
-                                                                                    </option>
-                                                                                    <option value="4"
-                                                                                        @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '4') selected @endif
-                                                                                        @endif>1 Week
-                                                                                    </option>
-    
-                                                                                </select>
-                                                                            </div>
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary mt-2">Stop
-                                                                                Followup</button>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                                <hr>
-                                                                <div class="row mt-2">
-                                                                    <div class="col-md-12">
-
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            <a href="{{ route('admin.zoom.index') }}"
-                                                                                type="button"
-                                                                                class="btn btn-primary">Zoom Meeting</a>
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Send zoom link button (to email and sms)</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Send zoom link button (to email and sms)"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            <div class="card-body"> <label
-                                                                                    style="font-size:16px">Send
-                                                                                    Email</label>
-                                                                                <form
-                                                                                    action="{{ route('admin.single-email.store') }}"
-                                                                                    method="post"
-                                                                                    enctype="multipart/form-data">
-                                                                                    @csrf
-                                                                                    @method('POST')
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6">
-                                                                                            <div class="form-group">
-                                                                                                <label>Subject:</label>
-                                                                                                <div
-                                                                                                    class="input-group mb-2">
-                                                                                                    <input type="text"
-                                                                                                        class="form-control"
-                                                                                                        placeholder="Subject"
-                                                                                                        name="subject">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-md-6">
-                                                                                            <div class="form-group">
-                                                                                                <label>Send To:</label>
-                                                                                                <input type="text"
-                                                                                                    class="form-control"
-                                                                                                    value="{{ $leadinfo->owner1_email1 }}"
-                                                                                                    placeholder="Sender Email"
-                                                                                                    name="send_to">
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                    <div class="form-group ">
-                                                                                        <label>Message</label>
-                                                                                        <textarea id="template_text" class="form-control summernote-usage" rows="10"  name="message"></textarea>
-                                                                                        <div id='count'
-                                                                                            class="float-lg-right">
-                                                                                        </div>
-                                                                                        <button type="submit"
-                                                                                            class="btn btn-primary mt-2">Send
-                                                                                            Email</button>
-                                                                                    </div>
-                                                                                </form>
-
-                                                                            </div>
-
-                                                                        </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '14')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="COMMUNICATIONS">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-                                                            <hr>
-                                                        @elseif($section->id == '15')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="HISTORY">
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
                                                                     <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
                                                                             <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
                                                                                 </div>
                                                                             </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        @elseif($section->id == '16')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="SECTION">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
+                                                                    @endforeach
+                                                                @endif
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-md-12">
+
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <a href="{{ route('admin.zoom.index') }}"
+                                                                            type="button" class="btn btn-primary">Zoom
+                                                                            Meeting</a>
+
+                                                                    </div>
+                                                                </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <label for="file">Select file type to
-                                                                            upload</label>
-                                                                        <select class="custom-select" name="lead_status"
-                                                                            table="lead_info"
-                                                                            onchange="toggleFIlesUpload(value)">
-                                                                            <option value="miscellaneous" selected>Miscellaneous</option>
-                                                                            <option value="photo">Photo</option>
-                                                                            <option value="purchase_agreement_seller">Purchase
-                                                                                Agreement / Sell Side</option>
-                                                                                <option value="purchase_agreement_buyer">Purchase
-                                                                                    Agreement / Buy Side</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;"
-                                                                        id="driveUpload">
-
-
-                                                                        <div class="form-group">
-                                                                            <label for="file">Select Files to
-                                                                                Upload:</label>
-                                                                            <input type="file" name="file"
-                                                                                id="file" class="form-control"
-                                                                                multiple>
-                                                                                
-                                                                        </div>
-                                                                        <button type="submit" id="custom-upload-button"
-                                                                            class="btn btn-primary">Upload to Google
-                                                                            Drive</button>
-
-
-                                                                    </div>
-
-                                                                    <div class="form-group"
-                                                                        style="padding: 0 10px; display: none;"
-                                                                        id="purchaseAgreementUpload">
-
-
-                                                                        <div class="form-group">
-                                                                            <label for="file">Select Files to
-                                                                                Upload:</label>
-                                                                            <input type="file"
-                                                                                name="purchase_agreement" id="file"
-                                                                                class="form-control"
-                                                                                accept="application/pdf">
-                                                                        </div>
-                                                                        <button type="submit"
-                                                                            id="agreement-upload-button"
-                                                                            class="btn btn-primary">Move Lead to
-                                                                            Deals</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            @if (
-                                                                !empty($googleDriveFiles) &&
-                                                                    (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) &&
-                                                                    count($googleDriveFiles) > 0)
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            <label>Files Fetched from Google Drive</label>
+                                                                        {{-- <label>Send zoom link button (to email and sms)</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Send zoom link button (to email and sms)"
+                                                                                name="SomeoneHelpingName">
                                                                         </div>
                                                                     </div>
-                                                                </div>
-
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            <h3>../REIFuze</h3>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($googleDriveFiles as $file)
-                                                                        @if (!$file->is_sub)
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group text-center"
-                                                                                    style="padding: 0 10px;">
-                                                                                    <!-- Display a file icon based on the file type -->
-                                                                                    @php
-                                                                                        $extension = pathinfo($file->name, PATHINFO_EXTENSION);
-                                                                                    @endphp
-                                                                                    @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
-                                                                                        <i
-                                                                                            class="fas fa-file-pdf fa-3x"></i>
-                                                                                    @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
-                                                                                        <i
-                                                                                            class="fas fa-file-word fa-3x"></i>
-                                                                                    @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
-                                                                                        <i
-                                                                                            class="fas fa-file-excel fa-3x"></i>
-                                                                                    @else
-                                                                                        <i class="fas fa-file fa-3x"></i>
-                                                                                    @endif
-
-                                                                                    <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
-                                                                                            target="_blank">{{ $file->name }}</a>
-                                                                                    </h5>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        @endif
-                                                                    @endforeach
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            <h3>../REIFuze/purchase_agreement</h3>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($googleDriveFiles as $file)
-                                                                        @if ($file->is_sub)
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group text-center"
-                                                                                    style="padding: 0 10px;">
-                                                                                    <!-- Display a file icon based on the file type -->
-                                                                                    @php
-                                                                                        $extension = pathinfo($file->name, PATHINFO_EXTENSION);
-                                                                                    @endphp
-                                                                                    @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
-                                                                                        <i
-                                                                                            class="fas fa-file-pdf fa-3x"></i>
-                                                                                    @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
-                                                                                        <i
-                                                                                            class="fas fa-file-word fa-3x"></i>
-                                                                                    @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
-                                                                                        <i
-                                                                                            class="fas fa-file-excel fa-3x"></i>
-                                                                                    @else
-                                                                                        <i class="fas fa-file fa-3x"></i>
-                                                                                    @endif
-
-                                                                                    <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
-                                                                                            target="_blank">{{ $file->name }}</a>
-                                                                                    </h5>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </div>
-                                                            @endif
-                                                            <hr>
-                                                        @elseif($section->id == '17')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="COMPANY">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Title  Company Name</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Title  Company Name"
-                                                                                    name="company_name"
-                                                                                    onchange="updateValue(value,'company_name','title_company')"
-                                                                                    table="title_company"
-                                                                                    value="{{ $title_company->company_name }}">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Title Company Contact Name</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Title Company Contact Name"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Title Company Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Title Company Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Title Company Email</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Title Company Email"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Title Company Email</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Buying/Selling Entity Details"
-                                                                                    onchange="updateValue(value,'buy_sell_entity_detail','title_company')"
-                                                                                    table="title_company"
-                                                                                    name="buy_sell_entity_detail">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                        $file->is_sub
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        @elseif($section->id == '18')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="INSURANCE">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Company Name</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Company Name"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Company Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Company Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Company Agent</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Company Agent"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Agent Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Agent Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Account Number</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Account Number"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Online Access Link</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Online Access Link"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Online Access User Name</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Online Access User Name"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Insurance Online Access Password</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Insurance Online Access Password"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        @elseif($section->id == '19')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="HOA">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>HOA Name</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="HOA Name"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Contact Name</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Contact Name"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>HOA Phone Number</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="HOA Phone Number"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>HOA Email</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="HOA Email"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        @elseif($section->id == '20')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="FUTURE">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Forwarding Address"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Forwarding City</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Forwarding City"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Forwarding State</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Forwarding State"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Forwarding Zip</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Forwarding Zip"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Nearest Relative Address</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Nearest Relative Address"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Nearest Relative City</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Nearest Relative City"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Nearest Relative State</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Nearest Relative State"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Nearest Relative Zip</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Nearest Relative Zip"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 1 Nearest Relative Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 1 Nearest Relative Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Forwarding Address</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Forwarding Address"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Forwarding City</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Forwarding City"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Forwarding State</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Forwarding State"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Forwarding Zip</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Forwarding Zip"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Nearest Relative Address</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Nearest Relative Address"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Nearest Relative City</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Nearest Relative City"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Nearest Relative State</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Nearest Relative State"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Nearest Relative Zip</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Nearest Relative Zip"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 2 Nearest Relative Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 2 Nearest Relative Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Forwarding Address</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Forwarding Address"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Forwarding City</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Forwarding City"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Forwarding State</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Forwarding State"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Forwarding Zip</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Forwarding Zip"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Nearest Relative Address</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Nearest Relative Address"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Nearest Relative City</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Nearest Relative City"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Nearest Relative State</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Nearest Relative State"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Nearest Relative Zip</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Nearest Relative Zip"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Seller 3 Nearest Relative Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Seller 3 Nearest Relative Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label> Nearest Relative Phone</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="text"
-                                                                                    class="form-control"
-                                                                                    placeholder="Nearest Relative Phone"
-                                                                                    name="SomeoneHelpingName">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        @elseif($section->id == '21')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="COMMITMENT">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        @elseif($section->id == '23')
-                                                            <div class="col-md-12" id="{{ $section->id }}"
-                                                                style="padding:0px;">
-                                                                <div class="row" id="SECTION">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group lead-heading">
-                                                                            <label>{{ $section->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @php
-                                                                    $customeFields = getsectionsFields($section->id);
-                                                                @endphp
-                                                                <div class="row">
-                                                                    @if (count($customeFields) > 0)
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                                <label>{{ $section->name }} (Custom
-                                                                                    Fields)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        @foreach ($customeFields as $field)
-                                                                            @php
-                                                                                $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                            @endphp
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group"
-                                                                                    style="padding: 0 10px;">
-                                                                                    {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                    <div class="input-group mb-2">
-                                                                                        <input
-                                                                                            type="{{ $field->type }}"
-                                                                                            class="form-control"
-                                                                                            placeholder="{{ $field->label }}"
-                                                                                            name="feild_value"
-                                                                                            section_id="{{ $section->id }}"
-                                                                                            id="{{ $field->id }}"
-                                                                                            table="custom_field_values"
-                                                                                            value="{{ $customeFieldValue }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
 
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <div class="card">
-                                                                            <div class="">
+                                                                        <div class="card-body"> <label
+                                                                                style="font-size:16px">Send
+                                                                                Email</label>
+                                                                            <form
+                                                                                action="{{ route('admin.single-email.store') }}"
+                                                                                method="post"
+                                                                                enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                @method('POST')
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label>Subject:</label>
+                                                                                            <div class="input-group mb-2">
+                                                                                                <input type="text"
+                                                                                                    class="form-control"
+                                                                                                    placeholder="Subject"
+                                                                                                    name="subject">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label>Send To:</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                value="{{ $leadinfo->owner1_email1 }}"
+                                                                                                placeholder="Sender Email"
+                                                                                                name="send_to">
 
-                                                                                <table
-                                                                                    class="table table-striped table-bordered"
-                                                                                    id="datatable">
-                                                                                    <thead>
-                                                                                        <tr>
+                                                                                        </div>
+                                                                                    </div>
 
-                                                                                            <th scope="col">Skip trace
-                                                                                                option</th>
-                                                                                            <th scope="col">Name</th>
-                                                                                            <th scope="col">Address
-                                                                                            </th>
-                                                                                            <th scope="col">City</th>
-                                                                                            <th scope="col">Zip</th>
+                                                                                </div>
+                                                                                <div class="form-group ">
+                                                                                    <label>Message</label>
+                                                                                    <textarea id="template_text" class="form-control summernote-usage" rows="10" required name="message"></textarea>
+                                                                                    <div id='count'
+                                                                                        class="float-lg-right">
+                                                                                    </div>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-primary mt-2">Send
+                                                                                        Email</button>
+                                                                                </div>
+                                                                            </form>
 
-                                                                                            <th scope="col">Verified
-                                                                                                Numbers & Emails</th>
-                                                                                            <th scope="col">Scam
-                                                                                                Numbers & Emails</th>
-                                                                                            <th scope="col">Append Name
-                                                                                                & Emails
+                                                                        </div>
 
-                                                                                            </th>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        @foreach ($collection as $skipTraceRecord)
-                                                                                            <tr>
-                                                                                                <td>{{ @$skipTraceRecord->select_option }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->first_name }}
-                                                                                                    {{ @$skipTraceRecord->last_name }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->address }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->city }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->zip }}
-                                                                                                </td>
-
-
-                                                                                                <td>{{ @$skipTraceRecord->verified_numbers }}
-                                                                                                    {{ @$skipTraceRecord->verified_emails }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->scam_numbers }}
-                                                                                                    {{ @$skipTraceRecord->scam_emails }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->append_names }}
-                                                                                                    {{ @$skipTraceRecord->append_emails }}
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        @endforeach
-                                                                                    </tbody>
-                                                                                </table>
+                                                        <hr>
+                                                    @elseif($section->id == '15')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="HISTORY">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
                                                                             </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '16')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="SECTION">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group" style="padding: 0 10px;">
+                                                                    <label for="file">Select file type to
+                                                                        upload</label>
+                                                                    <select class="custom-select" name="lead_status"
+                                                                        table="lead_info"
+                                                                        onchange="toggleFIlesUpload(value)">
+                                                                        <option value="any" selected>Any File
+                                                                        </option>
+                                                                        <option value="purchase_agreement">Purchase
+                                                                            Agreement</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group" style="padding: 0 10px;"
+                                                                    id="driveUpload">
+
+
+                                                                    <div class="form-group">
+                                                                        <label for="file">Select Files to
+                                                                            Upload:</label>
+                                                                        <input type="file" name="file"
+                                                                            id="file" class="form-control"
+                                                                            multiple>
+                                                                    </div>
+                                                                    <button type="submit" id="custom-upload-button"
+                                                                        class="btn btn-primary">Upload to Google
+                                                                        Drive</button>
+
+
+                                                                </div>
+
+                                                                <div class="form-group"
+                                                                    style="padding: 0 10px; display: none;"
+                                                                    id="purchaseAgreementUpload">
+
+
+                                                                    <div class="form-group">
+                                                                        <label for="file">Select Files to
+                                                                            Upload:</label>
+                                                                        <input type="file" name="purchase_agreement"
+                                                                            id="file" class="form-control"
+                                                                            accept="application/pdf">
+                                                                    </div>
+                                                                    <button type="submit" id="agreement-upload-button"
+                                                                        class="btn btn-primary">Move Lead to
+                                                                        Deals</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @if (
+                                                            !empty($googleDriveFiles) &&
+                                                                (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) &&
+                                                                count($googleDriveFiles) > 0)
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label>Files Fetched from Google Drive</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <h3>../REIFuze</h3>
+                                                                    </div>
+                                                                </div>
+                                                                @foreach ($googleDriveFiles as $file)
+                                                                    @if (!$file->is_sub)
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group text-center"
+                                                                                style="padding: 0 10px;">
+                                                                                <!-- Display a file icon based on the file type -->
+                                                                                @php
+                                                                                    $extension = pathinfo($file->name, PATHINFO_EXTENSION);
+                                                                                @endphp
+                                                                                @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
+                                                                                    <i class="fas fa-file-pdf fa-3x"></i>
+                                                                                @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
+                                                                                    <i class="fas fa-file-word fa-3x"></i>
+                                                                                @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
+                                                                                    <i
+                                                                                        class="fas fa-file-excel fa-3x"></i>
+                                                                                @else
+                                                                                    <i class="fas fa-file fa-3x"></i>
+                                                                                @endif
+
+                                                                                <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
+                                                                                        target="_blank">{{ $file->name }}</a>
+                                                                                </h5>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                @endforeach
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <h3>../REIFuze/purchase_agreement</h3>
+                                                                    </div>
+                                                                </div>
+                                                                @foreach ($googleDriveFiles as $file)
+                                                                    @if ($file->is_sub)
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group text-center"
+                                                                                style="padding: 0 10px;">
+                                                                                <!-- Display a file icon based on the file type -->
+                                                                                @php
+                                                                                    $extension = pathinfo($file->name, PATHINFO_EXTENSION);
+                                                                                @endphp
+                                                                                @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
+                                                                                    <i class="fas fa-file-pdf fa-3x"></i>
+                                                                                @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
+                                                                                    <i class="fas fa-file-word fa-3x"></i>
+                                                                                @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
+                                                                                    <i
+                                                                                        class="fas fa-file-excel fa-3x"></i>
+                                                                                @else
+                                                                                    <i class="fas fa-file fa-3x"></i>
+                                                                                @endif
+
+                                                                                <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
+                                                                                        target="_blank">{{ $file->name }}</a>
+                                                                                </h5>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+                                                        <hr>
+                                                    @elseif($section->id == '17')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="COMPANY">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Title  Company Name</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Title  Company Name"
+                                                                                name="company_name"
+                                                                                onchange="updateValue(value,'company_name','title_company')"
+                                                                                table="title_company"
+                                                                                value="{{ $title_company->company_name }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Title Company Contact Name</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Title Company Contact Name"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Title Company Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Title Company Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Title Company Email</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Title Company Email"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Title Company Email</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Buying/Selling Entity Details"
+                                                                                onchange="updateValue(value,'buy_sell_entity_detail','title_company')"
+                                                                                table="title_company"
+                                                                                name="buy_sell_entity_detail">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <hr>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                    $file->is_sub
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '18')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="INSURANCE">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Company Name</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Company Name"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Company Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Company Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Company Agent</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Company Agent"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Agent Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Agent Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Account Number</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Account Number"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Online Access Link</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Online Access Link"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Online Access User Name</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Online Access User Name"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Insurance Online Access Password</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Insurance Online Access Password"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '19')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="HOA">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>HOA Name</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="HOA Name"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Contact Name</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Contact Name"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>HOA Phone Number</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="HOA Phone Number"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>HOA Email</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="HOA Email"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '20')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="FUTURE">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Seller 1</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Forwarding Address"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Forwarding City</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Forwarding City"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Forwarding State</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Forwarding State"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Forwarding Zip</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Forwarding Zip"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Nearest Relative Address</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Nearest Relative Address"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Nearest Relative City</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Nearest Relative City"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Nearest Relative State</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Nearest Relative State"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Nearest Relative Zip</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Nearest Relative Zip"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 1 Nearest Relative Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 1 Nearest Relative Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Seller 2</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Forwarding Address</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Forwarding Address"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Forwarding City</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Forwarding City"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Forwarding State</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Forwarding State"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Forwarding Zip</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Forwarding Zip"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Nearest Relative Address</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Nearest Relative Address"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Nearest Relative City</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Nearest Relative City"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Nearest Relative State</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Nearest Relative State"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Nearest Relative Zip</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Nearest Relative Zip"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 2 Nearest Relative Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 2 Nearest Relative Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Seller 3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Forwarding Address</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Forwarding Address"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Forwarding City</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Forwarding City"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Forwarding State</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Forwarding State"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Forwarding Zip</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Forwarding Zip"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Nearest Relative Address</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Nearest Relative Address"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Nearest Relative City</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Nearest Relative City"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Nearest Relative State</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Nearest Relative State"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Nearest Relative Zip</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Nearest Relative Zip"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Seller 3 Nearest Relative Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Seller 3 Nearest Relative Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label> Nearest Relative Phone</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Nearest Relative Phone"
+                                                                                name="SomeoneHelpingName">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '21')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="COMMITMENT">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @elseif($section->id == '23')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="SECTION">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+
+                                                                <div class="form-group" style="padding: 0 10px;">
+                                                                    <div class="card">
+                                                                        <div class="">
+
+                                                                            <table
+                                                                                class="table table-striped table-bordered"
+                                                                                id="datatable">
+                                                                                <thead>
+                                                                                    <tr>
+
+                                                                                        <th scope="col">Skip trace
+                                                                                            option</th>
+                                                                                        <th scope="col">Name</th>
+                                                                                        <th scope="col">Address
+                                                                                        </th>
+                                                                                        <th scope="col">City</th>
+                                                                                        <th scope="col">Zip</th>
+
+                                                                                        <th scope="col">Verified
+                                                                                            Numbers & Emails</th>
+                                                                                        <th scope="col">Scam
+                                                                                            Numbers & Emails</th>
+                                                                                        <th scope="col">Append Name
+                                                                                            & Emails
+
+                                                                                        </th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($collection as $skipTraceRecord)
+                                                                                        <tr>
+                                                                                            <td>{{ @$skipTraceRecord->select_option }}
+                                                                                            </td>
+                                                                                            <td>{{ @$skipTraceRecord->first_name }}
+                                                                                                {{ @$skipTraceRecord->last_name }}
+                                                                                            </td>
+                                                                                            <td>{{ @$skipTraceRecord->address }}
+                                                                                            </td>
+                                                                                            <td>{{ @$skipTraceRecord->city }}
+                                                                                            </td>
+                                                                                            <td>{{ @$skipTraceRecord->zip }}
+                                                                                            </td>
+
+
+                                                                                            <td>{{ @$skipTraceRecord->verified_numbers }}
+                                                                                                {{ @$skipTraceRecord->verified_emails }}
+                                                                                            </td>
+                                                                                            <td>{{ @$skipTraceRecord->scam_numbers }}
+                                                                                                {{ @$skipTraceRecord->scam_emails }}
+                                                                                            </td>
+                                                                                            <td>{{ @$skipTraceRecord->append_names }}
+                                                                                                {{ @$skipTraceRecord->append_emails }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
                                                     @endif
                                                 @endforeach
                                             @endif
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-2 offset-1"
-                                    style="position: relative;margin-left: 1000px;margin-top: -524px;">
-                                    <div class="card content-div">
-                                        <div class="form-group" style="padding: 0 10px;">
-                                            <label>Load Script</label>
-                                            <select class="custom-select" name="lead_assigned_to"
-                                                onchange="loadScript(value)">
-                                                <option value="">Load Script</option>
-                                                @if (count($scripts) > 0)
-                                                    @foreach ($scripts as $script)
-                                                        <option value="{{ $script->id }}">{{ $script->name }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                    {{-- <div class="col-md-1"></div> --}}
+                                    <div class="col-md-4">
+                                        <div class="card content-div">
+                                            <div class="form-group" style="padding: 0 10px;">
+                                                <label>Load Script</label>
+                                                <select class="custom-select" name="lead_assigned_to"
+                                                    onchange="loadScript(value)">
+                                                    <option value="">Load Script</option>
+                                                    @if (count($scripts) > 0)
+                                                        @foreach ($scripts as $script)
+                                                            <option value="{{ $script->id }}">{{ $script->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            <div class="load_script"></div>
                                         </div>
-                                        <div class="load_script"></div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    {{-- <button type="submit" class="btn btn-primary mt-2" >Send SMS</button>
+                </div>
+                {{-- <button type="submit" class="btn btn-primary mt-2" >Send SMS</button>
                                             </div> --}}
 
-                </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- end page title -->
 
@@ -4596,7 +4518,6 @@
 
             // Initially hide the date input
             $('.date-input-hidden').hide();
-            setupDateInputHandling();
 
             // When the text input is clicked, hide it and show the hidden date input
             $('.date-input-text').on('click', function() {
@@ -4667,7 +4588,7 @@
     <script>
         // Check the type of file for upload to google drive
         function toggleFIlesUpload(value) {
-            if (value == 'purchase_agreement_seller' || value == 'purchase_agreement_buyer') {
+            if (value == 'purchase_agreement') {
                 $('#driveUpload').hide()
                 $('#purchaseAgreementUpload').show()
             } else {
@@ -4738,34 +4659,6 @@
                 }
             });
         });
-
-        function setupDateInputHandling() {
-            // Get all input elements with type 'date'
-            var dateInputs = document.querySelectorAll('input[type="date"]');
-
-            // Add event listeners to each 'date' input
-            dateInputs.forEach(function(dateInput) {
-                
-                if (dateInput.value === '' || dateInput.value === null) {
-                    dateInput.type = 'text';
-                } else {
-                    dateInput.type = 'date';
-                }
-                dateInput.addEventListener('focus', function() {
-                    if (this.value !== '' || this.value !== null ) {
-                        this.type = 'date';
-                    }
-                });
-
-                dateInput.addEventListener('blur', function() {
-                    if (this.value === '' || this.value === null) {
-                        this.type = 'text';
-                    } else {
-                    this.type = 'date';
-                }
-                });
-            });
-        }
 
         function getRealtorPropertyId() {
             $('#propertyEstimatesFetchingId').show()
@@ -4910,9 +4803,9 @@
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
-                        // setTimeout(function() {
-                        //     location.reload();
-                        // }, 10000);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
                     } else {
                         $.notify(res.message, 'error');
                     }
@@ -4939,48 +4832,4 @@
             });
         }
     </script>
-<script>
-    var dropZone = document.getElementById('drop-zone');
-    var fileInput = document.getElementById('file');
-
-    dropZone.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        this.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', function (e) {
-        e.preventDefault();
-        this.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', function (e) {
-        e.preventDefault();
-        this.classList.remove('dragover');
-
-        var files = e.dataTransfer.files;
-        fileInput.files = files;
-
-        // You can now access the selected files in JavaScript as fileInput.files
-        console.log('Selected Files:', fileInput.files);
-    });
-
-    // Optional: If you want to allow clicking on the drop zone to trigger the file input
-    dropZone.addEventListener('click', function () {
-        fileInput.click();
-    });
-
-    // Optional: Display the selected file names (for multiple files)
-    fileInput.addEventListener('change', function () {
-        var fileList = document.getElementById('file-list');
-        fileList.innerHTML = '';
-
-        for (var i = 0; i < this.files.length; i++) {
-            var fileName = this.files[i].name;
-            var listItem = document.createElement('li');
-            listItem.textContent = fileName;
-            fileList.appendChild(listItem);
-        }
-    });
-</script>
-
 @endsection
