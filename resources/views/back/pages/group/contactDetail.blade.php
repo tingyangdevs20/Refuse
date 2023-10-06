@@ -3539,9 +3539,6 @@
                                                                             multiple> --}}
                                                                         <form action="/file" class="dropzone"
                                                                             name="file" id="my-awesome-dropzone">
-                                                                            <input type="file" name="file"
-                                                                                id="file" class="form-control"
-                                                                                multiple>
                                                                         </form>
                                                                     </div>
                                                                     <button type="submit" id="custom-upload-button"
