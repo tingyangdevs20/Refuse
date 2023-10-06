@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\CalendarSetting;
 use App\Model\Number;
 use App\Model\Settings;
+use App\Model\Account;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -118,6 +119,10 @@ class SettingsController extends Controller
 
 
         $settings->save();
+        $account = Account::find(1);
+        $account->account_id=$request->twilio_api_key;
+        $account->account_token=$request->twilio_secret;
+        $account->save();
 
         $numbers = Number::all();
         if ($numbers != null) {
