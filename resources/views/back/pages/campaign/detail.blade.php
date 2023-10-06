@@ -132,7 +132,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editCampaignModalLabel">Edittt Campaign</h5>
+                    <h5 class="modal-title" id="editCampaignModalLabel">Edit Campaign</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -144,7 +144,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="type">Campaign Typeeee</label>
+                            <label for="type">Campaign Type</label>
                             <input type="hidden" name="id" id="id" class="form-control" value="0" required>
                             <input type="hidden" name="campaign_id" id="campaign_id_edit" class="form-control" value="0" required>
                             <select name="type" id="type_edit" class="form-control" onchange="getTemplateEdit(value)" required>
