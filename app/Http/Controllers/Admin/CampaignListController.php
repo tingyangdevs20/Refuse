@@ -13,6 +13,7 @@ use App\Model\CampaignList;
 use App\Model\Contact;
 use App\Model\Account;
 use App\Model\Template;
+use App\Model\TemplateMessages;
 use App\Model\Reply;
 use App\Model\Sms;
 use App\Model\RvmFile;
@@ -46,11 +47,12 @@ class CampaignListController extends Controller
     {
         $numbers = Number::all();
         $templates = Template::all();
+        $templates_msg = TemplateMessages::all();
         $files = RvmFile::all();
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories','templates_msg'));
     }
 
     public function schedual()

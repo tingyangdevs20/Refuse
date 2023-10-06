@@ -56,7 +56,11 @@ class TemplateMessagesController extends Controller
     {
         $id=$request->tmpid;
         $templates = Template::where('id',$id)->first();
+       $msg_cnt= $templates->message_count;
+       if($msg_cnt>=0)
+       {
         $templates->message_count -=1;
+       }
         $templates->save();
         TemplateMessages::find($request->id)->delete();
        
