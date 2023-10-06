@@ -163,15 +163,6 @@
 
                 <li class="menu-title">Settings</li>
 
-                @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('user_task_module'))
-                <li>
-                    <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
-                    <i class="fas fa-tasks"></i>
-                        <span>User Task</span>
-                    </a>
-                </li>
-                @endif
-
                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('zoom_module'))
 
                 <li>
@@ -234,28 +225,23 @@
                         <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li>
                         <li><a href="{{ route('admin.rvm.index') }}" class=" waves-effect">RVMS</a></li>
                         <li><a href="{{ route('admin.field.index') }}" class=" waves-effect">Custom Fields</a></li>
-                        <li><a href="javascript: void(0);" class="has-arrow waves-effect"><span>DNC Management</span></a>
-                            <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation Management</a></li>
+                                <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="{{ route('admin.dnc-database.index') }}" class=" waves-effect">DNC Keywords</a></li>
                                 <li><a href="{{ route('admin.blacklist.index') }}" class=" waves-effect">DNC Database</a></li>
                             </ul>
                         </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <!-- @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('user_task_module')) -->
+                <li>
+                    <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
+                
+                        <span>Task Lists</span>
+                    </a>
+                </li>
+                <!-- @endif -->
 
                 <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
-
+                
                <span> Quick Response</span></a></li>
 
 

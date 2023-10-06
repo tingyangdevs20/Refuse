@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
 use Google_Service_Drive as Drive;
 use Auth;
-
+use App\TaskList;
 use Session;
 use App\AccountDetail;
 
@@ -120,6 +120,8 @@ class GroupController extends Controller
         $tags = Tag::all();
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
+        $TaskliSt = TaskList::all();
+
 
         $collection = SkipTracingDetail::where('group_id', $contact->group_id)
         ->whereIn('id', function ($query) use ($contact) {
@@ -195,9 +197,8 @@ class GroupController extends Controller
         if($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
-
         
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos','TaskliSt'));
     }
 
     public function updateinfo(Request $request)
