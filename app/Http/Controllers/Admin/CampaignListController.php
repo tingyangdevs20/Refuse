@@ -306,15 +306,24 @@ class CampaignListController extends Controller
     public function store(Request $request)
     {
 
+       // dd($request);
+       // print_r($request->template_id);
+        //die("--");
         $campaign_id = $request->campaign_id;
         $campaign_list_id = $request->campaign_list_id;
         $types = $request->type;
+
+        
+
         $send_after_days = $request->send_after_days;
         $send_after_hours = $request->send_after_hours;
         $send_after_hours = $request->send_after_hours;
         $subject = $request->subject;
+
+        
         //dd($_POST['media_file']);
         $body = $request->body;
+       
         $count = 1;
         if(count($types)  > 0){
             foreach($types as $key => $val ){
@@ -374,11 +383,25 @@ class CampaignListController extends Controller
             }
         }
         $compain = Campaign::where('id',$campaign_id)->first();
-        //dd($compain);
+       
         $groupsID = Group::where('id',$compain->group_id)->first();
+       // print_r($groupsID);
+       
+
+        //die('..');
         if($groupsID){
             $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
              //dd($numbers);
+
+             $settings = Settings::first()->toArray(); 
+
+        $TWILIO_ACCOUNT_SID = $settings['twilio_api_key'];
+        $TWILIO_SECRET_KEY = $settings['call_secret_token'];
+        
+
+        $twilio_number=Number::first()->toArray();
+        $caller_id=$twilio_number['number'];
+        
           $account = Account::where('id' , $sender_numbers->account_id)->first();
                 if($account){
                     $sid = $account->account_id;

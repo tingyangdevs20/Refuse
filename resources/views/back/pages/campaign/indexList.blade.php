@@ -92,9 +92,9 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group mt-3">
-                                                                            <label>Template Category</label>
-                                                                            <select class="custom-select category" onchange="getcontent('{{ $count }}')" name="cat[]" required>
-                                                                                <option value="">Select Category</option>
+                                                                            <label>Template</label>
+                                                                            <select class="custom-select category"  name="cat[]" required>
+                                                                                <option value="">Select Template</option>
                                                                             @foreach($categories as $category)
                                                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                                             @endforeach
@@ -123,16 +123,7 @@
                                                                             </div>
                                                                             <input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]">
                                                                             <input type="hidden"  class="form-control" placeholder="Subject" value="" name="subject[]">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group ">
-                                                                                    <label >Message</label>
-                                                                                    <textarea id="template_text" class="form-control"  rows="10" name="body[]">{{ $body }}</textarea>
-                                                                                    <div id='count' class="float-lg-right"></div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
-                                                                                </div>
-                                                                            </div>
+                                                                            
                                                                         </div>
                                                                     @elseif($campaign->type == 'mms')
                                                                         @php
@@ -152,16 +143,7 @@
                                                                                     <input type="file" class="form-control-file" name="media_file{{ $count }}">
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group ">
-                                                                                    <label >Message</label>
-                                                                                    <textarea id="template_text" class="form-control"  rows="10" name="body[]">{{ $body }}</textarea>
-                                                                                    <div id='count' class="float-lg-right"></div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
-                                                                                </div>
-                                                                            </div>
+                                                                           
                                                                         </div>
                                                                     @elseif($campaign->type == 'email')
                                                                         @php
@@ -179,25 +161,8 @@
                                                                             <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                                                             <input type="file" class="form-control-file" name="media_file{{ $count }}">
                                                                         </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group ">
-                                                                                    <label >Subject</label>
-                                                                                    <input type="text"  class="form-control" placeholder="Subject" value="{{ $subject }}" name="subject[]">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group ">
-                                                                                    <label >Message</label>
-                                                                                    <textarea id="template_text" class="form-control summernote-usage"  rows="10" name="body[]">{{ $body }}</textarea>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                       
+                                                                       
                                                                     @elseif($campaign->type == 'rvm')
                                                                         <input type="hidden" class="form-control" placeholder="Hours" value="" name="body[]">
                                                                         <div class="row">
