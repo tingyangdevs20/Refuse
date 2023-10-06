@@ -555,7 +555,7 @@ class CampaignListController extends Controller
                                     $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
                                     $sms->status = 1;
                                     $sms->save();
-                                    $this->incrementSmsCount($sender_number);
+                                   // $this->incrementSmsCount($sender_number);
                                 } else {
                                     $reply_message = new Reply();
                                     $reply_message->sms_id = $old_sms->id;
