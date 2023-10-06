@@ -20,6 +20,7 @@ class CreateTalklists extends Migration
             $table->string('checked')->nullable();
             $table->string('status')->nullable();
             $table->string('tasklist_id')->nullable();
+            $table->string('position')->nullable();
             $table->timestamps();
         });
 
