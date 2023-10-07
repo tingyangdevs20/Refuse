@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Admin\StoreUsersRequest;
 use App\Http\Requests\Admin\UpdateUsersRequest;
-
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
 
@@ -47,7 +49,7 @@ class UserController extends Controller
     }
 
     public function store(Request $request)  {
-
+// return "Tes";
             // Validate the form data
             $validatedData = $request->validate([
                 'username' => 'required|string|max:255',
@@ -68,8 +70,36 @@ class UserController extends Controller
                 'time_zone' => $validatedData['time_zone'],
             ]);
 
+
+
             // Save the user data
             $user->save();
+
+            $token =  bin2hex(random_bytes(32));
+
+            DB::table('password_resets')->insert([
+                'email' => $validatedData['email'],
+                'token' => $token,
+                'created_at' => now()
+              ]);
+              $email = $request->email;
+            //    Mail::send('email.forgetPassword', ['token' => $token], function($message) use($request){
+            //     $message->to($request->email);
+            //     $message->subject('Reset Password');
+            // });
+            $resetToken = bin2hex(random_bytes(32));
+
+        // Replace 'your_app_url' with your actual app's URL
+            $appUrl = config('app.url'); // Get the base URL from the configuration
+
+        // Construct the reset link using the app URL
+              $resetLink = "{$appUrl}/password/reset/{$resetToken}";
+
+            Mail::send('emails.password-send', ['username' =>$validatedData['email'], 'email' => $validatedData['email'], 'resetLink' => $resetLink], function($message) use($email){
+                $message->to($email);
+                $message->subject('Reset Password');
+            });
+            
 
             // Assign roles using Spatie's role package
             if ($request->input('roles')) {
