@@ -105,6 +105,7 @@ class CampaignListController extends Controller
                                             $unsub_link = url('admin/email/unsub/'.$email);
                                             $data = ['message' => $message,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
                                             Mail::to($cont->email1)->send(new TestEmail($data));
+                                            
                                             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                                         }
 
@@ -446,6 +447,7 @@ class CampaignListController extends Controller
                        //die("..");
                         $unsub_link = url('admin/email/unsub/'.$email);
                         $data = ['message' => $message ,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
+                        //dd($data);
                         Mail::to($email)->send(new TestEmail($data));
                         
                     }
