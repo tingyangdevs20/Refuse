@@ -273,8 +273,8 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="{{asset('/summernote/dist/summernote.css')}}" />
-    <script src="{{asset('/summernote/dist/summernote.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('/summernote/dist/summernote4.css')}}" />
+    <script src="{{asset('/summernote/dist/summernote4.min.js')}}"></script>
     <script >
         $(".summernote-usage").summernote({
     	    height: 200,
