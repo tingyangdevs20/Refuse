@@ -317,7 +317,7 @@
         }
         function templateId() {
             template_id = document.getElementById("template-select").value;
-           setTextareaValue(template_id)
+           setTextareaValue(template_id);
         }
     </script>
     <script>
