@@ -323,22 +323,22 @@
     <script>
         function setTextareaValue(id)
         {
-            if(id>0){
-                axios.get('/admin/template/'+id)
-                    .then(response =>
-                        document.getElementById("template_text").value = response.data['body'],
-                    )
-                    .catch(error => console.log(error));
-            }
-            else{
-                document.getElementById("template_text").value = '';
-            }
+           // if(id>0){
+               // axios.get('/admin/template/'+id)
+                  //  .then(response =>
+                      //  document.getElementById("template_text").value = response.data['body'],
+                   // )
+                   // .catch(error => console.log(error));
+          //  }
+           // else{
+             //   document.getElementById("template_text").value = '';
+           // }
         }
-        const textarea = document.querySelector('textarea')
-        const count = document.getElementById('count')
-        textarea.onkeyup = (e) => {
-            count.innerHTML = "Characters: "+e.target.value.length+"/160";
-        };
+      //  const textarea = document.querySelector('textarea')
+      //  const count = document.getElementById('count')
+      //  textarea.onkeyup = (e) => {
+           // count.innerHTML = "Characters: "+e.target.value.length+"/160";
+      //  };
 
         // function messageType(type,id){
         //     $('.show_sms_'+id).html('');
