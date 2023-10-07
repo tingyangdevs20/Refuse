@@ -313,6 +313,9 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+
+       // dd($subject);
+       // die("..");
         
         $count = 1;
         if(count($types)  > 0){
@@ -398,6 +401,7 @@ class CampaignListController extends Controller
            
             if($request->type[0] == 'email'){
                 $contacts = Contact::where('group_id' , $compain->group_id)->get();
+              
                 if(count($contacts) > 0){
                     foreach($contacts as $cont){
                         //return $cont->name;
@@ -406,31 +410,44 @@ class CampaignListController extends Controller
                         }elseif($cont->email2){
                             $email = $cont->email2;
                         }
+
+                        
                         if($template){
-                            $subject = $template->subject;
+                            $subject_new = $template->subject;
                         }else{
-                            $subject = $checkCompainList->subject;
+                            $subject_new = $checkCompainList[0]->subject;
                         }
-                        $subject = $template->subject;
+                      if($subject=='')
+                      {
+                         $subject=$subject_new;
+                      }
+                       // $subject = $template->subject;
+                       
                         $subject = str_replace("{name}", $cont->name, $subject);
                         $subject = str_replace("{street}", $cont->street, $subject);
                         $subject = str_replace("{city}", $cont->city, $subject);
                         $subject = str_replace("{state}", $cont->state, $subject);
                         $subject = str_replace("{zip}", $cont->zip, $subject);
+
+                        
+
                         if($template){
                             $message = $template->body;
                         }else{
-                            $message = $checkCompainList->body;
+                            $message = $checkCompainList[0]->body;
                         }
                         $message = str_replace("{name}", $cont->name, $message);
                         $message = str_replace("{street}", $cont->street, $message);
                         $message = str_replace("{city}", $cont->city, $message);
                         $message = str_replace("{state}", $cont->state, $message);
                         $message = str_replace("{zip}", $cont->zip, $message);
+
+                       // print_r($email);
+                       //die("..");
                         $unsub_link = url('admin/email/unsub/'.$email);
                         $data = ['message' => $message ,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
                         Mail::to($email)->send(new TestEmail($data));
-                        //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
+                        
                     }
                 }
 

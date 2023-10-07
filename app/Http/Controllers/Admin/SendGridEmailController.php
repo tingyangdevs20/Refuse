@@ -14,7 +14,7 @@ class SendGridEmailController extends Controller
          $data = ['message' => 'This is a test!','subject' => 'This is a subject!', 'name' =>'umer!'];
        // $data = ['message' => 'This is a test!'];
         
-        Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
+        Mail::to('jagjit.mcs@gmail.com')->send(new TestEmail($data));
     }
     
     public function unsubMail($email = '')
