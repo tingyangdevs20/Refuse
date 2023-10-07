@@ -39,6 +39,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Permissions</th>
+                                   
 
                                 </tr>
                                 </thead>
@@ -54,6 +55,7 @@
                                                  </span>
                                              @endforeach
                                          </td>
+                                      
                                          <td>
 
                                             @if(auth()->user()->can('administrator') || auth()->user()->can('role_edit'))

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Email;
+use App\Http\Controllers\InvitationController;
 // use App\Http\Controllers\Admin\PhoneController;
 
 
@@ -80,9 +81,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('admin/push-to-campaign', 'Admin\GroupController@pushToCampaign')->name('push-to-campaign');
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
 
-
-
-
+    Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
+    Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
+    Route::post('/invitation', 'InvitationController@store')->name('invitation.store');
+    Route::get('/invitation/accept/{token}', 'InvitationController@accept')->name('invitation.accept');
+    Route::post('/invitation/destroy/{id}', 'InvitationController@destroy')->name('invitation.destroy');
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
     Route::get('formms', 'GoogleDriveController@fetchFilesByFolderName')->name('formms');
 
@@ -138,8 +141,16 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
+    Route::get('task-list/show/{id}', 'TaskListController@show')->name('task-list.show');
     Route::post('delete-tasks', 'TaskListController@delete')->name('delete-tasks');
     Route::post('update-task', 'TaskListController@update')->name('update-task');
+    // Route::Get('/update-task-order', 'TaskController@updateOrder')->name('update.task.order');
+
+    Route::post('/update-task-order', 'TaskListController@updateOrder')->name('update.task.order');
+
+    Route::post('/update-tasks-order', 'TaskListController@updateOrders')->name('update.tasks.order');
+
+    Route::post('/tasklists', 'TaskListController@storeLists')->name('tasklists.store');
 
 
     Route::get('/account', 'Admin\AccountController@index')->name('account.index');
