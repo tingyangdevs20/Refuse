@@ -150,6 +150,9 @@ class GroupController extends Controller
             DB::table('property_infos')->insert(['contact_id' => $id]);
             $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
         }
+        $map_link = "https://www.google.com/maps?q=" . urlencode("$property_infos->property_address, $property_infos->property_city, $property_infos->property_state, $property_infos->property_zip");
+        DB::table('property_infos')->where('id', $property_infos->id)->update(['map_link' => $map_link]);
+        $property_infos->map_link = $map_link;
         $values_conditions = DB::table('values_conditions')->where('contact_id', $id)->first();
         if ($values_conditions == null) {
             DB::table('values_conditions')->insert(['contact_id' => $id]);
@@ -286,7 +289,7 @@ class GroupController extends Controller
         if ($id != null) {
             $lead = DB::table('lead_info')->where('contact_id', $id)->first();
 
-            if(!$selectedTags || empty($selectedTags)) {
+            if (!$selectedTags || empty($selectedTags)) {
                 DB::table('lead_info_tags')
                     ->where('lead_info_id', $lead->id)
                     ->delete();

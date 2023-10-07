@@ -1537,23 +1537,23 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Google Maps Link</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Google Maps Link"
-                                                                                name="map_link" table="property_infos"
-                                                                                value="{{ $property_infos->map_link == '' ? '' : $property_infos->map_link }}">
-                                                                        </div>
+                                                                        <a href="{{ $property_infos->map_link }}" target="_blank">
+                                                                            <div class="input-group mb-2">
+                                                                                {{ $property_infos->map_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Zillow Link to Address</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Zillow Link to Address"
-                                                                                name="zillow_link" table="property_infos"
-                                                                                value="{{ $property_infos->zillow_link == '' ? '' : $property_infos->zillow_link }}">
-                                                                        </div>
+                                                                        <a href="{{ $property_infos->zillow_link }}" target="_blank">
+                                                                            <div class="input-group mb-2">
+                                                                                {{ $property_infos->zillow_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2023,7 +2023,7 @@
                                                                         {{-- <label>Loan 1 Original Balance</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan 1 Original Balance"
+                                                                                placeholder="Loan 2 Original Balance"
                                                                                 name="loan2_original_balance"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_original_balance == '' ? '' : $property_finance_infos->loan2_original_balance }}">
@@ -3542,13 +3542,16 @@
                                                                             id="file" class="form-control"
                                                                             multiple>
 
-                                                                        <form action="/admin/google-drive-login"
-                                                                            class="dropzone" name="file"
-                                                                            id="my-awesome-dropzone" method="POST">
-                                                                            @csrf
-                                                                            <div class="fallback">
-                                                                            </div>
-                                                                        </form>
+                                                                            <form action="/admin/google-drive-login" class="dropzone" name="file" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <div class="fallback">
+                                                                                </div>
+                                                                                <input type="hidden" name="hiddenFile" id="hidden-file">
+                                                                            </form>
+                                                                            
+                                                                            <!-- Hidden input field for file -->
+                                                                            
+
                                                                         <button type="button" id="custom-upload-button"
                                                                             class="btn btn-primary">Upload to Google
                                                                             Drive</button>
@@ -4635,9 +4638,13 @@
                 // Submit the form
                 // form.submit();
                 form2.submit();
+                
             });
+            // Get a reference to the hidden input
+           // Get a reference to the hidden input
 
-            
+
+
 
             $('#fetch-realtor-estimates-button').click(function() {
                 getRealtorPropertyId();

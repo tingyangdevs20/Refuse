@@ -84,7 +84,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
-    Route::get('formms', 'GoogleDriveController@fetchFilesByFolderName')->name('formms');
+    Route::get('formms', 'Admin\GroupController@getGooglemap')->name('formms');
 
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
