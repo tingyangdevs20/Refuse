@@ -1534,29 +1534,72 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Google Maps Link</label> --}}
-                                                                        <a href="{{ $property_infos->map_link }}" target="_blank">
-                                                                            <div class="input-group mb-2">
-                                                                                {{ $property_infos->map_link }}
-                                                                            </div>
-                                                                        </a>
-                                                                        
+                                                                        <div class="input-group mb-2">
+                                                                            <button type="button"
+                                                                                id="fetch-map-links-button"
+                                                                                class="btn btn-primary">Get Current Google map / Zillow link</button>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Zillow Link to Address</label> --}}
-                                                                        <a href="{{ $property_infos->zillow_link }}" target="_blank">
-                                                                            <div class="input-group mb-2">
-                                                                                {{ $property_infos->zillow_link }}
-                                                                            </div>
-                                                                        </a>
-                                                                        
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="fetchgooglemap">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <strong>Fetching Google Map link...</strong>
+                                                                            <div class="spinner-border spinner-border-sm ml-1"
+                                                                                role="status" aria-hidden="true"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="fetchzillow">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <strong>Fetching Zillow Link ...</strong>
+                                                                            <div class="spinner-border spinner-border-sm ml-1"
+                                                                                role="status" aria-hidden="true"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group" style="padding: 0 10px;"
+                                                                        id="estimateContainer">
+
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label>Google Maps Link</label>
+                                                                        <a 
+                                                                        @if (!empty($property_infos->property_address)) 
+                                                                        href="{{ $property_infos->map_link }}"  @endif 
+                                                                        
+                                                                        id="google_map_link" target="_blank">
+                                                                            <div class="input-group mb-2" id="google_map_link_text">
+                                                                                {{ $property_infos->map_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label>Zillow Link</label>
+                                                                        <a 
+                                                                        @if (!empty($property_infos->property_address)) 
+                                                                        href="{{ $property_infos->zillow_link }}"  @endif 
+                                                                        
+                                                                        id="zillow_link" target="_blank">
+                                                                            <div class="input-group mb-2" id="zillow_link_text">
+                                                                                {{ $property_infos->zillow_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -4758,6 +4801,12 @@
             $('#fetch-realtor-estimates-button').click(function() {
                 getRealtorPropertyId();
             });
+
+            $('#fetch-map-links-button').click(function() {
+                fetchgooglemap();
+                // $('#fetchgooglemap').show()
+                // $('#fetchzillow').show()
+            });
         });
     </script>
     <script>
@@ -4921,6 +4970,87 @@
                     // // Optionally, you can add a message or other content to indicate no results
                     // estimateContainer.append("<p>No estimates found.</p>");
                     // Display an error message using Toastr for failed API responses
+                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                    });
+                }
+            });
+        };
+
+        function fetchgooglemap() {
+            $('#fetchgooglemap').show()
+            var _token = $('input#_token').val();
+            var id = {!! $contact->id !!};
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/fetch-google-map'); ?>',
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                success: function(res) {
+                    $('#fetchgooglemap').hide()
+                    $('#google_map_link').show()
+                    $('#google_map_text').hide()
+
+                    if (res.status == true) {
+                        $('#google_map_link').attr('href', res.link);
+                        $('#google_map_link_text').html(res.link);
+                            // getEstimates(res.id)
+                        // Customize the Toastr message based on your requirements
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                        fetchzillowlink();
+                    } else {
+                        toastr.error(res.message, {
+                            timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                    }
+                },
+                error: function(err) {
+                    $('#fetchgooglemap').hide()
+                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                    });
+                }
+            });
+        };
+
+        function fetchzillowlink() {
+            $('#fetchzillow').show()
+            var _token = $('input#_token').val();
+            var id = {!! $contact->id !!};
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/fetch-zillow-link'); ?>',
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                success: function(res) {
+                    $('#fetchzillow').hide()
+                    
+                    if (res.status == true) {
+                        $('#zillow_link').show()
+                       $('#zillow_link').attr('href', res.link);
+                        $('#zillow_link_text').html(res.link);
+                            // getEstimates(res.id)
+                        // Customize the Toastr message based on your requirements
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                    } else {
+                        toastr.error(res.message, {
+                            timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                        $('#zillow_link_text').show()
+                        $('#zillow_link_text').html("No link found");
+                        $('#zillow_link').removeAttr('href');
+                    }
+                },
+                error: function(err) {
+                    $('#fetchgooglemap').hide()
                     toastr.error('API Error: ' + response.Message, 'API Response Error', {
                         timeOut: 9000, // Set the duration (5 seconds in this example)
                     });
