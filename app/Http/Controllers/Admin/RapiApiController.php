@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Exception;
 
-class RealtorController extends Controller
+class RapiApiController extends Controller
 {
     public function getPropertyId(Request $request)
     {
@@ -84,7 +84,7 @@ class RealtorController extends Controller
         return $id;
     }
 
-    public function getMapLinks(Request $request)
+    public function getGoogleMapsLink(Request $request)
     {
         $id = $request->id;
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
@@ -98,14 +98,13 @@ class RealtorController extends Controller
         DB::table('property_infos')->where('contact_id', $id)->update(['zillow_link' => $map_link]);
         return response()->json([
             'status' => true,
-            'message' => 'Google Map link fetched!',
+            'message' => 'Google Maps link fetched!',
             'link' => $map_link
         ]);
     }
 
-    public function getZillowLinks(Request $request)
+    public function getZillowPropertyURL(Request $request)
     {
-
 
         try {
             $client = new \GuzzleHttp\Client();
@@ -127,11 +126,18 @@ class RealtorController extends Controller
             ]);
 
             $result = json_decode($response->getBody());
-            DB::table('property_infos')->where('contact_id', $id)->update(['zillow_link' => $result->hdpUrl]);
+            if(!$result->hdpUrl) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Property not found on Zillow!'
+                ]);
+            }
+            $url = "https://www.zillow.com".$result->hdpUrl;
+            DB::table('property_infos')->where('contact_id', $id)->update(['zillow_link' => $url]);
             return response()->json([
                 'status' => true,
-                'message' => 'Google Map link fetched!',
-                'link' => $result->hdpUrl
+                'message' => 'Zillow Property URL fetched!',
+                'link' => $url
             ]);
         } catch (GuzzleException $e) {
             return response()->json([
