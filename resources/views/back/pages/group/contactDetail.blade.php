@@ -1534,29 +1534,72 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Google Maps Link</label> --}}
-                                                                        <a href="{{ $property_infos->map_link }}" target="_blank">
-                                                                            <div class="input-group mb-2">
-                                                                                {{ $property_infos->map_link }}
-                                                                            </div>
-                                                                        </a>
-                                                                        
+                                                                        <div class="input-group mb-2">
+                                                                            <button type="button"
+                                                                                id="fetch-map-links-button"
+                                                                                class="btn btn-primary">Get Google Maps & Zillow link</button>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Zillow Link to Address</label> --}}
-                                                                        <a href="{{ $property_infos->zillow_link }}" target="_blank">
-                                                                            <div class="input-group mb-2">
-                                                                                {{ $property_infos->zillow_link }}
-                                                                            </div>
-                                                                        </a>
-                                                                        
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="fetchgooglemap">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <strong>Fetching Google Map link...</strong>
+                                                                            <div class="spinner-border spinner-border-sm ml-1"
+                                                                                role="status" aria-hidden="true"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px; display: none;"
+                                                                        id="fetchzillow">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <strong>Fetching Zillow Link ...</strong>
+                                                                            <div class="spinner-border spinner-border-sm ml-1"
+                                                                                role="status" aria-hidden="true"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group" style="padding: 0 10px;"
+                                                                        id="estimateContainer">
+
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label>Google Maps Link</label>
+                                                                        <a 
+                                                                        @if (!empty($property_infos->property_address)) 
+                                                                        href="{{ $property_infos->map_link }}"  @endif 
+                                                                        
+                                                                        id="google_map_link" target="_blank">
+                                                                            <div class="input-group mb-2" id="google_map_link_text">
+                                                                                {{ $property_infos->map_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label>Zillow Link</label>
+                                                                        <a 
+                                                                        @if (!empty($property_infos->property_address)) 
+                                                                        href="{{ $property_infos->zillow_link }}"  @endif 
+                                                                        
+                                                                        id="zillow_link" target="_blank">
+                                                                            <div class="input-group mb-2" id="zillow_link_text">
+                                                                                {{ $property_infos->zillow_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -1661,20 +1704,20 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="row">
-                                                                <div class="col-md-12">
-
+                                                                <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Notes About Condition</label> --}}
+                                                                        {{-- <label>Yearly Property Tax Amount</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder="Financing Notes"
-                                                                                table="property_finance_infos" name="financing_notes">{{ $property_finance_infos->financing_notes == '' ? '' : $property_finance_infos->financing_notes }}</textarea>
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Yearly Property Tax Amount"
+                                                                                name="year_prop_tax"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->year_prop_tax == '' ? '' : $property_finance_infos->year_prop_tax }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>HOA Dues per month</label> --}}
@@ -1741,7 +1784,7 @@
                                                                         {{-- <label>Loan 1 Original Balance</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan 1 Original Balance"
+                                                                                placeholder="Original Balance"
                                                                                 name="loan1_original_balance"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_original_balance == '' ? '' : $property_finance_infos->loan1_original_balance }}">
@@ -1948,19 +1991,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Loan Account PIN/Codeword</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Loan Account PIN/Codeword"
-                                                                                name="loan1_account_pin"
-                                                                                table="property_finance_infos"
-                                                                                value="{{ $property_finance_infos->loan1_account_pin == '' ? '' : $property_finance_infos->loan1_account_pin }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
+                                                                
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Loan Account PIN/Codeword</label> --}}
@@ -1971,6 +2002,23 @@
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan1_due_day_month == '' ? '' : $property_finance_infos->loan1_due_day_month }}">
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Does mortgage payment(s) include property taxes?</label> --}}
+                                                                        <select class="custom-select"
+                                                                            name="include_property_taxes"
+                                                                            onchange="updateValue(value,'include_property_taxes','property_finance_infos')">
+                                                                            <option value="">Include property taxes?
+                                                                            </option>
+                                                                            <option value="yes"
+                                                                                @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_taxes == 'yes') selected @endif
+                                                                                @endif>Yes</option>
+                                                                            <option value="no"
+                                                                                @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_taxes == 'no') selected @endif
+                                                                                @endif>No</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
 
@@ -2023,7 +2071,7 @@
                                                                         {{-- <label>Loan 1 Original Balance</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan 2 Original Balance"
+                                                                                placeholder="Original Balance"
                                                                                 name="loan2_original_balance"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_original_balance == '' ? '' : $property_finance_infos->loan2_original_balance }}">
@@ -2229,6 +2277,18 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Loan Account PIN/Codeword</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Loan Account PIN/Codeword"
+                                                                                name="loan1_account_pin"
+                                                                                table="property_finance_infos"
+                                                                                value="{{ $property_finance_infos->loan1_account_pin == '' ? '' : $property_finance_infos->loan1_account_pin }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 {{-- <div class="col-md-4">
                                                                                 <div class="form-group" style="padding: 0 10px;">
                                                                                     <label>Loan Account PIN/Codeword</label>
@@ -2254,37 +2314,7 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Yearly Property Tax Amount</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Yearly Property Tax Amount"
-                                                                                name="year_prop_tax"
-                                                                                table="property_finance_infos"
-                                                                                value="{{ $property_finance_infos->year_prop_tax == '' ? '' : $property_finance_infos->year_prop_tax }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Does mortgage payment(s) include property taxes?</label> --}}
-                                                                        <select class="custom-select"
-                                                                            name="include_property_taxes"
-                                                                            onchange="updateValue(value,'include_property_taxes','property_finance_infos')">
-                                                                            <option value="">Include property taxes?
-                                                                            </option>
-                                                                            <option value="yes"
-                                                                                @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_taxes == 'yes') selected @endif
-                                                                                @endif>Yes</option>
-                                                                            <option value="no"
-                                                                                @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_taxes == 'no') selected @endif
-                                                                                @endif>No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
+                                                               
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Does mortgage payment(s) include property insurance?</label> --}}
@@ -2301,6 +2331,18 @@
                                                                                 @if (isset($property_finance_infos)) @if ($property_finance_infos->include_property_insurance == 'no') selected @endif
                                                                                 @endif>No</option>
                                                                         </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Notes About Condition</label> --}}
+                                                                        <div class="input-group mb-2">
+                                                                            <textarea id="template_text" class="form-control" rows="1" placeholder="Financing Notes"
+                                                                                table="property_finance_infos" name="financing_notes">{{ $property_finance_infos->financing_notes == '' ? '' : $property_finance_infos->financing_notes }}</textarea>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -4365,6 +4407,84 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Electricity"
+                                                                                name="electricity"
+                                                                                table="utility_department"
+                                                                                @if (isset($utility_department)) value="{{ $utility_department->electricity }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Water"
+                                                                                name="water"
+                                                                                table="utility_department"
+                                                                                @if (isset($utility_department)) value="{{ $utility_department->water }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Natural Gas"
+                                                                                name="gas"
+                                                                                table="utility_department"
+                                                                                @if (isset($utility_department)) value="{{ $utility_department->gas }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox" name="gas_active"
+                                                                                table="utility_department"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'gas_active', 'utility_department')"
+                                                                                {{ isset($utility_department) && $utility_department->gas_active == 1 ? 'checked' : '' }}>
+                                                                            Gas Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox" name="electricity_active"
+                                                                                table="utility_department"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'electricity_active', 'utility_department')"
+                                                                                {{ isset($utility_department) && $utility_department->electricity_active == 1 ? 'checked' : '' }}>
+                                                                            Electricity Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox" name="water_active"
+                                                                                table="utility_department"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'water_active', 'utility_department')"
+                                                                                {{ isset($utility_department) && $utility_department->water_active == 1 ? 'checked' : '' }}>
+                                                                            Water Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                               
+                                                            </div>
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
                                                             @endphp
@@ -4412,6 +4532,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
                                                             @endphp
@@ -4454,7 +4575,6 @@
                                                                 <div class="form-group" style="padding: 0 10px;">
                                                                     <div class="card">
                                                                         <div class="">
-
                                                                             <table
                                                                                 class="table table-striped table-bordered"
                                                                                 id="datatable">
@@ -4681,6 +4801,12 @@
             $('#fetch-realtor-estimates-button').click(function() {
                 getRealtorPropertyId();
             });
+
+            $('#fetch-map-links-button').click(function() {
+                fetchgooglemap();
+                // $('#fetchgooglemap').show()
+                // $('#fetchzillow').show()
+            });
         });
     </script>
     <script>
@@ -4844,6 +4970,87 @@
                     // // Optionally, you can add a message or other content to indicate no results
                     // estimateContainer.append("<p>No estimates found.</p>");
                     // Display an error message using Toastr for failed API responses
+                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                    });
+                }
+            });
+        };
+
+        function fetchgooglemap() {
+            $('#fetchgooglemap').show()
+            var _token = $('input#_token').val();
+            var id = {!! $contact->id !!};
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/fetch-google-map'); ?>',
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                success: function(res) {
+                    $('#fetchgooglemap').hide()
+                    $('#google_map_link').show()
+                    $('#google_map_text').hide()
+
+                    if (res.status == true) {
+                        $('#google_map_link').attr('href', res.link);
+                        $('#google_map_link_text').html(res.link);
+                            // getEstimates(res.id)
+                        // Customize the Toastr message based on your requirements
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                        fetchzillowlink();
+                    } else {
+                        toastr.error(res.message, {
+                            timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                    }
+                },
+                error: function(err) {
+                    $('#fetchgooglemap').hide()
+                    toastr.error('API Error: ' + response.Message, 'API Response Error', {
+                        timeOut: 9000, // Set the duration (5 seconds in this example)
+                    });
+                }
+            });
+        };
+
+        function fetchzillowlink() {
+            $('#fetchzillow').show()
+            var _token = $('input#_token').val();
+            var id = {!! $contact->id !!};
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/fetch-zillow-link'); ?>',
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                success: function(res) {
+                    $('#fetchzillow').hide()
+                    
+                    if (res.status == true) {
+                        $('#zillow_link').show()
+                       $('#zillow_link').attr('href', res.link);
+                        $('#zillow_link_text').html(res.link);
+                            // getEstimates(res.id)
+                        // Customize the Toastr message based on your requirements
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                    } else {
+                        toastr.error(res.message, {
+                            timeOut: 9000, // Set the duration (5 seconds in this example)
+                        });
+                        $('#zillow_link_text').show()
+                        $('#zillow_link_text').html("No link found");
+                        $('#zillow_link').removeAttr('href');
+                    }
+                },
+                error: function(err) {
+                    $('#fetchgooglemap').hide()
                     toastr.error('API Error: ' + response.Message, 'API Response Error', {
                         timeOut: 9000, // Set the duration (5 seconds in this example)
                     });
