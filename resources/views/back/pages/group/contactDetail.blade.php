@@ -436,21 +436,25 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <select class="custom-select select2"
-                                                                            multiple="multiple" name="tag_id"
+                                                                            multiple="multiple"
+                                                                            onchange="updateTagValue(value,'tags','lead_info')"
+                                                                            name="tag_id[]" id="tags"
                                                                             style="width: 100%;">
-                                                                            <option value="" disabled selected>Select
-                                                                                Tags</option>
+                                                                            <option value=""
+                                                                                @if (count($selected_tags) == 0) selected @endif
+                                                                                disabled>Select Tags</option>
                                                                             @if (count($tags) > 0)
                                                                                 @foreach ($tags as $tag)
+                                                                                    @php
+                                                                                        $selected = in_array($tag->id, $selected_tags) ? 'selected' : '';
+                                                                                    @endphp
                                                                                     <option value="{{ $tag->id }}"
-                                                                                        @if (isset($leadinfo) && is_array($leadinfo->tag_id) && in_array($tag->id, $leadinfo->tag_id)) selected @endif>
+                                                                                        {{ $selected }}>
                                                                                         {{ $tag->name }}</option>
                                                                                 @endforeach
                                                                             @endif
                                                                         </select>
                                                                     </div>
-
-
                                                                 </div>
 
                                                                 <div class="col-md-6">
@@ -1533,23 +1537,23 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Google Maps Link</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Google Maps Link"
-                                                                                name="map_link" table="property_infos"
-                                                                                value="{{ $property_infos->map_link == '' ? '' : $property_infos->map_link }}">
-                                                                        </div>
+                                                                        <a href="{{ $property_infos->map_link }}" target="_blank">
+                                                                            <div class="input-group mb-2">
+                                                                                {{ $property_infos->map_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Zillow Link to Address</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Zillow Link to Address"
-                                                                                name="zillow_link" table="property_infos"
-                                                                                value="{{ $property_infos->zillow_link == '' ? '' : $property_infos->zillow_link }}">
-                                                                        </div>
+                                                                        <a href="{{ $property_infos->zillow_link }}" target="_blank">
+                                                                            <div class="input-group mb-2">
+                                                                                {{ $property_infos->zillow_link }}
+                                                                            </div>
+                                                                        </a>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2019,7 +2023,7 @@
                                                                         {{-- <label>Loan 1 Original Balance</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Loan 1 Original Balance"
+                                                                                placeholder="Loan 2 Original Balance"
                                                                                 name="loan2_original_balance"
                                                                                 table="property_finance_infos"
                                                                                 value="{{ $property_finance_infos->loan2_original_balance == '' ? '' : $property_finance_infos->loan2_original_balance }}">
@@ -2893,7 +2897,8 @@
                                                                                 table="stuffs"
                                                                                 onchange="updateValue(this.checked ? '1' : null, 'get_email', 'stuffs')"
                                                                                 value="{{ $stuffs->get_email }}"
-                                                                                {{ $stuffs->get_email == 1 ? 'checked' : '' }}> Get
+                                                                                {{ $stuffs->get_email == 1 ? 'checked' : '' }}>
+                                                                            Get
                                                                             email
                                                                         </div>
                                                                     </div>
@@ -2922,7 +2927,7 @@
                                                                                     name="recent_pics"
                                                                                     onchange="updateValue(this.checked ? '1' : null, 'recent_pics', 'stuffs')"
                                                                                     value="{{ $stuffs->recent_pics }}"
-                                                                                {{ $stuffs->recent_pics == 1 ? 'checked' : '' }}>
+                                                                                    {{ $stuffs->recent_pics == 1 ? 'checked' : '' }}>
                                                                                 If no good pictures are online, ask them for
                                                                                 recent pictures
                                                                             </label>
@@ -3168,7 +3173,7 @@
                                                                             </select>
                                                                         </div>
                                                                         <button type="submit"
-                                                                        onclick="updateValue('Yes','stop_followup','followup_sequences')"
+                                                                            onclick="updateValue('Yes','stop_followup','followup_sequences')"
                                                                             class="btn btn-primary mt-2">Stop
                                                                             Followup</button>
                                                                     </div>
@@ -3396,7 +3401,7 @@
                                                                                 <div class="form-group ">
                                                                                     <label>Message</label>
                                                                                     <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"
-                                                                                    table="emails"></textarea>
+                                                                                        table="emails"></textarea>
                                                                                     <div id='count'
                                                                                         class="float-lg-right">
                                                                                     </div>
@@ -3513,8 +3518,7 @@
                                                                     <label for="file">Select file type to
                                                                         upload</label>
                                                                     <select class="custom-select" name="lead_status"
-                                                                        table="lead_info"
-                                                                        onchange="toggleFIlesUpload(value)">
+                                                                        table="lead_info">
                                                                         <option value="miscellaneous" selected>
                                                                             Miscellaneous</option>
                                                                         <option value="photo">Photo</option>
@@ -3535,46 +3539,29 @@
                                                                     <div class="form-group">
                                                                         <label for="file">Select Files to
                                                                             Upload:</label>
-                                                                        {{-- <input type="file" name="file"
+                                                                        <input type="file" name="file"
                                                                             id="file" class="form-control"
-                                                                            multiple> --}}
-                                                                        <form action="/file" class="dropzone"
-                                                                            name="file" id="my-awesome-dropzone">
-                                                                        </form>
+                                                                            multiple>
+
+                                                                            <form action="/admin/google-drive-login" class="dropzone" name="file" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <div class="fallback">
+                                                                                </div>
+                                                                                <input type="hidden" name="hiddenFile" id="hidden-file">
+                                                                            </form>
+                                                                            
+                                                                            <!-- Hidden input field for file -->
+                                                                            
+
+                                                                        <button type="button" id="custom-upload-button"
+                                                                            class="btn btn-primary">Upload to Google
+                                                                            Drive</button>
                                                                     </div>
-                                                                    <button type="submit" id="custom-upload-button"
-                                                                        class="btn btn-primary">Upload to Google
-                                                                        Drive</button>
-
-
                                                                 </div>
 
-                                                                <div class="form-group"
-                                                                    style="padding: 0 10px; display: none;"
-                                                                    id="purchaseAgreementUpload">
-
-
-                                                                    <div class="form-group">
-                                                                        <label for="file">Select Files to
-                                                                            Upload:</label>
-                                                                        {{-- <input type="file" name="purchase_agreement"
-                                                                            id="file" class="form-control"
-                                                                            accept="application/pdf"> --}}
-                                                                        <form action="/file-upload" class="dropzone"
-                                                                            id="my-awesome-dropzone"></form>
-                                                                    </div>
-                                                                    <button type="submit" id="agreement-upload-button"
-                                                                        class="btn btn-primary">Move Lead to
-                                                                        Deals</button>
-
-
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                        @if (
-                                                            !empty($googleDriveFiles) &&
-                                                                (is_array($googleDriveFiles) || $googleDriveFiles instanceof Countable) &&
-                                                                count($googleDriveFiles) > 0)
+                                                        @if (!empty($googleDriveFiles) && is_array($googleDriveFiles) && count($googleDriveFiles) > 0)
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -3584,71 +3571,43 @@
                                                             </div>
 
                                                             <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <h3>../REIFuze</h3>
-                                                                    </div>
-                                                                </div>
-                                                                @foreach ($googleDriveFiles as $file)
-                                                                    @if (!$file->is_sub)
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group text-center"
-                                                                                style="padding: 0 10px;">
-                                                                                <!-- Display a file icon based on the file type -->
-                                                                                @php
-                                                                                    $extension = pathinfo($file->name, PATHINFO_EXTENSION);
-                                                                                @endphp
-                                                                                @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
-                                                                                    <i class="fas fa-file-pdf fa-3x"></i>
-                                                                                @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
-                                                                                    <i class="fas fa-file-word fa-3x"></i>
-                                                                                @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
-                                                                                    <i
-                                                                                        class="fas fa-file-excel fa-3x"></i>
-                                                                                @else
-                                                                                    <i class="fas fa-file fa-3x"></i>
-                                                                                @endif
-
-                                                                                <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
-                                                                                        target="_blank">{{ $file->name }}</a>
-                                                                                </h5>
-
-                                                                            </div>
+                                                                @foreach ($googleDriveFiles['folder'] as $folder)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            <h3>../REIFuze../{{ $folder }}</h3>
                                                                         </div>
-                                                                    @endif
-                                                                @endforeach
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <h3>../REIFuze/purchase_agreement</h3>
                                                                     </div>
-                                                                </div>
-                                                                @foreach ($googleDriveFiles as $file)
-                                                                    @if ($file->is_sub)
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group text-center"
-                                                                                style="padding: 0 10px;">
-                                                                                <!-- Display a file icon based on the file type -->
-                                                                                @php
-                                                                                    $extension = pathinfo($file->name, PATHINFO_EXTENSION);
-                                                                                @endphp
-                                                                                @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
-                                                                                    <i class="fas fa-file-pdf fa-3x"></i>
-                                                                                @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
-                                                                                    <i class="fas fa-file-word fa-3x"></i>
-                                                                                @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
-                                                                                    <i
-                                                                                        class="fas fa-file-excel fa-3x"></i>
-                                                                                @else
-                                                                                    <i class="fas fa-file fa-3x"></i>
-                                                                                @endif
+                                                                    @foreach ($googleDriveFiles['files'] as $file)
+                                                                        @if ($file->directory == $folder)
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group text-center"
+                                                                                    style="padding: 0 10px;">
+                                                                                    <!-- Display a file icon based on the file type -->
+                                                                                    @php
+                                                                                        $extension = pathinfo($file->name, PATHINFO_EXTENSION);
+                                                                                    @endphp
+                                                                                    @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
+                                                                                        <i
+                                                                                            class="fas fa-file-pdf fa-3x"></i>
+                                                                                    @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
+                                                                                        <i
+                                                                                            class="fas fa-file-word fa-3x"></i>
+                                                                                    @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
+                                                                                        <i
+                                                                                            class="fas fa-file-excel fa-3x"></i>
+                                                                                    @else
+                                                                                        <i class="fas fa-file fa-3x"></i>
+                                                                                    @endif
 
-                                                                                <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
-                                                                                        target="_blank">{{ $file->name }}</a>
-                                                                                </h5>
+                                                                                    <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
+                                                                                            target="_blank">{{ $file->name }}</a>
+                                                                                    </h5>
 
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    @endif
+                                                                        @endif
+                                                                    @endforeach
                                                                 @endforeach
                                                             </div>
                                                         @endif
@@ -3682,8 +3641,7 @@
                                                                                 placeholder="Title Company Contact Name"
                                                                                 name="contact_name"
                                                                                 table="title_company"
-                                                                                value="{{ $title_company->contact_name }}"
-                                                                                >
+                                                                                value="{{ $title_company->contact_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3693,8 +3651,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Title Company Phone"
-                                                                                name="phone"
-                                                                                table="title_company"
+                                                                                name="phone" table="title_company"
                                                                                 value="{{ $title_company->phone }}">
                                                                         </div>
                                                                     </div>
@@ -3705,8 +3662,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Title Company Email"
-                                                                                name="email"
-                                                                                table="title_company"
+                                                                                name="email" table="title_company"
                                                                                 value="{{ $title_company->email }}">
 
                                                                         </div>
@@ -3920,8 +3876,7 @@
                                                                         {{-- <label>HOA Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="HOA Name"
-                                                                                name="hoa_name"
+                                                                                placeholder="HOA Name" name="hoa_name"
                                                                                 table="hoa_info"
                                                                                 value="{{ $hoa_info->hoa_name }}">
                                                                         </div>
@@ -3933,8 +3888,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Contact Name"
-                                                                                name="hoa_contact_name"
-                                                                                table="hoa_info"
+                                                                                name="hoa_contact_name" table="hoa_info"
                                                                                 value="{{ $hoa_info->hoa_contact_name }}">
                                                                         </div>
                                                                     </div>
@@ -3945,8 +3899,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="HOA Phone Number"
-                                                                                name="hoa_phone"
-                                                                                table="hoa_info"
+                                                                                name="hoa_phone" table="hoa_info"
                                                                                 value="{{ $hoa_info->hoa_phone }}">
                                                                         </div>
                                                                     </div>
@@ -3956,8 +3909,7 @@
                                                                         {{-- <label>HOA Email</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="HOA Email"
-                                                                                name="hoa_email"
+                                                                                placeholder="HOA Email" name="hoa_email"
                                                                                 table="hoa_info"
                                                                                 value="{{ $hoa_info->hoa_email }}">
                                                                         </div>
@@ -4364,7 +4316,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                             </div>
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
@@ -4674,7 +4626,6 @@
 
             // initializeDropzone
             initializeDropzone();
-
             // When the date input loses focus, hide it and show the text input if it's empty
             $('.date-input-hidden').on('blur', function() {
                 if (!$(this).val()) {
@@ -4695,6 +4646,15 @@
                 // placeholder: "Select options",
                 allowClear: true, // Show a clear button to remove the selection
             });
+            $('#tags').on('change', function() {
+                // Remove the "Select Tags" option if any other option is selected
+                if ($('#tags option:selected').length > 0) {
+                    $('#tags option[value=""]').remove();
+                } else {
+                    // Add the "Select Tags" option back if no options are selected
+                    $('#tags').prepend('<option value="" selected disabled>Select Tags</option>');
+                }
+            });
 
             // Refresh Select2 to apply the changes
             $('.select2').trigger('change.select2');
@@ -4707,20 +4667,16 @@
                 // Set the form's action attribute to the new route
                 form.attr("action", "{{ route('admin.google.drive.login') }}");
                 form2.attr("action", "{{ route('admin.google.drive.login') }}");
-
                 // Submit the form
-                form.submit();
+                // form.submit();
+                form2.submit();
+                
             });
+            // Get a reference to the hidden input
+           // Get a reference to the hidden input
 
-            $("#agreement-upload-button").click(function() {
-                var form = $("#main_form");
 
-                // Set the form's action attribute to the new route
-                form.attr("action", "{{ route('admin.contact.purchase_agreement') }}");
 
-                // Submit the form
-                form.submit();
-            });
 
             $('#fetch-realtor-estimates-button').click(function() {
                 getRealtorPropertyId();
@@ -4740,8 +4696,9 @@
     <script>
         // intitialize dropzone
         function initializeDropzone() {
-            Dropzone.options.myDropzone = {
-                url: "admin/contact/purchase-agreement", // URL where files will be uploaded (replace with your actual endpoint)
+
+            Dropzone.options.myAwesomeDropzone = {
+                url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
                 paramName: "file", // The name that will be used for the uploaded file
                 maxFilesize: 5, // Maximum file size (in MB)
                 acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
@@ -5029,6 +4986,25 @@
                 }
             });
         }
+
+        function updateTagValue(fieldVal, fieldName, table) {
+            var _token = $('input[name="_token"]').val(); // Make sure to target the input using the name attribute
+            var id = {{ $id }}; // Use Blade syntax to insert PHP variable
+            var selectedTags = $('#tags').val(); // Get the selected values from the Select2 input
+            $.ajax({
+                method: "POST",
+                url: '{{ route('admin.contact.detail.update.select2') }}', // Use Laravel route function
+                data: {
+                    id: id,
+                    fieldVal: fieldVal,
+                    table: table,
+                    fieldName: fieldName,
+                    selectedTags: selectedTags, // Pass the selected tags
+                    _token: _token
+                },
+            });
+        }
+
 
         function loadScript(val) {
             var _token = $('input#_token').val();

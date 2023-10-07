@@ -87,7 +87,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/invitation/accept/{token}', 'InvitationController@accept')->name('invitation.accept');
     Route::post('/invitation/destroy/{id}', 'InvitationController@destroy')->name('invitation.destroy');
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
-    Route::get('formms', 'GoogleDriveController@fetchFilesByFolderName')->name('formms');
+    Route::get('formms', 'Admin\GroupController@getGooglemap')->name('formms');
 
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
@@ -238,6 +238,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListConttroller@getTemplate');
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
+    Route::post('contact/detail/update/select2', 'Admin\GroupController@updatetags')->name('contact.detail.update.select2');
 
     // Upload Purchase Agreement to google drive
     Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
