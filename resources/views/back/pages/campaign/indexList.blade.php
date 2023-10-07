@@ -83,7 +83,7 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Campaign Type</label>
-                                                                            <select class="custom-select template_type" name="type[]" onchange="getcontent('{{ $count }}')" required>
+                                                                            <select class="custom-select template_type" name="type[]"  required>
                                                                                 <option value="">select type</option>
                                                                                 <option value="sms" @if($campaign->type == 'sms') selected @endif>SMS</option>
                                                                                 <option value="email" @if($campaign->type == 'email') selected @endif>Email</option>
@@ -92,11 +92,11 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group mt-3">
-                                                                            <label>Template Category</label>
-                                                                            <select class="custom-select category" onchange="getcontent('{{ $count }}')" name="cat[]" required>
-                                                                                <option value="">select category</option>
-                                                                            @foreach($categories as $category)
-                                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                                            <label>Select Template</label>
+                                                                            <select class="custom-select category"  name="templat[]" required>
+                                                                                <option value="">Select Template</option>
+                                                                            @foreach($templates as $template)
+                                                                                <option value="{{ $template->id }}">{{ $template->title }}</option>
                                                                             @endforeach
                                                                             </select>
                                                                         </div>
@@ -116,7 +116,7 @@
                                                                                 $body = $campaign->body;
                                                                             }
                                                                         @endphp
-                                                                        <div class="row">
+                                                                        <div class="row" style="display:none">
                                                                             <div class="form-group" style=" display: none;">
                                                                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                                                                 <input type="file" class="form-control-file" name="media_file{{ $count }}">
@@ -145,7 +145,7 @@
                                                                         @endphp
                                                                         <input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]">
                                                                         <input type="hidden"  class="form-control" placeholder="Subject" value="" name="subject[]">
-                                                                        <div class="row">
+                                                                        <div class="row" style="display:none">
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group">
                                                                                     <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
@@ -179,7 +179,7 @@
                                                                             <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                                                             <input type="file" class="form-control-file" name="media_file{{ $count }}">
                                                                         </div>
-                                                                        <div class="row">
+                                                                        <div class="row" style="display:none">
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group ">
                                                                                     <label >Subject</label>
@@ -187,7 +187,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="row">
+                                                                        <div class="row" style="display:none">
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group ">
                                                                                     <label >Message</label>
@@ -200,7 +200,7 @@
                                                                         </div>
                                                                     @elseif($campaign->type == 'rvm')
                                                                         <input type="hidden" class="form-control" placeholder="Hours" value="" name="body[]">
-                                                                        <div class="row">
+                                                                        <div class="row" style="display:none">
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group mt-3">
                                                                                     <label>Rvm Files</label>
@@ -284,18 +284,20 @@
         });
 
         var rowCount = {{ count($campaignsList)  }}
-        var categories = @json($categories);
+        var templates = @json($templates);
+        //alert(templates);
 
         function addNewRows(frm) {
             rowCount ++;
-            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">select type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
+            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" id="typee'+rowCount+'" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">select type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
 
-            recRow += '<div class="form-group mt-3"><label>Template Category</label><select class="custom-select category" name="cat[]"  onchange="getcontent('+rowCount+');" required><option value="">select category</option>';
-                $.each( categories, function( key, value ) {
-                    recRow += '<option value='+value.id+'>'+value.name+'</option>';
+            recRow += '<div class="form-group mt-3" id="dvcategory"><label>Select Template</label><select class="custom-select category" name="templat[]"   required><option value="">Select Template</option>';
+                $.each( templates, function( key, value ) {
+                   // console.log(value);
+                    recRow += '<option value='+value.id+'>'+value.title+'</option>';
                 });
             recRow += '</select></div>';
-            recRow += '</div></div><div class="row show_sms_'+rowCount+'"><div class="col-md-12"><div class="form-group "><div class="form-group" style=" display: none;"><label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label><input type="file" class="form-control-file" name="media_file'+rowCount+'"></div><input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]"><input type="hidden"  class="form-control" placeholder="Subject" value="" name="subject[]"><label >Message</label><textarea id="template_text" class="form-control"  rows="10" name="body[]"></textarea><div id="count" class="float-lg-right"></div></div><div class="form-group"><small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small></div></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
+            recRow += '</div></div><div class="row show_sms_'+rowCount+'"><div class="col-md-12"><div class="form-group "><input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]"></div></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
 
 
             //var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-12"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button><div class="form-group mt-3"><label>Campaign Type</label><select class="custom-select" name="type[]" onchange="" required><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div></div></div><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delays</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"></div></div><div class="row show_sms"><div class="col-md-12"><div class="form-group "><label >Message</label><textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea><div id="count" class="float-lg-right"></div></div></div></div><div class="row show_email" style="display:none;"><div class="col-md-6"><div class="form-group"><label >Subject</label><input type="text"  class="form-control" placeholder="Subject" name="receiver_number" /></div></div><div class="col-md-12"><div class="form-group "><label >Message</label><textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea><div id="count" class="float-lg-right"></div></div></div></div><div class="row show_mms" style="display:none;"><div class="col-md-6"><div class="form-group"><label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label><input type="file" class="form-control-file" name="media_file"></div></div><div class="col-md-12"><div class="form-group "><label >Message</label><textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea><div id="count" class="float-lg-right"></div></div></div></div><div class="row show_rvm" style="display:none;"><div class="col-md-6"><div class="form-group"><label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label><input type="file" class="form-control-file" name="media_file[]"></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
@@ -315,28 +317,28 @@
         }
         function templateId() {
             template_id = document.getElementById("template-select").value;
-           setTextareaValue(template_id)
+           setTextareaValue(template_id);
         }
     </script>
     <script>
         function setTextareaValue(id)
         {
-            if(id>0){
-                axios.get('/admin/template/'+id)
-                    .then(response =>
-                        document.getElementById("template_text").value = response.data['body'],
-                    )
-                    .catch(error => console.log(error));
-            }
-            else{
-                document.getElementById("template_text").value = '';
-            }
+           // if(id>0){
+               // axios.get('/admin/template/'+id)
+                  //  .then(response =>
+                      //  document.getElementById("template_text").value = response.data['body'],
+                   // )
+                   // .catch(error => console.log(error));
+          //  }
+           // else{
+             //   document.getElementById("template_text").value = '';
+           // }
         }
-        const textarea = document.querySelector('textarea')
-        const count = document.getElementById('count')
-        textarea.onkeyup = (e) => {
-            count.innerHTML = "Characters: "+e.target.value.length+"/160";
-        };
+      //  const textarea = document.querySelector('textarea')
+      //  const count = document.getElementById('count')
+      //  textarea.onkeyup = (e) => {
+           // count.innerHTML = "Characters: "+e.target.value.length+"/160";
+      //  };
 
         // function messageType(type,id){
         //     $('.show_sms_'+id).html('');
@@ -356,8 +358,16 @@
 
         function getcontent(id)
         {
+            var _typ=$("#typee"+id).val();
             var template_type = $("#rowCount"+id).find('.template_type').val();
             var category = $("#rowCount"+id).find('.category').val();
+            //alert(_typ);
+           // if(_typ=="rvm");
+           // {
+              //  $("#dvcategory").empty();
+           // }
+          
+           
             if(template_type != '' && category != ''){
                 var url = '<?php echo url('/admin/get/template_msg/') ?>';
                 $.ajax({
@@ -370,6 +380,7 @@
                     }
                 });
             }
-        }
+        
+    }
     </script>
     @endsection
