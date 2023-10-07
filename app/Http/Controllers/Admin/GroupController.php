@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
 use Google_Service_Drive as Drive;
 use Auth;
-
+use App\TaskList;
 use Session;
 use App\AccountDetail;
 
@@ -120,6 +120,8 @@ class GroupController extends Controller
         $tags = Tag::all();
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
+        $TaskliSt = TaskList::all();
+
 
         $collection = SkipTracingDetail::where('group_id', $contact->group_id)
         ->whereIn('id', function ($query) use ($contact) {
@@ -176,12 +178,54 @@ class GroupController extends Controller
             $title_company = DB::table('title_company')->where('contact_id', $id)->first();
         }
 
+        $objections = DB::table('objections')->where('contact_id', $id)->first();
+        if ($objections == null) {
+            DB::table('objections')->insert(['contact_id' => $id]);
+            $objections = DB::table('objections')->where('contact_id', $id)->first();
+        }
+
         $agent_infos = DB::table('agent_infos')->where('contact_id', $id)->first();
         if ($agent_infos == null) {
             DB::table('agent_infos')->insert(['contact_id' => $id]);
             $agent_infos = DB::table('agent_infos')->where('contact_id', $id)->first();
         }
 
+        $commitments = DB::table('commitments')->where('contact_id', $id)->first();
+        if ($commitments == null) {
+            DB::table('commitments')->insert(['contact_id' => $id]);
+            $commitments = DB::table('commitments')->where('contact_id', $id)->first();
+        }
+
+        $stuffs = DB::table('stuffs')->where('contact_id', $id)->first();
+        if ($stuffs == null) {
+            DB::table('stuffs')->insert(['contact_id' => $id]);
+            $stuffs = DB::table('stuffs')->where('contact_id', $id)->first();
+        }
+
+        $followup_sequences = DB::table('followup_sequences')->where('contact_id', $id)->first();
+        if ($followup_sequences == null) {
+            DB::table('followup_sequences')->insert(['contact_id' => $id]);
+            $followup_sequences = DB::table('followup_sequences')->where('contact_id', $id)->first();
+        }
+        
+        $insurance_company = DB::table('insurance_company')->where('contact_id', $id)->first();
+        if ($insurance_company == null) {
+            DB::table('insurance_company')->insert(['contact_id' => $id]);
+            $insurance_company = DB::table('insurance_company')->where('contact_id', $id)->first();
+        }
+
+        $hoa_info = DB::table('hoa_info')->where('contact_id', $id)->first();
+        if ($hoa_info == null) {
+            DB::table('hoa_info')->insert(['contact_id' => $id]);
+            $hoa_info = DB::table('hoa_info')->where('contact_id', $id)->first();
+        }
+        $future_seller_infos = DB::table('future_seller_infos')->where('contact_id', $id)->first();
+        if ($future_seller_infos == null) {
+            DB::table('future_seller_infos')->insert(['contact_id' => $id]);
+            $future_seller_infos = DB::table('future_seller_infos')->where('contact_id', $id)->first();
+        }
+        
+        
         $uid = Auth::id();
         $contact = Contact::where('id', $id)->first();
         $cnt_mob1 = $contact->number ?? null;
@@ -195,9 +239,12 @@ class GroupController extends Controller
         if($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
-
         
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos'));
+
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos','TaskliSt'));
+
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos'));
+
     }
 
     public function updateinfo(Request $request)
