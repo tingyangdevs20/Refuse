@@ -435,8 +435,12 @@ class CampaignListController extends Controller
 
         $checkCompainList = CampaignList::where('campaign_id',$request->campaign_id)->get();
 
-       dd(count($checkCompainList));
+       //dd(count($checkCompainList));
        
+
+       //COMMENTED ON - 8 Oct 2023 by JSingh
+       // not require to run the campaign as it will run after push to campaign
+
         // if(count($checkCompainList) > 0){
             
         //     $template = Template::where('id',$request->template_id)->first();
@@ -677,6 +681,7 @@ class CampaignListController extends Controller
         //     $checkCompainList1 = CampaignList::where('campaign_id',$request->campaign_id)->first();
         //     $campaigns = CampaignList::where('id' , $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
         // }
+       //COMMENTED ON - 8 Oct 2023 by JSingh
 
         //return $request->campaign_id;
         return redirect('admin/campaign/list/'.$request->campaign_id)->with('success', 'Campaign list created successfully.');
