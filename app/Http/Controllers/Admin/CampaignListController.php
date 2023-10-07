@@ -13,6 +13,7 @@ use App\Model\CampaignList;
 use App\Model\Contact;
 use App\Model\Account;
 use App\Model\Template;
+use App\Model\TemplateMessages;
 use App\Model\Reply;
 use App\Model\Sms;
 use App\Model\RvmFile;
@@ -46,6 +47,7 @@ class CampaignListController extends Controller
     {
         $numbers = Number::all();
         $templates = Template::all();
+        //dd($templates);
         $files = RvmFile::all();
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
@@ -314,8 +316,11 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+        $templ_ate=$request->templat;
         $sid = 'AC28c9cf33623247a487bf51ca9af20b50';
         $token='03d28e0a1abd5e829b6d278055643dba';
+
+      // dd($request);
 
        // dd($subject);
        // die("..");
@@ -350,6 +355,11 @@ class CampaignListController extends Controller
 
                 //return $media;
                 //return $sendAfter;
+                $bodytext='';
+                $body_text=TemplateMessages::where('template_id' ,$request->templat[$key])->get();
+
+                dd($request->campaign_list_id[$key] );
+
                 // Create the campaign
                 if($request->campaign_list_id[$key] == 0){
                     CampaignList::create([
@@ -363,40 +373,65 @@ class CampaignListController extends Controller
                         'active' => 1, // Set active status
                     ]);
                 }else{
-                    CampaignList::where('id' ,$request->campaign_list_id[$key] )->update([
-                        'type' =>  $val,
-                        'send_after_days' => $request->send_after_days[$key],
-                        'send_after_hours' => $request->send_after_hours[$key],
-                        'schedule' => $sendAfter,
-                        'template_id' => 0,
-                        'mediaUrl' => $media,
-                        'body' => $request->body[$key],
-                        'active' => 1, // Set active status
-                        // Add other fields for campaign details
-                    ]);
+
+                    
+                   
+
+                   if($body_text)
+                   {
+
+                    foreach($body_text as $btext)
+                    {
+                        if($btext)
+                        {
+                            $bodytext=$btext->msg_content;
+                            //dd($bodytext);
+                        CampaignList::where('id' ,$request->campaign_list_id[$key] )->update([
+                            'type' =>  $val,
+                            'send_after_days' => $request->send_after_days[$key],
+                            'send_after_hours' => $request->send_after_hours[$key],
+                            'schedule' => $sendAfter,
+                            'template_id' => $request->templat[$key],
+                            'mediaUrl' => $media,
+                            'body' => $bodytext,
+                            'active' => 1, // Set active status
+                            // Add other fields for campaign details
+                        ]);
+                    }
+                    }
+                    
+                   }
+
+
+
+                    
+                
                 }
                 $count++;
             }
         }
         $compain = Campaign::where('id',$campaign_id)->first();
-        //dd($compain);
-        $groupsID = Group::where('id',$compain->group_id)->first();
-        if($groupsID){
-            $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
+       
+       // $groupsID = Group::where('id',$compain->group_id)->first();
+      
+       // if($groupsID){
+          //  $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
 
-             //dd($numbers);
-          $account = Account::where('id' , $sender_numbers->account_id)->first();
-                if($account){
-                    $sid = $account->account_id;
-                    $token = $account->account_token;
-                }else{
-                    $sid = '';
-                    $token = '';
-                }
-        }
+             
+         // $account = Account::where('id' , $sender_numbers->account_id)->first();
+              //  if($account){
+                  //  $sid = $account->account_id;
+                   // $token = $account->account_token;
+               // }else{
+                 //   $sid = '';
+                  //  $token = '';
+               // }
+       // }
        
 
         $checkCompainList = CampaignList::where('campaign_id',$request->campaign_id)->get();
+
+        dd($checkCompainList);
        
         if(count($checkCompainList) == 1){
             

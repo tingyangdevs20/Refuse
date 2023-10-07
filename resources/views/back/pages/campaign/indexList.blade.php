@@ -93,10 +93,10 @@
                                                                         </div>
                                                                         <div class="form-group mt-3">
                                                                             <label>Select Template</label>
-                                                                            <select class="custom-select category"  name="cat[]" required>
+                                                                            <select class="custom-select category"  name="templat[]" required>
                                                                                 <option value="">Select Template</option>
-                                                                            @foreach($categories as $category)
-                                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                                            @foreach($templates as $template)
+                                                                                <option value="{{ $template->id }}">{{ $template->title }}</option>
                                                                             @endforeach
                                                                             </select>
                                                                         </div>
@@ -284,15 +284,17 @@
         });
 
         var rowCount = {{ count($campaignsList)  }}
-        var categories = @json($categories);
+        var templates = @json($templates);
+        //alert(templates);
 
         function addNewRows(frm) {
             rowCount ++;
-            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">select type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
+            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" id="typee'+rowCount+'" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">select type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
 
-            recRow += '<div class="form-group mt-3"><label>Select Template</label><select class="custom-select category" name="cat[]"   required><option value="">Select Template</option>';
-                $.each( categories, function( key, value ) {
-                    recRow += '<option value='+value.id+'>'+value.name+'</option>';
+            recRow += '<div class="form-group mt-3" id="dvcategory"><label>Select Template</label><select class="custom-select category" name="templat[]"   required><option value="">Select Template</option>';
+                $.each( templates, function( key, value ) {
+                   // console.log(value);
+                    recRow += '<option value='+value.id+'>'+value.title+'</option>';
                 });
             recRow += '</select></div>';
             recRow += '</div></div><div class="row show_sms_'+rowCount+'"><div class="col-md-12"><div class="form-group "><input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]"></div></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
@@ -356,8 +358,16 @@
 
         function getcontent(id)
         {
+            var _typ=$("#typee"+id).val();
             var template_type = $("#rowCount"+id).find('.template_type').val();
             var category = $("#rowCount"+id).find('.category').val();
+            //alert(_typ);
+           // if(_typ=="rvm");
+           // {
+              //  $("#dvcategory").empty();
+           // }
+          
+           
             if(template_type != '' && category != ''){
                 var url = '<?php echo url('/admin/get/template_msg/') ?>';
                 $.ajax({
@@ -370,6 +380,7 @@
                     }
                 });
             }
-        }
+        
+    }
     </script>
     @endsection
