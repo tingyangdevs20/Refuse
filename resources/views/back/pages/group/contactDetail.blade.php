@@ -1539,7 +1539,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-map-links-button"
-                                                                                class="btn btn-primary">Get Google Maps & Zillow link</button>
+                                                                                class="btn btn-primary">Get Google Maps &
+                                                                                Zillow link</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group"
@@ -1570,12 +1571,10 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label>Google Maps Link</label>
-                                                                        <a 
-                                                                        @if (!empty($property_infos->property_address)) 
-                                                                        href="{{ $property_infos->map_link }}"  @endif 
-                                                                        
-                                                                        id="google_map_link" target="_blank">
-                                                                            <div class="input-group mb-2" id="google_map_link_text">
+                                                                        <a @if (!empty($property_infos->property_address)) href="{{ $property_infos->map_link }}" @endif
+                                                                            id="google_map_link" target="_blank">
+                                                                            <div class="input-group mb-2"
+                                                                                id="google_map_link_text">
                                                                                 {{ $property_infos->map_link }}
                                                                             </div>
                                                                         </a>
@@ -1585,12 +1584,10 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label>Zillow Link</label>
-                                                                        <a 
-                                                                        @if (!empty($property_infos->property_address)) 
-                                                                        href="{{ $property_infos->zillow_link }}"  @endif 
-                                                                        
-                                                                        id="zillow_link" target="_blank">
-                                                                            <div class="input-group mb-2" id="zillow_link_text">
+                                                                        <a @if (!empty($property_infos->property_address)) href="{{ $property_infos->zillow_link }}" @endif
+                                                                            id="zillow_link" target="_blank">
+                                                                            <div class="input-group mb-2"
+                                                                                id="zillow_link_text">
                                                                                 {{ $property_infos->zillow_link }}
                                                                             </div>
                                                                         </a>
@@ -1599,7 +1596,7 @@
 
                                                             </div>
 
-                                                            
+
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -1704,7 +1701,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -1991,7 +1988,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Loan Account PIN/Codeword</label> --}}
@@ -2314,7 +2311,7 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                               
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Does mortgage payment(s) include property insurance?</label> --}}
@@ -3332,7 +3329,6 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                       
                                                     @elseif($section->id == '14')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
@@ -3378,18 +3374,9 @@
                                                                     @endforeach
                                                                 @endif
                                                             </div>
-                                                            <hr>
-                                                            <div class="row mt-2">
-                                                                <div class="col-md-12">
-
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <a href="{{ route('admin.zoom.index') }}"
-                                                                            type="button" class="btn btn-primary">Zoom
-                                                                            Meeting</a>
-
-                                                                    </div>
-                                                                </div>
+                                                            <div class="row">
                                                                 <div class="col-md-6">
+
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Send zoom link button (to email and sms)</label> --}}
                                                                         <div class="input-group mb-2">
@@ -3399,61 +3386,64 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-
+                                                                <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <div class="card-body"> <label
-                                                                                style="font-size:16px">Send
-                                                                                Email</label>
-                                                                            <form
-                                                                                action="{{ route('admin.single-email.store') }}"
-                                                                                method="post"
-                                                                                enctype="multipart/form-data">
-                                                                                @csrf
-                                                                                @method('POST')
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6">
-                                                                                        <div class="form-group">
-                                                                                            <label>Subject:</label>
-                                                                                            <div class="input-group mb-2">
-                                                                                                <input type="text"
-                                                                                                    class="form-control"
-                                                                                                    placeholder="Subject"
-                                                                                                    name="subject"
-                                                                                                    table="emails">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-6">
-                                                                                        <div class="form-group">
-                                                                                            <label>Send To:</label>
+                                                                        <a href="{{ route('admin.zoom.index') }}"
+                                                                            type="button" class="btn btn-primary">Zoom
+                                                                            Meeting</a>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="card-body"> <label
+                                                                            style="font-size:16px">Send
+                                                                            Email</label>
+                                                                        <form
+                                                                            action="{{ route('admin.single-email.store') }}"
+                                                                            method="post"
+                                                                            enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            @method('POST')
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Subject:</label>
+                                                                                        <div class="input-group mb-2">
                                                                                             <input type="text"
                                                                                                 class="form-control"
-                                                                                                value="{{ $leadinfo->owner1_email1 }}"
-                                                                                                placeholder="Sender Email"
-                                                                                                name="send_to"
+                                                                                                placeholder="Subject"
+                                                                                                name="subject"
                                                                                                 table="emails">
-
                                                                                         </div>
                                                                                     </div>
-
                                                                                 </div>
-                                                                                <div class="form-group ">
-                                                                                    <label>Message</label>
-                                                                                    <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"
-                                                                                        table="emails"></textarea>
-                                                                                    <div id='count'
-                                                                                        class="float-lg-right">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Send To:</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            value="{{ $leadinfo->owner1_email1 }}"
+                                                                                            placeholder="Sender Email"
+                                                                                            name="send_to"
+                                                                                            table="emails">
+
                                                                                     </div>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-primary mt-2">Send
-                                                                                        Email</button>
                                                                                 </div>
-                                                                            </form>
 
-                                                                        </div>
+                                                                            </div>
+                                                                            <div class="form-group ">
+                                                                                <label>Message</label>
+                                                                                <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"
+                                                                                    table="emails"></textarea>
+                                                                                <div id='count'
+                                                                                    class="float-lg-right">
+                                                                                </div>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary mt-2">Send
+                                                                                    Email</button>
+                                                                            </div>
+                                                                        </form>
 
                                                                     </div>
                                                                 </div>
@@ -3557,10 +3547,10 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group" style="padding: 0 10px;">
-                                                                    <label for="file">Select file type to
+                                                                    <label for="file_type">Select file type to
                                                                         upload</label>
                                                                     <select class="custom-select" name="lead_status"
-                                                                        table="lead_info">
+                                                                        table="lead_info" id="file_type">
                                                                         <option value="miscellaneous" selected>
                                                                             Miscellaneous</option>
                                                                         <option value="photo">Photo</option>
@@ -3581,24 +3571,23 @@
                                                                     <div class="form-group">
                                                                         <label for="file">Select Files to
                                                                             Upload:</label>
-                                                                        <input type="file" name="file"
-                                                                            id="file" class="form-control"
-                                                                            multiple>
 
-                                                                            <form action="/admin/google-drive-login" class="dropzone" name="file" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data">
-                                                                                @csrf
-                                                                                <div class="fallback">
-                                                                                </div>
-                                                                                <input type="hidden" name="hiddenFile" id="hidden-file">
-                                                                            </form>
-                                                                            
-                                                                            <!-- Hidden input field for file -->
-                                                                            
+                                                                        <form action="/admin/google-drive-login"
+                                                                            class="dropzone" name="file"
+                                                                            id="my-awesome-dropzone" method="POST"
+                                                                            enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            <div class="fallback">
+                                                                            </div>
+                                                                            <input type="hidden" name="hiddenFile"
+                                                                                id="hidden-file">
+                                                                        </form>
 
-                                                                        <button type="button" id="custom-upload-button"
-                                                                            class="btn btn-primary">Upload to Google
-                                                                            Drive</button>
+                                                                        <!-- Hidden input field for file -->
                                                                     </div>
+                                                                    <button type="button" id="custom-upload-button"
+                                                                        class="btn btn-primary">Upload to Google
+                                                                        Drive</button>
                                                                 </div>
 
                                                             </div>
@@ -4419,31 +4408,29 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Water"
-                                                                                name="water"
+                                                                                placeholder="Water" name="water"
                                                                                 table="utility_department"
                                                                                 @if (isset($utility_department)) value="{{ $utility_department->water }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Natural Gas"
-                                                                                name="gas"
+                                                                                placeholder="Natural Gas" name="gas"
                                                                                 table="utility_department"
                                                                                 @if (isset($utility_department)) value="{{ $utility_department->gas }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
@@ -4456,12 +4443,13 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <input style="margin-right:5px"
-                                                                                type="checkbox" name="electricity_active"
+                                                                                type="checkbox"
+                                                                                name="electricity_active"
                                                                                 table="utility_department"
                                                                                 onchange="updateValue(this.checked ? '1' : null, 'electricity_active', 'utility_department')"
                                                                                 {{ isset($utility_department) && $utility_department->electricity_active == 1 ? 'checked' : '' }}>
@@ -4469,7 +4457,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
@@ -4482,8 +4470,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
-                                                               
+
+
                                                             </div>
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
@@ -4651,10 +4639,10 @@
                                                                             <div class="form-group"
                                                                                 style="padding: 0 10px;">
                                                                                 <div class="card-body">
-                                                                                <p>{{ $appt->tast }}</p>
+                                                                                    <p>{{ $appt->tast }}</p>
                                                                                 </div>
-                                                                             
-                                                                                
+
+
                                                                             </div>
                                                                         @endforeach
                                                                     </div>
@@ -4665,8 +4653,8 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                 
-                                                        @endif
+
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         </div>
@@ -4790,10 +4778,10 @@
                 // Submit the form
                 // form.submit();
                 form2.submit();
-                
+
             });
             // Get a reference to the hidden input
-           // Get a reference to the hidden input
+            // Get a reference to the hidden input
 
 
 
@@ -4996,7 +4984,7 @@
                     if (res.status == true) {
                         $('#google_map_link').attr('href', res.link);
                         $('#google_map_link_text').html(res.link);
-                            // getEstimates(res.id)
+                        // getEstimates(res.id)
                         // Customize the Toastr message based on your requirements
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
@@ -5030,12 +5018,12 @@
                 },
                 success: function(res) {
                     $('#fetchzillow').hide()
-                    
+
                     if (res.status == true) {
                         $('#zillow_link').show()
-                       $('#zillow_link').attr('href', res.link);
+                        $('#zillow_link').attr('href', res.link);
                         $('#zillow_link_text').html(res.link);
-                            // getEstimates(res.id)
+                        // getEstimates(res.id)
                         // Customize the Toastr message based on your requirements
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
