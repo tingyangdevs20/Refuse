@@ -244,7 +244,6 @@ class GroupController extends Controller
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
 
-
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt'));
     }
 
