@@ -141,21 +141,26 @@ class GroupController extends Controller
 
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
-        $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
-
+        
         if ($leadinfo == null) {
             $dateAdded = Carbon::now()->toDateString();
             DB::table('lead_info')->insert(['contact_id' => $id, 'date_added' => $dateAdded]);
             $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
+        $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
         if ($property_infos == null) {
             DB::table('property_infos')->insert(['contact_id' => $id]);
             $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
         }
-        $map_link = "https://www.google.com/maps?q=" . urlencode("$property_infos->property_address, $property_infos->property_city, $property_infos->property_state, $property_infos->property_zip");
-        DB::table('property_infos')->where('id', $property_infos->id)->update(['map_link' => $map_link]);
-        $property_infos->map_link = $map_link;
+        
+        if(empty($property_infos->property_address)){
+            $property_infos->map_link = "Property address missing";    
+            $property_infos->zillow_link = "Property address missing";    
+        } else {
+            $map_link = "https://www.google.com/maps?q=" . urlencode("$property_infos->property_address, $property_infos->property_city, $property_infos->property_state, $property_infos->property_zip");
+            $property_infos->map_link = $map_link;
+        }
         $values_conditions = DB::table('values_conditions')->where('contact_id', $id)->first();
         if ($values_conditions == null) {
             DB::table('values_conditions')->insert(['contact_id' => $id]);
@@ -243,7 +248,6 @@ class GroupController extends Controller
         if ($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
-
 
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt'));
     }

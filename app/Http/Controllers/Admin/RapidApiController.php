@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Model\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+use Exception;
 
-class RealtorController extends Controller
+class RapidApiController extends Controller
 {
     public function getPropertyId(Request $request)
     {
@@ -79,6 +82,77 @@ class RealtorController extends Controller
             }
         }
         return $id;
+    }
+
+    public function getGoogleMapsLink(Request $request)
+    {
+        $id = $request->id;
+        $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
+        if ($property_infos === null || empty($property_infos->property_address) || empty($property_infos->property_city) || empty($property_infos->property_state) || empty($property_infos->property_zip)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Property address not found. Add your property address and try again!'
+            ]);
+        }
+        $map_link = "https://www.google.com/maps?q=" . urlencode("$property_infos->property_address, $property_infos->property_city, $property_infos->property_state, $property_infos->property_zip");
+        DB::table('property_infos')->where('contact_id', $id)->update(['zillow_link' => $map_link]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Google Maps link fetched!',
+            'link' => $map_link
+        ]);
+    }
+
+    public function getZillowPropertyURL(Request $request)
+    {
+
+        try {
+            $client = new \GuzzleHttp\Client();
+            $id = $request->id;
+            $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
+
+            if ($property_infos === null || empty($property_infos->property_address) || empty($property_infos->property_city) || empty($property_infos->property_state) || empty($property_infos->property_zip)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Property address not found. Add your property address and try again!'
+                ]);
+            }
+
+            $response = $client->request('GET', 'https://zillow56.p.rapidapi.com/search_address?address=' . urlencode($property_infos->property_address . ', ' . $property_infos->property_city . ', ' . $property_infos->property_state . ', ' . $property_infos->property_zip), [
+                'headers' => [
+                    'X-RapidAPI-Host' => 'zillow56.p.rapidapi.com',
+                    'X-RapidAPI-Key' => 'ace4ae5402mshe96807481202d80p1d71a4jsn3e752df9c9b4',
+                ],
+            ]);
+
+            $result = json_decode($response->getBody());
+            // Check if $result is set and if $result->autocomplete is an array with at least one element
+            if (!isset($result) && !isset($result->hdpUrl)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Property not found on Zillow!'
+                ]);
+            }
+
+            // Append zillow api
+            $url = "https://www.zillow.com" . $result->hdpUrl;
+            DB::table('property_infos')->where('contact_id', $id)->update(['zillow_link' => $url]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Zillow Property URL fetched!',
+                'link' => $url
+            ]);
+        } catch (GuzzleException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while making the request to the external service.'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'An unexpected error occurred.'
+            ]);
+        }
     }
 
     public function getPropertyEstimates(Request $request)
