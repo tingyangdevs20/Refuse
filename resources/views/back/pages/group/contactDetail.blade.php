@@ -1539,7 +1539,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-map-links-button"
-                                                                                class="btn btn-primary">Get Current Google map / Zillow link</button>
+                                                                                class="btn btn-primary">Get Google Maps & Zillow link</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group"
