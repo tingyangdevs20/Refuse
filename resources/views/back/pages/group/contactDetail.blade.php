@@ -3290,6 +3290,7 @@
                                                             </div>
                                                         </div>
                                                         <hr>
+                                                       
                                                     @elseif($section->id == '14')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
@@ -4514,7 +4515,38 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                    @endif
+                                                    @elseif($section->id == '24')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="APPOINTMENTS">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        @foreach ($TaskliSt as $appt)
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                <div class="card-body">
+                                                                                <p>{{ $appt->tast }}</p>
+                                                                                </div>
+                                                                             
+                                                                                
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                 
+                                                        @endif
                                                 @endforeach
                                             @endif
                                         </div>

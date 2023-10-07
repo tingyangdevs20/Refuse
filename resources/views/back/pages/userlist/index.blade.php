@@ -41,6 +41,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Role</th>
+                                    <th scope="col">Status</th>
                                     @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
                                     <th scope="col">Switch</th>
                                     @endif
@@ -58,6 +59,11 @@
                                             <span class="badge badge-info">{{ $role }}</span>
                                         @endforeach
                                     </td>
+                                    <td>@if ($user->status == 0)
+                                                Invited
+                                            @else
+                                                User Terminated
+                                            @endif</td>
                                     @if(auth()->user()->can('administrator') || auth()->user()->can('user_edit'))
                                    
                                     <td>
