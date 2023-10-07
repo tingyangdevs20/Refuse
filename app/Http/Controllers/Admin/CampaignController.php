@@ -18,7 +18,6 @@ use App\Model\Sms;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class CampaignController extends Controller
 {
@@ -27,18 +26,7 @@ class CampaignController extends Controller
         $groups = Group::all(); // Fetch groups from the database
         $campaigns = Campaign::getAllCampaigns();
         $templates = Template::where('type' , 'SMS')->get();
-        return view('back.pages.campaign.index', compact(
-            'groups', 'campaigns','templates'));
-    }
-    public function changeStatus(Request $request)
-    {
-
-        $id=$request->id;
-        $camp = Campaign::where('id' , $id)->first();
-        $camp->active = $request->sts;
-
-        $camp->save();
-        return response()->json(['success'=>'Status changed successfully.']);
+        return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
     }
 
     public function copy($id = ''){
@@ -70,23 +58,16 @@ class CampaignController extends Controller
             }
             $compain = Campaign::where('id' , $campaign_id)->first();
             $groupsID = Group::where('id',$compain->group_id)->first();
-            if($groupsID){
-
-                $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
-                if($sender_numbers){
-                    $account = Account::where('id' , $sender_numbers->account_id)->first();
-                    if($account){
-                        $sid = $account->account_id;
-                        $token = $account->account_token;
-                    }else{
-                        $sid = '';
-                        $token = '';
-                    }
-                }
+            $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
+            //dd($numbers);
+            $account = Account::where('id' , $sender_numbers->account_id)->first();
+            if($account){
+                $sid = $account->account_id;
+                $token = $account->account_token;
+            }else{
+                $sid = '';
+                $token = '';
             }
-
-
-
             $checkCompainList = CampaignList::where('campaign_id',$campaign_id)->orderby('schedule','ASC')->first();
             if($checkCompainList) {
                 $template = Template::where('id', $checkCompainList->template_id)->first();
@@ -457,10 +438,8 @@ class CampaignController extends Controller
         $groups = Group::all();
         $request->validate([
             'name' => 'required|string|max:255',
-
-
-            //'active' => 'required|boolean', // Add validation for active status
-
+            'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
+            'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
 
@@ -478,9 +457,9 @@ class CampaignController extends Controller
             //'send_after_days' => $request->send_after_days,
             //'send_after_hours' => $request->send_after_hours,
             //'schedule' => $sendAfter,
-           // 'group_id' => $request->group_id, // Assign group_id
+            'group_id' => $request->group_id, // Assign group_id
             //'template_id' => $request->template_id,
-            //'active' => $request->active, // Set active status
+            'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
 
@@ -519,8 +498,8 @@ class CampaignController extends Controller
             //'type' => 'required|in:email,sms,mms,rvm',
             //'send_after_days' => 'nullable|integer|min:0',
             //'send_after_hours' => 'nullable|integer|min:0',
-            //'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
-           // 'active' => 'required|boolean', // Add validation for active status
+            'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
+            'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
 
@@ -533,23 +512,23 @@ class CampaignController extends Controller
         Campaign::where('id' , $request->id)->update([
             'name' => $request->name,
             //'type' => $request->type,
-            //'group_id' => $request->group_id, // Assign group_id
-           // 'active' => $request->active, // Set active status
+            'group_id' => $request->group_id, // Assign group_id
+            'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
 
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Campaign $campaign)
     {
-        try {
-            Campaign::find($request->id)->delete();
-            Alert::success('Success!', 'Campaign Removed!');
-            return redirect()->back();
-        }
-            catch (exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong.');
-        }
+    try {
+        CampaignList::where("campaign_id", $campaign->id)->delete();
+        $campaign->delete();
+        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted successfully.');
+    }
+    catch (exception $e) {
+    return redirect()->route('admin.campaigns.index')->with('error', 'Something went wrong.');
+    }
     }
 }

@@ -13,7 +13,6 @@ use App\Model\CampaignList;
 use App\Model\Contact;
 use App\Model\Account;
 use App\Model\Template;
-use App\Model\TemplateMessages;
 use App\Model\Reply;
 use App\Model\Sms;
 use App\Model\RvmFile;
@@ -47,12 +46,11 @@ class CampaignListController extends Controller
     {
         $numbers = Number::all();
         $templates = Template::all();
-        $templates_msg = TemplateMessages::all();
         $files = RvmFile::all();
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories','templates_msg'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
     }
 
     public function schedual()
@@ -315,6 +313,7 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+        
         $count = 1;
         if(count($types)  > 0){
             foreach($types as $key => $val ){
@@ -378,6 +377,7 @@ class CampaignListController extends Controller
         $groupsID = Group::where('id',$compain->group_id)->first();
         if($groupsID){
             $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
+
              //dd($numbers);
           $account = Account::where('id' , $sender_numbers->account_id)->first();
                 if($account){
@@ -388,13 +388,15 @@ class CampaignListController extends Controller
                     $token = '';
                 }
         }
-
+       
 
         $checkCompainList = CampaignList::where('campaign_id',$request->campaign_id)->get();
+       
         if(count($checkCompainList) == 1){
-
+            
             $template = Template::where('id',$request->template_id)->first();
-            if($request->type == 'email'){
+           
+            if($request->type[0] == 'email'){
                 $contacts = Contact::where('group_id' , $compain->group_id)->get();
                 if(count($contacts) > 0){
                     foreach($contacts as $cont){
@@ -432,7 +434,10 @@ class CampaignListController extends Controller
                     }
                 }
 
-            }elseif($request->type == 'sms'){
+            }
+            
+            elseif($request->type[0] == 'sms'){
+               
                 $client = new Client($sid, $token);
                 $contacts = Contact::where('group_id' , $compain->group_id)->get();
                 if(count($contacts) > 0){
@@ -445,17 +450,22 @@ class CampaignListController extends Controller
                             $number = $cont->number2;
                         }
                         $receiver_number = $number;
+                       
                         $sender_number = $sender_numbers->number;
+                       
                         if($template){
                             $message = $template->body;
                         }else{
-                            $message = $checkCompainList->body;
+                            $message = $checkCompainList[0]->body;
                         }
+                        
                         $message = str_replace("{name}", $cont->name, $message);
                         $message = str_replace("{street}", $cont->street, $message);
                         $message = str_replace("{city}", $cont->city, $message);
                         $message = str_replace("{state}", $cont->state, $message);
                         $message = str_replace("{zip}", $cont->zip, $message);
+
+                       
                         try {
                             $sms_sent = $client->messages->create(
                                 $receiver_number,
@@ -464,7 +474,9 @@ class CampaignListController extends Controller
                                     'body' => $message,
                                 ]
                             );
+                            
                             if ($sms_sent) {
+                               
                                 $old_sms = Sms::where('client_number', $receiver_number)->first();
                                 if ($old_sms == null) {
                                     $sms = new Sms();
@@ -488,6 +500,8 @@ class CampaignListController extends Controller
 
                             }
                         } catch (\Exception $ex) {
+                            //echo $ex;
+                            //die("here");
                             $failed_sms = new FailedSms();
                             $failed_sms->client_number = $receiver_number;
                             $failed_sms->twilio_number = $sender_number;
@@ -498,7 +512,7 @@ class CampaignListController extends Controller
                         }
                     }
                 }
-            }elseif($request->type == 'mms'){
+            }elseif($request->type[0] == 'mms'){
                 $client = new Client($sid, $token);
                 $contacts = Contact::where('group_id' , $compain->group_id)->get();
                 if(count($contacts) > 0){
@@ -541,7 +555,7 @@ class CampaignListController extends Controller
                                     $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
                                     $sms->status = 1;
                                     $sms->save();
-                                    $this->incrementSmsCount($sender_number);
+                                   // $this->incrementSmsCount($sender_number);
                                 } else {
                                     $reply_message = new Reply();
                                     $reply_message->sms_id = $old_sms->id;
