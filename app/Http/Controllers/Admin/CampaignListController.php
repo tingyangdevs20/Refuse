@@ -314,6 +314,8 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+        $sid = 'AC28c9cf33623247a487bf51ca9af20b50';
+        $token='03d28e0a1abd5e829b6d278055643dba';
 
        // dd($subject);
        // die("..");
