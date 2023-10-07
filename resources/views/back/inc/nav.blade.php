@@ -186,6 +186,7 @@
                         <span>Settings</span>
                      </a>
                      <ul class="sub-menu" aria-expanded="false">
+                     <li><a href="" class="waves-effect">Communication Settings</a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a></li>
                          <li>
                     <a href="{{ route('admin.script.index') }}" class=" waves-effect">

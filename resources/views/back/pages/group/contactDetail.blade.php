@@ -2737,7 +2737,7 @@
                                                                         {{-- <label>Biggest worry about selling?</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <textarea id="template_text" class="form-control" rows="2" placeholder="Biggest worry about selling?"
-                                                                                name="Biggestworryaboutselling"></textarea>
+                                                                                name="selling_problem" table="objections">{{ $objections->selling_problem == '' ? '' : $objections->selling_problem }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2745,26 +2745,27 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Do you have someone that’s helping you make the decision to sell this house?</label> --}}
                                                                         <select class="custom-select" name="solving_now"
-                                                                            onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                            onchange="updateValue(value,'decision_helper','objections')">
                                                                             <option value="">Someone helping them to
                                                                                 make decision?
                                                                                 this house?</option>
                                                                             <option value="yes"
-                                                                                @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
+                                                                                @if (isset($objections)) @if ($objections->decision_helper == 'yes') selected @endif
                                                                                 @endif>Yes</option>
                                                                             <option value="no"
-                                                                                @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'no') selected @endif
+                                                                                @if (isset($objections)) @if ($objections->decision_helper == 'no') selected @endif
                                                                                 @endif>No</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>If so, what’s their name?</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="If so, what’s their name?"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="helper_name" table="objections"
+                                                                                value="{{ $objections->helper_name == '' ? '' : $objections->helper_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2820,15 +2821,15 @@
                                                                         {{-- <label>Commitment to move forward?</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                name="commitment_move_forward"
+                                                                                onchange="updateValue(value,'commitment_move_forward','commitments')">
                                                                                 <option value="">Commitment to move
                                                                                     forward?</option>
                                                                                 <option value="yes"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'yes') selected @endif
+                                                                                    @if (isset($commitments)) @if ($commitments->commitment_move_forward == 'yes') selected @endif
                                                                                     @endif>Yes</option>
                                                                                 <option value="no"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == 'no') selected @endif
+                                                                                    @if (isset($commitments)) @if ($commitments->commitment_move_forward == 'no') selected @endif
                                                                                     @endif>No</option>
                                                                             </select>
                                                                         </div>
@@ -2888,7 +2889,11 @@
                                                                         {{-- <label>Get email</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input style="margin-right:5px"
-                                                                                type="checkbox" name="get_email"> Get
+                                                                                type="checkbox" name="get_email"
+                                                                                table="stuffs"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'get_email', 'stuffs')"
+                                                                                value="{{ $stuffs->get_email }}"
+                                                                                {{ $stuffs->get_email == 1 ? 'checked' : '' }}> Get
                                                                             email
                                                                         </div>
                                                                     </div>
@@ -2898,7 +2903,11 @@
                                                                         {{-- <label>Get all names on title</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input style="margin-right:5px"
-                                                                                type="checkbox" name="all_names"> Get
+                                                                                type="checkbox" name="all_names"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'all_names', 'stuffs')"
+                                                                                value="{{ $stuffs->all_names }}"
+                                                                                {{ $stuffs->all_names == 1 ? 'checked' : '' }}>
+                                                                            Get
                                                                             all names on title
                                                                         </div>
                                                                     </div>
@@ -2910,7 +2919,10 @@
                                                                                 style="display: flex; align-items: center;">
                                                                                 <input style="margin-right: 5px;"
                                                                                     type="checkbox" id="recent_pics"
-                                                                                    name="recent_pics">
+                                                                                    name="recent_pics"
+                                                                                    onchange="updateValue(this.checked ? '1' : null, 'recent_pics', 'stuffs')"
+                                                                                    value="{{ $stuffs->recent_pics }}"
+                                                                                {{ $stuffs->recent_pics == 1 ? 'checked' : '' }}>
                                                                                 If no good pictures are online, ask them for
                                                                                 recent pictures
                                                                             </label>
@@ -2924,7 +2936,10 @@
                                                                         {{-- <label>Explain next steps: Inspection, search, 10 minute closing process</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input style="margin-right:5px"
-                                                                                type="checkbox" name="next_steps">
+                                                                                type="checkbox" name="next_steps"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'next_steps', 'stuffs')"
+                                                                                value="{{ $stuffs->next_steps }}"
+                                                                                {{ $stuffs->next_steps == 1 ? 'checked' : '' }}>
                                                                             Explain next steps: Inspection, search, 10
                                                                             minute closing process
                                                                         </div>
@@ -3027,7 +3042,6 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Name"
                                                                                 name="agent_name" table="agent_infos"
-                                                                                onchange="updateValue(value,'agent_name','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_name }}">
                                                                         </div>
                                                                     </div>
@@ -3040,7 +3054,6 @@
                                                                                 placeholder="Agent Office Name"
                                                                                 name="agent_office_name"
                                                                                 table="agent_infos"
-                                                                                onchange="updateValue(value,'agent_office_name','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_office_name }}">
                                                                         </div>
                                                                     </div>
@@ -3052,7 +3065,6 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Phone"
                                                                                 name="agent_phone" table="agent_infos"
-                                                                                onchange="updateValue(value,'agent_phone','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_phone }}">
                                                                         </div>
                                                                     </div>
@@ -3064,7 +3076,6 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Agent Email"
                                                                                 name="agent_email" table="agent_infos"
-                                                                                onchange="updateValue(value,'agent_email','agent_infos')"
                                                                                 value="{{ $agent_infos->agent_email }}">
                                                                         </div>
                                                                     </div>
@@ -3077,7 +3088,6 @@
                                                                                 placeholder="Days on Market"
                                                                                 name="days_on_market"
                                                                                 table="agent_infos"
-                                                                                onchange="updateValue(value,'days_on_market','agent_infos')"
                                                                                 value="{{ $agent_infos->days_on_market }}">
                                                                         </div>
                                                                     </div>
@@ -3134,30 +3144,31 @@
                                                                         {{-- <label>Schedule Follow up Reminder </label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <select class="custom-select"
-                                                                                name="solving_now"
-                                                                                onchange="updateValue(value,'solving_now','selling_motivations')">
+                                                                                name="followup_reminder"
+                                                                                onchange="updateValue(value,'followup_reminder','followup_sequences')">
                                                                                 <option value="">Schedule Follow up
                                                                                     Reminder </option>
                                                                                 <option value="1"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '1') selected @endif
+                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '1') selected @endif
                                                                                     @endif>1 Day
                                                                                 </option>
                                                                                 <option value="2"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '2') selected @endif
+                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '2') selected @endif
                                                                                     @endif>2 Days
                                                                                 </option>
                                                                                 <option value="3"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '3') selected @endif
+                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '3') selected @endif
                                                                                     @endif>4 Days
                                                                                 </option>
                                                                                 <option value="4"
-                                                                                    @if (isset($selling_motivations)) @if ($selling_motivations->solving_now == '4') selected @endif
+                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '4') selected @endif
                                                                                     @endif>1 Week
                                                                                 </option>
 
                                                                             </select>
                                                                         </div>
                                                                         <button type="submit"
+                                                                        onclick="updateValue('Yes','stop_followup','followup_sequences')"
                                                                             class="btn btn-primary mt-2">Stop
                                                                             Followup</button>
                                                                     </div>
@@ -3321,7 +3332,7 @@
                                                                 @endif
                                                             </div>
                                                             <hr>
-                                                            <div class="row">
+                                                            <div class="row mt-2">
                                                                 <div class="col-md-12">
 
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -3363,7 +3374,8 @@
                                                                                                 <input type="text"
                                                                                                     class="form-control"
                                                                                                     placeholder="Subject"
-                                                                                                    name="subject">
+                                                                                                    name="subject"
+                                                                                                    table="emails">
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -3374,7 +3386,8 @@
                                                                                                 class="form-control"
                                                                                                 value="{{ $leadinfo->owner1_email1 }}"
                                                                                                 placeholder="Sender Email"
-                                                                                                name="send_to">
+                                                                                                name="send_to"
+                                                                                                table="emails">
 
                                                                                         </div>
                                                                                     </div>
@@ -3382,7 +3395,8 @@
                                                                                 </div>
                                                                                 <div class="form-group ">
                                                                                     <label>Message</label>
-                                                                                    <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"></textarea>
+                                                                                    <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"
+                                                                                    table="emails"></textarea>
                                                                                     <div id='count'
                                                                                         class="float-lg-right">
                                                                                     </div>
@@ -3524,8 +3538,9 @@
                                                                         {{-- <input type="file" name="file"
                                                                             id="file" class="form-control"
                                                                             multiple> --}}
-                                                                        <form action="/file-upload" class="dropzone"
-                                                                            id="my-awesome-dropzone"></form>
+                                                                        <form action="/file" class="dropzone"
+                                                                            name="file" id="my-awesome-dropzone">
+                                                                        </form>
                                                                     </div>
                                                                     <button type="submit" id="custom-upload-button"
                                                                         class="btn btn-primary">Upload to Google
@@ -3652,9 +3667,8 @@
                                                                         {{-- <label>Title  Company Name</label> --}}
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Title  Company Name"
+                                                                                placeholder="Title Company Name"
                                                                                 name="company_name"
-                                                                                onchange="updateValue(value,'company_name','title_company')"
                                                                                 table="title_company"
                                                                                 value="{{ $title_company->company_name }}">
                                                                         </div>
@@ -3666,7 +3680,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Title Company Contact Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="contact_name"
+                                                                                table="title_company"
+                                                                                value="{{ $title_company->contact_name }}"
+                                                                                >
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3676,7 +3693,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Title Company Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="phone"
+                                                                                table="title_company"
+                                                                                value="{{ $title_company->phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3686,7 +3705,10 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Title Company Email"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="email"
+                                                                                table="title_company"
+                                                                                value="{{ $title_company->email }}">
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3696,9 +3718,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Buying/Selling Entity Details"
-                                                                                onchange="updateValue(value,'buy_sell_entity_detail','title_company')"
                                                                                 table="title_company"
-                                                                                name="buy_sell_entity_detail">
+                                                                                name="buy_sell_entity_detail"
+                                                                                value="{{ $title_company->buy_sell_entity_detail }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3756,7 +3778,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Company Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_company_name"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_company_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3766,7 +3790,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Company Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_company_phone"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_company_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3776,7 +3802,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Company Agent"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_company_agent"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_company_agent }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3786,7 +3814,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Agent Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_company_agent_phone"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_company_agent_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3796,7 +3826,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Account Number"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_account_number"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_account_number }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3806,7 +3838,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Online Access Link"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_online_link"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_online_link }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3816,7 +3850,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Online Access User Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_online_user"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_online_user }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3826,7 +3862,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Insurance Online Access Password"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="insurance_online_password"
+                                                                                table="insurance_company"
+                                                                                value="{{ $insurance_company->insurance_online_password }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3883,7 +3921,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="HOA Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="hoa_name"
+                                                                                table="hoa_info"
+                                                                                value="{{ $hoa_info->hoa_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3893,7 +3933,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Contact Name"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="hoa_contact_name"
+                                                                                table="hoa_info"
+                                                                                value="{{ $hoa_info->hoa_contact_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3903,7 +3945,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="HOA Phone Number"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="hoa_phone"
+                                                                                table="hoa_info"
+                                                                                value="{{ $hoa_info->hoa_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3913,7 +3957,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="HOA Email"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="hoa_email"
+                                                                                table="hoa_info"
+                                                                                value="{{ $hoa_info->hoa_email }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3980,7 +4026,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Forwarding Address"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_address"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_address }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3990,7 +4038,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Forwarding City"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_city"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_city }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4000,7 +4050,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Forwarding State"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_state"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_state }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4010,7 +4062,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Forwarding Zip"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_zip"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4020,7 +4074,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Nearest Relative Address"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_nearest_address"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_nearest_address }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4030,7 +4086,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Nearest Relative City"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_nearest_city"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_nearest_city }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4040,7 +4098,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Nearest Relative State"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_nearest_state"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_nearest_state }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4050,7 +4110,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Nearest Relative Zip"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_nearest_zip"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_nearest_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4060,7 +4122,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 1 Nearest Relative Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller1_nearest_phone"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller1_nearest_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4080,7 +4144,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Forwarding Address"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_address"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_address }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4090,7 +4156,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Forwarding City"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_city"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_city }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4100,7 +4168,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Forwarding State"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_state"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_state }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4110,7 +4180,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Forwarding Zip"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_zip"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4120,7 +4192,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Nearest Relative Address"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_nearest_address"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_nearest_address }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4130,7 +4204,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Nearest Relative City"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_nearest_city"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_nearest_city }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4140,7 +4216,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Nearest Relative State"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_nearest_state"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_nearest_state }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4150,7 +4228,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Nearest Relative Zip"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_nearest_zip"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_nearest_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4160,7 +4240,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 2 Nearest Relative Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller2_nearest_phone"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller2_nearest_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4180,7 +4262,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Forwarding Address"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_address"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_address }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4190,7 +4274,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Forwarding City"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_city"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_city }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4200,7 +4286,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Forwarding State"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_state"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_state }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4210,7 +4298,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Forwarding Zip"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_zip"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4220,7 +4310,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Nearest Relative Address"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_nearest_address"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_nearest_address }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4230,7 +4322,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Nearest Relative City"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_nearest_city"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_nearest_city }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4240,7 +4334,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Nearest Relative State"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_nearest_state"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_nearest_state }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4250,7 +4346,9 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Nearest Relative Zip"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_nearest_zip"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_nearest_zip }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -4260,20 +4358,13 @@
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Seller 3 Nearest Relative Phone"
-                                                                                name="SomeoneHelpingName">
+                                                                                name="seller3_nearest_phone"
+                                                                                table="future_seller_infos"
+                                                                                value="{{ $future_seller_infos->seller3_nearest_phone }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label> Nearest Relative Phone</label> --}}
-                                                                        <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
-                                                                                placeholder="Nearest Relative Phone"
-                                                                                name="SomeoneHelpingName">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                
                                                             </div>
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
@@ -4609,10 +4700,13 @@
             $('.select2').trigger('change.select2');
 
             $("#custom-upload-button").click(function() {
-                var form = $("#main_form");
+                console.log('work');
+                var form = $("#my-awesome-dropzone");
+                var form2 = $("#main_form");
 
                 // Set the form's action attribute to the new route
                 form.attr("action", "{{ route('admin.google.drive.login') }}");
+                form2.attr("action", "{{ route('admin.google.drive.login') }}");
 
                 // Submit the form
                 form.submit();
@@ -4682,7 +4776,7 @@
 
         // Check the type of file for upload to google drive
         function toggleFIlesUpload(value) {
-            if (value == 'purchase_agreement') {
+            if (value == 'purchase_agreement_seller' || value == 'purchase_agreement_buyer') {
                 $('#driveUpload').hide()
                 $('#purchaseAgreementUpload').show()
             } else {
@@ -4739,11 +4833,11 @@
                 },
                 success: function(res) {
                     if (res.status == true) {
-                        $.notify(res.message, 'success');
+                        // $.notify(res.message, 'success');
                         $("#custom_message").modal("hide");
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
+                        // setTimeout(function() {
+                        //     location.reload();
+                        // }, 1000);
                     } else {
                         $.notify(res.message, 'error');
                     }
