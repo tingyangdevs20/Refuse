@@ -40,7 +40,7 @@ class PhoneController extends Controller
                 'capabilities' => $activeNumber->capabilities,
             ];
 
-            $phn_num=$activeNumber->phoneNumber;
+            $phn_num[]=$activeNumber->phoneNumber;
             $phone_number = Number::where('number', $phn_num)->first();
             if(!$phone_number)
             {
