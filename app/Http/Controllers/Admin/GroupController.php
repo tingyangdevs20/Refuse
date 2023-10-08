@@ -1635,6 +1635,7 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
+        
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -1642,36 +1643,13 @@ class GroupController extends Controller
         $marketId = $request->input('market_id');
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
-        dd('here');
-        // Check if a CampaignLead record with the same group_id and campaign_name already exists
-      //  $existingCampaignLead = CampaignLead::where('group_id', $groupId)
-          //  ->where('name', $campaignName)
-          //  ->first();
-
-      //  if (!$existingCampaignLead) {
-            // Create a new CampaignLead record
-           // CampaignLead::create([
-            //    'name' => $campaignName,
-             //   'group_id' => $groupId,
-             //   'active' => 1,
-                // Add other fields for campaign details
-          //  ]);
-      //  }
-
+       
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
+        $existingCampaign->group_id=$groupId;
+        $existingCampaign->save();
 
         
-
-        if ($existingCampaign) {
-            // Return a response to indicate that the data already exists
-            return response()->json(['message' => 'Data already exists', 'success' => false]);
-        } else {
-            // Insert data into the campaign table
-            Campaign::create([
-                'name' => $groupName ?? 'null',
-                'group_id' => $groupId ?? '0',
-            ]);
 
             // Send email notifications
             foreach ($emails as $email) {
@@ -1682,5 +1660,5 @@ class GroupController extends Controller
             // Return a response to indicate success
             return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
         }
-    }
+    
 }
