@@ -44,20 +44,6 @@ class GoogleDriveController extends Controller
 
     public function googleLogin(Request $request)
     {
-        
-        // dd($request->all());
-        $rules = [
-            'file' => 'required', // Adjust the allowed file types and size limit as needed
-        ];
-        
-        // Validate the request data
-        $validator = Validator::make($request->all(), $rules);
-        
-        if ($validator->fails()) {
-            // Validation failed, redirect back with errors
-            return redirect()->back()->with('notupload', 'File filed is required');
-        }
-        
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
@@ -88,15 +74,6 @@ class GoogleDriveController extends Controller
             $this->gClient->setAccessToken($request->session()->get('token'));
         }
         
-        if ($request->hasFile('file')) {
-            // Store the uploaded file information in the session
-            $fileInfo = [
-                'name' => $request->file('file')->getClientOriginalName(),
-                'mime' => $request->file('file')->getMimeType(),
-                'path' => $request->file('file')->getRealPath(),
-            ];
-            $request->session()->put('uploaded_file_info', $fileInfo);
-        }
         if ($this->gClient->getAccessToken()) {
             // return redirect()->back()->with('notupload', 'File filed is required');
             
@@ -108,11 +85,8 @@ class GoogleDriveController extends Controller
             $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
             
             $user->save();
-            
-            
-            
-            
-            return $this->googleDriveFileUpload($request);
+            return redirect()->back()->with('upload', 'Google account authenticate successfull');
+        
         } else {
             // FOR GUEST USER, GET GOOGLE LOGIN URL
             $authUrl = $this->gClient->createAuthUrl([
@@ -343,7 +317,6 @@ class GoogleDriveController extends Controller
                 $user->access_token = json_encode($accessToken);
                 $user->save();
             }
-
             $parentFolderName = 'REIFuze';
             
             // Check if the parent folder exists
@@ -354,11 +327,11 @@ class GoogleDriveController extends Controller
                     'name' => $parentFolderName,
                     'mimeType' => 'application/vnd.google-apps.folder'
                 ]);
-
+                
                 $parentFolder = $service->files->create($parentFolderMetadata, ['fields' => 'id']);
                 $parentFolderId = $parentFolder->id;
             }
-
+            
             $subFolderId = $this->getFolderIdByName($service, $directory, $parentFolderId);
             
             if (!$subFolderId) {

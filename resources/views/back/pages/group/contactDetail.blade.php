@@ -3546,6 +3546,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+                                                            <div class="col-md-4 offset-4">
+                                                                <button type="submit" id="authenticate_google"
+                                                                    class="btn btn-primary">Authenticate Google Account</button>
+                                                            </div>
                                                             <div class="col-md-12">
                                                                 <div class="form-group" style="padding: 0 10px;">
                                                                     <label for="file_type">Select file type to
@@ -3568,10 +3572,9 @@
                                                                 <input type="file" name="file" id="file">
                                                                 <div class="form-group" style="padding: 0 10px;"
                                                                     id="driveUpload">
-                                                                    <div class="form-group">
-                                                                        <label for="file">Select Files to
+                                                                    <label for="file">Select Files to
                                                                             Upload:</label>
-                                                                        <form action="/admin/google-drive-login"
+                                                                        <form action="/admin/google-drive-upload"
                                                                             class="dropzone" name="file"
                                                                             id="dropzone" method="POST"
                                                                             enctype="multipart/form-data">
@@ -3579,12 +3582,10 @@
                                                                             <div class="fallback">
                                                                             </div>
                                                                         </form>
-                                                                        
-                                                                    <button type="button" id="custom-upload-button"
-                                                                        class="btn btn-primary">Upload to Google
-                                                                        Drive</button>
                                                                 </div>
-
+                                                                {{-- <button type="button" id="custom-upload-button"
+                                                                    class="btn btn-primary">Upload to Google
+                                                                    Drive</button> --}}
                                                             </div>
                                                         </div>
                                                         @if (!empty($googleDriveFiles) && is_array($googleDriveFiles) && count($googleDriveFiles) > 0)
@@ -5018,7 +5019,12 @@
 
                     this.on("success", function(file, response) {
                         // Event handler when a file upload is successful
-                        console.log(response);
+                        // console.log(response);
+                        this.removeAllFiles();
+                        toastr.error("File uploaded Successfully", {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                       
                     });
 
                     this.on("removedfile", function(file) {
@@ -5026,7 +5032,12 @@
                     });
 
                     this.on("error", function(file, errorMessage) {
-                        console.log("filed");
+                        this.removeAllFiles();
+                        toastr.error(errorMessage.status, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                        console.log(errorMessage);
+                       
                         // Event handler when a file upload encounters an error
                     });
                 }
@@ -5066,6 +5077,13 @@
             // Refresh Select2 to apply the changes
             $('.select2').trigger('change.select2');
 
+            
+            $("#authenticate_google").click(function() {
+                var form = $("#main_form");
+                form.attr("action", "{{ route('admin.google.drive.login') }}");
+                form.submit();
+            });
+
             $("#custom-upload-button").click(function() {
                 var form = $("#dropzone");
                 var form2 = $("#main_form");
@@ -5073,8 +5091,8 @@
                 var lead_status = $('input#lead_status').val();
                 var id = {!! $id !!};
                 // Set the form's action attribute to the new route
-                form.attr("action", "{{ route('admin.google.drive.login') }}");
-                form2.attr("action", "{{ route('admin.google.drive.login') }}");
+                form.attr("action", "{{ route('admin.google.drive.upload') }}");
+                form2.attr("action", "{{ route('admin.google.drive.upload') }}");
                 form2.submit();
 
                 // Submit the form
@@ -5089,7 +5107,7 @@
 
                     // Submit the other form with the file
                     $.ajax({
-                        url: "/admin/google-drive-login",
+                        url: "/admin/google-drive-upload",
                         type: "POST",
                         data: formData,
                         contentType: false,
@@ -5137,46 +5155,6 @@
         }
     </script>
     <script>
-        // intitialize dropzone
-        function initializeDropzone() {
-
-            Dropzone.options.dropzone = {
-                url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
-                paramName: "file", // The name that will be used for the uploaded file
-                maxFilesize: 5, // Maximum file size (in MB)
-                acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
-                maxFiles: 5, // Maximum number of files that can be uploaded
-                autoProcessQueue: true, // Automatically process the queue when files are added
-                addRemoveLinks: true, // Show remove links on uploaded files
-                dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
-                dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
-                dictFallbackText: "Please use the fallback form below to upload your files.",
-                dictRemoveFile: "Remove", // Text for the remove file link
-                dictCancelUpload: "Cancel", // Text for the cancel upload link
-                dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-                init: function() {
-                    this.on("addedfile", function(file) {
-                        console.log("file");
-                    });
-
-                    this.on("success", function(file, response) {
-                        // Event handler when a file upload is successful
-                        console.log("files");
-
-                    });
-
-                    this.on("removedfile", function(file) {
-                        // Event handler when a file is removed from the queue
-                    });
-
-                    this.on("error", function(file, errorMessage) {
-                        console.log("filed");
-                        // Event handler when a file upload encounters an error
-                    });
-                }
-            };
-        }
-
         // Check the type of file for upload to google drive
         function toggleFIlesUpload(value) {
             if (value == 'purchase_agreement_seller' || value == 'purchase_agreement_buyer') {
