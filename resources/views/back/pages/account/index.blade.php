@@ -26,43 +26,6 @@
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
                         <i class="fas fa-cog"></i> Control SMS Settings
-                        <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">How to use</button>  
-                        {{--Modal Add on 31-08-2023--}}
-                            <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">How to Use</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                
-                            </div>
-                            
-                            <div class="modal-body">
-                                    
-                                <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
-                                <iframe src="{{ helpvideolink()->links }}" frameBorder="0" style="position:absolute;width:100%;height:100%;border-radius:6px;left:0;top:0" allowfullscreen="" allow="autoplay">
-                                </iframe>
-                                </div>
-                                <form action="{{ route('admin.helpvideo.updates',helpvideolink()->id) }}" method="post"
-                                                        enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                    <div class="form-group">
-                                        <label>Video Url</label>
-                                        <input type="url" class="form-control" placeholder="Enter link" name="video_url" value="{{ helpvideolink()->links }}" id="video_url" >
-                                    </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                            </form>
-                            </div>
-                        </div>
-                        </div>
-                    {{--End Modal on 31-08-2023--}}
                     </div>
                     <div class="card-body">
                         <form action="{{ route('admin.account.update',$accounts) }}" method="post"
@@ -79,38 +42,6 @@
                                     </div>
                                     <input type="number" class="form-control" placeholder="Per SMS Rate" name="sms_rate"
                                         id="sms_rate" value="{{ $accounts->sms_rate }}" step="0.00001" min="0" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>MMS Rate</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
-                                    </div>
-                                    <input type="number" class="form-control" placeholder="Per MMS Rate" name="mms_rate"
-                                        id="mms_rate" value="{{ $accounts->mms_rate }}" step="0.00001" min="0" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Email Rate</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
-                                    </div>
-                                    <input type="number" class="form-control" placeholder="Per SMS Rate" name="email_rate"
-                                        id="email_rate" value="{{ $accounts->email_rate }}" step="0.00001" min="0" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>RVM Rate</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
-                                    </div>
-                                    <input type="number" class="form-control" placeholder="Per SMS Rate" name="rvm_rate"
-                                        id="rvm_rate" value="{{ $accounts->rvm_rate }}" step="0.00001" min="0" required>
                                 </div>
                             </div>
 
@@ -196,244 +127,55 @@
                             <button type="submit" class="btn btn-primary">Update Settings</button>
 
                         </form>
-                       
                     </div>
                 </div>
+                
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
-                        <i class="fas fa-cog"></i> API Settings
-                      
+                        <i class="fas fa-cog"></i> Google Calendar Settings
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.settings.update', $settings) }}" method="post"
+                        <form action="{{ url('admin/account/google-calendar') }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <!-- <div class="form-group"> -->
-                                <!-- <label>Auto-Reply</label> -->
-                                <select hidden class="custom-select" name="auto_reply" required>
-                                    <option value="1" {{ $settings->auto_reply ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ $settings->auto_reply ? '' : 'selected' }}>Not Active</option>
-                                </select>
-                            <!-- </div> -->
-                            <!-- <div class="form-group"> -->
-                                <!-- <label>Auto Keyword Responder</label> -->
-                                <select hidden class="custom-select" name="auto_respond" required>
-                                    <option value="1" {{ $settings->auto_responder ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ $settings->auto_responder ? '' : 'selected' }}>Not Active
-                                    </option>
-                                </select>
-                            <!-- </div> -->
-                           
 
-                                    <input type="hidden" class="form-control" placeholder="Auth. Name" name="auth_email"
-                                        id="auth_email" value="{{ $settings->auth_email }}" required>
-                        
 
-                                    <input type="hidden" class="form-control" placeholder="Document Closed By"
-                                        name="document_closed_by" id="document_closed_by"
-                                        value="{{ $settings->document_closed_by }}" required>
- 
-
-                           
-
-                                    <input type="hidden" class="form-control" placeholder="Reply To Email"
-                                        name="reply_email" id="reply_email" value="{{ $settings->reply_email }}"
-                                        required>
-                               
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Third Party APIs Settings
-
-                            </div>
-                            <br />
                             <div class="form-group">
-                                <label>Send From Email (Send Grid)</label>
+                                <label>Calendar ID</label>
                                 <div class="input-group mb-2">
-
-                                    <input type="text" class="form-control" placeholder="Send From Email"
-                                        name="sender_email" id="sender_email" value="{{ $settings->sender_email }}"
-                                        required>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Google calendar ID" name="calendar_id"
+                                        id="calendar_id" value="{{ $accounts->calendar_id }}" required>
                                 </div>
                             </div>
+                            
+                            <input type="hidden" name="calendar_credentials_path" value="{{ $accounts->calendar_credentials_path }}">
+                            
                             <div class="form-group">
-                                <label>From Name (Send Grid)</label>
+                                <label>Calendar Status</label>
                                 <div class="input-group mb-2">
-
-                                    <input type="text" class="form-control" placeholder="Send From Name"
-                                        name="sender_name" id="sender_name" value="{{ $settings->sender_name}}"
-                                        required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Send Grid API Key</label>
-                                <div class="input-group mb-2">
-
-
-                                    <input type="text" class="form-control" placeholder="Enter Send Grid API Key"
-                                        name="sendgrid_key" name="sendgrid_key" value="{{ $settings->sendgrid_key }}"
-                                        required>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-check"></i></div>
+                                    </div>
+                                    <select class="input form-control" name="calendar_enable" required>
+                                        <option value="Y" {{ $accounts->calendar_enable === "Y" ? "selected" : "" }}>Enable</option>
+                                        <option value="N" {{ $accounts->calendar_enable === "N" ? "selected" : "" }}>Disable</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Twilio Account SID</label>
+                                <label>Calendar Credentials File <small>(if you don't want to update your credentials leave it blank)</small></label>
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter Twilio Account SID"
-                                        name="twilio_api_key" id="twilio_api_key"
-                                        value="{{ $settings->twilio_api_key }}" required>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <input type="file" class="form-control" accept="application/json" name="calendar_credentials_file"
+                                        id="credentials">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Twilio Auth Token</label>
-                                <div class="input-group mb-2">
-
-                                    <input type="text" class="form-control" placeholder="Enter Twilio Auth Token"
-                                        name="twilio_secret" id="twilio_secret"
-                                        value="{{ $settings->twilio_acc_secret }}" required>
-                                </div>
-                            </div>
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Slybroadcast Settings
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Post Call URL</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter new key to update"
-                                        name="slybroad_call_url" name="slybroad_call_url"
-                                        value="{{ $settings->slybroad_call_url }}" required>
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Call Forward Settings
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Call Forward Number</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter new key to update"
-                                        name="call_forward_number" id="call_forward_number"
-                                        value="{{ $settings->call_forward_number }}" required>
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Campaign Schedule Settings
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Scheduled Hours</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control"
-                                        placeholder="Enter Hours value ex. 11 AM EST - 8 PM EST" name="schedule_hours"
-                                        id="schedule_hours" value="{{ $settings->schedule_hours }}" required>
-                                </div>
-                            </div>
-
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Google Drive Keys
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Google Drive Client Id</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter Google Drive Client Id"
-                                        name="google_drive_client_id" id="google_drive_client_id"
-                                        value="{{ $settings->google_drive_client_id }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Google Drive Client Secret </label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control"
-                                        placeholder="Enter Google Drive Client Secret" name="google_drive_client_secret"
-                                        id="google_drive_client_secret"
-                                        value="{{ $settings->google_drive_client_secret }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Google Drive Developer Key </label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control"
-                                        placeholder="Enter Google Drive Developer Key" name="google_drive_developer_key"
-                                        id="google_drive_developer_key"
-                                        value="{{ $settings->google_drive_developer_key }}">
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Stripe Keys
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Stripe Secret Key</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter Stripe Secret Key"
-                                        name="stripe_screct_key" id="stripe_screct_key"
-                                        value="{{ $settings->stripe_screct_key }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Stripe Publishable Key </label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter Stripe Publishable Key"
-                                        name="strip_publishable_key" id="strip_publishable_key"
-                                        value="{{ $settings->strip_publishable_key }}">
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> PayPal Keys
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>PayPal Client ID</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter PayPal Client ID"
-                                        name="paypal_client_id" id="paypal_client_id"
-                                        value="{{ $settings->paypal_client_id }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>PayPal Secret Key </label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter PayPal Secret Key"
-                                        name="paypal_secret_key" id="paypal_secret_key"
-                                        value="{{ $settings->paypal_secret_key }}">
-                                </div>
-                            </div>
-
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Connect Gmail
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                @if(LaravelGmail::check())
-                                <a href="{{ route('gmail.logout') }}" class="btn btn-secondary">Logout From Gmail</a>
-                                @else
-                                <a href="{{ route('gmail.login') }}" class="btn btn-secondary">Login to Gmail</a>
-                                @endif
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update Settings</button>
@@ -441,7 +183,60 @@
                         </form>
                     </div>
                 </div>
-                
+
+                <div class="card">
+                    <div class="card-header bg-soft-dark ">
+                        <i class="fas fa-cog"></i> Google Calendar Settings
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url('admin/account/google-calendar') }}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+
+
+                            <div class="form-group">
+                                <label>Calendar ID</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Google calendar ID" name="calendar_id"
+                                        id="calendar_id" value="{{ $accounts->calendar_id }}" required>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" name="calendar_credentials_path" value="{{ $accounts->calendar_credentials_path }}">
+                            
+                            <div class="form-group">
+                                <label>Calendar Status</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-check"></i></div>
+                                    </div>
+                                    <select class="input form-control" name="calendar_enable" required>
+                                        <option value="Y" {{ $accounts->calendar_enable === "Y" ? "selected" : "" }}>Enable</option>
+                                        <option value="N" {{ $accounts->calendar_enable === "N" ? "selected" : "" }}>Disable</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Calendar Credentials File <small>(if you don't want to update your credentials leave it blank)</small></label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <input type="file" class="form-control" accept="application/json" name="calendar_credentials_file"
+                                        id="credentials">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Update Settings</button>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- end page title -->

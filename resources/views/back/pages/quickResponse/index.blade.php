@@ -30,8 +30,8 @@
                             All Responses
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
                                     data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
-                                    <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                                    data-target="#helpModal">How to use</button>        
+                                    <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
+                                    data-target="#helpModal">How to use</button>    
                         </div>
                         <div class="card-body">
                             <table class="table table-striped table-bordered" id="datatable">
