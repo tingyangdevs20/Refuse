@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Exception;
 
-class RapiApiController extends Controller
+class RapidApiController extends Controller
 {
     public function getPropertyId(Request $request)
     {
@@ -126,13 +126,16 @@ class RapiApiController extends Controller
             ]);
 
             $result = json_decode($response->getBody());
-            if(!$result->hdpUrl) {
+            // Check if $result is set and if $result->autocomplete is an array with at least one element
+            if (!isset($result) && !isset($result->hdpUrl)) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Property not found on Zillow!'
                 ]);
             }
-            $url = "https://www.zillow.com".$result->hdpUrl;
+
+            // Append zillow api
+            $url = "https://www.zillow.com" . $result->hdpUrl;
             DB::table('property_infos')->where('contact_id', $id)->update(['zillow_link' => $url]);
             return response()->json([
                 'status' => true,

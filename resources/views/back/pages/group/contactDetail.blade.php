@@ -3375,18 +3375,9 @@
                                                                     @endforeach
                                                                 @endif
                                                             </div>
-                                                            <hr>
-                                                            <div class="row mt-2">
-                                                                <div class="col-md-12">
-
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <a href="{{ route('admin.zoom.index') }}"
-                                                                            type="button" class="btn btn-primary">Zoom
-                                                                            Meeting</a>
-
-                                                                    </div>
-                                                                </div>
+                                                            <div class="row">
                                                                 <div class="col-md-6">
+
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Send zoom link button (to email and sms)</label> --}}
                                                                         <div class="input-group mb-2">
@@ -3396,61 +3387,64 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-
+                                                                <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <div class="card-body"> <label
-                                                                                style="font-size:16px">Send
-                                                                                Email</label>
-                                                                            <form
-                                                                                action="{{ route('admin.single-email.store') }}"
-                                                                                method="post"
-                                                                                enctype="multipart/form-data">
-                                                                                @csrf
-                                                                                @method('POST')
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6">
-                                                                                        <div class="form-group">
-                                                                                            <label>Subject:</label>
-                                                                                            <div class="input-group mb-2">
-                                                                                                <input type="text"
-                                                                                                    class="form-control"
-                                                                                                    placeholder="Subject"
-                                                                                                    name="subject"
-                                                                                                    table="emails">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-6">
-                                                                                        <div class="form-group">
-                                                                                            <label>Send To:</label>
+                                                                        <a href="{{ route('admin.zoom.index') }}"
+                                                                            type="button" class="btn btn-primary">Zoom
+                                                                            Meeting</a>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="card-body"> <label
+                                                                            style="font-size:16px">Send
+                                                                            Email</label>
+                                                                        <form
+                                                                            action="{{ route('admin.single-email.store') }}"
+                                                                            method="post"
+                                                                            enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            @method('POST')
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Subject:</label>
+                                                                                        <div class="input-group mb-2">
                                                                                             <input type="text"
                                                                                                 class="form-control"
-                                                                                                value="{{ $leadinfo->owner1_email1 }}"
-                                                                                                placeholder="Sender Email"
-                                                                                                name="send_to"
+                                                                                                placeholder="Subject"
+                                                                                                name="subject"
                                                                                                 table="emails">
-
                                                                                         </div>
                                                                                     </div>
-
                                                                                 </div>
-                                                                                <div class="form-group ">
-                                                                                    <label>Message</label>
-                                                                                    <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"
-                                                                                        table="emails"></textarea>
-                                                                                    <div id='count'
-                                                                                        class="float-lg-right">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Send To:</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            value="{{ $leadinfo->owner1_email1 }}"
+                                                                                            placeholder="Sender Email"
+                                                                                            name="send_to"
+                                                                                            table="emails">
+
                                                                                     </div>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-primary mt-2">Send
-                                                                                        Email</button>
                                                                                 </div>
-                                                                            </form>
 
-                                                                        </div>
+                                                                            </div>
+                                                                            <div class="form-group ">
+                                                                                <label>Message</label>
+                                                                                <textarea id="template_text" class="form-control summernote-usage" rows="10" name="message"
+                                                                                    table="emails"></textarea>
+                                                                                <div id='count'
+                                                                                    class="float-lg-right">
+                                                                                </div>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary mt-2">Send
+                                                                                    Email</button>
+                                                                            </div>
+                                                                        </form>
 
                                                                     </div>
                                                                 </div>
@@ -3554,7 +3548,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group" style="padding: 0 10px;">
-                                                                    <label for="file">Select file type to
+                                                                    <label for="file_type">Select file type to
                                                                         upload</label>
                                                                     <select class="custom-select" name="lead_status"
                                                                         table="lead_info" id="lead_status">
@@ -3588,6 +3582,9 @@
                                                                             class="btn btn-primary">Upload to Google
                                                                             Drive</button>
                                                                     </div>
+                                                                    <button type="button" id="custom-upload-button"
+                                                                        class="btn btn-primary">Upload to Google
+                                                                        Drive</button>
                                                                 </div>
 
                                                             </div>

@@ -87,7 +87,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/invitation/accept/{token}', 'InvitationController@accept')->name('invitation.accept');
     Route::post('/invitation/destroy/{id}', 'InvitationController@destroy')->name('invitation.destroy');
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
-    Route::get('formms', 'Admin\RapiApiController@getZillowLinks')->name('formms');
+    Route::get('formms', 'Admin\RapidApiController@getZillowLinks')->name('formms');
 
     Route::get('/upload-form', 'GoogleDriveController@showUploadForm')->name('google.drive.form');
 
@@ -244,10 +244,10 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
 
     // Realtor API to fetch property's estimates
-    Route::post('contact/get-property-id', 'Admin\RapiApiController@getPropertyId')->name('contact.property_id');
-    Route::post('contact/get-property-estimates', 'Admin\RapiApiController@getPropertyEstimates')->name('contact.property_estimates');
-    Route::post('contact/fetch-google-map', 'Admin\RapiApiController@getGoogleMapsLink')->name('contact.property_links');
-    Route::post('contact/fetch-zillow-link', 'Admin\RapiApiController@getZillowPropertyURL')->name('contact.zillow_property_links');
+    Route::post('contact/get-property-id', 'Admin\RapidApiController@getPropertyId')->name('contact.property_id');
+    Route::post('contact/get-property-estimates', 'Admin\RapidApiController@getPropertyEstimates')->name('contact.property_estimates');
+    Route::post('contact/fetch-google-map', 'Admin\RapidApiController@getGoogleMapsLink')->name('contact.property_links');
+    Route::post('contact/fetch-zillow-link', 'Admin\RapidApiController@getZillowPropertyURL')->name('contact.zillow_property_links');
 
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
