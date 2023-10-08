@@ -1649,6 +1649,11 @@ class GroupController extends Controller
         $existingCampaign->group_id=$groupId;
         $existingCampaign->save();
 
+        $groupUpdate = Group::where('id', $groupId)->first();
+        $groupUpdate->pushed_to_camp_date=now();
+        $groupUpdate->campaign_name=$campaignName;
+        $groupUpdate->save();
+
         
 
             // Send email notifications
