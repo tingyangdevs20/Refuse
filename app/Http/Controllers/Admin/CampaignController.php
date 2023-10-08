@@ -438,8 +438,12 @@ class CampaignController extends Controller
         $groups = Group::all();
         $request->validate([
             'name' => 'required|string|max:255',
-            'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
-            'active' => 'required|boolean', // Add validation for active status
+
+            //goup id now not getting added from here
+
+           // 'group_id' => 'nullable|exists:groups,id', 
+
+            'active' => 'required|boolean', 
             // Add other validation rules for campaign details
         ]);
 
@@ -453,12 +457,9 @@ class CampaignController extends Controller
         // Create the campaign
         Campaign::create([
             'name' => $request->name,
-            //'type' => $request->type,
-            //'send_after_days' => $request->send_after_days,
-            //'send_after_hours' => $request->send_after_hours,
-            //'schedule' => $sendAfter,
-            'group_id' => $request->group_id, // Assign group_id
-            //'template_id' => $request->template_id,
+           
+            'group_id' => null, // group_id will not get added from here now
+           
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
@@ -495,10 +496,10 @@ class CampaignController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            //'type' => 'required|in:email,sms,mms,rvm',
-            //'send_after_days' => 'nullable|integer|min:0',
-            //'send_after_hours' => 'nullable|integer|min:0',
-            'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
+           // 'type' => 'required|in:email,sms,mms,rvm',
+           // 'send_after_days' => 'nullable|integer|min:0',
+           // 'send_after_hours' => 'nullable|integer|min:0',
+           // 'group_id' => 'nullable|exists:groups,id', // Ensure group_id exists in the groups table
             'active' => 'required|boolean', // Add validation for active status
             // Add other validation rules for campaign details
         ]);
@@ -512,7 +513,7 @@ class CampaignController extends Controller
         Campaign::where('id' , $request->id)->update([
             'name' => $request->name,
             //'type' => $request->type,
-            'group_id' => $request->group_id, // Assign group_id
+            'group_id' => null,
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);

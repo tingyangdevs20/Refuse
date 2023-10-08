@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Storage;
 use Google_Client as GoogleClient;
 use Google_Service_Drive as Drive;
 use Auth;
+use App\LeadInfo;
 use App\TaskList;
 use Session;
 use App\AccountDetail;
@@ -108,8 +109,6 @@ class GroupController extends Controller
 
             Log::error('An error occurred while processing the data: ' . $e->getMessage());
         }
-
-
     }
 
     public function contactInfo(Request $request, $id = '')
@@ -124,17 +123,17 @@ class GroupController extends Controller
 
 
         $collection = SkipTracingDetail::where('group_id', $contact->group_id)
-        ->whereIn('id', function ($query) use ($contact) {
-            $query->select(DB::raw('MAX(id)'))
-                ->from('skip_tracing_details')
-                ->where('group_id', $contact->group_id)
-                ->groupBy('user_id', 'select_option');
-        })
-        ->whereNotNull('first_name')
-        ->whereNotNull('last_name')
-        ->whereNotNull('address')
-        ->whereNotNull('zip')
-        ->get();
+            ->whereIn('id', function ($query) use ($contact) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('skip_tracing_details')
+                    ->where('group_id', $contact->group_id)
+                    ->groupBy('user_id', 'select_option');
+            })
+            ->whereNotNull('first_name')
+            ->whereNotNull('last_name')
+            ->whereNotNull('address')
+            ->whereNotNull('zip')
+            ->get();
 
 
 
@@ -142,15 +141,25 @@ class GroupController extends Controller
 
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
 
+        
         if ($leadinfo == null) {
             $dateAdded = Carbon::now()->toDateString();
-            DB::table('lead_info')->insert(['contact_id' => $id , 'date_added'=> $dateAdded]);
+            DB::table('lead_info')->insert(['contact_id' => $id, 'date_added' => $dateAdded]);
             $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
+        $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
         if ($property_infos == null) {
             DB::table('property_infos')->insert(['contact_id' => $id]);
             $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
+        }
+        
+        if(empty($property_infos->property_address)){
+            $property_infos->map_link = "Property address missing";    
+            $property_infos->zillow_link = "Property address missing";    
+        } else {
+            $map_link = "https://www.google.com/maps?q=" . urlencode("$property_infos->property_address, $property_infos->property_city, $property_infos->property_state, $property_infos->property_zip");
+            $property_infos->map_link = $map_link;
         }
         $values_conditions = DB::table('values_conditions')->where('contact_id', $id)->first();
         if ($values_conditions == null) {
@@ -207,7 +216,7 @@ class GroupController extends Controller
             DB::table('followup_sequences')->insert(['contact_id' => $id]);
             $followup_sequences = DB::table('followup_sequences')->where('contact_id', $id)->first();
         }
-        
+
         $insurance_company = DB::table('insurance_company')->where('contact_id', $id)->first();
         if ($insurance_company == null) {
             DB::table('insurance_company')->insert(['contact_id' => $id]);
@@ -224,8 +233,8 @@ class GroupController extends Controller
             DB::table('future_seller_infos')->insert(['contact_id' => $id]);
             $future_seller_infos = DB::table('future_seller_infos')->where('contact_id', $id)->first();
         }
-        
-        
+
+
         $uid = Auth::id();
         $contact = Contact::where('id', $id)->first();
         $cnt_mob1 = $contact->number ?? null;
@@ -236,15 +245,11 @@ class GroupController extends Controller
 
         $hasGoogleDriveAccess =  $response = app()->call('App\Http\Controllers\GoogleDriveController@hasGoogleDriveAccess');
         $googleDriveFiles = null;
-        if($hasGoogleDriveAccess) {
+        if ($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
-        
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos','TaskliSt'));
-
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact','collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos'));
-
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt'));
     }
 
     public function updateinfo(Request $request)
@@ -275,6 +280,67 @@ class GroupController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Data updated successfully!'
+        ]);
+    }
+
+    public function updatetags(Request $request)
+    {
+        $table = $request->table;
+        $id = $request->id;
+        $field_id = $request->field_id; // Correct variable name
+        $section_id = $request->section_id;
+        $fieldVal = $request->fieldVal;
+        $fieldName = $request->fieldName;
+        $selectedTags = $request->selectedTags;
+
+        if ($id != null) {
+            $lead = DB::table('lead_info')->where('contact_id', $id)->first();
+
+            if (!$selectedTags || empty($selectedTags)) {
+                DB::table('lead_info_tags')
+                    ->where('lead_info_id', $lead->id)
+                    ->delete();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Data updated successfully! "
+                ]);
+            }
+            // Get the currently associated tag IDs for the lead_info record
+            $currentTags = DB::table('lead_info_tags')
+                ->where('lead_info_id', $lead->id)
+                ->pluck('tag_id')
+                ->toArray();
+
+            // Calculate the tags to insert (exclude already associated tags)
+            $tagsToInsert = array_diff($selectedTags, $currentTags);
+
+            // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+            $tagsToDelete = array_diff($currentTags, $selectedTags);
+
+            // Delete the tags that are not in $selectedTags or delete all if none are selected
+            if (!empty($tagsToDelete) || empty($selectedTags)) {
+                DB::table('lead_info_tags')
+                    ->where('lead_info_id', $lead->id)
+                    ->whereIn('tag_id', $tagsToDelete)
+                    ->delete();
+            }
+
+            // Insert the new tags
+            if (!empty($tagsToInsert)) {
+                // Iterate through the selected tags and insert them into the lead_info_tags table
+                foreach ($tagsToInsert as $tagId) {
+                    DB::table('lead_info_tags')->insert([
+                        'lead_info_id' => $lead->id,
+                        'tag_id' => $tagId,
+                    ]);
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data updated successfully! "
         ]);
     }
 
@@ -321,12 +387,12 @@ class GroupController extends Controller
         //     $group->save();
         // } else {
 
-            $group = new Group();
-            $group->market_id = $request->market_id??'0';
-            $group->tag_id = $request->tag_id;
-            // $group->tag_id = json_encode($request->tag_id);
-            $group->name = $request->name;
-            $group->save();
+        $group = new Group();
+        $group->market_id = $request->market_id ?? '0';
+        $group->tag_id = $request->tag_id;
+        // $group->tag_id = json_encode($request->tag_id);
+        $group->name = $request->name;
+        $group->save();
         // }
 
 
@@ -938,23 +1004,23 @@ class GroupController extends Controller
                                             'updated_at' => now(),
                                         ]);
 
-                                    $skipTraceDetail = new SkipTracingDetail();
-                                    $skipTraceDetail->user_id = $user_id;
-                                    $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $selectedOption;
-                                    $skipTraceDetail->phone_skip_trace_date = $date;
-                                    $skipTraceDetail->verified_numbers = $record['Phone'];
-                                    $skipTraceDetail->scam_numbers = null;
-                                    $skipTraceDetail->first_name = $record['FirstName'];
-                                    $skipTraceDetail->last_name = $record['LastName'];
-                                    $skipTraceDetail->address = $record['Address'];
-                                    $skipTraceDetail->city = $record['City'];
-                                    $skipTraceDetail->zip = $record['Zip'];
-                                    $skipTraceDetail->matched = $record['Matched'];
-                                    $skipTraceDetail->order_amount = $result['ResponseDetail']['OrderAmount'];
-                                    $skipTraceDetail->token = $result['ResponseDetail']['Token'];
-                                    $skipTraceDetail->status = $result['Status'];
-                                    $skipTraceDetail->save();
+                                        $skipTraceDetail = new SkipTracingDetail();
+                                        $skipTraceDetail->user_id = $user_id;
+                                        $skipTraceDetail->group_id = $groupId;
+                                        $skipTraceDetail->select_option = $selectedOption;
+                                        $skipTraceDetail->phone_skip_trace_date = $date;
+                                        $skipTraceDetail->verified_numbers = $record['Phone'];
+                                        $skipTraceDetail->scam_numbers = null;
+                                        $skipTraceDetail->first_name = $record['FirstName'];
+                                        $skipTraceDetail->last_name = $record['LastName'];
+                                        $skipTraceDetail->address = $record['Address'];
+                                        $skipTraceDetail->city = $record['City'];
+                                        $skipTraceDetail->zip = $record['Zip'];
+                                        $skipTraceDetail->matched = $record['Matched'];
+                                        $skipTraceDetail->order_amount = $result['ResponseDetail']['OrderAmount'];
+                                        $skipTraceDetail->token = $result['ResponseDetail']['Token'];
+                                        $skipTraceDetail->status = $result['Status'];
+                                        $skipTraceDetail->save();
                                     }
                                 } else {
                                     if ($groupId) {
@@ -1524,31 +1590,31 @@ class GroupController extends Controller
                                     }
                                 }
 
-                                    $skipTraceDetail = new SkipTracingDetail();
-                                    $skipTraceDetail->user_id = $user_id;
-                                    $skipTraceDetail->group_id = $groupId;
-                                    $skipTraceDetail->select_option = $selectedOption;
-                                    $skipTraceDetail->email_skip_trace_date = null;
-                                    $skipTraceDetail->phone_skip_trace_date = null;
-                                    $skipTraceDetail->name_skip_trace_date = null;
-                                    $skipTraceDetail->email_verification_date = null;
-                                    $skipTraceDetail->phone_scrub_date = $date;
-                                    $skipTraceDetail->verified_emails = null;
-                                    $skipTraceDetail->verified_numbers = $record['FormattedPhone'];
-                                    $skipTraceDetail->append_names = null;
-                                    $skipTraceDetail->append_emails = null;
-                                    $skipTraceDetail->scam_numbers = null;
-                                    $skipTraceDetail->scam_emails = null;
-                                    $skipTraceDetail->first_name = null;
-                                    $skipTraceDetail->last_name = null;
-                                    $skipTraceDetail->address = null;
-                                    $skipTraceDetail->city = null;
-                                    $skipTraceDetail->zip = null;
-                                    $skipTraceDetail->matched = 'Matched';
-                                    $skipTraceDetail->order_amount = $result['ResponseDetail']['OrderAmount'];
-                                    $skipTraceDetail->token = $result['ResponseDetail']['Token'];
-                                    $skipTraceDetail->status = $result['Status'];
-                                    $skipTraceDetail->save();
+                                $skipTraceDetail = new SkipTracingDetail();
+                                $skipTraceDetail->user_id = $user_id;
+                                $skipTraceDetail->group_id = $groupId;
+                                $skipTraceDetail->select_option = $selectedOption;
+                                $skipTraceDetail->email_skip_trace_date = null;
+                                $skipTraceDetail->phone_skip_trace_date = null;
+                                $skipTraceDetail->name_skip_trace_date = null;
+                                $skipTraceDetail->email_verification_date = null;
+                                $skipTraceDetail->phone_scrub_date = $date;
+                                $skipTraceDetail->verified_emails = null;
+                                $skipTraceDetail->verified_numbers = $record['FormattedPhone'];
+                                $skipTraceDetail->append_names = null;
+                                $skipTraceDetail->append_emails = null;
+                                $skipTraceDetail->scam_numbers = null;
+                                $skipTraceDetail->scam_emails = null;
+                                $skipTraceDetail->first_name = null;
+                                $skipTraceDetail->last_name = null;
+                                $skipTraceDetail->address = null;
+                                $skipTraceDetail->city = null;
+                                $skipTraceDetail->zip = null;
+                                $skipTraceDetail->matched = 'Matched';
+                                $skipTraceDetail->order_amount = $result['ResponseDetail']['OrderAmount'];
+                                $skipTraceDetail->token = $result['ResponseDetail']['Token'];
+                                $skipTraceDetail->status = $result['Status'];
+                                $skipTraceDetail->save();
                             }
                         }
                     }
@@ -1608,6 +1674,7 @@ class GroupController extends Controller
             // Send email notifications
             foreach ($emails as $email) {
                 Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+                
             }
 
             // Return a response to indicate success
