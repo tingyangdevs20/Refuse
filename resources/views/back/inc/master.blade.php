@@ -22,13 +22,6 @@
     <link href="{{ asset('chat-box/css/style.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
     @yield('styles')
-    <style>
-        .collapsedlogo{
-            float: right;
-    margin-right: -17px;
-    margin-top: 12px;
-        }
-        </style>
 </head>
 
 <body data-sidebar="dark">
