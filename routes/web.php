@@ -81,7 +81,22 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
 
 
+    Route::get('task-list/show/{id}', 'TaskListController@show')->name('task-list.show');
+    // Route::Get('/update-task-order', 'TaskController@updateOrder')->name('update.task.order');
 
+    Route::post('/update-task-order', 'TaskListController@updateOrder')->name('update.task.order');
+
+    Route::post('/update-tasks-order', 'TaskListController@updateOrders')->name('update.tasks.order');
+
+    Route::post('/tasklists', 'TaskListController@storeLists')->name('tasklists.store');
+    Route::get('/Google-Calender-setting', 'Admin\AccountController@googleCalendersetting')->name('googleCalendersetting.setting');
+    Route::get('/communication-setting', 'Admin\SettingsController@CommunicationSetting')->name('CommunicationSetting.index');
+
+    Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
+    Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
+    Route::post('/invitation', 'InvitationController@store')->name('invitation.store');
+    Route::get('/invitation/accept/{token}', 'InvitationController@accept')->name('invitation.accept');
+    Route::post('/invitation/destroy/{id}', 'InvitationController@destroy')->name('invitation.destroy');
 
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
     Route::get('formms', 'Admin\RapidApiController@getZillowLinks')->name('formms');

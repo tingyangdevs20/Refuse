@@ -1,3 +1,4 @@
+
 @extends('back.inc.master')
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
@@ -58,36 +59,7 @@
 
                             <div class="card-body">
                                 <div id="task-list-container">
-                                    <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-md-6 col-12 mb-3">
-                                                <label for="task">Task</label>
-                                                <input type="text" name="task" id="task" class="form-control">
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-3">
-                                                <label for="assignee">Assign To</label>
-                                                <select class="form-control select2" id="assignee" name="assignee">
-                                                    <!-- Populate this select box with user options -->
-                                                    <option value="">Select User</option>
-                                                    @foreach($users as $user)
-
-                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-12 mb-3">
-                                                @if(auth()->user()->can('administrator') ||
-                                                auth()->user()->can('user_task_create'))
-
-                                                <button type="submit" class="btn btn-primary" id="add-task-button">Add
-                                                    Task</button>
-                                                <button type="submit" class="btn btn-danger" id="delete-selected-button"
-                                                    style="display: none">Delete Task</button>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </form>
+                            
 
                                         <table id="tasktable" class="table table-bordered">
                                                         <thead>
@@ -95,6 +67,7 @@
                                                                 <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
                                                                 <th>S.No</th>
                                                                 <th>Task</th>
+                                                                <th>Description</th>
                                                                 <th>Assigned To</th>
                                                                 <th>Status</th>
                                                                 <th>Action</th>
@@ -108,12 +81,12 @@
                                                             <input type="checkbox" class="task-checkbox" name="task_id[]" value="{{ $task->id }}">
                                                         </td>
                                                         <td>{{ @$loop->iteration }}</td>
-                                                        <td><a href="{{ route('admin.task-list.show',$task->id) }}"
-                                            id="trigger-startup-button">{{ @$task->tast }} </a> </td>
+                                                        <td>{{ @$task->tast }}</td>
+                                                        <td>{{ @$task->description }}</td>
                                                         <td>{{ @$task->user->name }}</td>
-                                                        <td>{{ @$task->status }}</td>
+                                                        <td><input type="checkbox" name="my_checkbox" {{ @$task->status == 0 ? 'checked' : '' }}></td>
                                                         <td>
-                                                            <!-- @if(auth()->user()->can('administrator') || auth()->user()->can('user_task_edit')) -->
+                                                            @if(auth()->user()->can('administrator') || auth()->user()->can('user_task_edit'))
                                                             <button class="btn btn-outline-primary btn-sm edit-task"
                                                                 data-task-id="{{ @$task->id }}"
                                                                 data-task-name="{{ @$task->tast }}"
@@ -123,7 +96,7 @@
                                                         </td>
                                                         <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td> <!-- Drag handle icon -->
                                                     </tr>
-                                                    <!-- @endforeach -->
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                 </div>
@@ -140,12 +113,12 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Task Form</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Task List Form</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.task-list.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.tasklists.store') }}" method="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
                         @method('POST')
@@ -167,7 +140,7 @@
                                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                     @endforeach
                                                 </select> 
-
+                                                <input type="hidden" name="tasklist_id" value="{{($id)}}">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -179,6 +152,8 @@
         </div>
     </div>
     {{--End Modal New--}}
+
+    {{--Modal Delete--}}
     </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
@@ -347,7 +322,7 @@ $(document).ready(function() {
 // Function to update task order via AJAX
 function updateTaskOrder(newOrder) {
     $.ajax({
-        url: '{{ route('admin.update.task.order') }}', // Use the route() helper to generate the URL
+        url: '{{ route('admin.update.tasks.order') }}', // Use the route() helper to generate the URL
     method: 'POST',
     data: {
         newOrder: newOrder, // Send the updated order to the server

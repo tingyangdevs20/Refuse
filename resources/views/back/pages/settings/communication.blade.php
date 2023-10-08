@@ -2,7 +2,8 @@
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <style>
        .checkbox label .toggle,.checkbox-inline .toggle{margin-left:-20px;margin-right:5px}
 .toggle{position:relative;overflow:hidden}
@@ -25,6 +26,10 @@
 .toggle.btn-xs{min-width:35px;min-height:22px}
 .toggle-on.btn-xs{padding-right:12px}
 .toggle-off.btn-xs{padding-left:12px}
+
+
+
+
     </style>
 @endsection
 
@@ -51,7 +56,7 @@
 
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
-                        <!-- <i class="fas fa-cog"></i> General Settings -->
+                        <i class="fas fa-cog"></i> Communication Settings
                         <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
                             data-toggle="modal" data-target="#helpModal">How to use</button>
                         {{--Modal Add on 31-08-2023--}}
@@ -96,284 +101,273 @@
                             </div>
                         </div>
                         {{--End Modal on 31-08-2023--}}
+                      
 
-
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#AutoRespond" aria-expanded="false" aria-controls="collapseExample">
-                            Auto Responder
-                        </button>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#AutoReply" aria-expanded="false" aria-controls="collapseExample2">
-                            AutoReply
-                        </button>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#phonenumber" aria-expanded="false" aria-controls="collapseExample2">
-                            Phone Number
-                        </button>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#markets" aria-expanded="false" aria-controls="collapseExample2">
-                            markets
-                        </button>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#rvms" aria-expanded="false" aria-controls="collapseExample2">
-                            Rvms
-                        </button>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#quickresponse" aria-expanded="false" aria-controls="collapseExample2">
-                            Rvms
-                        </button>
                     </div>
                 </div>
-
-                <div class="collapse" id="AutoRespond">
-                     <div class="card">
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Auto Respond
-                                <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModalAutoRespond"><i class="fas fa-plus-circle"></i></button>
+                
+                <div class="card">
+                    <div class="card-header bg-soft-dark ">
+                        <ul class="nav nav-tabs">
+                            <li class="active mr-3">
+                                <a href="#AutoRespond" data-toggle="tab"> Auto Responder</a>
+                            </li>
+                            <li><a class="mr-3" href="#AutoReply" data-toggle="tab">AutoReply</a>
+                            </li>
+                            <li><a  class="mr-3" href="#PhoneNumber" data-toggle="tab">Phone Number</a>
+                            </li>
+                            <li><a  class="mr-3"href="#markets" data-toggle="tab">markets</a>
+                            </li>
+                            <li><a  class="mr-3"href="#Rvms" data-toggle="tab">Rvms</a>
+                            </li>
+                            <li><a class="mr-3" href="#QuickResponse" data-toggle="tab">Quick Response</a>
+                            </li>
+                        </ul>
+                     </div>
+                    <div class="card-body">
+                        <div class="tab-content clearfix">
+                            <div class="tab-pane active" id="AutoRespond">
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        <i class="fas fa-cog"></i> Auto Respond
+                                        <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModalAutoRespond"><i class="fas fa-plus-circle"></i></button>
+                                    </div>
+                                    <div class="card-body">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Keyword</th>
+                                                        <th scope="col">Response</th>
+                                                        <th scope="col">Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($responders as $respond)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $respond->keyword }}</td>
+                                                        <td>{{ $respond->response}}</td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary btn-sm" title="Edit {{ $respond->keyword }}" data-keyword="{{ $respond->keyword }}" data-response="{{ $respond->response }}" data-id={{ $respond->id }} data-toggle="modal" data-target="#editModalAutoRespond"><i class="fas fa-edit"></i></button> -
+                                                            <button class="btn btn-outline-danger btn-sm" title="Remove {{ $respond->keyword }}" data-id="{{ $respond->id }}" data-toggle="modal" data-target="#deleteModalAutoRespond"><i class="fas fa-times-circle"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
+                            <div class="tab-pane" id="AutoReply">
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        <i class="fas fa-cog"></i> Auto Reply
+                                        <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModalAutoReply"><i class="fas fa-plus-circle"></i></button>
+                                    </div>
+                                    <div class="card-body">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Category</th>
+                                                        <th scope="col">Message</th>
+                                                        <th scope="col">Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($autoReplies as $autoreply)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration}}</td>
+                                                        <td>{{ $autoreply->category->name }}</td>
+                                                        <td>{{ $autoreply->message }}</td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary btn-sm" title="Edit" data-message="{{ $autoreply->message }}" data-id={{ $autoreply->id }} data-toggle="modal" data-target="#editModalAutoReply"><i class="fas fa-edit"></i></button>
+                                                        
+                                                            @if($autoreply->category_id>1)
+                                                            -
+                                                            <button class="btn btn-outline-danger btn-sm" title="Remove" data-id="{{ $autoreply->id }}" data-toggle="modal" data-target="#deleteModalAutoReply"><i class="fas fa-times-circle"></i></button>
+                                                            
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="PhoneNumber">
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        <i class="fas fa-cog"></i> Active Twilio Phone Numbers
+                                    </div>
+                                    <div class="card-body">
+                                    @if ($all_phone_nums->isEmpty())
+                                        <p>No Active Twilio Phone Numbers.</p>
+                                    @else
+                                        <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Phone Number</th>
+                                            <th scope="col">Capabilities</th>
+                                            <th scope="col">Status</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @php
+                                        $count = 1;      
+                                        @endphp
+                                        @foreach ($all_phone_nums as $p_num)
+                                    <tr>                                
+                                                <td>{{ $p_num->number }}</td>
+                                                <td>{{ $p_num->capabilities }}</td>                                      
+                                            <td>
+    
+                                                <input data-id="{{$p_num->id}}" class="toggle-class" type="checkbox"  data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $p_num->is_active ? 'checked' : '' }}>
+                                                </td>
+                                            </tr>
+                                            @php
+                                        $count++;      
+                                        @endphp
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="markets">
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        <i class="fas fa-cog"></i> Markets
+                                        <button class="btn btn-outline-primary btn-sm float-right " title="New" data-toggle="modal"
+                                            data-target="#newModalmarkets"><i class="fas fa-plus-circle"></i></button>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Keyword</th>
-                                                <th scope="col">Response</th>
+                                                
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Associated Numbers</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($responders as $respond)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $respond->keyword }}</td>
-                                                <td>{{ $respond->response}}</td>
-                                                <td>
-                                                    <button class="btn btn-outline-primary btn-sm" title="Edit {{ $respond->keyword }}" data-keyword="{{ $respond->keyword }}" data-response="{{ $respond->response }}" data-id={{ $respond->id }} data-toggle="modal" data-target="#editModalAutoRespond"><i class="fas fa-edit"></i></button> -
-                                                    <button class="btn btn-outline-danger btn-sm" title="Remove {{ $respond->keyword }}" data-id="{{ $respond->id }}" data-toggle="modal" data-target="#deleteModalAutoRespond"><i class="fas fa-times-circle"></i></button>
-                                                </td>
-                                            </tr>
+                                            @foreach($markets as $market)
+                                                <tr>
+                                                    
+                                                    <td>{{ $market->name }}</td>
+                                                    @if( $market->numbers()->get()->isEmpty())
+                                                        <td>None</td>
+                                                    @else
+                                                        <td>
+                                                            @foreach($market->numbers()->get() as $number)
+                                                                {{ $market->numbers()->get()->count()==1?$number->number:$number->number.", " }}
+                                                            @endforeach
+                                                        </td>
+                                                    @endif
+                                                    <td>
+                                                        <button class="btn btn-outline-primary btn-sm"
+                                                                title="Edit {{ $market->name }}" data-name="{{ $market->name }}"
+                                                                data-id={{ $market->id }} data-toggle="modal"
+                                                                data-target="#editModalmarkets"><i class="fas fa-edit"></i></button>
+                                                        -
+                                                        <button class="btn btn-outline-danger btn-sm"
+                                                                title="Remove {{ $market->name }}" data-id="{{ $market->id }}"
+                                                                data-toggle="modal" data-target="#deleteModalmarkets"><i
+                                                                class="fas fa-times-circle"></i></button>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                </div>
-                <div class="collapse" id="AutoReply">
-                    <div class="card card-body">
-                        <div class="card">
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Auto Reply
-                                <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModalAutoReply"><i class="fas fa-plus-circle"></i></button>
+                            <div class="tab-pane" id="Rvms">
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        <i class="fas fa-cog"></i> RVMS
+                                        <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModalrvms   "><i class="fas fa-plus-circle"></i></button>
+                                    </div>
+                                    <div class="card-body">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Media Url</th>
+                                            <th scope="col">Actions</th>
+    
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($rvms as $rvm)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $rvm->name }}</td>
+                                                <td>{{ $rvm->mediaUrl }}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-sm" title="Edit {{ $rvm->name }}" data-id="{{ $rvm->id }}" data-rvmname="{{ $rvm->name }}" data-toggle="modal" data-target="#editModalrvms"><i class="fas fa-edit"></i></button>
+                                                    @if($rvm->id>1)
+                                                    -
+                                                    <button class="btn btn-outline-danger btn-sm" title="Remove {{ $rvm->name }}" data-rvmid="{{ $rvm->id }}" data-toggle="modal" data-target="#deleteModalrvms"><i class="fas fa-times-circle"></i></button>
+                                                        @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
+                            <div class="tab-pane" id="QuickResponse">
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        All Responses
+                                        <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
+                                                data-target="#newModalquickresponse"><i class="fas fa-plus-circle"></i></button>
+                                            
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped table-bordered" id="datatable">
                                             <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Category</th>
+                                                <th scope="col">Title</th>
                                                 <th scope="col">Message</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($autoReplies as $autoreply)
-                                            <tr>
-                                                <td>{{ $loop->iteration}}</td>
-                                                <td>{{ $autoreply->category->name }}</td>
-                                                <td>{{ $autoreply->message }}</td>
-                                                <td>
-                                                    <button class="btn btn-outline-primary btn-sm" title="Edit" data-message="{{ $autoreply->message }}" data-id={{ $autoreply->id }} data-toggle="modal" data-target="#editModalAutoReply"><i class="fas fa-edit"></i></button>
-                                                 
-                                                    @if($autoreply->category_id>1)
-                                                    -
-                                                    <button class="btn btn-outline-danger btn-sm" title="Remove" data-id="{{ $autoreply->id }}" data-toggle="modal" data-target="#deleteModalAutoReply"><i class="fas fa-times-circle"></i></button>
-                                                     
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                            @foreach($quickResponses as $quickResponse)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $quickResponse->title }}</td>
+                                                    <td>{{ $quickResponse->body}}</td>
+                                                    <td>
+                                                        <button class="btn btn-outline-primary btn-sm"
+                                                                title="Edit {{ $quickResponse->title }}"
+                                                                data-title="{{ $quickResponse->title }}"
+                                                                data-body="{{ $quickResponse->body }}"
+                                                                data-id={{ $quickResponse->id }}  data-toggle="modal"
+                                                                data-target="#editModalquickresponse"><i class="fas fa-edit"></i></button>
+                                                        -
+                                                        <button class="btn btn-outline-danger btn-sm"
+                                                                title="Remove {{ $quickResponse->title }}" data-id="{{ $quickResponse->id }}"
+                                                                data-toggle="modal" data-target="#deleteModalquickresponse"><i
+                                                                class="fas fa-times-circle"></i></button>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="collapse" id="phonenumber">
-                    <div class="card card-body">
-                        <div class="card">
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Active Twilio Phone Numbers
-                            </div>
-                            <div class="card-body">
-                            @if ($all_phone_nums->isEmpty())
-                                <p>No Active Twilio Phone Numbers.</p>
-                            @else
-                                <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Phone Number</th>
-                                    <th scope="col">Capabilities</th>
-                                    <th scope="col">Status</th> 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                $count = 1;      
-                                @endphp
-                                @foreach ($all_phone_nums as $p_num)
-                               <tr>                                
-                                        <td>{{ $p_num->number }}</td>
-                                        <td>{{ $p_num->capabilities }}</td>                                      
-                                       <td>
-
-                                           <input data-id="{{$p_num->id}}" class="toggle-class" type="checkbox"  data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $p_num->is_active ? 'checked' : '' }}>
-                                        </td>
-                                    </tr>
-                                    @php
-                                $count++;      
-                                @endphp
-                                @endforeach
-                                </tbody>
-                            </table>
-                            @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="collapse" id="markets">
-                    <div class="card card-body">
-                        <div class="card">
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Markets
-                                <button class="btn btn-outline-primary btn-sm float-right " title="New" data-toggle="modal"
-                                    data-target="#newModalmarkets"><i class="fas fa-plus-circle"></i></button>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-striped table-bordered" id="datatable">
-                                    <thead>
-                                    <tr>
-                                        
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Associated Numbers</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($markets as $market)
-                                        <tr>
-                                            
-                                            <td>{{ $market->name }}</td>
-                                            @if( $market->numbers()->get()->isEmpty())
-                                                <td>None</td>
-                                            @else
-                                                <td>
-                                                    @foreach($market->numbers()->get() as $number)
-                                                        {{ $market->numbers()->get()->count()==1?$number->number:$number->number.", " }}
-                                                    @endforeach
-                                                </td>
-                                            @endif
-                                            <td>
-                                                <button class="btn btn-outline-primary btn-sm"
-                                                        title="Edit {{ $market->name }}" data-name="{{ $market->name }}"
-                                                        data-id={{ $market->id }} data-toggle="modal"
-                                                        data-target="#editModalmarkets"><i class="fas fa-edit"></i></button>
-                                                -
-                                                <button class="btn btn-outline-danger btn-sm"
-                                                        title="Remove {{ $market->name }}" data-id="{{ $market->id }}"
-                                                        data-toggle="modal" data-target="#deleteModalmarkets"><i
-                                                        class="fas fa-times-circle"></i></button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="collapse" id="rvms">
-                    <div class="card card-body">
-                        <div class="card">
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> RVMS
-                                <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModalrvms   "><i class="fas fa-plus-circle"></i></button>
-                            </div>
-                            <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Media Url</th>
-                                    <th scope="col">Actions</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($rvms as $rvm)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $rvm->name }}</td>
-                                        <td>{{ $rvm->mediaUrl }}</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm" title="Edit {{ $rvm->name }}" data-id="{{ $rvm->id }}" data-rvmname="{{ $rvm->name }}" data-toggle="modal" data-target="#editModalrvms"><i class="fas fa-edit"></i></button>
-                                            @if($rvm->id>1)
-                                            -
-                                            <button class="btn btn-outline-danger btn-sm" title="Remove {{ $rvm->name }}" data-rvmid="{{ $rvm->id }}" data-toggle="modal" data-target="#deleteModalrvms"><i class="fas fa-times-circle"></i></button>
-                                                @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="collapse" id="quickresponse">
-                    <div class="card card-body">
-                    <div class="card">
-                        <div class="card-header bg-soft-dark ">
-                            All Responses
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
-                                    data-target="#newModalquickresponse"><i class="fas fa-plus-circle"></i></button>
-                                  
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Message</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($quickResponses as $quickResponse)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $quickResponse->title }}</td>
-                                        <td>{{ $quickResponse->body}}</td>
-                                        <td>
-                                            <button class="btn btn-outline-primary btn-sm"
-                                                    title="Edit {{ $quickResponse->title }}"
-                                                    data-title="{{ $quickResponse->title }}"
-                                                    data-body="{{ $quickResponse->body }}"
-                                                    data-id={{ $quickResponse->id }}  data-toggle="modal"
-                                                    data-target="#editModalquickresponse"><i class="fas fa-edit"></i></button>
-                                            -
-                                            <button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $quickResponse->title }}" data-id="{{ $quickResponse->id }}"
-                                                    data-toggle="modal" data-target="#deleteModalquickresponse"><i
-                                                    class="fas fa-times-circle"></i></button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
