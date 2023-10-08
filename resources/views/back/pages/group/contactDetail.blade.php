@@ -3565,6 +3565,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
+                                                                <input type="file" name="file" id="file">
                                                                 <div class="form-group" style="padding: 0 10px;"
                                                                     id="driveUpload">
                                                                     <div class="form-group">
@@ -3578,10 +3579,7 @@
                                                                             <div class="fallback">
                                                                             </div>
                                                                         </form>
-                                                                        <button type="button" id="custom-upload-button"
-                                                                            class="btn btn-primary">Upload to Google
-                                                                            Drive</button>
-                                                                    </div>
+                                                                        
                                                                     <button type="button" id="custom-upload-button"
                                                                         class="btn btn-primary">Upload to Google
                                                                         Drive</button>
@@ -5077,7 +5075,7 @@
                 // Set the form's action attribute to the new route
                 form.attr("action", "{{ route('admin.google.drive.login') }}");
                 form2.attr("action", "{{ route('admin.google.drive.login') }}");
-                // form2.submit();
+                form2.submit();
 
                 // Submit the form
                 // form.submit();
