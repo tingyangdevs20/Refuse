@@ -3546,11 +3546,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-md-4">
-                                                                <button type="submit" id="authenticate_google"
-                                                                    class="btn btn-primary">Access Google Drive</button>
-                                                            </div>
                                                             <div class="col-md-12">
+                                                                <div class="form-group" style="padding: 0 10px;">
+                                                                    <button type="submit" id="authenticate_google"
+                                                                    class="btn btn-primary">Access Google Drive</button>
+                                                                </div>
                                                                 <div class="form-group" style="padding: 0 10px;">
                                                                     <label for="file_type">Select file type to
                                                                         upload</label>
@@ -3569,18 +3569,17 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                               <div class="form-group" style="padding: 0 10px;"
+                                                                <div class="form-group" style="padding: 0 10px;"
                                                                     id="driveUpload">
                                                                     <label for="file">Select Files to
-                                                                            Upload:</label>
-                                                                        <form action="/admin/google-drive-upload"
-                                                                            class="dropzone" name="file"
-                                                                            id="dropzone" method="POST"
-                                                                            enctype="multipart/form-data">
-                                                                            @csrf
-                                                                            <div class="fallback">
-                                                                            </div>
-                                                                        </form>
+                                                                        Upload:</label>
+                                                                    <form action="/admin/google-drive-upload"
+                                                                        class="dropzone" name="file" id="dropzone"
+                                                                        method="POST" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <div class="fallback">
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
                                                                 {{-- <button type="button" id="custom-upload-button"
                                                                     class="btn btn-primary">Upload to Google
@@ -4999,7 +4998,7 @@
                         hiddenInput.id = "contact_id";
                         hiddenInput.value = id;
                         dropzoneForm.appendChild(hiddenInput);
-                        
+
                         var leadStatusValue = document.getElementById("lead_status").value;
                         var document_type = document.createElement("input");
                         document_type.type = "hidden";
@@ -5012,7 +5011,7 @@
                         token.type = "hidden";
                         token.name = "_token";
                         token.id = "_token";
-                        token.value ="{{ csrf_token() }}";;
+                        token.value = "{{ csrf_token() }}";;
                         dropzoneForm.appendChild(token);
                     });
 
@@ -5023,7 +5022,7 @@
                         toastr.success("File uploaded Successfully", {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
-                       
+
                     });
 
                     this.on("removedfile", function(file) {
@@ -5036,7 +5035,7 @@
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
                         console.log(errorMessage);
-                       
+
                         // Event handler when a file upload encounters an error
                     });
                 }
@@ -5076,7 +5075,7 @@
             // Refresh Select2 to apply the changes
             $('.select2').trigger('change.select2');
 
-            
+
             $("#authenticate_google").click(function() {
                 var form = $("#main_form");
                 form.attr("action", "{{ route('admin.google.drive.login') }}");
