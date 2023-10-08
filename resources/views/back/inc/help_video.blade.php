@@ -1,4 +1,5 @@
 @php
+@dd($helpLink);
 $helpLink = helpVideolink($type);
 @endphp
 <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
