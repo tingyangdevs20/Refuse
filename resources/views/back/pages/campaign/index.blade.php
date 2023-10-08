@@ -23,7 +23,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark">
-                            All Campaigns
+                            Prospect Campaigns
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
                             <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
     data-target="#helpModal">How to use</button>  
