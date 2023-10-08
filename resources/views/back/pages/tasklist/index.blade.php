@@ -196,10 +196,8 @@ $(document).ready(function() {
             if (confirm('Are you sure you want to delete the selected tasks?')) {
 
                 $.ajax({
-                    url: '{{ route('
-                    admin.delete-tasks ') }}',
+                    url: '{{ route('admin.delete-tasks') }}',
                     method: 'POST',
-
                     data: {
                         task_id: selectedTaskIds,
                         _token: '{{ csrf_token() }}', // Add CSRF token
