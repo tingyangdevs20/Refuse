@@ -85,7 +85,7 @@ class GoogleDriveController extends Controller
             $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
             
             $user->save();
-            return redirect()->back()->with('upload', 'Google account authenticate successfull');
+            return redirect()->back()->with('upload', 'Google account authenticated successfully!');
         
         } else {
             // FOR GUEST USER, GET GOOGLE LOGIN URL
@@ -280,14 +280,14 @@ class GoogleDriveController extends Controller
         } else if($directory == 'photo'){
             $valid_extension = array("jpg", "jpeg", "png", "gif");
             if (!in_array(strtolower($extension), $valid_extension)) {
-                Alert::error('Oops!', "Please enter only photo file");
+                Alert::error('Oops!', "Please upload only photo!");
                 return redirect()->back();
             }
         } else {
             $valid_extension = array("pdf");
             if (!in_array(strtolower($extension), $valid_extension)) {
                 
-                Alert::error('Oops!', "Please enter only pdf file");
+                Alert::error('Oops!', "Please upload only pdf file!");
                 return redirect()->back();
             }
             
