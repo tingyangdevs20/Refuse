@@ -1658,7 +1658,7 @@ class GroupController extends Controller
             }
 
             // Return a response to indicate success
-            return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
+            return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
         }
     
 }

@@ -320,7 +320,7 @@ class CampaignListController extends Controller
         $sid = 'AC28c9cf33623247a487bf51ca9af20b50';
         $token='03d28e0a1abd5e829b6d278055643dba';
 
-      // dd($request);
+      dd($request);
 
        // dd($subject);
        // die("..");
@@ -371,6 +371,7 @@ class CampaignListController extends Controller
                         if($btext)
                         {
                             $bodytext=$btext->msg_content;
+                            $subject=$btext->subject;
                     CampaignList::create([
                         'campaign_id' => $campaign_id,
                         'type' => $val,
@@ -380,6 +381,7 @@ class CampaignListController extends Controller
                         'mediaUrl' => $media,
                         'template_id' => $request->templat[$key],
                         'body' => $bodytext,
+                        
                         'active' => 1, // Set active status
                     ]);
                 }
