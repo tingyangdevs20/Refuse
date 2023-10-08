@@ -248,8 +248,7 @@ $(document).ready(function() {
 
                 $.ajax({
 
-                    url: '{{ route('
-                    admin.update-task ')}}',
+                    url: '{{ route('admin.update-task')}}',
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}', // Add CSRF token
