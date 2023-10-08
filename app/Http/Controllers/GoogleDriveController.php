@@ -359,7 +359,6 @@ class GoogleDriveController extends Controller
                 $parentFolderId = $parentFolder->id;
             }
 
-            return response()->json('ok');
             $subFolderId = $this->getFolderIdByName($service, $directory, $parentFolderId);
             
             if (!$subFolderId) {
