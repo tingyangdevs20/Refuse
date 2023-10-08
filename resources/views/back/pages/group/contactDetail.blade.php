@@ -3,7 +3,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    {{-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css" rel="stylesheet">
 
 
 
@@ -1539,7 +1540,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-map-links-button"
-                                                                                class="btn btn-primary">Get Google Maps & Zillow link</button>
+                                                                                class="btn btn-primary">Get Google Maps &
+                                                                                Zillow link</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group"
@@ -1570,12 +1572,10 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label>Google Maps Link</label>
-                                                                        <a 
-                                                                        @if (!empty($property_infos->property_address)) 
-                                                                        href="{{ $property_infos->map_link }}"  @endif 
-                                                                        
-                                                                        id="google_map_link" target="_blank">
-                                                                            <div class="input-group mb-2" id="google_map_link_text">
+                                                                        <a @if (!empty($property_infos->property_address)) href="{{ $property_infos->map_link }}" @endif
+                                                                            id="google_map_link" target="_blank">
+                                                                            <div class="input-group mb-2"
+                                                                                id="google_map_link_text">
                                                                                 {{ $property_infos->map_link }}
                                                                             </div>
                                                                         </a>
@@ -1585,12 +1585,10 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label>Zillow Link</label>
-                                                                        <a 
-                                                                        @if (!empty($property_infos->property_address)) 
-                                                                        href="{{ $property_infos->zillow_link }}"  @endif 
-                                                                        
-                                                                        id="zillow_link" target="_blank">
-                                                                            <div class="input-group mb-2" id="zillow_link_text">
+                                                                        <a @if (!empty($property_infos->property_address)) href="{{ $property_infos->zillow_link }}" @endif
+                                                                            id="zillow_link" target="_blank">
+                                                                            <div class="input-group mb-2"
+                                                                                id="zillow_link_text">
                                                                                 {{ $property_infos->zillow_link }}
                                                                             </div>
                                                                         </a>
@@ -1599,7 +1597,7 @@
 
                                                             </div>
 
-                                                            
+
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -1704,7 +1702,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
@@ -1991,7 +1989,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Loan Account PIN/Codeword</label> --}}
@@ -2314,7 +2312,7 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                               
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Does mortgage payment(s) include property insurance?</label> --}}
@@ -3332,7 +3330,6 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                       
                                                     @elseif($section->id == '14')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
@@ -3560,7 +3557,7 @@
                                                                     <label for="file">Select file type to
                                                                         upload</label>
                                                                     <select class="custom-select" name="lead_status"
-                                                                        table="lead_info">
+                                                                        table="lead_info" id="lead_status">
                                                                         <option value="miscellaneous" selected>
                                                                             Miscellaneous</option>
                                                                         <option value="photo">Photo</option>
@@ -3576,25 +3573,17 @@
                                                             <div class="col-md-12">
                                                                 <div class="form-group" style="padding: 0 10px;"
                                                                     id="driveUpload">
-
-
                                                                     <div class="form-group">
                                                                         <label for="file">Select Files to
                                                                             Upload:</label>
-                                                                        <input type="file" name="file"
-                                                                            id="file" class="form-control"
-                                                                            multiple>
-
-                                                                            <form action="/admin/google-drive-login" class="dropzone" name="file" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data">
-                                                                                @csrf
-                                                                                <div class="fallback">
-                                                                                </div>
-                                                                                <input type="hidden" name="hiddenFile" id="hidden-file">
-                                                                            </form>
-                                                                            
-                                                                            <!-- Hidden input field for file -->
-                                                                            
-
+                                                                        <form action="/admin/google-drive-login"
+                                                                            class="dropzone" name="file"
+                                                                            id="dropzone" method="POST"
+                                                                            enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            <div class="fallback">
+                                                                            </div>
+                                                                        </form>
                                                                         <button type="button" id="custom-upload-button"
                                                                             class="btn btn-primary">Upload to Google
                                                                             Drive</button>
@@ -3617,7 +3606,7 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group"
                                                                             style="padding: 0 10px;">
-                                                                            <h3>../REIFuze../{{ $folder }}</h3>
+                                                                            <h3>../REIFuze/{{ $folder }}</h3>
                                                                         </div>
                                                                     </div>
                                                                     @foreach ($googleDriveFiles['files'] as $file)
@@ -4408,82 +4397,318 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Electricity</label>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Electricity"
-                                                                                name="electricity"
-                                                                                table="utility_department"
-                                                                                @if (isset($utility_department)) value="{{ $utility_department->electricity }}" @endif>
+                                                                                placeholder="Company Name"
+                                                                                name="electricity_company_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->electricity_company_name }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Water"
-                                                                                name="water"
-                                                                                table="utility_department"
-                                                                                @if (isset($utility_department)) value="{{ $utility_department->water }}" @endif>
+                                                                                placeholder="Phone"
+                                                                                name="electricity_phone"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->electricity_phone }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
                                                                             <input type="text" class="form-control"
-                                                                                placeholder="Natural Gas"
-                                                                                name="gas"
-                                                                                table="utility_department"
-                                                                                @if (isset($utility_department)) value="{{ $utility_department->gas }}" @endif>
+                                                                                placeholder="Login Link"
+                                                                                name="electricity_link"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->electricity_link }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
-                                                                            <input style="margin-right:5px"
-                                                                                type="checkbox" name="gas_active"
-                                                                                table="utility_department"
-                                                                                onchange="updateValue(this.checked ? '1' : null, 'gas_active', 'utility_department')"
-                                                                                {{ isset($utility_department) && $utility_department->gas_active == 1 ? 'checked' : '' }}>
-                                                                            Gas Active
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="User Name"
+                                                                                name="electricity_user_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->electricity_user_name }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
-                                                                            <input style="margin-right:5px"
-                                                                                type="checkbox" name="electricity_active"
-                                                                                table="utility_department"
-                                                                                onchange="updateValue(this.checked ? '1' : null, 'electricity_active', 'utility_department')"
-                                                                                {{ isset($utility_department) && $utility_department->electricity_active == 1 ? 'checked' : '' }}>
-                                                                            Electricity Active
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Password"
+                                                                                name="electricity_password"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->electricity_password }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2 mt-3">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox"
+                                                                                name="electricity_service_active"
+                                                                                table="utility_deparments"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'electricity_service_active', 'utility_deparments')"
+                                                                                {{ isset($utility_deparments) && $utility_deparments->electricity_service_active == 1 ? 'checked' : '' }}>
+                                                                            Service Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Water</label>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2">
-                                                                            <input style="margin-right:5px"
-                                                                                type="checkbox" name="water_active"
-                                                                                table="utility_department"
-                                                                                onchange="updateValue(this.checked ? '1' : null, 'water_active', 'utility_department')"
-                                                                                {{ isset($utility_department) && $utility_department->water_active == 1 ? 'checked' : '' }}>
-                                                                            Water Active
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Company Name"
+                                                                                name="water_company_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->water_company_name }}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
-                                                               
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Phone" name="water_phone"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->water_phone }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Login Link"
+                                                                                name="water_link"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->water_link }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="User Name"
+                                                                                name="water_user_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->water_user_name }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Password"
+                                                                                name="water_password"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->water_password }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2 mt-3">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox"
+                                                                                name="water_service_active"
+                                                                                table="utility_deparments"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'water_service_active', 'utility_deparments')"
+                                                                                {{ isset($utility_deparments) && $utility_deparments->water_service_active == 1 ? 'checked' : '' }}>
+                                                                            Service Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Natural Gas</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Company Name"
+                                                                                name="gas_company_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->gas_company_name }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Phone" name="gas_phone"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->gas_phone }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Login Link" name="gas_link"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->gas_link }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="User Name"
+                                                                                name="gas_user_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->gas_user_name }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Password"
+                                                                                name="gas_password"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->gas_password }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2 mt-3">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox"
+                                                                                name="gas_service_active"
+                                                                                table="utility_deparments"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'gas_service_active', 'utility_deparments')"
+                                                                                {{ isset($utility_deparments) && $utility_deparments->gas_service_active == 1 ? 'checked' : '' }}>
+                                                                            Service Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>Propane</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Company Name"
+                                                                                name="propane_company_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->propane_company_name }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Phone" name="propane_phone"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->propane_phone }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Login Link"
+                                                                                name="propane_link"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->propane_link }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="User Name"
+                                                                                name="propane_user_name"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->propane_user_name }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Password"
+                                                                                name="propane_password"
+                                                                                table="utility_deparments"
+                                                                                @if (isset($utility_deparments)) value="{{ $utility_deparments->propane_password }}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2 mt-3">
+                                                                            <input style="margin-right:5px"
+                                                                                type="checkbox"
+                                                                                name="propane_service_active"
+                                                                                table="utility_deparments"
+                                                                                onchange="updateValue(this.checked ? '1' : null, 'propane_service_active', 'utility_deparments')"
+                                                                                {{ isset($utility_deparments) && $utility_deparments->propane_service_active == 1 ? 'checked' : '' }}>
+                                                                            Service Active
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             @php
                                                                 $customeFields = getsectionsFields($section->id);
@@ -4651,10 +4876,10 @@
                                                                             <div class="form-group"
                                                                                 style="padding: 0 10px;">
                                                                                 <div class="card-body">
-                                                                                <p>{{ $appt->tast }}</p>
+                                                                                    <p>{{ $appt->tast }}</p>
                                                                                 </div>
-                                                                             
-                                                                                
+
+
                                                                             </div>
                                                                         @endforeach
                                                                     </div>
@@ -4665,8 +4890,8 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                 
-                                                        @endif
+
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         </div>
@@ -4725,11 +4950,13 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
+    {{-- <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
 
     <script>
+        Dropzone.autoDiscover = false;
         $(document).ready(function() {
 
             // Initially hide the date input
@@ -4745,7 +4972,72 @@
             });
 
             // initializeDropzone
-            initializeDropzone();
+            // initializeDropzone();
+            var uploadedFiles = [];
+
+            var myDropzone = new Dropzone("#dropzone", {
+                paramName: "file", // The name that will be used for the uploaded file
+                maxFilesize: 5, // Maximum file size (in MB)
+                acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
+                maxFiles: 5, // Maximum number of files that can be uploaded
+                autoProcessQueue: true, // Automatically process the queue when files are added
+                addRemoveLinks: true, // Show remove links on uploaded files
+                dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
+                dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
+                dictFallbackText: "Please use the fallback form below to upload your files.",
+                dictRemoveFile: "Remove", // Text for the remove file link
+                dictCancelUpload: "Cancel", // Text for the cancel upload link
+                dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+                init: function() {
+                    this.on("addedfile", function(file) {
+                        var dropzoneForm = document.getElementById("dropzone");
+
+                        // Append existing input elements
+                        // dropzoneForm.appendChild(document.getElementById("_token"));
+                        // dropzoneForm.appendChild(document.getElementById("lead_status"));
+
+                        // Create and append a new hidden input element
+                        var id = {!! $id !!};
+                        var hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "contact_id";
+                        hiddenInput.id = "contact_id";
+                        hiddenInput.value = id;
+                        dropzoneForm.appendChild(hiddenInput);
+                        
+                        var leadStatusValue = document.getElementById("lead_status").value;
+                        var document_type = document.createElement("input");
+                        document_type.type = "hidden";
+                        document_type.name = "lead_status";
+                        document_type.id = "lead_status";
+                        document_type.value = leadStatusValue;
+                        dropzoneForm.appendChild(document_type);
+
+                        var token = document.createElement("input");
+                        token.type = "hidden";
+                        token.name = "_token";
+                        token.id = "_token";
+                        token.value ="{{ csrf_token() }}";;
+                        dropzoneForm.appendChild(token);
+                    });
+
+                    this.on("success", function(file, response) {
+                        // Event handler when a file upload is successful
+                        console.log(response);
+                    });
+
+                    this.on("removedfile", function(file) {
+                        // Event handler when a file is removed from the queue
+                    });
+
+                    this.on("error", function(file, errorMessage) {
+                        console.log("filed");
+                        // Event handler when a file upload encounters an error
+                    });
+                }
+            });
+
+
             // When the date input loses focus, hide it and show the text input if it's empty
             $('.date-input-hidden').on('blur', function() {
                 if (!$(this).val()) {
@@ -4780,20 +5072,50 @@
             $('.select2').trigger('change.select2');
 
             $("#custom-upload-button").click(function() {
-                console.log('work');
-                var form = $("#my-awesome-dropzone");
+                var form = $("#dropzone");
                 var form2 = $("#main_form");
-
+                var _token = $('input#_token').val();
+                var lead_status = $('input#lead_status').val();
+                var id = {!! $id !!};
                 // Set the form's action attribute to the new route
                 form.attr("action", "{{ route('admin.google.drive.login') }}");
                 form2.attr("action", "{{ route('admin.google.drive.login') }}");
+                // form2.submit();
+
                 // Submit the form
                 // form.submit();
-                form2.submit();
-                
+                var fileToUpload = uploadedFiles[0];
+                if (fileToUpload) {
+                    // Create a FormData object to prepare the file for submission
+                    var formData = new FormData();
+                    formData.append("file", fileToUpload);
+
+                    // Add any additional data you want to submit with the file
+
+                    // Submit the other form with the file
+                    $.ajax({
+                        url: "/admin/google-drive-login",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            // Handle the response from the server
+                            console.log(response);
+                        },
+                        error: function(error) {
+                            // Handle errors, if any
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    // Handle the case where no file is selected
+                    console.log("No file selected.");
+                }
+
             });
             // Get a reference to the hidden input
-           // Get a reference to the hidden input
+            // Get a reference to the hidden input
 
 
 
@@ -4823,7 +5145,7 @@
         // intitialize dropzone
         function initializeDropzone() {
 
-            Dropzone.options.myAwesomeDropzone = {
+            Dropzone.options.dropzone = {
                 url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
                 paramName: "file", // The name that will be used for the uploaded file
                 maxFilesize: 5, // Maximum file size (in MB)
@@ -4839,11 +5161,13 @@
                 dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
                 init: function() {
                     this.on("addedfile", function(file) {
-                        // Event handler when a file is added to the queue
+                        console.log("file");
                     });
 
                     this.on("success", function(file, response) {
                         // Event handler when a file upload is successful
+                        console.log("files");
+
                     });
 
                     this.on("removedfile", function(file) {
@@ -4851,6 +5175,7 @@
                     });
 
                     this.on("error", function(file, errorMessage) {
+                        console.log("filed");
                         // Event handler when a file upload encounters an error
                     });
                 }
@@ -4996,7 +5321,7 @@
                     if (res.status == true) {
                         $('#google_map_link').attr('href', res.link);
                         $('#google_map_link_text').html(res.link);
-                            // getEstimates(res.id)
+                        // getEstimates(res.id)
                         // Customize the Toastr message based on your requirements
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
@@ -5030,12 +5355,12 @@
                 },
                 success: function(res) {
                     $('#fetchzillow').hide()
-                    
+
                     if (res.status == true) {
                         $('#zillow_link').show()
-                       $('#zillow_link').attr('href', res.link);
+                        $('#zillow_link').attr('href', res.link);
                         $('#zillow_link_text').html(res.link);
-                            // getEstimates(res.id)
+                        // getEstimates(res.id)
                         // Customize the Toastr message based on your requirements
                         toastr.success(res.message, {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
