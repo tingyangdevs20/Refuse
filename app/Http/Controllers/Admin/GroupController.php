@@ -1642,7 +1642,7 @@ class GroupController extends Controller
         $marketId = $request->input('market_id');
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
-
+        dd('here');
         // Check if a CampaignLead record with the same group_id and campaign_name already exists
       //  $existingCampaignLead = CampaignLead::where('group_id', $groupId)
           //  ->where('name', $campaignName)
@@ -1660,6 +1660,8 @@ class GroupController extends Controller
 
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
+
+        
 
         if ($existingCampaign) {
             // Return a response to indicate that the data already exists
