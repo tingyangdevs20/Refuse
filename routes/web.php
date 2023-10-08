@@ -81,14 +81,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('admin/upload-google-drive', 'Admin\GroupController@uploadToGoogleDrive')->name('upload-google-drive');
 
 
-    Route::get('/Google-Calender-setting', 'Admin\AccountController@googleCalendersetting')->name('googleCalendersetting.setting');
-    Route::get('/communication-setting', 'Admin\SettingsController@CommunicationSetting')->name('CommunicationSetting.index');
-
-    Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
-    Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
-    Route::post('/invitation', 'InvitationController@store')->name('invitation.store');
-    Route::get('/invitation/accept/{token}', 'InvitationController@accept')->name('invitation.accept');
-    Route::post('/invitation/destroy/{id}', 'InvitationController@destroy')->name('invitation.destroy');
 
 
     Route::get('formm', 'GoogleDriveController@index')->name('formm');
@@ -245,7 +237,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('contact/get-property-estimates', 'Admin\RapidApiController@getPropertyEstimates')->name('contact.property_estimates');
     Route::post('contact/fetch-google-map', 'Admin\RapidApiController@getGoogleMapsLink')->name('contact.property_links');
     Route::post('contact/fetch-zillow-link', 'Admin\RapidApiController@getZillowPropertyURL')->name('contact.zillow_property_links');
-
+ 
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
