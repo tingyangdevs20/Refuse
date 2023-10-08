@@ -16,7 +16,7 @@
                 </li>
                
                 <li>
-                    <a href="{{ route('admin.setgoals') }}">
+                    <a href="{{ route('admin.create.goals') }}">
                         <i class="bx bx-check-square"></i>
                         <span>Goals</span>
                     </a>
@@ -136,9 +136,8 @@
                         <span>Deals</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#" class="waves-effect">Inspection Pending</a></li>
-                        <li><a href="#" class="waves-effect">Funding Pending</a></li>
-                        <li><a href="#" class="waves-effect">Title Pending</a></li>
+                        <li><a href="#" class="waves-effect">Deals In Progress</a></li>
+                        <li><a href="#" class="waves-effect">Closed Deals</a></li>
                     </ul>
                 </li>
                 <li>
@@ -164,7 +163,8 @@
                 <li class="menu-title">Settings</li>
 
                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('user_task_module'))
-               
+                     
+             
                 @endif
 
                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('zoom_module'))
@@ -190,7 +190,7 @@
                         <span>Settings</span>
                      </a>
                      <ul class="sub-menu" aria-expanded="false">
-                     <li><a href="" class="waves-effect">Communication Settings</a></li>
+                     <li><a href="{{ route('admin.CommunicationSetting.index') }}" class="waves-effect">Communication Settings</a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a></li>
                          <li>
                     <a href="{{ route('admin.script.index') }}" class=" waves-effect">
@@ -229,6 +229,7 @@
                         <li><a href="{{ route('admin.category.index') }}" class=" waves-effect">Lead Categories</a></li>
                         <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li>
                         <!-- <li><a href="{{ route('admin.rvm.index') }}" class=" waves-effect">RVMS</a></li> -->
+                        <li><a href="{{ route('admin.googleCalendersetting.setting') }}" class=" waves-effect"> Google Calendar Settings</a></li>
                         <li><a href="{{ route('admin.field.index') }}" class=" waves-effect">Custom Fields</a></li>
                         <li><a href="javascript: void(0);" class="has-arrow waves-effect"><span>DNC Management</span></a>
                             <ul class="sub-menu" aria-expanded="false">
@@ -236,9 +237,11 @@
                                 <li><a href="{{ route('admin.blacklist.index') }}" class=" waves-effect">DNC Database</a></li>
                             </ul>
                         </li>
+                        <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation Management</a></li>
+
                         <li>
                     <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
-                    <i class="fas fa-tasks"></i>
+
                         <span>User Task</span>
                     </a>
                 </li>
@@ -253,10 +256,11 @@
 
 
 
+                <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
 
-<!-- 
-                <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
-
+               <!-- <span> Quick Response</span></a></li> -->
+                <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
+                
                <span> Quick Response</span></a></li> -->
 
 
