@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Model\Account;
 use App\Model\Number;
 use App\Model\Market;
+use App\Model\Settings;
 use Illuminate\Http\Request;
+use App\Model\CalendarSetting;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AccountController extends Controller
@@ -19,8 +21,14 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = Account::first();
+        $settings = Settings::first();
 
-        return view('back.pages.account.index', compact('accounts'));
+        $timezones = timezone_identifiers_list();
+        $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
+
+        $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting();
+
+        return view('back.pages.account.index', compact('accounts','settings', 'timezones', 'appointmentSetting'));
     }
 
 
@@ -67,13 +75,17 @@ class AccountController extends Controller
         // $account->account_token=$request->account_token;
         // $account->account_copilot=$request->account_copilot;
         // $account->account_name=$request->account_name;
+
         $account->sms_rate = $request->sms_rate;
         $account->sms_allowed = $request->sms_allowed;
-        $account->phone_cell_append_rate    = $request->phone_cell_append_rate;
-        $account->email_append_rate         = $request->email_append_rate;
-        $account->name_append_rate          = $request->name_append_rate;
-        $account->email_verification_rate   = $request->email_verification_rate;
-        $account->phone_scrub_rate          = $request->phone_scrub_rate;
+            $account->phone_cell_append_rate    = $request->phone_cell_append_rate;
+            $account->email_append_rate         = $request->email_append_rate;
+            $account->name_append_rate          = $request->name_append_rate;
+            $account->email_verification_rate   = $request->email_verification_rate;
+            $account->rvm_rate                  = $request->rvm_rate;
+            $account->mms_rate                  = $request->mms_rate;
+            $account->email_rate                = $request->email_rate;
+            $account->phone_scrub_rate          = $request->phone_scrub_rate;
         $account->scraping_charge_per_record          = $request->scraping_charge_per_record;
         $account->save();
 
@@ -113,11 +125,17 @@ class AccountController extends Controller
         return redirect()->back();
     }
 
+public function googleCalendersetting(Request $request){
+    $accounts = Account::first();
 
+    return view('back.pages.GoogleCalenderSetting.index', compact('accounts'));
+}
     public function destroy(Request $request)
     {
         Account::find($request->account_id)->delete();
         Alert::success('Success', 'Account Removed!');
         return redirect()->back();
     }
+
+    
 }
