@@ -3546,9 +3546,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-md-4 offset-4">
+                                                            <div class="col-md-4">
                                                                 <button type="submit" id="authenticate_google"
-                                                                    class="btn btn-primary">Authenticate Google Account</button>
+                                                                    class="btn btn-primary">Access Google Drive</button>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <div class="form-group" style="padding: 0 10px;">
@@ -3569,8 +3569,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <input type="file" name="file" id="file">
-                                                                <div class="form-group" style="padding: 0 10px;"
+                                                               <div class="form-group" style="padding: 0 10px;"
                                                                     id="driveUpload">
                                                                     <label for="file">Select Files to
                                                                             Upload:</label>
@@ -5021,7 +5020,7 @@
                         // Event handler when a file upload is successful
                         // console.log(response);
                         this.removeAllFiles();
-                        toastr.error("File uploaded Successfully", {
+                        toastr.success("File uploaded Successfully", {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
                        
