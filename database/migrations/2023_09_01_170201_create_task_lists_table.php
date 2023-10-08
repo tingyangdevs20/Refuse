@@ -20,6 +20,7 @@ class CreateTaskListsTable extends Migration
             $table->string('checked')->nullable();
             $table->string('status')->nullable();
             $table->string('position')->nullable();
+            $table->string('description')->nullable();
 
             $table->timestamps();
         });
