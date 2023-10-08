@@ -90,7 +90,43 @@
                         <a href="{{ url('admin/group-contacts-all') }}"
                             class="btn btn-warning btn-sm float-right mr-3"><i class="fas fa-eye"></i> View All
                             Contacts</a>
+                            <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
+                        data-target="#helpModal">How to use</button>  
+                        {{--Modal Add on 31-08-2023--}}
+                            <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">How to Use</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                
+                            </div>
+                            
+                            <div class="modal-body">
+                                    
+                                <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
+                                <iframe src="{{ helpvideolink()->links }}" frameBorder="0" style="position:absolute;width:100%;height:100%;border-radius:6px;left:0;top:0" allowfullscreen="" allow="autoplay">
+                                </iframe>
+                                </div>
+                                <form action="{{ route('admin.helpvideo.updates',helpvideolink()->id) }}" method="post"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                    <div class="form-group">
+                                        <label>Video Url</label>
+                                        <input type="url" class="form-control" placeholder="Enter link" name="video_url" value="{{ helpvideolink()->links }}" id="video_url" >
+                                    </div>
+                            </div>
 
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                            </form>
+                            </div>
+                        </div>
+                        </div>
+    {{--End Modal on 31-08-2023--}}
 
                     </div>
                     <div class="card-body">
@@ -119,6 +155,8 @@
                                 <tr>
                                     <th scope="col">List Name</th>
                                     <th scope="col">Contact</th>
+                                    <th scope="col">Pushed To Campaign</th>
+                                    <th scope="col">Pushed To Campaign Date</th>
                                     <th scope="col">Date of Last Email Skip Trace</th>
                                     <th scope="col">Date of Last Phone Skip Trace</th>
                                     <th scope="col">Date of Last Name Skip Trace</th>
@@ -137,6 +175,22 @@
                                     <td>{{ $group->name }}</td>
                                     <td><a href="{{ route('admin.group.show',$group->id) }}"
                                             id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a>
+                                    </td>
+                                    <td>
+                                      
+                                        
+                                        @if ($group->campaign_name)
+                                         {{ $group->campaign_name }}
+                                        @else
+                                       <span style="color:#efefef"> Not Pushed Yet</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($group->pushed_to_camp_date)
+                                         {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
+                                        @else
+                                        <span style="color:#efefef">NA</span>
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($group->email_skip_trace_date)

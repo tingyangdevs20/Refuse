@@ -13,8 +13,5 @@ npm-debug.log
 yarn-error.log
 .idea
 .env
-vendor
-.vendor
-.vendor/*
 
-/vendor
+bulk_sms_new.rar

@@ -13,6 +13,7 @@ use App\Model\CampaignList;
 use App\Model\Contact;
 use App\Model\Account;
 use App\Model\Template;
+use App\Model\TemplateMessages;
 use App\Model\Reply;
 use App\Model\Sms;
 use App\Model\RvmFile;
@@ -46,6 +47,7 @@ class CampaignListController extends Controller
     {
         $numbers = Number::all();
         $templates = Template::all();
+        //dd($templates);
         $files = RvmFile::all();
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
@@ -314,8 +316,11 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+        $templ_ate=$request->templat;
         $sid = 'AC28c9cf33623247a487bf51ca9af20b50';
         $token='03d28e0a1abd5e829b6d278055643dba';
+
+     // dd($request);
 
        // dd($subject);
        // die("..");
@@ -350,8 +355,23 @@ class CampaignListController extends Controller
 
                 //return $media;
                 //return $sendAfter;
+                $bodytext='';
+                $body_text=TemplateMessages::where('template_id' ,$request->templat[$key])->get();
+
+              //  dd($request->campaign_list_id[$key] );
+
                 // Create the campaign
                 if($request->campaign_list_id[$key] == 0){
+
+                    if($body_text)
+                   {
+
+                    foreach($body_text as $btext)
+                    {
+                        if($btext)
+                        {
+                            $bodytext=$btext->msg_content;
+                            $subject=$btext->subject;
                     CampaignList::create([
                         'campaign_id' => $campaign_id,
                         'type' => $val,
@@ -359,285 +379,312 @@ class CampaignListController extends Controller
                         'send_after_hours' => $request->send_after_hours[$key],
                         'schedule' => $sendAfter,
                         'mediaUrl' => $media,
-                        'template_id' => $request->template_id,
+                        'template_id' => $request->templat[$key],
+                        'body' => $bodytext,
+                        'subject' => $subject,
+                        
                         'active' => 1, // Set active status
                     ]);
-                }else{
-                    CampaignList::where('id' ,$request->campaign_list_id[$key] )->update([
-                        'type' =>  $val,
-                        'send_after_days' => $request->send_after_days[$key],
-                        'send_after_hours' => $request->send_after_hours[$key],
-                        'schedule' => $sendAfter,
-                        'template_id' => 0,
-                        'mediaUrl' => $media,
-                        'body' => $request->body[$key],
-                        'active' => 1, // Set active status
-                        // Add other fields for campaign details
-                    ]);
+                }
+            }
+        }
+    }
+                
+                
+                
+                
+                else{
+
+                    
+                   
+
+                   if($body_text)
+                   {
+
+                    foreach($body_text as $btext)
+                    {
+                        if($btext)
+                        {
+                            $bodytext=$btext->msg_content;
+                            //dd($bodytext);
+                        CampaignList::where('id' ,$request->campaign_list_id[$key] )->update([
+                            'type' =>  $val,
+                            'send_after_days' => $request->send_after_days[$key],
+                            'send_after_hours' => $request->send_after_hours[$key],
+                            'schedule' => $sendAfter,
+                            'template_id' => $request->templat[$key],
+                            'mediaUrl' => $media,
+                            'body' => $bodytext,
+                            'active' => 1, // Set active status
+                            // Add other fields for campaign details
+                        ]);
+                    }
+                    }
+                    
+                   }
+
+
+
+                    
+                
                 }
                 $count++;
             }
         }
         $compain = Campaign::where('id',$campaign_id)->first();
-        //dd($compain);
-        $groupsID = Group::where('id',$compain->group_id)->first();
-        if($groupsID){
-            $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
-
-             //dd($numbers);
-          $account = Account::where('id' , $sender_numbers->account_id)->first();
-                if($account){
-                    $sid = $account->account_id;
-                    $token = $account->account_token;
-                }else{
-                    $sid = '';
-                    $token = '';
-                }
-        }
+       
+      
        
 
         $checkCompainList = CampaignList::where('campaign_id',$request->campaign_id)->get();
+
+       //dd(count($checkCompainList));
        
-        if(count($checkCompainList) == 1){
+
+       //COMMENTED ON - 8 Oct 2023 by JSingh
+       // not require to run the campaign as it will run after push to campaign
+
+        // if(count($checkCompainList) > 0){
             
-            $template = Template::where('id',$request->template_id)->first();
+        //     $template = Template::where('id',$request->template_id)->first();
            
-            if($request->type[0] == 'email'){
-                $contacts = Contact::where('group_id' , $compain->group_id)->get();
+        //     if($request->type[0] == 'email'){
+        //         $contacts = Contact::where('group_id' , $compain->group_id)->get();
               
-                if(count($contacts) > 0){
-                    foreach($contacts as $cont){
-                        //return $cont->name;
-                        if($cont->email1 != ''){
-                            $email = $cont->email1;
-                        }elseif($cont->email2){
-                            $email = $cont->email2;
-                        }
+        //        if(count($contacts) > 0){
+        //             foreach($contacts as $cont){
+                        
+        //                 if($cont->email1 != ''){
+        //                     $email = $cont->email1;
+        //                 }elseif($cont->email2){
+        //                     $email = $cont->email2;
+        //                 }
 
                         
-                        if($template){
-                            $subject_new = $template->subject;
-                        }else{
-                            $subject_new = $checkCompainList[0]->subject;
-                        }
-                      if($subject=='')
-                      {
-                         $subject=$subject_new;
-                      }
-                       // $subject = $template->subject;
+        //                 if($template){
+        //                     $subject_new = $template->subject;
+        //                 }else{
+        //                     $subject_new = $checkCompainList[0]->subject;
+        //                 }
+        //               if($subject=='')
+        //               {
+        //                  $subject=$subject_new;
+        //               }
                        
-                        $subject = str_replace("{name}", $cont->name, $subject);
-                        $subject = str_replace("{street}", $cont->street, $subject);
-                        $subject = str_replace("{city}", $cont->city, $subject);
-                        $subject = str_replace("{state}", $cont->state, $subject);
-                        $subject = str_replace("{zip}", $cont->zip, $subject);
+                       
+        //                 $subject = str_replace("{name}", $cont->name, $subject);
+        //                 $subject = str_replace("{street}", $cont->street, $subject);
+        //                 $subject = str_replace("{city}", $cont->city, $subject);
+        //                 $subject = str_replace("{state}", $cont->state, $subject);
+        //                 $subject = str_replace("{zip}", $cont->zip, $subject);
 
                         
 
-                        if($template){
-                            $message = $template->body;
-                        }else{
-                            $message = $checkCompainList[0]->body;
-                        }
-                        $message = str_replace("{name}", $cont->name, $message);
-                        $message = str_replace("{street}", $cont->street, $message);
-                        $message = str_replace("{city}", $cont->city, $message);
-                        $message = str_replace("{state}", $cont->state, $message);
-                        $message = str_replace("{zip}", $cont->zip, $message);
+        //                 if($template){
+        //                     $message = $template->body;
+        //                 }else{
+        //                     $message = $checkCompainList[0]->body;
+        //                 }
+        //                 $message = str_replace("{name}", $cont->name, $message);
+        //                 $message = str_replace("{street}", $cont->street, $message);
+        //                 $message = str_replace("{city}", $cont->city, $message);
+        //                 $message = str_replace("{state}", $cont->state, $message);
+        //                 $message = str_replace("{zip}", $cont->zip, $message);
 
-                       // print_r($email);
-                       //die("..");
-                        $unsub_link = url('admin/email/unsub/'.$email);
-                        $data = ['message' => $message ,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
-                        //dd($data);
-                        Mail::to($email)->send(new TestEmail($data));
+        //                // print_r($email);
+        //                //die("..");
+        //                 $unsub_link = url('admin/email/unsub/'.$email);
+        //                 $data = ['message' => $message ,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
+        //                 //dd($data);
+        //                 Mail::to($email)->send(new TestEmail($data));
                         
-                    }
-                }
+        //             }
+        //         }
 
-            }
+        //     }
             
-            elseif($request->type[0] == 'sms'){
+        //     elseif($request->type[0] == 'sms'){
                
-                $client = new Client($sid, $token);
-                $contacts = Contact::where('group_id' , $compain->group_id)->get();
-                if(count($contacts) > 0){
-                    foreach($contacts as $cont){
-                        if($cont->number != ''){
-                            $number = $cont->number;
-                        }elseif($cont->number2 != ''){
-                            $number = $cont->number2;
-                        }elseif($cont->number3 != ''){
-                            $number = $cont->number2;
-                        }
-                        $receiver_number = $number;
+        //         $client = new Client($sid, $token);
+        //         $contacts = Contact::where('group_id' , $compain->group_id)->get();
+        //         if(count($contacts) > 0){
+        //             foreach($contacts as $cont){
+        //                 if($cont->number != ''){
+        //                     $number = $cont->number;
+        //                 }elseif($cont->number2 != ''){
+        //                     $number = $cont->number2;
+        //                 }elseif($cont->number3 != ''){
+        //                     $number = $cont->number2;
+        //                 }
+        //                 $receiver_number = $number;
                        
-                        $sender_number = $sender_numbers->number;
+        //                 $sender_number = $sender_numbers->number;
                        
-                        if($template){
-                            $message = $template->body;
-                        }else{
-                            $message = $checkCompainList[0]->body;
-                        }
+        //                 if($template){
+        //                     $message = $template->body;
+        //                 }else{
+        //                     $message = $checkCompainList[0]->body;
+        //                 }
                         
-                        $message = str_replace("{name}", $cont->name, $message);
-                        $message = str_replace("{street}", $cont->street, $message);
-                        $message = str_replace("{city}", $cont->city, $message);
-                        $message = str_replace("{state}", $cont->state, $message);
-                        $message = str_replace("{zip}", $cont->zip, $message);
+        //                 $message = str_replace("{name}", $cont->name, $message);
+        //                 $message = str_replace("{street}", $cont->street, $message);
+        //                 $message = str_replace("{city}", $cont->city, $message);
+        //                 $message = str_replace("{state}", $cont->state, $message);
+        //                 $message = str_replace("{zip}", $cont->zip, $message);
 
                        
-                        try {
-                            $sms_sent = $client->messages->create(
-                                $receiver_number,
-                                [
-                                    'from' => $sender_number,
-                                    'body' => $message,
-                                ]
-                            );
+        //                 try {
+        //                     $sms_sent = $client->messages->create(
+        //                         $receiver_number,
+        //                         [
+        //                             'from' => $sender_number,
+        //                             'body' => $message,
+        //                         ]
+        //                     );
                             
-                            if ($sms_sent) {
+        //                     if ($sms_sent) {
                                
-                                $old_sms = Sms::where('client_number', $receiver_number)->first();
-                                if ($old_sms == null) {
-                                    $sms = new Sms();
-                                    $sms->client_number = $receiver_number;
-                                    $sms->twilio_number = $sender_number;
-                                    $sms->message = $message;
-                                    $sms->media = '';
-                                    $sms->status = 1;
-                                    $sms->save();
-                                    $this->incrementSmsCount($sender_number);
-                                } else {
-                                    $reply_message = new Reply();
-                                    $reply_message->sms_id = $old_sms->id;
-                                    $reply_message->to = $sender_number;
-                                    $reply_message->from = $receiver_number;
-                                    $reply_message->reply = $message;
-                                    $reply_message->system_reply = 1;
-                                    $reply_message->save();
-                                    $this->incrementSmsCount($sender_number);
-                                }
+        //                         $old_sms = Sms::where('client_number', $receiver_number)->first();
+        //                         if ($old_sms == null) {
+        //                             $sms = new Sms();
+        //                             $sms->client_number = $receiver_number;
+        //                             $sms->twilio_number = $sender_number;
+        //                             $sms->message = $message;
+        //                             $sms->media = '';
+        //                             $sms->status = 1;
+        //                             $sms->save();
+        //                             $this->incrementSmsCount($sender_number);
+        //                         } else {
+        //                             $reply_message = new Reply();
+        //                             $reply_message->sms_id = $old_sms->id;
+        //                             $reply_message->to = $sender_number;
+        //                             $reply_message->from = $receiver_number;
+        //                             $reply_message->reply = $message;
+        //                             $reply_message->system_reply = 1;
+        //                             $reply_message->save();
+        //                             $this->incrementSmsCount($sender_number);
+        //                         }
 
-                            }
-                        } catch (\Exception $ex) {
-                            //echo $ex;
-                            //die("here");
-                            $failed_sms = new FailedSms();
-                            $failed_sms->client_number = $receiver_number;
-                            $failed_sms->twilio_number = $sender_number;
-                            $failed_sms->message = $message;
-                            $failed_sms->media = '';
-                            $failed_sms->error = $ex->getMessage();
-                            $failed_sms->save();
-                        }
-                    }
-                }
-            }elseif($request->type[0] == 'mms'){
-                $client = new Client($sid, $token);
-                $contacts = Contact::where('group_id' , $compain->group_id)->get();
-                if(count($contacts) > 0){
-                    foreach($contacts as $cont){
-                        $receiver_number = $cont->number;
-                        //$receiver_number = '4234606442';
-                        $sender_number = $sender_numbers->number;
-                        if($template){
-                            $message = $template->body;
-                        }else{
-                            $message = $checkCompainList->body;
-                        }
-                        $message = str_replace("{name}", $cont->name, $message);
-                        $message = str_replace("{street}", $cont->street, $message);
-                        $message = str_replace("{city}", $cont->city, $message);
-                        $message = str_replace("{state}", $cont->state, $message);
-                        $message = str_replace("{zip}", $cont->zip, $message);
-                        if($template){
-                            $mediaUrl = $template->mediaUrl;
-                        }else{
-                            $mediaUrl = $checkCompainList->mediaUrl;
-                        }
-                        try {
-                            $sms_sent = $client->messages->create(
-                                $receiver_number,
-                                [
-                                    'from' => $sender_number,
-                                    'body' => $message,
-                                    'mediaUrl' => [$mediaUrl],
-                                ]
-                            );
-                            //dd($sms_sent);
-                            if ($sms_sent) {
-                                $old_sms = Sms::where('client_number', $receiver_number)->first();
-                                if ($old_sms == null) {
-                                    $sms = new Sms();
-                                    $sms->client_number = $receiver_number;
-                                    $sms->twilio_number = $sender_number;
-                                    $sms->message = $message;
-                                    $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-                                    $sms->status = 1;
-                                    $sms->save();
-                                   // $this->incrementSmsCount($sender_number);
-                                } else {
-                                    $reply_message = new Reply();
-                                    $reply_message->sms_id = $old_sms->id;
-                                    $reply_message->to = $sender_number;
-                                    $reply_message->from = $receiver_number;
-                                    $reply_message->reply = $message;
-                                    $reply_message->system_reply = 1;
-                                    $reply_message->save();
-                                    $this->incrementSmsCount($sender_number);
-                                }
+        //                     }
+        //                 } catch (\Exception $ex) {
+        //                     //echo $ex;
+        //                     //die("here");
+        //                     $failed_sms = new FailedSms();
+        //                     $failed_sms->client_number = $receiver_number;
+        //                     $failed_sms->twilio_number = $sender_number;
+        //                     $failed_sms->message = $message;
+        //                     $failed_sms->media = '';
+        //                     $failed_sms->error = $ex->getMessage();
+        //                     $failed_sms->save();
+        //                 }
+        //             }
+        //         }
+        //     }elseif($request->type[0] == 'mms'){
+        //         $client = new Client($sid, $token);
+        //         $contacts = Contact::where('group_id' , $compain->group_id)->get();
+        //         if(count($contacts) > 0){
+        //             foreach($contacts as $cont){
+        //                 $receiver_number = $cont->number;
+        //                 //$receiver_number = '4234606442';
+        //                 $sender_number = $sender_numbers->number;
+        //                 if($template){
+        //                     $message = $template->body;
+        //                 }else{
+        //                     $message = $checkCompainList->body;
+        //                 }
+        //                 $message = str_replace("{name}", $cont->name, $message);
+        //                 $message = str_replace("{street}", $cont->street, $message);
+        //                 $message = str_replace("{city}", $cont->city, $message);
+        //                 $message = str_replace("{state}", $cont->state, $message);
+        //                 $message = str_replace("{zip}", $cont->zip, $message);
+        //                 if($template){
+        //                     $mediaUrl = $template->mediaUrl;
+        //                 }else{
+        //                     $mediaUrl = $checkCompainList->mediaUrl;
+        //                 }
+        //                 try {
+        //                     $sms_sent = $client->messages->create(
+        //                         $receiver_number,
+        //                         [
+        //                             'from' => $sender_number,
+        //                             'body' => $message,
+        //                             'mediaUrl' => [$mediaUrl],
+        //                         ]
+        //                     );
+        //                     //dd($sms_sent);
+        //                     if ($sms_sent) {
+        //                         $old_sms = Sms::where('client_number', $receiver_number)->first();
+        //                         if ($old_sms == null) {
+        //                             $sms = new Sms();
+        //                             $sms->client_number = $receiver_number;
+        //                             $sms->twilio_number = $sender_number;
+        //                             $sms->message = $message;
+        //                             $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+        //                             $sms->status = 1;
+        //                             $sms->save();
+        //                            // $this->incrementSmsCount($sender_number);
+        //                         } else {
+        //                             $reply_message = new Reply();
+        //                             $reply_message->sms_id = $old_sms->id;
+        //                             $reply_message->to = $sender_number;
+        //                             $reply_message->from = $receiver_number;
+        //                             $reply_message->reply = $message;
+        //                             $reply_message->system_reply = 1;
+        //                             $reply_message->save();
+        //                             $this->incrementSmsCount($sender_number);
+        //                         }
 
-                            }
-                        } catch (\Exception $ex) {
-                            $failed_sms = new FailedSms();
-                            $failed_sms->client_number = $receiver_number;
-                            $failed_sms->twilio_number = $sender_number;
-                            $failed_sms->message = $message;
-                            $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-                            $failed_sms->error = $ex->getMessage();
-                            $failed_sms->save();
-                        }
-                    }
-                }
-            }elseif($request->type == 'rvm'){
-                $contactsArr = [];
-                $contacts = Contact::where('group_id' , $compain->group_id)->get();
-                if(count($contacts) > 0){
-                    foreach($contacts as $cont){
-                        $contactsArr[] = $cont->number;
-                    }
-                }
-                if(count($contactsArr) > 0){
-                    try {
-                        if($template){
-                            $message = $template->body;
-                        }else{
-                            $message = $checkCompainList->body;
-                        }
-                        $c_phones = implode(',',$contactsArr);
-                        //$c_phones = '3128692422';
-                        $vrm = \Slybroadcast::sendVoiceMail([
-                                            'c_phone' => ".$c_phones.",
-                                            'c_url' =>$message,
-                                            'c_record_audio' => '',
-                                            'c_date' => 'now',
-                                            'c_audio' => 'Mp3',
-                                            //'c_callerID' => "4234606442",
-                                            'c_callerID' => $sender_numbers->number,
-                                            //'mobile_only' => 1,
-                                            'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
-                                           ])->getResponse();
-                    }catch (\Exception $ex) {
+        //                     }
+        //                 } catch (\Exception $ex) {
+        //                     $failed_sms = new FailedSms();
+        //                     $failed_sms->client_number = $receiver_number;
+        //                     $failed_sms->twilio_number = $sender_number;
+        //                     $failed_sms->message = $message;
+        //                     $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+        //                     $failed_sms->error = $ex->getMessage();
+        //                     $failed_sms->save();
+        //                 }
+        //             }
+        //         }
+        //     }elseif($request->type == 'rvm'){
+        //         $contactsArr = [];
+        //         $contacts = Contact::where('group_id' , $compain->group_id)->get();
+        //         if(count($contacts) > 0){
+        //             foreach($contacts as $cont){
+        //                 $contactsArr[] = $cont->number;
+        //             }
+        //         }
+        //         if(count($contactsArr) > 0){
+        //             try {
+        //                 if($template){
+        //                     $message = $template->body;
+        //                 }else{
+        //                     $message = $checkCompainList->body;
+        //                 }
+        //                 $c_phones = implode(',',$contactsArr);
+        //                 //$c_phones = '3128692422';
+        //                 $vrm = \Slybroadcast::sendVoiceMail([
+        //                                     'c_phone' => ".$c_phones.",
+        //                                     'c_url' =>$message,
+        //                                     'c_record_audio' => '',
+        //                                     'c_date' => 'now',
+        //                                     'c_audio' => 'Mp3',
+        //                                     //'c_callerID' => "4234606442",
+        //                                     'c_callerID' => $sender_numbers->number,
+        //                                     //'mobile_only' => 1,
+        //                                     'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
+        //                                    ])->getResponse();
+        //             }catch (\Exception $ex) {
 
-                    }
-                }
+        //             }
+        //         }
 
-            }
-            // $campaign->active = $request->active; // Update active
-            $checkCompainList1 = CampaignList::where('campaign_id',$request->campaign_id)->first();
-            $campaigns = CampaignList::where('id' , $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
-        }
+        //     }
+        //     // $campaign->active = $request->active; // Update active
+        //     $checkCompainList1 = CampaignList::where('campaign_id',$request->campaign_id)->first();
+        //     $campaigns = CampaignList::where('id' , $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
+        // }
+       //COMMENTED ON - 8 Oct 2023 by JSingh
 
         //return $request->campaign_id;
         return redirect('admin/campaign/list/'.$request->campaign_id)->with('success', 'Campaign list created successfully.');

@@ -3,18 +3,18 @@
         <div class="d-flex">
         <div class="navbar-brand-box">
 
-            <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
+            <a href="{{ route('admin.dashboard') }}" class="logo collapsedlogo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="{{ asset('back/assets/images/sms.svg') }}" alt="" height="25">
+                                    <img src="{{ asset('back/assets/images/favicon.ico') }}" alt="" height="25">
                                 </span>
                 <span class="logo-lg">
                                     <img src="{{ asset('back/assets/images/sms.png') }}" alt="" height="30">
                                 </span>
             </a>
 
-            <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
+            <a href="{{ route('admin.dashboard') }}" class="logo collapsedlogo logo-light">
                                 <span class="logo-sm">
-                                    <img src="{{ asset('back/assets/images/sms.png') }}" alt="" height="58">
+                                    <img src="{{ asset('back/assets/images/favicon.ico') }}" alt="" height="58">
                                 </span>
                 <span class="logo-lg">
                                     <img src="{{ asset('back/assets/images/sms.png') }}" alt="" height="50">

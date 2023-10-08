@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Storage; // Import Storage facade
 use Spatie\Permission\Models\Role;
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
+
 class InvitationController extends Controller
 {
-
     public function index()
     {
         $invitation = user::all();

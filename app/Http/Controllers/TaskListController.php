@@ -19,10 +19,11 @@ class TaskListController extends Controller
     {
        
         if (Gate::allows('user_module') || Gate::allows('administrator')) {
-
             $users = User::all();
             // $tasks = TaskList::all();
             $tasks = TaskList::orderBy('position')->get();
+            // $tasks = TaskList::all();
+
             return view('back.pages.tasklist.index',compact('users','tasks'));
         }else{
             return abort(401);
@@ -48,7 +49,7 @@ class TaskListController extends Controller
     public function store(Request $request)
     {
         if ( Gate::allows('user_create') ||  Gate::allows('administrator')) {
-   
+
             // Validate the form data
             $validatedData = $request->validate([
               'task' => 'required|string|max:255',
@@ -62,7 +63,6 @@ class TaskListController extends Controller
               'tast' => $validatedData['task'],
               'user_id' => $validatedData['assignee'],
               'checked' => 1,
-              'description' => $request->description,
               'status' => 'assignee',
 
           ]);
@@ -88,6 +88,7 @@ class TaskListController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(TaskList $taskList, $id)
+    
     {
         if ( Gate::allows('user_create') ||  Gate::allows('administrator')) {
             $users = User::all();
@@ -102,6 +103,7 @@ class TaskListController extends Controller
 
 
 
+        //
     }
 
     /**
@@ -143,31 +145,38 @@ class TaskListController extends Controller
      */
     public function delete(Request $request)
     {
+
         $taskIds = $request->input('task_id');
         TaskList::whereIn('id', $taskIds)->delete();
-        return response()->json(['message' => 'Tasks deleted successfully']);
-    }
-    public function updateOrder(Request $request)
-    {
-        $newOrder = $request->input('newOrder');
-    
-        foreach ($newOrder as $position => $taskId) {
-            TaskList::where('id', $taskId)->update(['position' => $position + 1]);
-        }
-    
-        // Retrieve the updated task list data
-        $updatedTaskLists = TaskList::orderBy('position')->get();
-        
-        // Render the table view
-        // return  $table = View::make('back.pages.tasklist.table', ['taskLists' => $updatedTaskLists])->render();
-    
-        return response()->json([
-            'message' => 'Task order updated successfully',
-            'taskLists' => $updatedTaskLists,
-            // 'table' => $table, // Include the rendered table HTML
-        ]);
-    }
 
+        return response()->json(['message' => 'Tasks deleted successfully']);
+
+
+    }
+    public function storeLists(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'task' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'assignee' => 'required|exists:users,id',
+        ]);
+
+        // Create a new TaskList instance
+        $taskList = new TaskLists();
+        $taskList->tast = $validatedData['task'];
+        $taskList->description = $validatedData['description'];
+        $taskList->user_id = $validatedData['assignee'];
+        $taskList->tasklist_id = $request->tasklist_id;
+        $taskList->save();
+        // return response()->json(['message' => 'Tasks deleted successfully']);
+
+        // Optionally, you can add a success message
+        session()->flash('success', 'Task added successfully');
+
+        // Redirect back to the previous page or any other page you desire
+        return redirect()->back();
+    }
     public function updateOrders(Request $request)
     {
         $newOrder = $request->input('newOrder');
@@ -188,28 +197,24 @@ class TaskListController extends Controller
             // 'table' => $table, // Include the rendered table HTML
         ]);
     }
-    public function storeLists(Request $request)
+    public function updateOrder(Request $request)
     {
-        // Validate the form data
-        $validatedData = $request->validate([
-            'task' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'assignee' => 'required|exists:users,id',
+        $newOrder = $request->input('newOrder');
+    
+        foreach ($newOrder as $position => $taskId) {
+            TaskList::where('id', $taskId)->update(['position' => $position + 1]);
+        }
+    
+        // Retrieve the updated task list data
+        $updatedTaskLists = TaskList::orderBy('position')->get();
+        
+        // Render the table view
+        // return  $table = View::make('back.pages.tasklist.table', ['taskLists' => $updatedTaskLists])->render();
+
+        return response()->json([
+            'message' => 'Task order updated successfully',
+            'taskLists' => $updatedTaskLists,
+            // 'table' => $table, // Include the rendered table HTML
         ]);
-
-        // Create a new TaskList instance
-        $taskList = new TaskLists();
-        $taskList->tast = $validatedData['task'];
-        $taskList->description = $validatedData['description'];
-        $taskList->user_id = $validatedData['assignee'];
-        $taskList->tasklist_id = $request->tasklist_id;
-        $taskList->save();
-
-        // Optionally, you can add a success message
-        session()->flash('success', 'Task added successfully');
-
-        // Redirect back to the previous page or any other page you desire
-        return redirect()->back();
     }
 }
-
