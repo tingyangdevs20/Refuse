@@ -2,14 +2,14 @@
 $helpLink = helpVideolink($type);
 @endphp
 <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
-    data-target="#helpModal">How to use</button>
+    data-target="#helpModal">Use this Section</button>
 
 {{--Modal Add on 31-08-2023--}}
 <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">How to Use</h4>
+                <h4 class="modal-title" id="myModalLabel">Use this Sectione</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span>
                 </button>

@@ -15,18 +15,31 @@
                     </a>
                 </li>
                
+               
+                @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('scraping_module'))
+                <li>
+                    <a href="{{ route('admin.setgoals') }}">
+                        <i class="bx bx-check-square"></i>
+                        <span>Goals</span>
+                    </a>
+                </li>
+                @else
                 <li>
                     <a href="{{ route('admin.create.goals') }}">
                         <i class="bx bx-check-square"></i>
                         <span>Goals</span>
                     </a>
                 </li>
-
+                @endif
                   <li class="menu-title">Lead Generation</li>
 
                 
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
                         <span>My Lists</span></a>
+                </li>
+                <li>  <a href="{{ url('admin/group-contacts-all') }}"
+                            class=" waves-effect"><i class="fas fa-book""></i> View All
+                            Contacts</a>
                 </li>
                 <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">

@@ -38,9 +38,10 @@ use Google_Service_Drive as Drive;
 use Auth;
 use App\LeadInfo;
 use App\TaskList;
+use App\Model\TimeZones;
 use Session;
 use App\AccountDetail;
-
+Use App\User;
 use App\TotalBalance;
 use App\Services\DatazappService;
 
@@ -698,12 +699,64 @@ class GroupController extends Controller
     }
 
 
-    public function getAllContacts(Request $request)
+    public function getAllContacts(Group $group,Request $request)
     {
         $sr = 1;
         $contacts = Contact::where("is_dnc", 0)->get();
-        return view('back.pages.group.view_all', compact('contacts', 'sr'));
+        $contractres = Contractupload::all()->sortByDesc("created_at");
+        $id = $group->id;
+       
+        if ($request->wantsJson()) {
+            $contacts = Contact::where("group_id", $group->id)->where("is_dnc", 0)->get();
+            return response()->json([
+                'data' => $contacts,
+                'success' => true,
+                'status' => 200,
+                'message' => 'OK'
+            ]);
+        } else {
+            // return view('back.pages.group.details', compact('group', 'sr', 'contractres', 'id'));
+            //  return view('back.pages.group.details', compact('group', 'sr', 'id'));
+        }
+
+        return view('back.pages.group.view_all', compact('contacts','group','contractres', 'id', 'sr'));
     }
+
+    public function EditContacts(Request $request, $id){
+         
+         $user = Contact::find($id);
+         $timezones = TimeZones::all();
+        return view('back.pages.group.editcontact', compact('user','timezones'));
+    }
+
+    public function StoreContacts(Request $request){
+        //  return $request->id;
+        $user = Contact::where('id',$request->id)->first();
+
+        // $request->validate([
+        //     'email' => 'required|email|unique:users,email,' . $user->id,
+        //     'password' => 'nullable|sometimes|min:8|confirmed',
+
+        // ]);
+
+        $user->email1 = $request->input('email');
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+        $user->name          =$request->input('name');
+        $user->last_name               =$request->input('last_name');
+        $user->number                =$request->input('mobile');
+        $user->street                =$request->input('street');
+        $user->state                 =$request->input('state');
+        $user->city                  =$request->input('city');
+        $user->zip                   =$request->input('zip');
+        $user->save();
+
+        return redirect()->route('admin.profile.show')->with('success', 'Contract updated successfully.');
+
+       return view('back.pages.group.editcontact', compact('user','timezones'));
+   }
 
     public function show(Group $group, Request $request)
     {

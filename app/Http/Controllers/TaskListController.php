@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TaskList;
 use App\TaskLists;
+use App\Model\Contact;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -153,6 +154,27 @@ class TaskListController extends Controller
 
 
     }
+
+    public function deleteList(Request $request)
+    {
+        
+
+
+
+        $idsToCompare = $request->task_id;
+
+        // Remove the first value from the array
+        array_shift($idsToCompare);
+        foreach ($idsToCompare as $id) {
+            // Query the Contact model with the current $id value
+            Contact::whereIn('id', $idsToCompare)->delete();
+        }
+
+        return response()->json(['message' => 'Tasks deleted successfully']);
+
+
+    }
+
     public function storeLists(Request $request)
     {
         // Validate the form data
