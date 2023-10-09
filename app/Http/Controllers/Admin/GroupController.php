@@ -1716,11 +1716,11 @@ class GroupController extends Controller
                        
                         $subject = $_subject;
                         $body = $_body;
-                        $body = str_replace("{name}", $cont->name, $body);
-                        $body = str_replace("{street}", $cont->street, $body);
-                        $body = str_replace("{city}", $cont->city, $body);
-                        $body = str_replace("{state}", $cont->state, $body);
-                        $body = str_replace("{zip}", $cont->zip, $body);
+                       // $body = str_replace("{name}", $cont->name, $body);
+                       // $body = str_replace("{street}", $cont->street, $body);
+                       // $body = str_replace("{city}", $cont->city, $body);
+                       // $body = str_replace("{state}", $cont->state, $body);
+                       // $body = str_replace("{zip}", $cont->zip, $body);
                         // Define the recipient's email address
                         $email = $cont->$email;
 
