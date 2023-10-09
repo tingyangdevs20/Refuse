@@ -1728,7 +1728,7 @@ class GroupController extends Controller
                         // Send the email
                         Mail::raw($body, function ($message) use ($subject, $email) {
                             $message->subject($subject);
-                            $message->to('help@reifuze.com');
+                            $message->to($email);
                         });
                     }
                 
