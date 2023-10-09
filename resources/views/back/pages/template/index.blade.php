@@ -35,7 +35,8 @@
 
 
                              <button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
-                                    data-target="#helpModal">How to use</button>
+                                    data-target="#helpModal">Use this Section</button>
+                                    @include('components.modalform')
                         </div>
                         <div class="card-body">
                             <table class="table table-striped table-bordered" id="datatable">
@@ -174,39 +175,7 @@
     </div>
     {{--End Modal New--}}
 
-    {{--Modal Add on 31-08-2023--}}
-    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">How to Use</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        
-      </div>
-     
-      <div class="modal-body">
-            
-        <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
-        
-        </div>
-        <form action="{{ route('admin.helpvideo.updates',helpvideolink()->id) }}" method="post"
-                                  enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-            <div class="form-group">
-                <label>Video Url</label>
-           </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-    {{--End Modal on 31-08-2023--}}
+  
 
     {{--Modal Edit--}}
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">

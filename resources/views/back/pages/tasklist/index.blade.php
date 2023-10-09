@@ -108,8 +108,8 @@
                                                             <input type="checkbox" class="task-checkbox" name="task_id[]" value="{{ $task->id }}">
                                                         </td>
                                                         <td>{{ @$loop->iteration }}</td>
-                                                        <td><a href="{{ route('admin.task-list.show',$task->id) }}"
-                                            id="trigger-startup-button">{{ @$task->tast }} </a> </td>
+                                                            <td><a href="{{ route('admin.task-list.show',$task->id) }}"
+                                                                   id="trigger-startup-button">{{ @$task->tast }} </a> </td>
                                                         <td>{{ @$task->user->name }}</td>
                                                         <td>{{ @$task->status }}</td>
                                                         <td>

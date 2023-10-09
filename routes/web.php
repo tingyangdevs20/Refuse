@@ -155,6 +155,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
     Route::post('delete-tasks', 'TaskListController@delete')->name('delete-tasks');
+    Route::post('delete-List', 'TaskListController@deleteList')->name('delete-List');
     Route::post('update-task', 'TaskListController@update')->name('update-task');
 
 
@@ -216,6 +217,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('campaignlistNew', 'Admin\CampaignListController');
     Route::resource('group', 'Admin\GroupController');
     Route::get('group-contacts-all', 'Admin\GroupController@getAllContacts')->name('group-contacts-all');
+    Route::get('group-contacts/edit/{id}', 'Admin\GroupController@editContacts')->name('group-contacts.edit');
+    Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
+    Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
+
+
     Route::resource('auto-responder', 'Admin\AutoResponderController');
     Route::get('failed-sms', 'Admin\SMSController@failedSms')->name('sms.failed');
     Route::delete('failed-sms/destroy', 'Admin\SMSController@failedSmsDestroy')->name('failed-sms.destroy');

@@ -118,7 +118,7 @@
 
 <!-- Right bar overlay-->
 <div class="rightbar-overlay"></div>
-
+        
 <!-- JAVASCRIPT -->
     <script>
         var publicPath = "{!! URL::to('/'); !!}/admin/";

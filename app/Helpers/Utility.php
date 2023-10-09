@@ -182,6 +182,7 @@ if (!function_exists('helpvideolink')) {
      */
     function helpvideolink()
     {
+      
         $uriSegments    = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $lastUriSegment = array_pop($uriSegments);
         $data           = DB::table('help_video')->select('id', 'links')

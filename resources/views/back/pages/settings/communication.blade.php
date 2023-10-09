@@ -4,6 +4,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     <style>
        .checkbox label .toggle,.checkbox-inline .toggle{margin-left:-20px;margin-right:5px}
 .toggle{position:relative;overflow:hidden}
@@ -27,9 +28,32 @@
 .toggle-on.btn-xs{padding-right:12px}
 .toggle-off.btn-xs{padding-left:12px}
 
+body {
+  padding : 10px ;
+  
+}
 
 
+#exTab2 h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+.nav-tabs .active a {
+        background-color: #327cad; /* Change to your preferred button color */
+        color: #fff; /* Text color for the active tab */
+        border-color: #327cad; /* Border color for the active tab */
+        border-radius: 5px; /* Optional: Add rounded corners */
+        padding: 13px;
+    }
 
+    /* Add other CSS styles for the non-active tabs as needed */
+    .nav-tabs li a {
+        /* background-color: #fff; Default background color for non-active tabs */
+        color: #333; /* Default text color for non-active tabs */
+        border-color: #ddd; /* Default border color for non-active tabs */
+        padding: 13px;
+    }
     </style>
 @endsection
 
@@ -58,56 +82,15 @@
                     <div class="card-header bg-soft-dark ">
                         <i class="fas fa-cog"></i> Communication Settings
                         <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
-                            data-toggle="modal" data-target="#helpModal">How to use</button>
-                        {{--Modal Add on 31-08-2023--}}
-                        <div class="modal fade" id="helpModal" tabindex="-1" role="dialog"
-                            aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myModalLabel">How to Use</h4>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                                    </div>
-
-                                    <div class="modal-body">
-
-                                        <div style="position:relative;height:0;width:100%;padding-bottom:65.5%">
-                                            <iframe src="{{ helpvideolink()->links }}" frameBorder="0"
-                                                style="position:absolute;width:100%;height:100%;border-radius:6px;left:0;top:0"
-                                                allowfullscreen="" allow="autoplay">
-                                            </iframe>
-                                        </div>
-                                        <form action="{{ route('admin.helpvideo.updates',helpvideolink()->id) }}"
-                                            method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group">
-                                                <label>Video Url</label>
-                                                <input type="url" class="form-control" placeholder="Enter link"
-                                                    name="video_url" value="{{ helpvideolink()->links }}"
-                                                    id="video_url">
-                                            </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        {{--End Modal on 31-08-2023--}}
+                            data-toggle="modal" data-target="#helpModal">Use this Section</button>
+                            @include('components.modalform')
                       
 
                     </div>
                 </div>
                 
                 <div class="card">
-                    <div class="card-header bg-soft-dark ">
+                    <div class="card-header  bg-soft-dark  ">
                         <ul class="nav nav-tabs">
                             <li class="active mr-3">
                                 <a href="#AutoRespond" data-toggle="tab"> Auto Responder</a>
@@ -116,9 +99,9 @@
                             </li>
                             <li><a  class="mr-3" href="#PhoneNumber" data-toggle="tab">Phone Number</a>
                             </li>
-                            <li><a  class="mr-3"href="#markets" data-toggle="tab">markets</a>
+                            <li><a  class="mr-3"href="#markets" data-toggle="tab">Mrkets</a>
                             </li>
-                            <li><a  class="mr-3"href="#Rvms" data-toggle="tab">Rvms</a>
+                            <li><a  class="mr-3"href="#Rvms" data-toggle="tab">RVMs</a>
                             </li>
                             <li><a class="mr-3" href="#QuickResponse" data-toggle="tab">Quick Response</a>
                             </li>

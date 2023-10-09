@@ -23,7 +23,7 @@
                     </div>
                     <div class="card ">
                         <div class="card-header bg-soft-dark ">
-                            Profile
+                            Contact Information
                         
                         </div>
                         <div class="card-body p-5">
@@ -32,7 +32,7 @@
                         @endif
                 <div class="container-fluid">
 
-                    <form action="{{ route('admin.profile.update') }}" class="profileform" method="post">
+                    <form action="{{ route('admin.StoreContacts') }}" class="profileform" method="post">
                         @csrf
                         <div class="row">
                             <!-- <div class="form-group"> -->
@@ -40,6 +40,7 @@
                                     <div class="col">
                                         <label for="name">First Name</label>
                                         <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}">
+                                        <input type="hidden" name="id" id="id" class="form-control" value="{{ old('id', $user->id) }}">
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
