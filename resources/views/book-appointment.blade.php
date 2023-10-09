@@ -237,26 +237,16 @@
             display: flex;
         }
         .bookappominetimezone {
-            width: 30%;
-            margin-left: 20%;
-            align-content: flex-left;
-
+            width: 50%;
         }
-        .bookappominetimezone,
         .bookappoimetform {
             width: 50%;
             display: flex;
             flex-wrap: wrap;
             flex-direction: column;
-            align-items: center;
-            
+            align-content: flex-end;
         }
         @media (max-width: 1200px) {
-          .bookappominetimezone,
-    .bookappoimetform {
-        width: 100%;
-        padding-top: 25px;
-    }
           .book_appointment {
             height: auto;
         }
@@ -276,6 +266,10 @@
         }
         .bookappoimetform {
             width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
             padding-top: 25px;
         }
         .bookappointmentform {
@@ -364,7 +358,6 @@
         .allappoimentsbox #myc-nav-container {
             display: flex;
             justify-content: center;
-            align-content: center;
         } 
         .mainbookappointment .bookappoimetform .input-group {
             text-align: center;
@@ -515,7 +508,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit"  class="button button4">Confirm Booking</button>
+                  <button type="submit" class="button button4">Confirm Booking</button>
                 </div>
               </div>
             </div>

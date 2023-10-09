@@ -44,49 +44,71 @@ class GoogleDriveController extends Controller
 
     public function googleLogin(Request $request)
     {
+        $rules = [
+            'file' => 'required', // Adjust the allowed file types and size limit as needed
+        ];
+
+        // Validate the request data
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            // Validation failed, redirect back with errors
+            return redirect()->back()->with('notupload', 'File filed is required');
+        }
+
         if (!$this->checkGoogleCredentials()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
-        
+
         // $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
-        
-        
+
         if ($request->get('code')) {
 
             $this->gClient->authenticate($request->get('code'));
             $accessToken = $this->gClient->getAccessToken();
-            
+
             // Store the refresh token securely (e.g., in your database)
             $refreshToken = $this->gClient->getRefreshToken();
-            
+
             // Save the access token and refresh token in the user's record
             $user = User::find(1);
             $user->access_token = json_encode($accessToken);
             $user->refresh_token = json_encode($refreshToken);
             $user->save();
-            
+
             $request->session()->put('token', $accessToken);
             $request->session()->put('refreshtoken', $refreshToken);
         }
+
         if ($request->session()->get('token')) {
-            
+
             $this->gClient->setAccessToken($request->session()->get('token'));
         }
-        
+
+        if ($request->hasFile('file')) {
+            // Store the uploaded file information in the session
+            $fileInfo = [
+                'name' => $request->file('file')->getClientOriginalName(),
+                'mime' => $request->file('file')->getMimeType(),
+                'path' => $request->file('file')->getRealPath(),
+            ];
+            $request->session()->put('uploaded_file_info', $fileInfo);
+        }
+
         if ($this->gClient->getAccessToken()) {
-            // return redirect()->back()->with('notupload', 'File filed is required');
-            
+
             // FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCESS TOKEN
             $user = User::find(1);
-            
+
             $user->access_token = json_encode($request->session()->get('token'));
-            
+
             $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
-            
+
             $user->save();
-            return redirect()->back()->with('upload', 'Google account authenticated successfully!');
-        
+
+
+            return $this->googleDriveFileUpload($request);
         } else {
             // FOR GUEST USER, GET GOOGLE LOGIN URL
             $authUrl = $this->gClient->createAuthUrl([
@@ -95,8 +117,8 @@ class GoogleDriveController extends Controller
             return redirect()->to($authUrl);
         }
     }
-    
-    
+
+
     // Add a method to display the file upload form
     public function showUploadForm()
     {
@@ -257,6 +279,7 @@ class GoogleDriveController extends Controller
         $directory = $request->lead_status;
         // Validate the request data
         $validator = Validator::make($request->all(), $rules);
+
         if ($validator->fails()) {
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Purchase agreement file is required');
@@ -266,35 +289,35 @@ class GoogleDriveController extends Controller
             // Validation failed, redirect back with errors
             return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
         }
+
         $agreement_file = $request->file;
         $contact = Contact::findOrFail($request->contact_id);
-        
+
         $agreement_fileName = $agreement_file->getClientOriginalName();
         $extension = $agreement_file->getClientOriginalExtension();
         // Valid File Extensions
-        // $valid_extension = array("pdf");
-        // $directory ='miscellaneous';
-        
         if($directory == 'miscellaneous') {
+            // $valid_extension = array("pdf");
             
         } else if($directory == 'photo'){
             $valid_extension = array("jpg", "jpeg", "png", "gif");
             if (!in_array(strtolower($extension), $valid_extension)) {
-                Alert::error('Oops!', "Please upload only photo!");
+                Alert::error('Oops!', "Please enter only photo file");
                 return redirect()->back();
             }
         } else {
             $valid_extension = array("pdf");
             if (!in_array(strtolower($extension), $valid_extension)) {
                 
-                Alert::error('Oops!', "Please upload only pdf file!");
+                Alert::error('Oops!', "Please enter only pdf file");
                 return redirect()->back();
             }
             
         }
         
+
         // Check file extension
-        $agreement_filenameNew = time() . '.' . $agreement_fileName;
+            $agreement_filenameNew = time() . '.' . $agreement_fileName;
             $service = new \Google_Service_Drive($this->gClient);
 
             $user = User::find(1);
@@ -317,8 +340,9 @@ class GoogleDriveController extends Controller
                 $user->access_token = json_encode($accessToken);
                 $user->save();
             }
+
             $parentFolderName = 'REIFuze';
-            
+
             // Check if the parent folder exists
             $parentFolderId = $this->getFolderIdByName($service, $parentFolderName, null);
             // If the parent folder doesn't exist, create it
@@ -327,13 +351,13 @@ class GoogleDriveController extends Controller
                     'name' => $parentFolderName,
                     'mimeType' => 'application/vnd.google-apps.folder'
                 ]);
-                
+
                 $parentFolder = $service->files->create($parentFolderMetadata, ['fields' => 'id']);
                 $parentFolderId = $parentFolder->id;
             }
-            
+
             $subFolderId = $this->getFolderIdByName($service, $directory, $parentFolderId);
-            
+
             if (!$subFolderId) {
                 // Now create the subfolder within the parent folder
                 $fileMetadata = new \Google_Service_Drive_DriveFile([
@@ -350,11 +374,11 @@ class GoogleDriveController extends Controller
                 'name' => $request->file('file')->getClientOriginalName(),
                 'parents' => [$subFolderId]
             ]);
-            
+
             // printf("Folder ID: %s\n", $folder->id);
-            
+
             // $file = new \Google_Service_Drive_DriveFile(array('name' => $request->file('purchase_agreement')->getClientOriginalName(), 'parents' => array($subfolder->id)));
-            
+
             $result = $service->files->create($file, array(
                 'data' => file_get_contents($request->file('file')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
                 'mimeType' => 'application/octet-stream',
@@ -363,9 +387,8 @@ class GoogleDriveController extends Controller
             $url = 'https://drive.google.com/open?id=' . $result->id;
             $contact->purchase_agreement_name = $agreement_filenameNew;
             $contact->save();
-            return response()->json('Purchase Agreement uploaded to Google Drive. URL: ' . $url);
             return redirect()->back()->with('upload', 'Purchase Agreement uploaded to Google Drive. URL: ' . $url);
-            
+        
     }
 
     // Check Google Credentials
