@@ -91,6 +91,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('/tasklists', 'TaskListController@storeLists')->name('tasklists.store');
     Route::get('/Google-Calender-setting', 'Admin\AccountController@googleCalendersetting')->name('googleCalendersetting.setting');
     Route::get('/communication-setting', 'Admin\SettingsController@CommunicationSetting')->name('CommunicationSetting.index');
+    Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
 
     Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
     Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
