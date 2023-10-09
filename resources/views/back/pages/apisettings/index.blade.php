@@ -147,51 +147,9 @@
                                         value="{{ $settings->twiml_app_sid }}" required>
                                 </div>
                             </div>
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Slybroadcast Settings
+                           
 
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Post Call URL</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter new key to update"
-                                        name="slybroad_call_url" name="slybroad_call_url"
-                                        value="{{ $settings->slybroad_call_url }}" required>
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Call Forward Settings
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Call Forward Number</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter new key to update"
-                                        name="call_forward_number" id="call_forward_number"
-                                        value="{{ $settings->call_forward_number }}" required>
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Campaign Schedule Settings
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Scheduled Hours</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control"
-                                        placeholder="Enter Hours value ex. 11 AM EST - 8 PM EST" name="schedule_hours"
-                                        id="schedule_hours" value="{{ $settings->schedule_hours }}" required>
-                                </div>
-                            </div>
-
+                            
 
                             <div class="card-header bg-soft-dark ">
                                 <i class="fas fa-cog"></i> Google Drive Keys
@@ -228,55 +186,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Stripe Keys
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Stripe Secret Key</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter Stripe Secret Key"
-                                        name="stripe_screct_key" id="stripe_screct_key"
-                                        value="{{ $settings->stripe_screct_key }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Stripe Publishable Key </label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter Stripe Publishable Key"
-                                        name="strip_publishable_key" id="strip_publishable_key"
-                                        value="{{ $settings->strip_publishable_key }}">
-                                </div>
-                            </div>
-
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> PayPal Keys
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>PayPal Client ID</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter PayPal Client ID"
-                                        name="paypal_client_id" id="paypal_client_id"
-                                        value="{{ $settings->paypal_client_id }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>PayPal Secret Key </label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter PayPal Secret Key"
-                                        name="paypal_secret_key" id="paypal_secret_key"
-                                        value="{{ $settings->paypal_secret_key }}">
-                                </div>
-                            </div>
-
-
+                           
                            
 
                             <button type="submit" class="btn btn-primary">Update Settings</button>
