@@ -13,7 +13,8 @@
     <style>
         .center {
             border-radius: 25px;
-            margin: 10px;
+            margin-left: 15%;
+            margin-right: 15%;
             height: 650px;
             border: 2px solid #556ee6;
             padding: 20px;
@@ -235,11 +236,12 @@
         }
         .mainbookappointment {
             display: flex;
-            margin-left: 20%;
-            margin-right: 20%;
+            margin-left: 10%;
+            margin-right: 10%;
         }
         .bookappominetimezone {
             width: 50%;
+            align-content: flex-left;
             /* margin-left: 100px; */
 
         }
@@ -252,16 +254,18 @@
             align-items: center
             /* margin-left: -300px; */
         }
-        @media (max-width: 1200px) {
+        @media (max-width: 1170px) {
           .book_appointment {
             height: auto;
         }
         .mainbookappointment {
             display: flex;
             flex-direction: column;
-            margin-left: 20%;
-            margin-right: 20%;
+            margin-left: 10%;
+            margin-right: 10%;
+            align-items: center;
         }
+        
         .center.bookappimentform {
             height: auto ;
         }
@@ -293,7 +297,7 @@
             flex-direction: column;
         }
         }
-        @media (max-width: 768.98px) {
+        @media (max-width: 1050.98px) {
           .mainbookappointment {
               display: flex;
               flex-direction: column;
@@ -325,12 +329,16 @@
             margin-bottom: 0px;
         }
         }
-        @media (max-width: 425.98px) {
+        @media (max-width: 560.98px) {
           .mainbookappointment {
             display: flex;
             flex-direction: column;
-            margin-left: 20%;
-            margin-right: 20%;
+            /* margin-left: 5%;
+            margin-right: 5%; */
+        }
+        .center{
+            margin-left: 2%;
+            margin-right: 2%;
         }
           .allappoimentsbox .picker {
             float: inherit;
