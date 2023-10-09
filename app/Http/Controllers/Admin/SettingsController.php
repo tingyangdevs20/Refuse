@@ -156,10 +156,15 @@ class SettingsController extends Controller
         $settings->auto_responder = $request->auto_respond??0;
         //$settings->sms_rate = $request->sms_rate;
         //$settings->sms_allowed = $request->sms_allowed;
+        if($request->sender_email!='')
         $settings->sender_email = $request->sender_email??0;
+        if($request->sender_name!='')
         $settings->sender_name = $request->sender_name??0;
+        if($request->auth_email!='')
         $settings->auth_email = $request->auth_email??0;
+        if($request->document_closed_by!='')
         $settings->document_closed_by = $request->document_closed_by??0;
+        if($request->reply_email!='')
         $settings->reply_email = $request->reply_email??0;
         if($request->sendgrid_key!='')
         $settings->sendgrid_key = $request->sendgrid_key??0;
@@ -176,11 +181,15 @@ class SettingsController extends Controller
         $settings->twiml_app_sid = $request->twiml_app_sid??0;
         
 
-
+        if($request->call_forward_number!='')
         $settings->call_forward_number = $request->call_forward_number??0;
+        if($request->schedule_hours!='')
         $settings->schedule_hours = $request->schedule_hours??0;
+        if($request->google_drive_client_id!='')
         $settings->google_drive_client_id = $request->google_drive_client_id??0;
+        if($request->google_drive_client_secret!='')
         $settings->google_drive_client_secret = $request->google_drive_client_secret??0;
+        if($request->google_drive_developer_key!='')
         $settings->google_drive_developer_key = $request->google_drive_developer_key??0;
         if($request->stripe_screct_key!='')
         $settings->stripe_screct_key = $request->stripe_screct_key??0;
@@ -193,7 +202,9 @@ class SettingsController extends Controller
 
         $settings->save();
         $account = Account::find(1);
+        if($request->twilio_acc_sid!='')
         $account->account_id=$request->twilio_acc_sid;
+        if($request->twilio_secret_key!='')
         $account->account_token=$request->twilio_secret_key;
         $account->save();
 
