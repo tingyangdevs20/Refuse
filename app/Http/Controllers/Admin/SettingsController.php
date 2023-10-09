@@ -161,12 +161,18 @@ class SettingsController extends Controller
         $settings->auth_email = $request->auth_email??0;
         $settings->document_closed_by = $request->document_closed_by??0;
         $settings->reply_email = $request->reply_email??0;
+        if($request->sendgrid_key!='')
         $settings->sendgrid_key = $request->sendgrid_key??0;
 
+        if($request->twilio_acc_sid!='')
         $settings->twilio_acc_sid = $request->twilio_acc_sid??0;
+        if($request->twilio_api_sid!='')
         $settings->twilio_api_sid = $request->twilio_api_sid??0;
+        if($request->twilio_auth_token!='')
         $settings->twilio_auth_token = $request->twilio_auth_token??0;
+        if($request->twilio_secret_key!='')
         $settings->twilio_secret_key = $request->twilio_secret_key??0;
+        if($request->twiml_app_sid!='')
         $settings->twiml_app_sid = $request->twiml_app_sid??0;
         
 
@@ -176,9 +182,13 @@ class SettingsController extends Controller
         $settings->google_drive_client_id = $request->google_drive_client_id??0;
         $settings->google_drive_client_secret = $request->google_drive_client_secret??0;
         $settings->google_drive_developer_key = $request->google_drive_developer_key??0;
+        if($request->stripe_screct_key!='')
         $settings->stripe_screct_key = $request->stripe_screct_key??0;
+        if($request->strip_publishable_key!='')
         $settings->strip_publishable_key = $request->strip_publishable_key??0;
+        if($request->paypal_client_id!='')
         $settings->paypal_client_id = $request->paypal_client_id??0;
+        if($request->paypal_secret_key!='')
         $settings->paypal_secret_key = $request->paypal_secret_key??0;
 
         $settings->save();
