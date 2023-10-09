@@ -82,8 +82,7 @@
 
                                     </td>
                                                 <td>{{ $contact->is_dnc?"YES":"NO" }}</td>
-                                                <td>
-                                        <button class="btn btn-outline-danger btn-sm" title="Remove {{ $contact->name }}"
+                                    <td><button class="btn btn-outline-danger btn-sm" title="Remove {{ $contact->name }}"
                                             data-id="{{ $contact->id }}" data-toggle="modal" data-target="#deleteModal"><i
                                                 class="fas fa-times-circle"></i></button>
                                                 <a href="{{ route('admin.group-contacts.edit', $contact->id) }}" class="btn btn-outline-primary btn-sm" title="Edit  User" ><i class="fas fa-edit"></i></a> -
