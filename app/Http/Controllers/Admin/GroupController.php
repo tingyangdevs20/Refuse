@@ -1715,17 +1715,17 @@ class GroupController extends Controller
                     foreach ($contact_numbrs as $cont) {
                        
                         $subject = $_subject;
-                        $message = $_body;
-                        $message = str_replace("{name}", $cont->name, $message);
-                        $message = str_replace("{street}", $cont->street, $message);
-                        $message = str_replace("{city}", $cont->city, $message);
-                        $message = str_replace("{state}", $cont->state, $message);
-                        $message = str_replace("{zip}", $cont->zip, $message);
+                        $body = $_body;
+                        $body = str_replace("{name}", $cont->name, $body);
+                        $body = str_replace("{street}", $cont->street, $body);
+                        $body = str_replace("{city}", $cont->city, $body);
+                        $body = str_replace("{state}", $cont->state, $body);
+                        $body = str_replace("{zip}", $cont->zip, $body);
                         // Define the recipient's email address
                         $email = $cont->$email;
 
                         // Send the email
-                        Mail::raw($message, function ($message) use ($subject, $email) {
+                        Mail::raw($body, function ($message) use ($subject, $email) {
                             $message->subject($subject);
                             $message->to('help@reifuze.com');
                         });
