@@ -21,10 +21,11 @@ class PhoneCallController extends Controller
 
     public function getAccessToken(Request $request){
         $settings = Settings::first()->toArray(); 
+        
 
         $TWILIO_ACCOUNT_SID = 'AC28c9cf33623247a487bf51ca9af20b50';
-        $TWILIO_SECRET_KEY = 'Tl2HBCvYyM3Cok2nZF24m2iraSUGk1IE';
-        $API_KEY = 'SK425464914ef14c872c7646fd4a8bf990';
+        $TWILIO_API_SECRET = 'Tl2HBCvYyM3Cok2nZF24m2iraSUGk1IE';
+        $TWILIO_API_KEY = 'SK425464914ef14c872c7646fd4a8bf990';
         $TWIML_APP_SID = 'APdeee523d0cc61d907533530460b34197';
 
         $twilio_number=Number::first()->toArray();
