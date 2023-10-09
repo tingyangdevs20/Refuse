@@ -108,8 +108,16 @@
                                 <label>Twilio Account SID</label>
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control" placeholder="Enter Twilio Account SID"
-                                        name="twilio_api_key" id="twilio_api_key"
-                                        value="{{ $settings->twilio_api_key }}" required>
+                                        name="twilio_acc_sid" id="twilio_acc_sid"
+                                        value="{{ $settings->twilio_acc_sid }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Twilio API SID</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" placeholder="Enter Twilio API SID"
+                                        name="twilio_api_sid" id="twilio_api_sid"
+                                        value="{{ $settings->twilio_api_sid }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -117,8 +125,26 @@
                                 <div class="input-group mb-2">
 
                                     <input type="text" class="form-control" placeholder="Enter Twilio Auth Token"
-                                        name="twilio_secret" id="twilio_secret"
-                                        value="{{ $settings->twilio_acc_secret }}" required>
+                                        name="twilio_auth_token" id="twilio_auth_token"
+                                        value="{{ $settings->twilio_auth_token }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Twilio Secret Key</label>
+                                <div class="input-group mb-2">
+
+                                    <input type="text" class="form-control" placeholder="Enter Twilio Secret Key"
+                                        name="twilio_secret_key" id="twilio_secret_key"
+                                        value="{{ $settings->twilio_secret_key }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Twilio Twiml SID</label>
+                                <div class="input-group mb-2">
+
+                                    <input type="text" class="form-control" placeholder="Enter Twilio Twiml SID"
+                                        name="twiml_app_sid" id="twiml_app_sid"
+                                        value="{{ $settings->twiml_app_sid }}" required>
                                 </div>
                             </div>
                             <div class="card-header bg-soft-dark ">

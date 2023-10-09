@@ -29,9 +29,9 @@ class SettingsController extends Controller
         $settings = Settings::first()->toArray(); 
         
         
-        $sid = $settings['twilio_api_key'];
+        $sid = $settings['twilio_acc_sid'];
         
-        $token = $settings['twilio_acc_secret'];
+        $token = $settings['twilio_auth_token'];
        
         $this->client = new Client($sid, $token);
     }   
@@ -162,8 +162,15 @@ class SettingsController extends Controller
         $settings->document_closed_by = $request->document_closed_by??0;
         $settings->reply_email = $request->reply_email??0;
         $settings->sendgrid_key = $request->sendgrid_key??0;
-        $settings->twilio_api_key = $request->twilio_api_key??0;
-        $settings->twilio_acc_secret = $request->twilio_secret??0;
+
+        $settings->twilio_acc_sid = $request->twilio_acc_sid??0;
+        $settings->twilio_api_sid = $request->twilio_api_sid??0;
+        $settings->twilio_auth_token = $request->twilio_auth_token??0;
+        $settings->twilio_secret_key = $request->twilio_secret_key??0;
+        $settings->twiml_app_sid = $request->twiml_app_sid??0;
+        
+
+
         $settings->call_forward_number = $request->call_forward_number??0;
         $settings->schedule_hours = $request->schedule_hours??0;
         $settings->google_drive_client_id = $request->google_drive_client_id??0;
@@ -176,8 +183,8 @@ class SettingsController extends Controller
 
         $settings->save();
         $account = Account::find(1);
-        $account->account_id=$request->twilio_api_key;
-        $account->account_token=$request->twilio_secret;
+        $account->account_id=$request->twilio_acc_sid;
+        $account->account_token=$request->twilio_secret_key;
         $account->save();
 
         $numbers = Number::all();
