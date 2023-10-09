@@ -119,6 +119,8 @@
                                 <tr>
                                     <th scope="col">List Name</th>
                                     <th scope="col">Contact</th>
+                                    <th scope="col">Pushed To Campaign</th>
+                                    <th scope="col">Pushed To Campaign Date</th>
                                     <th scope="col">Date of Last Email Skip Trace</th>
                                     <th scope="col">Date of Last Phone Skip Trace</th>
                                     <th scope="col">Date of Last Name Skip Trace</th>
@@ -138,6 +140,22 @@
                                     <td><a href="{{ route('admin.group.show',$group->id) }}"
                                             id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a>
                                     </td>
+                                    <td>
+                                      
+                                        
+                                      @if ($group->campaign_name)
+                                       {{ $group->campaign_name }}
+                                      @else
+                                     <span style="color:#efefef"> Not Pushed Yet</span>
+                                      @endif
+                                  </td>
+                                  <td>
+                                      @if ($group->pushed_to_camp_date)
+                                       {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
+                                      @else
+                                      <span style="color:#efefef">NA</span>
+                                      @endif
+                                  </td>
                                     <td>
                                         @if ($group->email_skip_trace_date)
                                         {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}
