@@ -42,8 +42,8 @@ class CampaignMail extends Mailable
 
        
 
-            return $this->view('agreement.mail')
-                ->subject('User Agreement')
+            return ('test campaign mail')
+                ->subject('test mail...')
                 ->with([
                     'url'      => $url,
                     'userName' => $userName,

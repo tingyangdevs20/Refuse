@@ -46,6 +46,7 @@ use App\TotalBalance;
 use App\Services\DatazappService;
 
 use App\Mail\CampaignConfirmation;
+use App\Mail\CampaignMail;
 
 class GroupController extends Controller
 {
@@ -1717,7 +1718,7 @@ class GroupController extends Controller
             // Send email notifications
             foreach ($emails as $email) {
                 Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-               
+                Mail::to(trim($email))->send(new CampaignMail());
 
                 
             }
