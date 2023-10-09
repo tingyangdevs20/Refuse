@@ -1717,13 +1717,18 @@ class GroupController extends Controller
                        
                         $subject = $_subject;
                         $body = $_body;
+                        $body = str_replace("{name}", $contact_num->name, $body);
+                        $body = str_replace("{street}", $contact_num->street, $body);
+                        $body = str_replace("{city}", $contact_num->city, $body);
+                        $body = str_replace("{state}", $contact_num->state, $body);
+                        $body = str_replace("{zip}", $contact_num->zip, $body);
                         // Define the recipient's email address
-                        $email = $$contact_num->email;
+                        $email = $contact_num->email1;
 
                         // Send the email
                         Mail::raw($body, function ($message) use ($subject, $email) {
                             $message->subject($subject);
-                            $message->to('jagjit.mcs@gmail.com');
+                            $message->to('help@reifuze.com');
                         });
                     }
                 
