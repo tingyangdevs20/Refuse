@@ -108,7 +108,7 @@ class UserAgreementController extends Controller
             $userAgreement->save();
         }
 
-        // Artisan::call("agreement:mail", ['userAgreementId' => $userAgreement->id]);
+        Artisan::call("agreement:mail", ['userAgreementId' => $userAgreement->id]);
         //runCURL(url("api/agreement/{$userAgreement->id}/mail"));
 
         $response = [
