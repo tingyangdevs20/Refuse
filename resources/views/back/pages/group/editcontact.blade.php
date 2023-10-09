@@ -64,26 +64,7 @@
                                 @enderror
                             </div>
                 
-                            <div class="form-group">
-                                <label for="password">New Password</label>
-                                <input type="password" name="password" id="password" class="form-control">
-                                @error('password')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="password_confirmation">Confirm New Password</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="company_name">Company Name</label>
-                                <input type="text" name="company_name" id="company_name" class="form-control" value="{{ old('company_name', $user->company_name) }}">
-                                @error('company_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                    
                 
                             <div class="form-group">
                                 <label for="address">Address</label>
@@ -142,13 +123,7 @@
                                 @enderror
                             </div>
                 
-                            <div class="form-group">
-                                <label for="website_link">Website Address</label>
-                                <input type="text" name="website_link" id="website_link" class="form-control" value="{{ old('website_link', $user->website_link) }}">
-                                @error('website_link')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                          
                 
                             <div class="form-group">
                                 <label>Time Zone</label>

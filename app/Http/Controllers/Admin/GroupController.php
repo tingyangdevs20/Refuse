@@ -711,19 +711,6 @@ class GroupController extends Controller
         $contacts = Contact::where("is_dnc", 0)->get();
         $contractres = Contractupload::all()->sortByDesc("created_at");
         $id = $group->id;
-       
-        if ($request->wantsJson()) {
-            $contacts = Contact::where("group_id", $group->id)->where("is_dnc", 0)->get();
-            return response()->json([
-                'data' => $contacts,
-                'success' => true,
-                'status' => 200,
-                'message' => 'OK'
-            ]);
-        } else {
-            // return view('back.pages.group.details', compact('group', 'sr', 'contractres', 'id'));
-            //  return view('back.pages.group.details', compact('group', 'sr', 'id'));
-        }
 
         return view('back.pages.group.view_all', compact('contacts','group','contractres', 'id', 'sr'));
     }
@@ -739,24 +726,15 @@ class GroupController extends Controller
         //  return $request->id;
         $user = Contact::where('id',$request->id)->first();
 
-        // $request->validate([
-        //     'email' => 'required|email|unique:users,email,' . $user->id,
-        //     'password' => 'nullable|sometimes|min:8|confirmed',
+        $user->email1 = $request->input('email')??0;
 
-        // ]);
-
-        $user->email1 = $request->input('email');
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
-        }
-        $user->name          =$request->input('name');
-        $user->last_name               =$request->input('last_name');
-        $user->number                =$request->input('mobile');
-        $user->street                =$request->input('street');
-        $user->state                 =$request->input('state');
-        $user->city                  =$request->input('city');
-        $user->zip                   =$request->input('zip');
+        $user->name                  =$request->input('name')??0;
+        $user->last_name             =$request->input('last_name')??0;
+        $user->number                =$request->input('mobile')??0;
+        $user->street                =$request->input('street')??0;
+        $user->state                 =$request->input('state')??0;
+        $user->city                  =$request->input('city')??0;
+        $user->zip                   =$request->input('zip')??0;
         $user->save();
 
         return redirect()->route('admin.profile.show')->with('success', 'Contract updated successfully.');
