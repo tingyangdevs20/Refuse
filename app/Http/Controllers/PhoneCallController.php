@@ -27,7 +27,7 @@ class PhoneCallController extends Controller
         $TWILIO_API_KEY = 'SK425464914ef14c872c7646fd4a8bf990';
         $TWIML_APP_SID = 'APdeee523d0cc61d907533530460b34197';
 
-
+    
         $TWILIO_ACCOUNT_SID = $settings['twilio_api_key'];
         $TWILIO_API_SECRET = $settings['call_secret_token'];
         $TWILIO_API_KEY = $settings['call_api_key'];
