@@ -1709,6 +1709,13 @@ class GroupController extends Controller
              foreach ($emails as $email) {
             $_subject=$campaign_list->subject;
             // to send campaign mail here
+            Mail::send('emails.CKcampaign-confirmation', [
+                'subject' => $_subject,
+                'body' => $_body,
+            ], function ($message) use ($email, $_subject) { 
+                $message->subject($_subject);
+                $message->to($email); 
+            });
   
             }
                
