@@ -251,7 +251,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
     Route::post('contact/detail/update/select2', 'Admin\GroupController@updatetags')->name('contact.detail.update.select2');
 
-    // Upload Purchase Agreement to google drive
+    // Upload Purchase  to google drive
     Route::post('contact/purchase-agreement', 'GoogleDriveController@uploadPurchaseAgreement')->name('contact.purchase_agreement');
 
     // Realtor API to fetch property's estimates

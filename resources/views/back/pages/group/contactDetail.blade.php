@@ -4855,7 +4855,118 @@
                                                         </div>
                                                         <hr>
 
-                                                    @elseif($section->id == '24')
+                                                        @elseif($section->id == '24')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="digitalsigning">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label for="recipient-name" class="col-form-label">Form Template <span class="required">*</span></label>
+                                                                        <select class="form-control formTemplate" onchange="fetch(this)" id="template_id" name="template_id" required>
+                                                                            <option value="">Select Form Template</option>
+                                                                            @foreach(getFormTemplate() as $templateId => $template)
+                                                                            <option value="{{ $templateId }}">{{ $template }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label>Template Content <span class="required">*</span></label>
+                                                                        <textarea class="form-control text1 userAgreementContent" id="user-agreement-content" name="content"
+                                                                            rows="10"></textarea>
+                                                                        <div id='count' class="float-lg-right"></div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <label for="seller_id" class="col-form-label">User Seller <span class="required">*</span></label>
+                                                                        <select class="select select2 userSeller" id="seller_id" name="seller_id[]" required multiple="multiple">
+                                                                            <option value="">Select User Contact</option>
+                                                                            @foreach(getUserContact() as $sellerId => $seller)
+                                                                            <option value="{{ $sellerId }}">{{ $seller }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="btn btn-primary saveUserAgreement">Create</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <small class="text-danger"><b>Please Keep {SIGNATURE_USER} in contenet for user sign</b></small>
+                                                                </div>
+                                                            </div>
+                                                            @php
+                                                                $customeFields = getsectionsFields($section->id);
+                                                            @endphp
+                                                            <div class="row">
+                                                                @if (count($customeFields) > 0)
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                            <label>{{ $section->name }} (Custom
+                                                                                Fields)</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach ($customeFields as $field)
+                                                                        @php
+                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                        @endphp
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
+                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                                <div class="input-group mb-2">
+                                                                                    <input type="{{ $field->type }}"
+                                                                                        class="form-control"
+                                                                                        placeholder="{{ $field->label }}"
+                                                                                        name="feild_value"
+                                                                                        section_id="{{ $section->id }}"
+                                                                                        id="{{ $field->id }}"
+                                                                                        table="custom_field_values"
+                                                                                        value="{{ $customeFieldValue }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        @elseif($section->id == '24')
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
+                                                            <div class="row" id="DIGITALSIGNING">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group lead-heading">
+                                                                        <label>{{ $section->name }}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    
+                                                                    <div class="col-md-10 offset-2">
+                                                                        
+                                                                        
+                                                                        
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                  
+                                                    @elseif($section->id == '25')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">
@@ -4949,6 +5060,10 @@
 
     {{-- <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
+    <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=')}}<?= time() ?>"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+
 
     <script>
         Dropzone.autoDiscover = false;
@@ -5490,7 +5605,26 @@
                 }
             });
         }
-
+        function fetch(ctrl)
+        {
+            //alert(ctrl.value);
+            var tempid=ctrl.value;
+            console.log(tempid);
+            //alert(tempid);
+            $('#user-agreement-content').html('');
+            var url = '<?php echo url('/admin/get/template/') ?>/'+tempid;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: '',
+                processData: false,
+                contentType: false,
+                success: function (d) {
+                // alert(d);
+                // $('#user-agreement-content').html(d);
+                }
+            });
+        }
         function updateTagValue(fieldVal, fieldName, table) {
             var _token = $('input[name="_token"]').val(); // Make sure to target the input using the name attribute
             var id = {{ $id }}; // Use Blade syntax to insert PHP variable

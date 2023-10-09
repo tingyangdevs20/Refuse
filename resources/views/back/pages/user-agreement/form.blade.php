@@ -39,21 +39,21 @@
 <script>
     function fetch(ctrl)
     {
-        //alert(ctrl.value);
-        var tempid=ctrl.value;
-        //alert(tempid);
-        $('#user-agreement-content').html('');
-        var url = '<?php echo url('/admin/get/template/') ?>/'+tempid;
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: '',
-            processData: false,
-            contentType: false,
-            success: function (d) {
-               // alert(d);
-               // $('#user-agreement-content').html(d);
-            }
-        });
+        // //alert(ctrl.value);
+        // var tempid=ctrl.value;
+        // //alert(tempid);
+        // $('#user-agreement-content').html('');
+        // var url = '<?php echo url('/admin/get/template/') ?>/'+tempid;
+        // $.ajax({
+        //     type: 'GET',
+        //     url: url,
+        //     data: '',
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (d) {
+        //        // alert(d);
+        //        // $('#user-agreement-content').html(d);
+        //     }
+        // });
     }
     </script>
