@@ -66,12 +66,14 @@
                                             <td>{{ $contact->zip }}</td>
                                             <td>
                                                 {{ $contact->number }}<br>
+
                                                {{ $contact->number2 }}<br>
                                                {{ $contact->number3 }}
                                             </td>
                                             <td>
                                                 {{ $contact->email1 }}<br>
                                                {{ $contact->email2 }}
+
                                             </td>
                                             <td>{{ $contact->getLeadCategory() }}</td>
                                             <td>
