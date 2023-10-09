@@ -4624,7 +4624,7 @@
                                                         </div>
                                                         <hr>
 
-                                                        @elseif($section->id == '24')
+                                                        @elseif($section->id == '25')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="digitalsigning">
@@ -4656,13 +4656,14 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label for="seller_id" class="col-form-label">User Seller <span class="required">*</span></label>
-                                                                        <select class="select select2 userSeller" id="seller_id" name="seller_id[]" required multiple="multiple">
+                                                                        <select class="select select2 userSeller" id="seller_id" name="seller_id[]" required multiple="multiple" style="width: 100%;">
                                                                             <option value="">Select User Contact</option>
                                                                             @foreach(getUserContact() as $sellerId => $seller)
                                                                             <option value="{{ $sellerId }}">{{ $seller }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
+                                                                    
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="modal-footer">
@@ -4670,7 +4671,7 @@
                                                                         <button type="submit" class="btn btn-primary saveUserAgreement">Create</button>
                                                                     </div>
                                                                 </div>
-                                                                <div class="form-group">
+                                                                <div class="form-group" style="margin-left: 35px;">
                                                                     <small class="text-danger"><b>Please Keep {SIGNATURE_USER} in contenet for user sign</b></small>
                                                                 </div>
                                                             </div>
@@ -4710,32 +4711,8 @@
                                                                 @endif
                                                             </div>
                                                         </div>
-                                                        @elseif($section->id == '24')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
-                                                            style="padding:0px;">
-                                                            <div class="row" id="DIGITALSIGNING">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group lead-heading">
-                                                                        <label>{{ $section->name }}</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    
-                                                                    <div class="col-md-10 offset-2">
-                                                                        
-                                                                        
-                                                                        
-                                                                    </div>
-
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-
-                                                  
-                                                    @elseif($section->id == '25')
+                                                    <hr>
+                                                    @elseif($section->id == '26')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">
@@ -4833,7 +4810,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    
 
     <script>
         $(document).ready(function() {
