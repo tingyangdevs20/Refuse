@@ -2,6 +2,7 @@
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <style>
     label span.required {
         color: red;
@@ -10,6 +11,7 @@
     .select2-container {
         display: block !important;
     }
+   
 </style>
 @endsection
 @section('content')
@@ -50,7 +52,7 @@
                         <table class="table table-striped table-bordered" id="datatable">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    {{-- <th scope="col">#</th> --}}
                                     <th scope="col">Agreement Date</th>
                                     <th scope="col">Form Template</th>
                                     <th scope="col">No. of Users </th>
@@ -63,14 +65,20 @@
                             <tbody>
                                 @foreach($userAgreements as $key=>$useragreement)
                                 <tr>
-                                    <td>{{ $key+1}}</td>
-                                    <td>{{ $useragreement->agreement_date }}</td>
+                                    {{-- <td>{{ $key+1}}</td> --}}
+                                    <td>{{ \Carbon\Carbon::parse($useragreement->agreement_date)->format('m-d-Y') }}</td>
+
+
                                     <td>{{ $useragreement->template_name }}</td>
                                     <td>
                                         @if(isset($useragreement->userAgreementSeller) &&
                                         $useragreement->userAgreementSeller->count() > 0)
                                         <span class="badge badge-success">
-                                            {{ $useragreement->userAgreementSeller->count() }} Seller
+                                            @if ($useragreement->userAgreementSeller->count() == 1)
+                                                {{ $useragreement->userAgreementSeller->count() }} Signer
+                                            @else
+                                            {{ $useragreement->userAgreementSeller->count() }} Signers
+                                            @endif
                                         </span>
                                         @else
                                         <span class="badge badge-danger">
@@ -85,21 +93,23 @@
                                             class="badge badge-danger">Pending</span> @endif
                                     </td>
                                     <td>
-                                        @if(isset($useragreement->userAgreementSeller) &&
-                                        $useragreement->userAgreementSeller->count() > 0)
+                                        @if(isset($useragreement->userAgreementSeller) && $useragreement->userAgreementSeller->count() > 0)
                                             @foreach ($useragreement->userAgreementSeller as $pdf)
                                                 @php
                                                     $path = $pdf->pdf_path;
                                                     $path_array = explode('/',$path);
-                                                    $path = end($path_array);
+                                                    $path = end($path_array);   
+                                                    $pdfUrl = asset('agreement_pdf/'.$path);
+                                                    $hasPermission = Auth::user()->can('viewPdf', $pdf); // Check permission here
                                                 @endphp
-                                                <a href="{{ asset('agreement_pdf/'.$path) }}" target="_blank"
-                                                    class="btn btn-outline-primary btn-sm" title="View PDF"><i
-                                                        class="fas fa-eye"></i>
-                                                </a>
+                                    
+                                                <a href="{{ $pdfUrl }}" target="_blank" class="btn btn-outline-primary btn-sm" title="View PDF" onclick="checkFilePermissions('{{ $pdfUrl }}', '{{ $pdf->id }}', {{ $hasPermission ? 'true' : 'false' }}); return false;"><i class="fas fa-eye"></i></a>
                                             @endforeach
+                                        @else
+                                            <p>No PDFs available</p>
                                         @endif
                                     </td>
+                                    
                                     <td>
                                         @if($useragreement->pdf_path == "")
                                         <button class="btn btn-outline-primary btn-sm editUserAgreement" title="Edit"
@@ -134,6 +144,33 @@
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=')}}<?= time() ?>"></script>
+<script>
+    function checkFilePermissions(pdfUrl, pdfId, hasPermission) {
+        // Send an AJAX request to check if the file exists
+        fetch(pdfUrl)
+            .then(response => {
+                if (response.status === 200) {
+                    if (hasPermission) {
+                        window.open(pdfUrl, '_blank');
+                    } else {
+                        toastr.error("You have no permission to view this PDF!", {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                        
+                    }
+                } else {
+                    toastr.error("File doesn’t exist on the server!", {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                    // alert('File doesn’t exist on the server!');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking file existence:', error);
+            });
+    }
+</script>
 @endpush
