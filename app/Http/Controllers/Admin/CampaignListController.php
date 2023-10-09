@@ -380,6 +380,7 @@ class CampaignListController extends Controller
                         'mediaUrl' => $media,
                         'template_id' => $request->templat[$key],
                         'body' => $bodytext,
+                        'subject' => $subject,
                         'active' => 1, // Set active status
                     ]);
                 }
