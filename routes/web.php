@@ -105,6 +105,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     // Handle the GOOGLE DRIVE file upload
     Route::post('/google-drive-login', 'GoogleDriveController@googleLogin')->name('google.drive.login');
+    Route::post('/google-drive-upload', 'GoogleDriveController@googleDriveFileUpload')->name('google.drive.upload');
     Route::get('/google-drive-callback', 'GoogleDriveController@handleGoogleCallback')->name('google-drive-callback');
     // Route::get('/googledrive-callback', 'GoogleDriveController@handleGoogleCallback')->name('googledrive-callback');
 
