@@ -4624,7 +4624,7 @@
                                                         </div>
                                                         <hr>
 
-                                                        @elseif($section->id == '24')
+                                                        @elseif($section->id == '25')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="digitalsigning">
@@ -4712,7 +4712,7 @@
                                                             </div>
                                                         </div>
                                                     <hr>
-                                                    @elseif($section->id == '25')
+                                                    @elseif($section->id == '26')
                                                         <div class="col-md-12" id="{{ $section->id }}"
                                                             style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">

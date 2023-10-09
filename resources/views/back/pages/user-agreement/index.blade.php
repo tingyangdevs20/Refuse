@@ -153,14 +153,14 @@
         fetch(pdfUrl)
             .then(response => {
                 if (response.status === 200) {
-                    if (hasPermission) {
                         window.open(pdfUrl, '_blank');
-                    } else {
-                        toastr.error("You have no permission to view this PDF!", {
-                            timeOut: 10000, // Set the duration (10 seconds in this example)
-                        });
+                    // if (hasPermission) {
+                    // } else {
+                    //     toastr.error("You have no permission to view this PDF!", {
+                    //         timeOut: 10000, // Set the duration (10 seconds in this example)
+                    //     });
                         
-                    }
+                    // }
                 } else {
                     toastr.error("File doesn’t exist on the server!", {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
