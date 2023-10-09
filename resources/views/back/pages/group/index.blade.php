@@ -143,19 +143,19 @@
                                     <td>
                                       
                                         
-                                        @if ($group->campaign_name)
-                                         {{ $group->campaign_name }}
-                                        @else
-                                       <span style="color:#efefef"> Not Pushed Yet</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($group->pushed_to_camp_date)
-                                         {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
-                                        @else
-                                        <span style="color:#efefef">NA</span>
-                                        @endif
-                                    </td>
+                                      @if ($group->campaign_name)
+                                       {{ $group->campaign_name }}
+                                      @else
+                                     <span style="color:#efefef"> Not Pushed Yet</span>
+                                      @endif
+                                  </td>
+                                  <td>
+                                      @if ($group->pushed_to_camp_date)
+                                       {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
+                                      @else
+                                      <span style="color:#efefef">NA</span>
+                                      @endif
+                                  </td>
                                     <td>
                                         @if ($group->email_skip_trace_date)
                                         {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}

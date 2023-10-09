@@ -91,6 +91,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('/tasklists', 'TaskListController@storeLists')->name('tasklists.store');
     Route::get('/Google-Calender-setting', 'Admin\AccountController@googleCalendersetting')->name('googleCalendersetting.setting');
     Route::get('/communication-setting', 'Admin\SettingsController@CommunicationSetting')->name('CommunicationSetting.index');
+    Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
 
     Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
     Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
@@ -105,7 +106,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     // Handle the GOOGLE DRIVE file upload
     Route::post('/google-drive-login', 'GoogleDriveController@googleLogin')->name('google.drive.login');
-    Route::post('/google-drive-upload', 'GoogleDriveController@googleDriveFileUpload')->name('google.drive.upload');
     Route::get('/google-drive-callback', 'GoogleDriveController@handleGoogleCallback')->name('google-drive-callback');
     // Route::get('/googledrive-callback', 'GoogleDriveController@handleGoogleCallback')->name('googledrive-callback');
 

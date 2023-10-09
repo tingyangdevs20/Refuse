@@ -46,6 +46,7 @@ use App\TotalBalance;
 use App\Services\DatazappService;
 
 use App\Mail\CampaignConfirmation;
+use App\Mail\CampaignMail;
 
 class GroupController extends Controller
 {
@@ -710,19 +711,6 @@ class GroupController extends Controller
         $contacts = Contact::where("is_dnc", 0)->get();
         $contractres = Contractupload::all()->sortByDesc("created_at");
         $id = $group->id;
-       
-        if ($request->wantsJson()) {
-            $contacts = Contact::where("group_id", $group->id)->where("is_dnc", 0)->get();
-            return response()->json([
-                'data' => $contacts,
-                'success' => true,
-                'status' => 200,
-                'message' => 'OK'
-            ]);
-        } else {
-            // return view('back.pages.group.details', compact('group', 'sr', 'contractres', 'id'));
-            //  return view('back.pages.group.details', compact('group', 'sr', 'id'));
-        }
 
         return view('back.pages.group.view_all', compact('contacts','group','contractres', 'id', 'sr'));
     }
@@ -738,24 +726,15 @@ class GroupController extends Controller
         //  return $request->id;
         $user = Contact::where('id',$request->id)->first();
 
-        // $request->validate([
-        //     'email' => 'required|email|unique:users,email,' . $user->id,
-        //     'password' => 'nullable|sometimes|min:8|confirmed',
+        $user->email1 = $request->input('email')??0;
 
-        // ]);
-
-        $user->email1 = $request->input('email');
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
-        }
-        $user->name          =$request->input('name');
-        $user->last_name               =$request->input('last_name');
-        $user->number                =$request->input('mobile');
-        $user->street                =$request->input('street');
-        $user->state                 =$request->input('state');
-        $user->city                  =$request->input('city');
-        $user->zip                   =$request->input('zip');
+        $user->name                  =$request->input('name')??0;
+        $user->last_name             =$request->input('last_name')??0;
+        $user->number                =$request->input('mobile')??0;
+        $user->street                =$request->input('street')??0;
+        $user->state                 =$request->input('state')??0;
+        $user->city                  =$request->input('city')??0;
+        $user->zip                   =$request->input('zip')??0;
         $user->save();
 
         return redirect()->route('admin.profile.show')->with('success', 'Contract updated successfully.');
@@ -1692,7 +1671,7 @@ class GroupController extends Controller
 
 
     public function pushToCampaign(Request $request)
-    {
+    { 
         
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
@@ -1712,17 +1691,136 @@ class GroupController extends Controller
         $groupUpdate->campaign_name=$campaignName;
         $groupUpdate->save();
 
-        
+        // foreach ($emails as $email) {
+        //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+        // }
 
-            // Send email notifications
-            foreach ($emails as $email) {
-                Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+        $campaign_lists=CampaignList::where('campaign_id', $campaignId)->get();
+       
+        // dd($campaign_lists);
+
+        foreach ($campaign_lists as $campaign_list) {
+            
+              $_typ=$campaign_list->type;
+            
+        
+            if(trim($_typ) == 'email'){
+
                 
+                $_body = $campaign_list->body;
+                $_subject = $campaign_list->subject;
+
+               
+                $contact_numbrs=Contact::where('group_id', $groupId)->get();
+                foreach ($contact_numbrs as $contact_num) {
+                   
+                       
+                        $subject = $_subject;
+                        $body = $_body;
+                        $body = str_replace("{name}", $contact_num->name, $body);
+                        $body = str_replace("{street}", $contact_num->street, $body);
+                        $body = str_replace("{city}", $contact_num->city, $body);
+                        $body = str_replace("{state}", $contact_num->state, $body);
+                        $body = str_replace("{zip}", $contact_num->zip, $body);
+                        // Define the recipient's email address
+                        $email = $contact_num->email1;
+
+                        // Send the email
+                        Mail::raw($body, function ($message) use ($subject, $email) {
+                            $message->subject($subject);
+                            $message->to($email);
+                        });
+                    }
+                
+               
+
+            
+        }
+            elseif($_typ=='sms')
+            {
+                $contact_numbrs=Contact::where('group_id', $groupId)->get();
+                foreach ($contact_numbrs as $contact_num) {
+                    SendSMS($_body,$contact_num->number);
+                }
+        
             }
+            else
+            {
+
+            }
+        }
+
+            
 
             // Return a response to indicate success
             
             return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
         }
+
+        function SendSMS($msg,$cont_num)
+        {
+        $twilio_number = Number::where('id', 1)->get();
+        $settings = Settings::first()->toArray(); 
+        $sid = $settings['twilio_api_key'];
+        $token = $settings['twilio_acc_secret'];
+        $numberCounter = 0;
+        
+        try {
+           $client = new Client($sid, $token);
+             $sms_sent = $client->messages->create(
+                 $cont_num,
+                 [
+                     'from' => $twilio_number,
+                     'body' => $msg,
+                 ]
+             );
+            if ($sms_sent) {
+                $old_sms = Sms::where('client_number', $cont_num)->first();
+                if ($old_sms == null) {
+                    $sms = new Sms();
+                    $sms->client_number = $cont_num;
+                    $sms->twilio_number = $twilio_number;
+                    $sms->null;
+                    $sms->message = $msg;
+                    $sms->media = "NO";
+                    $sms->status = 1;
+                    $sms->save();
+                    //$contact = Contact::where('number', $contact->number)->get();;
+                   // foreach ($contact as $contacts) {
+                       // $contacts->msg_sent = 1;
+                       // $contacts->save();
+                   // }
+                   // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                } else {
+                    $reply_message = new Reply();
+                    $reply_message->sms_id = $old_sms->id;
+                    $reply_message->to = $cont_num;
+                    $reply_message->from = $twilio_number;
+                    $reply_message->reply = $msg;
+                    $reply_message->system_reply = 1;
+                    $reply_message->save();
+                   // $contact = Contact::where('number', $contact->number)->get();;
+                   // foreach ($contact as $contacts) {
+                      //  $contacts->msg_sent = 1;
+                      //  $contacts->save();
+                  //  }
+                   // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                }
+
+               // Alert::toast("SMS Sent Successfully", "success");
+                
+            }
+        } catch (\Exception $ex) {
+            $failed_sms = new FailedSms();
+            $failed_sms->client_number = $cont_num;
+            $failed_sms->twilio_number = $twilio_number;
+            $failed_sms->message = $msg;
+            $failed_sms->media = "NO";
+            $failed_sms->error = $ex->getMessage();
+            $failed_sms->save();
+            Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
+           // return $this->showDetails($request);
+        }
+        }
     
-}
+    }
