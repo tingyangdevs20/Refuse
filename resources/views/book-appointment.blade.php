@@ -235,34 +235,32 @@
         }
         .mainbookappointment {
             display: flex;
+            margin-left: 20%;
+            margin-right: 20%;
         }
         .bookappominetimezone {
-            width: 30%;
-            margin-left: 20%;
-            align-content: flex-left;
+            width: 50%;
+            /* margin-left: 100px; */
 
         }
-        .bookappominetimezone,
         .bookappoimetform {
             width: 50%;
             display: flex;
             flex-wrap: wrap;
             flex-direction: column;
-            align-items: center;
-            
+            align-content: flex-right;
+            align-items: center
+            /* margin-left: -300px; */
         }
         @media (max-width: 1200px) {
-          .bookappominetimezone,
-    .bookappoimetform {
-        width: 100%;
-        padding-top: 25px;
-    }
           .book_appointment {
             height: auto;
         }
         .mainbookappointment {
             display: flex;
             flex-direction: column;
+            margin-left: 20%;
+            margin-right: 20%;
         }
         .center.bookappimentform {
             height: auto ;
@@ -276,6 +274,10 @@
         }
         .bookappoimetform {
             width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
             padding-top: 25px;
         }
         .bookappointmentform {
@@ -292,6 +294,12 @@
         }
         }
         @media (max-width: 768.98px) {
+          .mainbookappointment {
+              display: flex;
+              flex-direction: column;
+              margin-left: 20%;
+              margin-right: 20%;
+          }
           .allappoimentsbox {
             display: flex;
             flex-direction: column;
@@ -318,6 +326,12 @@
         }
         }
         @media (max-width: 425.98px) {
+          .mainbookappointment {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20%;
+            margin-right: 20%;
+        }
           .allappoimentsbox .picker {
             float: inherit;
         }
@@ -346,6 +360,12 @@
         }
         }
         @media (max-width: 400.98px) {
+          .mainbookappointment {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20%;
+            margin-right: 20%;
+        }
           .bookappoimetform  .form-group {
             display: flex;
             flex-direction: column;
@@ -364,13 +384,18 @@
         .allappoimentsbox #myc-nav-container {
             display: flex;
             justify-content: center;
-            align-content: center;
         } 
         .mainbookappointment .bookappoimetform .input-group {
             text-align: center;
         }
         }
         @media (max-width: 375.98px) {
+          .mainbookappointment {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20%;
+            margin-right: 20%;
+        }
           .bookappoimetform .form-group .input {
             width: 260px;
         }
@@ -382,6 +407,12 @@
         }
         }
         @media (max-width: 320.98px) {
+          .mainbookappointment {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20%;
+            margin-right: 20%;
+        }
           .bookappoimetform .form-group .input {
             width: 215px;
           }
@@ -515,7 +546,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit"  class="button button4">Confirm Booking</button>
+                  <button type="submit" ma class="button button4">Confirm Booking</button>
                 </div>
               </div>
             </div>
