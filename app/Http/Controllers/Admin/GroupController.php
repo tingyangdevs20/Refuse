@@ -234,6 +234,11 @@ class GroupController extends Controller
             $future_seller_infos = DB::table('future_seller_infos')->where('contact_id', $id)->first();
         }
 
+        $utility_deparments = DB::table('utility_deparments')->where('contact_id', $id)->first();
+        if ($utility_deparments == null) {
+            DB::table('utility_deparments')->insert(['contact_id' => $id]);
+            $utility_deparments = DB::table('utility_deparments')->where('contact_id', $id)->first();
+        }
 
         $uid = Auth::id();
         $contact = Contact::where('id', $id)->first();
@@ -249,7 +254,7 @@ class GroupController extends Controller
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments'));
     }
 
     public function updateinfo(Request $request)
