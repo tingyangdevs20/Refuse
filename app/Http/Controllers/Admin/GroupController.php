@@ -1697,55 +1697,58 @@ class GroupController extends Controller
 
         $campaign_lists=CampaignList::where('campaign_id', $campaignId)->get();
 
-        // dd($campaign_lists);
+       // dd($campaign_lists);
 
-        foreach ($campaign_lists as $campaign_list) {
+       foreach ($campaign_lists as $campaign_list) {
+        $_typ = $campaign_list->type;
+        $_body = $campaign_list->body;
+        $_subject = $campaign_list->subject;
+
+        if ($_typ == 'email') {
+            foreach ($emails as $email) {
+                // Mail::send([
+                //     'subject' => $_subject,
+                //     'body' => $_body,
+                // ], function ($message) use ($email, $_subject) { // Add $_subject to the use statement
+                //     $message->subject($_subject);
+                //     $message->to($email); // Replace with the recipient's email address
+                // });
+
+                $subject = $_subject;
+                $body = $_body;
+
+                // Define the recipient's email address
+                $email = $email;
+
+                // Send the email
+                Mail::raw($body, function ($message) use ($subject, $email) {
+                    $message->subject($subject);
+                    $message->to($email);
+                });
+            }
+        }
+        if($_typ=='email'){
+
             $_typ = $campaign_list->type;
             $_body = $campaign_list->body;
             $_subject = $campaign_list->subject;
 
             if ($_typ == 'email') {
                 foreach ($emails as $email) {
-                    // Mail::send([
-                    //     'subject' => $_subject,
-                    //     'body' => $_body,
-                    // ], function ($message) use ($email, $_subject) { // Add $_subject to the use statement
-                    //     $message->subject($_subject);
-                    //     $message->to($email); // Replace with the recipient's email address
-                    // });
-
-                    $subject = $_subject;
-                    $body = $_body;
-
-                    // Define the recipient's email address
-                    $email = $email;
-
-                    // Send the email
-                    Mail::raw($body, function ($message) use ($subject, $email) {
-                        $message->subject($subject);
-                        $message->to($email);
+                    Mail::send('emails.CKcampaign-confirmation', [
+                        'subject' => $_subject,
+                        'body' => $_body,
+                    ], function ($message) use ($email, $_subject) { // Add $_subject to the use statement
+                        $message->subject($_subject);
+                        $message->to($email); // Replace with the recipient's email address
                     });
                 }
             }
-            if($_typ=='email'){
-
-                $_typ = $campaign_list->type;
-                $_body = $campaign_list->body;
-                $_subject = $campaign_list->subject;
-
-                if ($_typ == 'email') {
-                    foreach ($emails as $email) {
-                        Mail::send('emails.CKcampaign-confirmation', [
-                            'subject' => $_subject,
-                            'body' => $_body,
-                        ], function ($message) use ($email, $_subject) { // Add $_subject to the use statement
-                            $message->subject($_subject);
-                            $message->to($email); // Replace with the recipient's email address
-                        });
-                    }
-                }
+           
+        }
+       
                
-            }
+            
             elseif($_typ=='sms')
             {
                 $contact_numbrs=Contact::where('group_id', $groupId)->get();
