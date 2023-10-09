@@ -1691,40 +1691,42 @@ class GroupController extends Controller
         $groupUpdate->campaign_name=$campaignName;
         $groupUpdate->save();
 
-        foreach ($emails as $email) {
-            Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-        }
+        // foreach ($emails as $email) {
+        //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
+        // }
 
         $campaign_lists=CampaignList::where('campaign_id', $campaignId)->get();
 
-       // dd($campaign_lists);
+        // dd($campaign_lists);
 
-       foreach ($campaign_lists as $campaign_list) {
-        $_typ = $campaign_list->type;
-        $_body = $campaign_list->body;
-        $_subject = $campaign_list->subject;
+        foreach ($campaign_lists as $campaign_list) {
+            
+              $_typ=$campaign_list->type;
+            
+        
+            if(trim($_typ) == 'email'){
 
-        if ($_typ == 'email') {
-            foreach ($emails as $email) {
-                // Mail::send([
-                //     'subject' => $_subject,
-                //     'body' => $_body,
-                // ], function ($message) use ($email, $_subject) { // Add $_subject to the use statement
-                //     $message->subject($_subject);
-                //     $message->to($email); // Replace with the recipient's email address
-                // });
+                $_typ = $campaign_list->type;
+                $_body = $campaign_list->body;
+                $_subject = $campaign_list->subject;
 
-                $subject = $_subject;
-                $body = $_body;
+                if ($_typ == 'email') {
+                    foreach ($emails as $email) {
+                       
+                        $subject = $_subject;
+                        $body = $_body;
+                        // Define the recipient's email address
+                        $email = $email;
 
-                // Define the recipient's email address
-                $email = $email;
+                        // Send the email
+                        Mail::raw($body, function ($message) use ($subject, $email) {
+                            $message->subject($subject);
+                            $message->to('ismailrehman0331@gmail.com');
+                        });
+                    }
+                }
+               
 
-                // Send the email
-                Mail::raw($body, function ($message) use ($subject, $email) {
-                    $message->subject($subject);
-                    $message->to($email);
-                });
             }
         }
             elseif($_typ=='sms')
