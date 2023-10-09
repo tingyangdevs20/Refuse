@@ -289,61 +289,82 @@
                                                                                 Said No
                                                                             </option>
 
-                                                                            <option value="Contract Out - Buy Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Out - Buy Side') selected @endif
-                                                                                @endif>Contract Out -
-                                                                                Buy Side
+                                                                            <option value="Buy - Contract Out"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Buy - Contract Out') selected @endif
+                                                                                @endif>Buy - Contract Out
                                                                             </option>
 
-                                                                            <option value="Contract Out - Sell Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Out - Sell Side') selected @endif
-                                                                                @endif>Contract Out -
-                                                                                Sell Side
+                                                                            <option value="Buy - Under Contract"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Buy - Under Contract') selected @endif
+                                                                                @endif>Buy - Under Contract
                                                                             </option>
 
-                                                                            <option value="Contract Signed - Buy Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Signed - Buy Side') selected @endif
-                                                                                @endif>Contract Signed
-                                                                                - Buy Side
+                                                                            <option value="Buy - Pending Inspection"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Buy - Pending Inspection') selected @endif
+                                                                                @endif>Buy - Pending Inspection
                                                                             </option>
 
-                                                                            <option value="Contract Signed - Sell Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Contract Signed - Sell Side') selected @endif
-                                                                                @endif>Contract Signed
-                                                                                - Sell Side
+                                                                            <option value="Buy - Pending Funding"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Buy - Pending Funding') selected @endif
+                                                                                @endif>Buy - Pending Funding
+                                                                            </option>
+                                                                            <option value="Buy - Pending Close"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Buy - Pending Close') selected @endif
+                                                                                @endif>Buy - Pending Close
                                                                             </option>
 
-                                                                            <option value="Closed Deal - Buy Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Buy Side') selected @endif
-                                                                                @endif>Closed Deal -
-                                                                                Buy Side
+                                                                            <option value="Buy - Closed Deal"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Buy - Closed Deal') selected @endif
+                                                                                @endif>Buy - Closed Deal
                                                                             </option>
-                                                                            <option value="Closed Deal - Sell Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Sell Side') selected @endif
-                                                                                @endif>Closed Deal -
-                                                                                Sell Side
-                                                                            </option>
+
                                                                             <option value="Rehab in Process"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Rehab in Process') selected @endif
                                                                                 @endif>Rehab in Process
                                                                             </option>
-                                                                            <option value="Hold - Rental"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Hold - Rental') selected @endif
-                                                                                @endif>Hold - Rental
+
+                                                                        
+
+                                                                            <option value="Sell - Marketed for Sale"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Marketed for Sale') selected @endif
+                                                                                @endif>Sell - Marketed for Sale
                                                                             </option>
-                                                                            <option value="For Sale (by Us)"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'For Sale (by Us)') selected @endif
-                                                                                @endif>For Sale (by Us)
+
+                                                                            <option value="Sell - Contract Out"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Contract Out') selected @endif
+                                                                                @endif>Sell - Contract Out
                                                                             </option>
-                                                                            <option value="Closed Deal - Buy Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Buy Side') selected @endif
-                                                                                @endif>Closed Deal -
-                                                                                Buy Side
+                                                                            <option value="Sell - Under Contract"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Under Contract') selected @endif
+                                                                                @endif>Sell - Under Contract
                                                                             </option>
-                                                                            <option value="Closed Deal - Sell Side"
-                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Closed Deal - Sell Side') selected @endif
-                                                                                @endif>Closed Deal -
-                                                                                Sell Side
+                                                                          
+                                                                            <option value="Sell - Pending Inspection"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Pending Inspection') selected @endif
+                                                                                @endif>Sell - Pending Inspection
+                                                                            </option>
+
+                                                                            <option value="Sell - Pending Funding"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Pending Funding') selected @endif
+                                                                                @endif>Sell - Pending Funding
+                                                                            </option>
+
+                                                                            <option value="Sell - Pending Close"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Pending Close') selected @endif
+                                                                                @endif>Sell - Pending Close
+                                                                            </option>
+
+                                                                            <option value="Sell - Closed Deal"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Sell - Closed Deal') selected @endif
+                                                                                @endif>Sell - Closed Deal
+                                                                            </option>
+                                                                            <option value="Hold - Marketed for Rent"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Hold - Marketed for Rent') selected @endif
+                                                                                @endif>Hold - Marketed for Rent
+                                                                            </option>
+                                                                            <option value="Hold - Rented"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_status == 'Hold - Rented') selected @endif
+                                                                                @endif>Hold - Rented
                                                                             </option>
                                                                         </select>
                                                                     </div>

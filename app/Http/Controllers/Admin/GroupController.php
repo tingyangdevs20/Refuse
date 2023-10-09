@@ -1717,7 +1717,7 @@ class GroupController extends Controller
             // Send email notifications
             foreach ($emails as $email) {
                 Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-                Mail::to(trim($email))->send("this is test email from campaign");
+               
 
                 
             }
