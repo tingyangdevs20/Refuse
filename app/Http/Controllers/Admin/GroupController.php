@@ -1726,7 +1726,9 @@ class GroupController extends Controller
                     }
                 }
                
+
             }
+        }
             elseif($_typ=='sms')
             {
                 $contact_numbrs=Contact::where('group_id', $groupId)->get();
