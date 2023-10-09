@@ -1671,7 +1671,7 @@ class GroupController extends Controller
 
 
     public function pushToCampaign(Request $request)
-    {
+    { 
         
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
@@ -1696,7 +1696,7 @@ class GroupController extends Controller
         // }
 
         $campaign_lists=CampaignList::where('campaign_id', $campaignId)->get();
-
+       
         // dd($campaign_lists);
 
         foreach ($campaign_lists as $campaign_list) {
@@ -1710,13 +1710,15 @@ class GroupController extends Controller
                 $_body = $campaign_list->body;
                 $_subject = $campaign_list->subject;
 
-                
-                    foreach ($emails as $email) {
+               
+                $contact_numbrs=Contact::where('group_id', $groupId)->get();
+                foreach ($contact_numbrs as $contact_num) {
+                   
                        
                         $subject = $_subject;
                         $body = $_body;
                         // Define the recipient's email address
-                        $email = $email;
+                        $email = $$contact_num->email;
 
                         // Send the email
                         Mail::raw($body, function ($message) use ($subject, $email) {
