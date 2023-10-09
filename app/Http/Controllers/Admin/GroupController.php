@@ -1710,7 +1710,7 @@ class GroupController extends Controller
                 $_body = $campaign_list->body;
                 $_subject = $campaign_list->subject;
 
-                if ($_typ == 'email') {
+                
                     foreach ($emails as $email) {
                        
                         $subject = $_subject;
@@ -1721,13 +1721,13 @@ class GroupController extends Controller
                         // Send the email
                         Mail::raw($body, function ($message) use ($subject, $email) {
                             $message->subject($subject);
-                            $message->to('ismailrehman0331@gmail.com');
+                            $message->to('jagjit.mcs@gmail.com');
                         });
                     }
-                }
+                
                
 
-            }
+            
         }
             elseif($_typ=='sms')
             {
