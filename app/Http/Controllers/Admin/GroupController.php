@@ -1727,28 +1727,6 @@ class GroupController extends Controller
                 });
             }
         }
-        if($_typ=='email'){
-
-            $_typ = $campaign_list->type;
-            $_body = $campaign_list->body;
-            $_subject = $campaign_list->subject;
-
-            if ($_typ == 'email') {
-                foreach ($emails as $email) {
-                    Mail::send('emails.CKcampaign-confirmation', [
-                        'subject' => $_subject,
-                        'body' => $_body,
-                    ], function ($message) use ($email, $_subject) { // Add $_subject to the use statement
-                        $message->subject($_subject);
-                        $message->to($email); // Replace with the recipient's email address
-                    });
-                }
-            }
-           
-        }
-       
-               
-            
             elseif($_typ=='sms')
             {
                 $contact_numbrs=Contact::where('group_id', $groupId)->get();
