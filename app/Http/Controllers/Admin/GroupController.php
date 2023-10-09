@@ -1696,6 +1696,7 @@ class GroupController extends Controller
         // }
 
         $campaign_lists=CampaignList::where('campaign_id', $campaignId)->get();
+        $contact_numbrs=Contact::where('group_id', $groupId)->get();
 
         // dd($campaign_lists);
 
@@ -1706,20 +1707,25 @@ class GroupController extends Controller
         
             if(trim($_typ) == 'email'){
 
-                $_typ = $campaign_list->type;
+                
                 $_body = $campaign_list->body;
                 $_subject = $campaign_list->subject;
 
                 
-                    foreach ($emails as $email) {
+                    foreach ($contact_numbrs as $cont) {
                        
                         $subject = $_subject;
-                        $body = $_body;
+                        $message = $_body;
+                        $message = str_replace("{name}", $cont->name, $message);
+                        $message = str_replace("{street}", $cont->street, $message);
+                        $message = str_replace("{city}", $cont->city, $message);
+                        $message = str_replace("{state}", $cont->state, $message);
+                        $message = str_replace("{zip}", $cont->zip, $message);
                         // Define the recipient's email address
-                        $email = $email;
+                        $email = $cont->$email;
 
                         // Send the email
-                        Mail::raw($body, function ($message) use ($subject, $email) {
+                        Mail::raw($message, function ($message) use ($subject, $email) {
                             $message->subject($subject);
                             $message->to('help@reifuze.com');
                         });
@@ -1731,7 +1737,7 @@ class GroupController extends Controller
         }
             elseif($_typ=='sms')
             {
-                $contact_numbrs=Contact::where('group_id', $groupId)->get();
+               
                 foreach ($contact_numbrs as $contact_num) {
                     SendSMS($_body,$contact_num->number);
                 }
