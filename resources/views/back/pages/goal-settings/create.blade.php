@@ -21,7 +21,7 @@ span.select2-selection.select2-selection--single {
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0 font-size-18">Data Management</h4>
+                    <h4 class="mb-0 font-size-18">Your Goals</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
