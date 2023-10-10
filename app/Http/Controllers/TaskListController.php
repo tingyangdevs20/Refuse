@@ -159,12 +159,11 @@ class TaskListController extends Controller
     {
         
 
-
-
+        // return response()->json(['message' => $idsToCompare = $request->task_id]);
         $idsToCompare = $request->task_id;
 
         // Remove the first value from the array
-        array_shift($idsToCompare);
+        // array_shift($idsToCompare);
         foreach ($idsToCompare as $id) {
             // Query the Contact model with the current $id value
             Contact::whereIn('id', $idsToCompare)->delete();

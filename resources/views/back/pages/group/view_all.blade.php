@@ -1,6 +1,7 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.css" />
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -26,11 +27,13 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             All Contacts
-                            @if (auth()->user()->can('administrator') ||
-                                    auth()->user()->can('user_task_create'))
-                                <button type="submit" class="btn btn-danger" id="delete-selected-button"
-                                    style="display: none">Delete List</button>
-                            @endif
+                            <span>
+                                <select class="actionSelect" onchange="delete_selected(this)">
+                                      <option value="0">Action</option>
+                                      <option value="1">Delete Selected</option>
+  
+                                  </select>
+                              </span>
                         </div>
                         <div class="card-body">
                             <table id="tasktable" class="table table-striped table-bordered">
@@ -103,14 +106,32 @@
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+    <!-- Confirmation Modal -->
+            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger confirm-delete-btn">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 @endsection
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#tasktable').DataTable();
@@ -135,6 +156,44 @@
         });
 
 
+        function delete_selected(selectElement) {
+                var selectedValue = selectElement.value;
+                var selectedTaskIds = $('.task-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+
+                // Check if the selected value is "delete"
+                if (selectedValue === "1") {
+                    // Show the confirmation modal
+                    $('#confirmationModal').modal('show');
+
+                    // Set up the click handler for the "Delete" button in the modal
+                    $('.confirm-delete-btn').click(function() {
+                        // Perform the AJAX call to delete the selected items
+                        $.ajax({
+                            url: '{{ route('admin.delete-List') }}',
+                            method: 'POST',
+                            data: {
+                                task_id: selectedTaskIds,
+                                _token: '{{ csrf_token() }}', // Add CSRF token
+                            },
+                            success: function(response) {
+                                // Handle success, e.g., refresh the page or update the table
+                                toastr.success(response.message, 'Success');
+                                window.location.reload();
+                            },
+                            error: function(error) {
+                                // Handle error
+                                toastr.error(error, 'Error');
+                                console.error(error);
+                            }
+                        });
+
+                        // Close the modal after the deletion
+                        $('#confirmationModal').modal('hide');
+                    });
+                }
+            }
 
         function toggleDeleteButtonVisibility() {
             var selectedCount = $('.task-checkbox:checked').length;

@@ -25,10 +25,10 @@
                         <div class="card-header bg-soft-dark">
                             All Appointments
                             <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="New" data-toggle="modal" data-target=""><i class="fas fa-plus-circle"></i></button>
-                            <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">Use this Section</button>
+                            <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">How to Use</button>
                             <a href="{{ url('appointment', [encrypt(Auth::id())]) }}" target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right" title="appointments">Share Link</a>
                             <button class="btn btn-outline-primary btn-sm float-right mr-2" style="margin-right: 5px"title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">Use this Section</button>  
+                        data-target="#helpModal">How to Use</button>  
                         @include('components.modalform')
 
                         </div>
@@ -83,7 +83,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Use this Section</h4>
+        <h4 class="modal-title" id="myModalLabel">How to Use</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
       </div>

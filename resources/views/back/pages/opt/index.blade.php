@@ -32,7 +32,7 @@
                                         <a href="{{ asset('uploads/examplenew.csv') }}" download class="btn btn-success btn-sm float-right mr-3" ><i class="fas fa-download"></i> Download Sample</a>
                                         <a href="{{ url('admin/group-contacts-all') }}" class="btn btn-warning btn-sm float-right mr-3" ><i class="fas fa-eye"></i> View All Contacts</a>
                                         <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">Use this Section</button>  
+                        data-target="#helpModal">How to Use</button>  
                         @include('components.modalform')
 
                                     </div>
