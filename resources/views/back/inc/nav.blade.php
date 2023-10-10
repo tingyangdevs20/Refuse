@@ -256,7 +256,7 @@
                         <li>
                     <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
 
-                        <span>User Task</span>
+                        <span>Tasks</span>
                     </a>
                 </li>
 
