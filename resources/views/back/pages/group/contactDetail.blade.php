@@ -4908,7 +4908,7 @@
                                                                         <label>Template Content <span
                                                                                 class="required">*</span></label>
                                                                         <textarea class="form-control text1 userAgreementContent" id="user-agreement-content" name="content"
-                                                                            rows="10"></textarea>
+                                                                            rows="10" ></textarea>
                                                                         <div id='count' class="float-lg-right">
                                                                         </div>
                                                                     </div>
