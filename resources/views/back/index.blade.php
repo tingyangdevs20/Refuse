@@ -22,7 +22,7 @@
                             <div class="card-header bg-soft-dark ">
                                 Goals Data
                                 @if(auth()->user()->can('administrator'))
-                                <a href="{{route('admin.create.goals')}}"
+                                <a href="{{route('admin.create.goals')}}" style="display:none"
                                     class="btn btn-outline-primary btn-sm float-right" title="New"><i
                                         class="fas fa-plus-circle"></i></a>
                                 @endif
