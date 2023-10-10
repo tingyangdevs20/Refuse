@@ -59,7 +59,7 @@ span.select2-selection.select2-selection--single {
                                     <label for="money_per_month">How much money do you want to make per month? (can be
                                         ambitious but attainable) </label>
                                     <input type="number"
-                                        class="form-control @error('money_per_month') is-invalid @enderror"
+                                        class="form-control @error('money_per_month') is-invalid @enderror" style="width:100px" 
                                         id="money_per_month" name="money_per_month" placeholder="10000" step="any">
                                     @error('money_per_month')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -71,7 +71,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="gross_profit">What is your average gross profit per deal?</label>
                                     <input type="number"
-                                        class="form-control @error('gross_profit') is-invalid @enderror"
+                                        class="form-control @error('gross_profit') is-invalid @enderror" style="width:100px" 
                                         id="gross_profit" name="gross_profit" placeholder="1000" step="any">
                                     @error('gross_profit')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -83,7 +83,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="contact_trun_into_lead">What percentage of the people you contact turn into leads? (a lead is a person at least open to the idea of selling their property…not a phone lead… just someone that said they might be open to selling) (if you don’t know, our user average is 1.5%)</label>
                                     <input type="number"
-                                        class="form-control @error('contact_trun_into_lead') is-invalid @enderror"
+                                        class="form-control @error('contact_trun_into_lead') is-invalid @enderror" style="width:100px" 
                                         id="contact_trun_into_lead" step="any" name="contact_trun_into_lead"
                                         placeholder="10">
                                     @error('contact_trun_into_lead')
@@ -96,7 +96,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="leads_into_phone">What percentage of your leads are you able to get on the phone? (if you don’t know, our user average is 50%)</label>
                                     <input type="number"
-                                        class="form-control @error('leads_into_phone') is-invalid @enderror"
+                                        class="form-control @error('leads_into_phone') is-invalid @enderror" style="width:100px" 
                                         id="leads_into_phone" step="any" name="leads_into_phone" placeholder="10">
                                     @error('leads_into_phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -108,7 +108,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="signed_agreements">Of the people you talk to on the phone, what percentage will you get a signed contract from? (if you don’t know, our user average is 10%)</label>
                                     <input type="number"
-                                        class="form-control @error('signed_agreements') is-invalid @enderror"
+                                        class="form-control @error('signed_agreements') is-invalid @enderror" style="width:100px" 
                                         id="signed_agreements" step="any" name="signed_agreements" step="any"
                                         placeholder="10%">
                                     @error('signed_agreements')
@@ -121,7 +121,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="escrow_closure">Of the signed contracts you get back, what percentage close escrow? (if you don’t know, our user average 80%)</label>
                                     <input type="number"
-                                        class="form-control @error('escrow_closure') is-invalid @enderror"
+                                        class="form-control @error('escrow_closure') is-invalid @enderror" style="width:100px" 
                                         id="escrow_closure" step="any" name="escrow_closure" step="any"
                                         placeholder="80%">
                                     @error('escrow_closure')
@@ -134,7 +134,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="escrow_closure">Passed Inspection </label>
                                     <input type="number"
-                                        class="form-control @error('passed_inspection') is-invalid @enderror"
+                                        class="form-control @error('passed_inspection') is-invalid @enderror" style="width:100px" 
                                         id="passed_inspection" step="any" name="passed_inspection" step="any"
                                         placeholder="">
                                     @error('passed_inspection')
@@ -147,7 +147,7 @@ span.select2-selection.select2-selection--single {
                                 <div class="form-group">
                                     <label for="escrow_closure">Passed Title Search </label>
                                     <input type="number"
-                                        class="form-control @error('passed_title_search') is-invalid @enderror"
+                                        class="form-control @error('passed_title_search') is-invalid @enderror" style="width:100px" 
                                         id="passed_title_search" step="any" name="passed_title_search" step="any"
                                         placeholder="">
                                     @error('passed_title_search')
@@ -159,7 +159,7 @@ span.select2-selection.select2-selection--single {
                             <div class="col-md-6" style="display:none">
                                 <div class="form-group">
                                     <label for="escrow_closure">Deal Closed</label>
-                                    <input type="number" class="form-control @error('deal_closed') is-invalid @enderror"
+                                    <input type="number" class="form-control @error('deal_closed') is-invalid @enderror" style="width:100px" 
                                         id="deal_closed" step="any" name="deal_closed" step="any" placeholder="5">
                                     @error('deal_closed')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -175,7 +175,7 @@ span.select2-selection.select2-selection--single {
                             <div class="col-md-6" style="display:none">
                                 <div class="form-group">
                                     <label for="attribute">Attribute</label>
-                                    <select class="form-control @error('attribute') is-invalid @enderror" id="attribute"
+                                    <select class="form-control @error('attribute') is-invalid @enderror" id="attribute" style="width:100px" 
                                         name="attribute">
                                         <option value="">Select Attribute</option>
 
@@ -190,7 +190,7 @@ span.select2-selection.select2-selection--single {
                                 </div>
                                 <div class="form-group" style="display:none">
                                     <label for="user">User</label>
-                                    <select class="form-control @error('user') is-invalid @enderror" id="user"
+                                    <select class="form-control @error('user') is-invalid @enderror" id="user" style="width:100px" 
                                         name="user">
                                         <option value="">Select User</option>
                                         @foreach($users as $data)
