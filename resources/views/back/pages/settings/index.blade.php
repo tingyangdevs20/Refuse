@@ -27,7 +27,7 @@
                     <div class="card-header bg-soft-dark ">
                         <i class="fas fa-cog"></i> General Settings
                         <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
-                            data-toggle="modal" data-target="#helpModal">Use this Section</button>
+                            data-toggle="modal" data-target="#helpModal">How to Use</button>
                             @include('components.modalform')
                     </div>
                     <div class="card-body">

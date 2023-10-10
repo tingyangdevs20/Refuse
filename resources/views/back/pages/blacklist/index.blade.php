@@ -28,7 +28,7 @@
                                         All Blacklists
                                         <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                                         <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">Use this Section</button>  
+                        data-target="#helpModal">How to Use</button>  
                         @include('components.modalform')
 
                                     </div>
