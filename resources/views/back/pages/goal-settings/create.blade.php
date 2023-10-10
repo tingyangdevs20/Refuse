@@ -33,8 +33,8 @@ span.select2-selection.select2-selection--single {
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
                         Create Goal
-                        <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New"><i
-                                class="fas fa-arrow-left"></i></a>
+                       <!-- <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New"><i
+                                class="fas fa-arrow-left"></i></a>-->
                                 <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
                         data-target="#helpModal">Use this Section</button>  
                         @include('components.modalform')
