@@ -12,11 +12,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Group Management</h4>
+                        <h4 class="mb-0 font-size-18">Lists Management</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Group Management</li>
+                                <li class="breadcrumb-item">Lists Management</li>
                                 <li class="breadcrumb-item active">{{ $group->name }}</li>
                                 <li class="breadcrumb-item active">Numbers</li>
                             </ol>
@@ -35,7 +35,7 @@
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
                                 data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
-                                data-toggle="modal" data-target="#helpModal">Use this Section</button>
+                                data-toggle="modal" data-target="#helpModal">How To Use</button>
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
@@ -112,7 +112,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Contact</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">New List Contact</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

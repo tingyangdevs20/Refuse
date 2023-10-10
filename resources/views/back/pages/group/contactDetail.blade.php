@@ -5011,10 +5011,10 @@
                                     <div class="col-md-4">
                                         <div class="card content-div">
                                             <div class="form-group" style="padding: 0 10px;">
-                                                <label>Load Script</label>
+                                                <label style="margin-top: 5px;">Load Script</label>
                                                 <select class="custom-select" name="lead_assigned_to"
                                                     onchange="loadScript(value)">
-                                                    <option value="">Load Script</option>
+                                                    <option value="">Select Script</option>
                                                     @if (count($scripts) > 0)
                                                         @foreach ($scripts as $script)
                                                             <option value="{{ $script->id }}">{{ $script->name }}
