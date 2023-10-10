@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Model\Settings;
 use App\Model\UserAgreement;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -42,7 +43,16 @@ class UserAgreementSendMail extends Mailable
     public function build()
     {
         $userAgreementSeller = UserAgreementSeller::find($this->userAgreementSellerId);
-
+        $settings = Settings::first();
+        if($settings){
+            
+            $mail_signature = $settings->auth_email;
+            if(!$mail_signature) {
+                $mail_signature = "REIFuze";
+            }
+        } else {
+            $mail_signature = "REIFuze";
+        }
         if ($userAgreementSeller) {
             $url      = route("user.agreement.pdf", Crypt::encrypt($this->userAgreementSellerId));
             $userName = ucfirst($userAgreementSeller->user->name);
@@ -52,6 +62,7 @@ class UserAgreementSendMail extends Mailable
                 ->with([
                     'url'      => $url,
                     'userName' => $userName,
+                    'mail_signature' => $mail_signature,
                 ]);
         }
     }

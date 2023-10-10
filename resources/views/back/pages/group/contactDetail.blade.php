@@ -78,6 +78,21 @@
             background-color: transparent;
             border: 0;
         }
+        .button-item {
+            background-color: #38B6FF;
+            color: black;
+            border-color: #38B6FF;
+            transition: background-color 0.3s, color 0.3s; /* Add a transition for a smooth effect */
+        }
+
+        .button-item:hover {
+            background-color: #38B6FF; /* Change the background color on hover */
+            color: white; /* Change the text color on hover */
+            border-color: #38B6FF;
+        }
+
+ 
+
     </style>
 @endsection
 @section('content')
@@ -685,11 +700,11 @@
                                                                                 <a id="button-call" class="m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner1_primary_number == '' ? '' : $leadinfo->owner1_primary_number }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
                                                                                 <button id="button-hangup-outgoing"
-                                                                                    class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    class='d-none button-item'>
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -709,11 +724,11 @@
                                                                                 <a id="button-call" class=" m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner1_number2 == '' ? '' : $leadinfo->owner1_number2 }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
                                                                                 <button id="button-hangup-outgoing"
-                                                                                    class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    class='d-none button-item'>
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -733,11 +748,11 @@
                                                                                 <a id="button-call" class="m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner1_number3 == '' ? '' : $leadinfo->owner1_number3 }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
                                                                                 <button id="button-hangup-outgoing"
-                                                                                    class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    class='d-none button-item'>
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -860,11 +875,11 @@
                                                                                     class="outgoing-call m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner2_primary_number == '' ? '' : $leadinfo->owner2_primary_number }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing"
+                                                                                <button id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -884,11 +899,11 @@
                                                                                     class="outgoing-call m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner2_number2 == '' ? '' : $leadinfo->owner2_number2 }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing"
+                                                                                <button id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -908,11 +923,11 @@
                                                                                     class="outgoing-call m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner2_number3 == '' ? '' : $leadinfo->owner2_number3 }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing"
+                                                                                <button id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -1032,11 +1047,11 @@
                                                                                     class="outgoing-call m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing"
+                                                                                <button id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -1056,11 +1071,11 @@
                                                                                     class="outgoing-call m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing"
+                                                                                <button id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -1080,11 +1095,11 @@
                                                                                     class="outgoing-call m-1"
                                                                                     href="javascript:void(0)"
                                                                                     phone-number="{{ $leadinfo->owner3_number3 == '' ? '' : $leadinfo->owner3_number3 }}"><i
-                                                                                        class="fas fa-phone whatsapp-icon"
+                                                                                        class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing"
+                                                                                <button id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
-                                                                                    <i class="fas fa-phone whatsapp-icon hangupicon"
+                                                                                    <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
                                                                                 </button>
                                                                             @endif
@@ -1505,7 +1520,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-realtor-estimates-button"
-                                                                                class="btn btn-primary">Get Property
+                                                                                class="btn btn-primary button-item">Get Property
                                                                                 Estimates</button>
                                                                         </div>
                                                                     </div>
@@ -1539,7 +1554,7 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-map-links-button"
-                                                                                class="btn btn-primary">Get Google Maps &
+                                                                                class="btn btn-primary button-item">Get Google Maps &
                                                                                 Zillow link</button>
                                                                         </div>
                                                                     </div>
@@ -3213,7 +3228,7 @@
                                                                         </div>
                                                                         <button type="submit"
                                                                             onclick="updateValue('Yes','stop_followup','followup_sequences')"
-                                                                            class="btn btn-primary mt-2">Stop
+                                                                            class="btn btn-primary button-item mt-2">Stop
                                                                             Followup</button>
                                                                     </div>
                                                                 </div>
@@ -3389,7 +3404,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <a href="{{ route('admin.zoom.index') }}"
-                                                                            type="button" class="btn btn-primary">Zoom
+                                                                            type="button" class="btn btn-primary button-item">Zoom
                                                                             Meeting</a>
 
                                                                     </div>
@@ -3440,7 +3455,7 @@
                                                                                     class="float-lg-right">
                                                                                 </div>
                                                                                 <button type="submit"
-                                                                                    class="btn btn-primary mt-2">Send
+                                                                                    class="btn btn-primary button-item mt-2">Send
                                                                                     Email</button>
                                                                             </div>
                                                                         </form>
@@ -3586,7 +3601,7 @@
                                                                         <!-- Hidden input field for file -->
                                                                     </div>
                                                                     <button type="button" id="custom-upload-button"
-                                                                        class="btn btn-primary">Upload to Google
+                                                                        class="btn btn-primary button-item">Upload to Google
                                                                         Drive</button>
                                                                 </div>
 
@@ -4901,37 +4916,35 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label for="seller_id"
                                                                             class="col-form-label">User Seller <span
                                                                                 class="required">*</span></label>
-                                                                        <select class="select select2 userSeller"
-                                                                            id="seller_id" name="seller_id[]" required
-                                                                            multiple="multiple" style="width: 100%;">
-                                                                            <option value="">Select User Contact
-                                                                            </option>
-                                                                            @foreach (getUserContact() as $sellerId => $seller)
-                                                                                <option value="{{ $sellerId }}">
-                                                                                    {{ $seller }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
+                                                                                <div class="checkbox-list">
+                                                                                        @foreach (getUserContact() as $sellerId => $seller)
+                                                                                            <label><input type="checkbox" class="user-seller" name="seller_id[]" value="{{ $sellerId }}"> {{ $seller }}</label><br>
+                                                                                        @endforeach
+                                                                                </div>
+                                                                        </div>
 
+                                                                     </div>
+                                                                
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <div class="form-group" style="margin-left: 15px;">
+                                                                            <small class="text-danger"><b>Please Keep
+                                                                                    {SIGNATURE_USER} in contenet for
+                                                                                    user sign</b></small>
+                                                                        </div>
+                                                                        
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">Cancel</button>
+                                                                    <div class="form-group" style="margin-left: 15px;">
                                                                         <button type="submit"
-                                                                            class="btn btn-primary saveUserAgreementContact">Create</button>
+                                                                            class="btn btn-primary button-item saveUserAgreementContact">Create</button>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group" style="margin-left: 35px;">
-                                                                    <small class="text-danger"><b>Please Keep
-                                                                            {SIGNATURE_USER} in contenet for
-                                                                            user sign</b></small>
                                                                 </div>
                                                             </div>
                                                             @php

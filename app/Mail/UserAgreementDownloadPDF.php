@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Model\Settings;
 use App\Model\UserAgreement;
 use App\Model\UserAgreementSeller;
 use Illuminate\Bus\Queueable;
@@ -53,11 +54,24 @@ class UserAgreementDownloadPDF extends Mailable
             //         'url'      => $url,
             //         'userName' => $userName,
             //     ]);
+
+            $settings = Settings::first();
+            if($settings){
+                
+                $mail_signature = $settings->auth_email;
+                if(!$mail_signature) {
+                    $mail_signature = "REIFuze";
+                }
+            } else {
+                $mail_signature = "REIFuze";
+            }
+
             return $this->view('agreement.mail')
             ->subject('User Agreement')
             ->with([
                 'url'      => $url,
                 'userName' => $userName,
+                'mail_signature' => $mail_signature,
             ]);
         }
     }
