@@ -123,27 +123,26 @@ class GroupController extends Controller
         $contact = Contact::where('id', $id)->first();
         $TaskliSt = TaskList::all();
 
+        if($contact) {
 
-        $collection = SkipTracingDetail::where('group_id', $contact->group_id)
-            ->whereIn('id', function ($query) use ($contact) {
-                $query->select(DB::raw('MAX(id)'))
-                    ->from('skip_tracing_details')
-                    ->where('group_id', $contact->group_id)
-                    ->groupBy('user_id', 'select_option');
-            })
-            ->whereNotNull('first_name')
-            ->whereNotNull('last_name')
-            ->whereNotNull('address')
-            ->whereNotNull('zip')
-            ->get();
-
-
-
+            $collection = SkipTracingDetail::where('group_id', $contact->group_id)
+                ->whereIn('id', function ($query) use ($contact) {
+                    $query->select(DB::raw('MAX(id)'))
+                        ->from('skip_tracing_details')
+                        ->where('group_id', $contact->group_id)
+                        ->groupBy('user_id', 'select_option');
+                })
+                ->whereNotNull('first_name')
+                ->whereNotNull('last_name')
+                ->whereNotNull('address')
+                ->whereNotNull('zip')
+                ->get();
+        } else {
+            $collection = null;
+        }
 
 
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
-
-        
         if ($leadinfo == null) {
             $dateAdded = Carbon::now()->toDateString();
             DB::table('lead_info')->insert(['contact_id' => $id, 'date_added' => $dateAdded]);
