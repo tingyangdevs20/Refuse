@@ -81,12 +81,14 @@
         .button-item {
             background-color: #38B6FF;
             color: black;
+            border-color: #38B6FF;
             transition: background-color 0.3s, color 0.3s; /* Add a transition for a smooth effect */
         }
 
         .button-item:hover {
             background-color: #38B6FF; /* Change the background color on hover */
             color: white; /* Change the text color on hover */
+            border-color: #38B6FF;
         }
 
  
