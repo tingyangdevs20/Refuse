@@ -149,8 +149,8 @@
                 <br>
                 <select class="form-control insert_code" name="short_code" id="insert_code" data-type = "add">
                     <option value="">Select Code</option>
-                    @foreach($short_code as $code)
-                        <option value="{{$code}}"> {{$code}} </option>
+                    @foreach($short_code as $key=> $code)
+                        <option value="{{$key}}"> {{$code}} </option>
                     @endforeach
                 </select>
             </div>
@@ -232,8 +232,8 @@
                         <br>
                         <select class="form-control insert_code" name="short_code" id="insert_code" data-type = "update">
                             <option value="">Select Code</option>
-                            @foreach($short_code as $code)
-                                <option value="{{$code}}"> {{$code}} </option>
+                            @foreach($short_code as $key=>$code)
+                                <option value="{{$key}}"> {{$code}} </option>
                             @endforeach
                         </select>
                     </div>
