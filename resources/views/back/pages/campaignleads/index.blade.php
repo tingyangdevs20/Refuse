@@ -29,7 +29,7 @@
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
                                 data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
                                 <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">Use this Section</button>  
+                        data-target="#helpModal">How To Use</button>  
                         @include('components.modalform')
                         </div>
                         <div class="card-body">
@@ -117,7 +117,7 @@
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" style="display:none">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
                                 <option value="">Select Group/Contact List</option>
@@ -162,7 +162,7 @@
                                     required>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group" style="display:none">
                                 <label for="group_id">Select Group/Contact List</label>
                                 <select name="group_id" id="group_id_edit" class="form-control">
                                     <option value="">Select Group/Contact List</option>
