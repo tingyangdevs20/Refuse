@@ -48,13 +48,13 @@ $(document).ready(function () {
                 selectedCheckboxData.push($(this).val());
             });
 
-            e.preventDefault();
+            // e.preventDefault();
             var myData = $(this);
             myData.attr('disabled', true);
             $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
             
             var data = $(this).parents("form").serialize();
-            console.log(data);
+            // console.log(data);
             $.ajax({
                 url: userAgreementPath + "save",
                 method: "post",
