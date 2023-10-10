@@ -38,7 +38,7 @@
                     ->where('status', 'succeeded')
                     ->sum('amount');
                 @endphp
-            Account Balance: <a href="{{ route('admin.account.detail') }}"><span style="color:#556ee6;font-weight:bold"> USD {{ number_format(@$totalBalance, 2) }}</span></a>
+            Account Balance: <a href="{{ route('admin.account.detail') }}"><span style="color:#556ee6;font-weight:bold"> $ {{ number_format(@$totalBalance, 2) }}</span></a>
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"

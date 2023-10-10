@@ -128,7 +128,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="col">People Reached</th>
+                                            <th scope="col">People Touched</th>
                                             <td>{{ $goalValue??'0'}}</td>
                                             <td>{{ $messages_sent_today_goals??'0' }}</td>
                                             <td>{{ $messages_sent_seven_days_goals??'0' }}</td>
@@ -148,7 +148,17 @@
                                             <td>{{$total_received_lifetime??'0'}}</td>
                                         </tr>
                                         <tr>
-                                            <th scope="col">#Phone Apointment</th>
+                                            <th scope="col">#Leads - Scheduled Appointments</th>
+                                            <td>{{$goal_lead??'0'}}</td>
+                                            <td>{{$messages_received_today??'0'}}</td>
+                                            <td>{{$messages_received_seven_days_goals??'0'}} </td>
+                                            <td>{{$messages_received_month_days_goals??'0'}}</td>
+                                            <td>{{$messages_received_ninety_days_goals??'0'}}</td>
+                                            <td>{{$messages_received_year_goals??'0'}}</td>
+                                            <td>{{$total_received_lifetime??'0'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">#Appointments Show Up/Sellers Talked To</th>
                                             <td>{{$goal_appointment??'0'}}</td>
                                             <td>{{$appointment_todays??'0'}}</td>
                                             <td>{{$appointment_seven_day??'0'}}</td>
@@ -159,7 +169,7 @@
 
                                         </tr>
                                         <tr>
-                                            <th scope="col">Contracts Out</th>
+                                            <th scope="col">Call No Show</th>
                                             <td>{{ $contacts_out??'0' }}</td>
                                             <td>{{ $contracts_out_todays??'0' }}</td>
                                             <td>{{ $contracts_out_seven_day??'0' }}</td>
