@@ -32,7 +32,7 @@ span.select2-selection.select2-selection--single {
                 </div>
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
-                        Create Your Goal
+                        Create Your Goals
                        <!-- <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New"><i
                                 class="fas fa-arrow-left"></i></a>-->
                                 <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
