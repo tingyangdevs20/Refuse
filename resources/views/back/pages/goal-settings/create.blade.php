@@ -21,7 +21,7 @@ span.select2-selection.select2-selection--single {
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0 font-size-18">Your Goals</h4>
+                    <h4 class="mb-0 font-size-18">Goals</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
@@ -32,7 +32,7 @@ span.select2-selection.select2-selection--single {
                 </div>
                 <div class="card">
                     <div class="card-header bg-soft-dark ">
-                        Create Goal
+                        Create Your Goal
                        <!-- <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New"><i
                                 class="fas fa-arrow-left"></i></a>-->
                                 <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
