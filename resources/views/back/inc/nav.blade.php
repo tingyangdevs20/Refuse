@@ -18,7 +18,7 @@
                
                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('scraping_module'))
                 <li>
-                    <a href="{{ route('admin.setgoals') }}">
+                    <a href="{{ route('admin.create.goals') }}">
                         <i class="bx bx-check-square"></i>
                         <span>Goals</span>
                     </a>

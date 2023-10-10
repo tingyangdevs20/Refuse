@@ -188,6 +188,13 @@
                                         id="schedule_hours" value="{{ $settings->schedule_hours }}" required>
                                 </div>
                             </div>
+                            <div class="card-header bg-soft-dark ">
+                                <i class="fas fa-cog"></i>Goals Data
+
+                            </div>
+                            <br />
+
+                            
 
 
                             <button type="submit" class="btn btn-primary">Update Settings</button>
