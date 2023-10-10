@@ -10,88 +10,7 @@
 <div class="page-content">
     <div class="container-fluid">
 
-        <!-- start page title -->
-        <!-- <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">BulkSMS</h4> -->
-
-        <!-- class="mb-0 font-size-18">Command Central</h4>-->
-        <!-- <p><span style="color:orange;font-size:16px;margin-right:10px" class="blink">Campaign Status:</span>5 Out of 10 uploaded contacts pending send. Your daily send message limit is 5. <a href="#">Update Limit Now</a> </p>
-
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="#">Command Centralll</a></li>
-                            </ol>
-                        </div>
-
-                    </div>
-                </div>
-            </div> -->
-        <!-- end page title -->
-
-        <!-- <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <div class="media">
-                                        <div class="mr-3">
-                                            <img src="{{ asset('back/assets/images/user.png') }}" alt=""
-                                                 class="avatar-md rounded-circle img-thumbnail">
-                                        </div>
-                                        <div class="media-body align-self-center">
-                                            <div class="text-muted">
-                                                <p class="mb-2">Welcome</p>
-                                                <h5 class="mb-1">{{ Auth::user()->name }}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 align-self-center">
-                                    <div class="text-lg-center mt-4 mt-lg-0">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div>
-                                                    <p class="text-muted text-truncate mb-2">Total Sent
-                                                        (<small>lifetime</small>)</p>
-                                                    <h5 class="mb-0">{{ $total_sent_lifetime }}</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted text-truncate mb-2">Total Received (<small>lifetime</small>)
-                                                    </p>
-                                                    <h5 class="mb-0">{{ $total_received_lifetime }}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 align-self-center">
-                                    <div class="text-lg-center mt-4 mt-lg-0">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div>
-                                                    <p class="text-muted text-truncate mb-2">Total Cost
-                                                        (<small>lifetime</small>)</p>
-                                                    <h5 class="mb-0">
-                                                        ${{ ($total_sent_lifetime+$total_received_lifetime)*$settings->sms_rate }}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end row -->
-        <!-- </div>
-                    </div>
-                </div>
-            </div>  -->
-        -->
-        <!-- end row -->
+                <!-- end row -->
         <div class="page-content">
             <div class="container-fluid">
 
@@ -112,7 +31,7 @@
                                  @include('components.modalform')
                         
                             </div>
-                            <div class="card-body mt-5">
+                            <div class="card-body">
                                 <table class="table table-striped table-bordered" id="datatable">
                                     <thead>
                                         <tr>
