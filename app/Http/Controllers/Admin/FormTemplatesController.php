@@ -72,7 +72,14 @@ class FormTemplatesController extends Controller
         }
 
         $short_code = array_keys($short_code);
+        foreach($short_code as $code) {
+            $shortcode[$code] = ucwords(str_replace('_', ' ', $code));
+        }
 
+        $short_code = $shortcode;
+        // foreach($short_code as $key=> $code) {
+        //     dd($key);
+        // }
         return view( 'back.pages.formtemplate.index', compact('groups', 'sr','campaigns','markets','tags','short_code') ) ;
 
     }

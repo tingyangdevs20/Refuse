@@ -37,6 +37,25 @@ $(document).ready(function () {
             },
         });
     });
+
+    $(document).on("click", ".saveUserAgreementContact", function (e) {
+        e.preventDefault();
+        var myData = $(this);
+        myData.attr('disabled', true);
+        $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+        var data = $(this).parents("form").serialize();
+        $.ajax({
+            url: userAgreementPath + "save",
+            method: "post",
+            data: data,
+            success: function (response) {
+                if (response.success) {
+                    location.reload();
+                }
+            },
+        });
+    });
+
     $(document).on("click", ".editUserAgreement", function (e) {
         e.preventDefault();
         var id = $(this).data('id');
