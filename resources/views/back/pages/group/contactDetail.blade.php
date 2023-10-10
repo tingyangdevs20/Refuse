@@ -90,6 +90,11 @@
             color: white; /* Change the text color on hover */
             border-color: #38B6FF;
         }
+        .load_script {
+    background-color: #f0f0f0; /* A background color to visually indicate it's not editable */
+    cursor: not-allowed; /* Display a "not-allowed" cursor when hovering */
+    pointer-events: none; /* Prevent mouse events (clicks, hovers) on the div */
+}
 
  
 
@@ -5036,7 +5041,7 @@
                                                     @endif
                                                 </select>
                                             </div>
-                                            <div class="load_script"></div>
+                                            <div readonly class="load_script"></div>
                                         </div>
                                     </div>
                                 </div>
