@@ -206,7 +206,7 @@ span.select2-selection.select2-selection--single {
                             <div class="col-md-6">
 
                             </div>
-                            <button type="submit" class="btn btn-primary">Add Data</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>

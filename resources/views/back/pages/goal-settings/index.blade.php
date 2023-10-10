@@ -43,7 +43,7 @@
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    
                                     <th scope="col">Attribute</th>
                                     <th scope="col">Goal set</th>
                                     <th scope="col">User id</th>
@@ -53,7 +53,7 @@
                                 <tbody>
                                     @foreach($goal as $data)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        
                                         <td>{{ $data->goal_attribute['attribute'] ??""}}</td>
                                         <td>{{ $data->goals }}</td>
                                         <td>{{ $data->user['name'] }}</td>
