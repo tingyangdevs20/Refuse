@@ -12,12 +12,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Campaigns</h4>
+                        <h4 class="mb-0 font-size-18">Prospect Campaigns</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                                 <li class="breadcrumb-item">Lead Generation </li>
-                                <li class="breadcrumb-item active">Campaigns</li>
+                                <li class="breadcrumb-item active">Prospect Campaigns</li>
                             </ol>
                         </div>
                     </div>
@@ -40,6 +40,7 @@
                                     <!--<th scope="col">Type</th>-->
                                     <!--<th scope="col">Send after days</th>-->
                                     <!--<th scope="col">Send after hours</th>-->
+                                    <th scope="col">Total Contacts</th>
                                     <th scope="col">Contact list</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -51,6 +52,7 @@
                                         <!--<td>{{ $campaign->type }}</td>-->
                                         <!--<td>{{ $campaign->send_after_days }}</td>-->
                                         <!--<td>{{ $campaign->send_after_hours }}</td>-->
+                                        <td></td>
                                         <td>{{ optional($campaign->group)->name ?? "N/A" }}</td>
                                         <td>
                                             <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button data-toggle="modal" class="btn btn-outline-warning" >Copy</button></a>
