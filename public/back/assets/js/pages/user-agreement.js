@@ -39,21 +39,34 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".saveUserAgreementContact", function (e) {
-        e.preventDefault();
-        var myData = $(this);
-        myData.attr('disabled', true);
-        $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
-        var data = $(this).parents("form").serialize();
-        $.ajax({
-            url: userAgreementPath + "save",
-            method: "post",
-            data: data,
-            success: function (response) {
-                if (response.success) {
-                    location.reload();
-                }
-            },
-        });
+        if ($(".user-seller:checked").length === 0) {
+            alert("Please select at least one User selle!");
+            // e.preventDefault(); // Prevent form submission
+        } else{
+            var selectedCheckboxData = [];
+            $(".user-seller:checked").each(function () {
+                selectedCheckboxData.push($(this).val());
+            });
+
+            e.preventDefault();
+            var myData = $(this);
+            myData.attr('disabled', true);
+            $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+            
+            var data = $(this).parents("form").serialize();
+            console.log(data);
+            $.ajax({
+                url: userAgreementPath + "save",
+                method: "post",
+                data: data,
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    }
+                },
+            });
+        }
+
     });
 
     $(document).on("click", ".editUserAgreement", function (e) {

@@ -62,7 +62,7 @@
                                                         style="box-sizing: border-box; position: relative; max-width: 100vw; padding: 32px;">
                                                         <p
                                                             style="box-sizing: border-box; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
-                                                            Date :- {{ date("Y-m-d") }}
+                                                            Date: {{ date("mm-dd-Y") }}
                                                         </p>
                                                         <h1
                                                             style="box-sizing: border-box; position: relative; color: #3d4852; font-size: 18px; font-weight: bold; margin-top: 0; text-align: left;">
@@ -70,7 +70,7 @@
                                                         </h1>
                                                         <p
                                                             style="box-sizing: border-box; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
-                                                            In the link below you have the contract signed in PDF format
+                                                            Click the button below to download your signed agreement in the PDF format.
                                                         </p>
                                                         <table align="center" cellpadding="0" cellspacing="0"
                                                             class="action" role="presentation"
@@ -106,6 +106,7 @@
                                                                                                             Agreement
                                                                                                         </a>
                                                                                                     </td>
+                                                                                                    
                                                                                                 </tr>
                                                                                             </tbody>
                                                                                         </table>
@@ -119,13 +120,13 @@
                                                         </table>
                                                         <p
                                                             style="box-sizing: border-box; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
-                                                            Please let me know if you have any query in this regard.
+                                                            Please let us know if you have any questions.
                                                         </p>
                                                         <p
                                                             style="box-sizing: border-box; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
                                                             Thanks,
                                                             <br />
-                                                            {{ config('app.name') }}
+                                                            {{ $mail_signature }}
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -145,8 +146,7 @@
                                                         style="box-sizing: border-box; position: relative; max-width: 100vw; padding: 32px;">
                                                         <p
                                                             style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; color: #b0adc5; font-size: 12px; text-align: center;">
-                                                            © {{ date("Y") }} {{ config('app.name') }}. All rights
-                                                            reserved.
+                                                            © {{ date("Y") }} REIFuze.com 
                                                         </p>
                                                     </td>
                                                 </tr>

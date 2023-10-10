@@ -20,12 +20,11 @@
         </div>
         <div class="form-group">
             <label for="recipient-name" class="col-form-label">User Seller <span class="required">*</span></label>
-            <select class="form-control userSeller" id="seller_id" name="seller_id[]" required multiple="multiple">
-                <option value="">Select User Contact</option>
-                @foreach(getUserContact() as $sellerId => $seller)
-                <option value="{{ $sellerId }}">{{ $seller }}</option>
+            <div class="checkbox-list">
+                @foreach (getUserContact() as $sellerId => $seller)
+                    <label><input type="checkbox" class="user-seller" name="seller_id[]" value="{{ $sellerId }}"> {{ $seller }}</label><br>
                 @endforeach
-            </select>
+        </div>
         </div>
         <div class="form-group">
             <small class="text-danger"><b>Please Keep {SIGNATURE_USER} in contenet for user sign</b></small>
