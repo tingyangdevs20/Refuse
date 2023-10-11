@@ -28,7 +28,7 @@ class VoiceController extends Controller
         if ($phone == $callerId) {
             # Receiving an incoming call to the browser from an external phone
             $response = new VoiceResponse();
-            $dial = $response->dial('');
+            $dial = $response->dial($phone);
             $dial->client('bulk-sms');
         } else if (!empty($phone) && strlen($phone) > 0) {
             $number = htmlspecialchars($phone);
@@ -52,10 +52,24 @@ class VoiceController extends Controller
         
         $settings = Settings::first()->toArray();
         
-        $TWILIO_ACCOUNT_SID = $settings['twilio_api_key'];
-        $TWILIO_SECRET_KEY = $settings['call_secret_token'];
-        $API_KEY = $settings['call_api_key'];
-        $TWIML_APP_SID = $settings['twiml_app_sid'];
+        
+//old account 
+
+        //$TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
+       // $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
+       // $API_KEY = 'SKe98914905647ed119d608121a51534db';
+       // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
+
+
+       //new account 
+
+        $TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
+       $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
+       $API_KEY = 'SKe98914905647ed119d608121a51534db';
+       $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
+
+
+
         
         $accessToken = new AccessToken($TWILIO_ACCOUNT_SID, $API_KEY, $TWILIO_SECRET_KEY, 3600, 'bulk-sms');
         

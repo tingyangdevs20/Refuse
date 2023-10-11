@@ -29,11 +29,11 @@ class SettingsController extends Controller
         $settings = Settings::first()->toArray(); 
         
         
-        $sid = $settings['twilio_acc_sid'];
+       // $sid = 'ACa068bcfb703b21e18077f86851761d44';
         
-        $token = $settings['twilio_auth_token'];
+      // $token = 'c2f1cc6866bad1d7443792a34dfe2395';
        
-        $this->client = new Client($sid, $token);
+      // $this->client = new Client($sid, $token);
     }   
     public function index()
     {
@@ -55,37 +55,38 @@ class SettingsController extends Controller
           $categories = Category::all();
           $markets=Market::all();
           $rvms=RvmFile::all();
-          $context = $this->client->getAccount();
-          $activeNumbers = $context->incomingPhoneNumbers;
-          $activeNumberArray = $activeNumbers->read();
+         // $context = $this->client->getAccount();
+         // $activeNumbers = $context->incomingPhoneNumbers;
+        // $activeNumbers=[];
+         // $activeNumberArray = $activeNumbers->read();
           
           $numbers = [];
-          foreach ($activeNumberArray as $activeNumber) {
-              error_log('active number = ' . $activeNumber->phoneNumber);
+         // foreach ($activeNumberArray as $activeNumber) {
+             // error_log('active number = ' . $activeNumber->phoneNumber);
           
-              // Get the phone number as a string
-              $phn_num[] = $activeNumber->phoneNumber;
+              
+             // $phn_num[] = $activeNumber->phoneNumber;
           
-              $numbers[] = (object) [
-                  'number' => $phn_num,
-                  'name' => $activeNumber->friendlyName,
-                  'sid' => $activeNumber->sid,
-                  'capabilities' => $activeNumber->capabilities,
-              ];
+            //  $numbers[] = (object) [
+                //  'number' => $phn_num,
+                //  'name' => $activeNumber->friendlyName,
+               //   'sid' => $activeNumber->sid,
+               //   'capabilities' => $activeNumber->capabilities,
+            //  ];
           
-              $phone_number = Number::where('number', $phn_num)->first();
-              if (!$phone_number) {
-                  $phn_nums = new Number();
-                  $phn_nums->number = $phn_num;
-                  $phn_nums->sid = $activeNumber->sid;
-                  $phn_nums->capabilities = $activeNumber->capabilities;
-                  $phn_nums->sms_allowed = Settings::first()->sms_allowed;
-                  $phn_nums->account_id = null;
-                  $phn_nums->market_id = null;
-                  $phn_nums->save();
-              }
+            //  $phone_number = Number::where('number', $phn_num)->first();
+           //   if (!$phone_number) {
+                //  $phn_nums = new Number();
+                //  $phn_nums->number = $phn_num;
+               //   $phn_nums->sid = $activeNumber->sid;
+                //  $phn_nums->capabilities = $activeNumber->capabilities;
+                //  $phn_nums->sms_allowed = Settings::first()->sms_allowed;
+                //  $phn_nums->account_id = null;
+                //  $phn_nums->market_id = null;
+                //  $phn_nums->save();
+            //  }
               $all_phone_nums = Number::all();
-          }
+         // }
           
           return view('back.pages.settings.communication', compact('responders','quickResponses', 'autoReplies', 'categories', 'all_phone_nums','markets','rvms'));
     }
