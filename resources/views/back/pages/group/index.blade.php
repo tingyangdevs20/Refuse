@@ -127,7 +127,7 @@
                                     <th scope="col">Date of Last Email Verification</th>
                                     <th scope="col">Date of Last Phone Scrub </th>
                                     <th scope="col">% with Phone Numbers </th>
-                                    <th scope="col">Created At</th>
+                                    <th scope="col">Created On</th>
                                     <th scope="col">Skip Trace</th>
                                     <th scope="col">Push to</th>
                                     <th scope="col">Actions</th>
