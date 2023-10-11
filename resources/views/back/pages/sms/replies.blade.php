@@ -183,8 +183,8 @@
                                                     </div>
                                                 </div>
                                                 @endif
-                                                 
-                                                   @if($smsInfo->is_dnc==1)
+                                                @if(strlen($smsInfo)>0)
+                                                   @elseif($smsInfo->is_dnc==1)
                                                 <div class="p-3 chat-input-section">
                                                     <div class="row">
                                                         <div class="col">
