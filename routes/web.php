@@ -23,6 +23,7 @@ use App\Http\Controllers\Auth\Email;
 | contains the "web" middleware group. Now create something great!
 |
  */
+// Test comment
 
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
