@@ -34,6 +34,16 @@
   
                                   </select>
                               </span>
+
+                              <span style="float:right">Status
+                              <select class="actionSelect" >
+                                      <option value="0">Show All</option>
+                                      <option value="1">Phone Call Completed</option>
+                                      <option value="1">Phone Call No Show</option>
+  
+                                  </select>
+</span>
+
                         </div>
                         <div class="card-body">
                             <table id="tasktable" class="table table-striped table-bordered">
@@ -163,7 +173,7 @@
                 }).get();
 
                 // Check if the selected value is "delete"
-                if (selectedValue === "1") {
+                if (selectedValue === "1" && selectedTaskIds.length > 0) {
                     // Show the confirmation modal
                     $('#confirmationModal').modal('show');
 
