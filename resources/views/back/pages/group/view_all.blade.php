@@ -38,8 +38,9 @@
                               <span style="float:right">Status
                               <select class="actionSelect" >
                                       <option value="0">Show All</option>
-                                      <option value="1">Phone Call Completed</option>
-                                      <option value="1">Phone Call No Show</option>
+                                      @foreach ($leadstatus as $ls)
+                                      <option value="1">{{$ls->lead_status}}</option>
+                                      @endforeach
   
                                   </select>
 </span>
