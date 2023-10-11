@@ -13,4 +13,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(LeadInfo::class, 'lead_tag');   
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_tags', 'tag_id', 'group_id');
+    }
 }
