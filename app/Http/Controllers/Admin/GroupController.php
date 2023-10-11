@@ -1848,4 +1848,15 @@ class GroupController extends Controller
             // return $this->showDetails($request);
         }
     }
+
+    // Show list create form
+    public function newListForm()
+    {
+        $groups = Group::all();
+        $markets = Market::all();
+        $tags = Tag::all();
+        $campaigns = Campaign::getAllCampaigns();
+        $form_Template = FormTemplates::get();
+        return view('back.pages.group.newList', compact('groups', 'markets', 'tags', 'campaigns', 'form_Template'));
+    }
 }
