@@ -38,8 +38,7 @@
                         <span>My Lists</span></a>
                 </li>
                 <li>  <a href="{{ url('admin/group-contacts-all') }}"
-                            class=" waves-effect"><i class="fas fa-book""></i> View All
-                            Contacts</a>
+                            class="waves-effect"><i class="fas fa-book"></i> All Contacts </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">
@@ -47,7 +46,7 @@
                         <span>How To Source A List</span>
                     </a>
                 </li>
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.opt.list') }}" class=" waves-effect"> <i class="fas fa-bars"></i>
                         <span>OPT-IN</span>
                     </a>
