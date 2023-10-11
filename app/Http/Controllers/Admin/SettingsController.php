@@ -29,11 +29,11 @@ class SettingsController extends Controller
         $settings = Settings::first()->toArray(); 
         
         
-        $sid = $settings['twilio_api_key'];
+       $sid = $settings['twilio_acc_sid'];
         
-        $token = $settings['twilio_acc_secret'];
+       $token = $settings['twilio_auth_token'];
        
-        $this->client = new Client($sid, $token);
+      $this->client = new Client($sid, $token);
     }   
     public function index()
     {
@@ -74,37 +74,50 @@ class SettingsController extends Controller
                   'capabilities' => $activeNumber->capabilities,
               ];
               
-              $phn_num = $activeNumber->phoneNumber;
-              $phone_number = Number::where('number', $phn_num)->first();
               $account = Account::first();
               $market = Market::first();
-              
-              if(!$phone_number)
-              {
-                  $capabilitiesString = [];
-                  
-                  foreach ($activeNumber->capabilities as $capability => $value) {
-                      if($value) {
-  
-                          $capabilitiesString[] = "$capability = true ";
-                      }else{
-                          $capabilitiesString[] = "$capability = false ";
-  
-                      }
-                  }
+              $phn_num[] = $activeNumber->phoneNumber;
+              $numbers[] = (object) [
+                  'number' => $phn_num,
+                  'name' => $activeNumber->friendlyName,
+                  'sid' => $activeNumber->sid,
+                  'capabilities' => $activeNumber->capabilities,
+              ];
+          //dd($numbers);
+              $phone_number = Number::where('number', $numbers[0]->number)->first();
+             // dd($phone_number);
+             if (!$phone_number) {
                   $phn_nums = new Number();
-                  $phn_nums->number= $phn_num;
-                  $phn_nums->sid= $activeNumber->sid;
-                  $phn_nums->capabilities= json_encode($capabilitiesString);
-                  $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
-                  $phn_nums->sms_allowed = Settings::first()->sms_allowed;
-                  $phn_nums->account_id = $account->id;
-                  $phn_nums->market_id=$market->id;
-                  $phn_nums->save();
+                  $phn_nums->number = $phn_num;
+                  //dd($phn_num);
+                 $phn_nums->sid = $activeNumber->sid;
+                 $capability="";
+                 if($numbers[0]->capabilities["sms"]==true)
+                 {
+                    $capability .="sms,";
+                 }
+                 if($numbers[0]->capabilities["mms"]==true)
+                 {
+                    $capability .="mms,";
+                 }
+                 if($numbers[0]->capabilities["voice"]==true)
+                 {
+                    $capability .="voice,";
+                 }
+                 if($numbers[0]->capabilities["fax"]==true)
+                 {
+                    $capability .="fax,";
+                 }
+                 
+                // $phn_nums->capabilities = $capability;
+                // $phn_nums->sms_allowed = Settings::first()->sms_allowed;
+                // $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
+                // $phn_nums->account_id = $account->id;
+                // $phn_nums->market_id=$market->id;
+                // $phn_nums->save();
               }
-          }
               $all_phone_nums = Number::all();
-         // }
+          }
           
           return view('back.pages.settings.communication', compact('responders','quickResponses', 'autoReplies', 'categories', 'all_phone_nums','markets','rvms'));
     }

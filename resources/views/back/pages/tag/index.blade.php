@@ -36,8 +36,8 @@
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Number of contacts</th>
                                     <th scope="col">Actions</th>
 
                                 </tr>
@@ -45,8 +45,8 @@
                                 <tbody>
                                 @foreach($tags as $tag)
                                     <tr>
-                                        <td>{{ $sr++ }}</td>
                                         <td>{{ $tag->name }}</td>
+                                        <td><a href="{{ route('admin.tags.contacts', $tag->id) }}">{{ $tag->contactCount }}</a></td>
                                         <td>
                                             <button class="btn btn-outline-primary btn-sm" title="Edit {{ $tag->name }}" data-id="{{ $tag->id }}" data-tagname="{{ $tag->name }}" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
                                             @if($tag->id>1)

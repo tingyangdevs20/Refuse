@@ -23,6 +23,7 @@ use App\Http\Controllers\Auth\Email;
 | contains the "web" middleware group. Now create something great!
 |
  */
+// Test comment
 
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
@@ -216,7 +217,10 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('campaignlist', 'Admin\CampaignListController');
     //Route::resource('single-sms','Admin\SingleSMSController');
     Route::resource('campaignlistNew', 'Admin\CampaignListController');
+    
+    // Groups Routes
     Route::resource('group', 'Admin\GroupController');
+    Route::get('groups/list/create', 'Admin\GroupController@newListForm')->name('group.list.create');
     Route::get('group-contacts-all', 'Admin\GroupController@getAllContacts')->name('group-contacts-all');
     Route::get('group-contacts/edit/{id}', 'Admin\GroupController@editContacts')->name('group-contacts.edit');
     Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
@@ -288,7 +292,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('reply', 'Admin\ReplyController');
     Route::resource('blacklist', 'Admin\BlacklistController');
     Route::resource('category', 'Admin\CategoryController');
+    
     Route::resource('tag', 'Admin\TagController');
+    // Get tags' contacts
+    Route::get('tags/{tag}/contacts', 'Admin\TagController@showTagContacts')->name('tags.contacts');
+    
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
