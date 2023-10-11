@@ -108,90 +108,90 @@
                                 </div>
                             @endif
 
-                            @if (Session::has('payment_infoo'))
-                                <div class="alert alert-success text-center">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                    <p>{{ Session::get('payment_infoo') }}</p><br>
-                                </div>
-                            @endif
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">List Name</th>
-                                        <th scope="col">Contact</th>
-                                        <th scope="col">Pushed To Campaign</th>
-                                        <th scope="col">Pushed To Campaign Date</th>
-                                        <th scope="col">Date of Last Email Skip Trace</th>
-                                        <th scope="col">Date of Last Phone Skip Trace</th>
-                                        <th scope="col">Date of Last Name Skip Trace</th>
-                                        <th scope="col">Date of Last Email Verification</th>
-                                        <th scope="col">Date of Last Phone Scrub </th>
-                                        <th scope="col">% with Phone Numbers </th>
-                                        <th scope="col">Created At</th>
-                                        <th scope="col">Skip Trace</th>
-                                        <th scope="col">Push to</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($groups as $group)
-                                        <tr>
-                                            <td>{{ $group->name }}</td>
-                                            <td><a href="{{ route('admin.group.show', $group->id) }}"
-                                                    id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a>
-                                            </td>
-                                            <td>
-
-
-                                                @if ($group->campaign_name)
-                                                    {{ $group->campaign_name }}
-                                                @else
-                                                    <span style="color:#efefef"> Not Pushed Yet</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->pushed_to_camp_date)
-                                                    {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
-                                                @else
-                                                    <span style="color:#efefef">NA</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->email_skip_trace_date)
-                                                    {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->email_skip_trace_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->phone_skip_trace_date)
-                                                    {{ \Carbon\Carbon::parse($group->phone_skip_trace_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->phone_skip_trace_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->name_skip_trace_date)
-                                                    {{ \Carbon\Carbon::parse($group->name_skip_trace_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->name_skip_trace_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->email_verification_date)
-                                                    {{ \Carbon\Carbon::parse($group->email_verification_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->email_verification_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->phone_scrub_date)
-                                                    {{ \Carbon\Carbon::parse($group->phone_scrub_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->phone_scrub_date }}
-                                                @endif
-                                            </td>
-                                            <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
+                        @if (Session::has('payment_infoo'))
+                        <div class="alert alert-success text-center">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <p>{{ Session::get('payment_infoo') }}</p><br>
+                        </div>
+                        @endif
+                        <table class="table table-striped table-bordered" id="datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">List Name</th>
+                                    <th scope="col">Contact</th>
+                                    <th scope="col">Pushed To Campaign</th>
+                                    <th scope="col">Pushed To Campaign Date</th>
+                                    <th scope="col">Date of Last Email Skip Trace</th>
+                                    <th scope="col">Date of Last Phone Skip Trace</th>
+                                    <th scope="col">Date of Last Name Skip Trace</th>
+                                    <th scope="col">Date of Last Email Verification</th>
+                                    <th scope="col">Date of Last Phone Scrub </th>
+                                    <th scope="col">% with Phone Numbers </th>
+                                    <th scope="col">Created On</th>
+                                    <th scope="col">Skip Trace</th>
+                                    <th scope="col">Push to</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($groups as $group)
+                                <tr>
+                                    <td>{{ $group->name }}</td>
+                                    <td><a href="{{ route('admin.group.show',$group->id) }}"
+                                            id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a>
+                                    </td>
+                                    <td>
+                                      
+                                        
+                                      @if ($group->campaign_name)
+                                       {{ $group->campaign_name }}
+                                      @else
+                                     <span style="color:#efefef"> Not Pushed Yet</span>
+                                      @endif
+                                  </td>
+                                  <td>
+                                      @if ($group->pushed_to_camp_date)
+                                       {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
+                                      @else
+                                      <span style="color:#efefef">NA</span>
+                                      @endif
+                                  </td>
+                                    <td>
+                                        @if ($group->email_skip_trace_date)
+                                        {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}
+                                        @else
+                                        {{ $group->email_skip_trace_date }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($group->phone_skip_trace_date)
+                                        {{ \Carbon\Carbon::parse($group->phone_skip_trace_date)->format('m/d/Y') }}
+                                        @else
+                                        {{ $group->phone_skip_trace_date }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($group->name_skip_trace_date)
+                                        {{ \Carbon\Carbon::parse($group->name_skip_trace_date)->format('m/d/Y') }}
+                                        @else
+                                        {{ $group->name_skip_trace_date }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($group->email_verification_date)
+                                        {{ \Carbon\Carbon::parse($group->email_verification_date)->format('m/d/Y') }}
+                                        @else
+                                        {{ $group->email_verification_date }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($group->phone_scrub_date)
+                                        {{ \Carbon\Carbon::parse($group->phone_scrub_date)->format('m/d/Y') }}
+                                        @else
+                                        {{ $group->phone_scrub_date }}
+                                        @endif
+                                    </td>
+                                    <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
 
                                             <td>{{ $group->created_at->format('m/d/Y') }}</td>
 
