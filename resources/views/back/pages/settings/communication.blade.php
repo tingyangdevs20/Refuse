@@ -194,6 +194,7 @@ body {
                                         <tr>
                                             <th scope="col">Phone Number</th>
                                             <th scope="col">Capabilities</th>
+                                             <th scope="col">A2P Compliance</th>
                                             <th scope="col">Status</th> 
                                             </tr>
                                         </thead>
@@ -204,6 +205,7 @@ body {
                                         @foreach ($all_phone_nums as $p_num)
                                     <tr>                                
                                                 <td>{{ $p_num->number }}</td>
+                                                <td>{{ $p_num->capabilities }}</td>      
                                                 <td>{{ $p_num->capabilities }}</td>                                      
                                             <td>
     
