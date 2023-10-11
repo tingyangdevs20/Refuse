@@ -288,7 +288,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('reply', 'Admin\ReplyController');
     Route::resource('blacklist', 'Admin\BlacklistController');
     Route::resource('category', 'Admin\CategoryController');
+    
     Route::resource('tag', 'Admin\TagController');
+    // Get tags' contacts
+    Route::get('tags/{tag}/contacts', 'Admin\TagController@showTagContacts')->name('tags.contacts');
+    
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');

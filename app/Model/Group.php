@@ -10,6 +10,12 @@ class Group extends Model
     {
         return $this->hasMany(Contact::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'group_tags', 'group_id', 'tag_id');
+    }
+
     public function getContactsCount()
     {
         return $this->contacts()->count();
