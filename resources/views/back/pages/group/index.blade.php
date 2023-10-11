@@ -82,8 +82,9 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             All Lists
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
-                                data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
+                            {{-- <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
+                                data-target="#newModal"><i class="fas fa-plus-circle"></i></button> --}}
+                            <a href="{{ route('admin.group.list.create') }}" class="btn btn-outline-primary btn-sm float-right" title="New List"><i class="fas fa-plus-circle"></i></a>
                             <a href="{{ asset('uploads/examplenew.csv') }}" download
                                 class="btn btn-success btn-sm float-right mr-3"><i class="fas fa-download"></i> Download
                                 Sample</a>

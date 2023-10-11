@@ -134,45 +134,45 @@
                         <div class="form-group">
                             <label>Last Name</label>
                             <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name"
-                                required>
+                                >
                         </div>
                         <div class="form-group">
                             <label>Street</label>
-                            <input type="text" class="form-control" name="street" placeholder="Enter Street" required>
+                            <input type="text" class="form-control" name="street" placeholder="Enter Street" >
                         </div>
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" class="form-control" name="city" placeholder="Enter City" required>
+                            <input type="text" class="form-control" name="city" placeholder="Enter City" >
                         </div>
                         <div class="form-group">
                             <label>State</label>
                             <input type="text" class="form-control" name="state" placeholder="Enter State"
-                                required>
+                                >
                         </div>
                         <div class="form-group">
                             <label>Zip</label>
                             <input type="text" class="form-control" name="zip" placeholder="Enter Zip code"
-                                required>
+                                >
                         </div>
                         <div class="form-group">
                             <label>Phone 1</label>
                             <input type="text" class="form-control" name="number" placeholder="Enter Phone"
-                                required>
+                                >
                         </div>
                         <div class="form-group">
                             <label>Phone 2</label>
                             <input type="text" class="form-control" name="number2" placeholder="Enter Phone"
-                                required>
+                                >
                         </div>
                         <div class="form-group">
                             <label>Email 1</label>
                             <input type="text" class="form-control" name="email1" placeholder="Enter email"
-                                required>
+                                >
                         </div>
                         <div class="form-group">
                             <label>Email 2</label>
                             <input type="text" class="form-control" name="email2" placeholder="Enter email"
-                                required>
+                                >
                         </div>
 
                         <div class="modal-footer">
