@@ -33,7 +33,7 @@ class PhoneController extends Controller
         //print_r($activeNumberArray);
         //die("...");
         $numbers = [];
-        dd($activeNumberArray);
+        
         foreach($activeNumberArray as $activeNumber) {
             error_log('active number = '.$activeNumber->phoneNumber);
             $numbers[] = (object)[
@@ -50,10 +50,22 @@ class PhoneController extends Controller
             
             if(!$phone_number)
             {
+                $capabilitiesString = [];
+                
+                foreach ($activeNumber->capabilities as $capability => $value) {
+                    if($value) {
+
+                        $capabilitiesString[] = "$capability = true ";
+                    }else{
+                        $capabilitiesString[] = "$capability = false ";
+
+                    }
+                }
                 $phn_nums = new Number();
                 $phn_nums->number= $phn_num;
                 $phn_nums->sid= $activeNumber->sid;
-                $phn_nums->capabilities= json_encode($activeNumber->capabilities);
+                $phn_nums->capabilities= json_encode($capabilitiesString);
+                $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
                 $phn_nums->sms_allowed = Settings::first()->sms_allowed;
                 $phn_nums->account_id = $account->id;
                 $phn_nums->market_id=$market->id;

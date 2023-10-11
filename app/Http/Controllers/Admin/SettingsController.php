@@ -29,11 +29,11 @@ class SettingsController extends Controller
         $settings = Settings::first()->toArray(); 
         
         
-       // $sid = 'ACa068bcfb703b21e18077f86851761d44';
+        $sid = $settings['twilio_api_key'];
         
-      // $token = 'c2f1cc6866bad1d7443792a34dfe2395';
+        $token = $settings['twilio_acc_secret'];
        
-      // $this->client = new Client($sid, $token);
+        $this->client = new Client($sid, $token);
     }   
     public function index()
     {
@@ -55,36 +55,54 @@ class SettingsController extends Controller
           $categories = Category::all();
           $markets=Market::all();
           $rvms=RvmFile::all();
-         // $context = $this->client->getAccount();
-         // $activeNumbers = $context->incomingPhoneNumbers;
-        // $activeNumbers=[];
-         // $activeNumberArray = $activeNumbers->read();
           
+          
+          $context = $this->client->getAccount();
+          $activeNumbers = $context->incomingPhoneNumbers;
+          // dd( $activeNumbers);
+          $activeNumberArray = $activeNumbers->read();
+          //print_r($activeNumberArray);
+          //die("...");
           $numbers = [];
-         // foreach ($activeNumberArray as $activeNumber) {
-             // error_log('active number = ' . $activeNumber->phoneNumber);
           
+          foreach($activeNumberArray as $activeNumber) {
+              error_log('active number = '.$activeNumber->phoneNumber);
+              $numbers[] = (object)[
+                  'number' => $activeNumber->phoneNumber,
+                  'name' => $activeNumber->friendlyName,
+                  'sid' => $activeNumber->sid,
+                  'capabilities' => $activeNumber->capabilities,
+              ];
               
-             // $phn_num[] = $activeNumber->phoneNumber;
-          
-            //  $numbers[] = (object) [
-                //  'number' => $phn_num,
-                //  'name' => $activeNumber->friendlyName,
-               //   'sid' => $activeNumber->sid,
-               //   'capabilities' => $activeNumber->capabilities,
-            //  ];
-          
-            //  $phone_number = Number::where('number', $phn_num)->first();
-           //   if (!$phone_number) {
-                //  $phn_nums = new Number();
-                //  $phn_nums->number = $phn_num;
-               //   $phn_nums->sid = $activeNumber->sid;
-                //  $phn_nums->capabilities = $activeNumber->capabilities;
-                //  $phn_nums->sms_allowed = Settings::first()->sms_allowed;
-                //  $phn_nums->account_id = null;
-                //  $phn_nums->market_id = null;
-                //  $phn_nums->save();
-            //  }
+              $phn_num = $activeNumber->phoneNumber;
+              $phone_number = Number::where('number', $phn_num)->first();
+              $account = Account::first();
+              $market = Market::first();
+              
+              if(!$phone_number)
+              {
+                  $capabilitiesString = [];
+                  
+                  foreach ($activeNumber->capabilities as $capability => $value) {
+                      if($value) {
+  
+                          $capabilitiesString[] = "$capability = true ";
+                      }else{
+                          $capabilitiesString[] = "$capability = false ";
+  
+                      }
+                  }
+                  $phn_nums = new Number();
+                  $phn_nums->number= $phn_num;
+                  $phn_nums->sid= $activeNumber->sid;
+                  $phn_nums->capabilities= json_encode($capabilitiesString);
+                  $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
+                  $phn_nums->sms_allowed = Settings::first()->sms_allowed;
+                  $phn_nums->account_id = $account->id;
+                  $phn_nums->market_id=$market->id;
+                  $phn_nums->save();
+              }
+          }
               $all_phone_nums = Number::all();
          // }
           
@@ -112,6 +130,28 @@ class SettingsController extends Controller
     {
         //
     }
+
+    public function updateCommunicationSetting(Request $request) {
+        $numberId = $request->input('numberId');
+        $number = Number::find($numberId);
+    
+        if ($number) {
+            if ($request->has('isActive')) {
+                $isActive = $request->input('isActive');
+                $number->is_active = $isActive;
+            } elseif ($request->has('isPhoneSystem')) {
+                $isPhoneSystem = $request->input('isPhoneSystem');
+                $number->system_number = $isPhoneSystem;
+            }
+    
+            $number->save();
+    
+            return response()->json(['status' => 200]);
+        }
+    
+        return response()->json(['status' => 400]);
+    }
+    
 
     /**
      * Display the specified resource.

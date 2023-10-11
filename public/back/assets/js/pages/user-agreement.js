@@ -40,7 +40,7 @@ $(document).ready(function () {
 
     $(document).on("click", ".saveUserAgreementContact", function (e) {
         if ($(".user-seller:checked").length === 0) {
-            alert("Please select at least one User selle!");
+            alert("Please select at least one User seller!");
             // e.preventDefault(); // Prevent form submission
         } else{
             var selectedCheckboxData = [];
