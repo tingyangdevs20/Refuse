@@ -20,6 +20,7 @@ use App\Model\Script;
 use App\Model\Reply;
 use App\Model\Scheduler;
 use App\Mail\TestEmail;
+use App\Model\RvmFile;
 use App\Mail\Mailcontact;  //  05092023 sachin
 use App\Model\Contractupload; //  06092023 sachin
 use Smalot\PdfParser\Parser; // 06092023 sachin
@@ -122,6 +123,7 @@ class GroupController extends Controller
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
         $TaskliSt = TaskList::all();
+        $files = RvmFile::all();
 
         if($contact) {
 
@@ -255,7 +257,7 @@ class GroupController extends Controller
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments', 'files'));
     }
 
     public function updateinfo(Request $request)

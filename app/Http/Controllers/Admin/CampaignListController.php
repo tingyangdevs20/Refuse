@@ -29,18 +29,18 @@ class CampaignListController extends Controller
     {
         $groups = Group::all(); // Fetch groups from the database
         $campaigns = Campaign::getAllCampaigns();
-        $templates = Template::where('type' , 'SMS')->get();
+        $templates = Template::where('type', 'SMS')->get();
 
-        return view('back.pages.campaignlist.index', compact('groups', 'campaigns','templates'));
+        return view('back.pages.campaignlist.index', compact('groups', 'campaigns', 'templates'));
     }
 
-    public function getTemplateText($id='')
+    public function getTemplateText($id = '')
     {
 
         $templates = Template::where();
 
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories'));
     }
 
     public function compaignList($id = '')
@@ -50,48 +50,48 @@ class CampaignListController extends Controller
         //dd($templates);
         $files = RvmFile::all();
         $categories = Category::all();
-        $campaignsList = CampaignList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
+        $campaignsList = CampaignList::where('campaign_id', $id)->orderby('schedule', 'ASC')->get();
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates','campaignsList','id','files','categories'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories'));
     }
 
     public function schedual()
     {
         $currentTime = date('Y-m-d H:i:s');
         //$scheduleTime = '2023-08-21 07:43:02';
-        $campaigns = Campaign::where('active' , 1)->get();
+        $campaigns = Campaign::where('active', 1)->get();
         //dd($campaigns);
-        if(count($campaigns) > 0){
-            foreach($campaigns as $key1 => $camp){
-                $campaignsList = CampaignList::where('campaign_id' , $camp->id)->where('active' , 1)->orderby('schedule', 'ASC')->get();
+        if (count($campaigns) > 0) {
+            foreach ($campaigns as $key1 => $camp) {
+                $campaignsList = CampaignList::where('campaign_id', $camp->id)->where('active', 1)->orderby('schedule', 'ASC')->get();
                 //dd($campaignsList);
-                if(count($campaignsList) > 0){
-                    foreach($campaignsList as $key => $row){
-                        $schedule = date('Y-m-d H:i:s' , strtotime($row->schedule));
-                        if($schedule <= $currentTime){
+                if (count($campaignsList) > 0) {
+                    foreach ($campaignsList as $key => $row) {
+                        $schedule = date('Y-m-d H:i:s', strtotime($row->schedule));
+                        if ($schedule <= $currentTime) {
                             $account = Account::first();
-                            if($account){
+                            if ($account) {
                                 $sid = $account->account_id;
                                 $token = $account->account_token;
-                            }else{
+                            } else {
                                 $sid = '';
                                 $token = '';
                             }
-                            $template = Template::where('id',$row->template_id)->first();
-                            if($row->type == 'email'){
+                            $template = Template::where('id', $row->template_id)->first();
+                            if ($row->type == 'email') {
                                 //return '333333';
-                                $contacts = Contact::where('group_id' , $camp->group_id)->where('is_email',1)->get();
+                                $contacts = Contact::where('group_id', $camp->group_id)->where('is_email', 1)->get();
                                 //dd($contacts);
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
                                         //return $cont->name;
-                                        if($cont->email1 != ''){
+                                        if ($cont->email1 != '') {
                                             $email = $cont->email1;
-                                        }elseif($cont->email2){
+                                        } elseif ($cont->email2) {
                                             $email = $cont->email2;
                                         }
                                         //return $email;
-                                        if($email != ''){
+                                        if ($email != '') {
                                             $subject = $template->subject;
                                             $subject = str_replace("{name}", $cont->name, $subject);
                                             $subject = str_replace("{street}", $cont->street, $subject);
@@ -104,26 +104,24 @@ class CampaignListController extends Controller
                                             $message = str_replace("{city}", $cont->city, $message);
                                             $message = str_replace("{state}", $cont->state, $message);
                                             $message = str_replace("{zip}", $cont->zip, $message);
-                                            $unsub_link = url('admin/email/unsub/'.$email);
-                                            $data = ['message' => $message,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
+                                            $unsub_link = url('admin/email/unsub/' . $email);
+                                            $data = ['message' => $message, 'subject' => $subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
                                             Mail::to($cont->email1)->send(new TestEmail($data));
-                                            
+
                                             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
                                         }
-
                                     }
                                 }
-
-                            }elseif($row->type == 'sms'){
+                            } elseif ($row->type == 'sms') {
                                 $client = new Client($sid, $token);
-                                $contacts = Contact::where('group_id' , $camp->group_id)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
-                                        if($cont->number != ''){
+                                $contacts = Contact::where('group_id', $camp->group_id)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
+                                        if ($cont->number != '') {
                                             $number = $cont->number;
-                                        }elseif($cont->number2 != ''){
+                                        } elseif ($cont->number2 != '') {
                                             $number = $cont->number2;
-                                        }elseif($cont->number3 != ''){
+                                        } elseif ($cont->number3 != '') {
                                             $number = $cont->number2;
                                         }
                                         $receiver_number = $number;
@@ -134,7 +132,7 @@ class CampaignListController extends Controller
                                         $message = str_replace("{city}", $cont->city, $message);
                                         $message = str_replace("{state}", $cont->state, $message);
                                         $message = str_replace("{zip}", $cont->zip, $message);
-                                        if($receiver_number != ''){
+                                        if ($receiver_number != '') {
                                             try {
                                                 $sms_sent = $client->messages->create(
                                                     $receiver_number,
@@ -164,7 +162,6 @@ class CampaignListController extends Controller
                                                         $reply_message->save();
                                                         $this->incrementSmsCount($sender_number);
                                                     }
-
                                                 }
                                             } catch (\Exception $ex) {
                                                 $failed_sms = new FailedSms();
@@ -178,16 +175,16 @@ class CampaignListController extends Controller
                                         }
                                     }
                                 }
-                            }elseif($row->type == 'mms'){
+                            } elseif ($row->type == 'mms') {
                                 $client = new Client($sid, $token);
-                                $contacts = Contact::where('group_id' , $camp->group_id)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
-                                        if($cont->number != ''){
+                                $contacts = Contact::where('group_id', $camp->group_id)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
+                                        if ($cont->number != '') {
                                             $number = $cont->number;
-                                        }elseif($cont->number2 != ''){
+                                        } elseif ($cont->number2 != '') {
                                             $number = $cont->number2;
-                                        }elseif($cont->number3 != ''){
+                                        } elseif ($cont->number3 != '') {
                                             $number = $cont->number2;
                                         }
                                         $receiver_number = $number;
@@ -198,7 +195,7 @@ class CampaignListController extends Controller
                                         $message = str_replace("{city}", $cont->city, $message);
                                         $message = str_replace("{state}", $cont->state, $message);
                                         $message = str_replace("{zip}", $cont->zip, $message);
-                                        if($receiver_number != ''){
+                                        if ($receiver_number != '') {
                                             try {
                                                 $sms_sent = $client->messages->create(
                                                     $receiver_number,
@@ -230,7 +227,6 @@ class CampaignListController extends Controller
                                                         $reply_message->save();
                                                         $this->incrementSmsCount($sender_number);
                                                     }
-
                                                 }
                                             } catch (\Exception $ex) {
                                                 $failed_sms = new FailedSms();
@@ -244,56 +240,54 @@ class CampaignListController extends Controller
                                         }
                                     }
                                 }
-                            }elseif($row->type == 'rvm'){
+                            } elseif ($row->type == 'rvm') {
                                 $contactsArr = [];
-                                $contacts = Contact::where('group_id' , $camp->group_id)->get();
-                                if(count($contacts) > 0){
-                                    foreach($contacts as $cont){
-                                        if($cont->number != ''){
+                                $contacts = Contact::where('group_id', $camp->group_id)->get();
+                                if (count($contacts) > 0) {
+                                    foreach ($contacts as $cont) {
+                                        if ($cont->number != '') {
                                             $number = $cont->number;
-                                        }elseif($cont->number2 != ''){
+                                        } elseif ($cont->number2 != '') {
                                             $number = $cont->number2;
-                                        }elseif($cont->number3 != ''){
+                                        } elseif ($cont->number3 != '') {
                                             $number = $cont->number2;
                                         }
                                         $contactsArr[] = $number;
                                     }
                                 }
-                                if(count($contactsArr) > 0){
-                                    $c_phones = implode(',',$contactsArr);
+                                if (count($contactsArr) > 0) {
+                                    $c_phones = implode(',', $contactsArr);
                                     $vrm = \Slybroadcast::sendVoiceMail([
-                                                        'c_phone' => ".$c_phones.",
-                                                        'c_url' =>$template->body,
-                                                        'c_record_audio' => '',
-                                                        'c_date' => 'now',
-                                                        'c_audio' => 'Mp3',
-                                                        //'c_callerID' => "4234606442",
-                                                        'c_callerID' => "18442305060",
-                                                        //'mobile_only' => 1,
-                                                        'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
-                                                       ])->getResponse();
+                                        'c_phone' => ".$c_phones.",
+                                        'c_url' => $template->body,
+                                        'c_record_audio' => '',
+                                        'c_date' => 'now',
+                                        'c_audio' => 'Mp3',
+                                        //'c_callerID' => "4234606442",
+                                        'c_callerID' => "18442305060",
+                                        //'mobile_only' => 1,
+                                        'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+                                    ])->getResponse();
                                 }
-
                             }
-                            $campaigns = CampaignList::where('id' , $row->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
+                            $campaigns = CampaignList::where('id', $row->id)->update(['updated_at' => date('Y-m-d H:i:s'), 'active' => 0]);
                             break;
-                        }else{
+                        } else {
                             //return '3333333';
-                            if($key == 0){
-                                $campaignsCheck = CampaignList::where('active' , 0)->orderby('updated_at', 'desc')->first();
-                                if($campaignsCheck){
-                                    $scheduledate = date('Y-m-d H:i:s' , strtotime($campaignsCheck->schedule));
+                            if ($key == 0) {
+                                $campaignsCheck = CampaignList::where('active', 0)->orderby('updated_at', 'desc')->first();
+                                if ($campaignsCheck) {
+                                    $scheduledate = date('Y-m-d H:i:s', strtotime($campaignsCheck->schedule));
                                     $sendAfter = null;
                                     //return (int) $campaignsCheck->send_after_days;
                                     //$sendAfter = Carbon::parse($scheduledate)->addDays($row->send_after_days)->addHours($row->send_after_hours);
                                     $sendAfter = now()->addDays($row->send_after_days)->addHours($row->send_after_hours);
-                                    $campaigns = CampaignList::where('id' , $row->id)->update(['schedule' => $sendAfter]);
+                                    $campaigns = CampaignList::where('id', $row->id)->update(['schedule' => $sendAfter]);
                                 }
                             }
                         }
                     }
                 }
-
             }
         }
         return 'success';
@@ -316,38 +310,38 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
-        $templ_ate=$request->templat;
+        $templ_ate = $request->templat;
         $sid = 'AC28c9cf33623247a487bf51ca9af20b50';
-        $token='03d28e0a1abd5e829b6d278055643dba';
+        $token = '03d28e0a1abd5e829b6d278055643dba';
 
-      // dd($request);
+        // dd($request);
 
-       // dd($subject);
-       // die("..");
-        
+        // dd($subject);
+        // die("..");
+
         $count = 1;
-        if(count($types)  > 0){
-            foreach($types as $key => $val ){
+        if (count($types)  > 0) {
+            foreach ($types as $key => $val) {
                 $sendAfter = null;
                 if ($request->send_after_days[$key] !== null && $request->send_after_hours[$key] !== null) {
                     $sendAfter = now()->addDays($request->send_after_days[$key])->addHours($request->send_after_hours[$key]);
                 }
-                if($val == 'rvm'){
+                if ($val == 'rvm') {
                     $media = $request->mediaUrl[$key];
-                }else{
-                    $imageName = 'media_file'.$count;
+                } else {
+                    $imageName = 'media_file' . $count;
                     if ($request->hasFile($imageName)) {
                         $media = $request->file($imageName);;
                         $filename = $media->getClientOriginalName();
                         $extension = $media->getClientOriginalExtension();
-                        $tmpname = 'Media_'.time() .'.'. $extension;
+                        $tmpname = 'Media_' . time() . '.' . $extension;
                         $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
                         $media = config('app.url') . '/public/uploads/' . $path;
-                    }else{
+                    } else {
                         $template = CampaignList::find($request->campaign_list_id[$key]);
-                        if($template){
+                        if ($template) {
                             $media = $template->mediaUrl;
-                        }else{
+                        } else {
                             $media = '';
                         }
                     }
@@ -355,110 +349,90 @@ class CampaignListController extends Controller
 
                 //return $media;
                 //return $sendAfter;
-                $bodytext='';
-                $body_text=TemplateMessages::where('template_id' ,$request->templat[$key])->get();
+                $bodytext = '';
+                $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
 
-              //  dd($request->campaign_list_id[$key] );
+                //  dd($request->campaign_list_id[$key] );
 
                 // Create the campaign
-                if($request->campaign_list_id[$key] == 0){
+                if ($request->campaign_list_id[$key] == 0) {
 
-                    if($body_text)
-                   {
+                    if ($body_text) {
 
-                    foreach($body_text as $btext)
-                    {
-                        if($btext)
-                        {
-                            $bodytext=$btext->msg_content;
-                    CampaignList::create([
-                        'campaign_id' => $campaign_id,
-                        'type' => $val,
-                        'send_after_days' => $request->send_after_days[$key],
-                        'send_after_hours' => $request->send_after_hours[$key],
-                        'schedule' => $sendAfter,
-                        'mediaUrl' => $media,
-                        'template_id' => $request->templat[$key],
-                        'body' => $bodytext,
-                        'subject' => $subject,
-                        'active' => 1, // Set active status
-                    ]);
-                }
-            }
-        }
-    }
-                
-                
-                
-                
-                else{
-
-                    
-                   
-
-                   if($body_text)
-                   {
-
-                    foreach($body_text as $btext)
-                    {
-                        if($btext)
-                        {
-                            $bodytext=$btext->msg_content;
-                            //dd($bodytext);
-                        CampaignList::where('id' ,$request->campaign_list_id[$key] )->update([
-                            'type' =>  $val,
-                            'send_after_days' => $request->send_after_days[$key],
-                            'send_after_hours' => $request->send_after_hours[$key],
-                            'schedule' => $sendAfter,
-                            'template_id' => $request->templat[$key],
-                            'mediaUrl' => $media,
-                            'body' => $bodytext,
-                            'active' => 1, // Set active status
-                            // Add other fields for campaign details
-                        ]);
+                        foreach ($body_text as $btext) {
+                            if ($btext) {
+                                $bodytext = $btext->msg_content;
+                                CampaignList::create([
+                                    'campaign_id' => $campaign_id,
+                                    'type' => $val,
+                                    'send_after_days' => $request->send_after_days[$key],
+                                    'send_after_hours' => $request->send_after_hours[$key],
+                                    'schedule' => $sendAfter,
+                                    'mediaUrl' => $media,
+                                    'template_id' => $request->templat[$key],
+                                    'body' => $bodytext,
+                                    'subject' => $subject,
+                                    'active' => 1, // Set active status
+                                ]);
+                            }
+                        }
                     }
+                } else {
+
+                    if ($body_text) {
+
+                        foreach ($body_text as $btext) {
+                            if ($btext) {
+                                $bodytext = $btext->msg_content;
+                                //dd($bodytext);
+                                CampaignList::where('id', $request->campaign_list_id[$key])->update([
+                                    'type' =>  $val,
+                                    'send_after_days' => $request->send_after_days[$key],
+                                    'send_after_hours' => $request->send_after_hours[$key],
+                                    'schedule' => $sendAfter,
+                                    'template_id' => $request->templat[$key],
+                                    'mediaUrl' => $media,
+                                    'body' => $bodytext,
+                                    'active' => 1, // Set active status
+                                    // Add other fields for campaign details
+                                ]);
+                            }
+                        }
                     }
-                    
-                   }
-
-
-
-                    
-                
                 }
                 $count++;
             }
         }
-        $compain = Campaign::where('id',$campaign_id)->first();
-       
-      
-       
+        $compain = Campaign::where('id', $campaign_id)->first();
 
-        $checkCompainList = CampaignList::where('campaign_id',$request->campaign_id)->get();
 
-       //dd(count($checkCompainList));
-       
 
-       //COMMENTED ON - 8 Oct 2023 by JSingh
-       // not require to run the campaign as it will run after push to campaign
+
+        $checkCompainList = CampaignList::where('campaign_id', $request->campaign_id)->get();
+
+        //dd(count($checkCompainList));
+
+
+        //COMMENTED ON - 8 Oct 2023 by JSingh
+        // not require to run the campaign as it will run after push to campaign
 
         // if(count($checkCompainList) > 0){
-            
+
         //     $template = Template::where('id',$request->template_id)->first();
-           
+
         //     if($request->type[0] == 'email'){
         //         $contacts = Contact::where('group_id' , $compain->group_id)->get();
-              
+
         //        if(count($contacts) > 0){
         //             foreach($contacts as $cont){
-                        
+
         //                 if($cont->email1 != ''){
         //                     $email = $cont->email1;
         //                 }elseif($cont->email2){
         //                     $email = $cont->email2;
         //                 }
 
-                        
+
         //                 if($template){
         //                     $subject_new = $template->subject;
         //                 }else{
@@ -468,15 +442,15 @@ class CampaignListController extends Controller
         //               {
         //                  $subject=$subject_new;
         //               }
-                       
-                       
+
+
         //                 $subject = str_replace("{name}", $cont->name, $subject);
         //                 $subject = str_replace("{street}", $cont->street, $subject);
         //                 $subject = str_replace("{city}", $cont->city, $subject);
         //                 $subject = str_replace("{state}", $cont->state, $subject);
         //                 $subject = str_replace("{zip}", $cont->zip, $subject);
 
-                        
+
 
         //                 if($template){
         //                     $message = $template->body;
@@ -495,14 +469,14 @@ class CampaignListController extends Controller
         //                 $data = ['message' => $message ,'subject' => $subject, 'name' =>$cont->name, 'unsub_link' =>$unsub_link];
         //                 //dd($data);
         //                 Mail::to($email)->send(new TestEmail($data));
-                        
+
         //             }
         //         }
 
         //     }
-            
+
         //     elseif($request->type[0] == 'sms'){
-               
+
         //         $client = new Client($sid, $token);
         //         $contacts = Contact::where('group_id' , $compain->group_id)->get();
         //         if(count($contacts) > 0){
@@ -515,22 +489,22 @@ class CampaignListController extends Controller
         //                     $number = $cont->number2;
         //                 }
         //                 $receiver_number = $number;
-                       
+
         //                 $sender_number = $sender_numbers->number;
-                       
+
         //                 if($template){
         //                     $message = $template->body;
         //                 }else{
         //                     $message = $checkCompainList[0]->body;
         //                 }
-                        
+
         //                 $message = str_replace("{name}", $cont->name, $message);
         //                 $message = str_replace("{street}", $cont->street, $message);
         //                 $message = str_replace("{city}", $cont->city, $message);
         //                 $message = str_replace("{state}", $cont->state, $message);
         //                 $message = str_replace("{zip}", $cont->zip, $message);
 
-                       
+
         //                 try {
         //                     $sms_sent = $client->messages->create(
         //                         $receiver_number,
@@ -539,9 +513,9 @@ class CampaignListController extends Controller
         //                             'body' => $message,
         //                         ]
         //                     );
-                            
+
         //                     if ($sms_sent) {
-                               
+
         //                         $old_sms = Sms::where('client_number', $receiver_number)->first();
         //                         if ($old_sms == null) {
         //                             $sms = new Sms();
@@ -682,10 +656,10 @@ class CampaignListController extends Controller
         //     $checkCompainList1 = CampaignList::where('campaign_id',$request->campaign_id)->first();
         //     $campaigns = CampaignList::where('id' , $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
         // }
-       //COMMENTED ON - 8 Oct 2023 by JSingh
+        //COMMENTED ON - 8 Oct 2023 by JSingh
 
         //return $request->campaign_id;
-        return redirect('admin/campaign/list/'.$request->campaign_id)->with('success', 'Campaign list created successfully.');
+        return redirect('admin/campaign/list/' . $request->campaign_id)->with('success', 'Campaign list created successfully.');
     }
 
     public function show(CampaignList $campaignList)
@@ -718,7 +692,7 @@ class CampaignListController extends Controller
         }
         //return $sendAfter;
         // Update the campaign
-        CampaignList::where('id' ,$request->id )->update([
+        CampaignList::where('id', $request->id)->update([
             'type' => $request->type,
             'send_after_days' => $request->send_after_days,
             'send_after_hours' => $request->send_after_hours,
@@ -728,16 +702,16 @@ class CampaignListController extends Controller
             // Add other fields for campaign details
         ]);
 
-        return redirect()->route('admin.campaign.show',$request->campaign_id)->with('success', 'Campaign list updated successfully.');
+        return redirect()->route('admin.campaign.show', $request->campaign_id)->with('success', 'Campaign list updated successfully.');
     }
 
     public function destroy(CampaignList $campaignlist)
     {
         //dd($campaignlist);
         $campaignlist->delete();
-        return redirect()->route('admin.campaign.show',$campaignlist->campaign_id)->with('success', 'Campaign list deleted successfully.');
+        return redirect()->route('admin.campaign.show', $campaignlist->campaign_id)->with('success', 'Campaign list deleted successfully.');
     }
-     public function listCampeign(Group $group, Request $request)
+    public function listCampeign(Group $group, Request $request)
     {
         $sr = 1;
         if ($request->wantsJson()) {
@@ -753,8 +727,9 @@ class CampaignListController extends Controller
         }
     }
 
-    public function getTemplate($type = '' , $count = ''){
+    public function getTemplate($type = '', $count = '')
+    {
         $files = RvmFile::all();
-        return view('back.pages.campaign.ajaxTemplate', compact('type','files','count'));
+        return view('back.pages.campaign.ajaxTemplate', compact('type', 'files', 'count'));
     }
 }
