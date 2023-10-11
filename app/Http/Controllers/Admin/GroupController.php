@@ -20,6 +20,7 @@ use App\Model\Script;
 use App\Model\Reply;
 use App\Model\Scheduler;
 use App\Mail\TestEmail;
+use App\Model\RvmFile;
 use App\Mail\Mailcontact;  //  05092023 sachin
 use App\Model\Contractupload; //  06092023 sachin
 use Smalot\PdfParser\Parser; // 06092023 sachin
@@ -41,7 +42,7 @@ use App\TaskList;
 use App\Model\TimeZones;
 use Session;
 use App\AccountDetail;
-Use App\User;
+use App\User;
 use App\TotalBalance;
 use App\Services\DatazappService;
 
@@ -122,8 +123,9 @@ class GroupController extends Controller
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
         $TaskliSt = TaskList::all();
+        $files = RvmFile::all();
 
-        if($contact) {
+        if ($contact) {
 
             $collection = SkipTracingDetail::where('group_id', $contact->group_id)
                 ->whereIn('id', function ($query) use ($contact) {
@@ -154,10 +156,10 @@ class GroupController extends Controller
             DB::table('property_infos')->insert(['contact_id' => $id]);
             $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
         }
-        
-        if(empty($property_infos->property_address)){
-            $property_infos->map_link = "Property address missing";    
-            $property_infos->zillow_link = "Property address missing";    
+
+        if (empty($property_infos->property_address)) {
+            $property_infos->map_link = "Property address missing!";
+            $property_infos->zillow_link = "Property address missing!";
         } else {
             $map_link = "https://www.google.com/maps?q=" . urlencode("$property_infos->property_address, $property_infos->property_city, $property_infos->property_state, $property_infos->property_zip");
             $property_infos->map_link = $map_link;
@@ -255,7 +257,7 @@ class GroupController extends Controller
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments'));
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments', 'files'));
     }
 
     public function updateinfo(Request $request)
@@ -395,13 +397,44 @@ class GroupController extends Controller
 
         $group = new Group();
         $group->market_id = $request->market_id ?? '0';
-        $group->tag_id = $request->tag_id;
+        // $group->tag_id = $request->tag_id;
         // $group->tag_id = json_encode($request->tag_id);
         $group->name = $request->name;
         $group->save();
         // }
+        $selectedTags = $request->tag_id;
+        if ($selectedTags || !empty($selectedTags)) {
+            // Get the currently associated tag IDs for the group record
+            $currentTags = DB::table('group_tags')
+                ->where('group_id', $group->id)
+                ->pluck('tag_id')
+                ->toArray();
 
+            // Calculate the tags to insert (exclude already associated tags)
+            $tagsToInsert = array_diff($selectedTags, $currentTags);
 
+            // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+            $tagsToDelete = array_diff($currentTags, $selectedTags);
+
+            // Delete the tags that are not in $selectedTags or delete all if none are selected
+            if (!empty($tagsToDelete) || empty($selectedTags)) {
+                DB::table('group_tags')
+                    ->where('group_id', $group->id)
+                    ->whereIn('tag_id', $tagsToDelete)
+                    ->delete();
+            }
+
+            // Insert the new tags
+            if (!empty($tagsToInsert)) {
+                // Iterate through the selected tags and insert them into the group_tags table
+                foreach ($tagsToInsert as $tagId) {
+                    DB::table('group_tags')->insert([
+                        'group_id' => $group->id,
+                        'tag_id' => $tagId,
+                    ]);
+                }
+            }
+        }
 
         $file = $request->file('file');
 
@@ -704,42 +737,44 @@ class GroupController extends Controller
     }
 
 
-    public function getAllContacts(Group $group,Request $request)
+    public function getAllContacts(Group $group, Request $request)
     {
         $sr = 1;
         $contacts = Contact::where("is_dnc", 0)->get();
         $contractres = Contractupload::all()->sortByDesc("created_at");
         $id = $group->id;
 
-        return view('back.pages.group.view_all', compact('contacts','group','contractres', 'id', 'sr'));
+        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr'));
     }
 
-    public function EditContacts(Request $request, $id){
-         
-         $user = Contact::find($id);
-         $timezones = TimeZones::all();
-        return view('back.pages.group.editcontact', compact('user','timezones'));
+    public function EditContacts(Request $request, $id)
+    {
+
+        $user = Contact::find($id);
+        $timezones = TimeZones::all();
+        return view('back.pages.group.editcontact', compact('user', 'timezones'));
     }
 
-    public function StoreContacts(Request $request){
+    public function StoreContacts(Request $request)
+    {
         //  return $request->id;
-        $user = Contact::where('id',$request->id)->first();
+        $user = Contact::where('id', $request->id)->first();
 
-        $user->email1 = $request->input('email')??0;
+        $user->email1 = $request->input('email') ?? 0;
 
-        $user->name                  =$request->input('name')??0;
-        $user->last_name             =$request->input('last_name')??0;
-        $user->number                =$request->input('mobile')??0;
-        $user->street                =$request->input('street')??0;
-        $user->state                 =$request->input('state')??0;
-        $user->city                  =$request->input('city')??0;
-        $user->zip                   =$request->input('zip')??0;
+        $user->name                  = $request->input('name') ?? 0;
+        $user->last_name             = $request->input('last_name') ?? 0;
+        $user->number                = $request->input('mobile') ?? 0;
+        $user->street                = $request->input('street') ?? 0;
+        $user->state                 = $request->input('state') ?? 0;
+        $user->city                  = $request->input('city') ?? 0;
+        $user->zip                   = $request->input('zip') ?? 0;
         $user->save();
 
         return redirect()->route('admin.profile.show')->with('success', 'Contract updated successfully.');
 
-       return view('back.pages.group.editcontact', compact('user','timezones'));
-   }
+        return view('back.pages.group.editcontact', compact('user', 'timezones'));
+    }
 
     public function show(Group $group, Request $request)
     {
@@ -1670,8 +1705,8 @@ class GroupController extends Controller
 
 
     public function pushToCampaign(Request $request)
-    { 
-        
+    {
+
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -1679,100 +1714,90 @@ class GroupController extends Controller
         $marketId = $request->input('market_id');
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
-       
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
-        $existingCampaign->group_id=$groupId;
+        $existingCampaign->group_id = $groupId;
         $existingCampaign->save();
 
         $groupUpdate = Group::where('id', $groupId)->first();
-        $groupUpdate->pushed_to_camp_date=now();
-        $groupUpdate->campaign_name=$campaignName;
+        $groupUpdate->pushed_to_camp_date = now();
+        $groupUpdate->campaign_name = $campaignName;
         $groupUpdate->save();
 
         // foreach ($emails as $email) {
         //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
         // }
 
-        $campaign_lists=CampaignList::where('campaign_id', $campaignId)->get();
-       
+        $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
+
         // dd($campaign_lists);
 
         foreach ($campaign_lists as $campaign_list) {
-            
-              $_typ=$campaign_list->type;
-            
-        
-            if(trim($_typ) == 'email'){
 
-                
+            $_typ = $campaign_list->type;
+
+
+            if (trim($_typ) == 'email') {
+
+
                 $_body = $campaign_list->body;
                 $_subject = $campaign_list->subject;
 
-               
-                $contact_numbrs=Contact::where('group_id', $groupId)->get();
-                foreach ($contact_numbrs as $contact_num) {
-                   
-                       
-                        $subject = $_subject;
-                        $body = $_body;
-                        $body = str_replace("{name}", $contact_num->name, $body);
-                        $body = str_replace("{street}", $contact_num->street, $body);
-                        $body = str_replace("{city}", $contact_num->city, $body);
-                        $body = str_replace("{state}", $contact_num->state, $body);
-                        $body = str_replace("{zip}", $contact_num->zip, $body);
-                        // Define the recipient's email address
-                        $email = $contact_num->email1;
 
-                        // Send the email
-                        Mail::raw($body, function ($message) use ($subject, $email) {
-                            $message->subject($subject);
-                            $message->to($email);
-                        });
-                    }
-                
-               
-
-            
-        }
-            elseif($_typ=='sms')
-            {
-                $contact_numbrs=Contact::where('group_id', $groupId)->get();
+                $contact_numbrs = Contact::where('group_id', $groupId)->get();
                 foreach ($contact_numbrs as $contact_num) {
-                    SendSMS($_body,$contact_num->number);
+
+
+                    $subject = $_subject;
+                    $body = $_body;
+                    $body = str_replace("{name}", $contact_num->name, $body);
+                    $body = str_replace("{street}", $contact_num->street, $body);
+                    $body = str_replace("{city}", $contact_num->city, $body);
+                    $body = str_replace("{state}", $contact_num->state, $body);
+                    $body = str_replace("{zip}", $contact_num->zip, $body);
+                    // Define the recipient's email address
+                    $email = $contact_num->email1;
+
+                    // Send the email
+                    Mail::raw($body, function ($message) use ($subject, $email) {
+                        $message->subject($subject);
+                        $message->to($email);
+                    });
                 }
-        
-            }
-            else
-            {
-
+            } elseif ($_typ == 'sms') {
+                $contact_numbrs = Contact::where('group_id', $groupId)->get();
+                foreach ($contact_numbrs as $contact_num) {
+                    SendSMS($_body, $contact_num->number);
+                }
+            } else {
             }
         }
 
-            
 
-            // Return a response to indicate success
-            
-            return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
-        }
 
-        function SendSMS($msg,$cont_num)
-        {
+        // Return a response to indicate success
+
+        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+    }
+
+    function SendSMS($msg, $cont_num)
+    {
         $twilio_number = Number::where('id', 1)->get();
-        $settings = Settings::first()->toArray(); 
+        $settings = Settings::first()->toArray();
         $sid = $settings['twilio_api_key'];
         $token = $settings['twilio_acc_secret'];
         $numberCounter = 0;
-        
+
         try {
-           $client = new Client($sid, $token);
-             $sms_sent = $client->messages->create(
-                 $cont_num,
-                 [
-                     'from' => $twilio_number,
-                     'body' => $msg,
-                 ]
-             );
+            $client = new Client($sid, $token);
+            $sms_sent = $client->messages->create(
+                $cont_num,
+                [
+                    'from' => $twilio_number,
+                    'body' => $msg,
+                ]
+            );
             if ($sms_sent) {
                 $old_sms = Sms::where('client_number', $cont_num)->first();
                 if ($old_sms == null) {
@@ -1785,11 +1810,11 @@ class GroupController extends Controller
                     $sms->status = 1;
                     $sms->save();
                     //$contact = Contact::where('number', $contact->number)->get();;
-                   // foreach ($contact as $contacts) {
-                       // $contacts->msg_sent = 1;
-                       // $contacts->save();
-                   // }
-                   // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                    // foreach ($contact as $contacts) {
+                    // $contacts->msg_sent = 1;
+                    // $contacts->save();
+                    // }
+                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
                 } else {
                     $reply_message = new Reply();
                     $reply_message->sms_id = $old_sms->id;
@@ -1798,16 +1823,16 @@ class GroupController extends Controller
                     $reply_message->reply = $msg;
                     $reply_message->system_reply = 1;
                     $reply_message->save();
-                   // $contact = Contact::where('number', $contact->number)->get();;
-                   // foreach ($contact as $contacts) {
-                      //  $contacts->msg_sent = 1;
-                      //  $contacts->save();
-                  //  }
-                   // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                    // $contact = Contact::where('number', $contact->number)->get();;
+                    // foreach ($contact as $contacts) {
+                    //  $contacts->msg_sent = 1;
+                    //  $contacts->save();
+                    //  }
+                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
                 }
 
-               // Alert::toast("SMS Sent Successfully", "success");
-                
+                // Alert::toast("SMS Sent Successfully", "success");
+
             }
         } catch (\Exception $ex) {
             $failed_sms = new FailedSms();
@@ -1818,8 +1843,7 @@ class GroupController extends Controller
             $failed_sms->error = $ex->getMessage();
             $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
-           // return $this->showDetails($request);
+            // return $this->showDetails($request);
         }
-        }
-    
     }
+}

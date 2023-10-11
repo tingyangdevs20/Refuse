@@ -3414,9 +3414,148 @@
 
                                                                     </div>
                                                                 </div>
-
+                                                                <hr>
                                                                 <div class="col-md-12">
-                                                                    <div class="card-body"> <label
+                                                                    
+                                                                <form id="messageForm" class="form-group" style="padding: 0 10px;">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        {{-- <label>Select Message Type:</label> --}}
+                                                                        <select id="messageType" onchange="showMessageTypeData()" class="custom-select">
+                                                                            <option value="">Select Message Type</option>
+                                                                            <option value="sms">SMS</option>
+                                                                            <option value="email">Email</option>
+                                                                            <option value="mms">MMS</option>
+                                                                            <option value="rvm">RVM</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div id="smsData" style="display: none; padding: 0 10px;">
+                                                                        <h3>SMS Data</h3>
+                                                                        <div class="row">
+                                                                            <div class="form-group" style=" display: none; padding: 0 10px;">
+                                                                                <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
+                                                                                {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
+                                                                            </div>
+                                                                            <input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]">
+                                                                            <input type="hidden"  class="form-control" placeholder="Subject" value="" name="subject[]">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group ">
+                                                                                    <label >Message</label>
+                                                                                    <textarea id="template_text" class="form-control"  rows="10" name="body[]"></textarea>
+                                                                                    <div id='count' class="float-lg-right"></div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Select Numbers to Send SMS:</label>
+                                                                            <div class="checkbox-list" id="checkbox-list">
+                                                                                
+                                                                                <!-- Add more numbers here -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="emailData" style="display: none; padding: 0 10px;">
+                                                                        <input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]">
+                                                                        <div class="form-group" style=" display: none;">
+                                                                            {{-- <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label> --}}
+                                                                            {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group ">
+                                                                                    <label >Subject</label>
+                                                                                    <input type="text"  class="form-control" placeholder="Subject" value="" name="subject[]">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group ">
+                                                                                    <label >Message</label>
+                                                                                    <textarea id="template_text" class="form-control summernote-usage"  rows="10" name="body[]"></textarea>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                       <div class="form-group">
+                                                                            <label>Select eamil to Send mail:</label>
+                                                                            <div class="checkbox-list2" id="checkbox-list2">
+                                                                                
+                                                                                <!-- Add more numbers here -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="mmsData" style="display: none; padding: 0 10px;">
+                                                                        <h3>MMS Data</h3>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
+                                                                                    <input type="file" class="form-control-file" name="media_file">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group ">
+                                                                                    <label >Message</label>
+                                                                                    <textarea id="template_text" class="form-control"  rows="10" name="body[]"></textarea>
+                                                                                    <div id='count' class="float-lg-right"></div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Select Numbers to Send MMS:</label>
+                                                                            <div class="checkbox-list3" id="checkbox-list3">
+                                                                                
+                                                                                <!-- Add more numbers here -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="rvmData" style="display: none; padding: 0 10px;">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group mt-3">
+                                                                                    <label>Rvm Files</label>
+                                                                                    <select class="custom-select" name="mediaUrl[]" required>
+                                                                                        <option value="">Rvm File</option>
+                                                                                        @if(count($files) > 0)
+                                                                                            @foreach($files as $file)
+                                                                                                <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>
+                                                                                            @endforeach
+                                                                                        @endif
+                                                                                        
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">    
+                                                                            <label>Select Numbers to Send RVM:</label>
+                                                                            <div class="checkbox-list4" id="checkbox-list4">
+                                                                                
+                                                                                <!-- Add more numbers here -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        
+                                                                        <button type="button" class="btn btn-primary">Send Messages</button>
+                                                                    </div>
+                                                                </form>
+
+    
+
+
+                                                                    {{-- <div class="card-body"> <label
                                                                             style="font-size:16px">Send
                                                                             Email</label>
                                                                         <form
@@ -3465,7 +3604,7 @@
                                                                             </div>
                                                                         </form>
 
-                                                                    </div>
+                                                                    </div> --}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -5094,8 +5233,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <link rel="stylesheet" href="{{asset('/summernote/dist/summernote.css')}}" />
+    <script src="{{asset('/summernote/dist/summernote.min.js')}}"></script>
+
 
     <script>
+         
         $(document).ready(function() {
 
             // Initially hide the date input
@@ -5158,6 +5301,8 @@
                 form2.submit();
 
             });
+            
+
             // Get a reference to the hidden input
             // Get a reference to the hidden input
 
@@ -5183,6 +5328,27 @@
         function templateId() {
             template_id = document.getElementById("template-select").value;
             setTextareaValue(template_id)
+        }
+
+        function createCheckbox(number, checkboxList) {
+            
+            if (number) {
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = "smsNumbers[]";
+                checkbox.value = number;
+
+                // Set the label text to the phone number
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(" " + number));
+
+                // Append the label to the checkboxList
+                checkboxList.appendChild(label);
+
+                const br = document.createElement("br");
+                checkboxList.appendChild(br);
+            }
         }
     </script>
     <script>
@@ -5528,6 +5694,143 @@
                 });
             });
         }
+        function showMessageTypeData() {
+            var messageType = document.getElementById("messageType").value;
+            // Hide all message data sections
+            document.getElementById("smsData").style.display = "none";
+            document.getElementById("emailData").style.display = "none";
+            document.getElementById("mmsData").style.display = "none";
+            document.getElementById("rvmData").style.display = "none";
+
+            // Show the selected message data section
+            if (messageType === "sms") {
+                document.getElementById("smsData").style.display = "block";
+                const owner1primaryNumber = document.querySelector('input[name="owner1_primary_number"]').value;
+                const owner1number2 = document.querySelector('input[name="owner1_number2"]').value;
+                const owner1number3 = document.querySelector('input[name="owner1_number3"]').value;
+
+                const owner2primaryNumber = document.querySelector('input[name="owner2_primary_number"]').value;
+                const owner2number2 = document.querySelector('input[name="owner2_number2"]').value;
+                const owner2number3 = document.querySelector('input[name="owner2_number3"]').value;
+
+                const owner3primaryNumber = document.querySelector('input[name="owner3_primary_number"]').value;
+                const owner3number2 = document.querySelector('input[name="owner3_number2"]').value;
+                const owner3number3 = document.querySelector('input[name="owner3_number3"]').value;
+
+                
+                // Get the checkboxList element by its ID
+                document.getElementById("checkbox-list").innerHTML = '';
+                const checkboxList = document.getElementById("checkbox-list");
+                createCheckbox(owner1primaryNumber, checkboxList);
+                createCheckbox(owner1number2, checkboxList);
+                createCheckbox(owner1number3, checkboxList);
+
+                createCheckbox(owner2primaryNumber, checkboxList);
+                createCheckbox(owner2number2, checkboxList);
+                createCheckbox(owner2number3, checkboxList);
+
+                createCheckbox(owner3primaryNumber, checkboxList);
+                createCheckbox(owner3number2, checkboxList);
+                createCheckbox(owner3number3, checkboxList);
+
+            } else if (messageType === "email") {
+                $(".summernote-usage").summernote({
+    	        height: 200,
+    	        });
+                document.getElementById("emailData").style.display = "block";
+                document.getElementById("checkbox-list2").innerHTML = '';
+                const checkboxList = document.getElementById("checkbox-list2");
+                const owner1email1 = document.querySelector('input[name="owner1_email1"]').value;
+                const owner1email2 = document.querySelector('input[name="owner1_email2"]').value;
+                
+                const owner2email1 = document.querySelector('input[name="owner2_email1"]').value;
+                const owner2email2 = document.querySelector('input[name="owner2_email2"]').value;
+                
+                const owner3email1 = document.querySelector('input[name="owner3_email1"]').value;
+                const owner3email2 = document.querySelector('input[name="owner3_email2"]').value;
+                
+
+                
+                // Get the checkboxList element by its ID
+                document.getElementById("checkbox-list").innerHTML = '';
+                createCheckbox(owner1email1, checkboxList);
+                createCheckbox(owner1email2, checkboxList);
+                
+                createCheckbox(owner2email1, checkboxList);
+                createCheckbox(owner2email2, checkboxList);
+                
+                createCheckbox(owner3email1, checkboxList);
+                createCheckbox(owner3email2, checkboxList);
+                
+            } else if (messageType === "mms") {
+                document.getElementById("mmsData").style.display = "block";
+
+                const owner1primaryNumber = document.querySelector('input[name="owner1_primary_number"]').value;
+                const owner1number2 = document.querySelector('input[name="owner1_number2"]').value;
+                const owner1number3 = document.querySelector('input[name="owner1_number3"]').value;
+
+                const owner2primaryNumber = document.querySelector('input[name="owner2_primary_number"]').value;
+                const owner2number2 = document.querySelector('input[name="owner2_number2"]').value;
+                const owner2number3 = document.querySelector('input[name="owner2_number3"]').value;
+
+                const owner3primaryNumber = document.querySelector('input[name="owner3_primary_number"]').value;
+                const owner3number2 = document.querySelector('input[name="owner3_number2"]').value;
+                const owner3number3 = document.querySelector('input[name="owner3_number3"]').value;
+
+                
+                // Get the checkboxList element by its ID
+                document.getElementById("checkbox-list3").innerHTML = '';
+                const checkboxList = document.getElementById("checkbox-list3");
+                createCheckbox(owner1primaryNumber, checkboxList);
+                createCheckbox(owner1number2, checkboxList);
+                createCheckbox(owner1number3, checkboxList);
+
+                createCheckbox(owner2primaryNumber, checkboxList);
+                createCheckbox(owner2number2, checkboxList);
+                createCheckbox(owner2number3, checkboxList);
+
+                createCheckbox(owner3primaryNumber, checkboxList);
+                createCheckbox(owner3number2, checkboxList);
+                createCheckbox(owner3number3, checkboxList);
+
+            } else if (messageType === "rvm") {
+                document.getElementById("rvmData").style.display = "block";
+
+                const owner1primaryNumber = document.querySelector('input[name="owner1_primary_number"]').value;
+                const owner1number2 = document.querySelector('input[name="owner1_number2"]').value;
+                const owner1number3 = document.querySelector('input[name="owner1_number3"]').value;
+
+                const owner2primaryNumber = document.querySelector('input[name="owner2_primary_number"]').value;
+                const owner2number2 = document.querySelector('input[name="owner2_number2"]').value;
+                const owner2number3 = document.querySelector('input[name="owner2_number3"]').value;
+
+                const owner3primaryNumber = document.querySelector('input[name="owner3_primary_number"]').value;
+                const owner3number2 = document.querySelector('input[name="owner3_number2"]').value;
+                const owner3number3 = document.querySelector('input[name="owner3_number3"]').value;
+
+                
+                // Get the checkboxList element by its ID
+                document.getElementById("checkbox-list4").innerHTML = '';
+                const checkboxList = document.getElementById("checkbox-list4");
+                createCheckbox(owner1primaryNumber, checkboxList);
+                createCheckbox(owner1number2, checkboxList);
+                createCheckbox(owner1number3, checkboxList);
+
+                createCheckbox(owner2primaryNumber, checkboxList);
+                createCheckbox(owner2number2, checkboxList);
+                createCheckbox(owner2number3, checkboxList);
+
+                createCheckbox(owner3primaryNumber, checkboxList);
+                createCheckbox(owner3number2, checkboxList);
+                createCheckbox(owner3number3, checkboxList);
+            }
+        }
+
+        // Add an event listener to the message type dropdown
+        document.getElementById("messageType").addEventListener("change", showMessageTypeData);
+
+        // Initialize the form with the message type data
+        // showMessageTypeData();
 
         function updateValue(fieldVal, fieldName, table) {
             var _token = $('input#_token').val();
@@ -5614,5 +5917,7 @@
                 }
             });
         }
+           // Function to show the selected message type data
+        
     </script>
 @endsection

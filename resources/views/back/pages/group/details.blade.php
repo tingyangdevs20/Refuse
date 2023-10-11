@@ -292,9 +292,10 @@
                 var selectedTaskIds = $('.task-checkbox:checked').map(function() {
                     return $(this).val();
                 }).get();
-
+                
+                
                 // Check if the selected value is "delete"
-                if (selectedValue === "1") {
+                if (selectedValue === "1" && selectedTaskIds.length > 0 ) { 
                     // Show the confirmation modal
                     $('#confirmationModal').modal('show');
 

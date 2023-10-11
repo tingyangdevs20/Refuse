@@ -16,9 +16,52 @@ class TagController extends Controller
      */
     public function index()
     {
-        $sr=1;
-        $tags=Tag::all();
-        return view('back.pages.tag.index',compact('tags','sr'));
+        $tags = Tag::all();
+
+        // Calculate the contact counts for each tag
+        foreach ($tags as $tag) {
+            $tag->contactCount = $this->getContactCountForTag($tag);
+        }
+
+        return view('back.pages.tag.index', compact('tags'));
+    }
+
+    // Helper method to get the contact count for a specific tag
+    private function getContactCountForTag(Tag $tag)
+    {
+        // Get all groups associated with the tag
+        $groups = $tag->groups;
+
+        // Initialize a variable to store the total contact count
+        $totalContactCount = 0;
+
+        // Iterate through the groups and sum up the contact counts
+        foreach ($groups as $group) {
+            $totalContactCount += $group->contacts()->count();
+        }
+
+        return $totalContactCount;
+    }
+
+    // Show Tags' Contacts
+    public function showTagContacts(Tag $tag)
+    {
+        // Get all groups associated with the tag
+        $groups = $tag->groups;
+
+        // Initialize an array to store the results
+        $tagContacts = [];
+
+        // Iterate through the groups and merge contacts for each group into the results array
+        foreach ($groups as $group) {
+            $contacts = $group->contacts;
+
+            // Merge contacts into the results array
+            $tagContacts = array_merge($tagContacts, $contacts->all());
+        }
+
+        // You can return the results or pass them to a view
+        return view('back.pages.tag.contacts', compact('tagContacts'));
     }
 
     /**
@@ -40,7 +83,7 @@ class TagController extends Controller
     public function store(Request $request)
     {
         Tag::create($request->all());
-        Alert::success('Success','Tag Created!');
+        Alert::success('Success', 'Tag Created!');
         return redirect()->back();
     }
 
@@ -75,10 +118,10 @@ class TagController extends Controller
      */
     public function update(Request $request)
     {
-        $tag=Tag::find($request->id);
-        $tag->name=$request->tag_name;
+        $tag = Tag::find($request->id);
+        $tag->name = $request->tag_name;
         $tag->save();
-        Alert::success('Success','Tag Updated!');
+        Alert::success('Success', 'Tag Updated!');
         return redirect()->back();
     }
 
@@ -91,7 +134,7 @@ class TagController extends Controller
     public function destroy(Request $request)
     {
         Tag::find($request->tag_id)->delete();
-        Alert::success('Success','Tag Removed!');
+        Alert::success('Success', 'Tag Removed!');
         return redirect()->back();
     }
 }
