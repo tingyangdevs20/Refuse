@@ -60,7 +60,7 @@
         .dropdown-menu-new li {
             list-style: none;
             display: inline;
-            padding: 10px !important;
+            padding: 5px !important;
             background: #ccc;
             border-radius: 5px;
             line-height: 44px;
@@ -69,7 +69,7 @@
         .dropdown-item {
             display: inline;
             width: auto;
-            padding: .35rem 1.5rem;
+            padding: 1px;
             clear: both;
             font-weight: 400;
             color: #212529;
@@ -148,7 +148,7 @@
                                 @if (count($sections) > 0)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <ul class="dropdown-menu-new" style="padding-left: 0;">
+                                            <ul class="dropdown-menu-new" style="padding-left: 0;margin-top:-17px">
                                                 @foreach ($sections as $section)
                                                     <li><a class="dropdown-item"
                                                             href="#{{ $section->id }}">{{ $section->name }}</a></li>
@@ -5063,12 +5063,18 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label for="seller_id"
-                                                                            class="col-form-label">User Seller <span
+                                                                            class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
                                                                                 <div class="checkbox-list">
+                                                                                    @php
+                                                                                    $count=1;
+                                                                                    @endphp
                                                                                         @foreach (getUserContact() as $sellerId => $seller)
-                                                                                            <label><input type="checkbox" class="user-seller" name="seller_id[]" value="{{ $sellerId }}"> {{ $seller }}</label><br>
-                                                                                        @endforeach
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="seller_id[]" value="{{ $sellerId }}">Contact {{ $count }} ({{ $seller }})</label><br>
+                                                                                            @php
+                                                                                            $count++;
+                                                                                            @endphp
+                                                                                            @endforeach
                                                                                 </div>
                                                                         </div>
 
