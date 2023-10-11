@@ -15,20 +15,21 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">SMS Management</h4>
+                        <h4 class="mb-0 font-size-18">Replies</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
-                                <li class="breadcrumb-item">SMS Management</li>
+                                <li class="breadcrumb-item">Conversations</li>
                                 <li class="breadcrumb-item active">Replies To {{ $sms->client_number }}</li>
                             </ol>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                           
+                           @if(strlen($number)>0)
                             <span
                                 class="float-lg-right" style="display:none">Available Sends: {{$number ? $number->sms_allowed - $number->sms_count :''}}</span>
+                                @endif
                                @if(!empty($smsInfo)&&$smsInfo->is_dnc!=1)
                                 <form action="{{ route('admin.sms.add-to-dnc') }}" class="mt-2" method="POST">
                                     @csrf
@@ -48,7 +49,8 @@
                                    @endif
                                    @if($smsInfo!=null)
                            <div style="margin-left:360px;margin-top: -24px;">
-                          <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span> <span style="margin-left:5px;"> {{ $number->number}}</span>
+                          <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span>
+                          @if(strlen($number)>0) <span style="margin-left:5px;">{{$number->number}}</span>@elseif(strlen($number)==0) <span style="margin-left:5px;color:red">Invalid Twilio Number</span>   @endif
                           <span style="font-size: 14px;font-weight: bold;margin-left:5px">With </span> <span style="margin-left:10px"><i class="fa fa-phone" aria-hidden="true"></i>
  <a href="" style="color:#black">{{ $sms->client_number }} </a></span>    <span style="margin-left:50px"><i class="fa fa-envelope" aria-hidden="true"></i>
 {{ $smsInfo->email1}}</span>
@@ -58,6 +60,7 @@
                       <a style="float:right" href="/admin/contact.detail/224" target="_blank"> View Contact Details</a>
 </div>
                         </div>
+                        @if(strlen($number)>0)
                         <div class="card-body">
                             <div class="d-lg-flex">
                                 <div class="w-100 user-chat">
@@ -106,7 +109,7 @@
                                                                    
                                                                 </div>
                                                                 <p style="float:right;color:#bfbfcf"><i class="fa fa-reply" aria-hidden="true"></i><a href="#" style="text-decoration:none;margin-left:2px;color:#bfbfcf">Reply</a>
-</p>
+                          </p>
 
                                                             </div>
                                                         </li>
@@ -167,16 +170,19 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-auto">
-                                                            
+                                                       
                                                             <button type="submit"
                                                                     class="btn btn-primary btn-rounded chat-send w-md waves-effect waves-light" {{ $number->sms_allowed == $number->sms_count?'disabled':'' }} {{ $smsInfo->is_dnc?'disabled':'' }}>
                                                                 <span class="d-none d-sm-inline-block mr-2">Send</span>
                                                                 <i class="mdi mdi-send"></i></button>
                                                               
+                                                               
+                                                              
                                                                  
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @endif
                                                  
                                                    @if($smsInfo->is_dnc==1)
                                                 <div class="p-3 chat-input-section">
