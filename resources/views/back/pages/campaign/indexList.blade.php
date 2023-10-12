@@ -84,7 +84,7 @@
                                                                         <div class="form-group mt-3">
                                                                             <label>Campaign Type</label>
                                                                             <select class="custom-select template_type" name="type[]"  required>
-                                                                                <option value="">select type</option>
+                                                                                <option value="">Select Type</option>
                                                                                 <option value="sms" @if($campaign->type == 'sms') selected @endif>SMS</option>
                                                                                 <option value="email" @if($campaign->type == 'email') selected @endif>Email</option>
                                                                                 <option value="mms" @if($campaign->type == 'mms') selected @endif>MMS</option>
