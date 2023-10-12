@@ -25,11 +25,7 @@ class AnalyzeEntitiesResponse extends \Google\Collection
   /**
    * @var string
    */
-  public $languageCode;
-  /**
-   * @var bool
-   */
-  public $languageSupported;
+  public $language;
 
   /**
    * @param Entity[]
@@ -48,30 +44,16 @@ class AnalyzeEntitiesResponse extends \Google\Collection
   /**
    * @param string
    */
-  public function setLanguageCode($languageCode)
+  public function setLanguage($language)
   {
-    $this->languageCode = $languageCode;
+    $this->language = $language;
   }
   /**
    * @return string
    */
-  public function getLanguageCode()
+  public function getLanguage()
   {
-    return $this->languageCode;
-  }
-  /**
-   * @param bool
-   */
-  public function setLanguageSupported($languageSupported)
-  {
-    $this->languageSupported = $languageSupported;
-  }
-  /**
-   * @return bool
-   */
-  public function getLanguageSupported()
-  {
-    return $this->languageSupported;
+    return $this->language;
   }
 }
 

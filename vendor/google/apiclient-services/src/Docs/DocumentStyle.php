@@ -45,10 +45,6 @@ class DocumentStyle extends \Google\Model
    * @var string
    */
   public $firstPageHeaderId;
-  /**
-   * @var bool
-   */
-  public $flipPageOrientation;
   protected $marginBottomType = Dimension::class;
   protected $marginBottomDataType = '';
   protected $marginFooterType = Dimension::class;
@@ -177,20 +173,6 @@ class DocumentStyle extends \Google\Model
   public function getFirstPageHeaderId()
   {
     return $this->firstPageHeaderId;
-  }
-  /**
-   * @param bool
-   */
-  public function setFlipPageOrientation($flipPageOrientation)
-  {
-    $this->flipPageOrientation = $flipPageOrientation;
-  }
-  /**
-   * @return bool
-   */
-  public function getFlipPageOrientation()
-  {
-    return $this->flipPageOrientation;
   }
   /**
    * @param Dimension

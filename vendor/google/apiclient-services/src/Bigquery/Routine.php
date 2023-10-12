@@ -29,10 +29,6 @@ class Routine extends \Google\Collection
   /**
    * @var string
    */
-  public $dataGovernanceType;
-  /**
-   * @var string
-   */
   public $definitionBody;
   /**
    * @var string
@@ -104,20 +100,6 @@ class Routine extends \Google\Collection
   public function getCreationTime()
   {
     return $this->creationTime;
-  }
-  /**
-   * @param string
-   */
-  public function setDataGovernanceType($dataGovernanceType)
-  {
-    $this->dataGovernanceType = $dataGovernanceType;
-  }
-  /**
-   * @return string
-   */
-  public function getDataGovernanceType()
-  {
-    return $this->dataGovernanceType;
   }
   /**
    * @param string

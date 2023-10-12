@@ -3,12 +3,8 @@
 namespace Doctrine\DBAL\Types;
 
 use DateTime;
-use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\Deprecations\Deprecation;
-
-use function get_class;
 
 /**
  * Type that maps an SQL DATE to a PHP Date object.
@@ -16,7 +12,7 @@ use function get_class;
 class DateType extends Type
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -24,7 +20,7 @@ class DateType extends Type
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
@@ -32,13 +28,7 @@ class DateType extends Type
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @psalm-param T $value
-     *
-     * @return (T is null ? null : string)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -47,58 +37,30 @@ class DateType extends Type
         }
 
         if ($value instanceof DateTimeInterface) {
-            if ($value instanceof DateTimeImmutable) {
-                Deprecation::triggerIfCalledFromOutside(
-                    'doctrine/dbal',
-                    'https://github.com/doctrine/dbal/pull/6017',
-                    'Passing an instance of %s is deprecated, use %s::%s() instead.',
-                    get_class($value),
-                    DateImmutableType::class,
-                    __FUNCTION__,
-                );
-            }
-
             return $value->format($platform->getDateFormatString());
         }
 
-        throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', DateTime::class]);
+        throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', 'DateTime']);
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param T $value
-     *
-     * @return (T is null ? null : DateTimeInterface)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value instanceof DateTimeImmutable) {
-            Deprecation::triggerIfCalledFromOutside(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/6017',
-                'Passing an instance of %s is deprecated, use %s::%s() instead.',
-                get_class($value),
-                DateImmutableType::class,
-                __FUNCTION__,
-            );
-        }
-
         if ($value === null || $value instanceof DateTimeInterface) {
             return $value;
         }
 
-        $dateTime = DateTime::createFromFormat('!' . $platform->getDateFormatString(), $value);
-        if ($dateTime !== false) {
-            return $dateTime;
+        $val = DateTime::createFromFormat('!' . $platform->getDateFormatString(), $value);
+        if ($val === false) {
+            throw ConversionException::conversionFailedFormat(
+                $value,
+                $this->getName(),
+                $platform->getDateFormatString()
+            );
         }
 
-        throw ConversionException::conversionFailedFormat(
-            $value,
-            $this->getName(),
-            $platform->getDateFormatString(),
-        );
+        return $val;
     }
 }

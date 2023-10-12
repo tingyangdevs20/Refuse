@@ -29,14 +29,6 @@ class InterconnectLocation extends \Google\Collection
    */
   public $availabilityZone;
   /**
-   * @var string[]
-   */
-  public $availableFeatures;
-  /**
-   * @var string[]
-   */
-  public $availableLinkTypes;
-  /**
    * @var string
    */
   public $city;
@@ -118,34 +110,6 @@ class InterconnectLocation extends \Google\Collection
   public function getAvailabilityZone()
   {
     return $this->availabilityZone;
-  }
-  /**
-   * @param string[]
-   */
-  public function setAvailableFeatures($availableFeatures)
-  {
-    $this->availableFeatures = $availableFeatures;
-  }
-  /**
-   * @return string[]
-   */
-  public function getAvailableFeatures()
-  {
-    return $this->availableFeatures;
-  }
-  /**
-   * @param string[]
-   */
-  public function setAvailableLinkTypes($availableLinkTypes)
-  {
-    $this->availableLinkTypes = $availableLinkTypes;
-  }
-  /**
-   * @return string[]
-   */
-  public function getAvailableLinkTypes()
-  {
-    return $this->availableLinkTypes;
   }
   /**
    * @param string

@@ -137,7 +137,7 @@ class Relyingparty extends \Google\Service\Resource
    *
    * @param RelyingpartyModel $postBody
    * @param array $optParams Optional parameters.
-   * @return GetOobConfirmationCodeResponse
+   * @return GetOobConfirmationCodeResponseModel
    */
   public function getOobConfirmationCode(RelyingpartyModel $postBody, $optParams = [])
   {

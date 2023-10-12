@@ -19,7 +19,7 @@ namespace Google\Service\Contentwarehouse;
 
 class CompositeDocIndexingInfo extends \Google\Collection
 {
-  protected $collection_key = 'verticals';
+  protected $collection_key = 'tracingId';
   protected $cdocBuildInfoType = IndexingDocjoinerCDocBuildInfo::class;
   protected $cdocBuildInfoDataType = '';
   /**
@@ -61,6 +61,10 @@ class CompositeDocIndexingInfo extends \Google\Collection
    */
   public $indexingTs;
   /**
+   * @var bool
+   */
+  public $isSiblingDeletion;
+  /**
    * @var string
    */
   public $noLongerCanonicalTimestamp;
@@ -68,10 +72,6 @@ class CompositeDocIndexingInfo extends \Google\Collection
    * @var float
    */
   public $normalizedClickScore;
-  /**
-   * @var string
-   */
-  public $primaryVertical;
   /**
    * @var int
    */
@@ -94,10 +94,6 @@ class CompositeDocIndexingInfo extends \Google\Collection
   protected $urlHistoryDataType = '';
   protected $urlPatternSignalsType = IndexingSignalAggregatorUrlPatternSignals::class;
   protected $urlPatternSignalsDataType = '';
-  /**
-   * @var string[]
-   */
-  public $verticals;
   protected $videoIndexingInfoType = ImageRepositoryVideoIndexingInfo::class;
   protected $videoIndexingInfoDataType = '';
 
@@ -256,6 +252,20 @@ class CompositeDocIndexingInfo extends \Google\Collection
     return $this->indexingTs;
   }
   /**
+   * @param bool
+   */
+  public function setIsSiblingDeletion($isSiblingDeletion)
+  {
+    $this->isSiblingDeletion = $isSiblingDeletion;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsSiblingDeletion()
+  {
+    return $this->isSiblingDeletion;
+  }
+  /**
    * @param string
    */
   public function setNoLongerCanonicalTimestamp($noLongerCanonicalTimestamp)
@@ -282,20 +292,6 @@ class CompositeDocIndexingInfo extends \Google\Collection
   public function getNormalizedClickScore()
   {
     return $this->normalizedClickScore;
-  }
-  /**
-   * @param string
-   */
-  public function setPrimaryVertical($primaryVertical)
-  {
-    $this->primaryVertical = $primaryVertical;
-  }
-  /**
-   * @return string
-   */
-  public function getPrimaryVertical()
-  {
-    return $this->primaryVertical;
   }
   /**
    * @param int
@@ -394,20 +390,6 @@ class CompositeDocIndexingInfo extends \Google\Collection
   public function getUrlPatternSignals()
   {
     return $this->urlPatternSignals;
-  }
-  /**
-   * @param string[]
-   */
-  public function setVerticals($verticals)
-  {
-    $this->verticals = $verticals;
-  }
-  /**
-   * @return string[]
-   */
-  public function getVerticals()
-  {
-    return $this->verticals;
   }
   /**
    * @param ImageRepositoryVideoIndexingInfo

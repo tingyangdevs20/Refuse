@@ -120,10 +120,6 @@ class Bigquery extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
-                'datasetView' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
               ],
             ],'insert' => [
               'path' => 'projects/{projectId}/datasets',
@@ -648,6 +644,16 @@ class Bigquery extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => '{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'testIamPermissions' => [

@@ -19,23 +19,23 @@ namespace Google\Service\MigrationCenterAPI;
 
 class NetworkAdapterList extends \Google\Collection
 {
-  protected $collection_key = 'entries';
-  protected $entriesType = NetworkAdapterDetails::class;
-  protected $entriesDataType = 'array';
+  protected $collection_key = 'networkAdapters';
+  protected $networkAdaptersType = NetworkAdapterDetails::class;
+  protected $networkAdaptersDataType = 'array';
 
   /**
    * @param NetworkAdapterDetails[]
    */
-  public function setEntries($entries)
+  public function setNetworkAdapters($networkAdapters)
   {
-    $this->entries = $entries;
+    $this->networkAdapters = $networkAdapters;
   }
   /**
    * @return NetworkAdapterDetails[]
    */
-  public function getEntries()
+  public function getNetworkAdapters()
   {
-    return $this->entries;
+    return $this->networkAdapters;
   }
 }
 

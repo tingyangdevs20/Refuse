@@ -19,8 +19,6 @@ namespace Google\Service\Dialogflow;
 
 class GoogleCloudDialogflowCxV3beta1FormParameter extends \Google\Model
 {
-  protected $advancedSettingsType = GoogleCloudDialogflowCxV3beta1AdvancedSettings::class;
-  protected $advancedSettingsDataType = '';
   /**
    * @var array
    */
@@ -48,20 +46,6 @@ class GoogleCloudDialogflowCxV3beta1FormParameter extends \Google\Model
    */
   public $required;
 
-  /**
-   * @param GoogleCloudDialogflowCxV3beta1AdvancedSettings
-   */
-  public function setAdvancedSettings(GoogleCloudDialogflowCxV3beta1AdvancedSettings $advancedSettings)
-  {
-    $this->advancedSettings = $advancedSettings;
-  }
-  /**
-   * @return GoogleCloudDialogflowCxV3beta1AdvancedSettings
-   */
-  public function getAdvancedSettings()
-  {
-    return $this->advancedSettings;
-  }
   /**
    * @param array
    */

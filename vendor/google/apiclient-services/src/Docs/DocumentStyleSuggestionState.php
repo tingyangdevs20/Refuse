@@ -48,10 +48,6 @@ class DocumentStyleSuggestionState extends \Google\Model
   /**
    * @var bool
    */
-  public $flipPageOrientationSuggested;
-  /**
-   * @var bool
-   */
   public $marginBottomSuggested;
   /**
    * @var bool
@@ -189,20 +185,6 @@ class DocumentStyleSuggestionState extends \Google\Model
   public function getFirstPageHeaderIdSuggested()
   {
     return $this->firstPageHeaderIdSuggested;
-  }
-  /**
-   * @param bool
-   */
-  public function setFlipPageOrientationSuggested($flipPageOrientationSuggested)
-  {
-    $this->flipPageOrientationSuggested = $flipPageOrientationSuggested;
-  }
-  /**
-   * @return bool
-   */
-  public function getFlipPageOrientationSuggested()
-  {
-    return $this->flipPageOrientationSuggested;
   }
   /**
    * @param bool

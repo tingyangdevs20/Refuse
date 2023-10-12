@@ -38,8 +38,6 @@ class AuthenticationInfo extends \Google\Collection
    * @var string
    */
   public $serviceAccountKeyName;
-  protected $serviceDelegationHistoryType = ServiceDelegationHistory::class;
-  protected $serviceDelegationHistoryDataType = '';
   /**
    * @var array[]
    */
@@ -114,20 +112,6 @@ class AuthenticationInfo extends \Google\Collection
   public function getServiceAccountKeyName()
   {
     return $this->serviceAccountKeyName;
-  }
-  /**
-   * @param ServiceDelegationHistory
-   */
-  public function setServiceDelegationHistory(ServiceDelegationHistory $serviceDelegationHistory)
-  {
-    $this->serviceDelegationHistory = $serviceDelegationHistory;
-  }
-  /**
-   * @return ServiceDelegationHistory
-   */
-  public function getServiceDelegationHistory()
-  {
-    return $this->serviceDelegationHistory;
   }
   /**
    * @param array[]

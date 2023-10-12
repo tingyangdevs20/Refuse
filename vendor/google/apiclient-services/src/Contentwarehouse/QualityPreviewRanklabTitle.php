@@ -210,10 +210,6 @@ class QualityPreviewRanklabTitle extends \Google\Model
   /**
    * @var bool
    */
-  public $sourceGeneratedTitle;
-  /**
-   * @var bool
-   */
   public $sourceGeometry;
   /**
    * @var bool
@@ -917,20 +913,6 @@ class QualityPreviewRanklabTitle extends \Google\Model
   public function getQueryRelevance()
   {
     return $this->queryRelevance;
-  }
-  /**
-   * @param bool
-   */
-  public function setSourceGeneratedTitle($sourceGeneratedTitle)
-  {
-    $this->sourceGeneratedTitle = $sourceGeneratedTitle;
-  }
-  /**
-   * @return bool
-   */
-  public function getSourceGeneratedTitle()
-  {
-    return $this->sourceGeneratedTitle;
   }
   /**
    * @param bool

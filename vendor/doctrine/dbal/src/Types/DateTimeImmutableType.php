@@ -4,8 +4,8 @@ namespace Doctrine\DBAL\Types;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\Deprecations\Deprecation;
-use Exception;
+
+use function date_create_immutable;
 
 /**
  * Immutable type of {@see DateTimeType}.
@@ -13,7 +13,7 @@ use Exception;
 class DateTimeImmutableType extends DateTimeType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -21,13 +21,7 @@ class DateTimeImmutableType extends DateTimeType
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param T $value
-     *
-     * @return (T is null ? null : string)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -42,18 +36,12 @@ class DateTimeImmutableType extends DateTimeType
         throw ConversionException::conversionFailedInvalidType(
             $value,
             $this->getName(),
-            ['null', DateTimeImmutable::class],
+            ['null', DateTimeImmutable::class]
         );
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param T $value
-     *
-     * @return (T is null ? null : DateTimeImmutable)
-     *
-     * @template T
+     * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -63,36 +51,26 @@ class DateTimeImmutableType extends DateTimeType
 
         $dateTime = DateTimeImmutable::createFromFormat($platform->getDateTimeFormatString(), $value);
 
-        if ($dateTime !== false) {
-            return $dateTime;
+        if ($dateTime === false) {
+            $dateTime = date_create_immutable($value);
         }
 
-        try {
-            return new DateTimeImmutable($value);
-        } catch (Exception $e) {
+        if ($dateTime === false) {
             throw ConversionException::conversionFailedFormat(
                 $value,
                 $this->getName(),
-                $platform->getDateTimeFormatString(),
-                $e,
+                $platform->getDateTimeFormatString()
             );
         }
+
+        return $dateTime;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @deprecated
+     * {@inheritdoc}
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5509',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
         return true;
     }
 }

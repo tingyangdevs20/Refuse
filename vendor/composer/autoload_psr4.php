@@ -101,6 +101,5 @@ return array(
     'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
     'Barryvdh\\DomPDF\\' => array($vendorDir . '/barryvdh/laravel-dompdf/src'),
     'Asm89\\Stack\\' => array($vendorDir . '/asm89/stack-cors/src'),
-    'App\\Http\\Traits\\' => array($baseDir . '/app/Http/Traits'),
     'App\\' => array($baseDir . '/app'),
 );

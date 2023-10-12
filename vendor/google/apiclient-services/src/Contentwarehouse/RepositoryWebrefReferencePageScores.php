@@ -26,6 +26,22 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
   /**
    * @var float
    */
+  public $firstScore;
+  /**
+   * @var bool
+   */
+  public $hasSpecialLinks;
+  /**
+   * @var float
+   */
+  public $medianMentionScore;
+  /**
+   * @var float
+   */
+  public $navboostCoverage;
+  /**
+   * @var float
+   */
   public $referencePageScore;
   /**
    * @var bool
@@ -39,6 +55,14 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
    * @var float
    */
   public $singleTopicnessV2;
+  /**
+   * @var float
+   */
+  public $titleCoverage;
+  /**
+   * @var float
+   */
+  public $totalSum;
 
   /**
    * @param float
@@ -53,6 +77,62 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
   public function getBookScore()
   {
     return $this->bookScore;
+  }
+  /**
+   * @param float
+   */
+  public function setFirstScore($firstScore)
+  {
+    $this->firstScore = $firstScore;
+  }
+  /**
+   * @return float
+   */
+  public function getFirstScore()
+  {
+    return $this->firstScore;
+  }
+  /**
+   * @param bool
+   */
+  public function setHasSpecialLinks($hasSpecialLinks)
+  {
+    $this->hasSpecialLinks = $hasSpecialLinks;
+  }
+  /**
+   * @return bool
+   */
+  public function getHasSpecialLinks()
+  {
+    return $this->hasSpecialLinks;
+  }
+  /**
+   * @param float
+   */
+  public function setMedianMentionScore($medianMentionScore)
+  {
+    $this->medianMentionScore = $medianMentionScore;
+  }
+  /**
+   * @return float
+   */
+  public function getMedianMentionScore()
+  {
+    return $this->medianMentionScore;
+  }
+  /**
+   * @param float
+   */
+  public function setNavboostCoverage($navboostCoverage)
+  {
+    $this->navboostCoverage = $navboostCoverage;
+  }
+  /**
+   * @return float
+   */
+  public function getNavboostCoverage()
+  {
+    return $this->navboostCoverage;
   }
   /**
    * @param float
@@ -109,6 +189,34 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
   public function getSingleTopicnessV2()
   {
     return $this->singleTopicnessV2;
+  }
+  /**
+   * @param float
+   */
+  public function setTitleCoverage($titleCoverage)
+  {
+    $this->titleCoverage = $titleCoverage;
+  }
+  /**
+   * @return float
+   */
+  public function getTitleCoverage()
+  {
+    return $this->titleCoverage;
+  }
+  /**
+   * @param float
+   */
+  public function setTotalSum($totalSum)
+  {
+    $this->totalSum = $totalSum;
+  }
+  /**
+   * @return float
+   */
+  public function getTotalSum()
+  {
+    return $this->totalSum;
   }
 }
 

@@ -29,10 +29,8 @@ class GuestConfigDetails extends \Google\Model
   public $issue;
   protected $nfsExportsType = NfsExportList::class;
   protected $nfsExportsDataType = '';
-  /**
-   * @var string
-   */
-  public $selinuxMode;
+  protected $selinuxType = Selinux::class;
+  protected $selinuxDataType = '';
 
   /**
    * @param FstabEntryList
@@ -91,18 +89,18 @@ class GuestConfigDetails extends \Google\Model
     return $this->nfsExports;
   }
   /**
-   * @param string
+   * @param Selinux
    */
-  public function setSelinuxMode($selinuxMode)
+  public function setSelinux(Selinux $selinux)
   {
-    $this->selinuxMode = $selinuxMode;
+    $this->selinux = $selinux;
   }
   /**
-   * @return string
+   * @return Selinux
    */
-  public function getSelinuxMode()
+  public function getSelinux()
   {
-    return $this->selinuxMode;
+    return $this->selinux;
   }
 }
 

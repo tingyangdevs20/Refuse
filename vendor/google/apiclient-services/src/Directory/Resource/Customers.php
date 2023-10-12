@@ -34,7 +34,7 @@ class Customers extends \Google\Service\Resource
    *
    * @param string $customerKey Id of the customer to be retrieved
    * @param array $optParams Optional parameters.
-   * @return CustomerModel
+   * @return Customer
    */
   public function get($customerKey, $optParams = [])
   {

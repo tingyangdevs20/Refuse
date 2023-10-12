@@ -31,10 +31,6 @@ class ConsumerPscConfig extends \Google\Model
    * @var string
    */
   public $project;
-  /**
-   * @var string
-   */
-  public $state;
 
   /**
    * @param bool
@@ -77,20 +73,6 @@ class ConsumerPscConfig extends \Google\Model
   public function getProject()
   {
     return $this->project;
-  }
-  /**
-   * @param string
-   */
-  public function setState($state)
-  {
-    $this->state = $state;
-  }
-  /**
-   * @return string
-   */
-  public function getState()
-  {
-    return $this->state;
   }
 }
 

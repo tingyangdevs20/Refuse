@@ -34,10 +34,6 @@ class Settings extends \Google\Model
   /**
    * @var string
    */
-  public $loggingServiceAccountId;
-  /**
-   * @var string
-   */
   public $name;
   /**
    * @var string
@@ -85,20 +81,6 @@ class Settings extends \Google\Model
   public function getKmsServiceAccountId()
   {
     return $this->kmsServiceAccountId;
-  }
-  /**
-   * @param string
-   */
-  public function setLoggingServiceAccountId($loggingServiceAccountId)
-  {
-    $this->loggingServiceAccountId = $loggingServiceAccountId;
-  }
-  /**
-   * @return string
-   */
-  public function getLoggingServiceAccountId()
-  {
-    return $this->loggingServiceAccountId;
   }
   /**
    * @param string

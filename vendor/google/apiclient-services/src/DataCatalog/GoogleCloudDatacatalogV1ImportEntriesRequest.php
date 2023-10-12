@@ -23,10 +23,6 @@ class GoogleCloudDatacatalogV1ImportEntriesRequest extends \Google\Model
    * @var string
    */
   public $gcsBucketPath;
-  /**
-   * @var string
-   */
-  public $jobId;
 
   /**
    * @param string
@@ -41,20 +37,6 @@ class GoogleCloudDatacatalogV1ImportEntriesRequest extends \Google\Model
   public function getGcsBucketPath()
   {
     return $this->gcsBucketPath;
-  }
-  /**
-   * @param string
-   */
-  public function setJobId($jobId)
-  {
-    $this->jobId = $jobId;
-  }
-  /**
-   * @return string
-   */
-  public function getJobId()
-  {
-    return $this->jobId;
   }
 }
 

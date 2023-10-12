@@ -27,8 +27,6 @@ class CrossProfilePolicies extends \Google\Model
    * @var string
    */
   public $crossProfileDataSharing;
-  protected $exemptionsToShowWorkContactsInPersonalProfileType = PackageNameList::class;
-  protected $exemptionsToShowWorkContactsInPersonalProfileDataType = '';
   /**
    * @var string
    */
@@ -65,20 +63,6 @@ class CrossProfilePolicies extends \Google\Model
   public function getCrossProfileDataSharing()
   {
     return $this->crossProfileDataSharing;
-  }
-  /**
-   * @param PackageNameList
-   */
-  public function setExemptionsToShowWorkContactsInPersonalProfile(PackageNameList $exemptionsToShowWorkContactsInPersonalProfile)
-  {
-    $this->exemptionsToShowWorkContactsInPersonalProfile = $exemptionsToShowWorkContactsInPersonalProfile;
-  }
-  /**
-   * @return PackageNameList
-   */
-  public function getExemptionsToShowWorkContactsInPersonalProfile()
-  {
-    return $this->exemptionsToShowWorkContactsInPersonalProfile;
   }
   /**
    * @param string

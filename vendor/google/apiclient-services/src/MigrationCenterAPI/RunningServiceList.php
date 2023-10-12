@@ -19,23 +19,23 @@ namespace Google\Service\MigrationCenterAPI;
 
 class RunningServiceList extends \Google\Collection
 {
-  protected $collection_key = 'entries';
-  protected $entriesType = RunningService::class;
-  protected $entriesDataType = 'array';
+  protected $collection_key = 'services';
+  protected $servicesType = RunningService::class;
+  protected $servicesDataType = 'array';
 
   /**
    * @param RunningService[]
    */
-  public function setEntries($entries)
+  public function setServices($services)
   {
-    $this->entries = $entries;
+    $this->services = $services;
   }
   /**
    * @return RunningService[]
    */
-  public function getEntries()
+  public function getServices()
   {
-    return $this->entries;
+    return $this->services;
   }
 }
 

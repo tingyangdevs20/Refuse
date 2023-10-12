@@ -32,10 +32,6 @@ class Job extends \Google\Model
    * @var string
    */
   public $id;
-  /**
-   * @var array
-   */
-  public $jobCreationReason;
   protected $jobReferenceType = JobReference::class;
   protected $jobReferenceDataType = '';
   /**
@@ -96,20 +92,6 @@ class Job extends \Google\Model
   public function getId()
   {
     return $this->id;
-  }
-  /**
-   * @param array
-   */
-  public function setJobCreationReason($jobCreationReason)
-  {
-    $this->jobCreationReason = $jobCreationReason;
-  }
-  /**
-   * @return array
-   */
-  public function getJobCreationReason()
-  {
-    return $this->jobCreationReason;
   }
   /**
    * @param JobReference

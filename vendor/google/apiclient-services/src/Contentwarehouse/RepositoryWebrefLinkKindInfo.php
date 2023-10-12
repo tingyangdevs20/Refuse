@@ -24,6 +24,10 @@ class RepositoryWebrefLinkKindInfo extends \Google\Model
   /**
    * @var string
    */
+  public $kcLinkName;
+  /**
+   * @var string
+   */
   public $topicPropertyName;
 
   /**
@@ -39,6 +43,20 @@ class RepositoryWebrefLinkKindInfo extends \Google\Model
   public function getFlags()
   {
     return $this->flags;
+  }
+  /**
+   * @param string
+   */
+  public function setKcLinkName($kcLinkName)
+  {
+    $this->kcLinkName = $kcLinkName;
+  }
+  /**
+   * @return string
+   */
+  public function getKcLinkName()
+  {
+    return $this->kcLinkName;
   }
   /**
    * @param string
