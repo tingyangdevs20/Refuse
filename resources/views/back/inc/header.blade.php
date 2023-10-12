@@ -47,10 +47,10 @@
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 
-                <button class="btn" id="open-modal-btnn">
+                <a href="/admin/single-sms" class="btn" id="open-modal-btnn">
                     <span style="font-size:20px;color:#50a5f1"><i class="fas fa-sms fa-lg"></i></span>
 
-                </button>
+</a>
                 <button class="btn" id="open-modal-btn">
                 <span style="font-size:20px;color:#50a5f1"><i class="fas fa-phone"></i></span>
 

@@ -25,7 +25,7 @@ class SingleSMSController extends Controller
     public function index()
     {
        // $numbers = Number::all();
-       $numbers = Phone::all();
+       $numbers = Number::all();
         $templates = Template::all();
         return view('back.pages.sms.single.index', compact('numbers', 'templates'));
     }
