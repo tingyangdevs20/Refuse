@@ -3,6 +3,7 @@ use App\Model\AutoReplyCategory;
 use App\Model\Contact;
 use App\Model\FormTemplate;
 use App\Model\HelpVideo;
+use App\Model\Settings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -138,6 +139,13 @@ if (!function_exists('getFormTemplate')) {
     {
         return FormTemplate::pluck('template_name', 'id')->all();
     }
+}
+
+if(!function_exists('getAuthEmail')) {
+    function getAuthEmail()
+    {
+        return Settings::first();
+    } 
 }
 
 if (!function_exists('getUserContact')) {

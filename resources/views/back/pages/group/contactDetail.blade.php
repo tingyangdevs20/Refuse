@@ -639,7 +639,7 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group"
                                                                         style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                        <label>Owner info 1</label>
+                                                                        <label>Contact 1</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -813,7 +813,7 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group"
                                                                         style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                        <label>Owner info 2</label>
+                                                                        <label>Contact 2</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -985,7 +985,7 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group"
                                                                         style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                        <label>Owner info 3</label>
+                                                                        <label>Contact 3</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
