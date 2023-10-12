@@ -68,6 +68,7 @@ class SettingsController extends Controller
           $categories = Category::all();
           $markets=Market::all();
           $rvms=RvmFile::all();
+          $Settings=Settings::first();
           
           
           $context = $this->client->getAccount();
@@ -132,9 +133,19 @@ class SettingsController extends Controller
               $all_phone_nums = Number::all();
           }
           
-          return view('back.pages.settings.communication', compact('responders','quickResponses', 'autoReplies', 'categories', 'all_phone_nums','markets','rvms'));
+          return view('back.pages.settings.communication', compact('responders','Settings','quickResponses', 'autoReplies', 'categories', 'all_phone_nums','markets','rvms'));
     }
 
+    public function AppointmentSettings()
+    {
+        $settings = Settings::first();
+
+        $timezones = timezone_identifiers_list();
+        $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
+
+        $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting();
+        return view('back.pages.settings.appointment', compact('appointmentSetting','timezones'));
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -25,7 +25,7 @@ class SingleSMSController extends Controller
     public function index()
     {
        // $numbers = Number::all();
-       $numbers = Phone::all();
+       $numbers = Number::all();
         $templates = Template::all();
         return view('back.pages.sms.single.index', compact('numbers', 'templates'));
     }
@@ -101,7 +101,7 @@ class SingleSMSController extends Controller
                     $sms->media = $request->media_file == null ? 'No' : $media;
                     $sms->status = 1;
                     $sms->save();
-                    $this->incrementSmsCount($sender_number);
+                   // $this->incrementSmsCount($sender_number);
                 } else {
                     $reply_message = new Reply();
                     $reply_message->sms_id = $old_sms->id;
@@ -110,7 +110,7 @@ class SingleSMSController extends Controller
                     $reply_message->reply = $request->message;
                     $reply_message->system_reply = 1;
                     $reply_message->save();
-                    $this->incrementSmsCount($sender_number);
+                   // $this->incrementSmsCount($sender_number);
                 }
 
             }

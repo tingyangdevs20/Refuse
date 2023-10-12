@@ -26,7 +26,7 @@ h1 {
 }
 
 .number-text{
-    color: blue !important;
+    color: #50a5f1 !important;
 }
 
 .phone {
@@ -263,7 +263,7 @@ h1 {
 }
 
 input:checked + .slider {
-  background-color: #556ee6;
+  background-color: #50a5f1;
 }
 
 input:focus + .slider {

@@ -95,6 +95,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::put('/communication-setting-update', 'Admin\SettingsController@updateCommunicationSetting')->name('CommunicationSetting.update');
     Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
     // Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
+    Route::get('/appointment-settings', 'Admin\SettingsController@AppointmentSettings')->name('AppointmentSetting.index');
 
     Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
     Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
