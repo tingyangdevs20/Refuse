@@ -55,7 +55,11 @@
                                                 <td>{{ $sms->replies()->count() }}</td>
                                                 <td>{{ $sms->getLeadName() }}</td>
                                                 <td>
+                                                    
+                                                   
                      <a href="{{ route('admin.sms.show',$sms) }}" class="btn btn-outline-warning btn-sm" title="Reply" >View Replies</a> -
+
+                                                  
                                                     <button data-toggle="modal" data-target="#saveModal" class="btn btn-outline-success btn-sm" title="Change Lead Category" data-id="{{ $sms->id }}" data-number="{{ $sms->client_number }}" >Change Lead Category</button> -
                                                     <button data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger btn-sm" title="Delete" data-id="{{ $sms->id }}" >Delete</button>
 
