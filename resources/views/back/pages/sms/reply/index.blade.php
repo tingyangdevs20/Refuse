@@ -49,7 +49,7 @@
                                             @foreach($msg as $sms)
                                             <tr>
                                                 
-                                                 <td>{{ $sms->fname }} {{ $sms->lname }}</td>
+                                                 <td>{{ $sms->lname }} {{ $sms->fname }}</td>
                                                 <td>{{ $sms->client_number }}</td>
                                                 <td>{{ $sms->email }}</td>
                                                 <td>{{ $sms->replies()->count() }}</td>
