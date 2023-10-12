@@ -47,6 +47,19 @@ class SettingsController extends Controller
         return view('back.pages.settings.index', compact('settings', 'timezones', 'appointmentSetting'));
     }
 
+    public function appointment()
+    {
+        // dd('ok');
+        $settings = Settings::first();
+
+        $timezones = timezone_identifiers_list();
+        $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
+
+        $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting();
+
+        return view('back.pages.settings.appointmentSettings', compact('settings', 'timezones', 'appointmentSetting'));
+    }
+
     public function CommunicationSetting(){
         $responders=AutoResponder::all();   
         $autoReplies = AutoReply::all();

@@ -94,6 +94,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/communication-setting', 'Admin\SettingsController@CommunicationSetting')->name('CommunicationSetting.index');
     Route::put('/communication-setting-update', 'Admin\SettingsController@updateCommunicationSetting')->name('CommunicationSetting.update');
     Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
+    // Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
 
     Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
     Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
@@ -245,6 +246,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('settings', 'Admin\SettingsController');
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
+    Route::get('/appointment', 'Admin\SettingsController@appointment')->name('settings.appointment.appointment');
+    
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');

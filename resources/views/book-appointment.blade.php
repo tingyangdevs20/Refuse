@@ -483,10 +483,12 @@
                   <label style="padding:10px;font-weight:bold">Time Zone</label>
                   <div class="input-group">
                     <select class="input form-control timezones" name="timezone" required>
-                        @foreach($timezones as $timezone) 
-                        <option value="{{ $timezone }}" {{ $timezone == $adminTimezone ? "selected" : "" }}>{{ $timezone }}</option>
-                        @endforeach
-                    </select>
+                      @foreach($timezones as $timezone) 
+                          <option value="{{ $timezone }}">
+                              {{ $timezone }}
+                          </option>
+                      @endforeach
+                  </select>
 
                     @error('timezone')
                       <div class="error">{{ $message }}</div>
@@ -595,6 +597,17 @@
 
   <script>
     $(document).ready(function() {
+        var userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var selectElement = document.querySelector('.timezones');
+        // Loop through the options and set the selected attribute based on the user's timezone
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === userTimezone) {
+                selectElement.options[i].selected = true;
+                break; // No need to continue searching once found
+            }
+        }
+    
+    // alert(userTimezone);
 
       // setup ajax token
       $.ajaxSetup({
@@ -606,41 +619,49 @@
       // booked slots are fetched from google calendar
       var bookedSlots = {!! $bookedSlots !!};
       var allSlots = {!! $availableSlots !!};
-
+      
+      var advance_booking_duration = {!! $advance_booking_duration !!};
+      console.log(advance_booking_duration);
       // function to hide booked time slots
       function hideBookedTimeSlots() {
-        $.each(bookedSlots, function(index, day) {
-          $.each(day, function (key, slot) {
-
-            // disbale slots based on attribute value of anchor tag
-            $('.myc-day-time-container a[data-time="'+slot.appt_time+'"][data-date="'+slot.appt_date+'"]').hide();
-          });
-        });
-
         let currentDate = new Date();
         let currentYear = currentDate.getFullYear();
         let currentMonth = currentDate.getMonth() + 1;
         currentMonth = currentMonth < 10 ? '0' + currentMonth : currentMonth;
-        currentDate = currentDate.getDate();
+        let currentDay = currentDate.getDate();
+        let currentHour = currentDate.getHours();
+        let currentMinute = currentDate.getMinutes();
+        let currentTime = currentHour * 60 + currentMinute; // Convert to minutes since midnight
 
-        // disbale all previous slots
-        document.querySelectorAll('.myc-day-time-container a').forEach(slot => {
-
-          let slotDate = slot.dataset.date.split("-");
-
-          if (slotDate[0] < currentYear) {
-            $(slot).hide();
-          } else if (slotDate[0] == currentYear) {
-            if(slotDate[1] < currentMonth) {
-              $(slot).hide();
-            } else if (slotDate[1] == currentMonth) {
-              if(slotDate[2] < currentDate) {
-                $(slot).hide();
-              }
-            }
-          }
+        // Hide slots based on bookedSlots data
+        $.each(bookedSlots, function(index, day) {
+            $.each(day, function (key, slot) {
+                $('.myc-day-time-container a[data-time="'+slot.appt_time+'"][data-date="'+slot.appt_date+'"]').hide();
+            });
         });
-      }
+
+        // Hide slots before the current time today
+        document.querySelectorAll('.myc-day-time-container a').forEach(slot => {
+            let slotDate = slot.dataset.date.split("-");
+            let slotTime = slot.dataset.time.split(":");
+            let slotYear = parseInt(slotDate[0]);
+            let slotMonth = parseInt(slotDate[1]);
+            let slotDay = parseInt(slotDate[2]);
+            let slotHour = parseInt(slotTime[0]);
+            let slotMinute = parseInt(slotTime[1]);
+            let slotTimeValue = slotHour * 60 + slotMinute; // Convert to minutes since midnight
+
+            if (
+                slotYear < currentYear ||
+                (slotYear === currentYear && slotMonth < currentMonth) ||
+                (slotYear === currentYear && slotMonth === currentMonth && slotDay < currentDay) ||
+                (slotYear === currentYear && slotMonth === currentMonth && slotDay === currentDay && slotTimeValue < currentTime)
+            ) {
+                $(slot).hide();
+            }
+        });
+}
+
 
       var slotPicker = $('.picker').markyourcalendar({
         availability: allSlots,
@@ -656,7 +677,7 @@
             $('.appt_date').val(d);
             $('.appt_time').val(t);
           });
-          console.log("slot selected");
+          console.log("slot");
 
           // $('#selected-dates').html(html);
         },
@@ -671,42 +692,10 @@
 
       // hide booked slots after initializing slot picker
       hideBookedTimeSlots();
-
+      handleTimezoneChange();
       // fetch available slots when user change timezone.
       $(document).on('change','.timezones',function(){
-        let timezone = $(this).val();
-        document.querySelector('#myc-available-time-container').innerHTML = "";
-
-        $.ajax({
-          type: "POST",
-          url: "{{ route('appointments.fetchAllSlots') }}",
-          data: { timezone: timezone },
-          dataType: "json",
-          success: function(data) {
-
-            // Ajax call completed successfully
-            if(data.status == 200) {
-
-              allSlots = data.availableSlots;
-              bookedSlots = data.bookedSlots;
-
-              slotPicker.setAvailability(allSlots);
-              hideBookedTimeSlots();
-
-            } else {
-              $('.s-msg').hide();
-              $('.e-msg').html(data.message);
-              $('.e-msg').show();
-            }
-          },
-          error: function(data) {
-                
-            // Some error in ajax call
-            $('.s-msg').hide();
-            $('.e-msg').html(data.message);
-            $('.e-msg').show();
-          }
-        });
+        handleTimezoneChange();
         
       });
       
@@ -783,6 +772,9 @@
         var previousDate = $('.previous_date').val();
         // alert(previousDate);
         var previousTime = $('.previous_time').val();
+
+         // JavaScript code to detect and set the user's timezone
+        
         // alert(previousTime);      
         // $('.reschedule_appt_modal modal-body').find('.myc-available-time').addClass('selected');
         $( ".reschedule_appt_modal" ).dialog({
@@ -889,16 +881,49 @@
           });
         }
       });
+      function handleTimezoneChange(){
+        let timezone = $('.timezones').val();
+        document.querySelector('#myc-available-time-container').innerHTML = "";
+
+        $.ajax({
+          type: "POST",
+          url: "{{ route('appointments.fetchAllSlots') }}",
+          data: { timezone: timezone },
+          dataType: "json",
+          success: function(data) {
+
+            // Ajax call completed successfully
+            if(data.status == 200) {
+
+              allSlots = data.availableSlots;
+              bookedSlots = data.bookedSlots;
+              advance_booking_duration = data.advance_booking_duration;
+
+              slotPicker.setAvailability(allSlots);
+              hideBookedTimeSlots();
+
+            } else {
+              $('.s-msg').hide();
+              $('.e-msg').html(data.message);
+              $('.e-msg').show();
+            }
+          },
+          error: function(data) {
+                
+            // Some error in ajax call
+            $('.s-msg').hide();
+            $('.e-msg').html(data.message);
+            $('.e-msg').show();
+          }
+        });
+      }
         
         
     });
   </script>
 
-
-  <script>
-
-    
-
+<script>
+ 
   </script>
 </body>
 </html>

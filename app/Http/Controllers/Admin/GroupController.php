@@ -150,6 +150,7 @@ class GroupController extends Controller
             DB::table('lead_info')->insert(['contact_id' => $id, 'date_added' => $dateAdded]);
             $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
+        $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         DB::table('lead_info')->where('contact_id', $id)->update([
             'user_1_name' => $leadinfo->owner1_first_name.' ' .$leadinfo->owner1_last_name ,
             'user_2_name' => $leadinfo->owner2_first_name.' ' .$leadinfo->owner2_last_name ,

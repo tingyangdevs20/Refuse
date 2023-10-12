@@ -651,7 +651,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="First Name"
                                                                                 name="owner1_first_name" table="lead_info"
-                                                                                value="{{ $leadinfo->mailing_state == '' ? '' : $leadinfo->mailing_state }}">
+                                                                                value="{{ $leadinfo->owner1_first_name == '' ? '' : $leadinfo->owner1_first_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -662,7 +662,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Last Name"
                                                                                 name="owner1_last_name" table="lead_info"
-                                                                                value="{{ $leadinfo->mailing_state == '' ? '' : $leadinfo->mailing_state }}">
+                                                                                value="{{ $leadinfo->owner1_last_name == '' ? '' : $leadinfo->owner1_last_name }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>

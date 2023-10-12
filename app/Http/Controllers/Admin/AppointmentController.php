@@ -34,7 +34,7 @@ class AppointmentController extends Controller
 
             $appointmentSettings = CalendarSetting::first() ?? new CalendarSetting();
             $adminTimezone = $appointmentSettings->timezone;
-
+            $advance_booking_duration = $appointmentSettings->advance_booking_duration;
             $timezones = timezone_identifiers_list();
 
             $availableSlots = json_encode(
@@ -47,7 +47,7 @@ class AppointmentController extends Controller
 
             $uid = decrypt($uid);
 
-            return view('book-appointment', compact('timezones', 'adminTimezone', 'availableSlots', 'bookedSlots', 'uid'));
+            return view('book-appointment', compact('timezones', 'adminTimezone', 'availableSlots', 'bookedSlots', 'uid', 'advance_booking_duration'));
         } else {
             return Redirect::back();
         }
@@ -64,12 +64,13 @@ class AppointmentController extends Controller
 
             $availableSlots = $this->getAvailableSlots($appointmentSettings, $request->timezone);
             $bookedSlots = $this->getBookedSlotsFromGoogleCalendar($appointmentSettings, $request->timezone);
-
+            $advance_booking_duration = $appointmentSettings->advance_booking_duration;
             return response()->json([
                 "status" => 200,
                 "message" => "List of time slots in user preferred timezone for appointment booking.",
                 "availableSlots" => $availableSlots,
-                "bookedSlots" => $bookedSlots
+                "bookedSlots" => $bookedSlots,
+                "advance_booking_duration" => $advance_booking_duration
             ]);
         } catch (\Throwable $th) {
             return response()->json([
