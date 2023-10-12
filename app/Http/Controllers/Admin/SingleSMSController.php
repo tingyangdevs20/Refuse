@@ -8,6 +8,7 @@ use App\Model\FailedSms;
 use App\Model\Number;
 use App\Model\Phone;
 use App\Model\Reply;
+use App\Model\Conversations;
 use App\Model\Sms;
 use App\Model\Template;
 use Illuminate\Support\Str;
@@ -117,6 +118,14 @@ class SingleSMSController extends Controller
                     $reply_message->reply = $request->message;
                     $reply_message->system_reply = 1;
                     $reply_message->save();
+                    $conversation =new Conversations();
+                    $conversation->sms_id=$request->sms_id;
+                    $conversation->sent_to=$request->to;
+                    $conversation->sent_from=$request->twilio_number;
+                    $conversation->body_text=$request->reply;
+                    $conversation->conv_type='SMS';
+                    $conversation->system_reply=1;
+                    $conversation->save();
                    // $this->incrementSmsCount($sender_number);
                 }
 
