@@ -10,14 +10,14 @@
     <div class="row">
       <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
-          <h4 class="mb-0 font-size-18">Lists</h4>
+          <h4 class="mb-0 font-size-18">Digital Signing Templates</h4>
           <div class="page-title-right">
             <ol class="breadcrumb m-0">
               <li class="breadcrumb-item">
                 <a href="{{ route('admin.dashboard')}}">Dashboard</a>
               </li>
               <li class="breadcrumb-item">Settings</li>
-              <li class="breadcrumb-item active">Lists</li>
+              <li class="breadcrumb-item active">Digital Signing Templates</li>
             </ol>
           </div>
         </div>
@@ -39,7 +39,7 @@
                   <th scope="col"> Template Name </th>
                   <th scope="col"> Status </th>
 
-                  <th scope="col">Created At</th>
+                  <th scope="col">Created On</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -49,7 +49,7 @@
 
 
                   <td> @if($group->status == 0 ) {{'Active'}} @else {{'Deactive'}} @endif </td>
-                  <td>{{ $group->created_at }}</td>
+                  <td>{{\Carbon\Carbon::parse($group->created_at)->format('m/d/Y') }}</td>
                   <td>
                     <button class="btn btn-outline-primary btn-sm edit-template" data-html="{{ $group->content }}" onclick="autofill($(this), '{{ json_encode(['id' => $group->id, 'template_name' => $group->template_name, 'status' => $group->status])}}')"  title="Edit {{ $group->name }}"
                       data-id="{{ $group->id }}" data-toggle="modal" data-target="#editModal">

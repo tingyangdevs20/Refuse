@@ -181,7 +181,7 @@
 
                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('zoom_module'))
 
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.zoom.index') }}" class=" waves-effect">
                     <i class="fas fa-video"></i>
                         <span>Zoom</span>
@@ -241,7 +241,7 @@
                         <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS Templates</a></li>
                         <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign. Templates</a></li>
                         <!-- <li><a href="{{ route('admin.market.index') }}" class=" waves-effect">Markets</a></li> -->
-                        <li><a href="{{ route('admin.category.index') }}" class=" waves-effect">Lead Categories</a></li>
+                        <li style="display:none"><a href="{{ route('admin.category.index') }}" class=" waves-effect">Lead Categories</a></li>
                         <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li>
                         <!-- <li><a href="{{ route('admin.rvm.index') }}" class=" waves-effect">RVMS</a></li> -->
                         <li><a href="{{ route('admin.googleCalendersetting.setting') }}" class=" waves-effect"> Google Calendar Settings</a></li>
