@@ -40,10 +40,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
-                                            <!--<th scope="col">Type</th>-->
-                                            <!--<th scope="col">Send after days</th>-->
-                                            <!--<th scope="col">Send after hours</th>-->
                                             <th scope="col">Contact list</th>
+                                            <th scope="col">No. Of Contacts</th>
+                                            
+                                            
                                             <th scope="col">Action</th>
                                             <th scope="col">Status</th>
 
@@ -51,14 +51,20 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($campaigns as $campaign)
+                                        @php
+                                       $_count=optional($campaign->group)->getContactsCount();
+                                        
+
+
+                                        @endphp
                                             <tr>
                                                 <td><a
                                                         href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
                                                 </td>
-                                                <!--<td>{{ $campaign->type }}</td>-->
-                                                <!--<td>{{ $campaign->send_after_days }}</td>-->
-                                                <!--<td>{{ $campaign->send_after_hours }}</td>-->
                                                 <td>{{ optional($campaign->group)->name ?? 'N/A' }}</td>
+                                                <td>{{$_count}}</td>
+                                                
+                                                
                                                 <td>
                                                     <a href="{{ route('admin.compaignlead.copy', $campaign->id) }}"><button
                                                             data-toggle="modal"
