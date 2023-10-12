@@ -159,20 +159,7 @@
                                         id="scraping_charge_per_record" value="{{ $accounts->scraping_charge_per_record }}" step="0.00001" min="0" required>
                                 </div>
                             </div>
-                            <div class="card-header bg-soft-dark ">
-                                <i class="fas fa-cog"></i> Call Forward Settings
-
-                            </div>
-                            <br />
-
-                            <div class="form-group">
-                                <label>Call Forward Number</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter new key to update"
-                                        name="call_forward_number" id="call_forward_number"
-                                        value="{{ $settings->call_forward_number }}" required>
-                                </div>
-                            </div>
+                          
 
                             <div class="card-header bg-soft-dark ">
                                 <i class="fas fa-cog"></i> Campaign Schedule Settings

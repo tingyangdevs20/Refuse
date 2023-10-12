@@ -88,7 +88,7 @@
                         
                 </li>
                
-                 <li>
+                 <li style="display:none">
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-message-square-dots"></i>
                         <span>SMS</span>
@@ -195,6 +195,7 @@
                         <span>Administrative Settings</span>
                     </a>
                 </li>
+                
 
                 <li>
                      <a href="javascript:void(0)" class="has-arrow waves-effect">
@@ -203,6 +204,7 @@
                      </a>
                      <ul class="sub-menu" aria-expanded="false">
                      <li><a href="{{ route('admin.CommunicationSetting.index') }}" class="waves-effect">Communication Settings</a></li>
+                     <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment Settings</a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a></li>
                         <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">APIs Settings</a></li>
                          <li>
@@ -236,7 +238,7 @@
                         <!-- <li><a href="{{ route('admin.auto-reply.index') }}" class=" waves-effect">Auto-Reply</a></li> -->
                         <!-- <li><a href="{{ route('admin.phone.numbers') }}" class="waves-effect">Phone Numbers</a></li> -->
                          <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
-                        <li><a href="{{ route('admin.template.index') }}" class="waves-effect">Templates</a></li>
+                        <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS Templates</a></li>
                         <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign. Templates</a></li>
                         <!-- <li><a href="{{ route('admin.market.index') }}" class=" waves-effect">Markets</a></li> -->
                         <li><a href="{{ route('admin.category.index') }}" class=" waves-effect">Lead Categories</a></li>

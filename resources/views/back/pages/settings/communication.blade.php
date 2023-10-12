@@ -201,6 +201,8 @@
                                 </li>
                                 <li><a class="mr-3" href="#AutoReply" data-toggle="tab">AutoReply</a>
                                 </li>
+                                <li><a class="mr-3" href="#CallForward" data-toggle="tab">Call Forward Number</a>
+                                </li>
                                 <li><a class="mr-3" href="#PhoneNumber" data-toggle="tab">Phone Number</a>
                                 </li>
                                 <li><a class="mr-3"href="#markets" data-toggle="tab">Markets</a>
@@ -363,6 +365,52 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane" id="CallForward">
+                                    <div class="card">
+                                        <div class="card-header bg-soft-dark ">
+                                            <i class="fas fa-cog"></i> Call Forward Number
+                                        </div>
+                                        <div class="card-body">
+                                           
+                                                <table class="table table-striped table-bordered" id="datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Number</th>
+                                                            <th scope="col">Action</th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                       
+                                                       
+                                                            <tr>
+                                                                <td>{{ $Settings->call_forward_number }}</td>
+                                                                <td>
+                                                                <button class="btn btn-outline-primary btn-sm"
+                                                                    title="Edit {{ $Settings->call_forward_number }}"
+                                                                    data-name="{{ $Settings->call_forward_number }}"
+                                                                    data-id="{{ $Settings->id }}" data-toggle="modal"
+                                                                    data-target="#editModalCallForward"><i
+                                                                        class="fas fa-edit"></i></button>
+                                                                -
+                                                                <button class="btn btn-outline-danger btn-sm"
+                                                                    title="Remove {{ $Settings->call_forward_number }}"
+                                                                    data-id="{{ $Settings->id }}" data-toggle="modal"
+                                                                    data-target="#deleteModalCallForward"><i
+                                                                        class="fas fa-times-circle"></i></button>
+                                                            </td>
+
+                                                               
+                                                               
+                                                            </tr>
+                                                           
+                                                    </tbody>
+                                                </table>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <div class="tab-pane" id="markets">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
@@ -843,6 +891,66 @@
                 </div>
             </div>
             {{-- End Modal Delete --}}
+            {{-- Modal Edit --}}
+            <div class="modal fade" id="editModalCallForward" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Call Forward Number</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('admin.market.update', 'test') }}" method="post" id="editForm">
+                            @method('PUT')
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="hidden" id="id" name="id" value="">
+                                    <input type="text" class="form-control" name="phone" id="phone" required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Edit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- End Modal Edit --}}
+            {{-- Modal Delete --}}
+            <div class="modal fade" id="deleteModalCallFroward" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Call Forward Number</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('admin.market.destroy', 'test') }}" method="post" id="editForm">
+                            @method('DELETE')
+                            @csrf
+                            <div class="modal-body">
+                                <div class="modal-body">
+                                    <p class="text-center">
+                                        Are you sure you want to delete this?
+                                    </p>
+                                    <input type="hidden" id="id" name="id" value="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- End Modal Delete --}}
 
 
 
@@ -1115,6 +1223,24 @@
             modal.find('.modal-body #name').val(name);
             modal.find('.modal-body #id').val(id);
 
+        });
+        $('#editModalCallForward').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var phone = button.data('phone');
+            
+            var id = button.data('id');
+
+            var modal = $(this);
+
+            modal.find('.modal-body #phone').val(phone);
+            modal.find('.modal-body #id').val(id);
+
+        });
+        $('#deleteModalCallForward').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('.modal-body #id').val(id);
         });
         $('#deleteModalmarkets').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
