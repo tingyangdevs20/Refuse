@@ -17,6 +17,7 @@
 
 namespace Google\Service\Workflows\Resource;
 
+use Google\Service\Workflows\ListWorkflowRevisionsResponse;
 use Google\Service\Workflows\ListWorkflowsResponse;
 use Google\Service\Workflows\Operation;
 use Google\Service\Workflows\Workflow;
@@ -121,13 +122,34 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
     return $this->call('list', [$params], ListWorkflowsResponse::class);
   }
   /**
+   * Lists revisions for a given workflow. (workflows.listRevisions)
+   *
+   * @param string $name Required. Workflow for which the revisions should be
+   * listed. Format: projects/{project}/locations/{location}/workflows/{workflow}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int pageSize The maximum number of revisions to return per page.
+   * If a value is not specified, a default value of 20 is used. The maximum
+   * permitted value is 100. Values greater than 100 are coerced down to 100.
+   * @opt_param string pageToken The page token, received from a previous
+   * ListWorkflowRevisions call. Provide this to retrieve the subsequent page.
+   * @return ListWorkflowRevisionsResponse
+   */
+  public function listRevisions($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('listRevisions', [$params], ListWorkflowRevisionsResponse::class);
+  }
+  /**
    * Updates an existing workflow. Running this method has no impact on already
    * running executions of the workflow. A new revision of the workflow might be
    * created as a result of a successful update operation. In that case, the new
    * revision is used in new workflow executions. (workflows.patch)
    *
    * @param string $name The resource name of the workflow. Format:
-   * projects/{project}/locations/{location}/workflows/{workflow}
+   * projects/{project}/locations/{location}/workflows/{workflow}. This is a
+   * workflow-wide field and is not tied to a specific revision.
    * @param Workflow $postBody
    * @param array $optParams Optional parameters.
    *

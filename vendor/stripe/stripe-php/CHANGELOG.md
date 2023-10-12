@@ -1,5 +1,17 @@
 # Changelog
 
+## 12.7.0 - 2023-10-11
+* [#1589](https://github.com/stripe/stripe-php/pull/1589) Update generated code
+  * Add support for `client_secret`, `redirect_on_completion`, `return_url`, and `ui_mode` on `Checkout.Session`
+  * Add support for `offline` on `Terminal.Configuration`
+
+## 12.6.0 - 2023-10-05
+* [#1586](https://github.com/stripe/stripe-php/pull/1586) Update generated code
+  * Add support for new resource `Issuing.Token`
+  * Add support for `all`, `retrieve`, and `update` methods on resource `Token`
+  * Add support for `token` on `Issuing.Authorization` and `Issuing.Transaction`
+* [#1569](https://github.com/stripe/stripe-php/pull/1569) Fix: Do not bother removing `friendsofphp/php-cs-fixer`
+
 ## 12.5.0 - 2023-09-28
 * [#1582](https://github.com/stripe/stripe-php/pull/1582) Generate Discount, SourceTransaction and use sections in more places
 * [#1584](https://github.com/stripe/stripe-php/pull/1584) Update generated code

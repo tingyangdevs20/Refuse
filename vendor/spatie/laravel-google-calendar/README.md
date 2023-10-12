@@ -3,8 +3,6 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-google-calendar.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-google-calendar)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-![Test Status](https://img.shields.io/github/workflow/status/spatie/laravel-google-calendar/run-tests?label=tests)
-![Code Style Status](https://img.shields.io/github/workflow/status/spatie/laravel-google-calendar/Check%20&%20fix%20styling?label=code%20style)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-google-calendar.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-google-calendar)
 
 This package makes working with a Google Calendar a breeze. Once it has been set up you can do these things:
@@ -23,6 +21,7 @@ $event->addAttendee([
     'email' => 'john@example.com',
     'name' => 'John Doe',
     'comment' => 'Lorum ipsum',
+    'responseStatus' => 'needsAction',
 ]);
 $event->addAttendee(['email' => 'anotherEmail@gmail.com']);
 $event->addMeetLink(); // optionally add a google meet link to the event

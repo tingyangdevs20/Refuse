@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Http\Traits;
 use Illuminate\Support\Facades\Http;
 
 trait ZoomMeetingTrait
