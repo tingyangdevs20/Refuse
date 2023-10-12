@@ -56,9 +56,9 @@
                                     <th scope="col">Agreement Date</th>
                                     <th scope="col">Form Template</th>
                                     <th scope="col">No. of Users </th>
-                                    {{-- <th scope="col">Mail Sent </th> --}}
                                     <th scope="col">Contract Signed </th>
                                     <th scope="col">Contract PDF</th>
+                                    <th scope="col">Reminder </th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -110,6 +110,10 @@
                                         @endif
                                     </td>
                                     
+                                    <td>
+                                        <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
+                                         onclick="notifyuser({{ $useragreement->id }})"   data-id="{{ $useragreement->id }}"><i class="fas fa-bell"></i></button>
+                                    </td>
                                     <td>
                                         @if($useragreement->pdf_path == "")
                                         <button class="btn btn-outline-primary btn-sm editUserAgreement" title="Edit"
@@ -171,6 +175,24 @@
             .catch(error => {
                 console.error('Error checking file existence:', error);
             });
+    }
+    function notifyuser(userId) {
+        // Implement the reminder logic here, e.g., send a reminder notification.
+        // You can use AJAX to send a request to the server for this purpose.
+        // Example:
+        $.ajax({
+            url: '/admin/reminder/' + userId, // Replace with your route
+            method: 'POST',
+
+            success: function (response) {
+                // Handle the success response, e.g., show a success message.
+                toastr.success('Reminder sent successfully');
+            },
+            error: function (error) {
+                // Handle errors, e.g., show an error message.
+                toastr.error('Error sending reminder');
+            }
+        });
     }
 </script>
 @endpush

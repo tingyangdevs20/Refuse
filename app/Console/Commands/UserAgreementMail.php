@@ -138,8 +138,11 @@ class UserAgreementMail extends Command
                 $pdf->loadView('agreement.pdf', compact('content', 'pdf'));
                 $fileName = getUniqueFileName() . ".pdf";
                 $pdf->save($pdfPath . '/' . $fileName);
-                $userAgreementSeller->pdf_path = $fileName;
-                $userAgreementSeller->save();
+                if($userAgreementSeller->pdf_path == null || $userAgreementSeller->pdf_path == ''){
+
+                    $userAgreementSeller->pdf_path = $fileName;
+                    $userAgreementSeller->save();
+                }
 
                 if ($userAgreementSeller->is_send_mail != "1") {
                     try {

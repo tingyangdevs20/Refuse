@@ -68,8 +68,8 @@
                                         <div class="input-group-text"><i class="fas fa-clock"></i></div>
                                     </div>
                                     <input type="number" class="form-control" placeholder="Advance booking duration"
-                                        name="advacne_booking_duration" id="advanceBookingDuration"
-                                        value="{{ $appointmentSetting->advacne_booking_duration }}" required>
+                                        name="advance_booking_duration" id="advanceBookingDuration"
+                                        value="{{ $appointmentSetting->advance_booking_duration }}" required>
                                 </div>
                             </div>
 

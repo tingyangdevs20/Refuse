@@ -270,6 +270,16 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
  
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
+    Route::post('/reminder/{userAgreementId}', function ($userAgreementId) {
+        //Log::info("here");
+        Artisan::call("agreement:mail", ['userAgreementId' => $userAgreementId]);
+        $response = [
+            'success' => true,
+            'message' => "Reminder sent successfully.",
+        ];
+
+        return response()->json($response, 200);
+    });
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
     // Sachin 05092023
     Route::resource('leadcampaign', 'Admin\CampaignLeadController');
