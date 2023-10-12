@@ -99,6 +99,7 @@ class SingleSMSController extends Controller
             }
             if ($sms_sent) {
                 $old_sms = Sms::where('client_number', $receiver_number)->first();
+               // dd($old_sms);
                 if ($old_sms == null) {
                     $sms = new Sms();
                     $sms->client_number = $receiver_number;
