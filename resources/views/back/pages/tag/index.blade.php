@@ -37,7 +37,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Number of contacts</th>
+                                    <th scope="col">Number of Contacts</th>
                                     <th scope="col">Actions</th>
 
                                 </tr>

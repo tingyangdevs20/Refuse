@@ -185,12 +185,70 @@
                                         value="{{ $settings->google_drive_developer_key }}">
                                 </div>
                             </div>
-
+                            
                            
                            
 
                             <button type="submit" class="btn btn-primary">Update Settings</button>
 
+                        </form>
+                        <form>
+                        <div class="card">
+                    <div class="card-header bg-soft-dark ">
+                        <i class="fas fa-cog"></i> Google Calendar Settings
+                        <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
+                        data-target="#helpModal">How to Use</button>  
+                        @include('components.modalform')
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url('admin/account/google-calendar') }}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+
+
+                            <div class="form-group">
+                                <label>Calendar ID</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Google calendar ID" name="calendar_id"
+                                        id="calendar_id" value="{{ $accounts->calendar_id }}" required>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" name="calendar_credentials_path" value="{{ $accounts->calendar_credentials_path }}">
+                            
+                            <div class="form-group">
+                                <label>Calendar Status</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-check"></i></div>
+                                    </div>
+                                    <select class="input form-control" name="calendar_enable" required>
+                                        <option value="Y" {{ $accounts->calendar_enable === "Y" ? "selected" : "" }}>Enable</option>
+                                        <option value="N" {{ $accounts->calendar_enable === "N" ? "selected" : "" }}>Disable</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Calendar Credentials File <small>(if you don't want to update your credentials leave it blank)</small></label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <input type="file" class="form-control" accept="application/json" name="calendar_credentials_file"
+                                        id="credentials">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Update Settings</button>
+
+                        </form>
+                    </div>
+                </div>
                         </form>
                     </div>
                 </div>
