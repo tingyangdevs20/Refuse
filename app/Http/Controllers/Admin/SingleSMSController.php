@@ -119,10 +119,10 @@ class SingleSMSController extends Controller
                     $reply_message->system_reply = 1;
                     $reply_message->save();
                     $conversation =new Conversations();
-                    $conversation->sms_id=$request->sms_id;
-                    $conversation->sent_to=$request->to;
-                    $conversation->sent_from=$request->twilio_number;
-                    $conversation->body_text=$request->reply;
+                    $conversation->sms_id=$old_sms->id;
+                    $conversation->sent_to=$sender_number;
+                    $conversation->sent_from=$receiver_number;
+                    $conversation->body_text=$request->message;
                     $conversation->conv_type='SMS';
                     $conversation->system_reply=1;
                     $conversation->save();
