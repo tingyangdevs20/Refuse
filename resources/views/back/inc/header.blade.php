@@ -38,7 +38,7 @@
                     ->where('status', 'succeeded')
                     ->sum('amount');
                 @endphp
-            Account Balance: <a href="{{ route('admin.account.detail') }}"><span style="color:#556ee6;font-weight:bold"> ${{ number_format(@$totalBalance, 2) }}</span></a>
+            Account Balance: <a href="{{ route('admin.account.detail') }}"><span style="color:#50a5f1;font-weight:bold"> ${{ number_format(@$totalBalance, 2) }}</span></a>
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"
@@ -46,8 +46,13 @@
                     <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
-                <button class="btn waves-effect waves-light" id="open-modal-btn">
-                    <span class='material-icons custom-size-ui'>dialpad</span>
+                
+                <button class="btn" id="open-modal-btnn">
+                    <span style="font-size:20px;color:#50a5f1"><i class="fas fa-sms fa-lg"></i></span>
+
+                </button>
+                <button class="btn" id="open-modal-btn">
+                <span style="font-size:20px;color:#50a5f1"><i class="fas fa-phone"></i></span>
 
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
