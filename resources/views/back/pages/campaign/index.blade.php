@@ -37,11 +37,10 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Name</th>
-                                    <!--<th scope="col">Type</th>-->
-                                    <!--<th scope="col">Send after days</th>-->
-                                    <!--<th scope="col">Send after hours</th>-->
-                                    <th scope="col">Total Contacts</th>
+                                    
+                                    
                                     <th scope="col">Contact list</th>
+                                    <th scope="col">No. Of Contacts</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -49,11 +48,10 @@
                                 @foreach ($campaigns as $campaign)
                                     <tr>
                                         <td><a href="{{ route('admin.campaign.list',$campaign->id) }}">{{ $campaign->name }}</a></td>
-                                        <!--<td>{{ $campaign->type }}</td>-->
-                                        <!--<td>{{ $campaign->send_after_days }}</td>-->
-                                        <!--<td>{{ $campaign->send_after_hours }}</td>-->
-                                        <td></td>
+                                       
+                                       
                                         <td>{{ optional($campaign->group)->name ?? "N/A" }}</td>
+                                        <td>{{ optional($campaign->group)->getContactsCount()}}</td>
                                         <td>
                                             <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button data-toggle="modal" class="btn btn-outline-warning" >Copy</button></a>
                                             <button data-toggle="modal" class="btn btn-outline-primary" id="editModal" data-target="#editCampaignModal" data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}" data-template="{{ $campaign->template_id }}" data-sendafterdays="{{ $campaign->send_after_days }}" data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"  data-id="{{ $campaign->id }}">Edit</button>

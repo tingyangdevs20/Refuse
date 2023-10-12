@@ -18,18 +18,18 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18">Campaigns</h4>
+                                    <h4 class="mb-0 font-size-18">Prospect Campaigns</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
-                                            <li class="breadcrumb-item">Campaigns</li>
-                                            <li class="breadcrumb-item active">Campaigns List</li>
+                                            <li class="breadcrumb-item">Prospect Campaigns</li>
+                                            <li class="breadcrumb-item active">{{$campaign_name->name}}</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        <i class="fas fa-edit"></i> Campaigns List
+                                        <i class="fas fa-edit"></i> {{$campaign_name->name}}
                                     </div>
                                     <div class="card-body">
                                         <form action="{{ route('admin.campaignlist.store') }}" method="post" enctype="multipart/form-data">
@@ -84,7 +84,7 @@
                                                                         <div class="form-group mt-3">
                                                                             <label>Campaign Type</label>
                                                                             <select class="custom-select template_type" name="type[]"  required>
-                                                                                <option value="">select type</option>
+                                                                                <option value="">Select Type</option>
                                                                                 <option value="sms" @if($campaign->type == 'sms') selected @endif>SMS</option>
                                                                                 <option value="email" @if($campaign->type == 'email') selected @endif>Email</option>
                                                                                 <option value="mms" @if($campaign->type == 'mms') selected @endif>MMS</option>

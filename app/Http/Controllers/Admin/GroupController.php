@@ -7,6 +7,7 @@ use App\Model\Contact;
 use App\Model\CustomField;
 use App\Model\Section;
 use App\Model\LeadCategory;
+use App\Model\LeadStatus;
 use App\Model\Number;
 use App\Model\Group;
 use App\Model\Market;
@@ -747,11 +748,12 @@ class GroupController extends Controller
     public function getAllContacts(Group $group, Request $request)
     {
         $sr = 1;
+        $leadstatus = LeadStatus::where("is_active", 0)->orderBy('sr_order', 'asc')->get();
         $contacts = Contact::where("is_dnc", 0)->get();
         $contractres = Contractupload::all()->sortByDesc("created_at");
         $id = $group->id;
 
-        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr'));
+        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr','leadstatus'));
     }
 
     public function EditContacts(Request $request, $id)

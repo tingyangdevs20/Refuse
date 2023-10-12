@@ -17,11 +17,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Data Management</h4>
+                        <h4 class="mb-0 font-size-18">Scraping Management</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Data Management</li>
+                                <li class="breadcrumb-item">Scraping Management</li>
                                 <li class="breadcrumb-item active">Data</li>
                             </ol>
                         </div>
@@ -41,7 +41,7 @@
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    
                                     <th scope="col">Count/State</th>
                                     <th scope="col">Price Range</th>
                                     <th scope="col">Property Type</th>
@@ -56,7 +56,7 @@
                                 <tbody>
                                 @foreach($scrapingdata as $data)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    
                                     <td>{{ $data->country }} {{ $data->state }} {{ $data->city }} {{ $data->zip_code }}</td>
                                     <td>{{ $data->price_range }}</td>
                                     <td>

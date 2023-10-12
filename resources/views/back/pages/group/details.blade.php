@@ -53,7 +53,7 @@
                                         <th scope="col">Numbers</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">No. Of Tags</th>
-                                        <th scope="col">Status</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,10 +88,7 @@
 
                                             </td>
 
-                                            <td>
-                                                {{ $contact->sts }}<br>
-
-                                            </td>
+                                           
                                             <!-- <td>
                                                         <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
                                                             <i class="fas fa-phone whatsapp-icon"></i>

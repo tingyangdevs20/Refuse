@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Model\Group;
 use App\Model\Number;
 use App\Model\CampaignLeadList;
+use App\Model\Campaign;
 use App\Model\Contact;
 use App\Model\Account;
 use App\Model\Template;
@@ -38,8 +39,8 @@ class CampaignLeadListController extends Controller
         $templates = Template::all();
         $files = RvmFile::all();
         $campaignsList = CampaignLeadList::where('campaign_id' , $id)->orderby('schedule', 'ASC')->get();
-
-        return view('back.pages.campaignleads.indexList', compact('numbers', 'templates','campaignsList','id','files'));
+        $campaign_name=CampaignLead::where('id', $id)->first();
+        return view('back.pages.campaignleads.indexList', compact('numbers', 'templates','campaignsList','id','files','campaign_name'));
     }
     
     public function schedual()

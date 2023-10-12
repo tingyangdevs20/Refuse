@@ -51,8 +51,9 @@ class CampaignListController extends Controller
         $files = RvmFile::all();
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id', $id)->orderby('schedule', 'ASC')->get();
+        $campaign_name=Campaign::where('id', $id)->first();
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories','campaign_name'));
     }
 
     public function schedual()

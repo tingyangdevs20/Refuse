@@ -20,6 +20,8 @@ class CampaignLead extends Model
     {
         return $this->belongsTo(Group::class);
     }
+    
+
 
     public static function getAllLeadsCampaign()
     {

@@ -21,7 +21,7 @@
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                                             <li class="breadcrumb-item">Conversations</li>
-                                            <li class="breadcrumb-item active">Replies</li>
+                                            <li class="breadcrumb-item active">Conversations</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -37,8 +37,9 @@
                                             <thead>
                                             <tr>
                                                 
-                                                 <th scope="col">Type</th>
+                                                 <th scope="col">Name</th>
                                                 <th scope="col">Number</th>
+                                                <th scope="col">Email</th>
                                                 <th scope="col">Replies</th>
                                                 <th scope="col">Lead Category</th>
                                                 <th scope="col">Actions</th>
@@ -48,9 +49,9 @@
                                             @foreach($msg as $sms)
                                             <tr>
                                                 
-                                                 <td>SMS</td>
+                                                 <td>{{ $sms->lname }} {{ $sms->fname }}</td>
                                                 <td>{{ $sms->client_number }}</td>
-                                               
+                                                <td>{{ $sms->email }}</td>
                                                 <td>{{ $sms->replies()->count() }}</td>
                                                 <td>{{ $sms->getLeadName() }}</td>
                                                 <td>

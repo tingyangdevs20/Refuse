@@ -23,13 +23,13 @@
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                                             <li class="breadcrumb-item">Lead Campaigns</li>
-                                            <li class="breadcrumb-item active">Lead Campaigns List</li>
+                                            <li class="breadcrumb-item active">{{$campaign_name->name}}</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        <i class="fas fa-edit"></i> Lead Campaigns List
+                                        <i class="fas fa-edit"></i> {{$campaign_name->name}}
                                     </div>
                                     <div class="card-body">
                                         <form action="{{ route('admin.campaignleadlist.store') }}" method="post" enctype="multipart/form-data">
@@ -193,9 +193,9 @@
                                                                         <div class="row">
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group mt-3">
-                                                                                    <label>Rvm Files</label>
+                                                                                    <label>RVM File</label>
                                                                                     <select class="custom-select" name="mediaUrl[]" required>
-                                                                                        <option value="">Rvm File</option>
+                                                                                        <option value="">Select RVM File</option>
                                                                                         @if(count($files) > 0)
                                                                                             @foreach($files as $file)
                                                                                                 <option value="{{ $file->mediaUrl }}" @if($campaign->mediaUrl == $file->mediaUrl) selected @endif>{{ $file->name }}</option>
