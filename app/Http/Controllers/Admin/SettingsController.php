@@ -269,8 +269,8 @@ class SettingsController extends Controller
         $account = Account::find(1);
         if($request->twilio_acc_sid!='')
         $account->account_id=$request->twilio_acc_sid;
-        if($request->twilio_secret_key!='')
-        $account->account_token=$request->twilio_secret_key;
+        if($request->twilio_auth_token!='')
+        $account->account_token=$request->twilio_auth_token;
         $account->save();
 
         $numbers = Number::all();

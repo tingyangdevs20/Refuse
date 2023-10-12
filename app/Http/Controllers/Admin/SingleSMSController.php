@@ -55,6 +55,8 @@ class SingleSMSController extends Controller
         $token = $account_info[2];
         $receiver_number = $this->contactEscapeString($request);
 
+        
+
         if ($this->checkBlacklist($receiver_number)) {
             Alert::error('Error', 'Number is in blacklist');
             return redirect()->back();
@@ -71,6 +73,9 @@ class SingleSMSController extends Controller
         }
         try {
             $client = new Client($sid, $token);
+
+           // dd($client);
+            
             //return $media;
             if ($request->media_file != null) {
                 $sms_sent = $client->messages->create(
@@ -90,6 +95,7 @@ class SingleSMSController extends Controller
                         'body' => $request->message,
                     ]
                 );
+               // dd($sms_sent);
             }
             if ($sms_sent) {
                 $old_sms = Sms::where('client_number', $receiver_number)->first();
