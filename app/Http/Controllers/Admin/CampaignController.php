@@ -146,6 +146,9 @@ class CampaignController extends Controller
                                         $sms = new Sms();
                                         $sms->client_number = $receiver_number;
                                         $sms->twilio_number = $sender_number;
+                                        $sms->fname=$cont->name;
+                                        $sms->lname=$cont->last_name;
+                                        $sms->email=$cont->email1;
                                         $sms->message = $message;
                                         $sms->media = '';
                                         $sms->status = 1;

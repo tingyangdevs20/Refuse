@@ -21,18 +21,17 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Data Management</h4>
+                        <h4 class="mb-0 font-size-18">Scraping Data</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Data Management</li>
-                                <li class="breadcrumb-item active">Data</li>
-                            </ol>
+                                <li class="breadcrumb-item">Scraping Data</li>
+                                Scraping Request                            </ol>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            Create Data
+                            Add Scraping Request
                             <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
                         </div>
                         <div class="card-body">

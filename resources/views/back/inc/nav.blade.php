@@ -73,7 +73,7 @@
                  <li>  
                     <a href="{{ route('admin.leadcampaign.index') }}" ><i class="bx bx-home-circle"></i><span>Lead Campaigns</span></a>
                 </li>
-                 <li><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
+                 <li style="display:none"><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
                         <span>Research</span></a></li>
                          <li>
                   
