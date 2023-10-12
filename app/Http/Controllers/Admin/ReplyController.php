@@ -56,9 +56,9 @@ class ReplyController extends Controller
             // Your Account SID and Auth Token from twilio.com/console
             $settings = Settings::first()->toArray(); 
         
-            $sid = $settings['twilio_api_key'];
+            $sid = $settings['twilio_acc_sid'];
             
-            $token = $settings['twilio_acc_secret'];
+            $token = $settings['twilio_auth_token'];
            
             
         }
@@ -77,14 +77,14 @@ class ReplyController extends Controller
             {
 
 
-                //$reply=new Reply();
-               // $reply->sms_id=$request->sms_id;
-               // $reply->to=$request->to;
-               // $reply->from=$request->twilio_number;
-               // $reply->reply=$request->reply;
-               //  $reply->type='SMS';
-               // $reply->system_reply=1;
-               // $reply->save();
+                $reply=new Reply();
+                $reply->sms_id=$request->sms_id;
+                $reply->to=$request->to;
+                $reply->from=$request->twilio_number;
+               $reply->reply=$request->reply;
+                $reply->type='SMS';
+                $reply->system_reply=1;
+                $reply->save();
                // $this->incrementSmsCount($request->twilio_number);
 
                 $conversation =new Conversations();
