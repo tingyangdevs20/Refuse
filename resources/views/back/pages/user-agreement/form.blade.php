@@ -28,6 +28,9 @@
         </div>
         <div class="form-group">
             <small class="text-danger"><b>Please Keep {SIGNATURE_USER} in contenet for user sign</b></small>
+            <br>
+            {{ getAuthEmail()->auth_email }}
+            {{-- <small class="text-danger"><b> {{ getAuthEmail()->auth_email }}</b></small> --}}
         </div>
     </div>
     <div class="modal-footer">

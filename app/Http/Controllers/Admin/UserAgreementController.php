@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\FormTemplate;
+use App\Model\Settings;
 use App\Model\UserAgreement;
 use App\Model\UserAgreementSeller;
 use Illuminate\Http\Request;
@@ -24,11 +25,12 @@ class UserAgreementController extends Controller
     public function index()
     {
         //sachin
+        $settings = Settings::first();
         $userAgreements = UserAgreement::select('user_agreements.*', 'form_templates.template_name')
             ->leftjoin('form_templates', 'form_templates.id', 'user_agreements.template_id')
             ->get();
         //sachin
-        return view($this->viewPath . 'index', compact('userAgreements'));
+        return view($this->viewPath . 'index', compact('userAgreements', 'settings'));
     }
 
     /**

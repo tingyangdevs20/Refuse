@@ -55,21 +55,28 @@ class SettingsController extends Controller
           $categories = Category::all();
           $markets=Market::all();
           $rvms=RvmFile::all();
+          
+          
           $context = $this->client->getAccount();
-
-          
           $activeNumbers = $context->incomingPhoneNumbers;
-          //dd($activeNumbers);
-         
+          // dd( $activeNumbers);
           $activeNumberArray = $activeNumbers->read();
-          //dd($activeNumberArray);
+          //print_r($activeNumberArray);
+          //die("...");
           $numbers = [];
-          foreach ($activeNumberArray as $activeNumber) {
-              error_log('active number = ' . $activeNumber->phoneNumber);
           
+          foreach($activeNumberArray as $activeNumber) {
+              error_log('active number = '.$activeNumber->phoneNumber);
+              $numbers[] = (object)[
+                  'number' => $activeNumber->phoneNumber,
+                  'name' => $activeNumber->friendlyName,
+                  'sid' => $activeNumber->sid,
+                  'capabilities' => $activeNumber->capabilities,
+              ];
               
+              $account = Account::first();
+              $market = Market::first();
               $phn_num[] = $activeNumber->phoneNumber;
-          
               $numbers[] = (object) [
                   'number' => $phn_num,
                   'name' => $activeNumber->friendlyName,
@@ -102,13 +109,12 @@ class SettingsController extends Controller
                     $capability .="fax,";
                  }
                  
-                 $phn_nums->capabilities = $capability;
-                 
+                // $phn_nums->capabilities = $capability;
                 // $phn_nums->sms_allowed = Settings::first()->sms_allowed;
-                // dd(Settings::first()->sms_allowed);
-                // $phn_nums->account_id = null;
-                 //$phn_nums->market_id = null;
-                //$phn_nums->save();
+                // $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
+                // $phn_nums->account_id = $account->id;
+                // $phn_nums->market_id=$market->id;
+                // $phn_nums->save();
               }
               $all_phone_nums = Number::all();
           }
@@ -137,6 +143,28 @@ class SettingsController extends Controller
     {
         //
     }
+
+    public function updateCommunicationSetting(Request $request) {
+        $numberId = $request->input('numberId');
+        $number = Number::find($numberId);
+    
+        if ($number) {
+            if ($request->has('isActive')) {
+                $isActive = $request->input('isActive');
+                $number->is_active = $isActive;
+            } elseif ($request->has('isPhoneSystem')) {
+                $isPhoneSystem = $request->input('isPhoneSystem');
+                $number->system_number = $isPhoneSystem;
+            }
+    
+            $number->save();
+    
+            return response()->json(['status' => 200]);
+        }
+    
+        return response()->json(['status' => 400]);
+    }
+    
 
     /**
      * Display the specified resource.
