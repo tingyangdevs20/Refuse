@@ -77,12 +77,19 @@ class UserAgreementMail extends Command
                     }
                 }
 
+                $leadinfo1 = DB::table('lead_info')->where('contact_id',  $userAgreementSeller->user_id)->first();
+                DB::table('lead_info')->where('contact_id',  $userAgreementSeller->user_id)->update([
+                    'user_1_name' => $leadinfo1->owner1_first_name.' ' .$leadinfo1->owner1_last_name ,
+                    'user_2_name' => $leadinfo1->owner2_first_name.' ' .$leadinfo1->owner2_last_name ,
+                    'user_3_name' => $leadinfo1->owner3_first_name.' ' .$leadinfo1->owner3_last_name ,
+                    ]);
                 $leadinfo = DB::table('lead_info')->where('contact_id', $userAgreementSeller->user_id)->first(['owner1_first_name','owner1_last_name','owner1_primary_number','owner1_number2','owner1_number3','owner1_email1','owner1_email2','owner1_dob','owner1_mother_name','owner2_first_name','owner2_last_name','owner2_primary_number','owner2_number2','owner2_number3','owner2_email1','owner2_email2','owner2_social_security','owner2_dob','owner2_mother_name','owner3_first_name','owner3_last_name','owner3_primary_number','owner3_number2','owner3_number3','owner3_email1','owner3_email2','owner3_social_security','owner3_dob','owner3_mother_name', 'user_1_name', 'user_1_signature', 'user_2_name', 'user_2_signature', 'user_3_name', 'user_3_signature']);
                 if(!empty($leadinfo)){
                     foreach($leadinfo as $key => $lead){
                         $new_array['{'.$key.'}'] = $lead;
                     }
                 }
+
 
                 $property_infos = DB::table('property_infos')->where('contact_id', $userAgreementSeller->user_id)->first(['property_address','property_city','property_state','property_zip','map_link','zillow_link']);
                 if(!empty($property_infos) ){
@@ -131,8 +138,11 @@ class UserAgreementMail extends Command
                 $pdf->loadView('agreement.pdf', compact('content', 'pdf'));
                 $fileName = getUniqueFileName() . ".pdf";
                 $pdf->save($pdfPath . '/' . $fileName);
-                $userAgreementSeller->pdf_path = $fileName;
-                $userAgreementSeller->save();
+                if($userAgreementSeller->pdf_path == null || $userAgreementSeller->pdf_path == ''){
+
+                    $userAgreementSeller->pdf_path = $fileName;
+                    $userAgreementSeller->save();
+                }
 
                 if ($userAgreementSeller->is_send_mail != "1") {
                     try {

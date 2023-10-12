@@ -94,6 +94,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/communication-setting', 'Admin\SettingsController@CommunicationSetting')->name('CommunicationSetting.index');
     Route::put('/communication-setting-update', 'Admin\SettingsController@updateCommunicationSetting')->name('CommunicationSetting.update');
     Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
+    // Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
     Route::get('/appointment-settings', 'Admin\SettingsController@AppointmentSettings')->name('AppointmentSetting.index');
 
     Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
@@ -246,6 +247,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('settings', 'Admin\SettingsController');
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
+    Route::get('/appointment', 'Admin\SettingsController@appointment')->name('settings.appointment.appointment');
+    
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
@@ -268,6 +271,16 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
  
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
+    Route::post('/reminder/{userAgreementId}', function ($userAgreementId) {
+        //Log::info("here");
+        Artisan::call("agreement:mail", ['userAgreementId' => $userAgreementId]);
+        $response = [
+            'success' => true,
+            'message' => "Reminder sent successfully.",
+        ];
+
+        return response()->json($response, 200);
+    });
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
     // Sachin 05092023
     Route::resource('leadcampaign', 'Admin\CampaignLeadController');

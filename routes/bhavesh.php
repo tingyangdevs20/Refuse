@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\UserAgreementController;
 use App\Http\Controllers\AgreementSignController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // user  agreement route start
     Route::prefix('user-agreement')->group(function () {
         Route::get('/', [UserAgreementController::class, 'index'])->name('user-agreement.index');
+        
+        // Route::post('/reminder/{id}', [UserAgreementController::class, 'softreminder'])->name('user-agreement.reminder');
         Route::post('create', [UserAgreementController::class, 'create'])->name('user-agreement.create');
         Route::post('{templateId}/getTemplateData', [UserAgreementController::class, 'getTemplateData'])->name('user-agreement.template')->where('templateId', '[0-9]+');
         Route::post('save', [UserAgreementController::class, 'store'])->name('user-agreement.store');

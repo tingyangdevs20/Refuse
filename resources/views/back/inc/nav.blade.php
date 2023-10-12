@@ -206,6 +206,7 @@
                      <li><a href="{{ route('admin.CommunicationSetting.index') }}" class="waves-effect">Communication Settings</a></li>
                      <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment Settings</a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a></li>
+                        <li><a href="{{ route('admin.settings.appointment.appointment') }}" class=" waves-effect">Appointment Settings</a></li>
                         <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">APIs Settings</a></li>
                          <li>
                     <a href="{{ route('admin.script.index') }}" class=" waves-effect">
@@ -216,7 +217,7 @@
                  @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('access_all'))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                       
+                      
                         <span>Users Management</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">

@@ -120,6 +120,9 @@ class UserAgreementController extends Controller
 
         return response()->json($response, 200);
     }
+    public function softreminder($userId){
+        Artisan::call("agreement:mail", ['userAgreementId' => $userId]);
+    }
 
     /**
      * get template content
