@@ -89,10 +89,10 @@
                                                         </li>
                                                     @endforeach-->
                                                     @foreach($conversations as $conversation)
-                                                    <li class="{{ $reply->system_reply?'right':'' }}">
+                                                    <li>
                                                             <div class="conversation-list">
                                                                 <div
-                                                                    class="ctext-wrap  {{ $reply->system_reply?'text-primary':'text-success' }}">
+                                                                    class="ctext-wrap'text-primary">
                                                                    
                                                                    @if($conversation->is_read==0)
                                                                     <p style="font-size: larger;font-weight:bold">
