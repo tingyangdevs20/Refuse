@@ -27,8 +27,7 @@
                             <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="New" data-toggle="modal" data-target=""><i class="fas fa-plus-circle"></i></button>
                             <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">How to Use</button>
                             <a href="{{ url('appointment', [encrypt(Auth::id())]) }}" target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right" title="appointments">Share Link</a>
-                            <button class="btn btn-outline-primary btn-sm float-right mr-2" style="margin-right: 5px"title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">How to Use</button>  
+                            
                         @include('components.modalform')
 
                         </div>

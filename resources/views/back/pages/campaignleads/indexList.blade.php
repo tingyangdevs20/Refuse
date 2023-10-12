@@ -23,13 +23,13 @@
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                                             <li class="breadcrumb-item">Lead Campaigns</li>
-                                            <li class="breadcrumb-item active">Lead Campaigns List</li>
+                                            <li class="breadcrumb-item active">{{$campaign_name->name}}</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        <i class="fas fa-edit"></i> Lead Campaigns List
+                                        <i class="fas fa-edit"></i> {{$campaign_name->name}}
                                     </div>
                                     <div class="card-body">
                                         <form action="{{ route('admin.campaignleadlist.store') }}" method="post" enctype="multipart/form-data">
