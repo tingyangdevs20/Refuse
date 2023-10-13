@@ -2235,11 +2235,13 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-        try{
+        
         // dd($request);
         //die('here');
         
         
+       
+
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -2262,10 +2264,10 @@ class GroupController extends Controller
         // foreach ($emails as $email) {
         //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
         // }
-
+        $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
         
-       
+        try{
 
         foreach ($campaign_lists as $campaign_list) {
 
@@ -2311,7 +2313,7 @@ class GroupController extends Controller
                 
                    // print_r($contact_num->number);
                // die("..");
-               $twilio_number = Number::where('id', 1)->get();
+              
                
                $settings = Settings::first()->toArray();
               // die($settings);
@@ -2332,7 +2334,7 @@ class GroupController extends Controller
                            'body' => $body,
                        ]
                    );
-                  // die($sms_sent);
+                  
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
@@ -2379,12 +2381,12 @@ class GroupController extends Controller
                 
             }
         }
-        
+        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
     }
     catch (\Exception $ex) {
         $failed_sms = new FailedSms();
-        $failed_sms->client_number = $cont_num;
-        $failed_sms->twilio_number = $twilio_number;
+        $failed_sms->client_number = '';
+        $failed_sms->twilio_number = '';
         $failed_sms->message = $body;
         $failed_sms->media = '';
         $failed_sms->error = $ex->getMessage();
@@ -2396,7 +2398,7 @@ class GroupController extends Controller
 
 
         // Return a response to indicate success
-        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+        
         
     }
 
