@@ -50,6 +50,7 @@ use App\Services\DatazappService;
 
 use App\Mail\CampaignConfirmation;
 use App\Mail\CampaignMail;
+use App\Model\GoalsReached;
 
 class GroupController extends Controller
 {
@@ -2552,13 +2553,6 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-
-        // dd($request);
-        //die('here');
-
-
-
-
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -2577,6 +2571,17 @@ class GroupController extends Controller
         $groupUpdate->pushed_to_camp_date = now();
         $groupUpdate->campaign_name = $campaignName;
         $groupUpdate->save();
+
+        // Get group's contacts count
+        $contacts_count = Contact::where('group_id', $groupId)->count();
+
+        $goal = GoalsReached::where('attribute_id', 1)->first();
+
+        if ($goal) {
+            // Increment the goals attribute by $contacts_count
+            $goal->increment('goals', $contacts_count);
+        }
+
 
         // foreach ($emails as $email) {
         //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
