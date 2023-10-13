@@ -4,6 +4,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css" integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 
 
@@ -91,9 +94,299 @@
             border-color: #38B6FF;
         }
         .load_script {
-    background-color: #f0f0f0; /* A background color to visually indicate it's not editable */
-    cursor: not-allowed; /* Display a "not-allowed" cursor when hovering */
-    pointer-events: none; /* Prevent mouse events (clicks, hovers) on the div */
+        background-color: #f0f0f0; /* A background color to visually indicate it's not editable */
+        cursor: not-allowed; /* Display a "not-allowed" cursor when hovering */
+        pointer-events: none; /* Prevent mouse events (clicks, hovers) on the div */
+        }
+        .file-manager ul {
+        list-style: none;
+    }
+
+    .file-manager .folder {
+        display: block;
+        text-align: center;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .file-manager .folder .folder-icon-large {
+        font-size: 40px; /* Adjust the size as needed */
+    }
+    .file-manager .heading {
+        font-size: 24px; /* Adjust the size as needed */
+        text-align: left;
+        margin: 10px 0;
+        list-style: none;
+    }
+    body{margin-top:20px;}
+.file-manager-actions {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.file-manager-actions > * {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.file-manager-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.file-item {
+    position: relative;
+    z-index: 1;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    border: 1px solid #eee;
+    cursor: pointer;
+}
+.file-item:hover,
+.file-item.focused {
+    border-color: rgba(0, 0, 0, 0.05);
+}
+.file-item.focused {
+    z-index: 2;
+}
+.file-item * {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    text-decoration:none;
+}
+.dark-style .file-item:hover,
+.dark-style .file-item.focused {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.file-item-checkbox {
+    margin: 0 !important;
+}
+.file-item-select-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+}
+.file-item-img {
+    background-color: transparent;
+    background-position: center center;
+    background-size: cover;
+}
+.file-item-name {
+    display: block;
+    overflow: hidden;
+}
+.file-manager-col-view .file-item {
+    margin: 0 0.25rem 0.25rem 0;
+    padding: 1.25rem 0 1rem 0;
+    width: 9rem;
+    text-align: center;
+}
+[dir="rtl"] .file-manager-col-view .file-item {
+    margin-right: 0;
+    margin-left: 0.25rem;
+}
+.file-manager-col-view .file-item-img,
+.file-manager-col-view .file-item-icon {
+    display: block;
+    margin: 0 auto 0.75rem auto;
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.5rem;
+    line-height: 4rem;
+}
+.file-manager-col-view .file-item-level-up {
+    font-size: 1.5rem;
+}
+.file-manager-col-view .file-item-checkbox,
+.file-manager-col-view .file-item-actions {
+    position: absolute;
+    top: 6px;
+}
+.file-manager-col-view .file-item-checkbox {
+    left: 6px;
+}
+[dir="rtl"] .file-manager-col-view .file-item-checkbox {
+    right: 6px;
+    left: auto;
+}
+.file-manager-col-view .file-item-actions {
+    right: 6px;
+}
+[dir="rtl"] .file-manager-col-view .file-item-actions {
+    right: auto;
+    left: 6px;
+}
+.file-manager-col-view .file-item-name {
+    width: 100%;
+}
+.file-manager-col-view .file-manager-row-header,
+.file-manager-col-view .file-item-changed {
+    display: none;
+}
+.file-manager-row-view .file-manager-row-header,
+.file-manager-row-view .file-item {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0 0.125rem 0;
+    padding: 0.25rem 3rem 0.25rem 2.25em;
+    width: 100%;
+}
+[dir="rtl"] .file-manager-row-view .file-manager-row-header,
+[dir="rtl"] .file-manager-row-view .file-item {
+    padding-right: 2.25em;
+    padding-left: 3rem;
+}
+.file-manager-row-view .file-item-img,
+.file-manager-row-view .file-item-icon {
+    display: block;
+    margin: 0 1rem;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    font-size: 1.25rem;
+    line-height: 2rem;
+}
+.file-manager-row-view .file-item-level-up {
+    font-size: 1rem;
+}
+.file-manager-row-view .file-item-checkbox,
+.file-manager-row-view .file-item-actions {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.file-manager-row-view .file-item-checkbox {
+    left: 10px;
+}
+[dir="rtl"] .file-manager-row-view .file-item-checkbox {
+    right: 10px;
+    left: auto;
+}
+.file-manager-row-view .file-item-actions {
+    right: 10px;
+}
+[dir="rtl"] .file-manager-row-view .file-item-actions {
+    right: auto;
+    left: 10px;
+}
+.file-manager-row-view .file-item-changed {
+    display: none;
+    margin-left: auto;
+    width: 10rem;
+}
+[dir="rtl"] .file-manager-row-view .file-item-changed {
+    margin-right: auto;
+    margin-left: 0;
+}
+.file-manager-row-view .file-item-name {
+    width: calc(100% - 4rem);
+}
+.file-manager-row-view .file-manager-row-header {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+}
+.file-manager-row-view .file-manager-row-header .file-item-name {
+    margin-left: 4rem;
+}
+[dir="rtl"] .file-manager-row-view .file-manager-row-header .file-item-name {
+    margin-right: 4rem;
+    margin-left: 0;
+}
+.light-style .file-item-name {
+    color: #4e5155 !important;
+}
+.light-style .file-item.selected .file-item-select-bg {
+    opacity: 0.15;
+}
+@media (min-width: 768px) {
+    .light-style .file-manager-row-view .file-item-changed {
+        display: block;
+    }
+    .light-style .file-manager-row-view .file-item-name {
+        width: calc(100% - 15rem);
+    }
+}
+@media (min-width: 992px) {
+    .light-style .file-manager-col-view .file-item-checkbox,
+    .light-style .file-manager-col-view .file-item-actions {
+        opacity: 0;
+    }
+    .light-style .file-manager-col-view .file-item:hover .file-item-checkbox,
+    .light-style .file-manager-col-view .file-item.focused .file-item-checkbox,
+    .light-style .file-manager-col-view .file-item.selected .file-item-checkbox,
+    .light-style .file-manager-col-view .file-item:hover .file-item-actions,
+    .light-style .file-manager-col-view .file-item.focused .file-item-actions,
+    .light-style .file-manager-col-view .file-item.selected .file-item-actions {
+        opacity: 1;
+    }
+}
+.material-style .file-item-name {
+    color: #4e5155 !important;
+}
+.material-style .file-item.selected .file-item-select-bg {
+    opacity: 0.15;
+}
+@media (min-width: 768px) {
+    .material-style .file-manager-row-view .file-item-changed {
+        display: block;
+    }
+    .material-style .file-manager-row-view .file-item-name {
+        width: calc(100% - 15rem);
+    }
+}
+@media (min-width: 992px) {
+    .material-style .file-manager-col-view .file-item-checkbox,
+    .material-style .file-manager-col-view .file-item-actions {
+        opacity: 0;
+    }
+    .material-style .file-manager-col-view .file-item:hover .file-item-checkbox,
+    .material-style .file-manager-col-view .file-item.focused .file-item-checkbox,
+    .material-style .file-manager-col-view .file-item.selected .file-item-checkbox,
+    .material-style .file-manager-col-view .file-item:hover .file-item-actions,
+    .material-style .file-manager-col-view .file-item.focused .file-item-actions,
+    .material-style .file-manager-col-view .file-item.selected .file-item-actions {
+        opacity: 1;
+    }
+}
+.dark-style .file-item-name {
+    color: #fff !important;
+}
+.dark-style .file-item.selected .file-item-select-bg {
+    opacity: 0.15;
+}
+@media (min-width: 768px) {
+    .dark-style .file-manager-row-view .file-item-changed {
+        display: block;
+    }
+    .dark-style .file-manager-row-view .file-item-name {
+        width: calc(100% - 15rem);
+    }
+}
+@media (min-width: 992px) {
+    .dark-style .file-manager-col-view .file-item-checkbox,
+    .dark-style .file-manager-col-view .file-item-actions {
+        opacity: 0;
+    }
+    .dark-style .file-manager-col-view .file-item:hover .file-item-checkbox,
+    .dark-style .file-manager-col-view .file-item.focused .file-item-checkbox,
+    .dark-style .file-manager-col-view .file-item.selected .file-item-checkbox,
+    .dark-style .file-manager-col-view .file-item:hover .file-item-actions,
+    .dark-style .file-manager-col-view .file-item.focused .file-item-actions,
+    .dark-style .file-manager-col-view .file-item.selected .file-item-actions {
+        opacity: 1;
+    }
 }
 
  
@@ -3709,14 +4002,18 @@
                                                                     <label for="file_type">Select file type to
                                                                         upload</label>
                                                                     <select class="custom-select" name="lead_status"
+                                                                        onchange="updateAcceptedFiles()"
                                                                         table="lead_info" id="file_type">
-                                                                        <option value="miscellaneous" selected>
-                                                                            Miscellaneous</option>
-                                                                        <option value="photo">Photo</option>
-                                                                        <option value="purchase_agreement_seller">Purchase
-                                                                            Agreement / Sell Side</option>
-                                                                        <option value="purchase_agreement_buyer">Purchase
-                                                                            Agreement / Buy Side</option>
+                                                                        <option value="Photo" selected>Photo</option>
+                                                                        <option value="Buy Side / Purchase Agreement">Buy Side / Purchase Agreement</option>
+                                                                        <option value="Buy Side / Closing Paperwork">Buy Side / Closing Paperwork</option>
+                                                                        <option value="Buy Side / Closing Paperwork">Sell Side / Purchase Agreement</option>
+                                                                        <option value="Sell Side / Closing Paperwork">Sell Side / Closing Paperwork</option>
+                                                                        <option value="Lender Paperwork">Lender Paperwork</option>
+                                                                        <option value="Rental Paperwork">Rental Paperwork</option>
+                                                                        <option value="Insurance Paperwork">Insurance Paperwork</option>
+                                                                        <option value="Inspection Paperwork">Inspection Paperwork</option>
+                                                                        <option value="Miscellaneous">Miscellaneous</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -3728,7 +4025,7 @@
 
 
                                                                     <div class="form-group">
-                                                                        <label for="file">Select CSV to upload:</label>
+                                                                        <label for="file">Select File to upload</label>
                                                                         <form action="/admin/google-drive-login" class="dropzone" name="file"
                                                                             id="dropzone" method="POST" enctype="multipart/form-data">
                                                                             @csrf
@@ -3739,62 +4036,191 @@
                                                                         </form>
                                                                     </div>
                                                                     <button type="button" id="custom-upload-button"
-                                                                        class="btn btn-primary button-item">Upload to Google
-                                                                        Drive</button>
+                                                                        class="btn btn-primary button-item">Upload</button>
+                                                                        <button type="button" class="btn btn-primary button-item" data-toggle="modal" data-target="#fileManagerModal">
+                                                                            Open File Manager
+                                                                        </button>
                                                                 </div>
 
                                                             </div>
                                                         </div>
-                                                        @if (!empty($googleDriveFiles) && is_array($googleDriveFiles) && count($googleDriveFiles) > 0)
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <label>Files Fetched from Google Drive</label>
+                                                        <!-- Button to open the modal -->
+                                                        
+
+                                                        <!-- Single modal for the file manager -->
+                                                        <!-- Main File Manager Modal -->
+                                                        <div class="modal fade" id="fileManagerModal" tabindex="-1" role="dialog" aria-labelledby="fileManagerModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-body">
+                                                                        <div class="container flex-grow-1 light-style container-p-y">
+                                                                            <div class="container-m-nx container-m-ny bg-lightest mb-3">
+                                                                                <ol class="breadcrumb text-big container-p-x py-3 m-0">
+                                                                                    <li class="breadcrumb-item">
+                                                                                        <a href="javascript:void(0)">REIFuze</a>
+                                                                                    </li>
+                                                                                    {{-- <li class="breadcrumb-item">
+                                                                                        <a href="javascript:void(0)">projects</a>
+                                                                                    </li>
+                                                                                    <li class="breadcrumb-item active">site</li> --}}
+                                                                                </ol>
+                                                                        
+                                                                                <hr class="m-0" />
+                                                                        
+                                                                                
+                                                                            </div>
+                                                                        
+                                                                            <div class="file-manager-container file-manager-col-view">
+                                                                                <div class="file-manager-row-header">
+                                                                                    <div class="file-item-name pb-2">Filename</div>
+                                                                                    <div class="file-item-changed pb-2">Changed</div>
+                                                                                </div>
+                                                                        
+                                                                                {{-- <div class="file-item">
+                                                                                    <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        ..
+                                                                                    </a>
+                                                                                </div> --}}
+                                                                        
+                                                                                <div  onclick="fetchFiles('Photo')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a  class="file-item-name">
+                                                                                        Photos
+                                                                                    </a>
+                                                                                    <div class="file-item-changed">02/13/2018</div>
+                                                                                    <div class="file-item-actions btn-group">
+                                                                                        <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
+                                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                                            <a class="dropdown-item" href="javascript:void(0)">Rename</a>
+                                                                                            <a class="dropdown-item" href="javascript:void(0)">Move</a>
+                                                                                            <a class="dropdown-item" href="javascript:void(0)">Copy</a>
+                                                                                            <a class="dropdown-item" href="javascript:void(0)">Remove</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                        
+                                                                                <div onclick="fetchFiles('Rental Paperwork')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Rental Paperwork
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Lender Paperwork')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Lender Paperwork
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Insurance Paperwork')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Insurance Paperwork
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Inspection Paperwork')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Inspection Paperwork
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Miscellaneous')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Miscellaneous
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Buy Side / Purchase Agreement')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Buy Side / Purchase Agreement
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Buy Side / Closing Paperwork')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Buy Side / Closing Paperwork
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Sell Side / Purchase Agreement')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        Sell Side / Purchase Agreement
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div onclick="fetchFiles('Sell Side / Closing Paperwork')" class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" onclick="" class="file-item-name">
+                                                                                        Sell Side / Closing Paperwork
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="row">
-                                                                @foreach ($googleDriveFiles['folder'] as $folder)
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            <h3>../REIFuze../{{ $folder }}</h3>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($googleDriveFiles['files'] as $file)
-                                                                        @if ($file->directory == $folder)
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group text-center"
-                                                                                    style="padding: 0 10px;">
-                                                                                    <!-- Display a file icon based on the file type -->
-                                                                                    @php
-                                                                                        $extension = pathinfo($file->name, PATHINFO_EXTENSION);
-                                                                                    @endphp
-                                                                                    @if (Str::endsWith($file->name, ['.pdf', '.PDF']))
-                                                                                        <i
-                                                                                            class="fas fa-file-pdf fa-3x"></i>
-                                                                                    @elseif(Str::endsWith($file->name, ['.doc', '.docx', '.DOC', '.DOCX']))
-                                                                                        <i
-                                                                                            class="fas fa-file-word fa-3x"></i>
-                                                                                    @elseif(Str::endsWith($file->name, ['.xls', '.xlsx', '.XLS', '.XLSX']))
-                                                                                        <i
-                                                                                            class="fas fa-file-excel fa-3x"></i>
-                                                                                    @else
-                                                                                        <i class="fas fa-file fa-3x"></i>
-                                                                                    @endif
-
-                                                                                    <h5><a href="{{ 'https://drive.google.com/open?id=' . $file->id }}"
-                                                                                            target="_blank">{{ $file->name }}</a>
-                                                                                    </h5>
-
+                                                        <div class="modal fade" id="filesModal" tabindex="-1" role="dialog" aria-labelledby="filesModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-body">
+                                                                        <div class="container flex-grow-1 light-style container-p-y">
+                                                                            <div class="container-m-nx container-m-ny bg-lightest mb-3">
+                                                                                <ol class="breadcrumb text-big container-p-x py-3 m-0">
+                                                                                    <li class="breadcrumb-item">
+                                                                                        <a href="javascript:void(0)">REIFuze</a>
+                                                                                    </li>
+                                                                                    {{-- <li class="breadcrumb-item">
+                                                                                        <a href="javascript:void(0)">projects</a>
+                                                                                    </li>
+                                                                                    <li class="breadcrumb-item active">site</li> --}}
+                                                                                </ol>
+                                                                        
+                                                                                <hr class="m-0" />
+                                                                        
+                                                                                
+                                                                            </div>
+                                                                        
+                                                                            <div class="file-manager-container file-manager-col-view">
+                                                                                <div class="file-item">
+                                                                                    <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        ..
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="file-item">
+                                                                                    <div class="file-item-select-bg bg-primary"></div>
+                                                                                    <div class="file-item-icon far fa-file text-secondary"></div>
+                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                        MAKEFILE
+                                                                                    </a>
+                                                                                    <div class="file-item-actions btn-group">
+                                                                                        <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
+                                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                                        <a class="dropdown-item" href="javascript:void(0)">Delete</a>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        @endif
+                                                        </div>
+                                                        
+
+
                                                         <hr>
                                                     @elseif($section->id == '17')
                                                         <div class="col-md-12" id="{{ $section->id }}"
@@ -5146,8 +5572,6 @@
                                                                                 <div class="card-body">
                                                                                     <p>{{ $appt->tast }}</p>
                                                                                 </div>
-
-
                                                                             </div>
                                                                         @endforeach
                                                                     </div>
@@ -5247,16 +5671,14 @@
 
             });
 
-            // initializeDropzone
-            // initializeDropzone();
             var uploadedFiles = [];
-
+            var acceptedFiles = ".jpg, .jpeg, .png, .gif, .pdf, .docx";
             var myDropzone = new Dropzone("#dropzone", {
                 paramName: "file", // The name that will be used for the uploaded file
                 maxFilesize: 5, // Maximum file size (in MB)
-                acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
+                acceptedFiles: acceptedFiles, // Accepted file types
                 maxFiles: 5, // Maximum number of files that can be uploaded
-                autoProcessQueue: true, // Automatically process the queue when files are added
+                autoProcessQueue: false, // Automatically process the queue when files are added
                 addRemoveLinks: true, // Show remove links on uploaded files
                 dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
                 dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
@@ -5281,13 +5703,13 @@
                         hiddenInput.value = id;
                         dropzoneForm.appendChild(hiddenInput);
 
-                        // var leadStatusValue = document.getElementById("lead_status").value;
-                        // var document_type = document.createElement("input");
-                        // document_type.type = "hidden";
-                        // document_type.name = "lead_status";
-                        // document_type.id = "lead_status";
-                        // document_type.value = leadStatusValue;
-                        // dropzoneForm.appendChild(document_type);
+                        var leadStatusValue = document.getElementById("file_type").value;
+                        var document_type = document.createElement("input");
+                        document_type.type = "hidden";
+                        document_type.name = "file_type";
+                        document_type.id = "file_type";
+                        document_type.value = leadStatusValue;
+                        dropzoneForm.appendChild(document_type);
 
                         var token = document.createElement("input");
                         token.type = "hidden";
@@ -5299,7 +5721,10 @@
 
                     this.on("success", function(file, response) {
                         // Event handler when a file upload is successful
-                        console.log(response);
+                        this.removeAllFiles();
+                        toastr.success("File uplaoded Successfully", {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
                     });
 
                     this.on("removedfile", function(file) {
@@ -5307,8 +5732,9 @@
                     });
 
                     this.on("error", function(file, errorMessage) {
-                        console.log(errorMessage);
-                        // Event handler when a file upload encounters an error
+                        toastr.success("File not uploaded", {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
                     });
                 }
             });
@@ -5322,8 +5748,32 @@
                     $('.date-input-text').hide();
                 }
             });
+            
 
+            
+            // $('#fileManagerModal').on('show.bs.modal', function (e) {
+            //         var modal = $(this);
+            //         var id = {!! $id !!};
 
+            //         // Perform an AJAX request to fetch content
+            //         $.ajax({
+            //             url: '/admin/file-manager/'+id, // Replace with your actual AJAX endpoint
+            //             type: 'GET',
+            //             success: function (data) {
+            //                 // Update the modal content with the received data
+            //                 // modal.find('.modal-body').html(data);
+            //                 console.log(data);
+            //             },
+            //             error: function (xhr, status, error) {
+            //                 console.error(error);
+            //             }
+            //         });
+            //     });
+
+            $("#custom-upload-button").click(function() {
+                myDropzone.processQueue(); // Process the Dropzone queue
+            });
+            
             // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
 
@@ -5345,19 +5795,19 @@
             // Refresh Select2 to apply the changes
             $('.select2').trigger('change.select2');
 
-            $("#custom-upload-button").click(function() {
-                console.log('work');
-                var form = $("#my-awesome-dropzone");
-                var form2 = $("#main_form");
+            // $("#custom-upload-button").click(function() {
+            //     console.log('work');
+            //     var form = $("#my-awesome-dropzone");
+            //     var form2 = $("#main_form");
 
-                // Set the form's action attribute to the new route
-                form.attr("action", "{{ route('admin.google.drive.login') }}");
-                form2.attr("action", "{{ route('admin.google.drive.login') }}");
-                // Submit the form
-                // form.submit();
-                form2.submit();
+            //     // Set the form's action attribute to the new route
+            //     form.attr("action", "{{ route('admin.google.drive.login') }}");
+            //     form2.attr("action", "{{ route('admin.google.drive.login') }}");
+            //     // Submit the form
+            //     // form.submit();
+            //     form2.submit();
 
-            });
+            // });
             
 
             // Get a reference to the hidden input
@@ -5376,8 +5826,136 @@
                 // $('#fetchzillow').show()
             });
         });
-    </script>
+        </script>
     <script>
+        function deleteFile(fileId) {
+            
+            var id = {!! $id !!};
+            var requestData = {
+                id: id,
+                fileId: fileId
+            };
+    // Confirm with the user before deleting
+            
+                // Perform an AJAX request to delete the file
+                $.ajax({
+                    url: `/admin/file-manager/delete`, // Replace with your actual DELETE endpoint
+                    type: 'DELETE',
+                    data: requestData,
+                    success: function (data) {
+                        // Handle success, for example, you can remove the file item from the UI
+                        console.log(data);
+                        // Remove the file item from the UI, e.g., using jQuery
+                        $('#fileItem' + fileId).remove();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error deleting file: " + error);
+                    }
+                });
+            
+        }
+        
+        function stepBackModel(){
+            $('#fileManagerModal').modal('show');
+            $('#filesModal').modal('hide');
+        }
+    function fetchFiles(fileType) {
+            $('#fileManagerModal').modal('hide');
+            $('#filesModal').modal('show');
+
+            var modal = $('#filesModal'); // Use the correct modal by ID
+
+            var id = {!! $id !!};
+            var requestData = {
+                id: id,
+                fileType: fileType
+            };
+            // Perform an AJAX request to fetch content
+            $.ajax({
+                url: '/admin/file-manager',
+                type: 'GET',
+                data: requestData,
+                success: function (data) {
+                    console.log(data);
+                    // Clear existing content in the modal's body
+                    modal.find('.file-manager-container').empty();
+
+                    modal.find('.file-manager-container').append(`<div class="file-item">
+                    <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary" onClick="stepBackModel()"></div>
+                    <a href="javascript:void(0)" class="file-item-name">
+                        ..
+                    </a>
+                </div>`);
+                    // Iterate through the data and add file items to the modal
+                    for (var key in data.data) {
+                        if (data.data.hasOwnProperty(key)) {
+                            var fileItem = data.data[key];
+                            var fileItemHTML = `
+                                <div class="file-item">
+                                    <div class="file-item-select-bg bg-primary"></div>
+                                    <div class="file-item-icon far fa-file text-secondary"></div>
+                                    <a href="${fileItem.original_url}" class="file-item-name" target="_blank">
+                                        ${fileItem.file_name}
+                                    </a>
+                                    <div class="file-item-actions btn-group">
+                                        <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            
+                                            <br>
+                                            <a class="dropdown-item" href="${fileItem.original_url}" target="_blank">Open in tab</a>
+                                            <br>
+                                            <a class="dropdown-item" href="${fileItem.original_url}" target="_blank"  download="${fileItem.file_name}">Download</a>
+                                            
+                                            </div>
+                                            </div>
+                                            </div>
+                                            `;
+                                            // <a class="dropdown-item" href="javascript:void(0)" onclick="deleteFile('${fileItem.uuid}')">Delete</a>
+
+                            // Append the file item to the modal's body
+                            modal.find('.file-manager-container').append(fileItemHTML);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+        });
+    }
+
+            function downloadFile(fileUrl) {
+            // Create an invisible anchor element
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            document.body.appendChild(a);
+
+            // Set the anchor's href attribute to the file URL
+            a.href = fileUrl;
+
+            // Trigger a click event on the anchor
+            a.click();
+
+            // Remove the anchor from the DOM
+            document.body.removeChild(a);
+        }
+        
+
+        function updateAcceptedFiles() {
+            var selectElement = document.getElementById("file_type");
+            var selectedOption = selectElement.options[selectElement.selectedIndex].value;
+            
+            if (selectedOption === "photo") {
+                this.acceptedFiles = ".jpg, .jpeg, .png, .gif";
+            } else if (selectedOption === "Miscellaneous") {
+                this.acceptedFiles = ".jpg, .jpeg, .png, .gif, .pdf"; // Customize this list
+            } else {
+                this.acceptedFiles = ".pdf"; // Default for other cases
+            }
+            console.log(this.acceptedFiles);
+
+            // Update the acceptedFiles in the Dropzone configuration
+            // acceptFile = acceptedFiles;
+        }
         function showDiv(divId, element) {
             document.getElementById(divId).style.display = element.value == 1 ? 'block' : 'none';
         }
@@ -5937,44 +6515,7 @@
                 }
             });
         }
-        function initializeDropzone() {
-
-Dropzone.options.myAwesomeDropzone = {
-    url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
-    paramName: "file", // The name that will be used for the uploaded file
-    maxFilesize: 5, // Maximum file size (in MB)
-    acceptedFiles: ".csv", // Accepted file types
-    maxFiles: 1, // Maximum number of files that can be uploaded
-    autoProcessQueue: true, // Automatically process the queue when files are added
-    addRemoveLinks: true, // Show remove links on uploaded files
-    dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
-    dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
-    dictFallbackText: "Please use the fallback form below to upload your files.",
-    dictRemoveFile: "Remove", // Text for the remove file link
-    dictCancelUpload: "Cancel", // Text for the cancel upload link
-    dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-    init: function() {
-        this.on("addedfile", function(file) {
-            // Event handler when a file is added to the queue
-            console.log(response);
-        });
-
-        this.on("success", function(file, response) {
-            console.log(response);
-            // Event handler when a file upload is successful
-        });
-
-        this.on("removedfile", function(file) {
-            // Event handler when a file is removed from the queue
-        });
-
-        this.on("error", function(file, errorMessage) {
-            // Event handler when a file upload encounters an error
-        });
-    }
-};
-}
-           // Function to show the selected message type data
+            // Function to show the selected message type data
         
     </script>
 @endsection

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\SourceListController;
 use App\Http\Controllers\Admin\SystemMessages;
+use App\Http\Controllers\Admin\UserAgreementController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -282,6 +283,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
         return response()->json($response, 200);
     });
+
+    Route::get('/file-manager', [UserAgreementController::class, 'fileManager'])->name('user-agreement.files');
+    Route::delete('/file-manager/delete', [UserAgreementController::class, 'deletefile'])->name('user-agreement.delete');
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
     // Sachin 05092023
     Route::resource('leadcampaign', 'Admin\CampaignLeadController');
