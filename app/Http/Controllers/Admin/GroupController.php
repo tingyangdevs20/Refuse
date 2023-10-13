@@ -1776,8 +1776,9 @@ class GroupController extends Controller
                 }
             } elseif ($_typ == 'sms') {
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
+                $body = strip_tags($_body);
                 foreach ($contact_numbrs as $contact_num) {
-                    SendSMS($_body, $contact_num->number);
+                    SendSMS($body, $contact_num->number);
                 }
             } else {
             }
