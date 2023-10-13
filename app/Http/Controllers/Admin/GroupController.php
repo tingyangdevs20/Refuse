@@ -2173,7 +2173,8 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-
+       // dd($request);
+        //die('here');
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -2182,6 +2183,7 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
+       
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
@@ -2197,14 +2199,14 @@ class GroupController extends Controller
         // }
 
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
-
+        
         // dd($campaign_lists);
 
         foreach ($campaign_lists as $campaign_list) {
 
             $_typ = $campaign_list->type;
 
-
+           
             if (trim($_typ) == 'email') {
 
 
@@ -2233,6 +2235,7 @@ class GroupController extends Controller
                     });
                 }
             } elseif ($_typ == 'sms') {
+                
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
                 $body = strip_tags($_body);
                 foreach ($contact_numbrs as $contact_num) {
@@ -2259,6 +2262,7 @@ class GroupController extends Controller
 
         try {
             $client = new Client($sid, $token);
+            
             $sms_sent = $client->messages->create(
                 $cont_num,
                 [
