@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LeadInfo;
 use App\Model\Contact;
 use App\Model\Settings;
 use Illuminate\Http\Request;
@@ -42,83 +43,96 @@ class GoogleDriveController extends Controller
         $this->gClient->setApprovalPrompt("auto");
     }
 
-    public function googleLogin(Request $request)
-    {
-        $rules = [
-            'file' => 'required', // Adjust the allowed file types and size limit as needed
-        ];
+    // public function googleLogin(Request $request)
+    // {
 
-        // Validate the request data
-        $validator = Validator::make($request->all(), $rules);
+    //     $rules = [
+    //         'file' => 'required', // Adjust the allowed file types and size limit as needed
+    //     ];
 
-        if ($validator->fails()) {
-            // Validation failed, redirect back with errors
-            return redirect()->back()->with('notupload', 'File filed is required');
+    //     // Validate the request data
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         // Validation failed, redirect back with errors
+    //         return redirect()->back()->with('notupload', 'File filed is required');
+    //     }
+
+    //     if (!$this->checkGoogleCredentials()) {
+    //         // Validation failed, redirect back with errors
+    //         return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
+    //     }
+
+    //     // $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
+
+    //     if ($request->get('code')) {
+
+    //         $this->gClient->authenticate($request->get('code'));
+    //         $accessToken = $this->gClient->getAccessToken();
+
+    //         // Store the refresh token securely (e.g., in your database)
+    //         $refreshToken = $this->gClient->getRefreshToken();
+
+    //         // Save the access token and refresh token in the user's record
+    //         $user = User::find(1);
+    //         $user->access_token = json_encode($accessToken);
+    //         $user->refresh_token = json_encode($refreshToken);
+    //         $user->save();
+
+    //         $request->session()->put('token', $accessToken);
+    //         $request->session()->put('refreshtoken', $refreshToken);
+    //     }
+
+    //     if ($request->session()->get('token')) {
+
+    //         $this->gClient->setAccessToken($request->session()->get('token'));
+    //     }
+
+    //     if ($request->hasFile('file')) {
+    //         // Store the uploaded file information in the session
+    //         $fileInfo = [
+    //             'name' => $request->file('file')->getClientOriginalName(),
+    //             'mime' => $request->file('file')->getMimeType(),
+    //             'path' => $request->file('file')->getRealPath(),
+    //         ];
+    //         $request->session()->put('uploaded_file_info', $fileInfo);
+    //     }
+
+    //     if ($this->gClient->getAccessToken()) {
+
+    //         // FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCESS TOKEN
+    //         $user = User::find(1);
+
+    //         $user->access_token = json_encode($request->session()->get('token'));
+
+    //         $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
+
+    //         $user->save();
+
+
+    //         return $this->googleDriveFileUpload($request);
+    //     } else {
+    //         // FOR GUEST USER, GET GOOGLE LOGIN URL
+    //         $authUrl = $this->gClient->createAuthUrl([
+    //             'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive',
+    //         ]);
+    //         return redirect()->to($authUrl);
+    //     }
+    // }
+
+        public function googleLogin(Request $request){
+
+            // return response()->json($request->all(), 200);
+            // return response()->json($request->all(), 200);
+            $value = Contact::find($request->contact_id);
+            
+            if($value){
+                $file = $request->file('file');
+                $value->addMedia($file)->toMediaCollection('images');
+                $value->save();
+            }
+            return response()->json($request->all(), 200);
         }
-
-        if (!$this->checkGoogleCredentials()) {
-            // Validation failed, redirect back with errors
-            return redirect()->back()->with('notupload', 'Google Drive credentials missing!');
-        }
-
-        // $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
-
-        if ($request->get('code')) {
-
-            $this->gClient->authenticate($request->get('code'));
-            $accessToken = $this->gClient->getAccessToken();
-
-            // Store the refresh token securely (e.g., in your database)
-            $refreshToken = $this->gClient->getRefreshToken();
-
-            // Save the access token and refresh token in the user's record
-            $user = User::find(1);
-            $user->access_token = json_encode($accessToken);
-            $user->refresh_token = json_encode($refreshToken);
-            $user->save();
-
-            $request->session()->put('token', $accessToken);
-            $request->session()->put('refreshtoken', $refreshToken);
-        }
-
-        if ($request->session()->get('token')) {
-
-            $this->gClient->setAccessToken($request->session()->get('token'));
-        }
-
-        if ($request->hasFile('file')) {
-            // Store the uploaded file information in the session
-            $fileInfo = [
-                'name' => $request->file('file')->getClientOriginalName(),
-                'mime' => $request->file('file')->getMimeType(),
-                'path' => $request->file('file')->getRealPath(),
-            ];
-            $request->session()->put('uploaded_file_info', $fileInfo);
-        }
-
-        if ($this->gClient->getAccessToken()) {
-
-            // FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCESS TOKEN
-            $user = User::find(1);
-
-            $user->access_token = json_encode($request->session()->get('token'));
-
-            $user->refresh_token = json_encode($request->session()->get('refreshtoken')); // Store the refresh token
-
-            $user->save();
-
-
-            return $this->googleDriveFileUpload($request);
-        } else {
-            // FOR GUEST USER, GET GOOGLE LOGIN URL
-            $authUrl = $this->gClient->createAuthUrl([
-                'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive',
-            ]);
-            return redirect()->to($authUrl);
-        }
-    }
-
-
     // Add a method to display the file upload form
     public function showUploadForm()
     {

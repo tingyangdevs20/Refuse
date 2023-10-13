@@ -3728,21 +3728,15 @@
 
 
                                                                     <div class="form-group">
-                                                                        <label for="file">Select Files to
-                                                                            Upload:</label>
-
-                                                                        <form action="/admin/google-drive-login"
-                                                                            class="dropzone" name="file"
-                                                                            id="my-awesome-dropzone" method="POST"
-                                                                            enctype="multipart/form-data">
+                                                                        <label for="file">Select CSV to upload:</label>
+                                                                        <form action="/admin/google-drive-login" class="dropzone" name="file"
+                                                                            id="dropzone" method="POST" enctype="multipart/form-data">
                                                                             @csrf
                                                                             <div class="fallback">
                                                                             </div>
-                                                                            <input type="hidden" name="hiddenFile"
-                                                                                id="hidden-file">
+                                                                            <input type="hidden" name="hiddenFile" id="hidden-file">
+                                                                            <input hidden name="contact_id" value="{{ $contact->id }}">
                                                                         </form>
-
-                                                                        <!-- Hidden input field for file -->
                                                                     </div>
                                                                     <button type="button" id="custom-upload-button"
                                                                         class="btn btn-primary button-item">Upload to Google
@@ -5238,7 +5232,7 @@
 
 
     <script>
-         
+          Dropzone.autoDiscover = false;
         $(document).ready(function() {
 
             // Initially hide the date input
@@ -5254,7 +5248,70 @@
             });
 
             // initializeDropzone
-            initializeDropzone();
+            // initializeDropzone();
+            var uploadedFiles = [];
+
+            var myDropzone = new Dropzone("#dropzone", {
+                paramName: "file", // The name that will be used for the uploaded file
+                maxFilesize: 5, // Maximum file size (in MB)
+                acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
+                maxFiles: 5, // Maximum number of files that can be uploaded
+                autoProcessQueue: true, // Automatically process the queue when files are added
+                addRemoveLinks: true, // Show remove links on uploaded files
+                dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
+                dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
+                dictFallbackText: "Please use the fallback form below to upload your files.",
+                dictRemoveFile: "Remove", // Text for the remove file link
+                dictCancelUpload: "Cancel", // Text for the cancel upload link
+                dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+                init: function() {
+                    this.on("addedfile", function(file) {
+                        var dropzoneForm = document.getElementById("dropzone");
+
+                        // Append existing input elements
+                        // dropzoneForm.appendChild(document.getElementById("_token"));
+                        // dropzoneForm.appendChild(document.getElementById("lead_status"));
+
+                        // Create and append a new hidden input element
+                        var id = {!! $id !!};
+                        var hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "contact_id";
+                        hiddenInput.id = "contact_id";
+                        hiddenInput.value = id;
+                        dropzoneForm.appendChild(hiddenInput);
+
+                        // var leadStatusValue = document.getElementById("lead_status").value;
+                        // var document_type = document.createElement("input");
+                        // document_type.type = "hidden";
+                        // document_type.name = "lead_status";
+                        // document_type.id = "lead_status";
+                        // document_type.value = leadStatusValue;
+                        // dropzoneForm.appendChild(document_type);
+
+                        var token = document.createElement("input");
+                        token.type = "hidden";
+                        token.name = "_token";
+                        token.id = "_token";
+                        token.value ="{{ csrf_token() }}";;
+                        dropzoneForm.appendChild(token);
+                    });
+
+                    this.on("success", function(file, response) {
+                        // Event handler when a file upload is successful
+                        console.log(response);
+                    });
+
+                    this.on("removedfile", function(file) {
+                        // Event handler when a file is removed from the queue
+                    });
+
+                    this.on("error", function(file, errorMessage) {
+                        console.log(errorMessage);
+                        // Event handler when a file upload encounters an error
+                    });
+                }
+            });
             // When the date input loses focus, hide it and show the text input if it's empty
             $('.date-input-hidden').on('blur', function() {
                 if (!$(this).val()) {
@@ -5352,43 +5409,6 @@
         }
     </script>
     <script>
-        // intitialize dropzone
-        function initializeDropzone() {
-
-            Dropzone.options.myAwesomeDropzone = {
-                url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
-                paramName: "file", // The name that will be used for the uploaded file
-                maxFilesize: 5, // Maximum file size (in MB)
-                acceptedFiles: ".jpg, .jpeg, .png, .gif", // Accepted file types
-                maxFiles: 5, // Maximum number of files that can be uploaded
-                autoProcessQueue: true, // Automatically process the queue when files are added
-                addRemoveLinks: true, // Show remove links on uploaded files
-                dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
-                dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
-                dictFallbackText: "Please use the fallback form below to upload your files.",
-                dictRemoveFile: "Remove", // Text for the remove file link
-                dictCancelUpload: "Cancel", // Text for the cancel upload link
-                dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-                init: function() {
-                    this.on("addedfile", function(file) {
-                        // Event handler when a file is added to the queue
-                    });
-
-                    this.on("success", function(file, response) {
-                        // Event handler when a file upload is successful
-                    });
-
-                    this.on("removedfile", function(file) {
-                        // Event handler when a file is removed from the queue
-                    });
-
-                    this.on("error", function(file, errorMessage) {
-                        // Event handler when a file upload encounters an error
-                    });
-                }
-            };
-        }
-
         // Check the type of file for upload to google drive
         function toggleFIlesUpload(value) {
             if (value == 'purchase_agreement_seller' || value == 'purchase_agreement_buyer') {
@@ -5917,6 +5937,43 @@
                 }
             });
         }
+        function initializeDropzone() {
+
+Dropzone.options.myAwesomeDropzone = {
+    url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
+    paramName: "file", // The name that will be used for the uploaded file
+    maxFilesize: 5, // Maximum file size (in MB)
+    acceptedFiles: ".csv", // Accepted file types
+    maxFiles: 1, // Maximum number of files that can be uploaded
+    autoProcessQueue: true, // Automatically process the queue when files are added
+    addRemoveLinks: true, // Show remove links on uploaded files
+    dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
+    dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
+    dictFallbackText: "Please use the fallback form below to upload your files.",
+    dictRemoveFile: "Remove", // Text for the remove file link
+    dictCancelUpload: "Cancel", // Text for the cancel upload link
+    dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+    init: function() {
+        this.on("addedfile", function(file) {
+            // Event handler when a file is added to the queue
+            console.log(response);
+        });
+
+        this.on("success", function(file, response) {
+            console.log(response);
+            // Event handler when a file upload is successful
+        });
+
+        this.on("removedfile", function(file) {
+            // Event handler when a file is removed from the queue
+        });
+
+        this.on("error", function(file, errorMessage) {
+            // Event handler when a file upload encounters an error
+        });
+    }
+};
+}
            // Function to show the selected message type data
         
     </script>
