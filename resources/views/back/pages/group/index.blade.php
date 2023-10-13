@@ -764,6 +764,7 @@
                             market_name: marketName,
                         },
                         success: function(data) {
+                            alert(data);
                             // Handle success response
                             if (data.success) {
                                 toastr.success(
@@ -771,21 +772,11 @@
                                     timeOut: 9000,
                                 });
                             } else {
+                                alert(data);
                                 toastr.error('Data already exists.', {
                                     timeOut: 9000,
                                 });
                             }
-                        },
-                        error: function(error) {
-                            toastr.error('AJAX Error: ' + error.statusText, {
-                                timeOut: 9000,
-                            });
-                        },
-                        complete: function() {
-                            // Enable the submit button after the request is complete (success or error)
-                            $('.push_to_campaign_btn').prop('disabled', false);
-                            // Close the modal
-                            $('#campaignModal').modal('hide');
                         }
                     });
                 });
