@@ -1852,10 +1852,10 @@ class GroupController extends Controller
         } catch (\Exception $ex) {
             $failed_sms = new FailedSms();
             $failed_sms->client_number = $cont_num;
-            $failed_sms->twilio_number = $twilio_number;
-            $failed_sms->message = $msg;
-            $failed_sms->media = "NO";
-            $failed_sms->error = "custom error...";
+          //  $failed_sms->twilio_number = $twilio_number;
+          //  $failed_sms->message = $msg;
+          //  $failed_sms->media = "NO";
+          //  $failed_sms->error = "custom error...";
             $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
             // return $this->showDetails($request);
