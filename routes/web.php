@@ -223,6 +223,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Groups Routes
     Route::resource('group', 'Admin\GroupController');
     Route::get('groups/list/create', 'Admin\GroupController@newListForm')->name('group.list.create');
+    Route::post('groups/list/map-csv', 'Admin\GroupController@mapCSV')->name('group.map-csv');
     Route::get('group-contacts-all', 'Admin\GroupController@getAllContacts')->name('group-contacts-all');
     Route::get('group-contacts/edit/{id}', 'Admin\GroupController@editContacts')->name('group-contacts.edit');
     Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
