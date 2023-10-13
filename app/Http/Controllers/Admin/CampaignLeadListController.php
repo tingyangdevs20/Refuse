@@ -304,6 +304,8 @@ class CampaignLeadListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+
+        
         $count = 1;
         if(count($types)  > 0){
             foreach($types as $key => $val ){
@@ -334,6 +336,8 @@ class CampaignLeadListController extends Controller
                 
                 //return $media;
                 //return $sendAfter;
+
+                //dd($request->campaign_list_id[$key]);
                 // Create the campaign
                 if($request->campaign_list_id[$key] == 0){
                     CampaignLeadList::create([
@@ -344,6 +348,8 @@ class CampaignLeadListController extends Controller
                         'schedule' => $sendAfter,
                         'mediaUrl' => $media,
                         'template_id' => $request->template_id,
+                        'subject' => $request->subject[$key],
+                        'body' => $request->body[$key],
                         'active' => 1, // Set active status
                     ]);
                 }else{
@@ -355,6 +361,7 @@ class CampaignLeadListController extends Controller
                         'template_id' => 0,
                         'mediaUrl' => $media,
                         'body' => $request->body[$key],
+                        'subject' => $request->subject[$key],
                         'active' => 1, // Set active status
                         // Add other fields for campaign details
                     ]);
