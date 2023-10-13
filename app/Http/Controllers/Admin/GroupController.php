@@ -2334,7 +2334,7 @@ class GroupController extends Controller
                            'body' => $body,
                        ]
                    );
-                  
+                  die($sms_sent);
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
