@@ -2376,7 +2376,7 @@ class GroupController extends Controller
 
                 }
             } else {
-                echo "mms";
+                
             }
         }
     }
