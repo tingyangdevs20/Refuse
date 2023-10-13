@@ -1814,7 +1814,7 @@ class GroupController extends Controller
                     $sms = new Sms();
                     $sms->client_number = $cont_num;
                     $sms->twilio_number = $twilio_number;
-                    $sms->null;
+                   
                     $sms->message = $msg;
                     $sms->media = "NO";
                     $sms->status = 1;
