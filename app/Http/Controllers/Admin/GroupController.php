@@ -1795,8 +1795,8 @@ class GroupController extends Controller
     {
         $twilio_number = Number::where('id', 1)->get();
         $settings = Settings::first()->toArray();
-        $sid = $settings['twilio_api_key'];
-        $token = $settings['twilio_acc_secret'];
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
         $numberCounter = 0;
 
         try {
