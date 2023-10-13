@@ -96,7 +96,7 @@
                                                                             <select class="custom-select category"  name="templat[]" required>
                                                                                 <option value="">Select Template</option>
                                                                             @foreach($templates as $template)
-                                                                                <option value="{{ $template->id }}">{{ $template->title }}</option>
+                                                                                <option value="{{ $template->id }}" @if($campaign->template_id == $template->id) selected @endif>{{ $template->title }}</option>
                                                                             @endforeach
                                                                             </select>
                                                                         </div>

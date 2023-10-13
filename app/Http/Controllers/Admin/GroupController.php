@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Contact;
 use App\Model\CustomField;
 use App\Model\Section;
+use App\Model\Settings;
 use App\Model\LeadCategory;
 use App\Model\LeadStatus;
 use App\Model\Number;
@@ -833,6 +834,66 @@ class GroupController extends Controller
             "email2_header" =>  $request->email2_header
         ];
 
+        $contact_property_info_columns_array = [
+            "property_address" => $request->property_address,
+            "property_city" => $request->property_city,
+            "property_zip" => $request->property_zip,
+            "property_state" => $request->property_state,
+            "property_type" => $request->property_type,
+            "bedrooms" => $request->bedrooms,
+            "bathrooms" => $request->bathrooms,
+            "square_footage" => $request->square_footage,
+            "lot_size" => $request->lot_size,
+            "garage_space" => $request->garage_space,
+            "lockbox_code" => $request->lockbox_code
+        ];
+
+        $contact_property_info_headers_indexes = [
+            "property_address_header" =>  $request->property_address_header,
+            "property_city_header" =>  $request->property_city_header,
+            "property_zip_header" =>  $request->property_zip_header,
+            "property_state_header" =>  $request->property_state_header,
+            "property_type_header" =>  $request->property_type_header,
+            "bedrooms_header" => $request->bedrooms_header,
+            "bathrooms_header" => $request->bathrooms_header,
+            "square_footage_header" => $request->square_footage_header,
+            "lot_size_header" => $request->lot_size_header,
+            "garage_space_header" => $request->garage_space_header,
+            "lockbox_code_header" => $request->lockbox_code_header,
+        ];
+
+        $contact_lead_info_columns_array = [
+            "mailing_address" => $request->mailing_address,
+            "mailing_city" => $request->mailing_city,
+            "mailing_zip" => $request->mailing_zip,
+            "mailing_state" => $request->mailing_state,
+        ];
+
+        $contact_lead_info_headers_indexes = [
+            "mailing_address_header" =>  $request->mailing_address_header,
+            "mailing_city_header" =>  $request->mailing_city_header,
+            "mailing_zip_header" =>  $request->mailing_zip_header,
+            "mailing_state_header" =>  $request->mailing_state_header,
+        ];
+
+        $contact_property_finance_info_columns_array = [
+            "year_prop_tax" => $request->year_prop_tax,
+        ];
+
+        $contact_property_finance_info_headers_indexes = [
+            "year_prop_tax_header" => $request->year_prop_tax_header,
+        ];
+
+        // Contact's value & condition
+        $contact_property_values_condition_columns_array = [
+            "asking_price" => $request->asking_price,
+        ];
+
+        $contact_property_values_condition_headers_indexes = [
+            "asking_price_header" => $request->asking_price_header
+        ];
+
+
         $existing_group_id = '';
         $existing_group_id = $request->existing_group_id;
         $group_id = '';
@@ -898,6 +959,84 @@ class GroupController extends Controller
 
         // Initialize the mapping between columns and header indexes
         $columnToHeaderIndex = $headers_indexes;
+
+        // Assuming you have the arrays $contact_property_info_columns_array and $contact_property_info_headers_indexes
+        $contactPropertyInfoColumnToHeader = [];
+
+        // Create a mapping between columns and headers
+        foreach ($contact_property_info_columns_array as $column => $headerName) {
+            // Get the corresponding header index for this column
+            $headerIndexKey = $column . '_header';
+            $headerIndex = $contact_property_info_headers_indexes[$headerIndexKey];
+
+            // Check if the header index is not null (i.e., there is a mapping)
+            if ($headerIndex !== null) {
+                $contactPropertyInfoColumnToHeader[$headerIndex] = $column;
+            }
+        }
+
+        // Initialize the mapping between columns and header indexes
+        $contactPropertyInfoColumnToHeaderIndex = $contact_property_info_headers_indexes;
+
+        // Lead Info fields mapping
+
+        // Assuming you have the arrays $contact_lead_info_columns_array and $contact_property_info_headers_indexes
+        $contactLeadInfoColumnToHeader = [];
+
+        // Create a mapping between columns and headers
+        foreach ($contact_lead_info_columns_array as $column => $headerName) {
+            // Get the corresponding header index for this column
+            $headerIndexKey = $column . '_header';
+            $headerIndex = $contact_lead_info_headers_indexes[$headerIndexKey];
+
+            // Check if the header index is not null (i.e., there is a mapping)
+            if ($headerIndex !== null) {
+                $contactLeadInfoColumnToHeader[$headerIndex] = $column;
+            }
+        }
+
+        // Initialize the mapping between columns and header indexes
+        $contactLeadInfoColumnToHeaderIndex = $contact_lead_info_headers_indexes;
+
+        // Finance Info fields mapping
+
+        // Assuming you have the arrays $contact_property_finance_info_columns_array and $contact_property_info_headers_indexes
+        $contactFinanceInfoColumnToHeader = [];
+
+        // Create a mapping between columns and headers
+        foreach ($contact_property_finance_info_columns_array as $column => $headerName) {
+            // Get the corresponding header index for this column
+            $headerIndexKey = $column . '_header';
+            $headerIndex = $contact_property_finance_info_headers_indexes[$headerIndexKey];
+
+            // Check if the header index is not null (i.e., there is a mapping)
+            if ($headerIndex !== null) {
+                $contactFinanceInfoColumnToHeader[$headerIndex] = $column;
+            }
+        }
+
+        // Initialize the mapping between columns and header indexes
+        $contactFinanceInfoColumnToHeaderIndex = $contact_property_finance_info_headers_indexes;
+
+        // Value & Condition Info fields mapping
+
+        // Assuming you have the arrays $contact_property_values_condition_columns_array and $contact_property_info_headers_indexes
+        $contactValuesConditionColumnToHeader = [];
+
+        // Create a mapping between columns and headers
+        foreach ($contact_property_values_condition_columns_array as $column => $headerName) {
+            // Get the corresponding header index for this column
+            $headerIndexKey = $column . '_header';
+            $headerIndex = $contact_property_values_condition_headers_indexes[$headerIndexKey];
+
+            // Check if the header index is not null (i.e., there is a mapping)
+            if ($headerIndex !== null) {
+                $contactValuesConditionColumnToHeader[$headerIndex] = $column;
+            }
+        }
+
+        // Initialize the mapping between columns and header indexes
+        $contactValuesConditionColumnToHeaderIndex = $contact_property_values_condition_headers_indexes;
 
         $file = $request->file('file');
 
@@ -995,7 +1134,181 @@ class GroupController extends Controller
                             }
 
                             // Insert the data into the Contact table
-                            Contact::create($insertData);
+                            $contact = Contact::create($insertData);
+
+                            // Check if contact is created
+                            if ($contact) {
+                                $insertContactPropertyData = [
+                                    "contact_id" => $contact->id,
+                                ];
+
+                                // Save contact property info
+
+                                // Iterate through the imported data and map it to the corresponding column
+                                foreach ($importData as $headerIndex => $value) {
+
+                                    // Check if the header index is mapped to a column
+                                    if (isset($contactPropertyInfoColumnToHeader[$headerIndex])) {
+                                        $column = $contactPropertyInfoColumnToHeader[$headerIndex];
+                                        $header_index = $column . '_header';
+
+                                        // Check if this column has header too
+                                        if (isset($contactPropertyInfoColumnToHeaderIndex[$header_index])) {
+                                            $header_index = $contactPropertyInfoColumnToHeaderIndex[$header_index];
+                                        }
+
+                                        if ($headerIndex == $header_index) {
+                                            // Set the column value in the insert data
+                                            $insertContactPropertyData[$column] = $value;
+                                        }
+                                    }
+                                }
+                                
+                                // Insert the data into the Contact table
+                                $property_infos = DB::table('property_infos')->where('contact_id', $contact->id)->first();
+                                if ($property_infos == null) {
+                                    DB::table('property_infos')->insert($insertContactPropertyData);
+                                }
+
+                                // Save contact lead info
+                                $insertContactLeadData = [
+                                    "contact_id" => $contact->id,
+                                ];
+                                // Iterate through the imported data and map it to the corresponding column
+                                foreach ($importData as $headerIndex => $value) {
+
+                                    // Check if the header index is mapped to a column
+                                    if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
+                                        $column = $contactLeadInfoColumnToHeader[$headerIndex];
+                                        $header_index = $column . '_header';
+
+                                        // Check if this column has header too
+                                        if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
+                                            $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
+                                        }
+
+                                        if ($headerIndex == $header_index) {
+                                            // Set the column value in the insert data
+                                            $insertContactLeadData[$column] = $value;
+                                        }
+                                    }
+
+                                    // Save contact lead info
+                                    $insertContactExpensesData = [
+                                        "contact_id" => $contact->id,
+                                    ];
+                                    // Iterate through the imported data and map it to the corresponding column
+                                    foreach ($importData as $headerIndex => $value) {
+
+                                        // Check if the header index is mapped to a column
+                                        if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
+                                            $column = $contactLeadInfoColumnToHeader[$headerIndex];
+                                            $header_index = $column . '_header';
+
+                                            // Check if this column has header too
+                                            if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
+                                                $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
+                                            }
+
+                                            if ($headerIndex == $header_index) {
+                                                // Set the column value in the insert data
+                                                $insertContactExpensesData[$column] = $value;
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Insert the data into the Contact table
+                                    $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
+                                    if ($lead_info == null) {
+                                        DB::table('lead_info')->insert($insertContactExpensesData);
+                                    }
+                                }
+
+                                // Save contact lead info
+                                $insertContactLeadData = [
+                                    "contact_id" => $contact->id,
+                                ];
+                                // Iterate through the imported data and map it to the corresponding column
+                                foreach ($importData as $headerIndex => $value) {
+
+                                    // Check if the header index is mapped to a column
+                                    if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
+                                        $column = $contactLeadInfoColumnToHeader[$headerIndex];
+                                        $header_index = $column . '_header';
+
+                                        // Check if this column has header too
+                                        if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
+                                            $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
+                                        }
+
+                                        if ($headerIndex == $header_index) {
+                                            // Set the column value in the insert data
+                                            $insertContactLeadData[$column] = $value;
+                                        }
+                                    }
+
+                                    // Save contact Finance info
+                                    $insertContactFinanceData = [
+                                        "contact_id" => $contact->id,
+                                    ];
+                                    // Iterate through the imported data and map it to the corresponding column
+                                    foreach ($importData as $headerIndex => $value) {
+
+                                        // Check if the header index is mapped to a column
+                                        if (isset($contactFinanceInfoColumnToHeader[$headerIndex])) {
+                                            $column = $contactFinanceInfoColumnToHeader[$headerIndex];
+                                            $header_index = $column . '_header';
+
+                                            // Check if this column has header too
+                                            if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index])) {
+                                                $header_index = $contactFinanceInfoColumnToHeaderIndex[$header_index];
+                                            }
+
+                                            if ($headerIndex == $header_index) {
+                                                // Set the column value in the insert data
+                                                $insertContactFinanceData[$column] = $value;
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Insert the data into the Contact table
+                                    $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $contact->id)->first();
+                                    if ($property_finance_infos == null) {
+                                        DB::table('property_finance_infos')->insert($insertContactFinanceData);
+                                    }
+
+                                    // Save contact Value and condition info
+                                    $insertContactValuesConditionData = [
+                                        "contact_id" => $contact->id,
+                                    ];
+                                    // Iterate through the imported data and map it to the corresponding column
+                                    foreach ($importData as $headerIndex => $value) {
+
+                                        // Check if the header index is mapped to a column
+                                        if (isset($contactValuesConditionColumnToHeader[$headerIndex])) {
+                                            $column = $contactValuesConditionColumnToHeader[$headerIndex];
+                                            $header_index = $column . '_header';
+
+                                            // Check if this column has header too
+                                            if (isset($contactValuesConditionColumnToHeaderIndex[$header_index])) {
+                                                $header_index = $contactValuesConditionColumnToHeaderIndex[$header_index];
+                                            }
+
+                                            if ($headerIndex == $header_index) {
+                                                // Set the column value in the insert data
+                                                $insertContactValuesConditionData[$column] = $value;
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Insert the data into the Contact table
+                                    $values_conditions = DB::table('values_conditions')->where('contact_id', $contact->id)->first();
+                                    if ($values_conditions == null) {
+                                        DB::table('values_conditions')->insert($insertContactValuesConditionData);
+                                    }
+                                }
+                            }
+
 
                             $groupsID = Group::where('id', $group_id)->first();
                             $sender_numbers = Number::where('market_id', $groupsID->market_id)->inRandomOrder()->first();
@@ -2234,8 +2547,13 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
+        
         // dd($request);
         //die('here');
+        
+        
+       
+
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -2244,7 +2562,7 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
-
+        
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
@@ -2258,20 +2576,22 @@ class GroupController extends Controller
         // foreach ($emails as $email) {
         //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
         // }
-
+        $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
-
-        // dd($campaign_lists);
+        
+        try{
 
         foreach ($campaign_lists as $campaign_list) {
 
             $_typ = $campaign_list->type;
-
-
+            $_body = $campaign_list->body;
+           
+            
+            //die('here');
             if (trim($_typ) == 'email') {
 
 
-                $_body = $campaign_list->body;
+                
                 $_subject = $campaign_list->subject;
 
 
@@ -2296,90 +2616,105 @@ class GroupController extends Controller
                     });
                 }
             } elseif ($_typ == 'sms') {
-
+                
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
+                
                 $body = strip_tags($_body);
+                
                 foreach ($contact_numbrs as $contact_num) {
-                    SendSMS($body, $contact_num->number);
+                
+                   // print_r($contact_num->number);
+               // die("..");
+              
+               
+               $settings = Settings::first()->toArray();
+              // die($settings);
+               $sid = $settings['twilio_acc_sid'];
+               $token = $settings['twilio_auth_token'];
+               $numberCounter = 0;
+               
+             
+                   $client = new Client($sid, $token);
+                   
+                   $cont_num=$contact_num->number;
+                  // die($body);
+       
+                   $sms_sent = $client->messages->create(
+                       $cont_num,
+                       [
+                           'from' => $twilio_number,
+                           'body' => $body,
+                       ]
+                   );
+                  die($sms_sent);
+                   if ($sms_sent) {
+                       $old_sms = Sms::where('client_number', $cont_num)->first();
+                       if ($old_sms == null) {
+                           $sms = new Sms();
+                           $sms->client_number = $cont_num;
+                           $sms->twilio_number = $twilio_number;
+                           $sms->lname = null;
+                           $sms->fname = null;
+                           $sms->message = $body;
+                           $sms->media = "NO";
+                           $sms->status = 1;
+                           $sms->save();
+                           //$contact = Contact::where('number', $contact->number)->get();;
+                           // foreach ($contact as $contacts) {
+                           // $contacts->msg_sent = 1;
+                           // $contacts->save();
+                           // }
+                           // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                       } else {
+                           $reply_message = new Reply();
+                           $reply_message->sms_id = $old_sms->id;
+                           $reply_message->to = $cont_num;
+                           $reply_message->from = $twilio_number;
+                           $reply_message->reply = $body;
+                           $reply_message->system_reply = 1;
+                           $reply_message->save();
+                           // $contact = Contact::where('number', $contact->number)->get();;
+                           // foreach ($contact as $contacts) {
+                           //  $contacts->msg_sent = 1;
+                           //  $contacts->save();
+                           //  }
+                           // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                       }
+       
+                       // Alert::toast("SMS Sent Successfully", "success");
+       
+                   }
+               
+
+
+
                 }
             } else {
+                
             }
         }
+        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+    }
+    catch (\Exception $ex) {
+        $failed_sms = new FailedSms();
+        $failed_sms->client_number = '';
+        $failed_sms->twilio_number = '';
+        $failed_sms->message = $body;
+        $failed_sms->media = '';
+        $failed_sms->error = $ex->getMessage();
+        $failed_sms->save();
+            Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
+    }
+
 
 
 
         // Return a response to indicate success
-
-        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+        
+        
     }
 
-    function SendSMS($msg, $cont_num)
-    {
-        $twilio_number = Number::where('id', 1)->get();
-        $settings = Settings::first()->toArray();
-        $sid = $settings['twilio_acc_sid'];
-        $token = $settings['twilio_auth_token'];
-        $numberCounter = 0;
-
-        try {
-            $client = new Client($sid, $token);
-
-            $sms_sent = $client->messages->create(
-                $cont_num,
-                [
-                    'from' => $twilio_number,
-                    'body' => $msg,
-                ]
-            );
-            if ($sms_sent) {
-                $old_sms = Sms::where('client_number', $cont_num)->first();
-                if ($old_sms == null) {
-                    $sms = new Sms();
-                    $sms->client_number = $cont_num;
-                    $sms->twilio_number = $twilio_number;
-                    $sms->lname = null;
-                    $sms->fname = null;
-                    $sms->message = $msg;
-                    $sms->media = "NO";
-                    $sms->status = 1;
-                    $sms->save();
-                    //$contact = Contact::where('number', $contact->number)->get();;
-                    // foreach ($contact as $contacts) {
-                    // $contacts->msg_sent = 1;
-                    // $contacts->save();
-                    // }
-                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                } else {
-                    $reply_message = new Reply();
-                    $reply_message->sms_id = $old_sms->id;
-                    $reply_message->to = $cont_num;
-                    $reply_message->from = $twilio_number;
-                    $reply_message->reply = $msg;
-                    $reply_message->system_reply = 1;
-                    $reply_message->save();
-                    // $contact = Contact::where('number', $contact->number)->get();;
-                    // foreach ($contact as $contacts) {
-                    //  $contacts->msg_sent = 1;
-                    //  $contacts->save();
-                    //  }
-                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                }
-
-                // Alert::toast("SMS Sent Successfully", "success");
-
-            }
-        } catch (\Exception $ex) {
-            $failed_sms = new FailedSms();
-            $failed_sms->client_number = $cont_num;
-          //  $failed_sms->twilio_number = $twilio_number;
-          //  $failed_sms->message = $msg;
-          //  $failed_sms->media = "NO";
-          //  $failed_sms->error = "custom error...";
-            $failed_sms->save();
-            Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
-            // return $this->showDetails($request);
-        }
-    }
+  
 
     // Show list create form
     public function newListForm()

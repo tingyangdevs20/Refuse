@@ -766,11 +766,13 @@
                         success: function(data) {
                             // Handle success response
                             if (data.success) {
+                                
                                 toastr.success(
                                 'Data pushed to campaign successfully.', {
                                     timeOut: 9000,
                                 });
                             } else {
+                                alert(data);
                                 toastr.error('Data already exists.', {
                                     timeOut: 9000,
                                 });
