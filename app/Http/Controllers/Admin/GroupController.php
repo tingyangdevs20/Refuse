@@ -2341,7 +2341,7 @@ class GroupController extends Controller
                            $sms->twilio_number = $twilio_number;
                            $sms->lname = null;
                            $sms->fname = null;
-                           $sms->message = $msg;
+                           $sms->message = $body;
                            $sms->media = "NO";
                            $sms->status = 1;
                            $sms->save();
@@ -2356,7 +2356,7 @@ class GroupController extends Controller
                            $reply_message->sms_id = $old_sms->id;
                            $reply_message->to = $cont_num;
                            $reply_message->from = $twilio_number;
-                           $reply_message->reply = $msg;
+                           $reply_message->reply = $body;
                            $reply_message->system_reply = 1;
                            $reply_message->save();
                            // $contact = Contact::where('number', $contact->number)->get();;
@@ -2367,7 +2367,7 @@ class GroupController extends Controller
                            // $this->incrementSmsCount($numbers[$numberCounter]->number);
                        }
        
-                        Alert::toast("SMS Sent Successfully", "success");
+                       // Alert::toast("SMS Sent Successfully", "success");
        
                    }
                
@@ -2379,15 +2379,16 @@ class GroupController extends Controller
                 
             }
         }
+        
     }
     catch (\Exception $ex) {
         $failed_sms = new FailedSms();
-            $failed_sms->client_number = $cont_num;
-          $failed_sms->twilio_number = $twilio_number;
-          $failed_sms->message = $msg;
-          $failed_sms->media = "NO";
-          $failed_sms->error = "custom error...";
-            $failed_sms->save();
+        $failed_sms->client_number = '';
+        $failed_sms->twilio_number = '';
+        $failed_sms->message = $body;
+        $failed_sms->media = '';
+        $failed_sms->error = $ex->getMessage();
+        $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
     }
 
@@ -2395,8 +2396,8 @@ class GroupController extends Controller
 
 
         // Return a response to indicate success
-
         return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+        
     }
 
   
