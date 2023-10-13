@@ -40,7 +40,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
-                                            <th scope="col">Contact list</th>
+                                        
                                             <th scope="col">No. Of Contacts</th>
                                             
                                             
@@ -61,7 +61,7 @@
                                                 <td><a
                                                         href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
                                                 </td>
-                                                <td>{{ optional($campaign->group)->name ?? 'N/A' }}</td>
+                                               
                                                 <td>{{$_count}}</td>
                                                 
                                                 
