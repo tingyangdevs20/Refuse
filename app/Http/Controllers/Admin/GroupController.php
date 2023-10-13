@@ -370,6 +370,67 @@ class GroupController extends Controller
         //
     }
 
+    public function mapCSV(Request $request)
+    {
+        $file = $request->file('file');
+
+        // File Details
+        $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
+
+        // Valid File Extensions
+        $valid_extension = array("csv");
+
+        // 2MB in Bytes
+        $maxFileSize = 2097152;
+
+        // Check file extension
+        if (in_array(strtolower($extension), $valid_extension)) {
+            // Check file size
+            if ($fileSize <= $maxFileSize) {
+                // File upload location
+                $location = 'uploads';
+
+                // Upload file
+                $file->move($location, $filename);
+
+                // Import CSV to Database
+                $filepath = public_path($location . "/" . $filename);
+
+                // Reading file
+                $file = fopen($filepath, "r");
+
+                // Fetch headers only
+                $headers = fgetcsv($file, 1000, ",");
+
+                // Close the file
+                fclose($file);
+
+                // Return headers in a JSON response
+                return response()->json([
+                    'status' => true,
+                    'message' => 'CSV read successfully!',
+                    'headers' => $headers,
+                ]);
+            } else {
+                // File size too large
+                return response()->json([
+                    'status' => false,
+                    'message' => 'File too large. File must be less than 2MB!'
+                ]);
+            }
+        } else {
+            // Invalid File Extension
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid File Extension!'
+            ]);
+        }
+    }
+
     // /**
     //  * Store a newly created resource in storage.
     //  *
@@ -2173,7 +2234,7 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-       // dd($request);
+        // dd($request);
         //die('here');
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
@@ -2183,7 +2244,7 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
-       
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
@@ -2199,14 +2260,14 @@ class GroupController extends Controller
         // }
 
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
-        
+
         // dd($campaign_lists);
 
         foreach ($campaign_lists as $campaign_list) {
 
             $_typ = $campaign_list->type;
 
-           
+
             if (trim($_typ) == 'email') {
 
 
@@ -2235,7 +2296,7 @@ class GroupController extends Controller
                     });
                 }
             } elseif ($_typ == 'sms') {
-                
+
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
                 $body = strip_tags($_body);
                 foreach ($contact_numbrs as $contact_num) {
@@ -2262,7 +2323,7 @@ class GroupController extends Controller
 
         try {
             $client = new Client($sid, $token);
-            
+
             $sms_sent = $client->messages->create(
                 $cont_num,
                 [

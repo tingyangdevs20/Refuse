@@ -434,6 +434,7 @@
             // Get the CSRF token from the meta tag
             const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
             var csv_file; // Declare the csv_file variable outside the success event
+            
             // Initialize Dropzone on the specified element
             var myDropzone = new Dropzone("#my-dropzone", {
                 url: "{{ route('admin.group.map-csv') }}", // Replace with your upload endpoint
