@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css">
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -26,7 +26,6 @@
                             </ol>
                         </div>
                     </div>
-
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             <i class="fas fa-cog"></i> New List
@@ -34,8 +33,15 @@
                                 data-toggle="modal" data-target="#helpModal">How to Use</button>
                             @include('components.modalform')
                         </div>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i> New List
+                        </div>
                         <div class="card-body">
-
                             <div class="form-group" style="display: none">
                                 <select class="from-control" style="width: 100%;" required id="optiontype"
                                     name="optiontype">
@@ -49,8 +55,8 @@
 
                             <div class="form-group">
                                 <label style="margin-right:50px">List Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter List Name"
-                                    required>
+                                <input type="text" class="form-control" required name="list_name"
+                                    placeholder="Enter List Name" required>
                             </div>
 
                             <div class="form-group" style="display: none">
@@ -219,69 +225,230 @@
                                     </option>
                                 </select>
                             </div>
-
                             <div class="form-group">
-                                <label for="file">Select CSV to upload:</label>
-                                <form action="/admin/google-drive-login" class="dropzone" name="file"
-                                    id="my-awesome-dropzone" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="fallback">
-                                    </div>
-                                    <input type="hidden" name="hiddenFile" id="hidden-file">
-                                </form>
+                                <div id="my-dropzone" class="dropzone"></div>
                             </div>
+                            <button type="button" style="float: right;" id="uploadButton" class="btn btn-primary">Read
+                                CSV</button>
+                            <div class="form-group" style="padding-top: 10px; display: none; float: right;"
+                                id="readingCSVId">
+                                <div class="d-flex align-items-center">
+                                    <strong>Reading CSV...</strong>
+                                    <div class="spinner-border spinner-border-sm ml-1" role="status" aria-hidden="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="" id="csvMapCard">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i> Map CSV Fields
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">First Name</label>
+                                        <input id="name" readonly type="text" class="form-control" name="name"
+                                            placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="name_header" id="name_select"
+                                            class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                            <button type="submit" class="btn btn-primary">Save</button>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name</label>
+                                        <input id="last_name" readonly type="text" class="form-control" name="last_name"
+                                            placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="last_name_header" id="last_name_select"
+                                            class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="street">Street</label>
+                                        <input id="street" readonly type="text" class="form-control" name="street"
+                                            placeholder="Street">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="street_header" id="street_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <input id="city" readonly type="text" class="form-control" name="city"
+                                            placeholder="City">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="city_header" id="city_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="state">State</label>
+                                        <input id="state" readonly type="text" class="form-control" name="state"
+                                            placeholder="State">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="state_header" id="state_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="zip">Zip</label>
+                                        <input id="zip" readonly type="text" class="form-control" name="zip"
+                                            placeholder="Zip">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="zip_header" id="zip_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="number">Phone number 1</label>
+                                        <input id="number" readonly type="text" class="form-control" name="number"
+                                            placeholder="Phone number 1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="number_header" id="number_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="number2">Phone number 2</label>
+                                        <input id="number2" readonly type="text" class="form-control" name="number2"
+                                            placeholder="Phone number 2">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="number2_header" id="number2_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email1">Email 1</label>
+                                        <input id="email1" readonly type="text" class="form-control" name="email1"
+                                            placeholder="Email 1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="email1_header" id="email1_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email2">Email 2</label>
+                                        <input id="email2" readonly type="text" class="form-control" name="email2"
+                                            placeholder="Email 2">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Choose column from CSV</label>
+                                        <select name="email2_header" id="email2_select" class="form-control select2">
+                                            <option value="">Chose Header</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" style="float: right;" class="btn btn-primary"
+                                id="saveListButton">Save
+                                List</button>
                         </div>
                     </div>
                 </div>
+                <div class="col-3"></div>
             </div>
-            <!-- end page title -->
+        </div>
+    @endsection
+    @section('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-        </div> <!-- container-fluid -->
-    </div>
-    <!-- End Page-content -->
-@endsection
-@section('scripts')
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
-    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
-    <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=') }}<?= time() ?>"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Inittialize Select2
+                initializeSelect2();
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-
-            // initializeDropzone
-            initializeDropzone();
-
-            // Inittialize Select2
-            initializeSelect2();
-        });
-    </script>
-
-    <script>
-        // intitialize dropzone
-        function initializeDropzone() {
-
-            Dropzone.options.myAwesomeDropzone = {
-                url: "admin/google-drive-login", // URL where files will be uploaded (replace with your actual endpoint)
-                paramName: "file", // The name that will be used for the uploaded file
-                maxFilesize: 5, // Maximum file size (in MB)
-                acceptedFiles: ".csv", // Accepted file types
-                maxFiles: 1, // Maximum number of files that can be uploaded
-                autoProcessQueue: true, // Automatically process the queue when files are added
-                addRemoveLinks: true, // Show remove links on uploaded files
-                dictDefaultMessage: "Drop files here or click to upload", // Default message displayed on the Dropzone area
+            });
+            // Get the CSRF token from the meta tag
+            const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+            var csv_file; // Declare the csv_file variable outside the success event
+            
+            // Initialize Dropzone on the specified element
+            var myDropzone = new Dropzone("#my-dropzone", {
+                url: "{{ route('admin.group.map-csv') }}", // Replace with your upload endpoint
+                paramName: "file",
+                maxFilesize: 5,
+                acceptedFiles: ".csv",
+                autoProcessQueue: false,
+                uploadMultiple: false,
+                addRemoveLinks: true,
+                dictDefaultMessage: "Drop files here or click to upload",
                 dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
                 dictFallbackText: "Please use the fallback form below to upload your files.",
-                dictRemoveFile: "Remove", // Text for the remove file link
-                dictCancelUpload: "Cancel", // Text for the cancel upload link
+                dictRemoveFile: "Remove",
+                dictCancelUpload: "Cancel",
                 dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
                 init: function() {
                     this.on("addedfile", function(file) {
@@ -290,6 +457,105 @@
 
                     this.on("success", function(file, response) {
                         // Event handler when a file upload is successful
+                        console.log(response)
+                        $('#readingCSVId').hide()
+                        $('#csvMapCard').show()
+                        if (response.status == true) {
+                            toastr.success(response.message, {
+                                timeOut: 10000,
+                            });
+
+                            // Assuming response.headers is an array of CSV headers
+                            var csvHeaders = response.headers;
+
+                            csv_file = file
+
+                            // List of fields and their corresponding select box and input field IDs
+                            var fieldMappings = [{
+                                    field: "name",
+                                    select: "name_select"
+                                },
+                                {
+                                    field: "last_name",
+                                    select: "last_name_select"
+                                },
+                                {
+                                    field: "street",
+                                    select: "street_select"
+                                },
+                                {
+                                    field: "city",
+                                    select: "city_select"
+                                },
+                                {
+                                    field: "state",
+                                    select: "state_select"
+                                },
+                                {
+                                    field: "zip",
+                                    select: "zip_select"
+                                },
+                                {
+                                    field: "number",
+                                    select: "number_select"
+                                },
+                                {
+                                    field: "number2",
+                                    select: "number2_select"
+                                },
+                                {
+                                    field: "email1",
+                                    select: "email1_select"
+                                },
+                                {
+                                    field: "email2",
+                                    select: "email2_select"
+                                }
+                            ];
+                            // Populate the select boxes and assign headers to input fields
+                            // populateSelectAndAssignHeaders('name_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('last_name_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('street_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('city_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('state_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('zip_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('number_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('number2_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('email1_select', csvHeaders);
+                            // populateSelectAndAssignHeaders('email2_select', csvHeaders);
+
+                            // Loop through the fieldMappings and populate select boxes and assign headers
+                            fieldMappings.forEach(function(mapping) {
+                                var selectBox = $('#' + mapping.select);
+                                var inputField = $('#' + mapping.field);
+
+                                selectBox.empty(); // Clear existing options
+                                selectBox.append('<option value="">Choose Header</option>');
+
+                                // Populate the select box with headers
+                                for (var i = 0; i < csvHeaders.length; i++) {
+                                    selectBox.append('<option value="' + i + '">' + csvHeaders[i] +
+                                        '</option>');
+                                }
+
+                                // Assign the selected header to the input field
+                                selectBox.on('change', function() {
+                                    var selectedHeaderIndex = $(this).val();
+                                    if (selectedHeaderIndex !== "") {
+                                        inputField.val(csvHeaders[selectedHeaderIndex]);
+                                    } else {
+                                        inputField.val(
+                                            ""
+                                        ); // Clear the input field if "Choose Header" is selected
+                                    }
+                                });
+                            });
+
+                        } else {
+                            toastr.error(response.message, {
+                                timeOut: 9000, // Set the duration (5 seconds in this example)
+                            });
+                        }
                     });
 
                     this.on("removedfile", function(file) {
@@ -298,30 +564,195 @@
 
                     this.on("error", function(file, errorMessage) {
                         // Event handler when a file upload encounters an error
+                        $('#readingCSVId').hide()
+                        $('#csvMapCard').hide()
+                        if (response.status == true) {
+                            toastr.success(response.message, {
+                                timeOut: 10000,
+                            });
+                        } else {
+                            toastr.error(response.message, {
+                                timeOut: 9000, // Set the duration (5 seconds in this example)
+                            });
+                        }
+                        // Remove the uploaded file from Dropzone
+                        this.removeFile(file);
+                    });
+
+                    // Set the CSRF token as a header for all AJAX requests
+                    this.on('sending', function(file, xhr, formData) {
+                        formData.append('_token', csrfToken);
+                        $('#readingCSVId').show()
+                        console.log('mapping csv!')
                     });
                 }
-            };
-        }
-
-        // Initialize Select2
-        function initializeSelect2() {
-            // Initialize Select2
-            $('.select2').select2({
-                // placeholder: "Select options",
-                allowClear: true, // Show a clear button to remove the selection
             });
-            $('#tags').on('change', function() {
-                // Remove the "Select Tags" option if any other option is selected
-                if ($('#tags option:selected').length > 0) {
-                    $('#tags option[value=""]').remove();
-                } else {
-                    // Add the "Select Tags" option back if no options are selected
-                    $('#tags').prepend('<option value="" selected disabled>Select Tags</option>');
+
+            // Handle manual upload when the button is clicked
+            $("#uploadButton").click(function() {
+                myDropzone.processQueue(); // Process the Dropzone queue
+            });
+
+            // Handle form submission
+            myDropzone.on("sending", function(file, xhr, formData) {
+
+                // Collect data from the input fields
+                var listName = $("input[name='name']").val();
+                var tagIds = $("select[name='tag_id[]']").val(); // Use 'select' for multi-select field
+                var leadSource = $("select[name='lead_source']").val(); // Use 'select' for dropdowns
+                var leadType = $("select[name='lead_type']").val(); // Use 'select' for dropdowns
+
+                // Append the form data to the file upload
+                formData.append('name', listName);
+                // Append the selected 'tag_id' values one by one (if it's an array)
+                if (tagIds && tagIds.length > 0) {
+                    for (var i = 0; i < tagIds.length; i++) {
+                        formData.append('tag_id[]', tagIds[i]);
+                    }
                 }
+                formData.append('lead_source', leadSource)
+                formData.append('lead_type', leadType)
+
+                // Disable autoProcessQueue to prevent duplicate submissions
+                myDropzone.options.autoProcessQueue = false;
             });
 
-            // Refresh Select2 to apply the changes
-            $('.select2').trigger('change.select2');
-        }
-    </script>
-@endsection
+            // Initialize Select2
+            function initializeSelect2() {
+                // Initialize Select2
+                $('.select2').select2({
+                    // placeholder: "Select options",
+                    allowClear: true, // Show a clear button to remove the selection
+                });
+                $('#tags').on('change', function() {
+                    // Remove the "Select Tags" option if any other option is selected
+                    if ($('#tags option:selected').length > 0) {
+                        $('#tags option[value=""]').remove();
+                    } else {
+                        // Add the "Select Tags" option back if no options are selected
+                        $('#tags').prepend('<option value="" selected disabled>Select Tags</option>');
+                    }
+                });
+
+                // Refresh Select2 to apply the changes
+                $('.select2').trigger('change.select2');
+            }
+
+            // Function to populate select and assign headers to input fields
+            function populateSelectAndAssignHeaders(selectId, headers) {
+                var selectBox = $('#' + selectId);
+
+                selectBox.empty(); // Clear existing options
+                selectBox.append('<option value="">Choose Header</option>');
+
+                // Populate the select box with headers
+                for (var i = 0; i < headers.length; i++) {
+                    selectBox.append('<option value="' + i + '">' + headers[i] + '</option>');
+                }
+
+                // Assign the selected header to the input field
+                selectBox.on('change', function() {
+                    var selectedHeaderIndex = $(this).val();
+                    console.log(selectedHeaderIndex)
+                    // if (selectedHeaderIndex !== "") {
+                    //     inputField.val(headers[selectedHeaderIndex]);
+                    // } else {
+                    //     inputField.val(""); // Clear the input field if "Choose Header" is selected
+                    // }
+                });
+            }
+
+            // Save the complete form
+            // Event handler for the "Save List" button click
+            $("#saveListButton").on("click", function() {
+                // Create a new FormData object
+                var formData = new FormData();
+
+                // Check if csv_file exists
+                if (typeof csv_file !== 'undefined' && csv_file !== null) {
+                    // Append CSV file uploaded
+                    formData.append('file', csv_file);
+                } else {
+                    // Handle the case where the CSV file does not exist
+                    alert("CSV file is missing. Please upload a CSV file.");
+                    return; // Abort the form submission
+                }
+
+                // Collect data from the input fields
+                var listName = $("input[name='name']").val();
+                var tagIds = $("select[name='tag_id[]']").val();
+                var leadSource = $("select[name='lead_source']").val();
+                var leadType = $("select[name='lead_type']").val();
+
+                if (!listName.trim()) {
+                    // Handle the case where 'listName' is empty
+                    alert("List Name is required.");
+                    return; // Abort the form submission
+                }
+
+                if (!tagIds || tagIds.length === 0) {
+                    // Handle the case where 'tagIds' is empty
+                    alert("Select at least one Tag.");
+                    return; // Abort the form submission
+                }
+
+                // Append the form data to the FormData object
+                formData.append('name', listName);
+                for (var i = 0; i < tagIds.length; i++) {
+                    formData.append('tag_id[]', tagIds[i]);
+                }
+                formData.append('lead_source', leadSource);
+                formData.append('lead_type', leadType);
+
+                // Iterate over the form fields and select boxes
+                $(".form-control").each(function() {
+                    var fieldName = $(this).attr("name");
+                    var fieldValue = $(this).val();
+
+                    // Check if it's a select box and if it has a corresponding input field
+                    if ($(this).is("select")) {
+                        var inputFieldId = $(this).data("inputfield");
+                        if (inputFieldId) {
+                            // Use the value of the selected header for the input field
+                            fieldValue = $("#" + inputFieldId).val();
+                        }
+                    }
+
+                    // Add the field to the formData object
+                    formData.append(fieldName, fieldValue);
+                });
+
+                var csrfToken = $('input[name="_token"]').val(); // Replace with your CSRF token input name
+
+                // Send the data to the server via AJAX
+                $.ajax({
+                    method: "POST",
+                    url: "{{ route('admin.group.store') }}", // Replace with your route
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        if (response.status === true) {
+                            toastr.success(response.message, {
+                                timeOut: 10000,
+                            });
+                            // Redirect the user after a successful toastr message
+                            // window.location.href = publicPath + 'group';
+                        } else {
+                            toastr.error(response.message, {
+                                timeOut: 9000,
+                            });
+                        }
+                    },
+                    error: function(response) {
+                        toastr.error('API Error: ' + response.responseText, 'API Response Error', {
+                            timeOut: 9000,
+                        });
+                    }
+                });
+            });
+        </script>
+    @endsection

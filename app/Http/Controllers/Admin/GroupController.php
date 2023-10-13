@@ -153,10 +153,10 @@ class GroupController extends Controller
         }
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         DB::table('lead_info')->where('contact_id', $id)->update([
-            'user_1_name' => $leadinfo->owner1_first_name.' ' .$leadinfo->owner1_last_name ,
-            'user_2_name' => $leadinfo->owner2_first_name.' ' .$leadinfo->owner2_last_name ,
-            'user_3_name' => $leadinfo->owner3_first_name.' ' .$leadinfo->owner3_last_name ,
-            ]);
+            'user_1_name' => $leadinfo->owner1_first_name . ' ' . $leadinfo->owner1_last_name,
+            'user_2_name' => $leadinfo->owner2_first_name . ' ' . $leadinfo->owner2_last_name,
+            'user_3_name' => $leadinfo->owner3_first_name . ' ' . $leadinfo->owner3_last_name,
+        ]);
 
         $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
@@ -370,6 +370,434 @@ class GroupController extends Controller
         //
     }
 
+    public function mapCSV(Request $request)
+    {
+        $file = $request->file('file');
+
+        // File Details
+        $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
+
+        // Valid File Extensions
+        $valid_extension = array("csv");
+
+        // 2MB in Bytes
+        $maxFileSize = 2097152;
+
+        // Check file extension
+        if (in_array(strtolower($extension), $valid_extension)) {
+            // Check file size
+            if ($fileSize <= $maxFileSize) {
+                // File upload location
+                $location = 'uploads';
+
+                // Upload file
+                $file->move($location, $filename);
+
+                // Import CSV to Database
+                $filepath = public_path($location . "/" . $filename);
+
+                // Reading file
+                $file = fopen($filepath, "r");
+
+                // Fetch headers only
+                $headers = fgetcsv($file, 1000, ",");
+
+                // Close the file
+                fclose($file);
+
+                // Return headers in a JSON response
+                return response()->json([
+                    'status' => true,
+                    'message' => 'CSV read successfully!',
+                    'headers' => $headers,
+                ]);
+            } else {
+                // File size too large
+                return response()->json([
+                    'status' => false,
+                    'message' => 'File too large. File must be less than 2MB!'
+                ]);
+            }
+        } else {
+            // Invalid File Extension
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid File Extension!'
+            ]);
+        }
+    }
+
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param \Illuminate\Http\Request $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function store(Request $request)
+    // {
+
+    //     $existing_group_id = '';
+    //     $existing_group_id = $request->existing_group_id;
+    //     $group_id = '';
+    //     $campaign_id = '';
+    //     //return $request->campaign_id;
+    //     // if ($request->campaign_id != 0) {
+    //     //     $campaign_id = $request->campaign_id;
+    //     //     //die($campaign_id );
+    //     //     $compain = Campaign::where('id', $campaign_id)->first();
+    //     //     $group_id = $compain->group_id;
+    //     // }
+
+
+    //     //return $group_id;
+
+    //     // if ($existing_group_id != 0) {
+
+    //     //     $group_id = $existing_group_id;
+    //     //     $group = Group::where('id', $group_id)->first();
+    //     //     $group->market_id = $request->market_id;
+    //     //     $group->tag_id = $request->tag_id;
+    //     //     $group->save();
+    //     // } else {
+
+    //     $group = new Group();
+    //     $group->market_id = $request->market_id ?? '0';
+    //     // $group->tag_id = $request->tag_id;
+    //     // $group->tag_id = json_encode($request->tag_id);
+    //     $group->name = $request->name;
+    //     $group->save();
+    //     // }
+    //     $selectedTags = $request->tag_id;
+    //     if ($selectedTags || !empty($selectedTags)) {
+    //         // Get the currently associated tag IDs for the group record
+    //         $currentTags = DB::table('group_tags')
+    //             ->where('group_id', $group->id)
+    //             ->pluck('tag_id')
+    //             ->toArray();
+
+    //         // Calculate the tags to insert (exclude already associated tags)
+    //         $tagsToInsert = array_diff($selectedTags, $currentTags);
+
+    //         // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+    //         $tagsToDelete = array_diff($currentTags, $selectedTags);
+
+    //         // Delete the tags that are not in $selectedTags or delete all if none are selected
+    //         if (!empty($tagsToDelete) || empty($selectedTags)) {
+    //             DB::table('group_tags')
+    //                 ->where('group_id', $group->id)
+    //                 ->whereIn('tag_id', $tagsToDelete)
+    //                 ->delete();
+    //         }
+
+    //         // Insert the new tags
+    //         if (!empty($tagsToInsert)) {
+    //             // Iterate through the selected tags and insert them into the group_tags table
+    //             foreach ($tagsToInsert as $tagId) {
+    //                 DB::table('group_tags')->insert([
+    //                     'group_id' => $group->id,
+    //                     'tag_id' => $tagId,
+    //                 ]);
+    //             }
+    //         }
+    //     }
+
+    //     $file = $request->file('file');
+
+    //     // File Details
+    //     $filename = $file->getClientOriginalName();
+    //     $extension = $file->getClientOriginalExtension();
+    //     $tempPath = $file->getRealPath();
+    //     $fileSize = $file->getSize();
+    //     $mimeType = $file->getMimeType();
+
+    //     // Valid File Extensions
+    //     $valid_extension = array("csv");
+
+    //     // 2MB in Bytes
+    //     $maxFileSize = 2097152;
+
+    //     // Check file extension
+    //     if (in_array(strtolower($extension), $valid_extension)) {
+
+    //         // Check file size
+    //         if ($fileSize <= $maxFileSize) {
+
+    //             // File upload location
+    //             $location = 'uploads';
+
+    //             // Upload file
+    //             $file->move($location, $filename);
+
+    //             // Import CSV to Database
+    //             $filepath = public_path($location . "/" . $filename);
+
+    //             // Reading file
+    //             $file = fopen($filepath, "r");
+
+    //             $importData_arr = array();
+    //             $i = 0;
+
+    //             while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
+    //                 $num = count($filedata);
+
+    //                 // Skip first row (Remove below comment if you want to skip the first row)
+    //                 if ($i == 0) {
+    //                     $i++;
+    //                     continue;
+    //                 }
+    //                 for ($c = 0; $c < $num; $c++) {
+    //                     $importData_arr[$i][] = $filedata[$c];
+    //                 }
+    //                 $i++;
+    //             }
+    //             fclose($file);
+
+    //             // Insert to MySQL database
+    //             foreach ($importData_arr as $importData) {
+    //                 if ($group_id != '') {
+    //                     $checkContact = Contact::where('number', '+1' . preg_replace('/[^0-9]/', '', $importData[5]))->where('group_id', $group_id)->first();
+    //                     if ($checkContact == null) {
+    //                         $insertData1 = array(
+    //                             "group_id" => $group_id,
+    //                             "name" => $importData[0],
+    //                             "last_name" => $importData[1],
+    //                             "street" => $importData[2],
+    //                             "city" => $importData[3],
+    //                             "state" => $importData[4],
+    //                             "zip" => $importData[5],
+    //                             "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
+    //                             "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
+    //                             "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
+    //                             "email1" => $importData[9],
+    //                             "email2" => $importData[10]
+    //                         );
+    //                         Contact::create($insertData1);
+    //                         $groupsID = Group::where('id', $group_id)->first();
+    //                         $sender_numbers = Number::where('market_id', $groupsID->market_id)->inRandomOrder()->first();
+    //                         if ($sender_numbers) {
+    //                             $account = Account::where('id', $sender_numbers->account_id)->first();
+    //                             if ($account) {
+    //                                 $sid = $account->account_id;
+    //                                 $token = $account->account_token;
+    //                             } else {
+    //                                 $sid = '';
+    //                                 $token = '';
+    //                             }
+    //                         }
+
+    //                         $campaignsList = CampaignList::where('campaign_id', $campaign_id)->orderby('schedule', 'ASC')->first();
+    //                         // print_r($campaignsList);die;
+    //                         if ($campaignsList) {
+    //                             $row = $campaignsList;
+    //                             // $template = Template::where('id',$row->template_id)->first();
+    //                             $template = FormTemplates::where('id', $request->email_template)->first();
+    //                             $date = now()->format('d M Y');
+    //                             if ($row->type == 'email') {
+
+
+    //                                 if ($importData[9] != '') {
+    //                                     $email = $importData[9];
+    //                                 } elseif ($importData[10]) {
+    //                                     $email = $importData[10];
+    //                                 }
+    //                                 if ($email != '') {
+    //                                     $subject = $template->template_name;
+    //                                     $subject = str_replace("{name}", $importData[0], $subject);
+    //                                     $subject = str_replace("{street}", $importData[2], $subject);
+    //                                     $subject = str_replace("{city}", $importData[3], $subject);
+    //                                     $subject = str_replace("{state}", $importData[4], $subject);
+    //                                     $subject = str_replace("{zip}", $importData[5], $subject);
+    //                                     $subject = str_replace("{date}", $date, $subject);
+    //                                     $message = $template != null ? $template->content : '';
+    //                                     $message = str_replace("{name}", $importData[0], $message);
+    //                                     $message = str_replace("{street}", $importData[2], $message);
+    //                                     $message = str_replace("{city}", $importData[3], $message);
+    //                                     $message = str_replace("{state}", $importData[4], $message);
+    //                                     $message = str_replace("{zip}", $importData[5], $message);
+    //                                     $message = str_replace("{date}", $date, $message);
+    //                                     $unsub_link = url('admin/email/unsub/' . $email);
+    //                                     $data = ['message' => $message, 'subject' => $subject, 'name' => $importData[0], 'unsub_link' => $unsub_link];
+    //                                     // echo "<pre>";print_r($data);die;
+    //                                     Mail::to($email)->send(new TestEmail($data));;
+    //                                 }
+    //                             } elseif ($row->type == 'sms') {
+    //                                 $client = new Client($sid, $token);
+    //                                 if ($importData[6] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+    //                                 } elseif ($importData[7] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+    //                                 } elseif ($importData[8] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
+    //                                 }
+    //                                 $receiver_number = $number;
+    //                                 $sender_number = $sender_numbers->number;
+    //                                 $message = $template != null && $template->body ? $template->body : '';
+    //                                 $message = str_replace("{name}", $importData[0], $message);
+    //                                 $message = str_replace("{street}", $importData[2], $message);
+    //                                 $message = str_replace("{city}", $importData[3], $message);
+    //                                 $message = str_replace("{state}", $importData[4], $message);
+    //                                 $message = str_replace("{zip}", $importData[5], $message);
+    //                                 if ($receiver_number != '') {
+    //                                     try {
+    //                                         $sms_sent = $client->messages->create(
+    //                                             $receiver_number,
+    //                                             [
+    //                                                 'from' => $sender_number,
+    //                                                 'body' => $message,
+    //                                             ]
+    //                                         );
+    //                                         if ($sms_sent) {
+    //                                             $old_sms = Sms::where('client_number', $receiver_number)->first();
+    //                                             if ($old_sms == null) {
+    //                                                 $sms = new Sms();
+    //                                                 $sms->client_number = $receiver_number;
+    //                                                 $sms->twilio_number = $sender_number;
+    //                                                 $sms->message = $message;
+    //                                                 $sms->media = '';
+    //                                                 $sms->status = 1;
+    //                                                 $sms->save();
+    //                                                 $this->incrementSmsCount($sender_number);
+    //                                             } else {
+    //                                                 $reply_message = new Reply();
+    //                                                 $reply_message->sms_id = $old_sms->id;
+    //                                                 $reply_message->to = $sender_number;
+    //                                                 $reply_message->from = $receiver_number;
+    //                                                 $reply_message->reply = $message;
+    //                                                 $reply_message->system_reply = 1;
+    //                                                 $reply_message->save();
+    //                                                 $this->incrementSmsCount($sender_number);
+    //                                             }
+    //                                         }
+    //                                     } catch (\Exception $ex) {
+    //                                         $failed_sms = new FailedSms();
+    //                                         $failed_sms->client_number = $receiver_number;
+    //                                         $failed_sms->twilio_number = $sender_number;
+    //                                         $failed_sms->message = $message;
+    //                                         $failed_sms->media = '';
+    //                                         $failed_sms->error = $ex->getMessage();
+    //                                         $failed_sms->save();
+    //                                     }
+    //                                 }
+    //                             } elseif ($row->type == 'mms') {
+    //                                 $client = new Client($sid, $token);
+    //                                 if ($importData[6] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+    //                                 } elseif ($importData[7] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+    //                                 } elseif ($importData[8] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
+    //                                 }
+    //                                 $receiver_number = $number;
+    //                                 $sender_number = $sender_numbers->number;
+    //                                 $message = $template != null ? $template->body : '';
+    //                                 $message = str_replace("{name}", $importData[0], $message);
+    //                                 $message = str_replace("{street}", $importData[2], $message);
+    //                                 $message = str_replace("{city}", $importData[3], $message);
+    //                                 $message = str_replace("{state}", $importData[4], $message);
+    //                                 $message = str_replace("{zip}", $importData[5], $message);
+    //                                 if ($receiver_number != '') {
+    //                                     try {
+    //                                         $sms_sent = $client->messages->create(
+    //                                             $receiver_number,
+    //                                             [
+    //                                                 'from' => $sender_number,
+    //                                                 'body' => $message,
+    //                                                 'mediaUrl' => [$template->mediaUrl],
+    //                                             ]
+    //                                         );
+
+    //                                         if ($sms_sent) {
+    //                                             $old_sms = Sms::where('client_number', $receiver_number)->first();
+    //                                             if ($old_sms == null) {
+    //                                                 $sms = new Sms();
+    //                                                 $sms->client_number = $receiver_number;
+    //                                                 $sms->twilio_number = $sender_number;
+    //                                                 $sms->message = $message;
+    //                                                 $sms->media = $template->mediaUrl;
+    //                                                 $sms->status = 1;
+    //                                                 $sms->save();
+    //                                                 $this->incrementSmsCount($sender_number);
+    //                                             } else {
+    //                                                 $reply_message = new Reply();
+    //                                                 $reply_message->sms_id = $old_sms->id;
+    //                                                 $reply_message->to = $sender_number;
+    //                                                 $reply_message->from = $receiver_number;
+    //                                                 $reply_message->reply = $message;
+    //                                                 $reply_message->system_reply = 1;
+    //                                                 $reply_message->save();
+    //                                                 $this->incrementSmsCount($sender_number);
+    //                                             }
+    //                                         }
+    //                                     } catch (\Exception $ex) {
+    //                                         $failed_sms = new FailedSms();
+    //                                         $failed_sms->client_number = $receiver_number;
+    //                                         $failed_sms->twilio_number = $sender_number;
+    //                                         $failed_sms->message = $message;
+    //                                         $failed_sms->media = $template->mediaUrl;
+    //                                         $failed_sms->error = $ex->getMessage();
+    //                                         $failed_sms->save();
+    //                                     }
+    //                                 }
+    //                             } elseif ($row->type == 'rvm') {
+    //                                 $contactsArr = [];
+    //                                 if ($importData[6] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+    //                                 } elseif ($importData[7] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+    //                                 } elseif ($importData[8] != '') {
+    //                                     $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
+    //                                 }
+    //                                 if ($number) {
+    //                                     $c_phones = $number;
+    //                                     $vrm = \Slybroadcast::sendVoiceMail([
+    //                                         'c_phone' => ".$c_phones.",
+    //                                         'c_url' => $template->body,
+    //                                         'c_record_audio' => '',
+    //                                         'c_date' => 'now',
+    //                                         'c_audio' => 'Mp3',
+    //                                         //'c_callerID' => "4234606442",
+    //                                         'c_callerID' => $sender_numbers->number,
+    //                                         //'mobile_only' => 1,
+    //                                         'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+    //                                     ])->getResponse();
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //                 if ($existing_group_id == 0) {
+    //                     $insertData = array(
+    //                         "group_id" => $group->id,
+    //                         "name" => $importData[0],
+    //                         "last_name" => $importData[1],
+    //                         "street" => $importData[2],
+    //                         "city" => $importData[3],
+    //                         "state" => $importData[4],
+    //                         "zip" => $importData[5],
+    //                         "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
+    //                         "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
+    //                         "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
+    //                         "email1" => $importData[9],
+    //                         "email2" => $importData[10]
+    //                     );
+    //                     Contact::create($insertData);
+    //                 }
+    //             }
+    //             Alert::success('Success!', 'Group Created!');
+    //         } else {
+    //             Alert::error('Oops!', 'File too large. File must be less than 2MB');
+    //         }
+    //     } else {
+    //         $group->delete();
+    //         Alert::error('Oops!', 'Invalid File Extension.');
+    //     }
+    //     return redirect()->back();
+    // }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -379,36 +807,45 @@ class GroupController extends Controller
     public function store(Request $request)
     {
 
+        $columns_array = [
+            "name" => $request->name,
+            "last_name" => $request->last_name,
+            "street" => $request->street,
+            "city" => $request->city,
+            "state" => $request->state,
+            "zip" => $request->zip,
+            "number" => $request->number,
+            "number2" => $request->number2,
+            "email1" => $request->email1,
+            "email2" => $request->email2
+        ];
+
+        $headers_indexes = [
+            "name_header" =>  $request->name_header,
+            "last_name_header" =>  $request->last_name_header,
+            "street_header" =>  $request->street_header,
+            "city_header" =>  $request->city_header,
+            "state_header" =>  $request->state_header,
+            "zip_header" =>  $request->zip_header,
+            "number_header" =>  $request->number_header,
+            "number2_header" =>  $request->number2_header,
+            "email1_header" =>  $request->email1_header,
+            "email2_header" =>  $request->email2_header
+        ];
+
         $existing_group_id = '';
         $existing_group_id = $request->existing_group_id;
         $group_id = '';
         $campaign_id = '';
-        //return $request->campaign_id;
-        // if ($request->campaign_id != 0) {
-        //     $campaign_id = $request->campaign_id;
-        //     //die($campaign_id );
-        //     $compain = Campaign::where('id', $campaign_id)->first();
-        //     $group_id = $compain->group_id;
-        // }
-
-
-        //return $group_id;
-
-        // if ($existing_group_id != 0) {
-
-        //     $group_id = $existing_group_id;
-        //     $group = Group::where('id', $group_id)->first();
-        //     $group->market_id = $request->market_id;
-        //     $group->tag_id = $request->tag_id;
-        //     $group->save();
-        // } else {
 
         $group = new Group();
         $group->market_id = $request->market_id ?? '0';
         // $group->tag_id = $request->tag_id;
         // $group->tag_id = json_encode($request->tag_id);
-        $group->name = $request->name;
+        $group->name = $request->list_name;
         $group->save();
+
+        $group_id = $group->id;
         // }
         $selectedTags = $request->tag_id;
         if ($selectedTags || !empty($selectedTags)) {
@@ -443,6 +880,24 @@ class GroupController extends Controller
                 }
             }
         }
+
+        // Assuming you have the arrays $columns_array and $headers_indexes
+        $columnToHeader = [];
+
+        // Create a mapping between columns and headers
+        foreach ($columns_array as $column => $headerName) {
+            // Get the corresponding header index for this column
+            $headerIndexKey = $column . '_header';
+            $headerIndex = $headers_indexes[$headerIndexKey];
+
+            // Check if the header index is not null (i.e., there is a mapping)
+            if ($headerIndex !== null) {
+                $columnToHeader[$headerIndex] = $column;
+            }
+        }
+
+        // Initialize the mapping between columns and header indexes
+        $columnToHeaderIndex = $headers_indexes;
 
         $file = $request->file('file');
 
@@ -500,21 +955,48 @@ class GroupController extends Controller
                     if ($group_id != '') {
                         $checkContact = Contact::where('number', '+1' . preg_replace('/[^0-9]/', '', $importData[5]))->where('group_id', $group_id)->first();
                         if ($checkContact == null) {
-                            $insertData1 = array(
+                            $insertData = [
                                 "group_id" => $group_id,
-                                "name" => $importData[0],
-                                "last_name" => $importData[1],
-                                "street" => $importData[2],
-                                "city" => $importData[3],
-                                "state" => $importData[4],
-                                "zip" => $importData[5],
-                                "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
-                                "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
-                                "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
-                                "email1" => $importData[9],
-                                "email2" => $importData[10]
-                            );
-                            Contact::create($insertData1);
+                            ];
+                            // $insertData1 = array(
+                            //     "group_id" => $group_id,
+                            //     "name" => $importData[0],
+                            //     "last_name" => $importData[1],
+                            //     "street" => $importData[2],
+                            //     "city" => $importData[3],
+                            //     "state" => $importData[4],
+                            //     "zip" => $importData[5],
+                            //     "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
+                            //     "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
+                            //     "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
+                            //     "email1" => $importData[9],
+                            //     "email2" => $importData[10]
+                            // );
+                            // Contact::create($insertData1);
+
+                            // Iterate through the imported data and map it to the corresponding column
+                            foreach ($importData as $headerIndex => $value) {
+
+                                // Check if the header index is mapped to a column
+                                if (isset($columnToHeader[$headerIndex])) {
+                                    $column = $columnToHeader[$headerIndex];
+
+                                    $header_index = $column . '_header';
+                                    // Check if this column has header too
+                                    if (isset($columnToHeaderIndex[$header_index])) {
+                                        $header_index = $columnToHeaderIndex[$header_index];
+                                    }
+
+                                    if ($headerIndex == $header_index) {
+                                        // Set the column value in the insert data
+                                        $insertData[$column] = $value;
+                                    }
+                                }
+                            }
+
+                            // Insert the data into the Contact table
+                            Contact::create($insertData);
+
                             $groupsID = Group::where('id', $group_id)->first();
                             $sender_numbers = Number::where('market_id', $groupsID->market_id)->inRandomOrder()->first();
                             if ($sender_numbers) {
@@ -708,33 +1190,70 @@ class GroupController extends Controller
                             }
                         }
                     }
-                    if ($existing_group_id == 0) {
-                        $insertData = array(
-                            "group_id" => $group->id,
-                            "name" => $importData[0],
-                            "last_name" => $importData[1],
-                            "street" => $importData[2],
-                            "city" => $importData[3],
-                            "state" => $importData[4],
-                            "zip" => $importData[5],
-                            "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
-                            "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
-                            "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
-                            "email1" => $importData[9],
-                            "email2" => $importData[10]
-                        );
-                        Contact::create($insertData);
-                    }
+                    // if ($existing_group_id == 0) {
+                    //     // $insertData = array(
+                    //     //     "group_id" => $group->id,
+                    //     //     "name" => $importData[0],
+                    //     //     "last_name" => $importData[1],
+                    //     //     "street" => $importData[2],
+                    //     //     "city" => $importData[3],
+                    //     //     "state" => $importData[4],
+                    //     //     "zip" => $importData[5],
+                    //     //     "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
+                    //     //     "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
+                    //     //     "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
+                    //     //     "email1" => $importData[9],
+                    //     //     "email2" => $importData[10]
+                    //     // );
+                    //     // Contact::create($insertData);
+
+                    //     // Create an array to hold the mapped data
+                    //     $insertData = array(
+                    //         "group_id" => $group->id
+                    //     );
+
+
+                    //     // Iterate through the imported data and map it to the corresponding column
+                    //     foreach ($importData as $headerIndex => $value) {
+
+                    //         // Check if the header index is mapped to a column
+                    //         if (isset($columnToHeader[$headerIndex])) {
+                    //             $column = $columnToHeader[$headerIndex];
+
+                    //             $header_index = $column . '_header';
+                    //             // Check if this column has header too
+                    //             if (isset($columnToHeaderIndex[$header_index])) {
+                    //                 $header_index = $columnToHeaderIndex[$header_index];
+                    //             }
+
+                    //             if ($headerIndex == $header_index) {
+                    //                 // Set the column value in the insert data
+                    //                 $insertData[$column] = $value;
+                    //             }
+                    //         }
+                    //     }
+
+                    //     // Insert the data into the Contact table
+                    //     Contact::create($insertData);
+                    // }
                 }
-                Alert::success('Success!', 'Group Created!');
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Group created successfully!'
+                ]);
             } else {
-                Alert::error('Oops!', 'File too large. File must be less than 2MB');
+                return response()->json([
+                    'status' => false,
+                    'message' => 'File too large. File must be less than 2MB!'
+                ]);
             }
         } else {
             $group->delete();
-            Alert::error('Oops!', 'Invalid File Extension.');
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid File Extension!'
+            ]);
         }
-        return redirect()->back();
     }
 
     public function incrementSmsCount(string $number)
@@ -753,7 +1272,7 @@ class GroupController extends Controller
         $contractres = Contractupload::all()->sortByDesc("created_at");
         $id = $group->id;
 
-        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr','leadstatus'));
+        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr', 'leadstatus'));
     }
 
     public function EditContacts(Request $request, $id)
@@ -1715,7 +2234,8 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-
+        // dd($request);
+        //die('here');
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -1723,6 +2243,7 @@ class GroupController extends Controller
         $marketId = $request->input('market_id');
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
+
 
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
@@ -1759,7 +2280,7 @@ class GroupController extends Controller
 
 
                     $subject = $_subject;
-                    $body = $_body;
+                    $body = strip_tags($_body);
                     $body = str_replace("{name}", $contact_num->name, $body);
                     $body = str_replace("{street}", $contact_num->street, $body);
                     $body = str_replace("{city}", $contact_num->city, $body);
@@ -1775,9 +2296,11 @@ class GroupController extends Controller
                     });
                 }
             } elseif ($_typ == 'sms') {
+
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
+                $body = strip_tags($_body);
                 foreach ($contact_numbrs as $contact_num) {
-                    SendSMS($_body, $contact_num->number);
+                    SendSMS($body, $contact_num->number);
                 }
             } else {
             }
@@ -1794,12 +2317,13 @@ class GroupController extends Controller
     {
         $twilio_number = Number::where('id', 1)->get();
         $settings = Settings::first()->toArray();
-        $sid = $settings['twilio_api_key'];
-        $token = $settings['twilio_acc_secret'];
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
         $numberCounter = 0;
 
         try {
             $client = new Client($sid, $token);
+
             $sms_sent = $client->messages->create(
                 $cont_num,
                 [
@@ -1813,7 +2337,8 @@ class GroupController extends Controller
                     $sms = new Sms();
                     $sms->client_number = $cont_num;
                     $sms->twilio_number = $twilio_number;
-                    $sms->null;
+                    $sms->lname = null;
+                    $sms->fname = null;
                     $sms->message = $msg;
                     $sms->media = "NO";
                     $sms->status = 1;
@@ -1846,10 +2371,10 @@ class GroupController extends Controller
         } catch (\Exception $ex) {
             $failed_sms = new FailedSms();
             $failed_sms->client_number = $cont_num;
-            $failed_sms->twilio_number = $twilio_number;
-            $failed_sms->message = $msg;
-            $failed_sms->media = "NO";
-            $failed_sms->error = $ex->getMessage();
+          //  $failed_sms->twilio_number = $twilio_number;
+          //  $failed_sms->message = $msg;
+          //  $failed_sms->media = "NO";
+          //  $failed_sms->error = "custom error...";
             $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
             // return $this->showDetails($request);
