@@ -11,6 +11,7 @@ use App\Model\Group;
 use App\Model\Number;
 use App\Model\CampaignList;
 use App\Model\Contact;
+use App\Model\Settings;
 use App\Model\Account;
 use App\Model\Template;
 use App\Model\TemplateMessages;
@@ -312,14 +313,18 @@ class CampaignListController extends Controller
         //dd($_POST['media_file']);
         $body = $request->body;
         $templ_ate = $request->templat;
-        $sid = 'AC28c9cf33623247a487bf51ca9af20b50';
-        $token = '03d28e0a1abd5e829b6d278055643dba';
+
+        
+        $settings = Settings::first()->toArray(); 
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
+        
 
         // dd($request);
 
         // dd($subject);
         // die("..");
-
+        
         $count = 1;
         if (count($types)  > 0) {
             foreach ($types as $key => $val) {
@@ -352,7 +357,8 @@ class CampaignListController extends Controller
                 //return $sendAfter;
                 $bodytext = '';
                 $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
-
+                //dd($body_text);
+               // dd($request->templat[$key]);
                 //  dd($request->campaign_list_id[$key] );
 
                 // Create the campaign
@@ -363,6 +369,7 @@ class CampaignListController extends Controller
                         foreach ($body_text as $btext) {
                             if ($btext) {
                                 $bodytext = $btext->msg_content;
+                                $subject=$btext->subject;
                                 CampaignList::create([
                                     'campaign_id' => $campaign_id,
                                     'type' => $val,
@@ -385,6 +392,7 @@ class CampaignListController extends Controller
                         foreach ($body_text as $btext) {
                             if ($btext) {
                                 $bodytext = $btext->msg_content;
+                                $subject=$btext->subject;
                                 //dd($bodytext);
                                 CampaignList::where('id', $request->campaign_list_id[$key])->update([
                                     'type' =>  $val,
@@ -394,6 +402,7 @@ class CampaignListController extends Controller
                                     'template_id' => $request->templat[$key],
                                     'mediaUrl' => $media,
                                     'body' => $bodytext,
+                                    'subject' => $subject,
                                     'active' => 1, // Set active status
                                     // Add other fields for campaign details
                                 ]);

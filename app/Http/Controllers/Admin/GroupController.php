@@ -1759,7 +1759,7 @@ class GroupController extends Controller
 
 
                     $subject = $_subject;
-                    $body = $_body;
+                    $body = strip_tags($_body);
                     $body = str_replace("{name}", $contact_num->name, $body);
                     $body = str_replace("{street}", $contact_num->street, $body);
                     $body = str_replace("{city}", $contact_num->city, $body);
