@@ -362,7 +362,7 @@ class CampaignListController extends Controller
                 $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
                // dd($body_text);
                // dd($request->templat[$key]);
-                  dd($request->campaign_list_id[$key] );
+                 // dd($request->campaign_list_id[$key] );
 
                 // Create the campaign
                 if ($request->campaign_list_id[$key] == 0) {
