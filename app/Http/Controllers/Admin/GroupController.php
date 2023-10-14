@@ -2608,12 +2608,15 @@ class GroupController extends Controller
                     $body = str_replace("{zip}", $contact_num->zip, $body);
                     // Define the recipient's email address
                     $email = $contact_num->email1;
+                    $unsub_link = url('admin/email/unsub/'.$email);
 
                     // Send the email
-                    Mail::raw($body, function ($message) use ($subject, $email) {
-                        $message->subject($subject);
-                        $message->to($email);
-                    });
+                   // Mail::raw($body, function ($message) use ($subject, $email) {
+                      //  $message->subject($subject);
+                      //  $message->to($email);
+                   // });
+                   $data = ['message' => $body ,'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
+                   Mail::to($email)->send(new TestEmail($data));
                 }
             } elseif ($_typ == 'sms') {
                 
