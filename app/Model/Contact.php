@@ -3,12 +3,9 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Contact extends Model implements HasMedia
+class Contact extends Model
 {
-    use InteractsWithMedia;
     protected $guarded = [];
     public function group()
     {
