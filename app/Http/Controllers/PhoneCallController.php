@@ -22,16 +22,16 @@ class PhoneCallController extends Controller
     public function getAccessToken(Request $request){
         $settings = Settings::first()->toArray(); 
         
-       // $TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
-       // $TWILIO_API_SECRET = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
-       // $TWILIO_API_KEY = 'SKe98914905647ed119d608121a51534db';
-       // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
+       $TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
+       $TWILIO_API_SECRET = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
+       $TWILIO_API_KEY = 'SKe98914905647ed119d608121a51534db';
+       $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
  
        
-        //$TWILIO_ACCOUNT_SID = $settings['twilio_api_key'];
-       // $TWILIO_API_SECRET = $settings['call_secret_token'];
-       // $TWILIO_API_KEY = $settings['call_api_key'];
-       // $TWIML_APP_SID = $settings['twiml_app_sid'];
+    //     $TWILIO_ACCOUNT_SID = $settings['twilio_api_key'];
+    //    $TWILIO_API_SECRET = $settings['call_secret_token'];
+    //    $TWILIO_API_KEY = $settings['call_api_key'];
+    //    $TWIML_APP_SID = $settings['twiml_app_sid'];
 
         $twilio_number=Number::first()->toArray();
         $caller_id=$twilio_number['number'];
@@ -52,7 +52,7 @@ class PhoneCallController extends Controller
 
             //grant voice permisssions
             $voiceGrant=new VoiceGrant();
-            $voiceGrant->setOutgoingApplicationSid($TWILIO_TWIML_APP_SID);
+            $voiceGrant->setOutgoingApplicationSid($TWIML_APP_SID);
 
             $voiceGrant->setIncomingAllow(true);
 
