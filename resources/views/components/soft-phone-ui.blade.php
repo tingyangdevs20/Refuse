@@ -323,6 +323,7 @@ input:checked + .slider:before {
               <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
+              <div id="dial_pad">
                 <div class="call-display">
                     <div class="row">
                       <input type="tel" class="phone-number"  placeholder="Dial Number" pattern="[0-9 ]+" autofocus />
@@ -365,13 +366,22 @@ input:checked + .slider:before {
                       <i class="fa fa-phone" aria-hidden="true"></i>
                   </button>
                 </div>
+              </div>
 
                 <!-- <div class="d-flex justify-content-center">
                   <button id="end-call" class="end-call">
                       <i class="fa fa-phone" aria-hidden="true"></i>
                   </button>
                 </div>   -->
-
+                <div id="call-history" class="history-panel" style="display: none;">
+                  <!-- Add the content for your call history here -->
+                  <!-- For example, a list of call records -->
+                  <ul>
+                      <li>Call record 1</li>
+                      <li>Call record 2</li>
+                      <!-- Add more call records as needed -->
+                  </ul>
+              </div>
                 <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
                     <div class="col-4" style="left: 28px;">
                         <span class='material-icons custom-size-ui' style="margin-left: 14px;color: #D3D3D3;">dialpad</span>
@@ -380,7 +390,7 @@ input:checked + .slider:before {
                         <span class='material-icons custom-size-ui' style="color: #D3D3D3;">support_agent</span>
                     </div>
                     <div class="col-4" style="left: 28px;">
-                        <i class="fa fa-phone custom-size-ui" style="color: #D3D3D3;font-size:x-large"></i>
+                        <i class="fa fa-phone custom-size-ui" id="show-history" style="color: #D3D3D3;font-size:x-large" title="History"></i>
                     </div>
                 </div>
             </div>

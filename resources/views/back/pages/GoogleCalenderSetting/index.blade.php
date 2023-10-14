@@ -80,7 +80,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header bg-soft-dark ">
                         <i class="fas fa-cog"></i> Google Calendar Settings
                     </div>
@@ -132,7 +132,7 @@
 
                         </form>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!-- end page title -->
