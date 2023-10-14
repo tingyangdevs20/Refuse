@@ -767,6 +767,7 @@
                         },
                         success: function(data) {
                             // Handle success response
+                            //alert(data);
                             if (data.success) {
 
                                 toastr.success(
@@ -781,11 +782,13 @@
                             }
                         },
                         error: function(error) {
+                           // alert(data);
                             toastr.error('AJAX Error: ' + error.statusText, {
                                 timeOut: 9000,
                             });
                         },
                         complete: function() {
+                           // alert(data);
                             // Enable the submit button after the request is complete (success or error)
                             $('.push_to_campaign_btn').prop('disabled', false);
                             // Close the modal

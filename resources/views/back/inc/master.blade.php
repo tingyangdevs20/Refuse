@@ -162,7 +162,17 @@ $('#end-call').on('click', function() {
 
 
 
-
+$('#show-history').on('click', function() {
+        var historyPanel = document.getElementById("call-history");
+        var historyPanel2 = document.getElementById("dial_pad");
+        if (historyPanel.style.display === "none") {
+            historyPanel2.style.display = "none";
+            historyPanel.style.display = "block";
+        } else {
+            historyPanel2.style.display = "block";
+            historyPanel.style.display = "none";
+        }
+    });
 $('.focus-effects').on('click', function() {
   var text = $('input[type=tel]');
   text.val(text.val() + this.value);

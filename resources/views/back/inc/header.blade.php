@@ -70,7 +70,7 @@
                     <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> Logout
                 </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div>

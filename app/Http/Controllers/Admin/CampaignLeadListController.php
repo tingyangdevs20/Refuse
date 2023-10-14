@@ -306,6 +306,8 @@ class CampaignLeadListController extends Controller
         $body = $request->body;
 
         
+
+        
         $count = 1;
         if(count($types)  > 0){
             foreach($types as $key => $val ){
