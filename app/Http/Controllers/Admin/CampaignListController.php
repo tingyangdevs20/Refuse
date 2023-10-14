@@ -314,7 +314,7 @@ class CampaignListController extends Controller
         $body = $request->body;
         $templ_ate = $request->templat;
         
-        
+       
         
         $settings = Settings::first()->toArray(); 
         $sid = $settings['twilio_acc_sid'];
@@ -355,24 +355,28 @@ class CampaignListController extends Controller
                         }
                     }
                 }
-
+                
                 //return $media;
                 //return $sendAfter;
-                $bodytext = '';
                 $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
-               // dd($body_text);
-               // dd($request->templat[$key]);
-                 // dd($request->campaign_list_id[$key] );
-
+                
+                if(count($body_text)>0)
+                {
+                $bodytext=$body_text[0]->msg_content;
+                $subject=$body_text[0]->subject;
+                }
+                else{
+                    $bodytext='';
+                $subject='';
+                }
                 // Create the campaign
                 if ($request->campaign_list_id[$key] == 0) {
-
-                    if ($body_text) {
-
-                        foreach ($body_text as $btext) {
-                            if ($btext) {
-                                $bodytext = $btext->msg_content;
-                                $subject=$btext->subject;
+                    //dd($request->campaign_list_id[$key]);
+                    
+                    
+                        
+                               
+                                
                                 CampaignList::create([
                                     'campaign_id' => $campaign_id,
                                     'type' => $val,
@@ -385,18 +389,13 @@ class CampaignListController extends Controller
                                     'subject' => $subject,
                                     'active' => 1, // Set active status
                                 ]);
-                            }
-                        }
-                    }
+                            
+                        
+                    
                 } else {
 
-                    if ($body_text) {
-
-                        foreach ($body_text as $btext) {
-                            if ($btext) {
-                                $bodytext = $btext->msg_content;
-                                $subject=$btext->subject;
-                                //dd($bodytext);
+                   
+                              
                                 CampaignList::where('id', $request->campaign_list_id[$key])->update([
                                     'type' =>  $val,
                                     'send_after_days' => $request->send_after_days[$key],
@@ -409,21 +408,18 @@ class CampaignListController extends Controller
                                     'active' => 1, // Set active status
                                     // Add other fields for campaign details
                                 ]);
-                            }
-                        }
-                    }
+                            
+                        
+                    
                 }
                 $count++;
             }
         }
-        $compain = Campaign::where('id', $campaign_id)->first();
-
-
-
+       // $compain = Campaign::where('id', $campaign_id)->first();
 
         $checkCompainList = CampaignList::where('campaign_id', $request->campaign_id)->get();
 
-        //dd(count($checkCompainList));
+        //dd($checkCompainList);
 
 
         //COMMENTED ON - 8 Oct 2023 by JSingh
