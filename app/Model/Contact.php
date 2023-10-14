@@ -3,9 +3,13 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Contact extends Model
+
+class Contact extends Model implements HasMedia
 {
+    use HasMediaTrait;
     protected $guarded = [];
     public function group()
     {

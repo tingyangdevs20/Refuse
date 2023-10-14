@@ -129,7 +129,11 @@ class GoogleDriveController extends Controller
             $value->addMedia($file)->toMediaCollection($file_type);
             $value->save();
         }
-        return response()->json($request->all(), 200);
+        $response = [
+            'success' => true,
+            'message' => "File uploaded Sucecessfully",
+        ];
+        return response()->json($response, 200);
     }
     // Add a method to display the file upload form
     public function showUploadForm()

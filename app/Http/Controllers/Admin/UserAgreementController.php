@@ -268,6 +268,12 @@ class UserAgreementController extends Controller
     {
         $contact = Contact::find($request->id);
         $mediaItems = $contact->getMedia($request->fileType);
+        $link = null;
+        foreach($mediaItems as $media){
+            $url = $media->getUrl();
+            $media->url = $url;
+        }
+        
         $response = [
             'success' => true,
             'data' => $mediaItems,

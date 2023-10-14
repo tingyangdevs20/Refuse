@@ -2716,7 +2716,6 @@ class GroupController extends Controller
         
         
     }
-
   
 
     // Show list create form
