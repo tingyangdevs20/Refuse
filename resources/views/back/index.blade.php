@@ -61,13 +61,13 @@
                                             <tr>
                                                 <th scope="col">People Touched</th>
                                                 <td>{{ $goalValue ?? '0' }}</td>
-                                                <td>{{ $messages_sent_today_goals ?? '0' }}</td>
-                                                <td>{{ $messages_sent_seven_days_goals ?? '0' }}</td>
-                                                <td>{{ $messages_sent_month_days_goals ?? '0' }}</td>
-                                                <td>{{ $messages_sent_ninety_days_goals ?? '0' }}</td>
-                                                <td>{{ $messages_sent_year_goals ?? '0' }}</td>
-                                                <td>{{ $total_sent_lifetime ?? '0' }} </td>
-                                                <td id="poeple_touched_count">0</td>
+                                                <td>{{ $people_touched_today ?? '0' }}</td>
+                                                <td>{{ $people_touched_seven_days ?? '0' }}</td>
+                                                <td>{{ $people_touched_month_days ?? '0' }}</td>
+                                                <td>{{ $people_touched_ninety_days ?? '0' }}</td>
+                                                <td>{{ $people_touched_year ?? '0' }}</td>
+                                                <td>{{ $people_touched_lifetime ?? '0' }} </td>
+                                                <td id="people_touched_count">0</td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">#Lead</th>
@@ -83,13 +83,13 @@
                                             <tr>
                                                 <th scope="col">#Leads - Scheduled Appointments</th>
                                                 <td>{{ $goal_appointment ?? '0' }}</td>
-                                                <td>{{ $messages_received_today ?? '0' }}</td>
-                                                <td>{{ $messages_received_seven_days_goals ?? '0' }} </td>
-                                                <td>{{ $messages_received_month_days_goals ?? '0' }}</td>
-                                                <td>{{ $messages_received_ninety_days_goals ?? '0' }}</td>
-                                                <td>{{ $messages_received_year_goals ?? '0' }}</td>
-                                                <td>{{ $total_received_lifetime ?? '0' }}</td>
-                                                <td id="lead_scheduled_count">0</td>
+                                                <td>{{ $appointment_todays ?? '0' }}</td>
+                                                <td>{{ $appointment_seven_day ?? '0' }}</td>
+                                                <td>{{ $appointment_month ?? '0' }}</td>
+                                                <td>{{ $appointment_ninety_day ?? '0' }}</td>
+                                                <td>{{ $appointment_year ?? '0' }}</td>
+                                                <td>{{ $appointment_lifetime ?? '0' }}</td>
+                                                <td id="appointments_count">0</td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">#Appointments Show Up/Sellers Talked To</th>
@@ -100,7 +100,7 @@
                                                 <td>{{ $appointment_ninety_day ?? '0' }}</td>
                                                 <td>{{ $appointment_year ?? '0' }}</td>
                                                 <td>{{ $appointment_lifetime ?? '0' }}</td>
-                                                <td id="appointments_showup_count">0</td>
+                                                <td id="appointments_count">0</td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">Call No Show</th>
@@ -111,7 +111,7 @@
                                                 <td>{{ $contracts_out_ninety_day ?? '0' }}</td>
                                                 <td>{{ $contracts_out_year ?? '0' }}</td>
                                                 <td>{{ $contracts_out_lifetime ?? '0' }}</td>
-                                                <td id="call_no_show_count">0</td>
+                                                <td id="contracts_out_count">0</td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">Contracts Signed</th>
