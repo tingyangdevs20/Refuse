@@ -337,6 +337,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
+    route::post('get/template_con/', 'Admin\TemplateController@getTemplateWithoutCategory');
 
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
     Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');

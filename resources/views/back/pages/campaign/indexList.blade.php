@@ -83,7 +83,7 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Campaign Type</label>
-                                                                            <select class="custom-select template_type" name="type[]"  required>
+                                                                            <select class="custom-select template_type" name="type[]" onchange="messageType(value,'{{ $count }}')"  required>
                                                                                 <option value="">Select Type</option>
                                                                                 <option value="sms" @if($campaign->type == 'sms') selected @endif>SMS</option>
                                                                                 <option value="email" @if($campaign->type == 'email') selected @endif>Email</option>
@@ -91,7 +91,7 @@
                                                                                 <option value="rvm" @if($campaign->type == 'rvm') selected @endif>RVM</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="form-group mt-3">
+                                                                        <div class="form-group mt-3" id="dvSelectTemp">
                                                                             <label>Select Template</label>
                                                                             <select class="custom-select category"  name="templat[]" required>
                                                                                 <option value="">Select Template</option>
@@ -289,7 +289,7 @@
 
         function addNewRows(frm) {
             rowCount ++;
-            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" id="typee'+rowCount+'" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">select type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
+            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" id="type'+rowCount+'" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">Select Type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
 
             recRow += '<div class="form-group mt-3" id="dvcategory"><label>Select Template</label><select class="custom-select category" name="templat[]"   required><option value="">Select Template</option>';
                 $.each( templates, function( key, value ) {
@@ -340,47 +340,52 @@
            // count.innerHTML = "Characters: "+e.target.value.length+"/160";
       //  };
 
-        // function messageType(type,id){
-        //     $('.show_sms_'+id).html('');
-        //     var url = '<?php echo url('/admin/get/template_msg/') ?>/'+type+'/'+id;
-        //     //alert(url);
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: url,
-        //         data: '',
-        //         processData: false,
-        //         contentType: false,
-        //         success: function (d) {
-        //             $('.show_sms_'+id).html(d);
-        //         }
-        //     });
-        // }
+      function messageType(type,id){
+        //alert(type)
+        if(type=="rvm")
+        {
+            $('.show_sms_'+id).html('');
+            var url = '<?php echo url('/admin/get/leadmessage/') ?>/'+type+'/'+id;
+            //alert(url);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: '',
+                processData: false,
+                contentType: false,
+                success: function (d) {
+                    $('.show_sms_'+id).html(d);
+                    $("#dvSelectTemp").hide();
+                }
+            });
+        }
+        }
+
+        
 
         function getcontent(id)
         {
-            var _typ=$("#typee"+id).val();
-            var template_type = $("#rowCount"+id).find('.template_type').val();
-            var category = $("#rowCount"+id).find('.category').val();
-            //alert(_typ);
-           // if(_typ=="rvm");
-           // {
-              //  $("#dvcategory").empty();
-           // }
-          
            
-            if(template_type != '' && category != ''){
-                var url = '<?php echo url('/admin/get/template_msg/') ?>';
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: {template_type:template_type,category:category,id:id},
-                    dataType:'html',
-                    success: function (d) {
-                        $('.show_sms_'+id).html(d);
-                    }
-                });
+            var type = $("#rowCount"+id).find('.template_type').val();
+           
+            if(type=="rvm")
+         {
+            $('.show_sms_'+id).html('');
+            var url = '<?php echo url('/admin/get/leadmessage/') ?>/'+type+'/'+id;
+            //alert(url);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: '',
+                processData: false,
+                contentType: false,
+                success: function (d) {
+                    $('.show_sms_'+id).html(d);
+                    $("#dvcategory").hide();
+                }
+            });
             }
         
-    }
+        }
     </script>
     @endsection

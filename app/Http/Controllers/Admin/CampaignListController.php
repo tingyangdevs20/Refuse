@@ -313,6 +313,7 @@ class CampaignListController extends Controller
         //dd($_POST['media_file']);
         $body = $request->body;
         $templ_ate = $request->templat;
+        
 
         
         $settings = Settings::first()->toArray(); 
