@@ -765,7 +765,7 @@
                         },
                         success: function(data) {
                             // Handle success response
-                           // alert(data);
+                            //alert(data);
                             if (data.success) {
                                 
                                 toastr.success(
@@ -773,7 +773,7 @@
                                     timeOut: 9000,
                                 });
                             } else {
-                                alert(data);
+                               // alert(data);
                                 toastr.error('Data already exists.', {
                                     timeOut: 9000,
                                 });

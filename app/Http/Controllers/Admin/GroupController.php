@@ -2585,6 +2585,7 @@ class GroupController extends Controller
 
             $_typ = $campaign_list->type;
             $_body = $campaign_list->body;
+            $_media=$campaign_list->mediaUrl;
            // die($_typ);
 
             if($_typ == 'rvm'){
@@ -2609,7 +2610,7 @@ class GroupController extends Controller
                    // die($c_phones);
                     $vrm = \Slybroadcast::sendVoiceMail([
                                         'c_phone' => ".$c_phones.",
-                                        'c_url' =>'https://app.reifuze.com/uploads/MMS_Media/1692094070WhatsApp%20Audio%202023-08-15%20at%203.06.52%20PM.mp3',
+                                        'c_url' =>$_media,
                                         'c_record_audio' => '',
                                         'c_date' => 'now',
                                         'c_audio' => 'Mp3',

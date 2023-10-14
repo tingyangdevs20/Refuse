@@ -323,7 +323,7 @@ class CampaignListController extends Controller
 
         
 
-        // dd($subject);
+    // dd($request);
         // die("..");
         
         $count = 1;
