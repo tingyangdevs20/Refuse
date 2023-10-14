@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\Contact;
 use App\Model\FormTemplate;
 use App\Model\Settings;
 use App\Model\UserAgreement;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use DB;
 
 class UserAgreementController extends Controller
 {
@@ -261,5 +264,39 @@ class UserAgreementController extends Controller
         Alert::success('Success', 'User Agreement has been deleted successfully.');
         return redirect()->back();
     }
+    public function fileManager(Request $request)
+    {
+        $contact = Contact::find($request->id);
+        $mediaItems = $contact->getMedia($request->fileType);
+        $response = [
+            'success' => true,
+            'data' => $mediaItems,
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function deleteFile(Request $request)
+    {
+        $mediaItem = DB::table('media')
+        ->where('uudi', $request->fileId)
+        ->delete();
+        return response()->json(['message' => $mediaItem], 200);
+        // $contact = Contact::find($request->id);
+        // $mediaItem = $contact->getMedia($request->fileId);
+        // if (!$file) {
+            //     return response()->json(['message' => 'File not found'], 404);
+        // }
+        
+        // // Find and delete the media item by its name or other criteria
+        // $media = $file->getMedia('your_media_collection_name')->first();
+
+        // if (!$media) {
+        //     return response()->json(['message' => 'Media item not found'], 404);
+        // }
+
+        // // Delete the media item
+        // $media->delete();
+
+}
 
 }
