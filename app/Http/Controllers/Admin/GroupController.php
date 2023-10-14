@@ -2549,7 +2549,7 @@ class GroupController extends Controller
     {
         
         // dd($request);
-        //die('here');
+        
         
         
        
@@ -2585,10 +2585,46 @@ class GroupController extends Controller
 
             $_typ = $campaign_list->type;
             $_body = $campaign_list->body;
-           
+           // die($_typ);
+
+            if($_typ == 'rvm'){
+                $contactsArr = [];
+                $contacts = Contact::where('group_id' , $groupId)->get();
+              //  die($contacts);
+                if(count($contacts) > 0){
+                    foreach($contacts as $cont){
+                        if($cont->number != ''){
+                            $number = $cont->number;
+                        }elseif($cont->number2 != ''){
+                            $number = $cont->number2;
+                        }elseif($cont->number3 != ''){
+                            $number = $cont->number2;
+                        }
+                        $contactsArr[] = $number;
+                    }
+                   
+                }
+                if(count($contactsArr) > 0){
+                    $c_phones = implode(',',$contactsArr);
+                   // die($c_phones);
+                    $vrm = \Slybroadcast::sendVoiceMail([
+                                        'c_phone' => ".$c_phones.",
+                                        'c_url' =>'https://app.reifuze.com/uploads/MMS_Media/1692094070WhatsApp%20Audio%202023-08-15%20at%203.06.52%20PM.mp3',
+                                        'c_record_audio' => '',
+                                        'c_date' => 'now',
+                                        'c_audio' => 'Mp3',
+                                        //'c_callerID' => "4234606442",
+                                        'c_callerID' => "+13128692422",
+                                        //'mobile_only' => 1,
+                                        'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
+                                       ])->getResponse();
+                                     // print_r($vrm);
+                                     // die('..');
+                }
+            }
             
             //die('here');
-            if (trim($_typ) == 'email') {
+            elseif(trim($_typ) == 'email') {
 
 
                 
@@ -2649,7 +2685,7 @@ class GroupController extends Controller
                            'body' => $body,
                        ]
                    );
-                  die($sms_sent);
+                 
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
