@@ -302,7 +302,7 @@ class CampaignListController extends Controller
 
     public function store(Request $request)
     {
-
+        
         $campaign_id = $request->campaign_id;
         $campaign_list_id = $request->campaign_list_id;
         $types = $request->type;
@@ -314,14 +314,14 @@ class CampaignListController extends Controller
         $body = $request->body;
         $templ_ate = $request->templat;
         
-
+        
         
         $settings = Settings::first()->toArray(); 
         $sid = $settings['twilio_acc_sid'];
         $token = $settings['twilio_auth_token'];
         
 
-        // dd($request);
+        
 
         // dd($subject);
         // die("..");
@@ -335,8 +335,10 @@ class CampaignListController extends Controller
                 }
                 if ($val == 'rvm') {
                     $media = $request->mediaUrl[$key];
+                    
                 } else {
                     $imageName = 'media_file' . $count;
+                   
                     if ($request->hasFile($imageName)) {
                         $media = $request->file($imageName);;
                         $filename = $media->getClientOriginalName();
@@ -358,9 +360,9 @@ class CampaignListController extends Controller
                 //return $sendAfter;
                 $bodytext = '';
                 $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
-                //dd($body_text);
+               // dd($body_text);
                // dd($request->templat[$key]);
-                //  dd($request->campaign_list_id[$key] );
+                  dd($request->campaign_list_id[$key] );
 
                 // Create the campaign
                 if ($request->campaign_list_id[$key] == 0) {

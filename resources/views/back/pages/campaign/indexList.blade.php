@@ -91,7 +91,7 @@
                                                                                 <option value="rvm" @if($campaign->type == 'rvm') selected @endif>RVM</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="form-group mt-3" id="dvSelectTemp">
+                                                                        <div class="form-group mt-3" id="dvCategory">
                                                                             <label>Select Template</label>
                                                                             <select class="custom-select category"  name="templat[]" required>
                                                                                 <option value="">Select Template</option>
@@ -289,19 +289,19 @@
 
         function addNewRows(frm) {
             rowCount ++;
-            var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" id="type'+rowCount+'" name="type[]"  onchange="getcontent('+rowCount+');" required><option value="">Select Type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
+           var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select template_type" id="type'+rowCount+'" name="type[]"  onchange="getcontent('+rowCount+',value);" required><option value="">Select Type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
 
-            recRow += '<div class="form-group mt-3" id="dvcategory"><label>Select Template</label><select class="custom-select category" name="templat[]"   required><option value="">Select Template</option>';
+            recRow += '<div class="form-group mt-3" id="dvcategory"><label>Select Template</label><select class="custom-select" name="templat[]"><option value="" >Select Template</option>';
                 $.each( templates, function( key, value ) {
-                   // console.log(value);
+                    
                     recRow += '<option value='+value.id+'>'+value.title+'</option>';
                 });
             recRow += '</select></div>';
             recRow += '</div></div><div class="row show_sms_'+rowCount+'"><div class="col-md-12"><div class="form-group "><input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]"></div></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
 
 
-            //var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-12"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button><div class="form-group mt-3"><label>Campaign Type</label><select class="custom-select" name="type[]" onchange="" required><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div></div></div><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delays</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"></div></div><div class="row show_sms"><div class="col-md-12"><div class="form-group "><label >Message</label><textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea><div id="count" class="float-lg-right"></div></div></div></div><div class="row show_email" style="display:none;"><div class="col-md-6"><div class="form-group"><label >Subject</label><input type="text"  class="form-control" placeholder="Subject" name="receiver_number" /></div></div><div class="col-md-12"><div class="form-group "><label >Message</label><textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea><div id="count" class="float-lg-right"></div></div></div></div><div class="row show_mms" style="display:none;"><div class="col-md-6"><div class="form-group"><label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label><input type="file" class="form-control-file" name="media_file"></div></div><div class="col-md-12"><div class="form-group "><label >Message</label><textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea><div id="count" class="float-lg-right"></div></div></div></div><div class="row show_rvm" style="display:none;"><div class="col-md-6"><div class="form-group"><label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label><input type="file" class="form-control-file" name="media_file[]"></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
-            jQuery('.addNewRow').append(recRow);
+       //  var recRow = '<div id="rowCount'+rowCount+'" class="col-lg-12"><div class="card col-md-12"><div class="row"><div class="col-md-3"><div class="form-group text-right mt-2"><label>Delay</label></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days[]"></div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar"></i></div></div><input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours[]"></div></div></div><div class="col-md-3"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #f00;padding: 10px 5px;" onclick="removeRow('+rowCount+');"><i class="fas fa-trash"></i></button></div></div><div class="row"><div class="col-md-12"><div class="form-group mt-3"><input type="hidden"  class="form-control" placeholder="Days" value="0" name="campaign_list_id[]"><label>Campaign Type</label><select class="custom-select" name="type[]"  onchange="messageType(value,'+rowCount+');" required><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div></div></div><div class="row show_sms_'+rowCount+'"><div class="col-md-12"><div class="form-group "><div class="form-group" style=" display: none;"><label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label><input type="file" class="form-control-file" name="media_file'+rowCount+'"></div><input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]"><input type="hidden"  class="form-control" placeholder="Subject" value="" name="subject[]"><label >Message</label><textarea id="template_text" class="form-control"  rows="10" name="body[]"></textarea><div id="count" class="float-lg-right"></div></div><div class="form-group"><small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small></div></div></div></div><div class="col-md-12"><div class="row"><div class="col-md-4 text-center"></div><div class="col-md-4 text-center"><hr></div><div class="col-md-4 text-center"></div></div></div></div></div>';
+        jQuery('.addNewRow').append(recRow);
 
         }
 
@@ -344,6 +344,7 @@
         //alert(type)
         if(type=="rvm")
         {
+           
             $('.show_sms_'+id).html('');
             var url = '<?php echo url('/admin/get/leadmessage/') ?>/'+type+'/'+id;
             //alert(url);
@@ -363,15 +364,16 @@
 
         
 
-        function getcontent(id)
+        function getcontent(id,vl)
         {
+           // alert(vl);
+            
+           // alert(id);
            
-            var type = $("#rowCount"+id).find('.template_type').val();
-           
-            if(type=="rvm")
-         {
+            if(vl=="rvm")
+            {
             $('.show_sms_'+id).html('');
-            var url = '<?php echo url('/admin/get/leadmessage/') ?>/'+type+'/'+id;
+            var url = '<?php echo url('/admin/get/leadmessage/') ?>/'+vl+'/'+id;
             //alert(url);
             $.ajax({
                 type: 'GET',
@@ -380,10 +382,17 @@
                 processData: false,
                 contentType: false,
                 success: function (d) {
+                  //  alert(d);
                     $('.show_sms_'+id).html(d);
+
                     $("#dvcategory").hide();
                 }
             });
+            }
+            else
+            {
+               // $('.show_sms_'+id).html('');
+                $("#dvcategory").show();
             }
         
         }
