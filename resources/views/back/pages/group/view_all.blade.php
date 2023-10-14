@@ -29,22 +29,22 @@
                             All Contacts
                             <span>
                                 <select class="actionSelect" onchange="delete_selected(this)">
-                                      <option value="0">Action</option>
-                                      <option value="1">Delete Selected</option>
-  
-                                  </select>
-                              </span>
+                                    <option value="0">Action</option>
+                                    <option value="1">Delete Selected</option>
 
-                              <span style="float:right">Status
-                              <select class="actionSelect" >
-                                      <option value="0">Show All</option>
-                                      @foreach ($leadstatus as $ls)
-                                      <option value="1">{{$ls->lead_status}}</option>
-                                      @endforeach
-  
-                                  </select>
-</span>
+                                </select>
+                            </span>
 
+                            <span style="float:right" class="">Status
+                                <select class="actionSelect">
+                                    <option value="0">Show All</option>
+                                    @foreach ($leadstatus as $ls)
+                                        <option value="1">{{ $ls->lead_status }}</option>
+                                    @endforeach
+
+                                </select>
+                            </span>
+                            @include('components.modalform')
                         </div>
                         <div class="card-body">
                             <table id="tasktable" class="table table-striped table-bordered">
@@ -81,12 +81,12 @@
                                             <td>
                                                 {{ $contact->number }}<br>
 
-                                               {{ $contact->number2 }}<br>
-                                               {{ $contact->number3 }}
+                                                {{ $contact->number2 }}<br>
+                                                {{ $contact->number3 }}
                                             </td>
                                             <td>
                                                 {{ $contact->email1 }}<br>
-                                               {{ $contact->email2 }}
+                                                {{ $contact->email2 }}
 
                                             </td>
                                             <td>{{ $contact->getLeadCategory() }}</td>
@@ -118,31 +118,31 @@
     </div>
     <!-- End Page-content -->
     <!-- Confirmation Modal -->
-            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to delete this?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger confirm-delete-btn">Delete</button>
-                        </div>
-                    </div>
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger confirm-delete-btn">Delete</button>
                 </div>
             </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
-        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#tasktable').DataTable();
@@ -168,43 +168,43 @@
 
 
         function delete_selected(selectElement) {
-                var selectedValue = selectElement.value;
-                var selectedTaskIds = $('.task-checkbox:checked').map(function() {
-                    return $(this).val();
-                }).get();
+            var selectedValue = selectElement.value;
+            var selectedTaskIds = $('.task-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
 
-                // Check if the selected value is "delete"
-                if (selectedValue === "1" && selectedTaskIds.length > 0) {
-                    // Show the confirmation modal
-                    $('#confirmationModal').modal('show');
+            // Check if the selected value is "delete"
+            if (selectedValue === "1" && selectedTaskIds.length > 0) {
+                // Show the confirmation modal
+                $('#confirmationModal').modal('show');
 
-                    // Set up the click handler for the "Delete" button in the modal
-                    $('.confirm-delete-btn').click(function() {
-                        // Perform the AJAX call to delete the selected items
-                        $.ajax({
-                            url: '{{ route('admin.delete-List') }}',
-                            method: 'POST',
-                            data: {
-                                task_id: selectedTaskIds,
-                                _token: '{{ csrf_token() }}', // Add CSRF token
-                            },
-                            success: function(response) {
-                                // Handle success, e.g., refresh the page or update the table
-                                toastr.success(response.message, 'Success');
-                                window.location.reload();
-                            },
-                            error: function(error) {
-                                // Handle error
-                                toastr.error(error, 'Error');
-                                console.error(error);
-                            }
-                        });
-
-                        // Close the modal after the deletion
-                        $('#confirmationModal').modal('hide');
+                // Set up the click handler for the "Delete" button in the modal
+                $('.confirm-delete-btn').click(function() {
+                    // Perform the AJAX call to delete the selected items
+                    $.ajax({
+                        url: '{{ route('admin.delete-List') }}',
+                        method: 'POST',
+                        data: {
+                            task_id: selectedTaskIds,
+                            _token: '{{ csrf_token() }}', // Add CSRF token
+                        },
+                        success: function(response) {
+                            // Handle success, e.g., refresh the page or update the table
+                            toastr.success(response.message, 'Success');
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            // Handle error
+                            toastr.error(error, 'Error');
+                            console.error(error);
+                        }
                     });
-                }
+
+                    // Close the modal after the deletion
+                    $('#confirmationModal').modal('hide');
+                });
             }
+        }
 
         function toggleDeleteButtonVisibility() {
             var selectedCount = $('.task-checkbox:checked').length;

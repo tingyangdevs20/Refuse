@@ -98,6 +98,12 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
     Route::get('/appointment-settings', 'Admin\SettingsController@AppointmentSettings')->name('AppointmentSetting.index');
 
+    // Templates routes
+    Route::get('templates', 'Admin\SettingsController@templatesIndex')->name('templates.index');
+
+    // List Management routes
+    Route::get('list-management', 'Admin\SettingsController@listManagement')->name('list-management');
+
     Route::get('/invitation', 'InvitationController@index')->name('invitation.index');
     Route::get('/invitation/create', 'InvitationController@create')->name('invitation.create');
     Route::post('/invitation', 'InvitationController@store')->name('invitation.store');

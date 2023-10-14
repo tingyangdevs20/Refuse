@@ -29,6 +29,7 @@
                         <div class="card-header bg-soft-dark ">
                         Edit User
                             <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
+                            @include('components.modalform')
                         </div>
                         <div class="card-body">
                             <form method="post" action="{{ route('admin.user.update', @$user->id) }}" enctype="multipart/form-data">

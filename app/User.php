@@ -45,7 +45,6 @@ class User extends Authenticatable
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
     }
 
-
     public function role()
     {
         return $this->belongsToMany(Role::class, 'role_user');

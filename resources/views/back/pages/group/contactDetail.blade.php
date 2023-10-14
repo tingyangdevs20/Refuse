@@ -419,7 +419,8 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            <i class="fas fa-edit"></i> Contact
+                            <i class="fas fa-edit mr-1"></i>Contact
+                            @include('components.modalform')
                         </div>
                         <div class="card-body">
                             @if (session('upload'))
