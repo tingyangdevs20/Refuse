@@ -42,7 +42,7 @@ function getReportingDataOfSMSreceived($days)
 
 function appointment_count($days, $user)
 {
-    $messages_sent_today_goals = 0;
+    $appointment_count = 0;
     if ($days == 0) {
         $appointment_count = Scheduler::whereDate('created_at', Carbon::today()->subDays($days))->where([['status', 'booked'], ['user_id', $user]])->count();
     } else {
@@ -71,13 +71,47 @@ function appointments_count($start_date, $end_date, $user)
 
 function deal_count($days, $user)
 {
-    $messages_sent_today_goals = 0;
+    $deals_count = 0;
+
     if ($days == 0) {
         $deals_count = UserAgreementSeller::whereDate('created_at', Carbon::today()->subDays($days))->where([['is_sign', '2'], ['user_id', $user]])->count();
     } else {
         $deals_count = UserAgreementSeller::whereBetween('created_at', [Carbon::today()->subDays($days), Carbon::today()])->where([['is_sign', '2'], ['user_id', $user]])->count();
     }
+
     return $deals_count;
+}
+
+// Get poeple touched count with days
+function people_touched_count($days, $user)
+{
+    $poeple_touched_count = 0;
+
+    if ($days == 0) {
+        $goal_people_reached = GoalsReached::where([
+            ['user_id', '=', $user],
+            ['attribute_id', '=', 1], // Assuming 'attribute_id' is a specific value
+        ])
+            ->whereDate('created_at', Carbon::today()->subDays($days))
+            ->first();
+
+        if ($goal_people_reached) {
+            $poeple_touched_count = $goal_people_reached->goals;
+        }
+    } else {
+        $goal_people_reached = GoalsReached::where([
+            ['user_id', '=', $user],
+            ['attribute_id', '=', 1], // Assuming 'attribute_id' is a specific value
+        ])
+            ->whereBetween('created_at', [Carbon::today()->subDays($days), Carbon::today()])
+            ->first();
+
+        if ($goal_people_reached) {
+            $poeple_touched_count = $goal_people_reached->goals;
+        }
+    }
+
+    return $poeple_touched_count;
 }
 
 // Get deals count within specific date range
@@ -128,7 +162,7 @@ function contracts_signed_range_count($start_date, $end_date, $user)
 
 function contracts_out_count($days, $user)
 {
-    $messages_sent_today_goals = 0;
+    $contracts_out_count = 0;
     if ($days == 0) {
         $contracts_out_count = UserAgreementSeller::whereDate('created_at', Carbon::today()->subDays($days))->where([['user_id', $user]])->count();
     } else {
@@ -158,13 +192,38 @@ function money_expected_range_count($start_date, $end_date, $user)
 {
     // Clean the input values and convert percentages to decimals
     $moneyExpected = 0;
+
+    $money_expected_reached = GoalsReached::where([
+        ['user_id', '=', $user],
+        ['attribute_id', '=', 7], // Assuming 'attribute_id' is a specific value
+    ])
+        ->whereBetween('created_at', [$start_date, $end_date]) // Add date range condition
+        ->first();
+
+    if ($money_expected_reached) {
+        $moneyExpected = $money_expected_reached->goals;
+    }
+
     return $moneyExpected;
 }
 
 function money_collected_range_count($start_date, $end_date, $user)
 {
-    $money_collected = 0;
-    return $money_collected;
+    // Clean the input values and convert percentages to decimals
+    $moneyCollected = 0;
+
+    $money_collected_reached = GoalsReached::where([
+        ['user_id', '=', $user],
+        ['attribute_id', '=', 8], // Assuming 'attribute_id' is a specific value
+    ])
+        ->whereBetween('created_at', [$start_date, $end_date]) // Add date range condition
+        ->first();
+
+    if ($money_collected_reached) {
+        $moneyCollected = $money_collected_reached->goals;
+    }
+
+    return $moneyCollected;
 }
 
 function people_touch_range_count($start_date, $end_date, $user)
@@ -193,8 +252,20 @@ function leads_range_count($start_date, $end_date, $user)
 
 function leads_scheduled_count($start_date, $end_date, $user)
 {
-    $leads_count = 0;
-    return $leads_count;
+    $leads_scheduled_count = 0;
+
+    $leads_scheduled_appointments_reached = GoalsReached::where([
+        ['user_id', '=', $user],
+        ['attribute_id', '=', 1], // Assuming 'attribute_id' is a specific value
+    ])
+        ->whereBetween('created_at', [$start_date, $end_date]) // Add date range condition
+        ->first();
+
+    if ($leads_scheduled_appointments_reached) {
+        $leads_scheduled_count = $leads_scheduled_appointments_reached->goals;
+    }
+
+    return $leads_scheduled_count;
 }
 
 function appointments_showup_count($start_date, $end_date, $user)

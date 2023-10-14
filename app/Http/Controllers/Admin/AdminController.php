@@ -13,10 +13,7 @@ use App\Model\GoalsReached;
 use App\goal_attribute;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Model\UserAgreement;
 use App\Model\UserAgreementSeller;
-use Helper;
 
 class AdminController extends Controller
 {
@@ -61,7 +58,13 @@ class AdminController extends Controller
         $money_expected = $money_expected->goals ?? 0;
         $money_collected = $money_collected->goals ?? 0;
 
-
+        // People touched
+        $people_touched_lifetime = $goal_people_reached->goals ?? 0;
+        $people_touched_todays = people_touched_count(0, $user);
+        $people_touched_seven_day = people_touched_count(7, $user);
+        $people_touched_month = people_touched_count(30, $user);
+        $people_touched_ninety_day = people_touched_count(90, $user);
+        $people_touched_year = people_touched_count(365, $user);
 
         // Deals Closed
         $deals_lifetime = (UserAgreementSeller::where([['user_id', $user], ['is_sign', '2']])->count());
@@ -207,6 +210,12 @@ class AdminController extends Controller
             'deals_month',
             'deals_ninety_day',
             'deals_year',
+            'people_touched_lifetime',
+            'people_touched_todays',
+            'people_touched_seven_day',
+            'people_touched_month',
+            'people_touched_ninety_day',
+            'people_touched_year',
             'contracts_signed_lifetime',
             'contracts_signed_todays',
             'contracts_signed_seven_day',
@@ -244,7 +253,7 @@ class AdminController extends Controller
         $user = Auth::id();
 
         // Get people touched count
-        $poeple_touched_count = people_touch_range_count($start_date, $end_date, $user);
+        $people_touched_count = people_touch_range_count($start_date, $end_date, $user);
 
         // Get Lead count
         $leads_count = leads_range_count($start_date, $end_date, $user);
@@ -280,7 +289,7 @@ class AdminController extends Controller
             'status' => true,
             'message' => 'Goals stats fetched successfully!',
             'data' => [
-                'poeple_touched_count' => $poeple_touched_count,
+                'people_touched_count' => $people_touched_count,
                 'leads_count' => $leads_count,
                 'deals_count' => $deals_count,
                 'lead_scheduled_count' => $lead_scheduled_count,
