@@ -173,6 +173,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/edit_goals/{id}', 'Admin\AdminController@editGoals')->name('edit.goals');
     Route::post('/update_goals/{id}', 'Admin\AdminController@updateGoals')->name('update.goals');
     Route::post('/delete_goals/{id}', 'Admin\AdminController@deleteGoals')->name('delete.goals');
+    Route::post('goals', 'Admin\AdminController@getGoals')->name('goals');
     Route::get('/send-email', 'Admin\SendGridEmailController@sendMail')->name('sendMail');
     Route::get('/test-rvm', 'Admin\RvmController@sendrvm')->name('sendrvm');
     // Source list route
