@@ -197,7 +197,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('/campaigns', Admin\CampaignController::class);
     Route::get('/campaign/changeStatus', 'Admin\CampaignController@changeStatus');
     Route::get('/leadcampaign/changeStatus', 'Admin\CampaignLeadController@changeStatus');
-    // Route::get('/admin/campaigns', 'Admin\CampaignController@index')->name('admin.campaigns.index');
+    Route::get('/leadcampaigns', 'Admin\CampaignLeadController@index')->name('leadcampaigns.index');
     // Route::get('/campaigns', [CampaignController::class, 'index'])->name('admin.campaign');
     //    Route::resource('account','Admin\RoleController');
     Route::get('/sendMail', [Click2MailController::class, 'index']);
