@@ -34,6 +34,7 @@
   
                                   </select>
                               </span>
+                              @include('components.modalform')
                         </div>
                         <div class="card-body">
                             <table id="tasktable" class="table table-striped table-bordered">

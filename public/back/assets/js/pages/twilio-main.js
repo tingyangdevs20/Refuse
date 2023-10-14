@@ -233,7 +233,6 @@
 
       resetIncomingCallUI();
     }
-  
     // MISC USER INTERFACE
   
     // Activity log
@@ -257,7 +256,6 @@
     }
   
     // AUDIO CONTROLS
-  
     async function getAudioDevices() {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       updateAllAudioDevices.bind(device);

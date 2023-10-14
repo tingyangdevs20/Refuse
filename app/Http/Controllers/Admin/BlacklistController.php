@@ -19,9 +19,9 @@ class BlacklistController extends Controller
      */
     public function index()
     {
-        $sr=1;
-        $numbers=Blacklist::all();
-        return view('back.pages.blacklist.index',compact('sr','numbers'));
+        $sr = 1;
+        $numbers = Blacklist::all();
+        return view('back.pages.blacklist.index', compact('sr', 'numbers'));
     }
 
     /**
@@ -42,10 +42,10 @@ class BlacklistController extends Controller
      */
     public function store(Request $request)
     {
-        $number=new Blacklist();
-        $number->number=$this->contactEscapeString($request);
+        $number = new Blacklist();
+        $number->number = $this->contactEscapeString($request);
         $number->save();
-        Alert::success('Success','Number Added!');
+        Alert::success('Success', 'Number Added!');
         return redirect()->back();
     }
 
@@ -80,12 +80,12 @@ class BlacklistController extends Controller
      */
     public function update(Request $request)
     {
-        $blacklist_number=str_replace(' ', '', $request->number);
-        $blacklist_number=Str::startsWith($blacklist_number,'+')?$blacklist_number:$blacklist_number='+'.$blacklist_number;
-        $number=Blacklist::find($request->id);
-        $number->number=$blacklist_number;
+        $blacklist_number = str_replace(' ', '', $request->number);
+        $blacklist_number = Str::startsWith($blacklist_number, '+') ? $blacklist_number : $blacklist_number = '+' . $blacklist_number;
+        $number = Blacklist::find($request->id);
+        $number->number = $blacklist_number;
         $number->save();
-        Alert::success('Success','Number Updated!');
+        Alert::success('Success', 'Number Updated!');
         return redirect()->back();
     }
 
@@ -97,12 +97,14 @@ class BlacklistController extends Controller
      */
     public function destroy(Request $request)
     {
-        $blacklist=Blacklist::where('id',$request->id)->first();
-        $contact=Contact::where('number',$blacklist->number)->first();
-        $contact->is_dnc=false;
-        $contact->save();
+        $blacklist = Blacklist::where('id', $request->id)->first();
+        $contact = Contact::where('number', $blacklist->number)->first();
+        if ($contact) {
+            $contact->is_dnc = false;
+            $contact->save();
+        }
         $blacklist->delete();
-        Alert::success('Success!','Number Removed!');
+        Alert::success('Success!', 'Number Removed!');
         return redirect()->back();
     }
 

@@ -14,31 +14,32 @@
                         <span>Command Central</span>
                     </a>
                 </li>
-               
-               
-                @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('scraping_module'))
-                <li>
-                    <a href="{{ route('admin.create.goals') }}">
-                        <i class="bx bx-check-square"></i>
-                        <span>Goals</span>
-                    </a>
-                </li>
-                @else
-                <li>
-                    <a href="{{ route('admin.create.goals') }}">
-                        <i class="bx bx-check-square"></i>
-                        <span>Goals</span>
-                    </a>
-                </li>
-                @endif
-                  <li class="menu-title">Lead Generation</li>
 
-                
+
+                @if (auth()->user()->can('dashboard') ||
+                        auth()->user()->can('administrator') ||
+                        auth()->user()->can('scraping_module'))
+                    <li>
+                        <a href="{{ route('admin.create.goals') }}">
+                            <i class="bx bx-check-square"></i>
+                            <span>Goals</span>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ route('admin.create.goals') }}">
+                            <i class="bx bx-check-square"></i>
+                            <span>Goals</span>
+                        </a>
+                    </li>
+                @endif
+                <li class="menu-title">Lead Generation</li>
+
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
                         <span>My Lists</span></a>
                 </li>
-                <li>  <a href="{{ url('admin/group-contacts-all') }}"
-                            class="waves-effect"><i class="fas fa-book"></i> All Contacts </a>
+                <li> <a href="{{ url('admin/group-contacts-all') }}" class="waves-effect"><i class="fas fa-book"></i>
+                        All Contacts </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">
@@ -50,71 +51,68 @@
                     <a href="{{ route('admin.opt.list') }}" class=" waves-effect"> <i class="fas fa-bars"></i>
                         <span>OPT-IN</span>
                     </a>
-                </li>        
-                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('scraping_module'))
-                <li>
-                    <a href="{{ route('admin.scraping.list') }}" class="waves-effect">
-                        <i class="fas fa-bars"></i>
-                        <span>Scraping Data</span>
-                    </a>
                 </li>
+                @if (auth()->user()->can('dashboard') ||
+                        auth()->user()->can('administrator') ||
+                        auth()->user()->can('scraping_module'))
+                    <li>
+                        <a href="{{ route('admin.scraping.list') }}" class="waves-effect">
+                            <i class="fas fa-bars"></i>
+                            <span>Scraping Data</span>
+                        </a>
+                    </li>
                 @endif
 
-                <li>  
-                    <a href="{{ route('admin.campaign.index') }}" ><i class="bx bx-home-circle"></i><span>Prospect Campaigns</span></a>
+                <li>
+                    <a href="{{ route('admin.campaign.index') }}"><i class="bx bx-home-circle"></i><span>Prospect
+                            Campaigns</span></a>
                 </li>
-                 <li class="menu-title">Leads</li>
-                 <li>
+                <li class="menu-title">Leads</li>
+                <li>
                     <a href="{{ route('admin.reply.index') }}">
                         <i class="fas fa-comments"></i>
                         <span>Conversations</span>
                     </a>
                 </li>
-                 <li>  
-                    <a href="{{ route('admin.leadcampaign.index') }}" ><i class="bx bx-home-circle"></i><span>Lead Campaigns</span></a>
-                </li>
-                 <li style="display:none"><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
-                        <span>Research</span></a></li>
-                         <li>
-                  
-                </li>
-               <!--<li><a href="{{ route('admin.manage-appointments', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>-->
-                <li><a href="{{ route('admin.manage-appointments') }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>
-
                 <li>
-                   
-                            <a href="{{ route('admin.user-agreement.index') }}" class="waves-effect"> <i class="fas fa-bars"></i>
-                            <span>  Digital Signing</span></a>
-                        
+                    <a href="{{ route('admin.leadcampaign.index') }}"><i class="bx bx-home-circle"></i><span>Lead
+                            Campaigns</span></a>
                 </li>
-               
-                 <li style="display:none">
+                <li style="display:none"><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
+                        <span>Research</span></a></li>
+                <li>
+
+                </li>
+                <!--<li><a href="{{ route('admin.manage-appointments', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>-->
+                <li><a href="{{ route('admin.manage-appointments') }}" class="waves-effect"><i
+                            class="fa fa-calendar"></i><span>Appointments</span></a></li>
+                <li>
+
+                    <a href="{{ route('admin.user-agreement.index') }}" class="waves-effect"> <i
+                            class="fas fa-bars"></i>
+                        <span> Digital Signing</span></a>
+                </li>
+
+                <li style="display:none">
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-message-square-dots"></i>
                         <span>SMS</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.single-sms.index') }}">Single SMS</a></li>
-{{--                        <li><a href="{{ route('admin.bulk-sms.index') }}">Bulk SMS</a></li>--}}
+                        {{-- <li><a href="{{ route('admin.bulk-sms.index') }}">Bulk SMS</a></li> --}}
                         <li><a href="{{ route('admin.one-at-time.index') }}">Bulk SMS One At Time</a></li>
-{{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
-
-                        
-                        
+                        {{-- <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li> --}}
                     </ul>
                 </li>
 
-
-                 <li style="display:none">
-                   
-
+                <li style="display:none">
                     <a href="{{ route('admin.sms.success') }}" class=" waves-effect">
                         <i class="fas fa-comment"></i>
                         <span>Received SMS</span>
-
                     </a>
                 </li>
-               
+
                 <li style="display:none">
                     <a href="{{ route('admin.thread.show') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
@@ -122,7 +120,7 @@
                     </a>
                 </li>
 
-              <!--  <li>
+                <!--  <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-message-square-dots"></i>
                         <span>Email</span>
@@ -130,18 +128,18 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.single-email.index') }}">Single Email</a></li>
                         <li><a href="{{ route('admin.email-conversations.index') }}">Email Conversations</a></li>
-{{--                        <li><a href="{{ route('admin.bulk-sms.index') }}">Bulk SMS</a></li>--}}
+                        {{-- <li><a href="{{ route('admin.bulk-sms.index') }}">Bulk SMS</a></li> --}}
                         {{-- <li><a href="{{ route('admin.one-at-time.index') }}">Bulk SMS One At Time</a></li> --}}
-{{--                        <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li>--}}
+                        {{-- <li><a href="{{ route('admin.bulksmscategory.index') }}">Bulk SMS By Category</a></li> --}}
                         {{-- <li><a href="{{ route('admin.sms.success') }}">Received SMS</a></li>
                         <li><a href="{{ route('admin.reply.index') }}">All Conversations</a></li>
                         <li><a href="{{ route('admin.thread.show') }}">Saved Threads</a></li>
                         <li><a href="{{ route('admin.sms.failed') }}">Failed SMS</a></li> --}}
                     </ul>
                 </li>
--->
-                
-                <li class="menu-title">Deals</li> 
+                -->
+
+                <li class="menu-title">Deals</li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-handshake"></i>
@@ -163,106 +161,132 @@
                     </ul>
                 </li>
 
-                @if(\App\Model\Settings::first()->sms_allowed > 0 && \App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
-
-
-
-
+                @if (
+                    (\App\Model\Settings::first()->sms_allowed > 0 && \App\Model\AutoResponder::all()->count() > 0) ||
+                        \App\Model\AutoReply::all()->count() > 0)
                 @endif
-
-              
 
                 <li class="menu-title">Settings</li>
 
-                @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('user_task_module'))
-                     
-             
+                @if (auth()->user()->can('dashboard') ||
+                        auth()->user()->can('administrator') ||
+                        auth()->user()->can('user_task_module'))
                 @endif
 
-                @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('zoom_module'))
-
-                <li style="display:none">
-                    <a href="{{ route('admin.zoom.index') }}" class=" waves-effect">
-                    <i class="fas fa-video"></i>
-                        <span>Zoom</span>
-                    </a>
-                </li>
+                @if (auth()->user()->can('dashboard') ||
+                        auth()->user()->can('administrator') ||
+                        auth()->user()->can('zoom_module'))
+                    <li style="display:none">
+                        <a href="{{ route('admin.zoom.index') }}" class=" waves-effect">
+                            <i class="fas fa-video"></i>
+                            <span>Zoom</span>
+                        </a>
+                    </li>
                 @endif
 
-                  <li>
+                <li>
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
                         <span>Administrative Settings</span>
                     </a>
                 </li>
-                
+
 
                 <li>
-                     <a href="javascript:void(0)" class="has-arrow waves-effect">
+                    <a href="javascript:void(0)" class="has-arrow waves-effect">
                         <i class="fas fa-stethoscope"></i>
                         <span>Settings</span>
-                     </a>
-                     <ul class="sub-menu" aria-expanded="false">
-                     <li><a href="{{ route('admin.CommunicationSetting.index') }}" class="waves-effect">Communication Settings</a></li>
-                     <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment Settings</a></li>
-                        <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a></li>
-                        <li><a href="{{ route('admin.settings.appointment.appointment') }}" class=" waves-effect">Appointment Settings</a></li>
-                        <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">APIs Settings</a></li>
-                         <li>
-                    <a href="{{ route('admin.script.index') }}" class=" waves-effect">
-                    
-                        Scripts
-                    </a>
-                </li>
-                 @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('access_all'))
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                      
-                        <span>Users Management</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('user_module'))
-                        <li><a href="{{ route('admin.user-list.index') }}">Users</a></li>
-                        @endif
-                        @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('roles_module'))
-                        <li><a href="{{ route('admin.roles.index') }}">Roles</a></li>
-                        @endif
-                        @if(auth()->user()->can('dashboard') || auth()->user()->can('administrator') || auth()->user()->can('permissions_module'))
-                        <li><a href="{{ route('admin.permissions.index') }}">Permission</a></li>
-                        @endif
+                        <li><a href="{{ route('admin.CommunicationSetting.index') }}"
+                                class="waves-effect">Communication Settings</a></li>
+                        <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment
+                                Settings</a></li>
+                        <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a>
+                        </li>
+                        {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
+                                class=" waves-effect">Appointment Settings</a></li> --}}
+                        <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">APIs Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.templates.index') }}" class="waves-effect">
+                                Templates
+                            </a>
+                            {{-- <ul class="submenu" aria-expanded="false">
+                                <li>
+                                    <a href="{{ route('admin.script.index') }}" class=" waves-effect">
+                                        Scripts
+                                    </a>
+                                </li>
+                                <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS
+                                        Templates</a>
+                                </li>
+                                <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign.
+                                        Templates</a></li>
+                            </ul> --}}
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>
+                        </li>
+                        @if (auth()->user()->can('dashboard') ||
+                                auth()->user()->can('administrator') ||
+                                auth()->user()->can('access_all'))
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
 
-                    </ul>
-                </li>
+                                    <span>Users Management</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('user_module'))
+                                        <li><a href="{{ route('admin.user-list.index') }}">Users</a></li>
+                                    @endif
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('roles_module'))
+                                        <li><a href="{{ route('admin.roles.index') }}">Roles</a></li>
+                                    @endif
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('permissions_module'))
+                                        <li><a href="{{ route('admin.permissions.index') }}">Permission</a></li>
+                                    @endif
 
-                @endif
-                 <!-- <li><a href="{{ route('admin.auto-responder.index') }}" class=" waves-effect">Keyword Auto-Responder</a></li> -->
+                                </ul>
+                            </li>
+
+                        @endif
+                        <!-- <li><a href="{{ route('admin.auto-responder.index') }}" class=" waves-effect">Keyword Auto-Responder</a></li> -->
                         <!-- <li><a href="{{ route('admin.auto-reply.index') }}" class=" waves-effect">Auto-Reply</a></li> -->
                         <!-- <li><a href="{{ route('admin.phone.numbers') }}" class="waves-effect">Phone Numbers</a></li> -->
-                         <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
-                        <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS Templates</a></li>
-                        <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign. Templates</a></li>
+                        <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
                         <!-- <li><a href="{{ route('admin.market.index') }}" class=" waves-effect">Markets</a></li> -->
-                        <li style="display:none"><a href="{{ route('admin.category.index') }}" class=" waves-effect">Lead Categories</a></li>
-                        <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li>
+                        <li style="display:none"><a href="{{ route('admin.category.index') }}"
+                                class=" waves-effect">Lead Categories</a></li>
+                        {{-- <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li> --}}
                         <!-- <li><a href="{{ route('admin.rvm.index') }}" class=" waves-effect">RVMS</a></li> -->
-                        <li><a href="{{ route('admin.googleCalendersetting.setting') }}" class=" waves-effect"> Google Calendar Settings</a></li>
-                        <li><a href="{{ route('admin.field.index') }}" class=" waves-effect">Custom Fields</a></li>
-                        <li><a href="javascript: void(0);" class="has-arrow waves-effect"><span>DNC Management</span></a>
+                        <li><a href="{{ route('admin.googleCalendersetting.setting') }}" class=" waves-effect">
+                                Google Calendar Settings</a></li>
+                        {{-- <li><a href="{{ route('admin.field.index') }}" class=" waves-effect">Custom Fields</a></li> --}}
+                        {{-- <li><a href="javascript: void(0);" class="has-arrow waves-effect"><span>DNC
+                                    Management</span></a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{ route('admin.dnc-database.index') }}" class=" waves-effect">DNC Keywords</a></li>
-                                <li><a href="{{ route('admin.blacklist.index') }}" class=" waves-effect">DNC Database</a></li>
+                                <li><a href="{{ route('admin.dnc-database.index') }}" class=" waves-effect">DNC
+                                        Keywords</a></li>
+                                <li><a href="{{ route('admin.blacklist.index') }}" class=" waves-effect">DNC
+                                        Database</a></li>
                             </ul>
-                        </li>
-                        <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation Management</a></li>
+                        </li> --}}
+                        <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation
+                                Management</a></li>
 
                         <li>
-                    <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
+                            <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
 
-                        <span>Tasks</span>
-                    </a>
-                </li>
-
-
+                                <span>Tasks</span>
+                            </a>
+                        </li>
 
 
 
@@ -272,43 +296,44 @@
 
 
 
-                <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
 
-               <!-- <span> Quick Response</span></a></li> -->
-                <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
+
+                        <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
+
+                        <!-- <span> Quick Response</span></a></li> -->
+                        <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
                 
                <span> Quick Response</span></a></li> -->
 
 
 
 
-                <li style="display:none">
-                    <a href="{{ route('admin.lead-category.index') }}" class=" waves-effect">
+                        <li style="display:none">
+                            <a href="{{ route('admin.lead-category.index') }}" class=" waves-effect">
 
-                        <span>Lead Categories</span>
-                    </a>
-                </li>
-               
-                @if(\App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
-                <li>
-                    <a href="#" class=" waves-effect">
+                                <span>Lead Categories</span>
+                            </a>
+                        </li>
 
-                        <span>Billing</span>
-                    </a>
-                </li>
+                        @if (\App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
+                            <li>
+                                <a href="#" class=" waves-effect">
 
-                
-                <!-- 010923 sneha -->
-                <li>
-                    <a href="{{ route('admin.systemmessages.index') }}" class=" waves-effect">
-                       
-                        <span>System Messages</span>
-                    </a>
-                </li>
-              
-                @endif
+                                    <span>Billing</span>
+                                </a>
+                            </li>
 
-                {{--
+
+                            <!-- 010923 sneha -->
+                            <li>
+                                <a href="{{ route('admin.systemmessages.index') }}" class=" waves-effect">
+
+                                    <span>System Messages</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        {{--
                              <li>
                                  <a href="javascript: void(0);" class="has-arrow waves-effect">
                                      <i class="bx bx-user-circle"></i>
@@ -594,7 +619,7 @@
                                  </ul>
                              </li>
               --}}
-            </ul>
+                    </ul>
 
         </div>
         <!-- Sidebar -->

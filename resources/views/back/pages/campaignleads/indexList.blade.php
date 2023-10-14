@@ -29,7 +29,8 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        <i class="fas fa-edit"></i> {{$campaign_name->name}}
+                                        <i style="" class="fas fa-edit mr-1"></i> {{$campaign_name->name}}
+                                        @include('components.modalform')
                                     </div>
                                     <div class="card-body">
                                         <form action="{{ route('admin.campaignleadlist.store') }}" method="post" enctype="multipart/form-data">
