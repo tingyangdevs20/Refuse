@@ -39,6 +39,7 @@ class CampaignController extends Controller
             ]);
             $campaign_id = $compaignRes->id;
             $checkCompainList = CampaignList::where('campaign_id',$id)->get();
+            
             if(count($checkCompainList) > 0){
                 foreach($checkCompainList as $compaign){
                     $insertData = array(
@@ -49,17 +50,18 @@ class CampaignController extends Controller
                         "body" => $compaign->body,
                         "subject" => $compaign->subject,
                         "mediaUrl" => $compaign->mediaUrl,
-                        "template_id" => 0
+                        "template_id" => $checkCompainList[0]->template_id
                     );
                     $c_id = CampaignList::create($insertData);
                     $checkCompainList = CampaignList::where('campaign_id',$campaign_id)->get();
                 }
 
             }
+           // dd($checkCompainList);
             $compain = Campaign::where('id' , $campaign_id)->first();
             $groupsID = Group::where('id',$compain->group_id)->first();
             $sender_numbers = Number::where('market_id' , $groupsID->market_id)->inRandomOrder()->first();
-            //dd($numbers);
+           // dd($sender_numbers);
             $account = Account::where('id' , $sender_numbers->account_id)->first();
             if($account){
                 $sid = $account->account_id;
@@ -73,6 +75,7 @@ class CampaignController extends Controller
                 $template = Template::where('id', $checkCompainList->template_id)->first();
                 if($checkCompainList->type == 'email') {
                     $contacts = Contact::where('group_id', $compain->group_id)->get();
+                   // dd($contacts);
                     if(count($contacts) > 0) {
                         foreach($contacts as $cont) {
                             //return $cont->name;
@@ -92,19 +95,24 @@ class CampaignController extends Controller
                             $subject = str_replace("{state}", $cont->state, $subject);
                             $subject = str_replace("{zip}", $cont->zip, $subject);
                             if($template){
-                                $message = $template->body;
+                                $body = $template->body;
                             }else{
-                                $message = $checkCompainList->body;
+                                $body = $checkCompainList->body;
                             }
-                            $message = str_replace("{name}", $cont->name, $message);
-                            $message = str_replace("{street}", $cont->street, $message);
-                            $message = str_replace("{city}", $cont->city, $message);
-                            $message = str_replace("{state}", $cont->state, $message);
-                            $message = str_replace("{zip}", $cont->zip, $message);
+                            $body = str_replace("{name}", $cont->name, $body);
+                            $body = str_replace("{street}", $cont->street, $body);
+                            $body = str_replace("{city}", $cont->city, $body);
+                            $body = str_replace("{state}", $cont->state, $body);
+                            $body = str_replace("{zip}", $cont->zip, $body);
                             $unsub_link = url('admin/email/unsub/'.$email);
-                            $data = ['message' => $message ,'subject' => $subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
+                            $data = ['message' => $body ,'subject' => $subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
+                           // dd($data);
                             Mail::to($email)->send(new TestEmail($data));
-                            //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
+                           // Mail::raw($body, function ($message) use ($subject, $email) {
+                              //  $message->subject($subject);
+                               // $message->to('jagjit.mcs@gmail.com');
+                          //  });
+                            
                         }
                     }
 

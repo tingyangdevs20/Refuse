@@ -772,7 +772,7 @@
                                     timeOut: 9000,
                                 });
                             } else {
-                                alert(data);
+                               // alert(data);
                                 toastr.error('Data already exists.', {
                                     timeOut: 9000,
                                 });

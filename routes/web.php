@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\SourceListController;
 use App\Http\Controllers\Admin\SystemMessages;
+use App\Http\Controllers\Admin\UserAgreementController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -196,7 +197,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('/campaigns', Admin\CampaignController::class);
     Route::get('/campaign/changeStatus', 'Admin\CampaignController@changeStatus');
     Route::get('/leadcampaign/changeStatus', 'Admin\CampaignLeadController@changeStatus');
-    // Route::get('/admin/campaigns', 'Admin\CampaignController@index')->name('admin.campaigns.index');
+    Route::get('/leadcampaigns', 'Admin\CampaignLeadController@index')->name('leadcampaigns.index');
     // Route::get('/campaigns', [CampaignController::class, 'index'])->name('admin.campaign');
     //    Route::resource('account','Admin\RoleController');
     Route::get('/sendMail', [Click2MailController::class, 'index']);
@@ -283,6 +284,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
         return response()->json($response, 200);
     });
+
+    Route::get('/file-manager', [UserAgreementController::class, 'fileManager'])->name('user-agreement.files');
+    Route::delete('/file-manager/delete', [UserAgreementController::class, 'deletefile'])->name('user-agreement.delete');
     Route::post('/mailcontactlist', 'Admin\GroupController@mailcontactlist')->name('mailcontactlist');
     // Sachin 05092023
     Route::resource('leadcampaign', 'Admin\CampaignLeadController');
