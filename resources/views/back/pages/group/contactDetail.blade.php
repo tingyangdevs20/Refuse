@@ -419,7 +419,8 @@
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            <i class="fas fa-edit"></i> Contact
+                            <i class="fas fa-edit mr-1"></i>Contact
+                            @include('components.modalform')
                         </div>
                         <div class="card-body">
                             @if (session('upload'))
@@ -4199,7 +4200,7 @@
                                                                                         ..
                                                                                     </a>
                                                                                 </div>
-                                                                                <div class="file-item">
+                                                                                {{-- <div class="file-item">
                                                                                     <div class="file-item-select-bg bg-primary"></div>
                                                                                     <div class="file-item-icon far fa-file text-secondary"></div>
                                                                                     <a href="javascript:void(0)" class="file-item-name">
@@ -4211,7 +4212,7 @@
                                                                                         <a class="dropdown-item" href="javascript:void(0)">Delete</a>
                                                                                     </div>
                                                                                     </div>
-                                                                                </div>
+                                                                                </div> --}}
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -5721,6 +5722,7 @@
 
                     this.on("success", function(file, response) {
                         // Event handler when a file upload is successful
+                        console.log(response);
                         this.removeAllFiles();
                         toastr.success("File uplaoded Successfully", {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
@@ -5732,7 +5734,8 @@
                     });
 
                     this.on("error", function(file, errorMessage) {
-                        toastr.success("File not uploaded", {
+                        console.log(errorMessage);
+                        toastr.error("File not uploaded", {
                             timeOut: 10000, // Set the duration (10 seconds in this example)
                         });
                     });
@@ -5894,7 +5897,7 @@
                                 <div class="file-item">
                                     <div class="file-item-select-bg bg-primary"></div>
                                     <div class="file-item-icon far fa-file text-secondary"></div>
-                                    <a href="${fileItem.original_url}" class="file-item-name" target="_blank">
+                                    <a href="${fileItem.url}" class="file-item-name" target="_blank">
                                         ${fileItem.file_name}
                                     </a>
                                     <div class="file-item-actions btn-group">
@@ -5902,9 +5905,9 @@
                                         <div class="dropdown-menu dropdown-menu-right">
                                             
                                             <br>
-                                            <a class="dropdown-item" href="${fileItem.original_url}" target="_blank">Open in tab</a>
+                                            <a class="dropdown-item" href="${fileItem.url}" target="_blank">Open in tab</a>
                                             <br>
-                                            <a class="dropdown-item" href="${fileItem.original_url}" target="_blank"  download="${fileItem.file_name}">Download</a>
+                                            <a class="dropdown-item" href="${fileItem.url}" target="_blank"  download="${fileItem.file_name}">Download</a>
                                             
                                             </div>
                                             </div>

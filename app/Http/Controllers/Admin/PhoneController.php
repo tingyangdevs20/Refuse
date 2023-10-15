@@ -10,6 +10,7 @@ use App\Model\Settings;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Http;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class PhoneController extends Controller
@@ -19,17 +20,21 @@ class PhoneController extends Controller
         $settings = Settings::first()->toArray(); 
         
         
-        $sid = $settings['twilio_api_key'];
+        $sid = $settings['twilio_acc_sid'];
         
-        $token = $settings['twilio_acc_secret'];
+       $token = $settings['twilio_auth_token'];
        
         $this->client = new Client($sid, $token);
     }
     public function index(){
+        try {
         $context = $this->client->getAccount();
         $activeNumbers = $context->incomingPhoneNumbers;
-        // dd( $activeNumbers);
+        $callRecords = $this->client->recordings->read();
         $activeNumberArray = $activeNumbers->read();
+        $callLogs = $this->client->calls->read();
+        dd($callLogs);
+        echo $callLogs;
         //print_r($activeNumberArray);
         //die("...");
         $numbers = [];
@@ -79,6 +84,15 @@ class PhoneController extends Controller
        //die(".");
        $all_phone_nums=Number::all();
         return view('back.pages.phone.index', compact('all_phone_nums'));
+    } catch (TwilioException $e) {
+        // Handle the Twilio exception here
+        // You can log the error, show an error message to the user, or perform any other necessary action.
+        return response()->json(['error' => 'Twilio API error: ' . $e->getMessage()], 500);
+    } catch (\Exception $e) {
+        // Handle other exceptions here
+        // You can log the error, show an error message to the user, or perform any other necessary action.
+        return response()->json(['error' => 'An unexpected error occurred: ' . $e->getMessage()], 500);
+    }
     }
     public function changeStatus(Request $request)
     {
