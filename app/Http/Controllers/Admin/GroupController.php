@@ -2624,8 +2624,8 @@ class GroupController extends Controller
                                        ])->getResponse();
                                       
                 }
-                print_r($vrm);
-                                      die('..');
+               // print_r($vrm);
+                                    //  die('..');
             }
             
             //die('here');
