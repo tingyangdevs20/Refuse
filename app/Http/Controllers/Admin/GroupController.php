@@ -44,6 +44,7 @@ use App\TaskList;
 use App\Model\TimeZones;
 use Session;
 use App\AccountDetail;
+use App\goal_attribute;
 use App\User;
 use App\TotalBalance;
 use App\Services\DatazappService;
@@ -269,6 +270,210 @@ class GroupController extends Controller
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments', 'files'));
     }
 
+    // public function updateinfo(Request $request)
+    // {
+    //     dd($request->all());
+    //     $table = $request->table;
+    //     $id = $request->id;
+    //     $feild_id = $request->feild_id;
+    //     $section_id = $request->section_id;
+    //     $fieldVal = $request->fieldVal;
+    //     $fieldName = $request->fieldName;
+    //     if ($table != null) {
+    //         if ($table == 'custom_field_values') {
+    //             $contact = DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->first();
+    //             if ($contact) {
+    //                 DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
+    //             } else {
+    //                 DB::table($table)->insert(['contact_id' => $id, 'feild_id' => $feild_id, 'section_id' => $section_id, $fieldName => $fieldVal]);
+    //             }
+    //         } else {
+    //             $contact = DB::table($table)->where('contact_id', $id)->first();
+    //             if ($contact) {
+    //                 DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
+    //             } else {
+    //                 DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+    //             }
+
+    //             // Check if lead_type exists
+    //             if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
+
+    //                 // Check if it is lead
+    //                 if ($fieldVal == 'Lead-New' || $fieldVal == 'Lead-Warm' || $fieldVal == 'Lead-Hot' || $fieldVal == 'Lead-Cold') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $lead_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Lead-New')->first();
+    //                     if (!$lead_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Lead')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Lead-New',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is lead-scheduled-appointment
+    //                 if ($fieldVal == 'Phone Call - Scheduled') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $appointment_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - Scheduled')->first();
+    //                     if (!$appointment_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Phone Appointment')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - Scheduled',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is appointment show up
+    //                 if ($fieldVal == 'Phone Call - Completed') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $appointment_completed_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - Completed')->first();
+    //                     if (!$appointment_completed_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Appointments Show Up')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - Completed',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Call no action
+    //                 if ($fieldVal == 'Phone Call - No Show') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $no_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - No Show')->first();
+    //                     if (!$no_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Call No Show')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - No Show',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Call said no
+    //                 if ($fieldVal == 'Phone Call - Said No') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $call_no_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - Said No')->first();
+    //                     if (!$call_no_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Call Said No')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - Said No',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Contracts out
+    //                 if ($fieldVal == 'Contract Out - Buy Side' || $fieldVal == 'Contracts Out - Sell Side') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $contracts_out_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Contract Out - Buy Side')->first();
+    //                     if (!$contracts_out_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Contarcts Out')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Contract Out - Buy Side',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Contracts signed
+    //                 if ($fieldVal == 'Contract Signed - Buy Side' || $fieldVal == 'Contracts Signed - Sell Side') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $contracts_signed_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Contract Signed - Buy Side')->first();
+    //                     if (!$contracts_signed_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Contarct Signed')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Contract Signed - Buy Side',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Deals closed
+    //                 if ($fieldVal == 'Closed Deal - Buy Side') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $closed_deal_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Closed Deal - Buy Side')->first();
+    //                     if (!$closed_deal_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Deal Closed')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Closed Deal - Buy Side',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Data updated successfully!'
+    //     ]);
+    // }
+
     public function updateinfo(Request $request)
     {
         $table = $request->table;
@@ -277,28 +482,124 @@ class GroupController extends Controller
         $section_id = $request->section_id;
         $fieldVal = $request->fieldVal;
         $fieldName = $request->fieldName;
+
         if ($table != null) {
             if ($table == 'custom_field_values') {
-                $contact = DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->first();
-                if ($contact) {
-                    DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
-                } else {
-                    DB::table($table)->insert(['contact_id' => $id, 'feild_id' => $feild_id, 'section_id' => $section_id, $fieldName => $fieldVal]);
-                }
+                $this->handleCustomFieldValues($id, $feild_id, $section_id, $fieldName, $fieldVal);
             } else {
-                $contact = DB::table($table)->where('contact_id', $id)->first();
-                if ($contact) {
-                    DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
-                } else {
-                    DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+                $this->handleContactGoalsReached($table, $id, $fieldName, $fieldVal);
+            }
+        }
+    }
+
+    public function handleCustomFieldValues($id, $feild_id, $section_id, $fieldName, $fieldVal)
+    {
+        $contact = DB::table('custom_field_values')->where('contact_id', $id)->where('feild_id', $feild_id)->first();
+        if ($contact) {
+            DB::table('custom_field_values')->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
+        } else {
+            DB::table('custom_field_values')->insert([
+                'contact_id' => $id,
+                'feild_id' => $feild_id,
+                'section_id' => $section_id,
+                $fieldName => $fieldVal
+            ]);
+        }
+    }
+
+    public function handleContactGoalsReached($table, $id, $fieldName, $fieldVal)
+    {
+        $contact = DB::table($table)->where('contact_id', $id)->first();
+        if ($contact) {
+            DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
+        } else {
+            DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+        }
+
+        if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
+            $leadTypes = [
+                'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
+                'Phone Call - Scheduled', 'Phone Call - Completed',
+                'Phone Call - No Show', 'Phone Call - Said No',
+                'Contract Out - Buy Side', 'Contracts Out - Sell Side',
+                'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
+                'Closed Deal - Buy Side',
+            ];
+
+            if (in_array($fieldVal, $leadTypes)) {
+                $this->insertContactGoalReached($id, $fieldVal);
+            }
+        }
+    }
+
+    public function insertContactGoalReached($id, $leadType)
+    {
+        $lead_type = $leadType;
+
+        // Check if it is a lead
+        if ($lead_type == 'Lead-New' || $lead_type == 'Lead-Cold' || $lead_type == 'Lead-Hot' || $lead_type == 'Lead-Warm') {
+            $record = DB::table('contact_goals_reacheds')
+                ->where('contact_id', $id)
+                ->where('lead_type', 'Lead')
+                ->first();
+
+            if (!$record) {
+                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_type))->first();
+                if ($attribute) {
+
+
+                    DB::table('contact_goals_reacheds')->insert([
+                        'lead_type' => 'Lead',
+                        'contact_id' => $id,
+                        'recorded_at' => now(),
+                        'attribute_id' => $attribute->id,
+                        'user_id' => auth()->id(),
+                    ]);
+                }
+            }
+        } else {
+            $record = DB::table('contact_goals_reacheds')
+                ->where('contact_id', $id)
+                ->where('lead_type', $lead_type)
+                ->first();
+
+            if (!$record) {
+                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_type))->first();
+                if ($attribute) {
+
+
+                    DB::table('contact_goals_reacheds')->insert([
+                        'lead_type' => $lead_type,
+                        'contact_id' => $id,
+                        'recorded_at' => now(),
+                        'attribute_id' => $attribute->id,
+                        'user_id' => auth()->id(),
+                    ]);
                 }
             }
         }
-        return response()->json([
-            'status' => true,
-            'message' => 'Data updated successfully!'
-        ]);
     }
+
+    public function getAttributeName($leadType)
+    {
+        // Define a mapping of lead types to attribute names
+        $leadAttributes = [
+            'Lead-New' => 'Lead',
+            'Lead-Hot' => 'Lead',
+            'Lead-Cold' => 'Lead',
+            'Lead-Warm' => 'Lead',
+            'Phone Call - Scheduled' => 'Phone Appointment',
+            'Phone Call - Completed' => 'Appointments Show Up',
+            'Phone Call - No Show' => 'Call No Show',
+            'Phone Call - Said No' => 'Call Said No',
+            'Contract Out - Buy Side' => 'Contracts Out',
+            'Contract Signed - Buy Side' => 'Contracts Signed',
+            'Closed Deal - Buy Side' => 'Deal Closed',
+        ];
+
+        return $leadAttributes[$leadType] ?? '';
+    }
+
 
     public function updatetags(Request $request)
     {
@@ -1163,7 +1464,7 @@ class GroupController extends Controller
                                         }
                                     }
                                 }
-                                
+
                                 // Insert the data into the Contact table
                                 $property_infos = DB::table('property_infos')->where('contact_id', $contact->id)->first();
                                 if ($property_infos == null) {
@@ -1216,7 +1517,7 @@ class GroupController extends Controller
                                             }
                                         }
                                     }
-                                    
+
                                     // Insert the data into the Contact table
                                     $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
                                     if ($lead_info == null) {
@@ -1270,7 +1571,7 @@ class GroupController extends Controller
                                             }
                                         }
                                     }
-                                    
+
                                     // Insert the data into the Contact table
                                     $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $contact->id)->first();
                                     if ($property_finance_infos == null) {
@@ -1300,7 +1601,7 @@ class GroupController extends Controller
                                             }
                                         }
                                     }
-                                    
+
                                     // Insert the data into the Contact table
                                     $values_conditions = DB::table('values_conditions')->where('contact_id', $contact->id)->first();
                                     if ($values_conditions == null) {
@@ -2547,12 +2848,12 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
-        
+
         // dd($request);
-        
-        
-        
-       
+
+
+
+
 
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
@@ -2562,7 +2863,7 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
-        
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
@@ -2578,182 +2879,175 @@ class GroupController extends Controller
         // }
         $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
-        
-        try{
 
-        foreach ($campaign_lists as $campaign_list) {
+        try {
 
-            $_typ = $campaign_list->type;
-            $_body = $campaign_list->body;
-            $_media=$campaign_list->mediaUrl;
-           // die($_typ);
+            foreach ($campaign_lists as $campaign_list) {
 
-            if($_typ == 'rvm'){
-                $contactsArr = [];
-                $contacts = Contact::where('group_id' , $groupId)->get();
-              //  die($contacts);
-                if(count($contacts) > 0){
-                    foreach($contacts as $cont){
-                        if($cont->number != ''){
-                            $number = $cont->number;
-                        }elseif($cont->number2 != ''){
-                            $number = $cont->number2;
-                        }elseif($cont->number3 != ''){
-                            $number = $cont->number2;
+                $_typ = $campaign_list->type;
+                $_body = $campaign_list->body;
+                $_media = $campaign_list->mediaUrl;
+                // die($_typ);
+
+                if ($_typ == 'rvm') {
+                    $contactsArr = [];
+                    $contacts = Contact::where('group_id', $groupId)->get();
+                    //  die($contacts);
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
+                            if ($cont->number != '') {
+                                $number = $cont->number;
+                            } elseif ($cont->number2 != '') {
+                                $number = $cont->number2;
+                            } elseif ($cont->number3 != '') {
+                                $number = $cont->number2;
+                            }
+                            $contactsArr[] = $number;
                         }
-                        $contactsArr[] = $number;
                     }
-                   
+                    if (count($contactsArr) > 0) {
+                        $c_phones = implode(',', $contactsArr);
+                        // die($c_phones);
+                        $vrm = \Slybroadcast::sendVoiceMail([
+                            'c_phone' => ".$c_phones.",
+                            'c_url' => $_media,
+                            'c_record_audio' => '',
+                            'c_date' => 'now',
+                            'c_audio' => 'Mp3',
+                            //'c_callerID' => "4234606442",
+                            'c_callerID' => "+13128692422",
+                            //'mobile_only' => 1,
+                            'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
+                        ])->getResponse();
+                        // print_r($vrm);
+                        // die('..');
+                    }
                 }
-                if(count($contactsArr) > 0){
-                    $c_phones = implode(',',$contactsArr);
-                   // die($c_phones);
-                    $vrm = \Slybroadcast::sendVoiceMail([
-                                        'c_phone' => ".$c_phones.",
-                                        'c_url' =>$_media,
-                                        'c_record_audio' => '',
-                                        'c_date' => 'now',
-                                        'c_audio' => 'Mp3',
-                                        //'c_callerID' => "4234606442",
-                                        'c_callerID' => "+13128692422",
-                                        //'mobile_only' => 1,
-                                        'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
-                                       ])->getResponse();
-                                     // print_r($vrm);
-                                     // die('..');
-                }
-            }
-            
-            //die('here');
-            elseif(trim($_typ) == 'email') {
+
+                //die('here');
+                elseif (trim($_typ) == 'email') {
 
 
-                
-                $_subject = $campaign_list->subject;
+
+                    $_subject = $campaign_list->subject;
 
 
-                $contact_numbrs = Contact::where('group_id', $groupId)->get();
-                foreach ($contact_numbrs as $contact_num) {
+                    $contact_numbrs = Contact::where('group_id', $groupId)->get();
+                    foreach ($contact_numbrs as $contact_num) {
 
 
-                    $subject = $_subject;
+                        $subject = $_subject;
+                        $body = strip_tags($_body);
+                        $body = str_replace("{name}", $contact_num->name, $body);
+                        $body = str_replace("{street}", $contact_num->street, $body);
+                        $body = str_replace("{city}", $contact_num->city, $body);
+                        $body = str_replace("{state}", $contact_num->state, $body);
+                        $body = str_replace("{zip}", $contact_num->zip, $body);
+                        // Define the recipient's email address
+                        $email = $contact_num->email1;
+                        $unsub_link = url('admin/email/unsub/' . $email);
+
+                        // Send the email
+                        // Mail::raw($body, function ($message) use ($subject, $email) {
+                        //  $message->subject($subject);
+                        //  $message->to($email);
+                        // });
+                        $data = ['message' => $body, 'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
+                        Mail::to($email)->send(new TestEmail($data));
+                    }
+                } elseif ($_typ == 'sms') {
+
+                    $contact_numbrs = Contact::where('group_id', $groupId)->get();
+
                     $body = strip_tags($_body);
-                    $body = str_replace("{name}", $contact_num->name, $body);
-                    $body = str_replace("{street}", $contact_num->street, $body);
-                    $body = str_replace("{city}", $contact_num->city, $body);
-                    $body = str_replace("{state}", $contact_num->state, $body);
-                    $body = str_replace("{zip}", $contact_num->zip, $body);
-                    // Define the recipient's email address
-                    $email = $contact_num->email1;
-                    $unsub_link = url('admin/email/unsub/'.$email);
 
-                    // Send the email
-                   // Mail::raw($body, function ($message) use ($subject, $email) {
-                      //  $message->subject($subject);
-                      //  $message->to($email);
-                   // });
-                   $data = ['message' => $body ,'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
-                   Mail::to($email)->send(new TestEmail($data));
+                    foreach ($contact_numbrs as $contact_num) {
+
+                        // print_r($contact_num->number);
+                        // die("..");
+
+
+                        $settings = Settings::first()->toArray();
+                        // die($settings);
+                        $sid = $settings['twilio_acc_sid'];
+                        $token = $settings['twilio_auth_token'];
+                        $numberCounter = 0;
+
+
+                        $client = new Client($sid, $token);
+
+                        $cont_num = $contact_num->number;
+                        // die($body);
+
+                        $sms_sent = $client->messages->create(
+                            $cont_num,
+                            [
+                                'from' => $twilio_number,
+                                'body' => $body,
+                            ]
+                        );
+
+                        if ($sms_sent) {
+                            $old_sms = Sms::where('client_number', $cont_num)->first();
+                            if ($old_sms == null) {
+                                $sms = new Sms();
+                                $sms->client_number = $cont_num;
+                                $sms->twilio_number = $twilio_number;
+                                $sms->lname = null;
+                                $sms->fname = null;
+                                $sms->message = $body;
+                                $sms->media = "NO";
+                                $sms->status = 1;
+                                $sms->save();
+                                //$contact = Contact::where('number', $contact->number)->get();;
+                                // foreach ($contact as $contacts) {
+                                // $contacts->msg_sent = 1;
+                                // $contacts->save();
+                                // }
+                                // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                            } else {
+                                $reply_message = new Reply();
+                                $reply_message->sms_id = $old_sms->id;
+                                $reply_message->to = $cont_num;
+                                $reply_message->from = $twilio_number;
+                                $reply_message->reply = $body;
+                                $reply_message->system_reply = 1;
+                                $reply_message->save();
+                                // $contact = Contact::where('number', $contact->number)->get();;
+                                // foreach ($contact as $contacts) {
+                                //  $contacts->msg_sent = 1;
+                                //  $contacts->save();
+                                //  }
+                                // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                            }
+
+                            // Alert::toast("SMS Sent Successfully", "success");
+
+                        }
+                    }
+                } else {
                 }
-            } elseif ($_typ == 'sms') {
-                
-                $contact_numbrs = Contact::where('group_id', $groupId)->get();
-                
-                $body = strip_tags($_body);
-                
-                foreach ($contact_numbrs as $contact_num) {
-                
-                   // print_r($contact_num->number);
-               // die("..");
-              
-               
-               $settings = Settings::first()->toArray();
-              // die($settings);
-               $sid = $settings['twilio_acc_sid'];
-               $token = $settings['twilio_auth_token'];
-               $numberCounter = 0;
-               
-             
-                   $client = new Client($sid, $token);
-                   
-                   $cont_num=$contact_num->number;
-                  // die($body);
-       
-                   $sms_sent = $client->messages->create(
-                       $cont_num,
-                       [
-                           'from' => $twilio_number,
-                           'body' => $body,
-                       ]
-                   );
-                 
-                   if ($sms_sent) {
-                       $old_sms = Sms::where('client_number', $cont_num)->first();
-                       if ($old_sms == null) {
-                           $sms = new Sms();
-                           $sms->client_number = $cont_num;
-                           $sms->twilio_number = $twilio_number;
-                           $sms->lname = null;
-                           $sms->fname = null;
-                           $sms->message = $body;
-                           $sms->media = "NO";
-                           $sms->status = 1;
-                           $sms->save();
-                           //$contact = Contact::where('number', $contact->number)->get();;
-                           // foreach ($contact as $contacts) {
-                           // $contacts->msg_sent = 1;
-                           // $contacts->save();
-                           // }
-                           // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                       } else {
-                           $reply_message = new Reply();
-                           $reply_message->sms_id = $old_sms->id;
-                           $reply_message->to = $cont_num;
-                           $reply_message->from = $twilio_number;
-                           $reply_message->reply = $body;
-                           $reply_message->system_reply = 1;
-                           $reply_message->save();
-                           // $contact = Contact::where('number', $contact->number)->get();;
-                           // foreach ($contact as $contacts) {
-                           //  $contacts->msg_sent = 1;
-                           //  $contacts->save();
-                           //  }
-                           // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                       }
-       
-                       // Alert::toast("SMS Sent Successfully", "success");
-       
-                   }
-               
-
-
-
-                }
-            } else {
-                
             }
-        }
-        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
-    }
-    catch (\Exception $ex) {
-        $failed_sms = new FailedSms();
-        $failed_sms->client_number = '';
-        $failed_sms->twilio_number = '';
-        $failed_sms->message = $body;
-        $failed_sms->media = '';
-        $failed_sms->error = $ex->getMessage();
-        $failed_sms->save();
+            return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+        } catch (\Exception $ex) {
+            $failed_sms = new FailedSms();
+            $failed_sms->client_number = '';
+            $failed_sms->twilio_number = '';
+            $failed_sms->message = $body;
+            $failed_sms->media = '';
+            $failed_sms->error = $ex->getMessage();
+            $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
-    }
+        }
 
 
 
 
         // Return a response to indicate success
-        
-        
+
+
     }
-  
+
 
     // Show list create form
     public function newListForm()

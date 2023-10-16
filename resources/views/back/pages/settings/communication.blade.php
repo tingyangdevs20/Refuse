@@ -125,10 +125,10 @@
             padding-left: 12px
         }
 
-        body {
+        /* body {
             padding: 10px;
 
-        }
+        } */
 
 
         #exTab2 h3 {
@@ -224,7 +224,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -269,7 +269,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -316,7 +316,7 @@
                                             @if ($all_phone_nums->isEmpty())
                                                 <p>No Active Twilio Phone Numbers.</p>
                                             @else
-                                                <table class="table table-striped table-bordered" id="datatable">
+                                                <table class="table table-striped table-bordered datatable" id="">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Phone Number</th>
@@ -372,7 +372,7 @@
                                         </div>
                                         <div class="card-body">
                                            
-                                                <table class="table table-striped table-bordered" id="datatable">
+                                                <table class="table table-striped table-bordered datatable" id="">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Number</th>
@@ -420,7 +420,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
 
@@ -473,7 +473,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -523,7 +523,7 @@
 
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -1159,10 +1159,15 @@
 @endsection
 @section('scripts')
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
+    <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            $('.datatable').DataTable();
         });
         $('#editModalAutoRespond').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // Button that triggered the modal

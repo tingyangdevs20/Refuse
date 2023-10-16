@@ -17,6 +17,7 @@ class CreateGoalsReachedsTable extends Migration
             $table->id();
             $table->integer('user_id')->default(0);
             $table->integer('goals')->default(0)->nullable();
+            $table->unsignedBigInteger('attribute_id'); //Corresponds to goal_attributes id table
             $table->timestamps();
         });
     }

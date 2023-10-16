@@ -74,68 +74,68 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">#Lead</th>
-                                        <td>{{ $goal_lead ?? '0' }}</td>
-                                        <td>{{ $messages_received_today ?? '0' }}</td>
-                                        <td>{{ $messages_received_seven_days_goals ?? '0' }} </td>
-                                        <td>{{ $messages_received_month_days_goals ?? '0' }}</td>
-                                        <td>{{ $messages_received_ninety_days_goals ?? '0' }}</td>
-                                        <td>{{ $messages_received_year_goals ?? '0' }}</td>
-                                        <td>{{ $total_received_lifetime ?? '0' }}</td>
+                                        <td>{{ $lead_records_count ?? '0' }}</td>
+                                        <td>{{ $leads_count_today ?? '0' }}</td>
+                                        <td>{{ $leads_count_seven_days ?? '0' }} </td>
+                                        <td>{{ $leads_count_month ?? '0' }}</td>
+                                        <td>{{ $leads_count_ninety_days ?? '0' }}</td>
+                                        <td>{{ $leads_count_year ?? '0' }}</td>
+                                        <td>{{ $leads_count_lifetime ?? '0' }}</td>
                                         <td id="leads_count">0</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">#Leads - Scheduled Appointments</th>
-                                        <td>{{ $goal_appointment ?? '0' }}</td>
-                                        <td>{{ $appointment_todays ?? '0' }}</td>
-                                        <td>{{ $appointment_seven_day ?? '0' }}</td>
-                                        <td>{{ $appointment_month ?? '0' }}</td>
-                                        <td>{{ $appointment_ninety_day ?? '0' }}</td>
-                                        <td>{{ $appointment_year ?? '0' }}</td>
-                                        <td>{{ $appointment_lifetime ?? '0' }}</td>
-                                        <td id="appointments_count">0</td>
+                                        <td>{{ $scheduled_appointments_records_count ?? '0' }}</td>
+                                        <td>{{ $scheduled_appointments_count_today ?? '0' }}</td>
+                                        <td>{{ $scheduled_appointments_count_seven_days ?? '0' }}</td>
+                                        <td>{{ $scheduled_appointments_count_month ?? '0' }}</td>
+                                        <td>{{ $scheduled_appointments_count_ninety_days ?? '0' }}</td>
+                                        <td>{{ $scheduled_appointments_count_year ?? '0' }}</td>
+                                        <td>{{ $scheduled_appointments_count_lifetime ?? '0' }}</td>
+                                        <td id="lead_scheduled_count">0</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">#Appointments Show Up/Sellers Talked To</th>
-                                        <td>{{ $goal_appointment ?? '0' }}</td>
-                                        <td>{{ $appointment_todays ?? '0' }}</td>
-                                        <td>{{ $appointment_seven_day ?? '0' }}</td>
-                                        <td>{{ $appointment_month ?? '0' }}</td>
-                                        <td>{{ $appointment_ninety_day ?? '0' }}</td>
-                                        <td>{{ $appointment_year ?? '0' }}</td>
-                                        <td>{{ $appointment_lifetime ?? '0' }}</td>
-                                        <td id="appointments_count">0</td>
+                                        <td>{{ $appointments_showup_records_count ?? '0' }}</td>
+                                        <td>{{ $appointments_showup_count_today ?? '0' }}</td>
+                                        <td>{{ $appointments_showup_count_seven_days ?? '0' }}</td>
+                                        <td>{{ $appointments_showup_count_month ?? '0' }}</td>
+                                        <td>{{ $appointments_showup_count_ninety_days ?? '0' }}</td>
+                                        <td>{{ $appointments_showup_count_year ?? '0' }}</td>
+                                        <td>{{ $appointments_showup_count_lifetime ?? '0' }}</td>
+                                        <td id="appointments_showup_count">0</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Call No Show</th>
-                                        <td>{{ $contacts_out ?? '0' }}</td>
-                                        <td>{{ $contracts_out_todays ?? '0' }}</td>
-                                        <td>{{ $contracts_out_seven_day ?? '0' }}</td>
-                                        <td>{{ $contracts_out_month ?? '0' }}</td>
-                                        <td>{{ $contracts_out_ninety_day ?? '0' }}</td>
-                                        <td>{{ $contracts_out_year ?? '0' }}</td>
-                                        <td>{{ $contracts_out_lifetime ?? '0' }}</td>
-                                        <td id="contracts_out_count">0</td>
+                                        <td>{{ $call_no_show_records_count ?? '0' }}</td>
+                                        <td>{{ $call_no_show_count_today ?? '0' }}</td>
+                                        <td>{{ $call_no_show_count_seven_days ?? '0' }}</td>
+                                        <td>{{ $call_no_show_count_month ?? '0' }}</td>
+                                        <td>{{ $call_no_show_count_ninety_days ?? '0' }}</td>
+                                        <td>{{ $call_no_show_count_year ?? '0' }}</td>
+                                        <td>{{ $call_no_show_count_lifetime ?? '0' }}</td>
+                                        <td id="call_no_show_count">0</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Contracts Signed</th>
-                                        <td>{{ $contacts_signed ?? '0' }}</td>
-                                        <td>{{ $contracts_signed_todays ?? '0' }}</td>
-                                        <td>{{ $contracts_signed_seven_day ?? '0' }}</td>
-                                        <td>{{ $contracts_signed_month ?? '0' }}</td>
-                                        <td>{{ $contracts_signed_ninety_day ?? '0' }}</td>
-                                        <td>{{ $contracts_signed_year ?? '0' }}</td>
-                                        <td>{{ $contracts_signed_lifetime ?? '0' }}</td>
-                                        <td id="contracts_count">0</td>
+                                        <td>{{ $contracts_signed_records_count ?? '0' }}</td>
+                                        <td>{{ $contracts_signed_count_today ?? '0' }}</td>
+                                        <td>{{ $contracts_signed_count_seven_days ?? '0' }}</td>
+                                        <td>{{ $contracts_signed_count_month ?? '0' }}</td>
+                                        <td>{{ $contracts_signed_count_ninety_days ?? '0' }}</td>
+                                        <td>{{ $contracts_signed_count_year ?? '0' }}</td>
+                                        <td>{{ $contracts_signed_count_lifetime ?? '0' }}</td>
+                                        <td id="contracts_signed_count">0</td>
                                     </tr>
                                     <tr>
                                         <th scope="col">Deals Closed</th>
-                                        <td>{{ $deal_closed ?? '0' }}</td>
-                                        <td>{{ $deals_todays ?? '0' }}</td>
-                                        <td>{{ $deals_seven_day ?? '0' }}</td>
-                                        <td>{{ $deals_month ?? '0' }}</td>
-                                        <td>{{ $deals_ninety_day ?? '0' }}</td>
-                                        <td>{{ $deals_year ?? '0' }}</td>
-                                        <td>{{ $deals_lifetime ?? '0' }}</td>
+                                        <td>{{ $deal_closed_records_count ?? '0' }}</td>
+                                        <td>{{ $deal_closed_count_today ?? '0' }}</td>
+                                        <td>{{ $deal_closed_count_seven_days ?? '0' }}</td>
+                                        <td>{{ $deal_closed_count_month ?? '0' }}</td>
+                                        <td>{{ $deal_closed_count_ninety_days ?? '0' }}</td>
+                                        <td>{{ $deal_closed_count_year ?? '0' }}</td>
+                                        <td>{{ $deal_closed_count_lifetime ?? '0' }}</td>
                                         <td id="deals_count">0</td>
                                     </tr>
                                     <tr>
