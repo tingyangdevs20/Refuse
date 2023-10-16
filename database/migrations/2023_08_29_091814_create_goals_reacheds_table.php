@@ -32,3 +32,4 @@ class CreateGoalsReachedsTable extends Migration
         Schema::dropIfExists('goals_reacheds');
     }
 }
+

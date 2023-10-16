@@ -807,6 +807,10 @@
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Seller') selected @endif
                                                                                 @endif>Seller
                                                                             </option>
+                                                                            <option value="Tenant"
+                                                                                @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Tenant') selected @endif
+                                                                                @endif>Tenant
+                                                                            </option>
 
                                                                             <option value="Title Company"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_type == 'Title Company') selected @endif

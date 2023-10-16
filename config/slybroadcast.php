@@ -5,7 +5,7 @@ return [
      */
     'USER_EMAIL' => 'help@propdaddy.com',
 
-    'PASSWORD' => 'Q6yBi1*4',
+    'PASSWORD' => 'Q6yBi1*',
 
     'DEBUG' => FALSE
 ];
