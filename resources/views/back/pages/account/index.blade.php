@@ -241,11 +241,11 @@
                             <br />
 
                             <div class="form-group">
-                                <label>Post Call URL</label>
+                                <label>Caller ID</label>
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Enter new key to update"
+                                    <input type="text" class="form-control" placeholder="Enter new value to update"
                                         name="slybroad_call_url" name="slybroad_call_url"
-                                        value="{{ $settings->slybroad_call_url }}" required>
+                                        value="{{ $settings->slybroad_number }}" required>
                                 </div>
                             </div>
                             <div class="card-header bg-soft-dark ">

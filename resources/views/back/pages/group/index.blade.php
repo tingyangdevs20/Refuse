@@ -767,7 +767,7 @@
                         },
                         success: function(data) {
                             // Handle success response
-                            //alert(data);
+                            alert(data);
                             if (data.success) {
 
                                 toastr.success(
@@ -782,7 +782,7 @@
                             }
                         },
                         error: function(error) {
-                           // alert(data);
+                           // alert(error);
                             toastr.error('AJAX Error: ' + error.statusText, {
                                 timeOut: 9000,
                             });

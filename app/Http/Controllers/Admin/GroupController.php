@@ -2578,6 +2578,7 @@ class GroupController extends Controller
         // }
         $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
+        $settings = Settings::first()->toArray();
         
         try{
 
@@ -2607,21 +2608,24 @@ class GroupController extends Controller
                 }
                 if(count($contactsArr) > 0){
                     $c_phones = implode(',',$contactsArr);
-                   // die($c_phones);
+                    $sly_phone=$settings['slybroad_number'];
+                   
+                  
                     $vrm = \Slybroadcast::sendVoiceMail([
                                         'c_phone' => ".$c_phones.",
                                         'c_url' =>$_media,
                                         'c_record_audio' => '',
                                         'c_date' => 'now',
                                         'c_audio' => 'Mp3',
-                                        //'c_callerID' => "4234606442",
-                                        'c_callerID' => "+13128692422",
-                                        //'mobile_only' => 1,
+                                       
+                                        'c_callerID' => '+13128692422',
+                                        
                                         'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
                                        ])->getResponse();
-                                     // print_r($vrm);
-                                     // die('..');
+                                      
                 }
+                print_r($vrm);
+                                      die('..');
             }
             
             //die('here');
@@ -2667,7 +2671,7 @@ class GroupController extends Controller
                // die("..");
               
                
-               $settings = Settings::first()->toArray();
+              
               // die($settings);
                $sid = $settings['twilio_acc_sid'];
                $token = $settings['twilio_auth_token'];

@@ -359,6 +359,8 @@ class SettingsController extends Controller
             $settings->reply_email = $request->reply_email ?? 0;
         if ($request->sendgrid_key != '')
             $settings->sendgrid_key = $request->sendgrid_key ?? 0;
+            if ($request->slybroad_call_url != '')
+            $settings->slybroad_number = $request->slybroad_call_url ?? 0;
 
         if ($request->twilio_acc_sid != '')
             $settings->twilio_acc_sid = $request->twilio_acc_sid ?? 0;
