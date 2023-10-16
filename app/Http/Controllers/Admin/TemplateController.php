@@ -231,4 +231,13 @@ class TemplateController extends Controller
         $html = View::make('back.pages.campaign.ajaxTemplate',['templates' => $templates,'count' => $count,'type'=>$request->template_type])->render();
         echo $html;
     }
+    public function getTemplateWithoutCategory(Request $request){
+        $template_type = (!empty($request->template_type)) ? strtoupper($request->template_type) : '';
+       
+        $count = $request->id;
+
+        $templates = Template::where('type',$template_type)->where('category_id',$category)->first();
+        $html = View::make('back.pages.campaign.ajaxTemplate',['templates' => $templates,'count' => $count,'type'=>$request->template_type])->render();
+        echo $html;
+    }
 }

@@ -2549,7 +2549,7 @@ class GroupController extends Controller
     {
         
         // dd($request);
-        //die('here');
+        
         
         
        
@@ -2578,6 +2578,7 @@ class GroupController extends Controller
         // }
         $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
+        $settings = Settings::first()->toArray();
         
         try{
 
@@ -2585,10 +2586,50 @@ class GroupController extends Controller
 
             $_typ = $campaign_list->type;
             $_body = $campaign_list->body;
-           
+            $_media=$campaign_list->mediaUrl;
+           // die($_typ);
+
+            if($_typ == 'rvm'){
+                $contactsArr = [];
+                $contacts = Contact::where('group_id' , $groupId)->get();
+              //  die($contacts);
+                if(count($contacts) > 0){
+                    foreach($contacts as $cont){
+                        if($cont->number != ''){
+                            $number = $cont->number;
+                        }elseif($cont->number2 != ''){
+                            $number = $cont->number2;
+                        }elseif($cont->number3 != ''){
+                            $number = $cont->number2;
+                        }
+                        $contactsArr[] = $number;
+                    }
+                   
+                }
+                if(count($contactsArr) > 0){
+                    $c_phones = implode(',',$contactsArr);
+                    $sly_phone=$settings['slybroad_number'];
+                   
+                  
+                    $vrm = \Slybroadcast::sendVoiceMail([
+                                        'c_phone' => ".$c_phones.",
+                                        'c_url' =>$_media,
+                                        'c_record_audio' => '',
+                                        'c_date' => 'now',
+                                        'c_audio' => 'Mp3',
+                                       
+                                        'c_callerID' => '+13128692422',
+                                        
+                                        'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
+                                       ])->getResponse();
+                                      
+                }
+               // print_r($vrm);
+                                    //  die('..');
+            }
             
             //die('here');
-            if (trim($_typ) == 'email') {
+            elseif(trim($_typ) == 'email') {
 
 
                 
@@ -2630,7 +2671,7 @@ class GroupController extends Controller
                // die("..");
               
                
-               $settings = Settings::first()->toArray();
+              
               // die($settings);
                $sid = $settings['twilio_acc_sid'];
                $token = $settings['twilio_auth_token'];
@@ -2649,7 +2690,7 @@ class GroupController extends Controller
                            'body' => $body,
                        ]
                    );
-                  die($sms_sent);
+                 
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
