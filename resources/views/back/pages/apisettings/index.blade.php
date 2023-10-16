@@ -151,7 +151,7 @@
 
                             
 
-                            <div class="card-header bg-soft-dark ">
+                            {{-- <div class="card-header bg-soft-dark ">
                                 <i class="fas fa-cog"></i> Google Drive Keys
 
                             </div>
@@ -185,7 +185,7 @@
                                         value="{{ $settings->google_drive_developer_key }}">
                                 </div>
                             </div>
-                            
+                             --}}
                            
                            
 
@@ -196,7 +196,7 @@
                         </form>
                         <form>
                         <div class="card">
-                    <div class="card-header bg-soft-dark ">
+                    {{-- <div class="card-header bg-soft-dark ">
                         <i class="fas fa-cog"></i> Google Calendar Settings
                         
                         @include('components.modalform')
@@ -248,7 +248,7 @@
                             <button type="submit" class="btn btn-primary">Update Settings</button>
 
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
                         </form>
                     </div>
