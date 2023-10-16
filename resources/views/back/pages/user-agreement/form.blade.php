@@ -3,6 +3,7 @@
     <div class="modal-body">
         @csrf
         @method('POST')
+        <div id="error-messages" style="color: red; margin-left:30%;"></div>
         <div class="form-group">
             <label for="recipient-name" class="col-form-label">Form Template <span class="required">*</span></label>
             <select class="form-control formTemplate" onchange="fetch(this)" id="template_id" name="template_id" required>
@@ -35,9 +36,10 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-primary saveUserAgreement">Create</button>
+        <button type="button" class="btn btn-primary saveUserAgreement">Create</button>
     </div>
 </form>
+
 <script>
     function fetch(ctrl)
     {

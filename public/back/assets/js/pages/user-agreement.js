@@ -19,55 +19,96 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", ".saveUserAgreement", function (e) {
-        e.preventDefault();
-        var myData = $(this);
-        myData.attr('disabled', true);
-        $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
-        var data = $(this).parents("form").serialize();
-        $.ajax({
-            url: userAgreementPath + "save",
-            method: "post",
-            data: data,
-            success: function (response) {
-                if (response.success) {
-                    $("#modalUserAgreement").find("form")[0].reset();
-                    $("#modalUserAgreement").modal("hide");
-                    location.reload();
-                }
-            },
-        });
-    });
+                e.preventDefault();
+                var myData = $(this);
+                myData.attr('disabled', true);
+                $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+                var data = $(this).parents("form").serialize();
+                $.ajax({
+                    url: userAgreementPath + "save",
+                    method: "post",
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            $("#modalUserAgreement").find("form")[0].reset();
+                            $("#modalUserAgreement").modal("hide");
+                            location.reload();
+                        } else{
+                            console.log(response);
+                        }
+                    },
+                    error: function (xhr) {
+                        // Handle the error here (e.g., show an error message to the user)
+                        console.log("AJAX Request Error: " + xhr.statusText);
+                        var errors = xhr.responseJSON.errors;
 
-    $(document).on("click", ".saveUserAgreementContact", function (e) {
-        if ($(".user-seller:checked").length === 0) {
-            alert("Please select at least one User seller!");
-            // e.preventDefault(); // Prevent form submission
-        } else{
-            var selectedCheckboxData = [];
-            $(".user-seller:checked").each(function () {
-                selectedCheckboxData.push($(this).val());
-            });
-
-            // e.preventDefault();
-            var myData = $(this);
-            myData.attr('disabled', true);
-            $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+                        // Handle the errors as needed (e.g., display them to the user)
+                        console.log(xhr.responseJSON);
+                        var errorMessageContainer = $("#error-messages");
+                        errorMessageContainer.empty(); // Clear any previous error messages
             
-            var data = $(this).parents("form").serialize();
-            // console.log(data);
-            $.ajax({
-                url: userAgreementPath + "save",
-                method: "post",
-                data: data,
-                success: function (response) {
-                    if (response.success) {
-                        location.reload();
-                    }
-                },
-            });
-        }
+                        // Iterate through the error messages and add them to the div
+                        for (var fieldName in errors) {
+                            if (errors.hasOwnProperty(fieldName)) {
+                                errorMessageContainer.append('<div>'  + fieldName + ': ' + errors[fieldName] + '</div>');
+                            }
+                        }
 
+                        var errorMessageContainer = document.getElementById("error-messages");
+                        errorMessageContainer.innerHTML = "";
+                        var responseData = xhr.responseJSON;
+                        for (var key in responseData) {
+                            if (responseData.hasOwnProperty(key)) {
+                                var errorList = responseData[key];
+                                var errorHTML = "";
+                        
+                                for (var i = 0; i < errorList.length; i++) {
+                                    errorHTML +=  errorList[i] +' is required!'+ "<br>";
+                                }
+                        
+                                errorMessageContainer.innerHTML += errorHTML;
+                            }
+                        }
+                       
+                    }
+                });
+            
+            
     });
+
+    // $(document).on("click", ".saveUserAgreement", function (e) {
+    //     if ($(".user-seller:checked").length === 0) {
+    //         alert("Please select at least one User seller!");
+    //         // e.preventDefault(); // Prevent form submission
+    //     } else{
+    //         var selectedCheckboxData = [];
+    //         $(".user-seller:checked").each(function () {
+    //             selectedCheckboxData.push($(this).val());
+    //         });
+
+    //         e.preventDefault();
+    //         var myData = $(this);
+    //         myData.attr('disabled', true);
+    //         $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+            
+    //         var data = $(this).parents("form").serialize();
+    //         // console.log(data);
+    //         $.ajax({
+    //             url: userAgreementPath + "save",
+    //             method: "post",
+    //             data: data,
+    //             success: function (response) {
+    //                 if (response.success) {
+    //                     $("#modalUserAgreement").find("form")[0].reset();
+    //                     $("#modalUserAgreement").modal("hide");
+    //                     // location.reload();
+    //                 }
+    //             },
+    //         });
+    //     }
+
+    // });
 
     $(document).on("click", ".editUserAgreement", function (e) {
         e.preventDefault();

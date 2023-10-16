@@ -11,6 +11,8 @@ use App\Model\Campaign;
 use App\Model\FormTemplates;
 use RealRashid\SweetAlert\Facades\Alert;
 use DB;
+use Illuminate\Support\Facades\Schema;
+
 class FormTemplatesController extends Controller
 {
 
@@ -83,6 +85,7 @@ class FormTemplatesController extends Controller
         return view( 'back.pages.formtemplate.index', compact('groups', 'sr','campaigns','markets','tags','short_code') ) ;
 
     }
+    
 
     /**
      * Show the form for creating a new resource.
