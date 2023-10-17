@@ -30,11 +30,12 @@ class PhoneController extends Controller
         try {
         $context = $this->client->getAccount();
         $activeNumbers = $context->incomingPhoneNumbers;
-        $callRecords = $this->client->recordings->read();
         $activeNumberArray = $activeNumbers->read();
+        dd($activeNumberArray);
+        $callRecords = $this->client->recordings->read();
         $callLogs = $this->client->calls->read();
-        dd($callLogs);
-        echo $callLogs;
+        // dd($callLogs);
+        // echo $callLogs;
         //print_r($activeNumberArray);
         //die("...");
         $numbers = [];
@@ -100,5 +101,27 @@ class PhoneController extends Controller
         $phn->is_active = $request->sts; 
         $phn->save(); 
         return response()->json(['success'=>'Status changed successfully.']); 
+    }
+
+    // Make calls test
+    public function makeCallTesting()
+    {
+        // A Twilio number you own with Voice capabilities
+        $twilio_number = "+14234609555";
+
+        // Where to make a voice call (your cell phone?)
+        $to_number = "+18183107612";
+
+        $call = $this->client->calls->create(
+            $to_number,
+            $twilio_number,
+            [
+                'url' => 'http://demo.twilio.com/docs/voice.xml',
+            ]
+        );
+
+        echo "Call SID: " . $call->sid;
+
+
     }
 }

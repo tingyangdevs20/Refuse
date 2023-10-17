@@ -1,5 +1,5 @@
-<button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-    data-target="#helpModal">How to use this section?</button>
+<button class="btn btn-outline-primary btn-sm float-right" title="helpModal" data-toggle="modal"
+    data-target="#helpModal">How to Use this Section</button>
 {{-- Modal Add on 31-08-2023 --}}
 <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">

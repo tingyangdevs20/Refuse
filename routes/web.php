@@ -40,6 +40,8 @@ Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
 });
 
+Route::get('test-call', 'Admin\PhoneController@makeCallTesting');
+
 Route::get('/config-clear', function () {
     $exitCode1 = Artisan::call('cache:clear');
     $exitCode2 = Artisan::call('config:clear');

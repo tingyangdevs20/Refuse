@@ -85,15 +85,18 @@
                             {{-- <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
                                 data-target="#newModal"><i class="fas fa-plus-circle"></i></button> --}}
                             <a href="{{ route('admin.group.list.create') }}"
-                                class="btn btn-outline-primary btn-sm float-right" title="New List"><i
+                                class="btn btn-outline-primary btn-sm float-right ml-2" title="New List"><i
                                     class="fas fa-plus-circle"></i></a>
-                            <a href="{{ asset('uploads/examplenew.csv') }}" download
+                            {{-- <a href="{{ asset('uploads/examplenew.csv') }}" download
                                 class="btn btn-success btn-sm float-right mr-3"><i class="fas fa-download"></i> Download
-                                Sample</a>
+                                Sample</a> --}}
 
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
                                 data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
                             @include('components.modalform')
+                            <a href="{{ route('admin.source.list') }}" class="btn btn-outline-primary btn-sm float-right mr-2">
+                                <span>How To Source A List</span>
+                            </a>
 
                         </div>
                         <div class="card-body">

@@ -74,6 +74,8 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             <i class="fas fa-cog"></i> New List
+                            <a href="{{ URL::previous() }}" class="btn btn-outline-primary btn-sm float-right ml-2"
+                                title="New"><i class="fas fa-arrow-left"></i></a>
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
                                 data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
                             @include('components.modalform')
@@ -144,6 +146,131 @@
                                     @foreach ($tags as $tag)
                                         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group pt-2">
+                                <label>Select Lead Status</label>
+                                <select class="custom-select select2" name="lead_status" style="width: 100%;">
+                                    <option value="">Lead Status</option>
+                                    <option value="None/Unknown">
+                                        None/Unknown
+                                    </option>
+                                    <option value="Prospect" selected>
+                                        Prospect
+                                    </option>
+                                    <option value="DNC">DNC</option>
+                                    <option value="Lead-New">
+                                        Lead-New
+                                    </option>
+
+                                    <option value="Lead-Cold">
+                                        Lead-Cold
+                                    </option>
+                                    <option value="Lead-Warm">
+                                        Lead-Warm
+                                    </option>
+                                    <option value="Lead-Hot">
+                                        Lead-Hot
+                                    </option>
+                                    <option value="Send to Research">
+                                        Send to Research
+                                    </option>
+
+                                    <option value="Not Available - Not Selling">
+                                        Not Available -
+                                        Not Selling
+                                    </option>
+
+                                    <option value="Not Available - Sold Property">
+                                        Not Available -
+                                        Sold Property
+                                    </option>
+
+                                    <option value="Not Available - Under Contract w/3rd Party">
+                                        Not Available -
+                                        Under Contract w/3rd Party
+                                    </option>
+
+
+                                    <option value="Not Interested">
+                                        Not Interested
+                                    </option>
+
+                                    <option value="Non-Responsive">
+                                        Non-Responsive
+                                    </option>
+
+                                    <option value="Maybe to Our Offer">
+                                        Maybe to Our
+                                        Offer
+                                    </option>
+
+                                    <option value="Phone Call - Scheduled">
+                                        Phone Call -
+                                        Scheduled
+                                    </option>
+
+                                    <option value="Phone Call - Completed">
+                                        Phone Call -
+                                        Completed
+                                    </option>
+
+                                    <option value="Phone Call - No Show">
+                                        Phone Call - No
+                                        Show
+                                    </option>
+
+                                    <option value="Phone Call - Said No">
+                                        Phone Call -
+                                        Said No
+                                    </option>
+
+                                    <option value="Contract Out - Buy Side">
+                                        Contract Out -
+                                        Buy Side
+                                    </option>
+
+                                    <option value="Contract Out - Sell Side">
+                                        Contract Out -
+                                        Sell Side
+                                    </option>
+
+                                    <option value="Contract Signed - Buy Side">
+                                        Contract Signed
+                                        - Buy Side
+                                    </option>
+
+                                    <option value="Contract Signed - Sell Side">
+                                        Contract Signed
+                                        - Sell Side
+                                    </option>
+
+                                    <option value="Closed Deal - Buy Side">
+                                        Closed Deal -
+                                        Buy Side
+                                    </option>
+                                    <option value="Closed Deal - Sell Side">
+                                        Closed Deal -
+                                        Sell Side
+                                    </option>
+                                    <option value="Rehab in Process">
+                                        Rehab in Process
+                                    </option>
+                                    <option value="Hold - Rental">
+                                        Hold - Rental
+                                    </option>
+                                    <option value="For Sale (by Us)">
+                                        For Sale (by Us)
+                                    </option>
+                                    <option value="Closed Deal - Buy Side">
+                                        Closed Deal -
+                                        Buy Side
+                                    </option>
+                                    <option value="Closed Deal - Sell Side">
+                                        Closed Deal -
+                                        Sell Side
+                                    </option>
                                 </select>
                             </div>
 
@@ -230,7 +357,7 @@
 
                             <div class="form-group pt-2">
                                 <label>Select Lead Type</label>
-                                <select class="custom-select select2" multiple name="lead_type" style="width: 100%;">
+                                <select class="custom-select select2" name="lead_type" style="width: 100%;">
                                     <option value="">Lead
                                         Type
                                     </option>
@@ -1001,6 +1128,7 @@
                 var listName = $("input[name='name']").val();
                 var tagIds = $("select[name='tag_id[]']").val(); // Use 'select' for multi-select field
                 var leadSource = $("select[name='lead_source']").val(); // Use 'select' for dropdowns
+                var leadStatus = $("select[name='lead_status']").val();
                 var leadType = $("select[name='lead_type']").val(); // Use 'select' for dropdowns
 
                 // Append the form data to the file upload
@@ -1013,6 +1141,7 @@
                 }
                 formData.append('lead_source', leadSource)
                 formData.append('lead_type', leadType)
+                formData.append('lead_status', leadStatus)
 
                 // Disable autoProcessQueue to prevent duplicate submissions
                 myDropzone.options.autoProcessQueue = false;
@@ -1080,10 +1209,11 @@
                 }
 
                 // Collect data from the input fields
-                var listName = $("input[name='name']").val();
+                var listName = $("input[name='list_name']").val();
                 var tagIds = $("select[name='tag_id[]']").val();
                 var leadSource = $("select[name='lead_source']").val();
                 var leadType = $("select[name='lead_type']").val();
+                var leadStatus = $("select[name='lead_status']").val();
 
                 if (!listName.trim()) {
                     // Handle the case where 'listName' is empty
@@ -1097,6 +1227,12 @@
                     return; // Abort the form submission
                 }
 
+                if (!leadStatus) {
+                    // Handle the case where 'tagIds' is empty
+                    alert("Lead Status is required!");
+                    return; // Abort the form submission
+                }
+
                 // Append the form data to the FormData object
                 formData.append('name', listName);
                 for (var i = 0; i < tagIds.length; i++) {
@@ -1104,6 +1240,7 @@
                 }
                 formData.append('lead_source', leadSource);
                 formData.append('lead_type', leadType);
+                formData.append('lead_status', leadStatus)
 
                 // Iterate over the form fields and select boxes
                 $(".form-control").each(function() {

@@ -39,6 +39,34 @@ class AdminController extends Controller
         $messages_received_year_goals = getReportingDataOfSMSreceived(365);
         $user = Auth::id();
 
+        // People touched
+        $people_touched_records_count = 0;
+        $people_touched_lifetime = 0;
+        $people_touched_today = 0;
+        $people_touched_seven_days = 0;
+        $people_touched_month = 0;
+        $people_touched_ninety_days = 0;
+        $people_touched_year = 0;
+
+        // Get attribute details
+        $people_touched_attribute = goal_attribute::where('attribute', 'People Reached')->first();
+        if ($people_touched_attribute) {
+
+            $people_touched_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $people_touched_attribute->id)
+                ->where('lead_status', 'Prospect')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $people_touched_lifetime = $people_touched_records_count ?? 0;
+            $people_touched_today = people_touched_days_count(0, $user, $people_touched_attribute);
+            $people_touched_seven_days = people_touched_days_count(7, $user, $people_touched_attribute);
+            $people_touched_month = people_touched_days_count(30, $user, $people_touched_attribute);
+            $people_touched_ninety_days = people_touched_days_count(90, $user, $people_touched_attribute);
+            $people_touched_year = people_touched_days_count(365, $user, $people_touched_attribute);
+        }
+
         // Leads
         $lead_records_count = 0;
         $leads_count_lifetime = 0;
@@ -54,7 +82,7 @@ class AdminController extends Controller
 
             $lead_records_count = DB::table('contact_goals_reacheds')
                 ->where('attribute_id', $lead_attribute->id)
-                ->where('lead_type', 'Lead')
+                ->where('lead_status', 'Lead')
                 ->where('user_id', $user)
                 ->count();
 
@@ -82,7 +110,7 @@ class AdminController extends Controller
 
             $scheduled_appointments_records_count = DB::table('contact_goals_reacheds')
                 ->where('attribute_id', $scheduled_appointment_attribute->id)
-                ->where('lead_type', 'Phone Call - Scheduled')
+                ->where('lead_status', 'Phone Call - Scheduled')
                 ->where('user_id', $user)
                 ->count();
 
@@ -110,7 +138,7 @@ class AdminController extends Controller
 
             $appointments_showup_records_count = DB::table('contact_goals_reacheds')
                 ->where('attribute_id', $appointment_attribute->id)
-                ->where('lead_type', 'Phone Call - Completed')
+                ->where('lead_status', 'Phone Call - Completed')
                 ->where('user_id', $user)
                 ->count();
 
@@ -138,7 +166,7 @@ class AdminController extends Controller
 
             $call_no_show_records_count = DB::table('contact_goals_reacheds')
                 ->where('attribute_id', $call_no_show_attribute->id)
-                ->where('lead_type', 'Phone Call - No Show')
+                ->where('lead_status', 'Phone Call - No Show')
                 ->where('user_id', $user)
                 ->count();
 
@@ -166,7 +194,7 @@ class AdminController extends Controller
 
             $contracts_signed_records_count = DB::table('contact_goals_reacheds')
                 ->where('attribute_id', $contracts_signed_attribute->id)
-                ->where('lead_type', 'Contract Signed - Buy Side')
+                ->where('lead_status', 'Contract Signed - Buy Side')
                 ->where('user_id', $user)
                 ->count();
 
@@ -194,7 +222,7 @@ class AdminController extends Controller
 
             $deal_closed_records_count = DB::table('contact_goals_reacheds')
                 ->where('attribute_id', $deal_closed_attribute->id)
-                ->where('lead_type', 'Closed Deal - Buy Side')
+                ->where('lead_status', 'Closed Deal - Buy Side')
                 ->where('user_id', $user)
                 ->count();
 
@@ -226,14 +254,6 @@ class AdminController extends Controller
 
         $money_expected = $money_expected->goals ?? 0;
         $money_collected = $money_collected->goals ?? 0;
-
-        // People touched
-        $people_touched_lifetime = $goal_people_reached->goals ?? 0;
-        $people_touched_todays = people_touched_count(0, $user);
-        $people_touched_seven_day = people_touched_count(7, $user);
-        $people_touched_month = people_touched_count(30, $user);
-        $people_touched_ninety_day = people_touched_count(90, $user);
-        $people_touched_year = people_touched_count(365, $user);
 
         // Deals Closed
         $deals_lifetime = (UserAgreementSeller::where([['user_id', $user], ['is_sign', '2']])->count());
@@ -430,11 +450,13 @@ class AdminController extends Controller
             'deals_month',
             'deals_ninety_day',
             'deals_year',
+            
+            'people_touched_records_count',
             'people_touched_lifetime',
-            'people_touched_todays',
-            'people_touched_seven_day',
+            'people_touched_today',
+            'people_touched_seven_days',
             'people_touched_month',
-            'people_touched_ninety_day',
+            'people_touched_ninety_days',
             'people_touched_year',
             'contracts_signed_lifetime',
             'contracts_signed_todays',
@@ -518,8 +540,8 @@ class AdminController extends Controller
                 'appointments_count' => $appointments_count,
                 'contracts_signed_count' => $contracts_signed_count,
                 'contracts_out_count' => $contracts_out_count,
-                'money_expected_count' => $money_expected_count,
-                'money_collected_count' => $money_collected_count
+                'money_expected_count' => '$' . $money_expected_count,
+                'money_collected_count' => '$' . $money_collected_count
             ]
         ]);
     }

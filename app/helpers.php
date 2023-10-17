@@ -85,35 +85,27 @@ function deal_count($days, $user)
 }
 
 // Get poeple touched count with days
-function people_touched_count($days, $user)
+function people_touched_days_count($days, $user, $attribute)
 {
-    $poeple_touched_count = 0;
+    $count = 0;
 
     if ($days == 0) {
-        $goal_people_reached = GoalsReached::where([
-            ['user_id', '=', $user],
-            ['attribute_id', '=', 1], // Assuming 'attribute_id' is a specific value
-        ])
-            ->whereDate('created_at', Carbon::today()->subDays($days))
-            ->first();
-
-        if ($goal_people_reached) {
-            $poeple_touched_count = $goal_people_reached->goals;
-        }
+        $count = DB::table('contact_goals_reacheds')
+            ->where('attribute_id', $attribute->id)
+            ->where('lead_status', 'Prospect')
+            ->where('user_id', $user)
+            ->whereDate('recorded_at', Carbon::today()->subDays($days))
+            ->count();
     } else {
-        $goal_people_reached = GoalsReached::where([
-            ['user_id', '=', $user],
-            ['attribute_id', '=', 1], // Assuming 'attribute_id' is a specific value
-        ])
-            ->whereBetween('created_at', [Carbon::today()->subDays($days), Carbon::today()])
-            ->first();
-
-        if ($goal_people_reached) {
-            $poeple_touched_count = $goal_people_reached->goals;
-        }
+        $count = DB::table('contact_goals_reacheds')
+            ->where('attribute_id', $attribute->id)
+            ->where('lead_status', 'Prospect')
+            ->where('user_id', $user)
+            ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
+            ->count();
     }
 
-    return $poeple_touched_count;
+    return $count;
 }
 
 // Get leads count count with days
@@ -124,14 +116,14 @@ function leads_days_count($days, $user, $attribute)
     if ($days == 0) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Lead')
+            ->where('lead_status', 'Lead')
             ->where('user_id', $user)
             ->whereDate('recorded_at', Carbon::today()->subDays($days))
             ->count();
     } else {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Lead')
+            ->where('lead_status', 'Lead')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
             ->count();
@@ -148,14 +140,14 @@ function scheduled_appointments_days_count($days, $user, $attribute)
     if ($days == 0) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - Scheduled')
+            ->where('lead_status', 'Phone Call - Scheduled')
             ->where('user_id', $user)
             ->whereDate('recorded_at', Carbon::today()->subDays($days))
             ->count();
     } else {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - Scheduled')
+            ->where('lead_status', 'Phone Call - Scheduled')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
             ->count();
@@ -172,14 +164,14 @@ function appointments_showup_days_count($days, $user, $attribute)
     if ($days == 0) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - Completed')
+            ->where('lead_status', 'Phone Call - Completed')
             ->where('user_id', $user)
             ->whereDate('recorded_at', Carbon::today()->subDays($days))
             ->count();
     } else {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - Completed')
+            ->where('lead_status', 'Phone Call - Completed')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
             ->count();
@@ -196,14 +188,14 @@ function call_no_show_days_count($days, $user, $attribute)
     if ($days == 0) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - No Show')
+            ->where('lead_status', 'Phone Call - No Show')
             ->where('user_id', $user)
             ->whereDate('recorded_at', Carbon::today()->subDays($days))
             ->count();
     } else {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - No Show')
+            ->where('lead_status', 'Phone Call - No Show')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
             ->count();
@@ -220,14 +212,14 @@ function contracts_signed_days_count($days, $user, $attribute)
     if ($days == 0) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Contract Signed - Buy Side')
+            ->where('lead_status', 'Contract Signed - Buy Side')
             ->where('user_id', $user)
             ->whereDate('recorded_at', Carbon::today()->subDays($days))
             ->count();
     } else {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Contract Signed - Buy Side')
+            ->where('lead_status', 'Contract Signed - Buy Side')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
             ->count();
@@ -244,14 +236,14 @@ function deal_closed_days_count($days, $user, $attribute)
     if ($days == 0) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Closed Deal - Buy Side')
+            ->where('lead_status', 'Closed Deal - Buy Side')
             ->where('user_id', $user)
             ->whereDate('recorded_at', Carbon::today()->subDays($days))
             ->count();
     } else {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Closed Deal - Buy Side')
+            ->where('lead_status', 'Closed Deal - Buy Side')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
             ->count();
@@ -270,7 +262,7 @@ function deals_count_range($start_date, $end_date, $user)
 
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Closed Deal - Buy Side')
+            ->where('lead_status', 'Closed Deal - Buy Side')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
             ->count();
@@ -298,7 +290,7 @@ function contracts_signed_range_count($start_date, $end_date, $user)
 
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Contract Signed - Buy Side')
+            ->where('lead_status', 'Contract Signed - Buy Side')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [$start_date, $end_date])
             ->count();
@@ -375,20 +367,19 @@ function money_collected_range_count($start_date, $end_date, $user)
 
 function people_touch_range_count($start_date, $end_date, $user)
 {
-    $poeple_touched_count = 0;
+    $count = 0;
 
-    $goal_people_reached = GoalsReached::where([
-        ['user_id', '=', $user],
-        ['attribute_id', '=', 1], // Assuming 'attribute_id' is a specific value
-    ])
-        ->whereBetween('created_at', [$start_date, $end_date]) // Add date range condition
-        ->first();
-
-    if ($goal_people_reached) {
-        $poeple_touched_count = $goal_people_reached->goals;
+    $attribute = goal_attribute::where('attribute', 'People Reached')->first();
+    if ($attribute) {
+        $count = DB::table('contact_goals_reacheds')
+            ->where('attribute_id', $attribute->id)
+            ->where('lead_status', 'Prospect')
+            ->where('user_id', $user)
+            ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
+            ->count();
     }
 
-    return $poeple_touched_count;
+    return $count;
 }
 
 function leads_range_count($start_date, $end_date, $user)
@@ -399,7 +390,7 @@ function leads_range_count($start_date, $end_date, $user)
     if ($attribute) {
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Lead')
+            ->where('lead_status', 'Lead')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
             ->count();
@@ -417,7 +408,7 @@ function leads_scheduled_count($start_date, $end_date, $user)
 
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - Scheduled')
+            ->where('lead_status', 'Phone Call - Scheduled')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
             ->count();
@@ -434,7 +425,7 @@ function appointments_showup_count($start_date, $end_date, $user)
 
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - Completed')
+            ->where('lead_status', 'Phone Call - Completed')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
             ->count();
@@ -451,7 +442,7 @@ function call_no_show_count($start_date, $end_date, $user)
 
         $count = DB::table('contact_goals_reacheds')
             ->where('attribute_id', $attribute->id)
-            ->where('lead_type', 'Phone Call - No Show')
+            ->where('lead_status', 'Phone Call - No Show')
             ->where('user_id', $user)
             ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
             ->count();

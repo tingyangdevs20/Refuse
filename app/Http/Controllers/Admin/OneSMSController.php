@@ -55,13 +55,13 @@ class OneSMSController extends Controller
     public function store(Request $request)
     {
        // dd("in here");
-     
         $numbers = Number::where('id', 1)->get();
         //print_r($numbers);
-       // die("--");
+        // die("--");
         $contact = Contact::where('number', $request->number)->first();
         $templates = Template::where('category_id', $request->category)->get();
-       // $market = Market::find($request->sender_market);
+
+        // $market = Market::find($request->sender_market);
         $settings = Settings::first()->toArray(); 
         $sid = $settings['twilio_api_key'];
         $token = $settings['twilio_acc_secret'];

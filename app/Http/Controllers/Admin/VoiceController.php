@@ -53,7 +53,7 @@ class VoiceController extends Controller
         $settings = Settings::first()->toArray();
         
         
-//old account 
+        //old account 
 
         //$TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
        // $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
@@ -67,17 +67,14 @@ class VoiceController extends Controller
        $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
        $API_KEY = 'SKe98914905647ed119d608121a51534db';
        $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
-
-
-
         
         $accessToken = new AccessToken($TWILIO_ACCOUNT_SID, $API_KEY, $TWILIO_SECRET_KEY, 3600, 'bulk-sms');
         
         
         $voiceGrant = new VoiceGrant();
         $voiceGrant->setOutgoingApplicationSid($TWIML_APP_SID); 
-        $accessToken->addGrant($voiceGrant);
         $voiceGrant->setIncomingAllow(true);
+        $accessToken->addGrant($voiceGrant);
 
         $token = $accessToken->toJWT();
 

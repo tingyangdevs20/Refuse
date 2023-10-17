@@ -24,10 +24,10 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark">
                             All Campaigns
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
-                                data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
+                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New"
+                                data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-    data-target="#helpModal">How to Use</button>   --}}
+                                data-target="#helpModal">How to Use</button>   --}}
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
@@ -38,8 +38,6 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Name</th>
-
-
                                             <th scope="col">Contact list</th>
                                             <th scope="col">No. Of Contacts</th>
                                             <th scope="col">Action</th>
@@ -114,16 +112,16 @@
                         <!-- Group/list id will now get assigned while pushing to campaign -->
 
                         <!-- <div class="form-group">
-                                <label for="group_id">Select Group/Contact List</label>
-                                <select name="group_id" id="group_id" class="form-control">
-                                    <option value="">Select Group/Contact List</option>
-                                    @if (isset($groups))
-                                        @foreach ($groups as $group)
+                                    <label for="group_id">Select Group/Contact List</label>
+                                    <select name="group_id" id="group_id" class="form-control">
+                                        <option value="">Select Group/Contact List</option>
+                                        @if (isset($groups))
+                                            @foreach ($groups as $group)
     <option value="{{ $group->id }}">{{ $group->name }}</option>
     @endforeach
-                                    @endif
-                                </select>
-                            </div>-->
+                                        @endif
+                                    </select>
+                                </div>-->
 
                         <div class="form-group">
                             <label for="active">Active Status</label>

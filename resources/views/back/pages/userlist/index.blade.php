@@ -31,7 +31,7 @@
                             @if (auth()->user()->can('administrator') ||
                                     auth()->user()->can('user_create'))
                                 <a href="{{ route('admin.user.create') }}"
-                                    class="btn btn-outline-primary btn-sm float-right" title="New"><i
+                                    class="btn btn-outline-primary btn-sm float-right ml-2" title="New"><i
                                         class="fas fa-plus-circle"></i></a>
                             @endif
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"

@@ -517,39 +517,38 @@ class GroupController extends Controller
         }
 
         if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
-            $leadTypes = [
+            $leadStatus = [
                 'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
                 'Phone Call - Scheduled', 'Phone Call - Completed',
                 'Phone Call - No Show', 'Phone Call - Said No',
                 'Contract Out - Buy Side', 'Contracts Out - Sell Side',
                 'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
-                'Closed Deal - Buy Side',
+                'Closed Deal - Buy Side', 'Prospect'
             ];
 
-            if (in_array($fieldVal, $leadTypes)) {
+            if (in_array($fieldVal, $leadStatus)) {
                 $this->insertContactGoalReached($id, $fieldVal);
             }
         }
     }
 
-    public function insertContactGoalReached($id, $leadType)
+    public function insertContactGoalReached($id, $leadStatus)
     {
-        $lead_type = $leadType;
+        $lead_status = $leadStatus;
 
         // Check if it is a lead
-        if ($lead_type == 'Lead-New' || $lead_type == 'Lead-Cold' || $lead_type == 'Lead-Hot' || $lead_type == 'Lead-Warm') {
+        if ($lead_status == 'Lead-New' || $lead_status == 'Lead-Cold' || $lead_status == 'Lead-Hot' || $lead_status == 'Lead-Warm') {
             $record = DB::table('contact_goals_reacheds')
                 ->where('contact_id', $id)
-                ->where('lead_type', 'Lead')
+                ->where('lead_status', 'Lead')
                 ->first();
 
             if (!$record) {
-                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_type))->first();
+                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_status))->first();
                 if ($attribute) {
 
-
                     DB::table('contact_goals_reacheds')->insert([
-                        'lead_type' => 'Lead',
+                        'lead_status' => 'Lead',
                         'contact_id' => $id,
                         'recorded_at' => now(),
                         'attribute_id' => $attribute->id,
@@ -560,16 +559,14 @@ class GroupController extends Controller
         } else {
             $record = DB::table('contact_goals_reacheds')
                 ->where('contact_id', $id)
-                ->where('lead_type', $lead_type)
+                ->where('lead_status', $lead_status)
                 ->first();
 
             if (!$record) {
-                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_type))->first();
+                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_status))->first();
                 if ($attribute) {
-
-
                     DB::table('contact_goals_reacheds')->insert([
-                        'lead_type' => $lead_type,
+                        'lead_status' => $lead_status,
                         'contact_id' => $id,
                         'recorded_at' => now(),
                         'attribute_id' => $attribute->id,
@@ -580,7 +577,7 @@ class GroupController extends Controller
         }
     }
 
-    public function getAttributeName($leadType)
+    public function getAttributeName($leadStatus)
     {
         // Define a mapping of lead types to attribute names
         $leadAttributes = [
@@ -595,9 +592,10 @@ class GroupController extends Controller
             'Contract Out - Buy Side' => 'Contracts Out',
             'Contract Signed - Buy Side' => 'Contracts Signed',
             'Closed Deal - Buy Side' => 'Deal Closed',
+            'Prospect' => 'People Reached',
         ];
 
-        return $leadAttributes[$leadType] ?? '';
+        return $leadAttributes[$leadStatus] ?? '';
     }
 
 
@@ -1474,6 +1472,9 @@ class GroupController extends Controller
                                 // Save contact lead info
                                 $insertContactLeadData = [
                                     "contact_id" => $contact->id,
+                                    "lead_status" => $request->lead_status,
+                                    "lead_source" => $request->lead_source,
+                                    "lead_type" => $request->lead_type
                                 ];
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
@@ -1491,60 +1492,25 @@ class GroupController extends Controller
                                         if ($headerIndex == $header_index) {
                                             // Set the column value in the insert data
                                             $insertContactLeadData[$column] = $value;
-                                        }
-                                    }
-
-                                    // Save contact lead info
-                                    $insertContactExpensesData = [
-                                        "contact_id" => $contact->id,
-                                    ];
-                                    // Iterate through the imported data and map it to the corresponding column
-                                    foreach ($importData as $headerIndex => $value) {
-
-                                        // Check if the header index is mapped to a column
-                                        if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
-                                            $column = $contactLeadInfoColumnToHeader[$headerIndex];
-                                            $header_index = $column . '_header';
-
-                                            // Check if this column has header too
-                                            if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
-                                                $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
-                                            }
-
-                                            if ($headerIndex == $header_index) {
-                                                // Set the column value in the insert data
-                                                $insertContactExpensesData[$column] = $value;
-                                            }
                                         }
                                     }
 
                                     // Insert the data into the Contact table
                                     $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
                                     if ($lead_info == null) {
-                                        DB::table('lead_info')->insert($insertContactExpensesData);
-                                    }
-                                }
+                                        DB::table('lead_info')->insert($insertContactLeadData);
 
-                                // Save contact lead info
-                                $insertContactLeadData = [
-                                    "contact_id" => $contact->id,
-                                ];
-                                // Iterate through the imported data and map it to the corresponding column
-                                foreach ($importData as $headerIndex => $value) {
-
-                                    // Check if the header index is mapped to a column
-                                    if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
-                                        $column = $contactLeadInfoColumnToHeader[$headerIndex];
-                                        $header_index = $column . '_header';
-
-                                        // Check if this column has header too
-                                        if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
-                                            $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
-                                        }
-
-                                        if ($headerIndex == $header_index) {
-                                            // Set the column value in the insert data
-                                            $insertContactLeadData[$column] = $value;
+                                        $leadStatus = [
+                                            'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
+                                            'Phone Call - Scheduled', 'Phone Call - Completed',
+                                            'Phone Call - No Show', 'Phone Call - Said No',
+                                            'Contract Out - Buy Side', 'Contracts Out - Sell Side',
+                                            'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
+                                            'Closed Deal - Buy Side', 'Prospect'
+                                        ];
+                            
+                                        if (in_array($request->lead_status, $leadStatus)) {
+                                            $this->insertContactGoalReached($contact->id, $request->lead_status);
                                         }
                                     }
 
@@ -2872,7 +2838,7 @@ class GroupController extends Controller
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
         $settings = Settings::first()->toArray();
         
-        try{
+        try {
 
         foreach ($campaign_lists as $campaign_list) {
 
@@ -2915,8 +2881,7 @@ class GroupController extends Controller
                                         'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
                                        ])->getResponse();
                                       
-                }
-                
+                }                
             }
             
             //die('here');
@@ -2960,8 +2925,6 @@ class GroupController extends Controller
                 
                    // print_r($contact_num->number);
                // die("..");
-              
-               
               
               // die($settings);
                $sid = $settings['twilio_acc_sid'];
@@ -3040,13 +3003,7 @@ class GroupController extends Controller
         $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
     }
-
-
-
-
         // Return a response to indicate success
-        
-        
     }
     
     // Show list create form

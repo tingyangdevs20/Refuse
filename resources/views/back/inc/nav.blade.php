@@ -16,9 +16,9 @@
                 </li>
 
 
-                @if (auth()->user()->can('dashboard') ||
-                        auth()->user()->can('administrator') ||
-                        auth()->user()->can('scraping_module'))
+                {{-- @if (auth()->user()->can('dashboard') ||
+    auth()->user()->can('administrator') ||
+    auth()->user()->can('scraping_module'))
                     <li>
                         <a href="{{ route('admin.create.goals') }}">
                             <i class="bx bx-check-square"></i>
@@ -32,7 +32,8 @@
                             <span>Goals</span>
                         </a>
                     </li>
-                @endif
+                @endif --}}
+
                 <li class="menu-title">Lead Generation</li>
 
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
@@ -41,12 +42,12 @@
                 <li> <a href="{{ url('admin/group-contacts-all') }}" class="waves-effect"><i class="fas fa-book"></i>
                         All Contacts </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('admin.source.list') }}" class="waves-effect">
                         <i class="fas fa-bars"></i>
                         <span>How To Source A List</span>
                     </a>
-                </li>
+                </li> --}}
                 <li style="display:none">
                     <a href="{{ route('admin.opt.list') }}" class=" waves-effect"> <i class="fas fa-bars"></i>
                         <span>OPT-IN</span>
@@ -203,6 +204,11 @@
                         <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment
                                 Settings</a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.create.goals') }}" class=" waves-effect">
+                                Goals
+                            </a>
                         </li>
                         {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
                                 class=" waves-effect">Appointment Settings</a></li> --}}
