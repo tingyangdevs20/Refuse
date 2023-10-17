@@ -26,7 +26,7 @@ use App\Http\Controllers\PhoneCallController;
 | contains the "web" middleware group. Now create something great!
 |
  */
-// Test comment to test github username
+// Test comment to test github username again
 
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
