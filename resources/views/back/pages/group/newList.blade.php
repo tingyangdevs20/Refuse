@@ -4,11 +4,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet"
+        type="text/css" />
 
     <style>
+        /* Apply 100% width to the Select2 element */
+        .select2 {
+            width: 100%;
+        }
+
         /* Style the Select2 container to match Bootstrap form-control */
         .select2-container {
-            width: 100%;
+            width: 100% !important;
         }
 
         /* Style the Select2 input element */
@@ -57,7 +64,6 @@
 
     <div class="page-content">
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -82,791 +88,848 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-3"></div>
                 <div class="col-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-cog"></i> New List
+                    <!-- SmartWizard html -->
+                    <div id="smartwizard">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#step-1">
+                                    <div class="num">1</div>
+                                    Upload CSV sheet
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#step-2">
+                                    <span class="num">2</span>
+                                    Map Fields & Upload the List
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-cog"></i> New List
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group" style="display: none">
+                                            <select class="from-control" style="width: 100%;" required id="optiontype"
+                                                name="optiontype">
+                                                <option value="0">Select Option</option>
+
+                                                <option value="new" selected>Create New List</option>
+                                                <option value="update">Update Existing List</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label style="margin-right:50px">List Name</label>
+                                            <input type="text" class="form-control" required name="list_name"
+                                                placeholder="Enter List Name" required>
+                                        </div>
+
+                                        <div class="form-group" style="display: none">
+                                            <select class="from-control" style="width: 100%;" id="existing_group_id"
+                                                name="existing_group_id">
+                                                <option value="0">Select Existing List</option>
+                                                @foreach ($groups as $group)
+                                                    <option value="{{ $group->id }}" selected>{{ $group->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" style="display: none">
+                                            <label>Select Campaign</label>
+                                            <select class="custom-select" name="campaign_id" id="campaign_id">
+                                                <option value="0">Select Campaign</option>
+                                                @if (count($campaigns) > 0)
+                                                    @foreach ($campaigns as $campaign)
+                                                        <option value="{{ $campaign->id }}" selected>{{ $campaign->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group pt-2" style="display: none">
+                                            <label>Market</label><br>
+                                            <select class="custom-select" style="width: 100%;" id="market"
+                                                name="market_id" required>
+                                                <option value="">Select Market</option>
+                                                @foreach ($markets as $market)
+                                                    <option value="{{ $market->id }}" selected>{{ $market->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group pt-2">
+                                            <label>Select Tag</label><br>
+                                            <select class="custom-select select2" required multiple="multiple"
+                                                style="width: 100%;" name="tag_id[]" id="tags">
+                                                <option value="" disabled>Select Tag</option>
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group pt-2">
+                                            <label>Select Lead Status</label>
+                                            <select class="custom-select select2" name="lead_status" style="width: 100%;">
+                                                <option value="">Lead Status</option>
+                                                <option value="None/Unknown">
+                                                    None/Unknown
+                                                </option>
+                                                <option value="Prospect" selected>
+                                                    Prospect
+                                                </option>
+                                                <option value="DNC">DNC</option>
+                                                <option value="Lead-New">
+                                                    Lead-New
+                                                </option>
+
+                                                <option value="Lead-Cold">
+                                                    Lead-Cold
+                                                </option>
+                                                <option value="Lead-Warm">
+                                                    Lead-Warm
+                                                </option>
+                                                <option value="Lead-Hot">
+                                                    Lead-Hot
+                                                </option>
+                                                <option value="Send to Research">
+                                                    Send to Research
+                                                </option>
+
+                                                <option value="Not Available - Not Selling">
+                                                    Not Available -
+                                                    Not Selling
+                                                </option>
+
+                                                <option value="Not Available - Sold Property">
+                                                    Not Available -
+                                                    Sold Property
+                                                </option>
+
+                                                <option value="Not Available - Under Contract w/3rd Party">
+                                                    Not Available -
+                                                    Under Contract w/3rd Party
+                                                </option>
+
+
+                                                <option value="Not Interested">
+                                                    Not Interested
+                                                </option>
+
+                                                <option value="Non-Responsive">
+                                                    Non-Responsive
+                                                </option>
+
+                                                <option value="Maybe to Our Offer">
+                                                    Maybe to Our
+                                                    Offer
+                                                </option>
+
+                                                <option value="Phone Call - Scheduled">
+                                                    Phone Call -
+                                                    Scheduled
+                                                </option>
+
+                                                <option value="Phone Call - Completed">
+                                                    Phone Call -
+                                                    Completed
+                                                </option>
+
+                                                <option value="Phone Call - No Show">
+                                                    Phone Call - No
+                                                    Show
+                                                </option>
+
+                                                <option value="Phone Call - Said No">
+                                                    Phone Call -
+                                                    Said No
+                                                </option>
+
+                                                <option value="Contract Out - Buy Side">
+                                                    Contract Out -
+                                                    Buy Side
+                                                </option>
+
+                                                <option value="Contract Out - Sell Side">
+                                                    Contract Out -
+                                                    Sell Side
+                                                </option>
+
+                                                <option value="Contract Signed - Buy Side">
+                                                    Contract Signed
+                                                    - Buy Side
+                                                </option>
+
+                                                <option value="Contract Signed - Sell Side">
+                                                    Contract Signed
+                                                    - Sell Side
+                                                </option>
+
+                                                <option value="Closed Deal - Buy Side">
+                                                    Closed Deal -
+                                                    Buy Side
+                                                </option>
+                                                <option value="Closed Deal - Sell Side">
+                                                    Closed Deal -
+                                                    Sell Side
+                                                </option>
+                                                <option value="Rehab in Process">
+                                                    Rehab in Process
+                                                </option>
+                                                <option value="Hold - Rental">
+                                                    Hold - Rental
+                                                </option>
+                                                <option value="For Sale (by Us)">
+                                                    For Sale (by Us)
+                                                </option>
+                                                <option value="Closed Deal - Buy Side">
+                                                    Closed Deal -
+                                                    Buy Side
+                                                </option>
+                                                <option value="Closed Deal - Sell Side">
+                                                    Closed Deal -
+                                                    Sell Side
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" style="display: none">
+                                            <label>Select Email Template</label>
+                                            <select class="custom-select" name="email_template" id="email_template">
+                                                @if (count($form_Template) > 0)
+                                                    @foreach ($form_Template as $email_template)
+                                                        <option value="{{ $email_template->id }}" selected>
+                                                            {{ $email_template->template_name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group pt-2">
+                                            <label>Select Lead Source</label>
+                                            <select class="custom-select select2" name="lead_source"
+                                                style="width: 100%;">
+                                                <option value="">Lead Source</option>
+                                                <option value="Bandit Signs">
+                                                    Bandit Signs
+                                                </option>
+                                                <option value="Billboards">Billboards
+                                                </option>
+                                                <option value="Cold Calling">Cold Calling
+                                                </option>
+                                                <option value="Direct Mail">
+                                                    Direct Mail
+                                                </option>
+                                                <option value="Door Knocking">
+                                                    Door Knocking
+                                                </option>
+                                                <option value="Email">
+                                                    Email
+                                                </option>
+                                                <option value="Facebook Ads">
+                                                    Facebook Ads
+                                                </option>
+                                                <option value="Flyers">
+                                                    Flyers
+                                                </option>
+                                                <option value="Instagram Ads">
+                                                    Instagram Ads
+                                                </option>
+                                                <option value="iSpeedToLead">
+                                                    iSpeedToLead
+                                                </option>
+                                                <option value="LinkedIn Ads">
+                                                    LinkedIn Ads
+                                                </option>
+                                                <option value="Magazine">
+                                                    Magazine
+                                                </option>
+                                                <option value="MMS">
+                                                    MMS
+                                                </option>
+                                                <option value="Newspaper">
+                                                    Newspaper
+                                                </option>
+                                                <option value="Phone Call (Incoming)">
+                                                    Phone Call (Incoming)
+                                                </option>
+                                                <option value="Referral">Referral
+                                                </option>
+                                                <option value="Retargeting">Retargeting
+                                                </option>
+                                                <option value="RVM">RVM
+                                                </option>
+                                                <option value="SEO">SEO
+                                                </option>
+                                                <option value="SMS">SMS
+                                                </option>
+                                                <option value="Social Media">Social Media
+                                                </option>
+                                                <option value="Tiktok Ads">Tiktok Ads
+                                                </option>
+                                                <option value="Twitter Ads">Twitter Ads
+                                                </option>
+                                                <option value="Website">Website
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group pt-2">
+                                            <label>Select Lead Type</label>
+                                            <select class="custom-select select2" name="lead_type" style="width: 100%;">
+                                                <option value="">Lead
+                                                    Type
+                                                </option>
+                                                <option value="Agents">Agents
+                                                </option>
+
+                                                <option value="Attorney">Attorney
+                                                </option>
+
+                                                <option value="Buyer (Investors)">Buyer (Investors)
+                                                </option>
+
+                                                <option value="Buyer (Owner Financing)">Buyer (Owner Financing)
+                                                </option>
+
+                                                <option value="Buyer (Retail)">Buyer (Retail)
+                                                </option>
+
+                                                <option value="Code Enforcement">Code Enforcement
+                                                </option>
+
+                                                <option value="Mortgage Brokers">Mortgage Brokers
+                                                </option>
+
+                                                <option value="Seller">Seller
+                                                </option>
+
+                                                <option value="Title Company">Title Company
+                                                </option>
+
+                                                <option value="Wholesaler">Wholesaler
+                                                </option>
+
+                                                <option value="Other">Other
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <div id="my-dropzone" class="dropzone"></div>
+                                        </div>
+                                        <button type="button" style="float: right;" id="uploadButton"
+                                            class="btn btn-info">Read
+                                            CSV</button>
+                                        <div class="form-group" style="padding-top: 10px; display: none; float: right;"
+                                            id="readingCSVId">
+                                            <div class="d-flex align-items-center">
+                                                <strong>Reading CSV...</strong>
+                                                <div class="spinner-border spinner-border-sm ml-1" role="status"
+                                                    aria-hidden="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                                <div class="card" style="" id="csvMapCard">
+                                    <div class="card-header">
+                                        <i class="fas fa-cog"></i> Map CSV Fields
+                                    </div>
+                                    <div class="card-body">
+                                        {{-- Contact Details --}}
+                                        <h4>Contact Details</h4>
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label for="name">First Name</label> --}}
+                                                    <input id="name" readonly type="text" class="form-control"
+                                                        name="name" placeholder="First Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="name_header" id="name_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="last_name">Last Name</label> --}}
+                                                    <input id="last_name" readonly type="text" class="form-control"
+                                                        name="last_name" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="last_name_header" id="last_name_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="street">Street</label> --}}
+                                                    <input id="street" readonly type="text" class="form-control"
+                                                        name="street" placeholder="Street">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="street_header" id="street_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="city">City</label> --}}
+                                                    <input id="city" readonly type="text" class="form-control"
+                                                        name="city" placeholder="City">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="city_header" id="city_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="state">State</label> --}}
+                                                    <input id="state" readonly type="text" class="form-control"
+                                                        name="state" placeholder="State">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="state_header" id="state_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="zip">Zip</label> --}}
+                                                    <input id="zip" readonly type="text" class="form-control"
+                                                        name="zip" placeholder="Zip">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="zip_header" id="zip_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="number">Phone number 1</label> --}}
+                                                    <input id="number" readonly type="text" class="form-control"
+                                                        name="number" placeholder="Phone number 1">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="number_header" id="number_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="number2">Phone number 2</label> --}}
+                                                    <input id="number2" readonly type="text" class="form-control"
+                                                        name="number2" placeholder="Phone number 2">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="number2_header" id="number2_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="email1">Email 1</label> --}}
+                                                    <input id="email1" readonly type="text" class="form-control"
+                                                        name="email1" placeholder="Email 1">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="email1_header" id="email1_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="email2">Email 2</label> --}}
+                                                    <input id="email2" readonly type="text" class="form-control"
+                                                        name="email2" placeholder="Email 2">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="email2_header" id="email2_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4 style="margin-top: 1rem;">Contact's Lead Info</h4>
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="mailing_address"
+                                                        class="form-control" placeholder="Mailing Address"
+                                                        name="mailing_address">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="mailing_address_header" id="mailing_address_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="mailing_city" class="form-control"
+                                                        placeholder="Mailing City" name="mailing_city">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="mailing_city_header" id="mailing_city_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="mailing_state"
+                                                        class="form-control" placeholder="Mailing State"
+                                                        name="mailing_state">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="mailing_state_header" id="mailing_state_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="mailing_zip" class="form-control"
+                                                        placeholder="Mailing Zip" name="mailing_zip">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="mailing_zip_header" id="mailing_zip_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Property Info --}}
+                                        <h4 style="margin-top: 1rem;">Contact's Property Info</h4>
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="property_address"
+                                                        class="form-control" placeholder="Property Address"
+                                                        name="property_address">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="property_address_header" id="property_address_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="property_city"
+                                                        class="form-control" placeholder="Property City"
+                                                        name="property_city">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="property_city_header" id="property_city_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="property_state"
+                                                        class="form-control" placeholder="Property State"
+                                                        name="property_state">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="property_state_header" id="property_state_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="property_zip" class="form-control"
+                                                        placeholder="Property Zip" name="property_zip">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="property_zip_header" id="property_zip_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="property_type"
+                                                        class="form-control" placeholder="Property Type"
+                                                        name="property_type">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="property_type_header" id="property_type_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="bedrooms" class="form-control"
+                                                        placeholder="Property Bedrooms" name="bedrooms">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="bedrooms_header" id="bedrooms_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="bathrooms" class="form-control"
+                                                        placeholder="Property Bathrooms" name="bathrooms">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="bathrooms_header" id="bathrooms_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="square_footage"
+                                                        class="form-control" placeholder="Property Square Footage"
+                                                        name="square_footage">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="square_footage_header" id="square_footage_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="lot_size" class="form-control"
+                                                        placeholder="Property Lot size" name="lot_size">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="lot_size_header" id="lot_size_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="garage_space" class="form-control"
+                                                        placeholder="Property Garage Space" name="garage_space">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="garage_space_header" id="garage_space_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="lockbox_code" class="form-control"
+                                                        placeholder="Property Lockbox Code" name="lockbox_code">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="lockbox_code_header" id="lockbox_code_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Property Expenses/Financing Info --}}
+                                        <h4 style="margin-top: 1rem;">Contact's Property Expenses/Financing Info</h4>
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="year_prop_tax"
+                                                        class="form-control" placeholder="Yearly Property Tax Amount"
+                                                        name="year_prop_tax">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="year_prop_tax_header" id="year_prop_tax_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Value & Condition --}}
+                                        <h4 style="margin-top: 1rem;">Contact's Value & Condition</h4>
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" readonly id="asking_price" class="form-control"
+                                                        placeholder="Asking Price" name="asking_price">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="asking_price_header" id="asking_price_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" style="float: right;" class="btn btn-info mt-2"
+                                            id="saveListButton">Submit</button>
+                                        {{-- <button type="button" style="float: right;" class="btn btn-info mr-1 mt-2"
+                                            id="previousButton">Previous</button> --}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="form-group" style="display: none">
-                                <select class="from-control" style="width: 100%;" required id="optiontype"
-                                    name="optiontype">
-                                    <option value="0">Select Option</option>
 
-                                    <option value="new" selected>Create New List</option>
-                                    <option value="update">Update Existing List</option>
-
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="margin-right:50px">List Name</label>
-                                <input type="text" class="form-control" required name="list_name"
-                                    placeholder="Enter List Name" required>
-                            </div>
-
-                            <div class="form-group" style="display: none">
-                                <select class="from-control" style="width: 100%;" id="existing_group_id"
-                                    name="existing_group_id">
-                                    <option value="0">Select Existing List</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}" selected>{{ $group->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="display: none">
-                                <label>Select Campaign</label>
-                                <select class="custom-select" name="campaign_id" id="campaign_id">
-                                    <option value="0">Select Campaign</option>
-                                    @if (count($campaigns) > 0)
-                                        @foreach ($campaigns as $campaign)
-                                            <option value="{{ $campaign->id }}" selected>{{ $campaign->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-
-                            <div class="form-group pt-2" style="display: none">
-                                <label>Market</label><br>
-                                <select class="custom-select" style="width: 100%;" id="market" name="market_id" required>
-                                    <option value="">Select Market</option>
-                                    @foreach ($markets as $market)
-                                        <option value="{{ $market->id }}" selected>{{ $market->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group pt-2">
-                                <label>Select Tag</label><br>
-                                <select class="custom-select select2" required multiple="multiple" style="width: 100%;"
-                                    name="tag_id[]" id="tags">
-                                    <option value="" disabled>Select Tag</option>
-                                    @foreach ($tags as $tag)
-                                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group pt-2">
-                                <label>Select Lead Status</label>
-                                <select class="custom-select select2" name="lead_status" style="width: 100%;">
-                                    <option value="">Lead Status</option>
-                                    <option value="None/Unknown">
-                                        None/Unknown
-                                    </option>
-                                    <option value="Prospect" selected>
-                                        Prospect
-                                    </option>
-                                    <option value="DNC">DNC</option>
-                                    <option value="Lead-New">
-                                        Lead-New
-                                    </option>
-
-                                    <option value="Lead-Cold">
-                                        Lead-Cold
-                                    </option>
-                                    <option value="Lead-Warm">
-                                        Lead-Warm
-                                    </option>
-                                    <option value="Lead-Hot">
-                                        Lead-Hot
-                                    </option>
-                                    <option value="Send to Research">
-                                        Send to Research
-                                    </option>
-
-                                    <option value="Not Available - Not Selling">
-                                        Not Available -
-                                        Not Selling
-                                    </option>
-
-                                    <option value="Not Available - Sold Property">
-                                        Not Available -
-                                        Sold Property
-                                    </option>
-
-                                    <option value="Not Available - Under Contract w/3rd Party">
-                                        Not Available -
-                                        Under Contract w/3rd Party
-                                    </option>
-
-
-                                    <option value="Not Interested">
-                                        Not Interested
-                                    </option>
-
-                                    <option value="Non-Responsive">
-                                        Non-Responsive
-                                    </option>
-
-                                    <option value="Maybe to Our Offer">
-                                        Maybe to Our
-                                        Offer
-                                    </option>
-
-                                    <option value="Phone Call - Scheduled">
-                                        Phone Call -
-                                        Scheduled
-                                    </option>
-
-                                    <option value="Phone Call - Completed">
-                                        Phone Call -
-                                        Completed
-                                    </option>
-
-                                    <option value="Phone Call - No Show">
-                                        Phone Call - No
-                                        Show
-                                    </option>
-
-                                    <option value="Phone Call - Said No">
-                                        Phone Call -
-                                        Said No
-                                    </option>
-
-                                    <option value="Contract Out - Buy Side">
-                                        Contract Out -
-                                        Buy Side
-                                    </option>
-
-                                    <option value="Contract Out - Sell Side">
-                                        Contract Out -
-                                        Sell Side
-                                    </option>
-
-                                    <option value="Contract Signed - Buy Side">
-                                        Contract Signed
-                                        - Buy Side
-                                    </option>
-
-                                    <option value="Contract Signed - Sell Side">
-                                        Contract Signed
-                                        - Sell Side
-                                    </option>
-
-                                    <option value="Closed Deal - Buy Side">
-                                        Closed Deal -
-                                        Buy Side
-                                    </option>
-                                    <option value="Closed Deal - Sell Side">
-                                        Closed Deal -
-                                        Sell Side
-                                    </option>
-                                    <option value="Rehab in Process">
-                                        Rehab in Process
-                                    </option>
-                                    <option value="Hold - Rental">
-                                        Hold - Rental
-                                    </option>
-                                    <option value="For Sale (by Us)">
-                                        For Sale (by Us)
-                                    </option>
-                                    <option value="Closed Deal - Buy Side">
-                                        Closed Deal -
-                                        Buy Side
-                                    </option>
-                                    <option value="Closed Deal - Sell Side">
-                                        Closed Deal -
-                                        Sell Side
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="display: none">
-                                <label>Select Email Template</label>
-                                <select class="custom-select" name="email_template" id="email_template">
-                                    @if (count($form_Template) > 0)
-                                        @foreach ($form_Template as $email_template)
-                                            <option value="{{ $email_template->id }}" selected>
-                                                {{ $email_template->template_name }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-
-                            <div class="form-group pt-2">
-                                <label>Select Lead Source</label>
-                                <select class="custom-select select2" name="lead_source" style="width: 100%;">
-                                    <option value="">Lead Source</option>
-                                    <option value="Bandit Signs">
-                                        Bandit Signs
-                                    </option>
-                                    <option value="Billboards">Billboards
-                                    </option>
-                                    <option value="Cold Calling">Cold Calling
-                                    </option>
-                                    <option value="Direct Mail">
-                                        Direct Mail
-                                    </option>
-                                    <option value="Door Knocking">
-                                        Door Knocking
-                                    </option>
-                                    <option value="Email">
-                                        Email
-                                    </option>
-                                    <option value="Facebook Ads">
-                                        Facebook Ads
-                                    </option>
-                                    <option value="Flyers">
-                                        Flyers
-                                    </option>
-                                    <option value="Instagram Ads">
-                                        Instagram Ads
-                                    </option>
-                                    <option value="iSpeedToLead">
-                                        iSpeedToLead
-                                    </option>
-                                    <option value="LinkedIn Ads">
-                                        LinkedIn Ads
-                                    </option>
-                                    <option value="Magazine">
-                                        Magazine
-                                    </option>
-                                    <option value="MMS">
-                                        MMS
-                                    </option>
-                                    <option value="Newspaper">
-                                        Newspaper
-                                    </option>
-                                    <option value="Phone Call (Incoming)">
-                                        Phone Call (Incoming)
-                                    </option>
-                                    <option value="Referral">Referral
-                                    </option>
-                                    <option value="Retargeting">Retargeting
-                                    </option>
-                                    <option value="RVM">RVM
-                                    </option>
-                                    <option value="SEO">SEO
-                                    </option>
-                                    <option value="SMS">SMS
-                                    </option>
-                                    <option value="Social Media">Social Media
-                                    </option>
-                                    <option value="Tiktok Ads">Tiktok Ads
-                                    </option>
-                                    <option value="Twitter Ads">Twitter Ads
-                                    </option>
-                                    <option value="Website">Website
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group pt-2">
-                                <label>Select Lead Type</label>
-                                <select class="custom-select select2" name="lead_type" style="width: 100%;">
-                                    <option value="">Lead
-                                        Type
-                                    </option>
-                                    <option value="Agents">Agents
-                                    </option>
-
-                                    <option value="Attorney">Attorney
-                                    </option>
-
-                                    <option value="Buyer (Investors)">Buyer (Investors)
-                                    </option>
-
-                                    <option value="Buyer (Owner Financing)">Buyer (Owner Financing)
-                                    </option>
-
-                                    <option value="Buyer (Retail)">Buyer (Retail)
-                                    </option>
-
-                                    <option value="Code Enforcement">Code Enforcement
-                                    </option>
-
-                                    <option value="Mortgage Brokers">Mortgage Brokers
-                                    </option>
-
-                                    <option value="Seller">Seller
-                                    </option>
-
-                                    <option value="Title Company">Title Company
-                                    </option>
-
-                                    <option value="Wholesaler">Wholesaler
-                                    </option>
-
-                                    <option value="Other">Other
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <div id="my-dropzone" class="dropzone"></div>
-                            </div>
-                            <button type="button" style="float: right;" id="uploadButton" class="btn btn-primary">Read
-                                CSV</button>
-                            <div class="form-group" style="padding-top: 10px; display: none; float: right;"
-                                id="readingCSVId">
-                                <div class="d-flex align-items-center">
-                                    <strong>Reading CSV...</strong>
-                                    <div class="spinner-border spinner-border-sm ml-1" role="status" aria-hidden="true">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card" style="" id="csvMapCard">
-                        <div class="card-header">
-                            <i class="fas fa-cog"></i> Map CSV Fields
-                        </div>
-                        <div class="card-body">
-                            {{-- Contact Details --}}
-                            <h4>Contact Details</h4>
-                            <div class="row" style="margin-top: 1rem;">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label for="name">First Name</label> --}}
-                                        <input id="name" readonly type="text" class="form-control"
-                                            name="name" placeholder="First Name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="name_header" id="name_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="last_name">Last Name</label> --}}
-                                        <input id="last_name" readonly type="text" class="form-control"
-                                            name="last_name" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="last_name_header" id="last_name_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="street">Street</label> --}}
-                                        <input id="street" readonly type="text" class="form-control"
-                                            name="street" placeholder="Street">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="street_header" id="street_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="city">City</label> --}}
-                                        <input id="city" readonly type="text" class="form-control"
-                                            name="city" placeholder="City">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="city_header" id="city_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="state">State</label> --}}
-                                        <input id="state" readonly type="text" class="form-control"
-                                            name="state" placeholder="State">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="state_header" id="state_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="zip">Zip</label> --}}
-                                        <input id="zip" readonly type="text" class="form-control"
-                                            name="zip" placeholder="Zip">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="zip_header" id="zip_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="number">Phone number 1</label> --}}
-                                        <input id="number" readonly type="text" class="form-control"
-                                            name="number" placeholder="Phone number 1">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="number_header" id="number_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="number2">Phone number 2</label> --}}
-                                        <input id="number2" readonly type="text" class="form-control"
-                                            name="number2" placeholder="Phone number 2">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="number2_header" id="number2_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="email1">Email 1</label> --}}
-                                        <input id="email1" readonly type="text" class="form-control"
-                                            name="email1" placeholder="Email 1">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="email1_header" id="email1_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label for="email2">Email 2</label> --}}
-                                        <input id="email2" readonly type="text" class="form-control"
-                                            name="email2" placeholder="Email 2">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="email2_header" id="email2_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4 style="margin-top: 1rem;">Contact's Lead Info</h4>
-                            <div class="row" style="margin-top: 1rem;">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="mailing_address" class="form-control"
-                                            placeholder="Mailing Address" name="mailing_address">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="mailing_address_header" id="mailing_address_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="mailing_city" class="form-control"
-                                            placeholder="Mailing City" name="mailing_city">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="mailing_city_header" id="mailing_city_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="mailing_state" class="form-control"
-                                            placeholder="Mailing State" name="mailing_state">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="mailing_state_header" id="mailing_state_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="mailing_zip" class="form-control"
-                                            placeholder="Mailing Zip" name="mailing_zip">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="mailing_zip_header" id="mailing_zip_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Property Info --}}
-                            <h4 style="margin-top: 1rem;">Contact's Property Info</h4>
-                            <div class="row" style="margin-top: 1rem;">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="property_address" class="form-control"
-                                            placeholder="Property Address" name="property_address">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="property_address_header" id="property_address_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="property_city" class="form-control"
-                                            placeholder="Property City" name="property_city">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="property_city_header" id="property_city_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="property_state" class="form-control"
-                                            placeholder="Property State" name="property_state">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="property_state_header" id="property_state_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="property_zip" class="form-control"
-                                            placeholder="Property Zip" name="property_zip">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="property_zip_header" id="property_zip_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="property_type" class="form-control"
-                                            placeholder="Property Type" name="property_type">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="property_type_header" id="property_type_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="bedrooms" class="form-control"
-                                            placeholder="Property Bedrooms" name="bedrooms">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="bedrooms_header" id="bedrooms_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="bathrooms" class="form-control"
-                                            placeholder="Property Bathrooms" name="bathrooms">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="bathrooms_header" id="bathrooms_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="square_footage" class="form-control"
-                                            placeholder="Property Square Footage" name="square_footage">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="square_footage_header" id="square_footage_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="lot_size" class="form-control"
-                                            placeholder="Property Lot size" name="lot_size">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="lot_size_header" id="lot_size_select" class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="garage_space" class="form-control"
-                                            placeholder="Property Garage Space" name="garage_space">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="garage_space_header" id="garage_space_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="lockbox_code" class="form-control"
-                                            placeholder="Property Lockbox Code" name="lockbox_code">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="lockbox_code_header" id="lockbox_code_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Property Expenses/Financing Info --}}
-                            <h4 style="margin-top: 1rem;">Contact's Property Expenses/Financing Info</h4>
-                            <div class="row" style="margin-top: 1rem;">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="year_prop_tax" class="form-control"
-                                            placeholder="Yearly Property Tax Amount" name="year_prop_tax">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="year_prop_tax_header" id="year_prop_tax_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Value & Condition --}}
-                            <h4 style="margin-top: 1rem;">Contact's Value & Condition</h4>
-                            <div class="row" style="margin-top: 1rem;">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" readonly id="asking_price" class="form-control"
-                                            placeholder="Asking Price" name="asking_price">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{-- <label>Choose column from CSV</label> --}}
-                                        <select name="asking_price_header" id="asking_price_select"
-                                            class="form-control select2">
-                                            <option value="">Chose Header</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="button" style="float: right;" class="btn btn-primary"
-                                id="saveListButton">Save
-                                List</button>
+                        <!-- Include optional progressbar HTML -->
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0"
+                                aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -879,14 +942,19 @@
 
         <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript">
+        </script>
+
         {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
         <script>
             $(document).ready(function() {
                 // Inittialize Select2
                 initializeSelect2();
-
+                // SmartWizard initialize
+                initializeSmartWizard();
             });
+
             // Get the CSRF token from the meta tag
             const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
             var csv_file; // Declare the csv_file variable outside the success event
@@ -1118,8 +1186,43 @@
 
             // Handle manual upload when the button is clicked
             $("#uploadButton").click(function() {
-                myDropzone.processQueue(); // Process the Dropzone queue
+                // Check if a file has been dropped into the Dropzone
+                if (myDropzone.getQueuedFiles().length > 0) {
+                    // Collect data from the input fields
+                    var listName = $("input[name='list_name']").val();
+                    var tagIds = $("select[name='tag_id[]']").val();
+                    var leadStatus = $("select[name='lead_status']").val();
+
+                    if (!listName.trim()) {
+                        // Handle the case where 'listName' is empty
+                        alert("List Name is required.");
+                        return; // Abort the form submission
+                    }
+
+                    if (!tagIds || tagIds.length === 0) {
+                        // Handle the case where 'tagIds' is empty
+                        alert("Select at least one Tag.");
+                        return; // Abort the form submission
+                    }
+
+                    if (!leadStatus) {
+                        // Handle the case where 'tagIds' is empty
+                        alert("Lead Status is required!");
+                        return; // Abort the form submission
+                    }
+                    // Go to step with force
+                    $('#smartwizard').smartWizard("goToStep", 1, true);
+                    myDropzone.processQueue(); // Process the Dropzone queue
+                } else {
+                    // Handle the case where no files are dropped into the Dropzone
+                    alert("Please drag and drop a file into the Dropzone.");
+                }
             });
+
+            // $('#previousButton').click(function() {
+            //     // Go to step with force
+            //     $('#smartwizard').smartWizard("goToStep", 0, true);
+            // })
 
             // Handle form submission
             myDropzone.on("sending", function(file, xhr, formData) {
@@ -1297,5 +1400,55 @@
                     }
                 });
             });
+
+            function initializeSmartWizard() {
+                $('#smartwizard').smartWizard({
+                    selected: 0, // Initial selected step, 0 = first step
+                    theme: 'round', // theme for the wizard, related css need to include for other than default theme
+                    justified: false, // Nav menu justification. true/false
+                    autoAdjustHeight: true, // Automatically adjust content height
+                    backButtonSupport: true, // Enable the back button support
+                    enableUrlHash: true, // Enable selection of the step based on url hash
+                    enableAllSteps: false, // Disable the ability to click on step headers
+                    transition: {
+                        animation: 'none', // Animation effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+                        speed: '400', // Animation speed. Not used if animation is 'css'
+                        easing: '', // Animation easing. Not supported without a jQuery easing plugin. Not used if animation is 'css'
+                        prefixCss: '', // Only used if animation is 'css'. Animation CSS prefix
+                        fwdShowCss: '', // Only used if animation is 'css'. Step show Animation CSS on forward direction
+                        fwdHideCss: '', // Only used if animation is 'css'. Step hide Animation CSS on forward direction
+                        bckShowCss: '', // Only used if animation is 'css'. Step show Animation CSS on backward direction
+                        bckHideCss: '', // Only used if animation is 'css'. Step hide Animation CSS on backward direction
+                    },
+                    toolbar: {
+                        position: 'bottom', // none|top|bottom|both
+                        showNextButton: false, // show/hide a Next button
+                        showPreviousButton: false, // show/hide a Previous button
+                        extraHtml: '' // Extra html to show on toolbar
+                    },
+                    anchor: {
+                        enableNavigation: true, // Enable/Disable anchor navigation
+                        enableNavigationAlways: false, // Activates all anchors clickable always
+                        enableDoneState: true, // Add done state on visited steps
+                        markPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                        unDoneOnBackNavigation: false, // While navigate back, done state will be cleared
+                        enableDoneStateNavigation: true // Enable/Disable the done state navigation
+                    },
+                    keyboard: {
+                        keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                        keyLeft: [37], // Left key code
+                        keyRight: [39] // Right key code
+                    },
+                    lang: { // Language variables for button
+                        next: 'Next',
+                        previous: 'Previous'
+                    },
+                    disabledSteps: [], // Array Steps disabled
+                    errorSteps: [], // Array Steps error
+                    warningSteps: [], // Array Steps warning
+                    hiddenSteps: [], // Hidden steps
+                    getContent: null // Callback function for content loading
+                });
+            }
         </script>
     @endsection

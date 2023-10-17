@@ -9,9 +9,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 // use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class LeadInfo extends Model implements HasMedia
+class LeadInfo extends Model
 {
-    use InteractsWithMedia;
     protected $guarded = [];
     public function tags()
     {

@@ -1208,38 +1208,38 @@ class GroupController extends Controller
         $group_id = $group->id;
         // }
         $selectedTags = $request->tag_id;
-        if ($selectedTags || !empty($selectedTags)) {
-            // Get the currently associated tag IDs for the group record
-            $currentTags = DB::table('group_tags')
-                ->where('group_id', $group->id)
-                ->pluck('tag_id')
-                ->toArray();
+        // if ($selectedTags || !empty($selectedTags)) {
+        //     // Get the currently associated tag IDs for the group record
+        //     $currentTags = DB::table('group_tags')
+        //         ->where('group_id', $group->id)
+        //         ->pluck('tag_id')
+        //         ->toArray();
 
-            // Calculate the tags to insert (exclude already associated tags)
-            $tagsToInsert = array_diff($selectedTags, $currentTags);
+        //     // Calculate the tags to insert (exclude already associated tags)
+        //     $tagsToInsert = array_diff($selectedTags, $currentTags);
 
-            // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
-            $tagsToDelete = array_diff($currentTags, $selectedTags);
+        //     // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+        //     $tagsToDelete = array_diff($currentTags, $selectedTags);
 
-            // Delete the tags that are not in $selectedTags or delete all if none are selected
-            if (!empty($tagsToDelete) || empty($selectedTags)) {
-                DB::table('group_tags')
-                    ->where('group_id', $group->id)
-                    ->whereIn('tag_id', $tagsToDelete)
-                    ->delete();
-            }
+        //     // Delete the tags that are not in $selectedTags or delete all if none are selected
+        //     if (!empty($tagsToDelete) || empty($selectedTags)) {
+        //         DB::table('group_tags')
+        //             ->where('group_id', $group->id)
+        //             ->whereIn('tag_id', $tagsToDelete)
+        //             ->delete();
+        //     }
 
-            // Insert the new tags
-            if (!empty($tagsToInsert)) {
-                // Iterate through the selected tags and insert them into the group_tags table
-                foreach ($tagsToInsert as $tagId) {
-                    DB::table('group_tags')->insert([
-                        'group_id' => $group->id,
-                        'tag_id' => $tagId,
-                    ]);
-                }
-            }
-        }
+        //     // Insert the new tags
+        //     if (!empty($tagsToInsert)) {
+        //         // Iterate through the selected tags and insert them into the group_tags table
+        //         foreach ($tagsToInsert as $tagId) {
+        //             DB::table('group_tags')->insert([
+        //                 'group_id' => $group->id,
+        //                 'tag_id' => $tagId,
+        //             ]);
+        //         }
+        //     }
+        // }
 
         // Assuming you have the arrays $columns_array and $headers_indexes
         $columnToHeader = [];
@@ -1498,7 +1498,9 @@ class GroupController extends Controller
                                     // Insert the data into the Contact table
                                     $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
                                     if ($lead_info == null) {
-                                        DB::table('lead_info')->insert($insertContactLeadData);
+                                        // $lead = DB::table('lead_info')->insert($insertContactLeadData);
+                                        $leadData = $insertContactLeadData; // Assuming $insertContactLeadData is an array of data to be inserted
+                                        $leadId = DB::table('lead_info')->insertGetId($leadData);
 
                                         $leadStatus = [
                                             'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
@@ -1508,9 +1510,40 @@ class GroupController extends Controller
                                             'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
                                             'Closed Deal - Buy Side', 'Prospect'
                                         ];
-                            
+
                                         if (in_array($request->lead_status, $leadStatus)) {
                                             $this->insertContactGoalReached($contact->id, $request->lead_status);
+                                        }
+
+                                        // Get the currently associated tag IDs for the lead_info record
+                                        $currentTags = DB::table('lead_info_tags')
+                                        ->where('lead_info_id', $leadId)
+                                        ->pluck('tag_id')
+                                        ->toArray();
+
+                                        // Calculate the tags to insert (exclude already associated tags)
+                                        $tagsToInsert = array_diff($selectedTags, $currentTags);
+
+                                        // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+                                        $tagsToDelete = array_diff($currentTags, $selectedTags);
+
+                                        // Delete the tags that are not in $selectedTags or delete all if none are selected
+                                        if (!empty($tagsToDelete) || empty($selectedTags)) {
+                                            DB::table('lead_info_tags')
+                                                ->where('lead_info_id', $leadId)
+                                                ->whereIn('tag_id', $tagsToDelete)
+                                                ->delete();
+                                        }
+
+                                        // Insert the new tags
+                                        if (!empty($tagsToInsert)) {
+                                            // Iterate through the selected tags and insert them into the lead_info_tags table
+                                            foreach ($tagsToInsert as $tagId) {
+                                                DB::table('lead_info_tags')->insert([
+                                                    'lead_info_id' => $leadId,
+                                                    'tag_id' => $tagId,
+                                                ]);
+                                            }
                                         }
                                     }
 
@@ -2820,7 +2853,7 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
-        
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
@@ -2837,7 +2870,7 @@ class GroupController extends Controller
         $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
         $settings = Settings::first()->toArray();
-        
+
         try {
 
         foreach ($campaign_lists as $campaign_list) {
@@ -2862,33 +2895,33 @@ class GroupController extends Controller
                         }
                         $contactsArr[] = $number;
                     }
-                   
+
                 }
                 if(count($contactsArr) > 0){
                     $c_phones = implode(',',$contactsArr);
                     $sly_phone=$settings['slybroad_number'];
-                   
-                  
+
+
                     $vrm = \Slybroadcast::sendVoiceMail([
                                         'c_phone' => ".$c_phones.",
                                         'c_url' =>$_media,
                                         'c_record_audio' => '',
                                         'c_date' => 'now',
                                         'c_audio' => 'Mp3',
-                                       
+
                                         'c_callerID' => ".$sly_phone.",
-                                        
+
                                         'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
                                        ])->getResponse();
-                                      
-                }                
+
+                }
             }
-            
+
             //die('here');
             elseif(trim($_typ) == 'email') {
 
 
-                
+
                 $_subject = $campaign_list->subject;
 
 
@@ -2916,27 +2949,27 @@ class GroupController extends Controller
                    Mail::to($email)->send(new TestEmail($data));
                 }
             } elseif ($_typ == 'sms') {
-                
+
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
-                
+
                 $body = strip_tags($_body);
-                
+
                 foreach ($contact_numbrs as $contact_num) {
-                
+
                    // print_r($contact_num->number);
                // die("..");
-              
+
               // die($settings);
                $sid = $settings['twilio_acc_sid'];
                $token = $settings['twilio_auth_token'];
                $numberCounter = 0;
-               
-             
+
+
                    $client = new Client($sid, $token);
-                   
+
                    $cont_num=$contact_num->number;
                   // die($body);
-       
+
                    $sms_sent = $client->messages->create(
                        $cont_num,
                        [
@@ -2944,7 +2977,7 @@ class GroupController extends Controller
                            'body' => $body,
                        ]
                    );
-                 
+
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
@@ -2978,17 +3011,17 @@ class GroupController extends Controller
                            //  }
                            // $this->incrementSmsCount($numbers[$numberCounter]->number);
                        }
-       
+
                        // Alert::toast("SMS Sent Successfully", "success");
-       
+
                    }
-               
+
 
 
 
                 }
             } else {
-                
+
             }
         }
         return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
@@ -3005,7 +3038,7 @@ class GroupController extends Controller
     }
         // Return a response to indicate success
     }
-    
+
     // Show list create form
     public function newListForm()
     {

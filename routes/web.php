@@ -76,8 +76,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::get('account/detail', 'AccountDetailController@index')->name('account.detail');
 
-
-
     Route::post('process-stripe-payment', 'StripePaymentController@processStripePayment')->name('process-stripe-payment');
     Route::post('store-transaction', 'StripePaymentController@paypalStore')->name('store-transaction');
 
@@ -231,7 +229,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('campaignlist', 'Admin\CampaignListController');
     //Route::resource('single-sms','Admin\SingleSMSController');
     Route::resource('campaignlistNew', 'Admin\CampaignListController');
-    
+
     // Groups Routes
     Route::resource('group', 'Admin\GroupController');
     Route::get('groups/list/create', 'Admin\GroupController@newListForm')->name('group.list.create');
@@ -261,7 +259,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
     Route::get('/appointment', 'Admin\SettingsController@appointment')->name('settings.appointment.appointment');
-    
+
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
@@ -281,7 +279,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('contact/get-property-estimates', 'Admin\RapidApiController@getPropertyEstimates')->name('contact.property_estimates');
     Route::post('contact/fetch-google-map', 'Admin\RapidApiController@getGoogleMapsLink')->name('contact.property_links');
     Route::post('contact/fetch-zillow-link', 'Admin\RapidApiController@getZillowPropertyURL')->name('contact.zillow_property_links');
- 
+
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/reminder/{userAgreementId}', function ($userAgreementId) {
@@ -322,11 +320,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('reply', 'Admin\ReplyController');
     Route::resource('blacklist', 'Admin\BlacklistController');
     Route::resource('category', 'Admin\CategoryController');
-    
+
     Route::resource('tag', 'Admin\TagController');
     // Get tags' contacts
     Route::get('tags/{tag}/contacts', 'Admin\TagController@showTagContacts')->name('tags.contacts');
-    
+
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
@@ -344,7 +342,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
     Route::delete('/del-temp-message', 'Admin\TemplateMessagesController@destroy')->name('template.msg.destroy');
-    
+
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
     route::post('get/template_con/', 'Admin\TemplateController@getTemplateWithoutCategory');
