@@ -767,7 +767,7 @@
                         },
                         success: function(data) {
                             // Handle success response
-                            alert(data);
+                           // alert(data);
                             if (data.success) {
 
                                 toastr.success(

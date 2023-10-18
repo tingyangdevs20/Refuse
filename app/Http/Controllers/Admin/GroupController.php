@@ -2618,14 +2618,13 @@ class GroupController extends Controller
                                         'c_date' => 'now',
                                         'c_audio' => 'Mp3',
                                        
-                                        'c_callerID' => '+13128692422',
+                                        'c_callerID' => ".$sly_phone.",
                                         
                                         'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
                                        ])->getResponse();
                                       
                 }
-               // print_r($vrm);
-                                    //  die('..');
+                
             }
             
             //die('here');
