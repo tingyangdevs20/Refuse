@@ -327,6 +327,23 @@ class UserAgreementController extends Controller
         Alert::success('Success', 'User Agreement has been deleted successfully.');
         return redirect()->back();
     }
+
+    public function signers(Request $request)
+    {
+        
+        $data = json_decode($request->input('data'));
+        if ($data) {
+            $userIds = collect($data)->pluck('user_id'); // Extract user_id values
+            
+            $contacts = Contact::whereIn('id', $userIds)->select('name', 'last_name')->get();
+            return response()->json($contacts);
+        }else {
+            // Handle the case where the JSON data couldn't be decoded
+            return response()->json(['error' => 'Invalid JSON data'], 400);
+        }
+        
+    }
+
     public function fileManager(Request $request)
     {
         $contact = Contact::find($request->id);

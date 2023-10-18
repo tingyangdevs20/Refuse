@@ -57,10 +57,10 @@ class PhoneCallController extends Controller
             $voiceGrant->setIncomingAllow(true);
 
             $access_token->addGrant($voiceGrant);
-
+            
 
             $token = $access_token->toJWT();
-
+            
             return response()->json([
                 "identity"  => $identity,
                 "token"     => $token,

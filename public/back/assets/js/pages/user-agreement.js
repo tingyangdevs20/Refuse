@@ -169,6 +169,34 @@ $(document).ready(function () {
             },
         });
     });
+
+    $(document).on("click", ".modalSellersList", function (e) {
+        var data = $(this).attr('data-id'); //sachin
+        $("#modalSellersList").modal("show");//sachin
+        $.ajax({
+            url: userAgreementPath + "signers",
+            method: "GET",
+            data: {data },
+            success: function (response) {
+                // location.reload();
+            var modalBody = $("#modalBody");
+            
+            // Clear the modal body before adding new content
+            // modalBody.empty();
+            var index = 1;
+            // Loop through the response data and create three columns
+            for (var i = 0; i < response.length; i++) {
+                var fullName = response[i].name + ' ' + response[i].last_name;
+                
+                // Create a new div for each concatenated name
+                var nameDiv = $('<div class="col-4">'+ index+'. ' + fullName + '</div>');
+                index++;
+                modalBody.append(nameDiv);
+            }
+            },
+        });
+    });
+
     $(document).on("change", ".formTemplate", function (e) {
         e.preventDefault();
         var templateId = $(this).val();

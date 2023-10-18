@@ -28,7 +28,11 @@ class PhoneController extends Controller
     }
     public function index(){
         try {
-        // $context = $this->client->getAccount();
+
+        $context = $this->client->getAccount();
+        $activeNumbers = $context->incomingPhoneNumbers;
+        $activeNumberArray = $activeNumbers->read();
+        dd($activeNumberArray);
         // $callLogs = $this->client->calls->read([
         //     ["from" => '+14234608889'], // Match "from" number
         //     ["to" => '+14234608889'], // Match "from" number
@@ -37,10 +41,7 @@ class PhoneController extends Controller
         $fromRecords = $this->client->calls->read(["from" => '+14234608889'], $perPage, 1);
         $toRecords = $this->client->calls->read(["to" => '+14234608889'], $perPage, 1);
         $callLogs =  array_merge($fromRecords, $toRecords);
-        dd($callLogs);
-        $activeNumbers = $context->incomingPhoneNumbers;
         $callRecords = $this->client->recordings->read();
-        $activeNumberArray = $activeNumbers->read();
         $callLogs = $this->client->calls->page( [], 20 );   
         // dd($callLogs->calls);
         // $cla = null;

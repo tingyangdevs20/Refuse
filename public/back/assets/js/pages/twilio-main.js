@@ -62,12 +62,13 @@
   
       try {
           var baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+          console.log(baseUrl+ "my data")
 
           const data = await $.getJSON(baseUrl+"/access-token");
-          
         
         log("Got a token.");
         token = data.token;
+        console.log(token +"its my token");
         setClientNameUI('bulk-sms');
         intitializeDevice();
       } catch (err) {
@@ -117,35 +118,42 @@
     // MAKE AN OUTGOING CALL
   
     async function makeOutgoingCall(phoneNumberInput) {
-      console.log(phoneNumberInput)
-      var params = {
-        // get the phone number to call from the DOM
-        To: phoneNumberInput,
-      };
-  
-      if (device) {
-        log(`Attempting to call ${params.To} ...`);
-  
-        // Twilio.Device.connect() returns a Call object
-        const call = await device.connect({ params });
-  
-        // add listeners to the Call
-        // "accepted" means the call has finished connecting and the state is now "open"
-        call.on("accept", updateUIAcceptedOutgoingCall);
-        call.on("disconnect", updateUIDisconnectedOutgoingCall);
-        call.on("cancel", updateUIDisconnectedOutgoingCall);
-        callButton.next().removeClass('d-none')
-        callButton.addClass('d-none');
-        $(HangupButton).click(function(){
-        
-          console.log("Hanging up ...");
-          call.disconnect();
-          callButton.next().addClass('d-none')
-          callButton.removeClass('d-none');
-        });
-  
-      } else {
-        log("Unable to make call.");
+      try {
+          console.log(phoneNumberInput)
+          var params = {
+            // get the phone number to call from the DOM
+            To: phoneNumberInput,
+          };
+      
+          if (device) {
+            log(`Attempting to call ${params.To} ...`);
+      
+            // Twilio.Device.connect() returns a Call object
+            const call = await device.connect({ params });
+      
+            // add listeners to the Call
+            // "accepted" means the call has finished connecting and the state is now "open"
+            
+            call.on("accept", updateUIAcceptedOutgoingCall);
+            call.on("disconnect", updateUIDisconnectedOutgoingCall);
+            call.on("cancel", updateUIDisconnectedOutgoingCall);
+            console.log();
+            callButton.next().removeClass('d-none')
+            callButton.addClass('d-none');
+            $(HangupButton).click(function(){
+            
+              console.log("Hanging up ...");
+              call.disconnect();
+              callButton.next().addClass('d-none')
+              callButton.removeClass('d-none');
+            });
+            
+          } else {
+            log("Unable to make call.");
+          }
+        } catch(error) {
+        console.error("Error in makeOutgoingCall:", error);
+      
       }
     }
   

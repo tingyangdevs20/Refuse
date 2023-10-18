@@ -31,7 +31,7 @@
 
     //get the twilio access token
     async function getTwilioAccessToken(){
-        url="{{URL('phone/access-token')}}?identity="+$('#identity').val();
+        url="{{URL('access-token')}}?identity="+$('#identity').val();
         try{
             const data = await fetch(url).then(response => response.json());
 

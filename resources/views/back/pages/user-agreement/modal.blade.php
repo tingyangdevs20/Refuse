@@ -17,6 +17,28 @@
 </div>
 {{--End Modal New--}}
 
+{{--Modal New--}}
+<div class="modal fade bd-example-modal-lg" id="modalSellersList" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Document Send to User List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modalBody">
+                <div class="row" id="modalBody" style="padding: 5px; margin-left:4px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{-- <button type="submit" class="btn btn-danger">Delete</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+{{--End Modal New--}}
+
 {{--Modal Delete--}}
 <div class="modal fade" id="deleteUserAgreement" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">

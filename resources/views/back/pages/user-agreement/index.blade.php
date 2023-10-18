@@ -56,6 +56,7 @@
                                         <th scope="col">No. of Users </th>
                                         <th scope="col">Contract Signed </th>
                                         <th scope="col">Contract PDF</th>
+                                        <th scope="col">Document Sent to</th>
                                         <th scope="col">Reminder </th>
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -113,6 +114,17 @@
                                                 @endif
                                             </td>
 
+                                            <td>
+                                                <button class="btn btn-outline-success btn-sm modalSellersList"
+                                                title="Remove" data-id="{{ $useragreement->userAgreementSeller }}"
+                                                data-toggle="modal"
+                                                >
+                                                {{ $useragreement->userAgreementSeller->count()}}
+                                            </button>
+
+                                                
+                                            </td>
+                                            
                                             <td>
                                                 <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
                                                     onclick="notifyuser({{ $useragreement->id }})"
