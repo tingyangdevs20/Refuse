@@ -124,7 +124,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
-
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
     Route::get('/zoom/create', 'ZoomController@create')->name('zoom.create');
     Route::post('/zoom/store', 'ZoomController@store')->name('zoom.store');
@@ -197,7 +196,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('user/quit', 'UserController@quitRole')->name('user.quit')->middleware('auth');
 
     // skip tracing
+    Route::get('group/contacts-record/{group}', 'Admin\GroupController@fetchContactRecordsCount');
     Route::post('/skip-trace', 'Admin\GroupController@skipTrace')->name('skip-trace');
+
     // Profile page route
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');

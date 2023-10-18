@@ -62,7 +62,6 @@ class GroupController extends Controller
     public function index(Request $request)
     {
 
-        $account = Account::first();
         try {
             $groups = Group::with('contacts')->get()->sortByDesc("created_at");
 
@@ -109,7 +108,7 @@ class GroupController extends Controller
                     'message' => 'OK'
                 ]);
             } else {
-                return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template', 'account'));
+                return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template'));
             }
         } catch (\Exception $e) {
 
@@ -1208,38 +1207,38 @@ class GroupController extends Controller
         $group_id = $group->id;
         // }
         $selectedTags = $request->tag_id;
-        // if ($selectedTags || !empty($selectedTags)) {
-        //     // Get the currently associated tag IDs for the group record
-        //     $currentTags = DB::table('group_tags')
-        //         ->where('group_id', $group->id)
-        //         ->pluck('tag_id')
-        //         ->toArray();
+        if ($selectedTags || !empty($selectedTags)) {
+            // Get the currently associated tag IDs for the group record
+            $currentTags = DB::table('group_tags')
+                ->where('group_id', $group->id)
+                ->pluck('tag_id')
+                ->toArray();
 
-        //     // Calculate the tags to insert (exclude already associated tags)
-        //     $tagsToInsert = array_diff($selectedTags, $currentTags);
+            // Calculate the tags to insert (exclude already associated tags)
+            $tagsToInsert = array_diff($selectedTags, $currentTags);
 
-        //     // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
-        //     $tagsToDelete = array_diff($currentTags, $selectedTags);
+            // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+            $tagsToDelete = array_diff($currentTags, $selectedTags);
 
-        //     // Delete the tags that are not in $selectedTags or delete all if none are selected
-        //     if (!empty($tagsToDelete) || empty($selectedTags)) {
-        //         DB::table('group_tags')
-        //             ->where('group_id', $group->id)
-        //             ->whereIn('tag_id', $tagsToDelete)
-        //             ->delete();
-        //     }
+            // Delete the tags that are not in $selectedTags or delete all if none are selected
+            if (!empty($tagsToDelete) || empty($selectedTags)) {
+                DB::table('group_tags')
+                    ->where('group_id', $group->id)
+                    ->whereIn('tag_id', $tagsToDelete)
+                    ->delete();
+            }
 
-        //     // Insert the new tags
-        //     if (!empty($tagsToInsert)) {
-        //         // Iterate through the selected tags and insert them into the group_tags table
-        //         foreach ($tagsToInsert as $tagId) {
-        //             DB::table('group_tags')->insert([
-        //                 'group_id' => $group->id,
-        //                 'tag_id' => $tagId,
-        //             ]);
-        //         }
-        //     }
-        // }
+            // Insert the new tags
+            if (!empty($tagsToInsert)) {
+                // Iterate through the selected tags and insert them into the group_tags table
+                foreach ($tagsToInsert as $tagId) {
+                    DB::table('group_tags')->insert([
+                        'group_id' => $group->id,
+                        'tag_id' => $tagId,
+                    ]);
+                }
+            }
+        }
 
         // Assuming you have the arrays $columns_array and $headers_indexes
         $columnToHeader = [];
@@ -2074,9 +2073,76 @@ class GroupController extends Controller
         return view('back.pages.group.myFile', compact('contractres'));
     }
 
+    public function fetchContactRecordsCount(Group $group)
+    {
+        $account = Account::first();
+        $contacts = $group->contacts;
+
+        $contactsWithNumbers = 0;
+        $contactsWithoutNumbers = 0;
+
+        $contactsWithEmails = 0;
+        $contactsWithoutEmails = 0;
+
+        $contactsWithoutName = 0;
+
+        foreach ($contacts as $contact) {
+            $contactRecords = [$contact->number, $contact->number2, $contact->number3];
+
+            $contactRecordsEmails = [$contact->email1, $contact->email2];
+
+            $contactRecordNames = [$contact->name, $contact->last_name];
+
+            $hasNumber = false;
+
+            $hasEmail = false;
+
+            foreach ($contactRecords as $record) {
+                // Check if the record contains more than 6 digits or characters
+                if (strlen(preg_replace('/[^0-9]/', '', $record)) > 6) {
+                    $hasNumber = true;
+                    break; // No need to continue checking if one field has a number
+                }
+            }
+
+            if ($hasNumber) {
+                $contactsWithNumbers++;
+            } else {
+                $contactsWithoutNumbers++;
+            }
+
+            foreach ($contactRecordsEmails as $email) {
+                if (!empty($email)) {
+                    $hasEmail = true;
+                    break; // No need to continue checking if one field has an email
+                }
+            }
+
+            if ($hasEmail) {
+                $contactsWithEmails++;
+            } else {
+                $contactsWithoutEmails++;
+            }
+
+            // Check if both first name and last name are empty
+            if (empty($contact->name) && empty($contact->last_name)) {
+                $contactsWithoutName++;
+            }
+        }
+
+        return response()->json([
+            'account' => $account,
+            'contactsWithNumbers' => $contactsWithNumbers,
+            'contactsWithoutNumbers' => $contactsWithoutNumbers,
+            'contactsWithEmails' => $contactsWithEmails,
+            'contactsWithoutEmails' => $contactsWithoutEmails,
+            'contactsWithoutName' => $contactsWithoutName,
+        ]);
+    }
+
+
     public function skipTrace(DatazappService $datazappService, Request $request)
     {
-
         $date = now()->format('d M Y');
         $user_id = auth()->id();
         $balance = \DB::table('account_details')
@@ -2104,7 +2170,7 @@ class GroupController extends Controller
 
 
         if (!$group) {
-            return response()->json(['error' => 'Group not found.']);
+            return response()->json(['error' => 'Group not found!']);
         }
 
         // Extract the contact data from the group
@@ -2123,22 +2189,23 @@ class GroupController extends Controller
             'selectedOption' => $selectedOption,
         ]);
 
-        if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
-            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
-        } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
-            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
-        } elseif ($selectedOption == 'append_names') {
-            $skipTraceRate = Account::pluck('name_append_rate')->first();
-        } elseif ($selectedOption == 'append_emails') {
-            $skipTraceRate = Account::pluck('email_append_rate')->first();
-        } elseif ($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified') {
-            $skipTraceRate = Account::pluck('email_verification_rate')->first();
-        } elseif ($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers') {
-            $skipTraceRate = Account::pluck('phone_scrub_rate')->first();
-        }
+        $skipTraceRate = $request->skip_trace_option_amount;
+
+        // if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
+        //     $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
+        // } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
+        //     $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
+        // } elseif ($selectedOption == 'append_names') {
+        //     $skipTraceRate = Account::pluck('name_append_rate')->first();
+        // } elseif ($selectedOption == 'append_emails') {
+        //     $skipTraceRate = Account::pluck('email_append_rate')->first();
+        // } elseif ($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified') {
+        //     $skipTraceRate = Account::pluck('email_verification_rate')->first();
+        // } elseif ($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers') {
+        //     $skipTraceRate = Account::pluck('phone_scrub_rate')->first();
+        // }
 
         if ($skipTraceRate === null) {
-
             return response()->json(['error' => 'Invalid skip trace option.']);
         } else {
 

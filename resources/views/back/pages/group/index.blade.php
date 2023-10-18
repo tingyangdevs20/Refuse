@@ -94,7 +94,8 @@
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
                                 data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
                             @include('components.modalform')
-                            <a href="{{ route('admin.source.list') }}" class="btn btn-outline-primary btn-sm float-right mr-2">
+                            <a href="{{ route('admin.source.list') }}"
+                                class="btn btn-outline-primary btn-sm float-right mr-2">
                                 <span>How To Source A List</span>
                             </a>
 
@@ -147,8 +148,6 @@
                                                     id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a>
                                             </td>
                                             <td>
-
-
                                                 @if ($group->campaign_name)
                                                     {{ $group->campaign_name }}
                                                 @else
@@ -197,6 +196,7 @@
                                                     {{ $group->phone_scrub_date }}
                                                 @endif
                                             </td>
+                                            {{-- <td>{{ $groupCounts[$group->id]['contacts_counts_without_phone_numbers'] }}</td> --}}
                                             <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
 
                                             <td>{{ $group->created_at->format('m/d/Y') }}</td>
@@ -438,43 +438,23 @@
                                 name="skip_trace_option" data-group-id="{{ $group->id }}">
 
                                 <option value="">Select an Option</option>
-                                <option value="skip_entire_list_phone"
-                                    data-amount="${{ @$account->phone_cell_append_rate }}">Skip Trace Phone Numbers
-                                    (Entire
-                                    List) (${{ $account->phone_cell_append_rate }})</option>
-                                <option value="skip_records_without_numbers_phone"
-                                    data-amount="${{ @$account->phone_cell_append_rate }}">Skip Trace Phone Numbers
-                                    (Records
-                                    Without Numbers)(${{ $account->phone_cell_append_rate }})</option>
-                                <option value="skip_entire_list_email" data-amount="${{ @$account->email_append_rate }}">
-                                    Skip Trace Emails (Entire List)</option>
-                                <option value="skip_records_without_emails"
-                                    data-amount="${{ @$account->email_append_rate }}">Skip Trace Emails (Records Without
-                                    Emails)(${{ $account->email_append_rate }})</option>
-                                <option value="append_names" data-amount="${{ @$account->name_append_rate }}">Append Name
-                                    (Records Without Name)(${{ $account->name_append_rate }})</option>
-                                <option value="append_emails" data-amount="${{ @$account->name_append_rate }}">Append
-                                    Email
-                                    (Records Without Email)(${{ $account->name_append_rate }})</option>
-                                <option value="email_verification_entire_list"
-                                    data-amount="${{ @$account->email_verification_rate }}">Email Verification (Entire
-                                    List)(${{ $account->email_verification_rate }})
-                                </option>
-                                <option value="email_verification_non_verified"
-                                    data-amount="${{ @$account->email_verification_rate }}">Email Verification
-                                    (Non-Verified
-                                    Emails)(${{ $account->email_verification_rate }})</option>
-                                <option value="phone_scrub_entire_list" data-amount="${{ @$account->phone_scrub_rate }}">
-                                    Phone Scrub (Entire List)(${{ $account->phone_scrub_rate }})</option>
-                                <option value="phone_scrub_non_scrubbed_numbers"
-                                    data-amount="${{ @$account->phone_scrub_rate }}">Phone Scrub (Non-Scrubbed Phone
-                                    Numbers)(${{ $account->phone_scrub_rate }})</option>
+                                <option value="skip_entire_list_phone" data-amount="">
 
+                                </option>
+                                <option value="skip_records_without_numbers_phone" data-amount="">
+                                </option>
+                                <option value="skip_entire_list_email" data-amount="0"></option>
+                                <option value="skip_records_without_emails" data-amount="0"></option>
+                                <option value="append_names" data-amount="0"></option>
+                                <option value="append_emails" data-amount="0"></option>
+                                <option value="email_verification_entire_list" data-amount="0">
+                                </option>
+                                <option value="email_verification_non_verified" data-amount="0"></option>
+                                <option value="phone_scrub_entire_list" data-amount="0"></option>
+                                <option value="phone_scrub_non_scrubbed_numbers" data-amount="0"></option>
 
                             </select>
                         </div>
-
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary skip_tracing_btn"
@@ -541,6 +521,140 @@
                 let group_id = $(this).data('group-id');
                 $('.skip_tracing_btn').attr('data-group-id', group_id);
                 groupId = group_id;
+
+                // Fetch groups' contacts records count
+                // Send an AJAX GET request to fetch group counts by group ID
+                $.ajax({
+                    type: 'GET',
+                    url: publicPath + 'group/contacts-record/' +
+                        groupId, // Replace with your actual route URL
+                    success: function(response) {
+                        // Handle the response here, e.g., update the select options
+                        var contactsWithNumbers = response.contactsWithNumbers;
+                        var contactsWithoutNumbers = response.contactsWithoutNumbers;
+                        var contactsWithEmails = response.contactsWithEmails;
+                        var contactsWithoutEmails = response.contactsWithoutEmails;
+                        var contactsWithoutName = response.contactsWithoutName;
+                        var account = response.account;
+
+                        // Convert phoneCellAppendRate to an integer
+                        var phoneCellAppendRate = parseInt(account.phone_cell_append_rate, 10);
+
+                        var emailAppendRate = parseInt(account.email_append_rate, 10)
+
+                        var namesAppendRate = parseInt(account.name_append_rate, 10)
+
+                        var emailVerificationRate = parseInt(account.email_verification_rate,
+                            10)
+
+                        var phoneScrubbedRate = parseInt(account.phone_scrub_rate, 10)
+
+                        // Find the corresponding select element based on the name attribute
+                        var selectElement = $('select[name="skip_trace_option"]');
+
+                        var selp =
+                            "skip_entire_list_phone"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, phoneCellAppendRate,
+                            contactsWithNumbers, selp,
+                            'Skip Trace Phone Numbers (Entire List)');
+
+                        var srwnp =
+                            "skip_records_without_numbers_phone"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, phoneCellAppendRate,
+                            contactsWithoutNumbers, srwnp,
+                            'Skip Trace Phone Numbers (Records Without Numbers)');
+
+                        var sele =
+                            "skip_entire_list_email"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, emailAppendRate,
+                            contactsWithEmails, sele,
+                            'Skip Trace Emails (Entire List)');
+
+                        var srwe =
+                            "skip_records_without_emails"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, emailAppendRate,
+                            contactsWithoutEmails, srwe,
+                            'Skip Trace Emails (Records Without Emails)');
+
+                        var an =
+                            "append_names"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, namesAppendRate,
+                            contactsWithoutName, an,
+                            'Append Name (Records Without Name)');
+
+                        var ae =
+                            "append_emails"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, emailAppendRate,
+                            contactsWithoutEmails, ae,
+                            'Append Email (Records Without Email)');
+
+                        var ev =
+                            "email_verification_entire_list"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, emailVerificationRate,
+                            contactsWithEmails, ev,
+                            'Email Verification (Entire List)');
+
+                        var nvel =
+                            "email_verification_non_verified"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, emailVerificationRate,
+                            contactsWithoutEmails, nvel,
+                            'Email Verification(Non - Verified Emails)');
+
+                        var psel =
+                            "phone_scrub_entire_list"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, phoneScrubbedRate,
+                            contactsWithNumbers, psel,
+                            'Phone Scrub(Entire List)');
+
+                        var psnsn =
+                            "phone_scrub_non_scrubbed_numbers"; // Replace with the value you want to find
+                        updateSkipTraceOptionText(selectElement, phoneScrubbedRate,
+                            contactsWithoutNumbers, psnsn,
+                            'Phone Scrub(Non - Scrubbed Phone Numbers)');
+
+                    },
+                    error: function() {
+                        // Handle any error that occurs during the AJAX request
+                        console.log('Error fetching group counts.');
+                    }
+                });
+            });
+
+            function updateSkipTraceOptionText(selectElement, rate, count, optionValueToFind, text) {
+                // Multiply the integer value with contactsWithoutNumbers
+                var newAmount = rate * count;
+
+                // Find the option by its value attribute using Select2's API
+                var optionToUpdate = selectElement.find('option[value="' + optionValueToFind + '"]');
+
+                if (optionToUpdate.length) {
+                    // Get the current text of the option
+                    var currentText = optionToUpdate.text();
+
+                    // Update the text of the option directly in Select2
+                    optionToUpdate.attr('data-amount', newAmount);
+
+                    // Update the text of the option directly in Select2
+                    optionToUpdate.text(text + ' ($' + newAmount + ')');
+
+                    // Destroy the Select2 element
+                    selectElement.select2('destroy');
+
+                    // Reinitialize the Select2 element
+                    selectElement.select2();
+
+                    // Manually open and close the dropdown to see the updated text
+                    selectElement.select2('open');
+                    selectElement.select2('close');
+                } else {
+                    // Handle the case where the option is not found
+                    console.log('Option not found with value: ' + optionValueToFind);
+                }
+            }
+
+            $('#skiptracingModal').on('hidden.bs.modal', function() {
+                // Clear the Select2 values
+                // $('.select2').val(null).trigger('change');
             });
 
             // Handle when the "Skip Trace" button is clicked
@@ -554,7 +668,7 @@
                     // var groupId = $(this).data('group-id');
 
                     var confirmation = confirm(
-                        'Are you sure you want to perform skip tracing with the selected option? ' +
+                        'Are you sure you want to perform skip tracing with the selected option? $' +
                         selectedOptionText + ' will be deducted from your account.');
 
                     // Make an AJAX request to perform skip tracing
@@ -570,6 +684,7 @@
                                 _token: '{{ csrf_token() }}',
                                 group_id: groupId,
                                 skip_trace_option: selectedOption,
+                                skip_trace_option_amount: selectedOptionText
                             },
                             success: function(response) {
                                 $('#skiptracingModal').modal('hide');
@@ -770,7 +885,7 @@
                         },
                         success: function(data) {
                             // Handle success response
-                           // alert(data);
+                            // alert(data);
                             if (data.success) {
 
                                 toastr.success(
@@ -785,13 +900,13 @@
                             }
                         },
                         error: function(error) {
-                           // alert(error);
+                            // alert(error);
                             toastr.error('AJAX Error: ' + error.statusText, {
                                 timeOut: 9000,
                             });
                         },
                         complete: function() {
-                           // alert(data);
+                            // alert(data);
                             // Enable the submit button after the request is complete (success or error)
                             $('.push_to_campaign_btn').prop('disabled', false);
                             // Close the modal
