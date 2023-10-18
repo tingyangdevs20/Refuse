@@ -209,6 +209,36 @@ $(document).ready(function () {
         });
     });
 
+    function populateSellerNames() {
+        // Find all elements with the class "modalSellersList"
+        $('.modalSellersList').each(function () {
+            var data = $(this).attr('data-id');
+            var tdCell = $(this).closest('td');
+            
+            $.ajax({
+                url: userAgreementPath + "signers",
+                method: "GET",
+                data: { data },
+                success: function (response) {
+                    tdCell.empty();
+                    var sellerNames = [];
+    
+                    for (var i = 0; i < response.length; i++) {
+                        var fullName = response[i].name + ' ' + response[i].last_name;
+                        sellerNames.push(index + '. ' + fullName);
+                    }
+    
+                    tdCell.html(sellerNames.join('<br>'));
+                },
+            });
+        });
+    }
+    
+    // Call the function when the page is loaded
+    $(document).ready(function () {
+        populateSellerNames();
+    });
+    
     $(document).on("change", ".formTemplate", function (e) {
         e.preventDefault();
         var templateId = $(this).val();

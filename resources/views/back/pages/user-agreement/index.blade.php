@@ -36,8 +36,8 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Digital Signing
-                            <button class="btn btn-outline-primary btn-sm float-right addUserAgreement" title="New"><i
-                                    class="fas fa-plus-circle"></i></button>
+                            {{-- <button class="btn btn-outline-primary btn-sm float-right addUserAgreement" title="New"><i
+                                    class="fas fa-plus-circle"></i></button> --}}
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
                             @include('components.modalform')
@@ -116,11 +116,11 @@
 
                                             <td>
                                                 <a href="" class="modalSellersList"
-                                                title="Remove" data-id="{{ $useragreement->userAgreementSeller }}"
-                                                data-toggle="modal"
-                                                >
-                                                {{ $useragreement->userAgreementSeller->count()}}
-                                            </a>
+                                                    title="Remove" data-id="{{ $useragreement->userAgreementSeller }}"
+                                                    data-toggle="modal"
+                                                    >
+                                                    {{ $useragreement->userAgreementSeller->count()}}
+                                                 </a>
 
                                                 
                                             </td>
