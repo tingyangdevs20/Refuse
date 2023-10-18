@@ -115,12 +115,12 @@
                                             </td>
 
                                             <td>
-                                                <button class="btn btn-outline-success btn-sm modalSellersList"
+                                                <a href="" class="modalSellersList"
                                                 title="Remove" data-id="{{ $useragreement->userAgreementSeller }}"
                                                 data-toggle="modal"
                                                 >
                                                 {{ $useragreement->userAgreementSeller->count()}}
-                                            </button>
+                                            </a>
 
                                                 
                                             </td>

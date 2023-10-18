@@ -69,10 +69,10 @@ class UserAgreementController extends Controller
         ];
 
         $message = [
-            'template_id.required'    => "The field is required.",
-            'agreement_date.required' => "The field is required.",
-            'content.required'        => "The field is required.",
-            'seller_id.required'      => "The field is required.",
+            'template_id.required'    => "This field is required!",
+            'agreement_date.required' => "This field is required!",
+            'content.required'        => "This field is required!",
+            'seller_id.required'      => "This field is required!",
         ];
         
         $validator = Validator::make($request->all(), $rules, $message);
@@ -84,33 +84,38 @@ class UserAgreementController extends Controller
             ];
             return response()->json($response, 400);
         }
-        $user_id = null;
+        $columns_with_user = [];
         if (count($request->seller_id) > 0) {
             foreach ($request->seller_id as $sellerId) {
-                $user_id = $sellerId;
+                $selle_name = Contact::find($sellerId);
+                $pattern = '/\{([^}]+)\}/';
+                preg_match_all($pattern, $request->content, $matches);
+                $emptyColumns = [];
+                // $matches[1] will contain the words or substrings
+                $wordsInCurlyBraces = $matches[1];
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'contacts', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'lead_info', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'property_infos', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'settings', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'title_company', $sellerId);
+                $columns = [];
+                $emptyColumns = array_unique(array_filter($emptyColumns));
+                
+                if(!empty($emptyColumns)){
+                    foreach($emptyColumns as $col){
+                        $columns_with_user[$selle_name->name] = $col;
+                        
+                    }
+                }
             }
         } else{
             return response()->json("Please select at least one seller", 400);
         }
-        $pattern = '/\{([^}]+)\}/';
-        preg_match_all($pattern, $request->content, $matches);
-        $emptyColumns = [];
-        // $matches[1] will contain the words or substrings
-        $wordsInCurlyBraces = $matches[1];
-        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'contacts', $user_id);
-        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'lead_info', $user_id);
-        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'property_infos', $user_id);
-        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'settings', $user_id);
-        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'title_company', $user_id);
-        $columns = [];
-        $emptyColumns = array_unique(array_filter($emptyColumns));
         
-        if (!empty($columns[1])) {
-            // Return a JSON response with HTTP status code 400 and the $emptyColumns data
-            return response()->json($emptyColumns, 400);
+        if( !empty($columns_with_user)) {
+            return response()->json(["success" => false , "errors" => $columns_with_user], 400);
         }
-
-
+        
         $userAgreement                             = new UserAgreement();
         $userAgreement->template_id                = $request->template_id;
         $userAgreement->agreement_date             = date("Y-m-d");
@@ -176,7 +181,7 @@ class UserAgreementController extends Controller
         foreach ($results as $row) {
             foreach ($columnPattern as $column) {
                 // Check if the column exists in the row and if its value is empty
-                if (property_exists($row, $column) && empty($row->$column)) {
+                if (property_exists($row, $column) && empty($row->$column) || property_exists($row, $column) && $row->$column == " " ) {
                     $emptyColumns[] = $column;
                 }
             }

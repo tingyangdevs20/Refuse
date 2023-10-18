@@ -384,13 +384,28 @@
     font-size: 12px; /* Font size for the call count */
     z-index: 1; /* Ensure the count is on top of the icon */
 }
+    .col-4:hover {
+        cursor: pointer;
+    }
+    .close-dialer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
 
 </style>
 
 
 <div id="soft-phone-modal" class="modal">
     <div class="container soft-phone" style="width: 350px !important;padding-left: 0px;height: 500px;">
-
+        <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        
         <div class="modal-sidebar">
             <div class="sidebar-top">
                 <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"
@@ -404,10 +419,10 @@
                 <span class="material-icons" style="color:#708090;margin-bottom: 10px;">star_half</span>
                 <span class='material-icons' style="color:#708090;margin-bottom: 10px;">settings</span>
                 <span class="material-icons power-off"
-                    style="margin-bottom: 15px;color:#708090">power_settings_new</span>
+                style="margin-bottom: 15px;color:#708090">power_settings_new</span>
             </div>
         </div>
-
+        
         <div class="row text-center m-auto incoming-control d-none">
             <div class="col-12">
                 <p class="instructions">
@@ -424,9 +439,6 @@
             </div>
         </div>
         <div class="phone">
-            <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
             <div id="dial_pad">
                 <div class="call-display">
                     <div class="row">
@@ -481,68 +493,29 @@
                 </div>
             </div>
 
-            <!-- <div class="d-flex justify-content-center">
-                  <button id="end-call" class="end-call">
-                      <i class="fa fa-phone" aria-hidden="true"></i>
-                  </button>
-                </div>   -->
-            {{-- <div id="call-history" class="history-panel" style="display: none;">
-                  <!-- Call records list -->
-                  <ul>
-                      <!-- Sample Call Record: Incoming Call -->
-                      <li class="incoming-call">
-                          <div class="call-icon">
-                              <i class="fas fa-arrow-down"></i>
-                          </div>
-                          <div class="call-details">
-                              <div class="call-number">+15138135060</div>
-                              <div class="call-time">2023-10-14 12:34 PM</div>
-                          </div>
-                      </li>
-              
-                      <!-- Sample Call Record: Missed Call -->
-                      <li class="missed-call">
-                          <div class="call-icon">
-                              <i class="fas fa-phone-slash"></i>
-                          </div>
-                          <div class="call-details">
-                              <div class="call-number">+15139520271</div>
-                              <div class="call-time">2023-10-14 11:45 AM</div>
-                          </div>
-                      </li>
-              
-                      <!-- Sample Call Record: Outgoing Call -->
-                      <li class="outgoing-call">
-                          <div class="call-icon">
-                              <i class="fas fa-arrow-up"></i>
-                          </div>
-                          <div class="call-details">
-                              <div class="call-number">+1234567890</div>
-                              <div class="call-time">2023-10-14 10:30 AM</div>
-                          </div>
-                      </li>
-              
-                      <!-- Add more call records as needed -->
-                  </ul>
-              </div> --}}
             <div id="call-history" class="history-panel" style="display: none;">
               <h4 style="margin-top:4px">Call History</h4>
                 <!-- Call records list -->
                 <ul>
-
+                    
                 </ul>
+                <div class="d-flex align-items-center">
+                    <strong>Loading call logs...</strong>
+                    <div class="spinner-border spinner-border-sm ml-1"
+                        role="status" aria-hidden="true"></div>
+                </div>
             </div>
 
             <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
                 <div class="col-4" style="left: 28px;" id="show-dial-pad">
-                    <span class='material-icons custom-size-ui'
-                        style="margin-left: 14px;color: #D3D3D3;">dialpad</span>
+                    <span class='material-icons custom-size-ui'id="show-dialpad"
+                        style="margin-left: 14px;color: #220ada;">dialpad</span>
                 </div>
                 <div class="col-4" style="left: 28px;">
                     <span class='material-icons custom-size-ui' style="color: #D3D3D3;">support_agent</span>
                 </div>
                 <div class="col-4" style="left: 28px;">
-                    <i class="fa fa-phone custom-size-ui" id="show-history" style="color: #D3D3D3;font-size:x-large"
+                    <i class="fa fa-phone custom-size-ui" id="show-history" style="color: #d3d3d3;font-size:x-large"
                         title="History"></i>
                 </div>
             </div>

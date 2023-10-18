@@ -3,7 +3,15 @@
     <div class="modal-body">
         @csrf
         @method('POST')
-        <div id="error-messages" style="color: red; margin-left:30%;"></div>
+        <div id="error-messages" class="alert alert-danger alert-dismissible" style="display: none; margin-left: 1%;">
+            <!-- Close button -->
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <!-- Error messages will be appended here -->
+        </div>
+        
+        
         <div class="form-group">
             <label for="recipient-name" class="col-form-label">Form Template <span class="required">*</span></label>
             <select class="form-control formTemplate" onchange="fetch(this)" id="template_id" name="template_id" required>

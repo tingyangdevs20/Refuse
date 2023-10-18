@@ -42,36 +42,48 @@ $(document).ready(function () {
                         // Handle the error here (e.g., show an error message to the user)
                         console.log("AJAX Request Error: " + xhr.statusText);
                         var errors = xhr.responseJSON.errors;
-
-                        // Handle the errors as needed (e.g., display them to the user)
-                        console.log(xhr.responseJSON);
                         var errorMessageContainer = $("#error-messages");
                         errorMessageContainer.empty(); // Clear any previous error messages
-            
-                        // Iterate through the error messages and add them to the div
-                        for (var fieldName in errors) {
-                            if (errors.hasOwnProperty(fieldName)) {
-                                errorMessageContainer.append('<div>'  + fieldName + ': ' + errors[fieldName] + '</div>');
-                            }
-                        }
-
-                        var errorMessageContainer = document.getElementById("error-messages");
-                        errorMessageContainer.innerHTML = "";
-                        var responseData = xhr.responseJSON;
-                        for (var key in responseData) {
-                            if (responseData.hasOwnProperty(key)) {
-                                var errorList = responseData[key];
-                                var errorHTML = "";
-                        
-                                for (var i = 0; i < errorList.length; i++) {
-                                    errorHTML +=  errorList[i] +' is required!'+ "<br>";
+                    
+                        if (errors) {
+                            // Scenario 1: Named errors
+                            for (var fieldName in errors) {
+                                if (errors.hasOwnProperty(fieldName)) { 
+                                    var errorValues = errors[fieldName];
+                                    if (Array.isArray(errorValues)) {
+                                        console.log(errors[fieldName]);
+                                        if(errors[fieldName].length > 1){
+                                            errors[fieldName].forEach(element => {
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' value is not found in the contact record!</div><br>');
+                                            }); 
+                                        } else{
+                                            if(errorValues[0] === 'This field is required!'){
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
+                                                
+                                            } else {
+                                                
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' value is not found in the contact record!</div><br>');
+                                            }
+                                        }
+                                        // If there are multiple error values, join them into a single line
+                                        // var errorMessage = fieldName + ': ' + errorValues.join(', ');
+                                    } else {
+                                        errorMessageContainer.append('<div> <i class="fa fa-info"></i> ' + fieldName + ' : ' + errorValues + '</div>');
+                                    }
                                 }
-                        
-                                errorMessageContainer.innerHTML += errorHTML;
                             }
+                        } else {
+                            // Scenario 2: Missing field error
+                            var errorList = xhr.responseJSON;
+                            var errorHTML = "";
+                            for (var i = 0; i < errorList.length; i++) {
+                                errorHTML += errorList[i] + ' is required!' + "<br>";
+                            }
+                            errorMessageContainer.append('<div>' + errorHTML + '</div>');
                         }
-                       
+                        errorMessageContainer.show();
                     }
+                    
                 });
             
             
@@ -172,27 +184,27 @@ $(document).ready(function () {
 
     $(document).on("click", ".modalSellersList", function (e) {
         var data = $(this).attr('data-id'); //sachin
-        $("#modalSellersList").modal("show");//sachin
         $.ajax({
             url: userAgreementPath + "signers",
             method: "GET",
             data: {data },
             success: function (response) {
                 // location.reload();
-            var modalBody = $("#modalBody");
-            
-            // Clear the modal body before adding new content
-            // modalBody.empty();
-            var index = 1;
-            // Loop through the response data and create three columns
-            for (var i = 0; i < response.length; i++) {
-                var fullName = response[i].name + ' ' + response[i].last_name;
-                
-                // Create a new div for each concatenated name
-                var nameDiv = $('<div class="col-4">'+ index+'. ' + fullName + '</div>');
-                index++;
-                modalBody.append(nameDiv);
-            }
+                var modalBody = $("#modalBody");
+                modalBody.empty();
+                // Clear the modal body before adding new content
+                // modalBody.empty();
+                var index = 1;
+                // Loop through the response data and create three columns
+                for (var i = 0; i < response.length; i++) {
+                    var fullName = response[i].name + ' ' + response[i].last_name;
+                    
+                    // Create a new div for each concatenated name
+                    var nameDiv = $('<div class="col-4">'+ index+'. ' + fullName + '</div>');
+                    index++;
+                    modalBody.append(nameDiv);
+                }
+                $("#modalSellersList").modal("show");//sachin
             },
         });
     });

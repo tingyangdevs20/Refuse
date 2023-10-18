@@ -170,17 +170,28 @@
             if (historyPanel.style.display === "none") {
                 historyPanel.style.display = "block";
                 historyPanel2.style.display = "none";
+                const showHistoryButton = document.getElementById("show-history");
+                showHistoryButton.style.color = "blue";
+                const showdial = document.getElementById("show-dialpad");
+                showdial.style.color = "#d3d3d3";
                 fetchCallRecords(currentPage);
-            } else {
-                historyPanel2.style.display = "block";
-                historyPanel.style.display = "none";
             }
-            
-            
-
-            
         });
+        $('#show-dial-pad').on('click', function() {
+        var historyPanel = document.getElementById("call-history");
+        var historyPanel2 = document.getElementById("dial_pad");
+        if (historyPanel2.style.display === "none") {
+            historyPanel2.style.display = "block";
+            historyPanel.style.display = "none";
+            
+            const showdial = document.getElementById("show-dialpad");
+            showdial.style.color = "blue";
+            const showHistoryButton = document.getElementById("show-history");
+            showHistoryButton.style.color = "#d3d3d3";
 
+            fetchCallRecords(currentPage);
+        }
+    });
         // Flag to prevent multiple simultaneous requests
         function formatDate(date) {
     const options = {
