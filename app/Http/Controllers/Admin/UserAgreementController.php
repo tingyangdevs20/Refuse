@@ -14,6 +14,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use DB;
+use Illuminate\Support\Facades\Schema;
 
 class UserAgreementController extends Controller
 {
@@ -60,6 +61,7 @@ class UserAgreementController extends Controller
      */
     public function store(Request $request)
     {
+        
         $rules = [
             'template_id' => ['required'],
             'content'     => ['required'],
@@ -67,14 +69,14 @@ class UserAgreementController extends Controller
         ];
 
         $message = [
-            'template_id.required'    => "The field is required.",
-            'agreement_date.required' => "The field is required.",
-            'content.required'        => "The field is required.",
-            'seller_id.required'      => "The field is required.",
+            'template_id.required'    => "This field is required!",
+            'agreement_date.required' => "This field is required!",
+            'content.required'        => "This field is required!",
+            'seller_id.required'      => "This field is required!",
         ];
-
+        
         $validator = Validator::make($request->all(), $rules, $message);
-
+        
         if ($validator->fails()) {
             $response = [
                 'success' => false,
@@ -82,7 +84,38 @@ class UserAgreementController extends Controller
             ];
             return response()->json($response, 400);
         }
-
+        $columns_with_user = [];
+        if (count($request->seller_id) > 0) {
+            foreach ($request->seller_id as $sellerId) {
+                $selle_name = Contact::find($sellerId);
+                $pattern = '/\{([^}]+)\}/';
+                preg_match_all($pattern, $request->content, $matches);
+                $emptyColumns = [];
+                // $matches[1] will contain the words or substrings
+                $wordsInCurlyBraces = $matches[1];
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'contacts', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'lead_info', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'property_infos', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'settings', $sellerId);
+                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'title_company', $sellerId);
+                $columns = [];
+                $emptyColumns = array_unique(array_filter($emptyColumns));
+                
+                if(!empty($emptyColumns)){
+                    foreach($emptyColumns as $col){
+                        $columns_with_user[$selle_name->name] = $col;
+                        
+                    }
+                }
+            }
+        } else{
+            return response()->json("Please select at least one seller", 400);
+        }
+        
+        if( !empty($columns_with_user)) {
+            return response()->json(["success" => false , "errors" => $columns_with_user], 400);
+        }
+        
         $userAgreement                             = new UserAgreement();
         $userAgreement->template_id                = $request->template_id;
         $userAgreement->agreement_date             = date("Y-m-d");
@@ -122,6 +155,41 @@ class UserAgreementController extends Controller
         ];
 
         return response()->json($response, 200);
+    }
+
+    public function fetch_empty_columns($columnPattern, $table, $sellerId){
+        $emptyColumns = [];
+        if($table == "contacts"){
+            $query = DB::table($table)->where('id', $sellerId);
+        } else if ($table == "settings"){
+            $query = DB::table($table);
+        } else {
+            
+            $query = DB::table($table)->where('contact_id', $sellerId);
+        }
+        foreach ($columnPattern as $column) {
+            // Check if the column exists in the database table
+            if (Schema::hasColumn($table, $column)) {
+                $query->addSelect($column);
+            }
+        }
+
+        // Execute the query and fetch the results
+        $results = $query->get();
+
+        // Loop through the results
+        foreach ($results as $row) {
+            foreach ($columnPattern as $column) {
+                // Check if the column exists in the row and if its value is empty
+                if (property_exists($row, $column) && empty($row->$column) || property_exists($row, $column) && $row->$column == " " ) {
+                    $emptyColumns[] = $column;
+                }
+            }
+        }
+        
+            return $emptyColumns;
+        
+
     }
     public function softreminder($userId){
         Artisan::call("agreement:mail", ['userAgreementId' => $userId]);
@@ -264,6 +332,23 @@ class UserAgreementController extends Controller
         Alert::success('Success', 'User Agreement has been deleted successfully.');
         return redirect()->back();
     }
+
+    public function signers(Request $request)
+    {
+        
+        $data = json_decode($request->input('data'));
+        if ($data) {
+            $userIds = collect($data)->pluck('user_id'); // Extract user_id values
+            
+            $contacts = Contact::whereIn('id', $userIds)->select('name', 'last_name')->get();
+            return response()->json($contacts);
+        }else {
+            // Handle the case where the JSON data couldn't be decoded
+            return response()->json(['error' => 'Invalid JSON data'], 400);
+        }
+        
+    }
+
     public function fileManager(Request $request)
     {
         $contact = Contact::find($request->id);

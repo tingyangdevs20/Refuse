@@ -84,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header bg-soft-dark ">
                             <i class="fas fa-cog"></i> Google Calendar Settings
                         </div>
@@ -139,12 +139,8 @@
 
                                 <button type="submit" class="btn btn-primary">Update Settings</button>
 
-<<<<<<< HEAD
-                            </form>
-                        </div>
-=======
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
 
                 {{-- <div class="card">
@@ -198,7 +194,6 @@
                             <button type="submit" class="btn btn-primary">Update Settings</button>
 
                         </form>
->>>>>>> d046da3384ea615b06c83411f8ea8ef9b3353ee1
                     </div>
                 </div> --}}
             </div>

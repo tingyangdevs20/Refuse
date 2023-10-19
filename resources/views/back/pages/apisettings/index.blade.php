@@ -149,7 +149,7 @@
 
 
 
-                                <div class="card-header bg-soft-dark ">
+                                {{-- <div class="card-header bg-soft-dark ">
                                     <i class="fas fa-cog"></i> Google Drive Keys
 
                                 </div>
@@ -182,7 +182,7 @@
                                             name="google_drive_developer_key" id="google_drive_developer_key"
                                             value="{{ $settings->google_drive_developer_key }}">
                                     </div>
-                                </div>
+                                </div> --}}
 
 
 

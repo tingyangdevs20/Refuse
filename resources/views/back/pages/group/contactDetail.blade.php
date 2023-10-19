@@ -5491,15 +5491,18 @@
                                                                             class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
                                                                                 <div class="checkbox-list">
-                                                                                    @php
-                                                                                    $count=1;
-                                                                                    @endphp
-                                                                                        @foreach (getUserContact() as $sellerId => $seller)
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="seller_id[]" value="{{ $sellerId }}">Contact {{ $count }} ({{ $seller }})</label><br>
-                                                                                            @php
-                                                                                            $count++;
-                                                                                            @endphp
-                                                                                            @endforeach
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner1" value="{{ $leadinfo->id }}">Contact 1 ({{ $leadinfo->owner1_first_name }})</label><br>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner2" value="{{ $leadinfo->id }}">Contact 2 ({{ $leadinfo->owner2_first_name }})</label><br>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner3" value="{{ $leadinfo->id }}">Contact 3 ({{ $leadinfo->owner3_first_name }})</label><br>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                            
                                                                                 </div>
                                                                         </div>
 
