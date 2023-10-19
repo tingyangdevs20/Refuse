@@ -125,12 +125,6 @@
             padding-left: 12px
         }
 
-        body {
-            padding: 10px;
-
-        }
-
-
         #exTab2 h3 {
             color: white;
             background-color: #428bca;
@@ -224,7 +218,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Name</th>
@@ -509,7 +503,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -662,7 +656,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -829,7 +823,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            $('.datatable').DataTable();
         });
 
         $(".summernote-usage").summernote({

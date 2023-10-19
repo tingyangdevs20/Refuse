@@ -116,7 +116,7 @@
                                             <td data-id="{{ $useragreement->id }}" class="data-td">
                                             
                                             </td>
-                                            
+
                                             <td>
                                                 <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
                                                     onclick="notifyuser({{ $useragreement->id }})"

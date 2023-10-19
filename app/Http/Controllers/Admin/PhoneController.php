@@ -17,13 +17,13 @@ class PhoneController extends Controller
 {
     private $client = null;
     public function __construct() {
-        $settings = Settings::first()->toArray(); 
-        
-        
+        $settings = Settings::first()->toArray();
+
+
         $sid = $settings['twilio_acc_sid'];
-        
+
        $token = $settings['twilio_auth_token'];
-       
+
         $this->client = new Client($sid, $token);
     }
     public function index(){
@@ -42,7 +42,7 @@ class PhoneController extends Controller
         $toRecords = $this->client->calls->read(["to" => '+14234608889'], $perPage, 1);
         $callLogs =  array_merge($fromRecords, $toRecords);
         $callRecords = $this->client->recordings->read();
-        $callLogs = $this->client->calls->page( [], 20 );   
+        $callLogs = $this->client->calls->page( [], 20 );
         // dd($callLogs->calls);
         // $cla = null;
         $iterationCount = 0;  // Initialize the counter
@@ -50,7 +50,7 @@ class PhoneController extends Controller
         foreach ($callLogs as $call) {
             $cla = $call->sid;
 
-            
+
         }
         dd($cla);
 
@@ -58,7 +58,7 @@ class PhoneController extends Controller
         //print_r($activeNumberArray);
         //die("...");
         $numbers = [];
-        
+
         foreach($activeNumberArray as $activeNumber) {
             error_log('active number = '.$activeNumber->phoneNumber);
             $numbers[] = (object)[
@@ -67,16 +67,16 @@ class PhoneController extends Controller
                 'sid' => $activeNumber->sid,
                 'capabilities' => $activeNumber->capabilities,
             ];
-            
+
             $phn_num = $activeNumber->phoneNumber;
             $phone_number = Number::where('number', $phn_num)->first();
             $account = Account::first();
             $market = Market::first();
-            
+
             if(!$phone_number)
             {
                 $capabilitiesString = [];
-                
+
                 foreach ($activeNumber->capabilities as $capability => $value) {
                     if($value) {
 
@@ -100,7 +100,7 @@ class PhoneController extends Controller
       // var_dump($numbers);
       // print_r($numbers[0]->number);
 
-       
+
        //die(".");
        $all_phone_nums=Number::all();
         return view('back.pages.phone.index', compact('all_phone_nums'));
@@ -117,7 +117,7 @@ class PhoneController extends Controller
 
     public function callRecords(Request $request){
         try {
-            
+
         $page = $request->input('page', 1); // Get the requested page from the request or default to page 1
         $perPage = 5; // Number of records per page
         $fromRecords = $this->client->calls->read(["from" => $request->number], $perPage, $page);
@@ -134,20 +134,42 @@ class PhoneController extends Controller
                 // Add other fields you need
             ];
         }
-            
-            return response()->json(['success'=>'Status changed successfully.', 'data'=>$formattedCallLogs]); 
+
+            return response()->json(['success'=>'Status changed successfully.', 'data'=>$formattedCallLogs]);
         } catch (TwilioException $e) {
             return response()->json(['error' => 'Twilio API error: ' . $e->getMessage()], 500);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An unexpected error occurred: ' . $e->getMessage()], 500);
         }
     }
-    
+
     public function changeStatus(Request $request)
     {
-        $phn = Number::find($request->phn_id); 
-        $phn->is_active = $request->sts; 
-        $phn->save(); 
-        return response()->json(['success'=>'Status changed successfully.']); 
+        $phn = Number::find($request->phn_id);
+        $phn->is_active = $request->sts;
+        $phn->save();
+        return response()->json(['success'=>'Status changed successfully.']);
+    }
+
+    // Make calls test
+    public function makeCallTesting()
+    {
+        // A Twilio number you own with Voice capabilities
+        $twilio_number = "+14234609555";
+
+        // Where to make a voice call (your cell phone?)
+        $to_number = "+18183107612";
+
+        $call = $this->client->calls->create(
+            $to_number,
+            $twilio_number,
+            [
+                'url' => 'http://demo.twilio.com/docs/voice.xml',
+            ]
+        );
+
+        echo "Call SID: " . $call->sid;
+
+
     }
 }

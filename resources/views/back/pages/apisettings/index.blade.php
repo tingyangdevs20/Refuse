@@ -57,9 +57,6 @@
                                     name="document_closed_by" id="document_closed_by"
                                     value="{{ $settings->document_closed_by }}" required>
 
-
-
-
                                 <input type="hidden" class="form-control" placeholder="Reply To Email" name="reply_email"
                                     id="reply_email" value="{{ $settings->reply_email }}" required>
 
