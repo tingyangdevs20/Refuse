@@ -26,5 +26,11 @@ class Contact extends Model implements HasMedia
 
         return $leadCategory;
     }
-    
+
+    // In the Contact model
+    public function leadInfo()
+    {
+        return $this->hasOne(LeadInfo::class);
+    }
+
 }

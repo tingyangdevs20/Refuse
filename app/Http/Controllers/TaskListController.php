@@ -18,7 +18,7 @@ class TaskListController extends Controller
      */
     public function index()
     {
-       
+
         if (Gate::allows('user_module') || Gate::allows('administrator')) {
             $users = User::all();
             // $tasks = TaskList::all();
@@ -89,7 +89,7 @@ class TaskListController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(TaskList $taskList, $id)
-    
+
     {
         if ( Gate::allows('user_create') ||  Gate::allows('administrator')) {
             $users = User::all();
@@ -157,9 +157,6 @@ class TaskListController extends Controller
 
     public function deleteList(Request $request)
     {
-        
-
-        // return response()->json(['message' => $idsToCompare = $request->task_id]);
         $idsToCompare = $request->task_id;
 
         // Remove the first value from the array
@@ -169,7 +166,7 @@ class TaskListController extends Controller
             Contact::whereIn('id', $idsToCompare)->delete();
         }
 
-        return response()->json(['message' => 'Tasks deleted successfully']);
+        return response()->json(['message' => 'Contacts deleted successfully']);
 
 
     }
@@ -201,17 +198,17 @@ class TaskListController extends Controller
     public function updateOrders(Request $request)
     {
         $newOrder = $request->input('newOrder');
-    
+
         foreach ($newOrder as $position => $taskId) {
             TaskLists::where('id', $taskId)->update(['position' => $position + 1]);
         }
-    
+
         // Retrieve the updated task list data
         $updatedTaskLists = TaskLists::orderBy('position')->get();
-        
+
         // Render the table view
         // return  $table = View::make('back.pages.tasklist.table', ['taskLists' => $updatedTaskLists])->render();
-    
+
         return response()->json([
             'message' => 'Task order updated successfully',
             'taskLists' => $updatedTaskLists,
@@ -221,14 +218,14 @@ class TaskListController extends Controller
     public function updateOrder(Request $request)
     {
         $newOrder = $request->input('newOrder');
-    
+
         foreach ($newOrder as $position => $taskId) {
             TaskList::where('id', $taskId)->update(['position' => $position + 1]);
         }
-    
+
         // Retrieve the updated task list data
         $updatedTaskLists = TaskList::orderBy('position')->get();
-        
+
         // Render the table view
         // return  $table = View::make('back.pages.tasklist.table', ['taskLists' => $updatedTaskLists])->render();
 

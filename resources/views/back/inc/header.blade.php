@@ -33,13 +33,10 @@
         @include('back.pages.partials.switch')
         <div class="dropdown d-inline-block">
             @php
-                $totalBalance = \DB::table('account_details')
-                    ->where('user_id', auth()->user()->id)
-                    ->where('status', 'succeeded')
-                    ->sum('amount');
+                $totalBalance = App\TotalBalance::where('user_id', auth()->id())->first();
             @endphp
             Account Balance: <a href="{{ route('admin.account.detail') }}"><span style="color:#50a5f1;font-weight:bold">
-                    ${{ number_format(@$totalBalance, 2) }}</span></a>
+                    ${{ number_format(@$totalBalance->total_amount, 2) }}</span></a>
             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"
@@ -70,7 +67,7 @@
                     <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> Logout
                 </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div>
