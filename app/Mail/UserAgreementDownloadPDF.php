@@ -30,7 +30,7 @@ class UserAgreementDownloadPDF extends Mailable
      */
     public function __construct(int $userAgreementSellerId)
     {
-        $this->userAgreementSellerId = $userAgreementId;
+        $this->userAgreementSellerId = $userAgreementSellerId;
     }
 
     /**

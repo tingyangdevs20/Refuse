@@ -62,7 +62,7 @@
   
       try {
           var baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-          console.log(baseUrl+ "my data")
+          // console.log(baseUrl+ "my data")
 
           const data = await $.getJSON(baseUrl+"/access-token");
         

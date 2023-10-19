@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Mail\UserAgreementDownloadPDF;
 use App\Model\UserAgreement;
+use App\Model\UserAgreementSeller;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -56,7 +57,7 @@ class UserAgreementPDF extends Command
         $agreementDirectory = "agreement_pdf";
         $pdfPath            = storage_path("app/public/" . $agreementDirectory);
         makeDir($pdfPath, true);
-
+        $userAgreement = null;
         foreach ($userAgreementIds as $key => $userAgreementId) {
             $userAgreement = UserAgreement::find($userAgreementId);
             $content       = stripslashes($userAgreement->content);
@@ -68,25 +69,50 @@ class UserAgreementPDF extends Command
             $pdf->save($pdfPath . '/' . $fileName);
             $userAgreement->pdf_path = $fileName;
             $userAgreement->save();
+        }
+        $userAgreementSel = UserAgreementSeller::where('user_agreement_id', $userAgreement)->first();
+        
 
-            $userAgreementSellers = $userAgreement->userAgreementSeller;
-
-            foreach ($userAgreementSellers as $userAgreementSeller) {
-                try {
-                    if ($userAgreementSeller->user->email1 != '') {
-                        $userEmail = $userAgreementSeller->user->email1;
-                    } elseif ($userAgreementSeller->user->email2) {
-                        $userEmail = $userAgreementSeller->user->email2;
-                    }
-                    $userEmail = $userAgreementSeller->user->email1;
-                    Mail::to($userEmail)
-                        ->bcc("bhaveshvyas23@gmail.com")
-                        ->send(new UserAgreementDownloadPDF($userAgreement, $userAgreementSeller));
-                } catch (Exception $ex) {
-
+        $lead = DB::table('lead_info')->where('contact_id', $userAgreementSel->user_id)->first(['mail_to_owner1', 'mail_to_owner2', 'mail_to_owner3', 'owner1_email1', 'owner1_email2', 'owner2_email1', 'owner2_email2', 'owner3_email1', 'owner3_email2', ]);
+        if ($lead->mail_to_owner1) {
+            $userAgreementSeller =  UserAgreementSeller::where(["user_id"=> $userAgreementSel->user_id, "contact_number"=> "mail_to_owner1"])->first();
+            if ($userAgreementSeller) {
+                if(!empty($lead->owner1_email1)){
+                    $this->sendMails($userAgreement, $userAgreementSeller, $lead->owner1_email1);
+                } else {
+                    $this->sendMails($userAgreement, $userAgreementSeller, $lead->owner1_email2);
+                }
+            }
+        } 
+        if ($lead->mail_to_owner2) {
+            $userAgreementSeller =  UserAgreementSeller::where(["user_id"=> $userAgreementSel->user_id, "contact_number"=> "mail_to_owner2"])->first();
+            if ($userAgreementSeller) {
+                if(!empty($lead->owner1_email1)){
+                    $this->sendMails($userAgreement, $userAgreementSeller, $lead->owner2_email1);
+                } else {
+                    $this->sendMails($userAgreement, $userAgreementSeller, $lead->owner2_email2);
+                }
+            }
+        }
+        if ($lead->mail_to_owner3) {
+            $userAgreementSeller =  UserAgreementSeller::where(["user_id"=> $userAgreementSel->user_id, "contact_number"=> "mail_to_owner3"])->first();
+            if ($userAgreementSeller) {
+                if(!empty($lead->owner1_email1)){
+                    $this->sendMails($userAgreement, $userAgreementSeller, $lead->owner3_email1);
+                } else {
+                    $this->sendMails($userAgreement, $userAgreementSeller, $lead->owner3_email2);
                 }
             }
         }
         return 0;
+    }
+    public function sendMails($userAgreement, $userAgreementSeller, $userEmail){
+        try {
+            Mail::to($userEmail)
+                ->bcc("bhaveshvyas23@gmail.com")
+                ->send(new UserAgreementDownloadPDF($userAgreement, $userAgreementSeller->id));
+        } catch (Exception $ex) {
+
+        }
     }
 }
