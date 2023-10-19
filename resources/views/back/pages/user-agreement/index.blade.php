@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         label span.required {
             color: red;
@@ -35,8 +36,8 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Digital Signing
-                         <button class="btn btn-outline-primary btn-sm float-right addUserAgreement ml-2" title="New"><i
-                                    class="fas fa-plus-circle"></i></button>
+                            {{-- <button class="btn btn-outline-primary btn-sm float-right addUserAgreement" title="New"><i
+                                    class="fas fa-plus-circle"></i></button> --}}
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
                             @include('components.modalform')
@@ -55,6 +56,7 @@
                                         <th scope="col">No. of Users </th>
                                         <th scope="col">Contract Signed </th>
                                         <th scope="col">Contract PDF</th>
+                                        <th scope="col">Document Sent to</th>
                                         <th scope="col">Reminder </th>
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -113,6 +115,17 @@
                                             </td>
 
                                             <td>
+                                                <a href="" class="modalSellersList"
+                                                    title="Remove" data-id="{{ $useragreement->userAgreementSeller }}"
+                                                    data-toggle="modal"
+                                                    >
+                                                    {{ $useragreement->userAgreementSeller->count()}}
+                                                 </a>
+
+
+                                            </td>
+
+                                            <td>
                                                 <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
                                                     onclick="notifyuser({{ $useragreement->id }})"
                                                     data-id="{{ $useragreement->id }}"><i class="fas fa-bell"></i></button>
@@ -153,6 +166,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=') }}<?= time() ?>"></script>
     <script>
         function checkFilePermissions(pdfUrl, pdfId, hasPermission) {

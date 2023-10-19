@@ -29,12 +29,15 @@
 
     .phone {
 
-        padding: 20px;
-        border-radius: 0 8px 8px 0;
-
+        padding: 2px;
+        border-radius: 8px 8px 8px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0px auto;
         margin-bottom: 1rem;
         width: 350px;
+        display: flex;
 
     }
 
@@ -301,11 +304,169 @@
     .slider.round:before {
         border-radius: 50%;
     }
+
+    #call-history {
+        list-style-type: none;
+        /* Hide list bullets */
+        padding: 0;
+        width: 100%;
+        margin: 2px -15px 0px 0px;
+        height: 80%;
+        overflow-y: auto;
+    }
+
+    #call-history ul li {
+        margin: 0px 0px 0px -5px;
+        border-left: 0;  /* Hide left border */
+    border-right: 0; /* Hide right border */
+    border-top: 0;   /* Hide top border */
+
+    }
+
+    #call-history ul li .ans-call {
+        color: #8c9990;
+        width: 30px;
+        margin-top: -0.5rem;
+        margin-left: 3rem;
+        font-size: 17px;
+        border-radius: 50%;
+        transform: rotate(90deg);
+        height: 29px;
+    }
+
+    #call-history ul li .ans-call:hover,
+    #call-history ul li .ans-call:focus {
+        background: #5dcd74;
+    }
+
+    #call-history ul li .ans-call:active {
+        box-shadow: 0;
+        background: #45c660;
+    }
+
+    #call-history ul {
+        /* margin-top: 10px; */
+        margin-bottom: 1rem;
+        margin-left: -35px;
+        margin-right: 20px;
+    }
+
+    .call-record {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .call-icon {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+    .call-number {
+        font-weight: bold;
+    }
+    /* CSS for styling the call count in the center of the call icon */
+.call-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.call-icon::after {
+    content: attr(data-count); /* Get the count from the 'data-count' attribute */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%; /* Make it a circle */
+    padding: 4px 8px; /* Adjust padding as needed */
+    font-size: 12px; /* Font size for the call count */
+    z-index: 1; /* Ensure the count is on top of the icon */
+}
+    .col-4:hover {
+        cursor: pointer;
+    }
+    .close-dialer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 20px;
+        margin-top: 20px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 19px;
+        left: 5px;
+        bottom: 0px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #50a5f1;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #556ee6;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
 </style>
 
 
 <div id="soft-phone-modal" class="modal">
     <div class="container soft-phone" style="width: 350px !important;padding-left: 0px;height: 500px;">
+        <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
 
         <div class="modal-sidebar">
             <div class="sidebar-top">
@@ -320,7 +481,7 @@
                 <span class="material-icons" style="color:#708090;margin-bottom: 10px;">star_half</span>
                 <span class='material-icons' style="color:#708090;margin-bottom: 10px;">settings</span>
                 <span class="material-icons power-off"
-                    style="margin-bottom: 15px;color:#708090">power_settings_new</span>
+                style="margin-bottom: 15px;color:#708090">power_settings_new</span>
             </div>
         </div>
 
@@ -340,19 +501,16 @@
             </div>
         </div>
         <div class="phone">
-            <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
             <div id="dial_pad">
                 <div class="call-display">
                     <div class="row">
-                        <input type="tel" class="phone-number" placeholder="Dial Number" pattern="[0-9 ]+"
-                            autofocus />
+                        <input type="tel" class="phone-number" id="phone-number" placeholder="Dial Number"
+                            pattern="[0-9 ]+" autofocus />
                     </div>
                 </div>
 
-                <span style="color:#C0C0C0;">Call Using</span> <select class="custom-select"
-                    style="color:#C0C0C0;margin-top:5px" id="call_from">
+                <span style="color:#C0C0C0;">Call Using</span>
+                <select class="custom-select" style="color:#C0C0C0;margin-top:5px" id="call_from">
 
                     @php
                         use App\Model\Number;
@@ -360,7 +518,7 @@
                         $caller_id = $twilio_number['number'];
 
                     @endphp
-                    <option selected>{{ $caller_id }}</option>
+                    <option value="{{ $caller_id }}" selected>{{ $caller_id }}</option>
 
                 </select>
 
@@ -397,30 +555,29 @@
                 </div>
             </div>
 
-            <!-- <div class="d-flex justify-content-center">
-                  <button id="end-call" class="end-call">
-                      <i class="fa fa-phone" aria-hidden="true"></i>
-                  </button>
-                </div>   -->
             <div id="call-history" class="history-panel" style="display: none;">
-                <!-- Add the content for your call history here -->
-                <!-- For example, a list of call records -->
+              <h4 style="margin-top:4px">Call History</h4>
+                <!-- Call records list -->
                 <ul>
-                    <li>Call record 1</li>
-                    <li>Call record 2</li>
-                    <!-- Add more call records as needed -->
+
                 </ul>
-            </div>
-            <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
-                <div class="col-4" style="left: 28px;">
-                    <span class='material-icons custom-size-ui'
-                        style="margin-left: 14px;color: #D3D3D3;">dialpad</span>
+                <div class="d-flex align-items-center">
+                    <strong>Loading call logs...</strong>
+                    <div class="spinner-border spinner-border-sm ml-1"
+                        role="status" aria-hidden="true"></div>
                 </div>
-                <div class="col-4" style="left: 28px;">
+            </div>
+
+            <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
+                <div class="col-4" style="margin-left: 2px;" id="show-dial-pad">
+                    <span class='material-icons custom-size-ui'id="show-dialpad"
+                        style="margin-left: 14px;color: #220ada;">dialpad</span>
+                </div>
+                <div class="col-4" style="margin-left: 15px;">
                     <span class='material-icons custom-size-ui' style="color: #D3D3D3;">support_agent</span>
                 </div>
                 <div class="col-4" style="left: 28px;">
-                    <i class="fa fa-phone custom-size-ui" id="show-history" style="color: #D3D3D3;font-size:x-large"
+                    <i class="fa fa-phone custom-size-ui" id="show-history" style="color: #d3d3d3;font-size:x-large"
                         title="History"></i>
                 </div>
             </div>

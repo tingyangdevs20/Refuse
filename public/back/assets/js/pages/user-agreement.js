@@ -19,55 +19,108 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", ".saveUserAgreement", function (e) {
-        e.preventDefault();
-        var myData = $(this);
-        myData.attr('disabled', true);
-        $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
-        var data = $(this).parents("form").serialize();
-        $.ajax({
-            url: userAgreementPath + "save",
-            method: "post",
-            data: data,
-            success: function (response) {
-                if (response.success) {
-                    $("#modalUserAgreement").find("form")[0].reset();
-                    $("#modalUserAgreement").modal("hide");
-                    location.reload();
-                }
-            },
-        });
-    });
-
-    $(document).on("click", ".saveUserAgreementContact", function (e) {
-        if ($(".user-seller:checked").length === 0) {
-            alert("Please select at least one User seller!");
-            // e.preventDefault(); // Prevent form submission
-        } else{
-            var selectedCheckboxData = [];
-            $(".user-seller:checked").each(function () {
-                selectedCheckboxData.push($(this).val());
-            });
-
-            // e.preventDefault();
-            var myData = $(this);
-            myData.attr('disabled', true);
-            $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
-            
-            var data = $(this).parents("form").serialize();
-            // console.log(data);
-            $.ajax({
-                url: userAgreementPath + "save",
-                method: "post",
-                data: data,
-                success: function (response) {
-                    if (response.success) {
-                        location.reload();
+                e.preventDefault();
+                var myData = $(this);
+                myData.attr('disabled', true);
+                $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+                var data = $(this).parents("form").serialize();
+                $.ajax({
+                    url: userAgreementPath + "save",
+                    method: "post",
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            $("#modalUserAgreement").find("form")[0].reset();
+                            $("#modalUserAgreement").modal("hide");
+                            location.reload();
+                        } else{
+                            console.log(response);
+                        }
+                    },
+                    error: function (xhr) {
+                        // Handle the error here (e.g., show an error message to the user)
+                        console.log("AJAX Request Error: " + xhr.statusText);
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessageContainer = $("#error-messages");
+                        errorMessageContainer.empty(); // Clear any previous error messages
+                    
+                        if (errors) {
+                            // Scenario 1: Named errors
+                            for (var fieldName in errors) {
+                                if (errors.hasOwnProperty(fieldName)) { 
+                                    var errorValues = errors[fieldName];
+                                    if (Array.isArray(errorValues)) {
+                                        console.log(errors[fieldName]);
+                                        if(errors[fieldName].length > 1){
+                                            errors[fieldName].forEach(element => {
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' value is not found in the contact record!</div><br>');
+                                            }); 
+                                        } else{
+                                            if(errorValues[0] === 'This field is required!'){
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
+                                                
+                                            } else {
+                                                
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' value is not found in the contact record!</div><br>');
+                                            }
+                                        }
+                                        // If there are multiple error values, join them into a single line
+                                        // var errorMessage = fieldName + ': ' + errorValues.join(', ');
+                                    } else {
+                                        errorMessageContainer.append('<div> <i class="fa fa-info"></i> ' + fieldName + ' : ' + errorValues + '</div>');
+                                    }
+                                }
+                            }
+                        } else {
+                            // Scenario 2: Missing field error
+                            var errorList = xhr.responseJSON;
+                            var errorHTML = "";
+                            for (var i = 0; i < errorList.length; i++) {
+                                errorHTML += errorList[i] + ' is required!' + "<br>";
+                            }
+                            errorMessageContainer.append('<div>' + errorHTML + '</div>');
+                        }
+                        errorMessageContainer.show();
                     }
-                },
-            });
-        }
-
+                    
+                });
+            
+            
     });
+
+    // $(document).on("click", ".saveUserAgreement", function (e) {
+    //     if ($(".user-seller:checked").length === 0) {
+    //         alert("Please select at least one User seller!");
+    //         // e.preventDefault(); // Prevent form submission
+    //     } else{
+    //         var selectedCheckboxData = [];
+    //         $(".user-seller:checked").each(function () {
+    //             selectedCheckboxData.push($(this).val());
+    //         });
+
+    //         e.preventDefault();
+    //         var myData = $(this);
+    //         myData.attr('disabled', true);
+    //         $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
+            
+    //         var data = $(this).parents("form").serialize();
+    //         // console.log(data);
+    //         $.ajax({
+    //             url: userAgreementPath + "save",
+    //             method: "post",
+    //             data: data,
+    //             success: function (response) {
+    //                 if (response.success) {
+    //                     $("#modalUserAgreement").find("form")[0].reset();
+    //                     $("#modalUserAgreement").modal("hide");
+    //                     // location.reload();
+    //                 }
+    //             },
+    //         });
+    //     }
+
+    // });
 
     $(document).on("click", ".editUserAgreement", function (e) {
         e.preventDefault();
@@ -128,6 +181,64 @@ $(document).ready(function () {
             },
         });
     });
+
+    $(document).on("click", ".modalSellersList", function (e) {
+        var data = $(this).attr('data-id'); //sachin
+        $.ajax({
+            url: userAgreementPath + "signers",
+            method: "GET",
+            data: {data },
+            success: function (response) {
+                // location.reload();
+                var modalBody = $("#modalBody");
+                modalBody.empty();
+                // Clear the modal body before adding new content
+                // modalBody.empty();
+                var index = 1;
+                // Loop through the response data and create three columns
+                for (var i = 0; i < response.length; i++) {
+                    var fullName = response[i].name + ' ' + response[i].last_name;
+                    
+                    // Create a new div for each concatenated name
+                    var nameDiv = $('<div class="col-4">'+ index+'. ' + fullName + '</div>');
+                    index++;
+                    modalBody.append(nameDiv);
+                }
+                $("#modalSellersList").modal("show");//sachin
+            },
+        });
+    });
+
+    function populateSellerNames() {
+        // Find all elements with the class "modalSellersList"
+        $('.modalSellersList').each(function () {
+            var data = $(this).attr('data-id');
+            var tdCell = $(this).closest('td');
+            
+            $.ajax({
+                url: userAgreementPath + "signers",
+                method: "GET",
+                data: { data },
+                success: function (response) {
+                    tdCell.empty();
+                    var sellerNames = [];
+    
+                    for (var i = 0; i < response.length; i++) {
+                        var fullName = response[i].name + ' ' + response[i].last_name;
+                        sellerNames.push(index + '. ' + fullName);
+                    }
+    
+                    tdCell.html(sellerNames.join('<br>'));
+                },
+            });
+        });
+    }
+    
+    // Call the function when the page is loaded
+    $(document).ready(function () {
+        populateSellerNames();
+    });
+    
     $(document).on("change", ".formTemplate", function (e) {
         e.preventDefault();
         var templateId = $(this).val();

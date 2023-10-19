@@ -188,6 +188,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     // Phone Numbers Route
     Route::get('/phones', 'Admin\PhoneController@index')->name('phone.numbers');
+    Route::get('/phones/records', 'Admin\PhoneController@callRecords')->name('phone.calls');
     Route::get('/phone/changeStatus', 'Admin\PhoneController@changeStatus');
 
 

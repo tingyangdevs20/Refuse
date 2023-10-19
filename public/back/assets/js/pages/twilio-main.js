@@ -64,9 +64,9 @@ async function startupClient() {
 
         const data = await $.getJSON(baseUrl + "/access-token");
 
-
         log("Got a token.");
         token = data.token;
+        console.log(token +"its my token");
         setClientNameUI('bulk-sms');
         intitializeDevice();
     } catch (err) {

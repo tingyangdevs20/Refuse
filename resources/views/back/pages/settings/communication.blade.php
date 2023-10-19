@@ -343,8 +343,8 @@
                                                                         class="toggle-phone-system" data-toggle="toggle"
                                                                         data-onstyle="success" data-offstyle="warning"
                                                                         {{ $p_num->system_number ? 'checked' : '' }}
-                                                                        data-on="System Number"
-                                                                        data-off="Marketing Number">
+                                                                        data-on="System"
+                                                                        data-off="Market">
                                                                 </td>
                                                                 <td>
                                                                     <input data-id="{{ $p_num->id }}"

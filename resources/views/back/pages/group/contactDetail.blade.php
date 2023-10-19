@@ -5739,22 +5739,20 @@
                                                                         <label for="seller_id"
                                                                             class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
-                                                                        <div class="checkbox-list">
-                                                                            @php
-                                                                                $count = 1;
-                                                                            @endphp
-                                                                            @foreach (getUserContact() as $sellerId => $seller)
-                                                                                <label><input style="margin-right:5px"
-                                                                                        type="checkbox"
-                                                                                        class="user-seller"
-                                                                                        name="seller_id[]"
-                                                                                        value="{{ $sellerId }}">Contact
-                                                                                    {{ $count }}
-                                                                                    ({{ $seller }})</label><br>
-                                                                                @php
-                                                                                    $count++;
-                                                                                @endphp
-                                                                            @endforeach
+                                                                                <div class="checkbox-list">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner1" value="{{ $leadinfo->id }}">Contact 1 ({{ $leadinfo->owner1_first_name }})</label><br>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner2" value="{{ $leadinfo->id }}">Contact 2 ({{ $leadinfo->owner2_first_name }})</label><br>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner3" value="{{ $leadinfo->id }}">Contact 3 ({{ $leadinfo->owner3_first_name }})</label><br>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
                                                                         </div>
                                                                     </div>
 
@@ -6164,12 +6162,12 @@
                                     <div class="file-item-actions btn-group">
                                         <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            
+
                                             <br>
                                             <a class="dropdown-item" href="${fileItem.url}" target="_blank">Open in tab</a>
                                             <br>
                                             <a class="dropdown-item" href="${fileItem.url}" target="_blank"  download="${fileItem.file_name}">Download</a>
-                                            
+
                                             </div>
                                             </div>
                                             </div>

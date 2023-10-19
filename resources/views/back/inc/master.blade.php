@@ -150,6 +150,9 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- Soft-phone-modal-js -->
     <script>
+        var currentPage = 1; // Start with page 1
+        var isLoading = false;
+
         $('#end-call').on('click', function() {
             $('#end-call').hide();
             $('#answer-call').show();
@@ -165,13 +168,129 @@
             var historyPanel = document.getElementById("call-history");
             var historyPanel2 = document.getElementById("dial_pad");
             if (historyPanel.style.display === "none") {
-                historyPanel2.style.display = "none";
                 historyPanel.style.display = "block";
-            } else {
-                historyPanel2.style.display = "block";
-                historyPanel.style.display = "none";
+                historyPanel2.style.display = "none";
+                const showHistoryButton = document.getElementById("show-history");
+                showHistoryButton.style.color = "blue";
+                const showdial = document.getElementById("show-dialpad");
+                showdial.style.color = "#d3d3d3";
+                fetchCallRecords(currentPage);
             }
         });
+        $('#show-dial-pad').on('click', function() {
+        var historyPanel = document.getElementById("call-history");
+        var historyPanel2 = document.getElementById("dial_pad");
+        if (historyPanel2.style.display === "none") {
+            historyPanel2.style.display = "block";
+            historyPanel.style.display = "none";
+
+            const showdial = document.getElementById("show-dialpad");
+            showdial.style.color = "blue";
+            const showHistoryButton = document.getElementById("show-history");
+            showHistoryButton.style.color = "#d3d3d3";
+
+            fetchCallRecords(currentPage);
+        }
+    });
+        // Flag to prevent multiple simultaneous requests
+        function formatDate(date) {
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    };
+    return date.toLocaleString('en-US', options);
+}
+
+         function fetchCallRecords(page) {
+            if (isLoading || page < 1) {
+                return;
+            }
+            var selectElement = document.getElementById("call_from");
+            var number = selectElement.value;
+            isLoading = true;
+            var lastValu = null;
+            var counter = 1;
+
+            $.ajax({
+                method: "get",
+                url: '<?php echo url('admin/phones/records'); ?>',
+                data: {
+                    page: page,
+                    number: number
+                },
+                success: function(res) {
+                    var callHistoryList = $('#call-history ul');
+                    res.data.forEach(function(call) {
+                        var listItem = $('<li class="call-record"></li>');
+                        var startTime = new Date(call.startTime.date);
+                        var formattedStartTime = formatDate(startTime);
+
+                        if (
+                            lastValu &&
+                            lastValu.from === call.from &&
+                            lastValu.to === call.to &&
+                            lastValu.direction === call.direction
+                        ) {
+                            // Same call characteristics, increment counter
+                            counter++;
+                        } else {
+
+                            // Different call characteristics, reset counter
+
+                            if (number === call.to && call.status === "completed") {
+                                listItem.addClass('incoming-call');
+                                listItem.append('<i class="fas fa-arrow-down call-icon" style="color: green;"></i>');
+                                listItem.append('<div class="call-from">' + call.from + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
+                            } else if (number === call.from) {
+                                listItem.addClass('outgoing-call');
+                                listItem.append('<i class="fas fa-arrow-up call-icon" style="color: blue;"></i>');
+                                listItem.append('<div class="call-from">' + call.to + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
+                            } else {
+                                listItem.addClass('missed-call');
+                                listItem.append('<i class="fas fa-phone-slash call-icon" style="color: red;"></i>');
+                                listItem.append('<div class="call-from">' + call.from + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
+                            }
+
+                            lastValu = call;  // Update the lastValu for the next iteration
+
+                            counter = 1;
+                            var answerCallButton = $('<button style="margin-top: 10px;" id="answer-call" class="ans-call"><i class="fa fa-phone" aria-hidden="true"></i></button>');
+                            listItem.append(answerCallButton);
+
+                            callHistoryList.append(listItem);
+                        }
+
+                    });
+
+                    currentPage++;
+                    isLoading = false;
+                },
+                error: function(err) {
+                    isLoading = false;
+                    console.log('Error occurred while saving.', err);
+                }
+            });
+        }
+
+
+
+
+        // Detect when the user has scrolled to the bottom of the "call-history" div
+        $('#call-history').scroll(function() {
+            if ($('#call-history').scrollTop() + $('#call-history').innerHeight() >= $('#call-history ul')
+                .innerHeight()) {
+                // Load the next page when scrolled to the bottom
+                fetchCallRecords(currentPage);
+            }
+        });
+
+        // Initial request
+
+
         $('.focus-effects').on('click', function() {
             var text = $('input[type=tel]');
             text.val(text.val() + this.value);
@@ -180,7 +299,6 @@
 
             text.focus();
         });
-
 
 
 
