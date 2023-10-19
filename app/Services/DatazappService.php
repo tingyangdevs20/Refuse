@@ -27,39 +27,39 @@ class DatazappService
         $contactsToSkipTrace = collect([]);
 
         if ($skipTraceOption === 'skip_entire_list_phone') {
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'skip_entire_list_phone');
 
         } elseif ($skipTraceOption === 'skip_records_without_numbers_phone') {
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'skip_records_without_numbers_phone');
 
         } elseif ($skipTraceOption === 'skip_entire_list_email') {
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'skip_entire_list_email');
         } elseif ($skipTraceOption === 'skip_records_without_emails') {
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'skip_records_without_emails');
 
         } elseif ($skipTraceOption === 'append_names'){
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'append_names');
 
         } elseif ($skipTraceOption === 'email_verification_entire_list'){
-            $contactsToSkipTrace = $contacts->where('email1','!=', '');
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'email_verification_entire_list');
 
         } elseif ($skipTraceOption === 'email_verification_non_verified'){
-            $contactsToSkipTrace = $contacts->where('email1','!=', '');
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'email_verification_non_verified');
 
         } elseif ($skipTraceOption === 'phone_scrub_entire_list'){
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'phone_scrub_entire_list');
 
         } elseif ($skipTraceOption === 'phone_scrub_non_scrubbed_numbers'){
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'phone_scrub_non_scrubbed_numbers');
 
         } elseif ($skipTraceOption === 'append_emails'){
-            $contactsToSkipTrace = $contacts;
+            $contactsToSkipTrace = $this->filterContactsByType($contacts, 'append_emails');
         } else {
             // Handle other skip trace options if needed
             return ['message' => 'Invalid skip trace option.'];
         }
 
-        if ($contactsToSkipTrace->isEmpty()) {
+        if (empty($contactsToSkipTrace)) {
             return ['message' => 'No contacts matching the selected skip trace option.'];
         }
 
@@ -152,11 +152,60 @@ class DatazappService
             }
         }
 
-
         $response = $client->post('https://secureapi.datazapp.com/Appendv2', [
             'json' => $requestData,
         ]);
 
         return json_decode($response->getBody(), true);
     }
+
+    public function filterContactsByType($contacts, $type) {
+        $filteredContacts = [];
+
+        foreach ($contacts as $contact) {
+            if ($type === 'skip_entire_list_phone' || $type == 'phone_scrub_entire_list') {
+                // Check if the contact has a value in 'number', 'number2', or 'number3'
+                if (!empty($contact->number) || !empty($contact->number2) || !empty($contact->number3)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type === 'skip_records_without_numbers_phone' || $type == 'phone_scrub_non_scrubbed_numbers') {
+                // Check if all three columns are empty
+                if (empty($contact->number) && empty($contact->number2) && empty($contact->number3)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type == 'skip_entire_list_email' || $type == 'email_verification_entire_list') {
+                if (!empty($contact->email1) || !empty($contact->email2)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type == 'skip_records_without_emails' || $type == 'email_verification_non_verified' || $type == 'append_emails') {
+                // Check if all three columns are empty
+                if (empty($contact->email1) && empty($contact->email2)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type == 'append_names') {
+                // Check if all three columns are empty
+                if (empty($contact->name) && empty($contact->last_name)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type == 'append_names') {
+                // Check if all three columns are empty
+                if (empty($contact->name) && empty($contact->last_name)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type == 'append_names') {
+                // Check if all three columns are empty
+                if (empty($contact->name) && empty($contact->last_name)) {
+                    $filteredContacts[] = $contact;
+                }
+            } elseif ($type == 'append_names') {
+                // Check if all three columns are empty
+                if (empty($contact->name) && empty($contact->last_name)) {
+                    $filteredContacts[] = $contact;
+                }
+            }
+        }
+
+        return $filteredContacts;
+    }
+
 }

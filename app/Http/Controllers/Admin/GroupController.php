@@ -1878,13 +1878,51 @@ class GroupController extends Controller
 
     public function getAllContacts(Group $group, Request $request)
     {
+        $lead_type = $request->lead_type;
+        $lead_status = $request->lead_status;
+        $lead_assigned_to = $request->lead_assiged_to;
+
         $sr = 1;
         $leadstatus = LeadStatus::where("is_active", 0)->orderBy('sr_order', 'asc')->get();
-        $contacts = Contact::where("is_dnc", 0)->get();
         $contractres = Contractupload::all()->sortByDesc("created_at");
+        $leads = LeadCategory::all();
         $id = $group->id;
 
-        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr', 'leadstatus'));
+        $contacts = Contact::where('is_dnc', 0);
+
+        if ($lead_status !== null) {
+            if ($lead_status == 'showAll') {
+                $contacts = $contacts;
+            } else {
+                $contacts->whereHas('leadInfo', function ($query) use ($lead_status) {
+                    $query->where('lead_status', $lead_status);
+                });
+            }
+        }
+
+        if ($lead_type !== null) {
+            if ($lead_type == 'showAll') {
+                $contacts = $contacts;
+            } else {
+                $contacts->whereHas('leadInfo', function ($query) use ($lead_type) {
+                    $query->where('lead_type', $lead_type);
+                });
+            }
+        }
+
+        if ($lead_assigned_to !== null) {
+            if ($lead_assigned_to == 'showAll') {
+                $contacts = $contacts;
+            } else {
+                $contacts->whereHas('leadInfo', function ($query) use ($lead_assigned_to) {
+                    $query->where('lead_assigned_to', $lead_assigned_to);
+                });
+            }
+        }
+
+        $contacts = $contacts->get();
+
+        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr', 'leadstatus', 'leads'));
     }
 
     public function EditContacts(Request $request, $id)
