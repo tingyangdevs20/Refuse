@@ -535,6 +535,10 @@
                         var contactsWithEmails = response.contactsWithEmails;
                         var contactsWithoutEmails = response.contactsWithoutEmails;
                         var contactsWithoutName = response.contactsWithoutName;
+                        var contactsWithoutPhonesScrubbed = response.contactsWithoutPhonesScrubbed;
+                        var contactsWithPhonesScrubbed = response.contactsWithPhonesScrubbed;
+                        var contactsWithEmailsVerified = response.contactsWithEmailsVerified
+                        var contactsWithoutEmailsVerified = response.contactsWithoutEmailsVerified;
                         var account = response.account;
 
                         // Convert phoneCellAppendRate to an integer
@@ -591,25 +595,25 @@
                         var ev =
                             "email_verification_entire_list"; // Replace with the value you want to find
                         updateSkipTraceOptionText(selectElement, emailVerificationRate,
-                            contactsWithEmails, ev,
+                            contactsWithoutEmailsVerified, ev,
                             'Email Verification (Entire List)');
 
                         var nvel =
                             "email_verification_non_verified"; // Replace with the value you want to find
                         updateSkipTraceOptionText(selectElement, emailVerificationRate,
-                            contactsWithoutEmails, nvel,
+                            contactsWithoutEmailsVerified, nvel,
                             'Email Verification(Non - Verified Emails)');
 
                         var psel =
                             "phone_scrub_entire_list"; // Replace with the value you want to find
                         updateSkipTraceOptionText(selectElement, phoneScrubbedRate,
-                            contactsWithNumbers, psel,
+                            contactsWithPhonesScrubbed, psel,
                             'Phone Scrub(Entire List)');
 
                         var psnsn =
                             "phone_scrub_non_scrubbed_numbers"; // Replace with the value you want to find
                         updateSkipTraceOptionText(selectElement, phoneScrubbedRate,
-                            contactsWithoutNumbers, psnsn,
+                            contactsWithoutPhonesScrubbed, psnsn,
                             'Phone Scrub(Non - Scrubbed Phone Numbers)');
 
                     },

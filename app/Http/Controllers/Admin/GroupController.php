@@ -2116,6 +2116,9 @@ class GroupController extends Controller
         $account = Account::first();
         $contacts = $group->contacts;
 
+        $phone_scrubbed_last_date = $group->phone_scrub_date;
+        $emails_verified_date = $group->email_verification_date;
+
         $contactsWithNumbers = 0;
         $contactsWithoutNumbers = 0;
 
@@ -2123,6 +2126,12 @@ class GroupController extends Controller
         $contactsWithoutEmails = 0;
 
         $contactsWithoutName = 0;
+
+        $contactsWithPhonesScrubbed = 0;
+        $contactsWithoutPhonesScrubbed = 0;
+
+        $contactsWithEmailsVerified = 0;
+        $contactsWithoutEmailsVerified = 0;
 
         foreach ($contacts as $contact) {
             $contactRecords = [$contact->number, $contact->number2, $contact->number3];
@@ -2168,6 +2177,65 @@ class GroupController extends Controller
             }
         }
 
+        // Exclude the scrubbed phones count
+        if ($phone_scrubbed_last_date != null) {
+            // Fetch the phones scrubbed
+            $phonesScrubbed = SkipTracingDetail::where('group_id', $group->id)
+                ->where('user_id', auth()->id())
+                ->whereIn('select_option', ['phone_scrub_non_scrubbed_numbers', 'phone_scrub_entire_list'])
+                ->whereNotNull('phone_scrub_date')
+                ->pluck('verified_numbers')
+                ->toArray();
+
+            // Create an array to store contact IDs that match the criteria
+            $contactIdsWithPhonesScrubbed = [];
+
+            foreach ($contacts as $contact) {
+                // Check if any of the contact's numbers are in $phonesScrubbed
+                if (in_array($contact->number, $phonesScrubbed) ||
+                    in_array($contact->number2, $phonesScrubbed) ||
+                    in_array($contact->number3, $phonesScrubbed)) {
+                    $contactIdsWithPhonesScrubbed[] = $contact->id;
+                }
+            }
+
+            // Count the contacts based on the criteria
+            $contactsWithPhonesScrubbed = count($contactIdsWithPhonesScrubbed);
+
+            // Count the contacts without phones scrubbed
+            $contactsWithoutPhonesScrubbed = count($contacts) - $contactsWithPhonesScrubbed;
+        }
+
+
+
+        // Cuont verified and non verified emails
+        if ($emails_verified_date != null) {
+            // Fetch the emails scrubbed
+            $emailsVerified = SkipTracingDetail::where('group_id', $group->id)
+                ->where('user_id', auth()->id())
+                ->whereIn('select_option', ['email_verification_non_verified', 'email_verification_entire_list'])
+                ->whereNotNull('email_verification_date')
+                ->pluck('append_emails')
+                ->toArray();
+
+            // Create an array to store contact IDs that match the criteria
+            $contactIdsWithEmailsVerified = [];
+
+            foreach ($contacts as $contact) {
+                // Check if any of the contact's emails are in $emailsVerified
+                if (in_array($contact->email1, $emailsVerified) || in_array($contact->email2, $emailsVerified)) {
+                    $contactIdsWithEmailsVerified[] = $contact->id;
+                }
+            }
+
+            // Count the contacts based on the criteria
+            $contactsWithEmailsVerified = count($contactIdsWithEmailsVerified);
+
+            // Count the contacts without emails verified
+            $contactsWithoutEmailsVerified = count($contacts) - $contactsWithEmailsVerified;
+        }
+
+
         return response()->json([
             'account' => $account,
             'contactsWithNumbers' => $contactsWithNumbers,
@@ -2175,6 +2243,10 @@ class GroupController extends Controller
             'contactsWithEmails' => $contactsWithEmails,
             'contactsWithoutEmails' => $contactsWithoutEmails,
             'contactsWithoutName' => $contactsWithoutName,
+            'contactsWithPhonesScrubbed' => $contactsWithPhonesScrubbed,
+            'contactsWithoutPhonesScrubbed' => $contactsWithoutPhonesScrubbed,
+            'contactsWithEmailsVerified' => $contactsWithEmailsVerified,
+            'contactsWithoutEmailsVerified' => $contactsWithoutEmailsVerified
         ]);
     }
 
@@ -2227,21 +2299,21 @@ class GroupController extends Controller
             'selectedOption' => $selectedOption,
         ]);
 
-        $skipTraceRate = $request->skip_trace_option_amount;
+        // $skipTraceRate = $request->skip_trace_option_amount;
 
-        // if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
-        //     $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
-        // } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
-        //     $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
-        // } elseif ($selectedOption == 'append_names') {
-        //     $skipTraceRate = Account::pluck('name_append_rate')->first();
-        // } elseif ($selectedOption == 'append_emails') {
-        //     $skipTraceRate = Account::pluck('email_append_rate')->first();
-        // } elseif ($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified') {
-        //     $skipTraceRate = Account::pluck('email_verification_rate')->first();
-        // } elseif ($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers') {
-        //     $skipTraceRate = Account::pluck('phone_scrub_rate')->first();
-        // }
+        if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
+            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
+        } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
+            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
+        } elseif ($selectedOption == 'append_names') {
+            $skipTraceRate = Account::pluck('name_append_rate')->first();
+        } elseif ($selectedOption == 'append_emails') {
+            $skipTraceRate = Account::pluck('email_append_rate')->first();
+        } elseif ($selectedOption == 'email_verification_entire_list' || $selectedOption == 'email_verification_non_verified') {
+            $skipTraceRate = Account::pluck('email_verification_rate')->first();
+        } elseif ($selectedOption == 'phone_scrub_entire_list' || $selectedOption == 'phone_scrub_non_scrubbed_numbers') {
+            $skipTraceRate = Account::pluck('phone_scrub_rate')->first();
+        }
 
         if ($skipTraceRate === null) {
             return response()->json(['error' => 'Invalid skip trace option.']);

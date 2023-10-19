@@ -4,6 +4,8 @@
 
 namespace App\Services;
 
+use App\Model\Group;
+use App\SkipTracingDetail;
 use GuzzleHttp\Client;
 
 class DatazappService
@@ -160,6 +162,18 @@ class DatazappService
     }
 
     public function filterContactsByType($contacts, $type) {
+        $record = $contacts->first();
+        $phone_scrubbed_last_date = null;
+        $emails_verified_date = null;
+        $group = null;
+        if ($record) {
+            $group = Group::where('id', $record->group_id)->first();
+
+            if ($group) {
+                $phone_scrubbed_last_date = $group->phone_scrub_date;
+                $emails_verified_date = $group->email_verification_date;
+            }
+        }
         $filteredContacts = [];
 
         foreach ($contacts as $contact) {
@@ -168,16 +182,16 @@ class DatazappService
                 if (!empty($contact->number) || !empty($contact->number2) || !empty($contact->number3)) {
                     $filteredContacts[] = $contact;
                 }
-            } elseif ($type === 'skip_records_without_numbers_phone' || $type == 'phone_scrub_non_scrubbed_numbers') {
+            } elseif ($type === 'skip_records_without_numbers_phone') {
                 // Check if all three columns are empty
                 if (empty($contact->number) && empty($contact->number2) && empty($contact->number3)) {
                     $filteredContacts[] = $contact;
                 }
-            } elseif ($type == 'skip_entire_list_email' || $type == 'email_verification_entire_list') {
+            } elseif ($type == 'skip_entire_list_email') {
                 if (!empty($contact->email1) || !empty($contact->email2)) {
                     $filteredContacts[] = $contact;
                 }
-            } elseif ($type == 'skip_records_without_emails' || $type == 'email_verification_non_verified' || $type == 'append_emails') {
+            } elseif ($type == 'skip_records_without_emails' || $type == 'append_emails') {
                 // Check if all three columns are empty
                 if (empty($contact->email1) && empty($contact->email2)) {
                     $filteredContacts[] = $contact;
@@ -187,23 +201,83 @@ class DatazappService
                 if (empty($contact->name) && empty($contact->last_name)) {
                     $filteredContacts[] = $contact;
                 }
-            } elseif ($type == 'append_names') {
-                // Check if all three columns are empty
-                if (empty($contact->name) && empty($contact->last_name)) {
-                    $filteredContacts[] = $contact;
+            }
+        }
+
+        if($type == 'email_verification_non_verified') {
+            if ($emails_verified_date != null) {
+                // Fetch the emails scrubbed
+                $emailsVerified = SkipTracingDetail::where('group_id', $group->id)
+                    ->where('user_id', auth()->id())
+                    ->whereIn('select_option', ['email_verification_non_verified', 'email_verification_entire_list'])
+                    ->whereNotNull('email_verification_date')
+                    ->pluck('append_emails')
+                    ->toArray();
+
+                foreach ($contacts as $contact) {
+                    // Check if any of the contact's emails are in $emailsVerified
+                    if (in_array($contact->email1, $emailsVerified) || in_array($contact->email2, $emailsVerified)) {
+                        $filteredContacts[] =$contact;
+                    }
                 }
-            } elseif ($type == 'append_names') {
-                // Check if all three columns are empty
-                if (empty($contact->name) && empty($contact->last_name)) {
-                    $filteredContacts[] = $contact;
+            }
+        } else if ($type == 'email_verification_entire_list') {
+            if ($emails_verified_date != null) {
+                // Fetch the emails scrubbed
+                $emailsVerified = SkipTracingDetail::where('group_id', $group->id)
+                    ->where('user_id', auth()->id())
+                    ->whereIn('select_option', ['email_verification_non_verified', 'email_verification_entire_list'])
+                    ->whereNotNull('email_verification_date')
+                    ->pluck('append_emails')
+                    ->toArray();
+
+                foreach ($contacts as $contact) {
+                    // Check if any of the contact's emails are in $emailsVerified
+                    if (!in_array($contact->email1, $emailsVerified) && !in_array($contact->email2, $emailsVerified)) {
+                        $filteredContacts[] =$contact;
+                    }
                 }
-            } elseif ($type == 'append_names') {
-                // Check if all three columns are empty
-                if (empty($contact->name) && empty($contact->last_name)) {
-                    $filteredContacts[] = $contact;
+            }
+        } else if ($type == 'phone_scrub_non_scrubbed_numbers') {
+            if ($phone_scrubbed_last_date != null) {
+                // Fetch the phones scrubbed
+                $phonesScrubbed = SkipTracingDetail::where('group_id', $group->id)
+                    ->where('user_id', auth()->id())
+                    ->whereIn('select_option', ['phone_scrub_non_scrubbed_numbers', 'phone_scrub_entire_list'])
+                    ->whereNotNull('phone_scrub_date')
+                    ->pluck('verified_numbers')
+                    ->toArray();
+
+                foreach ($contacts as $contact) {
+                    // Check if any of the contact's numbers are in $phonesScrubbed
+                    if (in_array($contact->number, $phonesScrubbed) ||
+                        in_array($contact->number2, $phonesScrubbed) ||
+                        in_array($contact->number3, $phonesScrubbed)) {
+                        $filteredContacts[] = $contact;
+                    }
+                }
+            }
+        } else if ($type == 'phone_scrub_entire_list') {
+            if ($phone_scrubbed_last_date != null) {
+                // Fetch the phones scrubbed
+                $phonesScrubbed = SkipTracingDetail::where('group_id', $group->id)
+                    ->where('user_id', auth()->id())
+                    ->whereIn('select_option', ['phone_scrub_non_scrubbed_numbers', 'phone_scrub_entire_list'])
+                    ->whereNotNull('phone_scrub_date')
+                    ->pluck('verified_numbers')
+                    ->toArray();
+
+                foreach ($contacts as $contact) {
+                    // Check if any of the contact's numbers are in $phonesScrubbed
+                    if (!in_array($contact->number, $phonesScrubbed) &&
+                        !in_array($contact->number2, $phonesScrubbed) &&
+                        !in_array($contact->number3, $phonesScrubbed)) {
+                        $filteredContacts[] = $contact;
+                    }
                 }
             }
         }
+
 
         return $filteredContacts;
     }
