@@ -30,7 +30,7 @@
                             @if (auth()->user()->can('administrator') ||
                                     auth()->user()->can('permissions_create'))
                                 <a href="{{ route('admin.permissions.create') }}"
-                                    class="btn btn-outline-primary btn-sm float-right" title="New"><i
+                                    class="btn btn-outline-primary btn-sm float-right ml-2" title="New"><i
                                         class="fas fa-plus-circle"></i></a>
                             @endif
                             @include('components.modalform')

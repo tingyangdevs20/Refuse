@@ -122,9 +122,9 @@
                                                     {{ $useragreement->userAgreementSeller->count()}}
                                                  </a>
 
-                                                
+
                                             </td>
-                                            
+
                                             <td>
                                                 <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
                                                     onclick="notifyuser({{ $useragreement->id }})"

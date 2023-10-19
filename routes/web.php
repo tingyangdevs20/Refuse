@@ -26,7 +26,7 @@ use App\Http\Controllers\PhoneCallController;
 | contains the "web" middleware group. Now create something great!
 |
  */
-// Test comment1
+// Test comment to test github username again
 
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
@@ -39,6 +39,8 @@ Route::get('/config-clear', function () {
 Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
 });
+
+Route::get('test-call', 'Admin\PhoneController@makeCallTesting');
 
 Route::get('/config-clear', function () {
     $exitCode1 = Artisan::call('cache:clear');
@@ -73,8 +75,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     Route::get('account/detail', 'AccountDetailController@index')->name('account.detail');
-
-
 
     Route::post('process-stripe-payment', 'StripePaymentController@processStripePayment')->name('process-stripe-payment');
     Route::post('store-transaction', 'StripePaymentController@paypalStore')->name('store-transaction');
@@ -124,7 +124,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
-
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
     Route::get('/zoom/create', 'ZoomController@create')->name('zoom.create');
     Route::post('/zoom/store', 'ZoomController@store')->name('zoom.store');
@@ -198,7 +197,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('user/quit', 'UserController@quitRole')->name('user.quit')->middleware('auth');
 
     // skip tracing
+    Route::get('group/contacts-record/{group}', 'Admin\GroupController@fetchContactRecordsCount');
     Route::post('/skip-trace', 'Admin\GroupController@skipTrace')->name('skip-trace');
+
     // Profile page route
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -230,7 +231,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('campaignlist', 'Admin\CampaignListController');
     //Route::resource('single-sms','Admin\SingleSMSController');
     Route::resource('campaignlistNew', 'Admin\CampaignListController');
-    
+
     // Groups Routes
     Route::resource('group', 'Admin\GroupController');
     Route::get('groups/list/create', 'Admin\GroupController@newListForm')->name('group.list.create');
@@ -260,7 +261,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
     Route::get('/appointment', 'Admin\SettingsController@appointment')->name('settings.appointment.appointment');
-    
+
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
     Route::get('schedual/campaign', 'Admin\CampaignListController@schedual');
@@ -280,7 +281,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('contact/get-property-estimates', 'Admin\RapidApiController@getPropertyEstimates')->name('contact.property_estimates');
     Route::post('contact/fetch-google-map', 'Admin\RapidApiController@getGoogleMapsLink')->name('contact.property_links');
     Route::post('contact/fetch-zillow-link', 'Admin\RapidApiController@getZillowPropertyURL')->name('contact.zillow_property_links');
- 
+
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');
     // Sachin 05092023
     Route::post('/reminder/{userAgreementId}', function ($userAgreementId) {
@@ -321,11 +322,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('reply', 'Admin\ReplyController');
     Route::resource('blacklist', 'Admin\BlacklistController');
     Route::resource('category', 'Admin\CategoryController');
-    
+
     Route::resource('tag', 'Admin\TagController');
     // Get tags' contacts
     Route::get('tags/{tag}/contacts', 'Admin\TagController@showTagContacts')->name('tags.contacts');
-    
+
     Route::resource('rvm', 'Admin\CreateRvmController');
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
@@ -343,7 +344,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
     Route::delete('/del-temp-message', 'Admin\TemplateMessagesController@destroy')->name('template.msg.destroy');
-    
+
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
     route::post('get/template_con/', 'Admin\TemplateController@getTemplateWithoutCategory');

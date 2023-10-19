@@ -183,7 +183,7 @@
         if (historyPanel2.style.display === "none") {
             historyPanel2.style.display = "block";
             historyPanel.style.display = "none";
-            
+
             const showdial = document.getElementById("show-dialpad");
             showdial.style.color = "blue";
             const showHistoryButton = document.getElementById("show-history");
@@ -204,7 +204,7 @@
     };
     return date.toLocaleString('en-US', options);
 }
-      
+
          function fetchCallRecords(page) {
             if (isLoading || page < 1) {
                 return;
@@ -238,9 +238,9 @@
                             // Same call characteristics, increment counter
                             counter++;
                         } else {
-                            
+
                             // Different call characteristics, reset counter
-                            
+
                             if (number === call.to && call.status === "completed") {
                                 listItem.addClass('incoming-call');
                                 listItem.append('<i class="fas fa-arrow-down call-icon" style="color: green;"></i>');
@@ -254,13 +254,13 @@
                                 listItem.append('<i class="fas fa-phone-slash call-icon" style="color: red;"></i>');
                                 listItem.append('<div class="call-from">' + call.from + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
                             }
-                            
+
                             lastValu = call;  // Update the lastValu for the next iteration
-                            
+
                             counter = 1;
                             var answerCallButton = $('<button style="margin-top: 10px;" id="answer-call" class="ans-call"><i class="fa fa-phone" aria-hidden="true"></i></button>');
                             listItem.append(answerCallButton);
-            
+
                             callHistoryList.append(listItem);
                         }
 
@@ -277,7 +277,7 @@
         }
 
 
-    
+
 
         // Detect when the user has scrolled to the bottom of the "call-history" div
         $('#call-history').scroll(function() {

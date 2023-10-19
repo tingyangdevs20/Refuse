@@ -4,8 +4,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css" integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+        integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css"
+        integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
 
 
 
@@ -81,316 +84,391 @@
             background-color: transparent;
             border: 0;
         }
+
         .button-item {
             background-color: #38B6FF;
             color: black;
             border-color: #38B6FF;
-            transition: background-color 0.3s, color 0.3s; /* Add a transition for a smooth effect */
+            transition: background-color 0.3s, color 0.3s;
+            /* Add a transition for a smooth effect */
         }
 
         .button-item:hover {
-            background-color: #38B6FF; /* Change the background color on hover */
-            color: white; /* Change the text color on hover */
+            background-color: #38B6FF;
+            /* Change the background color on hover */
+            color: white;
+            /* Change the text color on hover */
             border-color: #38B6FF;
         }
+
         .load_script {
-        background-color: #f0f0f0; /* A background color to visually indicate it's not editable */
-        cursor: not-allowed; /* Display a "not-allowed" cursor when hovering */
-        pointer-events: none; /* Prevent mouse events (clicks, hovers) on the div */
+            background-color: #f0f0f0;
+            /* A background color to visually indicate it's not editable */
+            cursor: not-allowed;
+            /* Display a "not-allowed" cursor when hovering */
+            pointer-events: none;
+            /* Prevent mouse events (clicks, hovers) on the div */
         }
+
         .file-manager ul {
-        list-style: none;
-    }
+            list-style: none;
+        }
 
-    .file-manager .folder {
-        display: block;
-        text-align: center;
-        margin: 10px;
-        padding: 10px;
-    }
+        .file-manager .folder {
+            display: block;
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+        }
 
-    .file-manager .folder .folder-icon-large {
-        font-size: 40px; /* Adjust the size as needed */
-    }
-    .file-manager .heading {
-        font-size: 24px; /* Adjust the size as needed */
-        text-align: left;
-        margin: 10px 0;
-        list-style: none;
-    }
-    body{margin-top:20px;}
-.file-manager-actions {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-}
-.file-manager-actions > * {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-.file-manager-container {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-.file-item {
-    position: relative;
-    z-index: 1;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    border: 1px solid #eee;
-    cursor: pointer;
-}
-.file-item:hover,
-.file-item.focused {
-    border-color: rgba(0, 0, 0, 0.05);
-}
-.file-item.focused {
-    z-index: 2;
-}
-.file-item * {
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    text-decoration:none;
-}
-.dark-style .file-item:hover,
-.dark-style .file-item.focused {
-    border-color: rgba(255, 255, 255, 0.2);
-}
-.file-item-checkbox {
-    margin: 0 !important;
-}
-.file-item-select-bg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    opacity: 0;
-}
-.file-item-img {
-    background-color: transparent;
-    background-position: center center;
-    background-size: cover;
-}
-.file-item-name {
-    display: block;
-    overflow: hidden;
-}
-.file-manager-col-view .file-item {
-    margin: 0 0.25rem 0.25rem 0;
-    padding: 1.25rem 0 1rem 0;
-    width: 9rem;
-    text-align: center;
-}
-[dir="rtl"] .file-manager-col-view .file-item {
-    margin-right: 0;
-    margin-left: 0.25rem;
-}
-.file-manager-col-view .file-item-img,
-.file-manager-col-view .file-item-icon {
-    display: block;
-    margin: 0 auto 0.75rem auto;
-    width: 4rem;
-    height: 4rem;
-    font-size: 2.5rem;
-    line-height: 4rem;
-}
-.file-manager-col-view .file-item-level-up {
-    font-size: 1.5rem;
-}
-.file-manager-col-view .file-item-checkbox,
-.file-manager-col-view .file-item-actions {
-    position: absolute;
-    top: 6px;
-}
-.file-manager-col-view .file-item-checkbox {
-    left: 6px;
-}
-[dir="rtl"] .file-manager-col-view .file-item-checkbox {
-    right: 6px;
-    left: auto;
-}
-.file-manager-col-view .file-item-actions {
-    right: 6px;
-}
-[dir="rtl"] .file-manager-col-view .file-item-actions {
-    right: auto;
-    left: 6px;
-}
-.file-manager-col-view .file-item-name {
-    width: 100%;
-}
-.file-manager-col-view .file-manager-row-header,
-.file-manager-col-view .file-item-changed {
-    display: none;
-}
-.file-manager-row-view .file-manager-row-header,
-.file-manager-row-view .file-item {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    margin: 0 0 0.125rem 0;
-    padding: 0.25rem 3rem 0.25rem 2.25em;
-    width: 100%;
-}
-[dir="rtl"] .file-manager-row-view .file-manager-row-header,
-[dir="rtl"] .file-manager-row-view .file-item {
-    padding-right: 2.25em;
-    padding-left: 3rem;
-}
-.file-manager-row-view .file-item-img,
-.file-manager-row-view .file-item-icon {
-    display: block;
-    margin: 0 1rem;
-    width: 2rem;
-    height: 2rem;
-    text-align: center;
-    font-size: 1.25rem;
-    line-height: 2rem;
-}
-.file-manager-row-view .file-item-level-up {
-    font-size: 1rem;
-}
-.file-manager-row-view .file-item-checkbox,
-.file-manager-row-view .file-item-actions {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-.file-manager-row-view .file-item-checkbox {
-    left: 10px;
-}
-[dir="rtl"] .file-manager-row-view .file-item-checkbox {
-    right: 10px;
-    left: auto;
-}
-.file-manager-row-view .file-item-actions {
-    right: 10px;
-}
-[dir="rtl"] .file-manager-row-view .file-item-actions {
-    right: auto;
-    left: 10px;
-}
-.file-manager-row-view .file-item-changed {
-    display: none;
-    margin-left: auto;
-    width: 10rem;
-}
-[dir="rtl"] .file-manager-row-view .file-item-changed {
-    margin-right: auto;
-    margin-left: 0;
-}
-.file-manager-row-view .file-item-name {
-    width: calc(100% - 4rem);
-}
-.file-manager-row-view .file-manager-row-header {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-    font-weight: bold;
-}
-.file-manager-row-view .file-manager-row-header .file-item-name {
-    margin-left: 4rem;
-}
-[dir="rtl"] .file-manager-row-view .file-manager-row-header .file-item-name {
-    margin-right: 4rem;
-    margin-left: 0;
-}
-.light-style .file-item-name {
-    color: #4e5155 !important;
-}
-.light-style .file-item.selected .file-item-select-bg {
-    opacity: 0.15;
-}
-@media (min-width: 768px) {
-    .light-style .file-manager-row-view .file-item-changed {
-        display: block;
-    }
-    .light-style .file-manager-row-view .file-item-name {
-        width: calc(100% - 15rem);
-    }
-}
-@media (min-width: 992px) {
-    .light-style .file-manager-col-view .file-item-checkbox,
-    .light-style .file-manager-col-view .file-item-actions {
-        opacity: 0;
-    }
-    .light-style .file-manager-col-view .file-item:hover .file-item-checkbox,
-    .light-style .file-manager-col-view .file-item.focused .file-item-checkbox,
-    .light-style .file-manager-col-view .file-item.selected .file-item-checkbox,
-    .light-style .file-manager-col-view .file-item:hover .file-item-actions,
-    .light-style .file-manager-col-view .file-item.focused .file-item-actions,
-    .light-style .file-manager-col-view .file-item.selected .file-item-actions {
-        opacity: 1;
-    }
-}
-.material-style .file-item-name {
-    color: #4e5155 !important;
-}
-.material-style .file-item.selected .file-item-select-bg {
-    opacity: 0.15;
-}
-@media (min-width: 768px) {
-    .material-style .file-manager-row-view .file-item-changed {
-        display: block;
-    }
-    .material-style .file-manager-row-view .file-item-name {
-        width: calc(100% - 15rem);
-    }
-}
-@media (min-width: 992px) {
-    .material-style .file-manager-col-view .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item-actions {
-        opacity: 0;
-    }
-    .material-style .file-manager-col-view .file-item:hover .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item.focused .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item.selected .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item:hover .file-item-actions,
-    .material-style .file-manager-col-view .file-item.focused .file-item-actions,
-    .material-style .file-manager-col-view .file-item.selected .file-item-actions {
-        opacity: 1;
-    }
-}
-.dark-style .file-item-name {
-    color: #fff !important;
-}
-.dark-style .file-item.selected .file-item-select-bg {
-    opacity: 0.15;
-}
-@media (min-width: 768px) {
-    .dark-style .file-manager-row-view .file-item-changed {
-        display: block;
-    }
-    .dark-style .file-manager-row-view .file-item-name {
-        width: calc(100% - 15rem);
-    }
-}
-@media (min-width: 992px) {
-    .dark-style .file-manager-col-view .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item-actions {
-        opacity: 0;
-    }
-    .dark-style .file-manager-col-view .file-item:hover .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item.focused .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item.selected .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item:hover .file-item-actions,
-    .dark-style .file-manager-col-view .file-item.focused .file-item-actions,
-    .dark-style .file-manager-col-view .file-item.selected .file-item-actions {
-        opacity: 1;
-    }
-}
+        .file-manager .folder .folder-icon-large {
+            font-size: 40px;
+            /* Adjust the size as needed */
+        }
 
- 
+        .file-manager .heading {
+            font-size: 24px;
+            /* Adjust the size as needed */
+            text-align: left;
+            margin: 10px 0;
+            list-style: none;
+        }
 
+        body {
+            margin-top: 20px;
+        }
+
+        .file-manager-actions {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+        }
+
+        .file-manager-actions>* {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        .file-manager-container {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        .file-item {
+            position: relative;
+            z-index: 1;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .file-item:hover,
+        .file-item.focused {
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .file-item.focused {
+            z-index: 2;
+        }
+
+        .file-item * {
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .dark-style .file-item:hover,
+        .dark-style .file-item.focused {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .file-item-checkbox {
+            margin: 0 !important;
+        }
+
+        .file-item-select-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0;
+        }
+
+        .file-item-img {
+            background-color: transparent;
+            background-position: center center;
+            background-size: cover;
+        }
+
+        .file-item-name {
+            display: block;
+            overflow: hidden;
+        }
+
+        .file-manager-col-view .file-item {
+            margin: 0 0.25rem 0.25rem 0;
+            padding: 1.25rem 0 1rem 0;
+            width: 9rem;
+            text-align: center;
+        }
+
+        [dir="rtl"] .file-manager-col-view .file-item {
+            margin-right: 0;
+            margin-left: 0.25rem;
+        }
+
+        .file-manager-col-view .file-item-img,
+        .file-manager-col-view .file-item-icon {
+            display: block;
+            margin: 0 auto 0.75rem auto;
+            width: 4rem;
+            height: 4rem;
+            font-size: 2.5rem;
+            line-height: 4rem;
+        }
+
+        .file-manager-col-view .file-item-level-up {
+            font-size: 1.5rem;
+        }
+
+        .file-manager-col-view .file-item-checkbox,
+        .file-manager-col-view .file-item-actions {
+            position: absolute;
+            top: 6px;
+        }
+
+        .file-manager-col-view .file-item-checkbox {
+            left: 6px;
+        }
+
+        [dir="rtl"] .file-manager-col-view .file-item-checkbox {
+            right: 6px;
+            left: auto;
+        }
+
+        .file-manager-col-view .file-item-actions {
+            right: 6px;
+        }
+
+        [dir="rtl"] .file-manager-col-view .file-item-actions {
+            right: auto;
+            left: 6px;
+        }
+
+        .file-manager-col-view .file-item-name {
+            width: 100%;
+        }
+
+        .file-manager-col-view .file-manager-row-header,
+        .file-manager-col-view .file-item-changed {
+            display: none;
+        }
+
+        .file-manager-row-view .file-manager-row-header,
+        .file-manager-row-view .file-item {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            margin: 0 0 0.125rem 0;
+            padding: 0.25rem 3rem 0.25rem 2.25em;
+            width: 100%;
+        }
+
+        [dir="rtl"] .file-manager-row-view .file-manager-row-header,
+        [dir="rtl"] .file-manager-row-view .file-item {
+            padding-right: 2.25em;
+            padding-left: 3rem;
+        }
+
+        .file-manager-row-view .file-item-img,
+        .file-manager-row-view .file-item-icon {
+            display: block;
+            margin: 0 1rem;
+            width: 2rem;
+            height: 2rem;
+            text-align: center;
+            font-size: 1.25rem;
+            line-height: 2rem;
+        }
+
+        .file-manager-row-view .file-item-level-up {
+            font-size: 1rem;
+        }
+
+        .file-manager-row-view .file-item-checkbox,
+        .file-manager-row-view .file-item-actions {
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .file-manager-row-view .file-item-checkbox {
+            left: 10px;
+        }
+
+        [dir="rtl"] .file-manager-row-view .file-item-checkbox {
+            right: 10px;
+            left: auto;
+        }
+
+        .file-manager-row-view .file-item-actions {
+            right: 10px;
+        }
+
+        [dir="rtl"] .file-manager-row-view .file-item-actions {
+            right: auto;
+            left: 10px;
+        }
+
+        .file-manager-row-view .file-item-changed {
+            display: none;
+            margin-left: auto;
+            width: 10rem;
+        }
+
+        [dir="rtl"] .file-manager-row-view .file-item-changed {
+            margin-right: auto;
+            margin-left: 0;
+        }
+
+        .file-manager-row-view .file-item-name {
+            width: calc(100% - 4rem);
+        }
+
+        .file-manager-row-view .file-manager-row-header {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+
+        .file-manager-row-view .file-manager-row-header .file-item-name {
+            margin-left: 4rem;
+        }
+
+        [dir="rtl"] .file-manager-row-view .file-manager-row-header .file-item-name {
+            margin-right: 4rem;
+            margin-left: 0;
+        }
+
+        .light-style .file-item-name {
+            color: #4e5155 !important;
+        }
+
+        .light-style .file-item.selected .file-item-select-bg {
+            opacity: 0.15;
+        }
+
+        @media (min-width: 768px) {
+            .light-style .file-manager-row-view .file-item-changed {
+                display: block;
+            }
+
+            .light-style .file-manager-row-view .file-item-name {
+                width: calc(100% - 15rem);
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            .light-style .file-manager-col-view .file-item-checkbox,
+            .light-style .file-manager-col-view .file-item-actions {
+                opacity: 0;
+            }
+
+            .light-style .file-manager-col-view .file-item:hover .file-item-checkbox,
+            .light-style .file-manager-col-view .file-item.focused .file-item-checkbox,
+            .light-style .file-manager-col-view .file-item.selected .file-item-checkbox,
+            .light-style .file-manager-col-view .file-item:hover .file-item-actions,
+            .light-style .file-manager-col-view .file-item.focused .file-item-actions,
+            .light-style .file-manager-col-view .file-item.selected .file-item-actions {
+                opacity: 1;
+            }
+        }
+
+        .material-style .file-item-name {
+            color: #4e5155 !important;
+        }
+
+        .material-style .file-item.selected .file-item-select-bg {
+            opacity: 0.15;
+        }
+
+        @media (min-width: 768px) {
+            .material-style .file-manager-row-view .file-item-changed {
+                display: block;
+            }
+
+            .material-style .file-manager-row-view .file-item-name {
+                width: calc(100% - 15rem);
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            .material-style .file-manager-col-view .file-item-checkbox,
+            .material-style .file-manager-col-view .file-item-actions {
+                opacity: 0;
+            }
+
+            .material-style .file-manager-col-view .file-item:hover .file-item-checkbox,
+            .material-style .file-manager-col-view .file-item.focused .file-item-checkbox,
+            .material-style .file-manager-col-view .file-item.selected .file-item-checkbox,
+            .material-style .file-manager-col-view .file-item:hover .file-item-actions,
+            .material-style .file-manager-col-view .file-item.focused .file-item-actions,
+            .material-style .file-manager-col-view .file-item.selected .file-item-actions {
+                opacity: 1;
+            }
+        }
+
+        .dark-style .file-item-name {
+            color: #fff !important;
+        }
+
+        .dark-style .file-item.selected .file-item-select-bg {
+            opacity: 0.15;
+        }
+
+        @media (min-width: 768px) {
+            .dark-style .file-manager-row-view .file-item-changed {
+                display: block;
+            }
+
+            .dark-style .file-manager-row-view .file-item-name {
+                width: calc(100% - 15rem);
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            .dark-style .file-manager-col-view .file-item-checkbox,
+            .dark-style .file-manager-col-view .file-item-actions {
+                opacity: 0;
+            }
+
+            .dark-style .file-manager-col-view .file-item:hover .file-item-checkbox,
+            .dark-style .file-manager-col-view .file-item.focused .file-item-checkbox,
+            .dark-style .file-manager-col-view .file-item.selected .file-item-checkbox,
+            .dark-style .file-manager-col-view .file-item:hover .file-item-actions,
+            .dark-style .file-manager-col-view .file-item.focused .file-item-actions,
+            .dark-style .file-manager-col-view .file-item.selected .file-item-actions {
+                opacity: 1;
+            }
+        }
+
+        .popover .arrow {
+            display: none !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -1180,7 +1258,8 @@
                                                                                     phone-number="{{ $leadinfo->owner2_primary_number == '' ? '' : $leadinfo->owner2_primary_number }}"><i
                                                                                         class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing button-item"
+                                                                                <button
+                                                                                    id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
                                                                                     <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
@@ -1204,7 +1283,8 @@
                                                                                     phone-number="{{ $leadinfo->owner2_number2 == '' ? '' : $leadinfo->owner2_number2 }}"><i
                                                                                         class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing button-item"
+                                                                                <button
+                                                                                    id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
                                                                                     <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
@@ -1228,7 +1308,8 @@
                                                                                     phone-number="{{ $leadinfo->owner2_number3 == '' ? '' : $leadinfo->owner2_number3 }}"><i
                                                                                         class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing button-item"
+                                                                                <button
+                                                                                    id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
                                                                                     <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
@@ -1352,7 +1433,8 @@
                                                                                     phone-number="{{ $leadinfo->owner3_primary_number == '' ? '' : $leadinfo->owner3_primary_number }}"><i
                                                                                         class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing button-item"
+                                                                                <button
+                                                                                    id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
                                                                                     <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
@@ -1376,7 +1458,8 @@
                                                                                     phone-number="{{ $leadinfo->owner3_number2 == '' ? '' : $leadinfo->owner3_number2 }}"><i
                                                                                         class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing button-item"
+                                                                                <button
+                                                                                    id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
                                                                                     <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
@@ -1400,7 +1483,8 @@
                                                                                     phone-number="{{ $leadinfo->owner3_number3 == '' ? '' : $leadinfo->owner3_number3 }}"><i
                                                                                         class="fas fa-phone whatsapp-icon button-item"
                                                                                         style="padding: 24%"></i></a>
-                                                                                <button id="button-hangup-outgoing button-item"
+                                                                                <button
+                                                                                    id="button-hangup-outgoing button-item"
                                                                                     class='d-none'>
                                                                                     <i class="fas fa-phone whatsapp-icon button-item hangupicon"
                                                                                         style="padding: 24%"></i>
@@ -1823,7 +1907,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-realtor-estimates-button"
-                                                                                class="btn btn-primary button-item">Get Property
+                                                                                class="btn btn-primary button-item">Get
+                                                                                Property
                                                                                 Estimates</button>
                                                                         </div>
                                                                     </div>
@@ -1857,7 +1942,8 @@
                                                                         <div class="input-group mb-2">
                                                                             <button type="button"
                                                                                 id="fetch-map-links-button"
-                                                                                class="btn btn-primary button-item">Get Google Maps &
+                                                                                class="btn btn-primary button-item">Get
+                                                                                Google Maps &
                                                                                 Zillow link</button>
                                                                         </div>
                                                                     </div>
@@ -3707,150 +3793,208 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <a href="{{ route('admin.zoom.index') }}"
-                                                                            type="button" class="btn btn-primary button-item">Zoom
+                                                                            type="button"
+                                                                            class="btn btn-primary button-item">Zoom
                                                                             Meeting</a>
 
                                                                     </div>
                                                                 </div>
                                                                 <hr>
                                                                 <div class="col-md-12">
-                                                                    
-                                                                <form id="messageForm" class="form-group" style="padding: 0 10px;">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        {{-- <label>Select Message Type:</label> --}}
-                                                                        <select id="messageType" onchange="showMessageTypeData()" class="custom-select">
-                                                                            <option value="">Select Message Type</option>
-                                                                            <option value="sms">SMS</option>
-                                                                            <option value="email">Email</option>
-                                                                            <option value="mms">MMS</option>
-                                                                            <option value="rvm">RVM</option>
-                                                                        </select>
-                                                                    </div>
 
-                                                                    <div id="smsData" style="display: none; padding: 0 10px;">
-                                                                        <h3>SMS Data</h3>
-                                                                        <div class="row">
-                                                                            <div class="form-group" style=" display: none; padding: 0 10px;">
-                                                                                <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
+                                                                    <form id="messageForm" class="form-group"
+                                                                        style="padding: 0 10px;">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            {{-- <label>Select Message Type:</label> --}}
+                                                                            <select id="messageType"
+                                                                                onchange="showMessageTypeData()"
+                                                                                class="custom-select">
+                                                                                <option value="">Select Message Type
+                                                                                </option>
+                                                                                <option value="sms">SMS</option>
+                                                                                <option value="email">Email</option>
+                                                                                <option value="mms">MMS</option>
+                                                                                <option value="rvm">RVM</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div id="smsData"
+                                                                            style="display: none; padding: 0 10px;">
+                                                                            <h3>SMS Data</h3>
+                                                                            <div class="row">
+                                                                                <div class="form-group"
+                                                                                    style=" display: none; padding: 0 10px;">
+                                                                                    <label>Media File (<small
+                                                                                            class="text-danger">Disregard
+                                                                                            if not sending
+                                                                                            MMS</small>)</label>
+                                                                                    {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
+                                                                                </div>
+                                                                                <input type="hidden"
+                                                                                    class="form-control"
+                                                                                    placeholder="Hours" value=""
+                                                                                    name="mediaUrl[]">
+                                                                                <input type="hidden"
+                                                                                    class="form-control"
+                                                                                    placeholder="Subject" value=""
+                                                                                    name="subject[]">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group ">
+                                                                                        <label>Message</label>
+                                                                                        <textarea id="template_text" class="form-control" rows="10" name="body[]"></textarea>
+                                                                                        <div id='count'
+                                                                                            class="float-lg-right"></div>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <small class="text-danger"><b>Use
+                                                                                                {name} {street} {city}
+                                                                                                {state} {zip} to substitute
+                                                                                                the respective
+                                                                                                fields</b></small>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label>Select Numbers to Send SMS:</label>
+                                                                                <div class="checkbox-list"
+                                                                                    id="checkbox-list">
+
+                                                                                    <!-- Add more numbers here -->
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div id="emailData"
+                                                                            style="display: none; padding: 0 10px;">
+                                                                            <input type="hidden" class="form-control"
+                                                                                placeholder="Hours" value=""
+                                                                                name="mediaUrl[]">
+                                                                            <div class="form-group"
+                                                                                style=" display: none;">
+                                                                                {{-- <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label> --}}
                                                                                 {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
                                                                             </div>
-                                                                            <input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]">
-                                                                            <input type="hidden"  class="form-control" placeholder="Subject" value="" name="subject[]">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group ">
-                                                                                    <label >Message</label>
-                                                                                    <textarea id="template_text" class="form-control"  rows="10" name="body[]"></textarea>
-                                                                                    <div id='count' class="float-lg-right"></div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group ">
+                                                                                        <label>Subject</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            placeholder="Subject"
+                                                                                            value=""
+                                                                                            name="subject[]">
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label>Select Numbers to Send SMS:</label>
-                                                                            <div class="checkbox-list" id="checkbox-list">
-                                                                                
-                                                                                <!-- Add more numbers here -->
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group ">
+                                                                                        <label>Message</label>
+                                                                                        <textarea id="template_text" class="form-control summernote-usage" rows="10" name="body[]"></textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <small class="text-danger"><b>Use
+                                                                                                {name} {street} {city}
+                                                                                                {state} {zip} to substitute
+                                                                                                the respective
+                                                                                                fields</b></small>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </div>
+                                                                            <div class="form-group">
+                                                                                <label>Select eamil to Send mail:</label>
+                                                                                <div class="checkbox-list2"
+                                                                                    id="checkbox-list2">
 
-                                                                    <div id="emailData" style="display: none; padding: 0 10px;">
-                                                                        <input type="hidden" class="form-control" placeholder="Hours" value="" name="mediaUrl[]">
-                                                                        <div class="form-group" style=" display: none;">
-                                                                            {{-- <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label> --}}
-                                                                            {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group ">
-                                                                                    <label >Subject</label>
-                                                                                    <input type="text"  class="form-control" placeholder="Subject" value="" name="subject[]">
+                                                                                    <!-- Add more numbers here -->
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group ">
-                                                                                    <label >Message</label>
-                                                                                    <textarea id="template_text" class="form-control summernote-usage"  rows="10" name="body[]"></textarea>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                       <div class="form-group">
-                                                                            <label>Select eamil to Send mail:</label>
-                                                                            <div class="checkbox-list2" id="checkbox-list2">
-                                                                                
-                                                                                <!-- Add more numbers here -->
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
 
-                                                                    <div id="mmsData" style="display: none; padding: 0 10px;">
-                                                                        <h3>MMS Data</h3>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group">
-                                                                                    <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
-                                                                                    <input type="file" class="form-control-file" name="media_file">
+                                                                        <div id="mmsData"
+                                                                            style="display: none; padding: 0 10px;">
+                                                                            <h3>MMS Data</h3>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label>Media File (<small
+                                                                                                class="text-danger">Disregard
+                                                                                                if not sending
+                                                                                                MMS</small>)</label>
+                                                                                        <input type="file"
+                                                                                            class="form-control-file"
+                                                                                            name="media_file">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group ">
+                                                                                        <label>Message</label>
+                                                                                        <textarea id="template_text" class="form-control" rows="10" name="body[]"></textarea>
+                                                                                        <div id='count'
+                                                                                            class="float-lg-right"></div>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <small class="text-danger"><b>Use
+                                                                                                {name} {street} {city}
+                                                                                                {state} {zip} to substitute
+                                                                                                the respective
+                                                                                                fields</b></small>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group ">
-                                                                                    <label >Message</label>
-                                                                                    <textarea id="template_text" class="form-control"  rows="10" name="body[]"></textarea>
-                                                                                    <div id='count' class="float-lg-right"></div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label>Select Numbers to Send MMS:</label>
-                                                                            <div class="checkbox-list3" id="checkbox-list3">
-                                                                                
-                                                                                <!-- Add more numbers here -->
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                            <div class="form-group">
+                                                                                <label>Select Numbers to Send MMS:</label>
+                                                                                <div class="checkbox-list3"
+                                                                                    id="checkbox-list3">
 
-                                                                    <div id="rvmData" style="display: none; padding: 0 10px;">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group mt-3">
-                                                                                    <label>Rvm Files</label>
-                                                                                    <select class="custom-select" name="mediaUrl[]" required>
-                                                                                        <option value="">Rvm File</option>
-                                                                                        @if(count($files) > 0)
-                                                                                            @foreach($files as $file)
-                                                                                                <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>
-                                                                                            @endforeach
-                                                                                        @endif
-                                                                                        
-                                                                                    </select>
+                                                                                    <!-- Add more numbers here -->
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="form-group">    
-                                                                            <label>Select Numbers to Send RVM:</label>
-                                                                            <div class="checkbox-list4" id="checkbox-list4">
-                                                                                
-                                                                                <!-- Add more numbers here -->
+
+                                                                        <div id="rvmData"
+                                                                            style="display: none; padding: 0 10px;">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group mt-3">
+                                                                                        <label>Rvm Files</label>
+                                                                                        <select class="custom-select"
+                                                                                            name="mediaUrl[]" required>
+                                                                                            <option value="">Rvm
+                                                                                                File</option>
+                                                                                            @if (count($files) > 0)
+                                                                                                @foreach ($files as $file)
+                                                                                                    <option
+                                                                                                        value="{{ $file->mediaUrl }}">
+                                                                                                        {{ $file->name }}
+                                                                                                    </option>
+                                                                                                @endforeach
+                                                                                            @endif
+
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label>Select Numbers to Send RVM:</label>
+                                                                                <div class="checkbox-list4"
+                                                                                    id="checkbox-list4">
+
+                                                                                    <!-- Add more numbers here -->
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        
-                                                                        <button type="button" class="btn btn-primary">Send Messages</button>
-                                                                    </div>
-                                                                </form>
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
 
-    
+                                                                            <button type="button"
+                                                                                class="btn btn-primary">Send
+                                                                                Messages</button>
+                                                                        </div>
+                                                                    </form>
+
+
 
 
                                                                     {{-- <div class="card-body"> <label
@@ -4010,15 +4154,24 @@
                                                                         onchange="updateAcceptedFiles()"
                                                                         table="lead_info" id="file_type">
                                                                         <option value="Photo" selected>Photo</option>
-                                                                        <option value="Buy Side / Purchase Agreement">Buy Side / Purchase Agreement</option>
-                                                                        <option value="Buy Side / Closing Paperwork">Buy Side / Closing Paperwork</option>
-                                                                        <option value="Buy Side / Closing Paperwork">Sell Side / Purchase Agreement</option>
-                                                                        <option value="Sell Side / Closing Paperwork">Sell Side / Closing Paperwork</option>
-                                                                        <option value="Lender Paperwork">Lender Paperwork</option>
-                                                                        <option value="Rental Paperwork">Rental Paperwork</option>
-                                                                        <option value="Insurance Paperwork">Insurance Paperwork</option>
-                                                                        <option value="Inspection Paperwork">Inspection Paperwork</option>
-                                                                        <option value="Miscellaneous">Miscellaneous</option>
+                                                                        <option value="Buy Side / Purchase Agreement">Buy
+                                                                            Side / Purchase Agreement</option>
+                                                                        <option value="Buy Side / Closing Paperwork">Buy
+                                                                            Side / Closing Paperwork</option>
+                                                                        <option value="Buy Side / Closing Paperwork">Sell
+                                                                            Side / Purchase Agreement</option>
+                                                                        <option value="Sell Side / Closing Paperwork">Sell
+                                                                            Side / Closing Paperwork</option>
+                                                                        <option value="Lender Paperwork">Lender Paperwork
+                                                                        </option>
+                                                                        <option value="Rental Paperwork">Rental Paperwork
+                                                                        </option>
+                                                                        <option value="Insurance Paperwork">Insurance
+                                                                            Paperwork</option>
+                                                                        <option value="Inspection Paperwork">Inspection
+                                                                            Paperwork</option>
+                                                                        <option value="Miscellaneous">Miscellaneous
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -4030,142 +4183,229 @@
 
 
                                                                     <div class="form-group">
-                                                                        <label for="file">Select File to upload</label>
-                                                                        <form action="/admin/google-drive-login" class="dropzone" name="file"
-                                                                            id="dropzone" method="POST" enctype="multipart/form-data">
+                                                                        <label for="file">Select File to
+                                                                            upload</label>
+                                                                        <form action="/admin/google-drive-login"
+                                                                            class="dropzone" name="file"
+                                                                            id="dropzone" method="POST"
+                                                                            enctype="multipart/form-data">
                                                                             @csrf
                                                                             <div class="fallback">
                                                                             </div>
-                                                                            <input type="hidden" name="hiddenFile" id="hidden-file">
-                                                                            <input hidden name="contact_id" value="{{ $contact->id }}">
+                                                                            <input type="hidden" name="hiddenFile"
+                                                                                id="hidden-file">
+                                                                            <input hidden name="contact_id"
+                                                                                value="{{ $contact->id }}">
                                                                         </form>
                                                                     </div>
                                                                     <button type="button" id="custom-upload-button"
                                                                         class="btn btn-primary button-item">Upload</button>
-                                                                        <button type="button" class="btn btn-primary button-item" data-toggle="modal" data-target="#fileManagerModal">
-                                                                            Open File Manager
-                                                                        </button>
+                                                                    <button type="button"
+                                                                        class="btn btn-primary button-item"
+                                                                        data-toggle="modal"
+                                                                        data-target="#fileManagerModal">
+                                                                        Open File Manager
+                                                                    </button>
                                                                 </div>
 
                                                             </div>
                                                         </div>
                                                         <!-- Button to open the modal -->
-                                                        
+
 
                                                         <!-- Single modal for the file manager -->
                                                         <!-- Main File Manager Modal -->
-                                                        <div class="modal fade" id="fileManagerModal" tabindex="-1" role="dialog" aria-labelledby="fileManagerModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="fileManagerModal" tabindex="-1"
+                                                            role="dialog" aria-labelledby="fileManagerModalLabel"
+                                                            aria-hidden="true">
                                                             <div class="modal-dialog modal-lg" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-body">
-                                                                        <div class="container flex-grow-1 light-style container-p-y">
-                                                                            <div class="container-m-nx container-m-ny bg-lightest mb-3">
-                                                                                <ol class="breadcrumb text-big container-p-x py-3 m-0">
+                                                                        <div
+                                                                            class="container flex-grow-1 light-style container-p-y">
+                                                                            <div
+                                                                                class="container-m-nx container-m-ny bg-lightest mb-3">
+                                                                                <ol
+                                                                                    class="breadcrumb text-big container-p-x py-3 m-0">
                                                                                     <li class="breadcrumb-item">
-                                                                                        <a href="javascript:void(0)">REIFuze</a>
+                                                                                        <a
+                                                                                            href="javascript:void(0)">REIFuze</a>
                                                                                     </li>
                                                                                     {{-- <li class="breadcrumb-item">
                                                                                         <a href="javascript:void(0)">projects</a>
                                                                                     </li>
                                                                                     <li class="breadcrumb-item active">site</li> --}}
                                                                                 </ol>
-                                                                        
+
                                                                                 <hr class="m-0" />
-                                                                        
-                                                                                
+
+
                                                                             </div>
-                                                                        
-                                                                            <div class="file-manager-container file-manager-col-view">
+
+                                                                            <div
+                                                                                class="file-manager-container file-manager-col-view">
                                                                                 <div class="file-manager-row-header">
-                                                                                    <div class="file-item-name pb-2">Filename</div>
-                                                                                    <div class="file-item-changed pb-2">Changed</div>
+                                                                                    <div class="file-item-name pb-2">
+                                                                                        Filename</div>
+                                                                                    <div class="file-item-changed pb-2">
+                                                                                        Changed</div>
                                                                                 </div>
-                                                                        
+
                                                                                 {{-- <div class="file-item">
                                                                                     <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
                                                                                     <a href="javascript:void(0)" class="file-item-name">
                                                                                         ..
                                                                                     </a>
                                                                                 </div> --}}
-                                                                        
-                                                                                <div  onclick="fetchFiles('Photo')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a  class="file-item-name">
+
+                                                                                <div onclick="fetchFiles('Photo')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a class="file-item-name">
                                                                                         Photos
                                                                                     </a>
-                                                                                    <div class="file-item-changed">02/13/2018</div>
-                                                                                    <div class="file-item-actions btn-group">
-                                                                                        <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
-                                                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                                                            <a class="dropdown-item" href="javascript:void(0)">Rename</a>
-                                                                                            <a class="dropdown-item" href="javascript:void(0)">Move</a>
-                                                                                            <a class="dropdown-item" href="javascript:void(0)">Copy</a>
-                                                                                            <a class="dropdown-item" href="javascript:void(0)">Remove</a>
+                                                                                    <div class="file-item-changed">
+                                                                                        02/13/2018</div>
+                                                                                    <div
+                                                                                        class="file-item-actions btn-group">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle"
+                                                                                            data-toggle="dropdown"><i
+                                                                                                class="ion ion-ios-more"></i></button>
+                                                                                        <div
+                                                                                            class="dropdown-menu dropdown-menu-right">
+                                                                                            <a class="dropdown-item"
+                                                                                                href="javascript:void(0)">Rename</a>
+                                                                                            <a class="dropdown-item"
+                                                                                                href="javascript:void(0)">Move</a>
+                                                                                            <a class="dropdown-item"
+                                                                                                href="javascript:void(0)">Copy</a>
+                                                                                            <a class="dropdown-item"
+                                                                                                href="javascript:void(0)">Remove</a>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                        
-                                                                                <div onclick="fetchFiles('Rental Paperwork')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+
+                                                                                <div onclick="fetchFiles('Rental Paperwork')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Rental Paperwork
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Lender Paperwork')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Lender Paperwork')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Lender Paperwork
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Insurance Paperwork')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Insurance Paperwork')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Insurance Paperwork
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Inspection Paperwork')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Inspection Paperwork')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Inspection Paperwork
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Miscellaneous')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Miscellaneous')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Miscellaneous
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Buy Side / Purchase Agreement')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Buy Side / Purchase Agreement')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Buy Side / Purchase Agreement
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Buy Side / Closing Paperwork')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Buy Side / Closing Paperwork')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Buy Side / Closing Paperwork
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Sell Side / Purchase Agreement')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Sell Side / Purchase Agreement')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         Sell Side / Purchase Agreement
                                                                                     </a>
                                                                                 </div>
-                                                                                <div onclick="fetchFiles('Sell Side / Closing Paperwork')" class="file-item">
-                                                                                    <div class="file-item-select-bg bg-primary"></div>
-                                                                                    <div class="file-item-icon far fa-folder text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" onclick="" class="file-item-name">
+                                                                                <div onclick="fetchFiles('Sell Side / Closing Paperwork')"
+                                                                                    class="file-item">
+                                                                                    <div
+                                                                                        class="file-item-select-bg bg-primary">
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="file-item-icon far fa-folder text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        onclick=""
+                                                                                        class="file-item-name">
                                                                                         Sell Side / Closing Paperwork
                                                                                     </a>
                                                                                 </div>
@@ -4176,31 +4416,41 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="modal fade" id="filesModal" tabindex="-1" role="dialog" aria-labelledby="filesModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="filesModal" tabindex="-1"
+                                                            role="dialog" aria-labelledby="filesModalLabel"
+                                                            aria-hidden="true">
                                                             <div class="modal-dialog modal-lg" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-body">
-                                                                        <div class="container flex-grow-1 light-style container-p-y">
-                                                                            <div class="container-m-nx container-m-ny bg-lightest mb-3">
-                                                                                <ol class="breadcrumb text-big container-p-x py-3 m-0">
+                                                                        <div
+                                                                            class="container flex-grow-1 light-style container-p-y">
+                                                                            <div
+                                                                                class="container-m-nx container-m-ny bg-lightest mb-3">
+                                                                                <ol
+                                                                                    class="breadcrumb text-big container-p-x py-3 m-0">
                                                                                     <li class="breadcrumb-item">
-                                                                                        <a href="javascript:void(0)">REIFuze</a>
+                                                                                        <a
+                                                                                            href="javascript:void(0)">REIFuze</a>
                                                                                     </li>
                                                                                     {{-- <li class="breadcrumb-item">
                                                                                         <a href="javascript:void(0)">projects</a>
                                                                                     </li>
                                                                                     <li class="breadcrumb-item active">site</li> --}}
                                                                                 </ol>
-                                                                        
+
                                                                                 <hr class="m-0" />
-                                                                        
-                                                                                
+
+
                                                                             </div>
-                                                                        
-                                                                            <div class="file-manager-container file-manager-col-view">
+
+                                                                            <div
+                                                                                class="file-manager-container file-manager-col-view">
                                                                                 <div class="file-item">
-                                                                                    <div class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
-                                                                                    <a href="javascript:void(0)" class="file-item-name">
+                                                                                    <div
+                                                                                        class="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary">
+                                                                                    </div>
+                                                                                    <a href="javascript:void(0)"
+                                                                                        class="file-item-name">
                                                                                         ..
                                                                                     </a>
                                                                                 </div>
@@ -4223,7 +4473,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
 
 
                                                         <hr>
@@ -5048,8 +5298,7 @@
                                                                 <div class="col-md-4">
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <div class="input-group mb-2 mt-3">
-                                                                            <input
-                                                                                style="margin-right:5px"type="checkbox"
+                                                                            <input style="margin-right:5px"type="checkbox"
                                                                                 name="electricity_service_active"
                                                                                 table="utility_deparments"
                                                                                 onchange="updateValue(this.checked ? '1' : null, 'electricity_service_active', 'utility_deparments')"
@@ -5479,7 +5728,7 @@
                                                                         <label>Template Content <span
                                                                                 class="required">*</span></label>
                                                                         <textarea class="form-control text1 userAgreementContent" id="user-agreement-content" name="content"
-                                                                            rows="10" ></textarea>
+                                                                            rows="10"></textarea>
                                                                         <div id='count' class="float-lg-right">
                                                                         </div>
                                                                     </div>
@@ -5502,20 +5751,22 @@
                                                                                             <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner3" value="{{ $leadinfo->id }}">Contact 3 ({{ $leadinfo->owner3_first_name }})</label><br>
                                                                                         </div>
                                                                                     </div>
-                                                                                            
+
                                                                                 </div>
                                                                         </div>
+                                                                    </div>
 
-                                                                     </div>
-                                                                
+                                                                </div>
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
-                                                                        <div class="form-group" style="margin-left: 15px;">
+                                                                        <div class="form-group"
+                                                                            style="margin-left: 15px;">
                                                                             <small class="text-danger"><b>Please Keep
                                                                                     {SIGNATURE_USER} in contenet for
                                                                                     user sign</b></small>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
@@ -5659,12 +5910,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <link rel="stylesheet" href="{{asset('/summernote/dist/summernote.css')}}" />
-    <script src="{{asset('/summernote/dist/summernote.min.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
+    <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
 
 
     <script>
-          Dropzone.autoDiscover = false;
+        Dropzone.autoDiscover = false;
         $(document).ready(function() {
 
             // Initially hide the date input
@@ -5723,7 +5974,7 @@
                         token.type = "hidden";
                         token.name = "_token";
                         token.id = "_token";
-                        token.value ="{{ csrf_token() }}";;
+                        token.value = "{{ csrf_token() }}";;
                         dropzoneForm.appendChild(token);
                     });
 
@@ -5758,9 +6009,9 @@
                     $('.date-input-text').hide();
                 }
             });
-            
 
-            
+
+
             // $('#fileManagerModal').on('show.bs.modal', function (e) {
             //         var modal = $(this);
             //         var id = {!! $id !!};
@@ -5783,7 +6034,7 @@
             $("#custom-upload-button").click(function() {
                 myDropzone.processQueue(); // Process the Dropzone queue
             });
-            
+
             // $('#datatable').DataTable();
             $('#appoitment-list-table').DataTable();
 
@@ -5818,7 +6069,7 @@
             //     form2.submit();
 
             // });
-            
+
 
             // Get a reference to the hidden input
             // Get a reference to the hidden input
@@ -5836,40 +6087,41 @@
                 // $('#fetchzillow').show()
             });
         });
-        </script>
+    </script>
     <script>
         function deleteFile(fileId) {
-            
+
             var id = {!! $id !!};
             var requestData = {
                 id: id,
                 fileId: fileId
             };
-    // Confirm with the user before deleting
-            
-                // Perform an AJAX request to delete the file
-                $.ajax({
-                    url: `/admin/file-manager/delete`, // Replace with your actual DELETE endpoint
-                    type: 'DELETE',
-                    data: requestData,
-                    success: function (data) {
-                        // Handle success, for example, you can remove the file item from the UI
-                        console.log(data);
-                        // Remove the file item from the UI, e.g., using jQuery
-                        $('#fileItem' + fileId).remove();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error deleting file: " + error);
-                    }
-                });
-            
+            // Confirm with the user before deleting
+
+            // Perform an AJAX request to delete the file
+            $.ajax({
+                url: `/admin/file-manager/delete`, // Replace with your actual DELETE endpoint
+                type: 'DELETE',
+                data: requestData,
+                success: function(data) {
+                    // Handle success, for example, you can remove the file item from the UI
+                    console.log(data);
+                    // Remove the file item from the UI, e.g., using jQuery
+                    $('#fileItem' + fileId).remove();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error deleting file: " + error);
+                }
+            });
+
         }
-        
-        function stepBackModel(){
+
+        function stepBackModel() {
             $('#fileManagerModal').modal('show');
             $('#filesModal').modal('hide');
         }
-    function fetchFiles(fileType) {
+
+        function fetchFiles(fileType) {
             $('#fileManagerModal').modal('hide');
             $('#filesModal').modal('show');
 
@@ -5885,7 +6137,7 @@
                 url: '/admin/file-manager',
                 type: 'GET',
                 data: requestData,
-                success: function (data) {
+                success: function(data) {
                     console.log(data);
                     // Clear existing content in the modal's body
                     modal.find('.file-manager-container').empty();
@@ -5910,30 +6162,30 @@
                                     <div class="file-item-actions btn-group">
                                         <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            
+
                                             <br>
                                             <a class="dropdown-item" href="${fileItem.url}" target="_blank">Open in tab</a>
                                             <br>
                                             <a class="dropdown-item" href="${fileItem.url}" target="_blank"  download="${fileItem.file_name}">Download</a>
-                                            
+
                                             </div>
                                             </div>
                                             </div>
                                             `;
-                                            // <a class="dropdown-item" href="javascript:void(0)" onclick="deleteFile('${fileItem.uuid}')">Delete</a>
+                            // <a class="dropdown-item" href="javascript:void(0)" onclick="deleteFile('${fileItem.uuid}')">Delete</a>
 
                             // Append the file item to the modal's body
                             modal.find('.file-manager-container').append(fileItemHTML);
                         }
                     }
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error(error);
                 }
-        });
-    }
+            });
+        }
 
-            function downloadFile(fileUrl) {
+        function downloadFile(fileUrl) {
             // Create an invisible anchor element
             var a = document.createElement('a');
             a.style.display = 'none';
@@ -5948,12 +6200,12 @@
             // Remove the anchor from the DOM
             document.body.removeChild(a);
         }
-        
+
 
         function updateAcceptedFiles() {
             var selectElement = document.getElementById("file_type");
             var selectedOption = selectElement.options[selectElement.selectedIndex].value;
-            
+
             if (selectedOption === "photo") {
                 this.acceptedFiles = ".jpg, .jpeg, .png, .gif";
             } else if (selectedOption === "Miscellaneous") {
@@ -5966,6 +6218,7 @@
             // Update the acceptedFiles in the Dropzone configuration
             // acceptFile = acceptedFiles;
         }
+
         function showDiv(divId, element) {
             document.getElementById(divId).style.display = element.value == 1 ? 'block' : 'none';
         }
@@ -5976,7 +6229,7 @@
         }
 
         function createCheckbox(number, checkboxList) {
-            
+
             if (number) {
                 const label = document.createElement("label");
                 const checkbox = document.createElement("input");
@@ -6302,6 +6555,7 @@
                 });
             });
         }
+
         function showMessageTypeData() {
             var messageType = document.getElementById("messageType").value;
             // Hide all message data sections
@@ -6325,7 +6579,7 @@
                 const owner3number2 = document.querySelector('input[name="owner3_number2"]').value;
                 const owner3number3 = document.querySelector('input[name="owner3_number3"]').value;
 
-                
+
                 // Get the checkboxList element by its ID
                 document.getElementById("checkbox-list").innerHTML = '';
                 const checkboxList = document.getElementById("checkbox-list");
@@ -6343,33 +6597,33 @@
 
             } else if (messageType === "email") {
                 $(".summernote-usage").summernote({
-    	        height: 200,
-    	        });
+                    height: 200,
+                });
                 document.getElementById("emailData").style.display = "block";
                 document.getElementById("checkbox-list2").innerHTML = '';
                 const checkboxList = document.getElementById("checkbox-list2");
                 const owner1email1 = document.querySelector('input[name="owner1_email1"]').value;
                 const owner1email2 = document.querySelector('input[name="owner1_email2"]').value;
-                
+
                 const owner2email1 = document.querySelector('input[name="owner2_email1"]').value;
                 const owner2email2 = document.querySelector('input[name="owner2_email2"]').value;
-                
+
                 const owner3email1 = document.querySelector('input[name="owner3_email1"]').value;
                 const owner3email2 = document.querySelector('input[name="owner3_email2"]').value;
-                
 
-                
+
+
                 // Get the checkboxList element by its ID
                 document.getElementById("checkbox-list").innerHTML = '';
                 createCheckbox(owner1email1, checkboxList);
                 createCheckbox(owner1email2, checkboxList);
-                
+
                 createCheckbox(owner2email1, checkboxList);
                 createCheckbox(owner2email2, checkboxList);
-                
+
                 createCheckbox(owner3email1, checkboxList);
                 createCheckbox(owner3email2, checkboxList);
-                
+
             } else if (messageType === "mms") {
                 document.getElementById("mmsData").style.display = "block";
 
@@ -6385,7 +6639,7 @@
                 const owner3number2 = document.querySelector('input[name="owner3_number2"]').value;
                 const owner3number3 = document.querySelector('input[name="owner3_number3"]').value;
 
-                
+
                 // Get the checkboxList element by its ID
                 document.getElementById("checkbox-list3").innerHTML = '';
                 const checkboxList = document.getElementById("checkbox-list3");
@@ -6416,7 +6670,7 @@
                 const owner3number2 = document.querySelector('input[name="owner3_number2"]').value;
                 const owner3number3 = document.querySelector('input[name="owner3_number3"]').value;
 
-                
+
                 // Get the checkboxList element by its ID
                 document.getElementById("checkbox-list4").innerHTML = '';
                 const checkboxList = document.getElementById("checkbox-list4");
@@ -6525,7 +6779,6 @@
                 }
             });
         }
-            // Function to show the selected message type data
-        
+        // Function to show the selected message type data
     </script>
 @endsection

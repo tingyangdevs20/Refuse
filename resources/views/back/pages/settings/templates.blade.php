@@ -125,12 +125,6 @@
             padding-left: 12px
         }
 
-        body {
-            padding: 10px;
-
-        }
-
-
         #exTab2 h3 {
             color: white;
             background-color: #428bca;
@@ -157,6 +151,10 @@
             border-color: #ddd;
             /* Default border color for non-active tabs */
             padding: 13px;
+        }
+
+        .popover .arrow {
+            display: none !important;
         }
     </style>
 @endsection
@@ -220,21 +218,14 @@
                                             <table class="table table-striped table-bordered" id="datatable">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
                                                         <th scope="col">Name</th>
-
-                                                        <!--<th scope="col">Media URL</th>-->
                                                         <th scope="col">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($scripts as $script)
                                                         <tr>
-                                                            <td>{{ $sr++ }}</td>
                                                             <td>{{ $script->name }}</td>
-                                                            <td>
-
-                                                            </td>
                                                             <td>
                                                                 <button class="btn btn-outline-primary btn-sm edit-Script"
                                                                     title="Edit {{ $script->name }}"
@@ -409,7 +400,7 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable">
                                                 <thead>
                                                     <tr>
 
@@ -677,7 +668,7 @@
                                             </button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
+                                            <table class="table table-striped table-bordered datatable">
                                                 <thead>
                                                     <tr>
 
@@ -801,11 +792,11 @@
                                                                 </div>
 
                                                                 {{-- <div class="form-group pt-2">
-            <label> Template Content </label>
-            <br>
-            <textarea class="form-control ckeditor" style="width: 100%;" id="market" name="content"
-              required> </textarea>
-          </div> --}}
+                                                                    <label> Template Content </label>
+                                                                    <br>
+                                                                    <textarea class="form-control ckeditor" style="width: 100%;" id="market" name="content"
+                                                                    required> </textarea>
+                                                                </div> --}}
                                                                 <div class="row">
                                                                     <div class="col-8">
                                                                         <div class="form-group pt-2">
@@ -894,11 +885,11 @@
                                                                 </div>
 
                                                                 {{-- <div class="form-group pt-2">
-              <label> Template Content </label>
-              <br>
-              <textarea class="form-control ckeditor" style="width: 100%;" id="editcontent" name="content"
-                required> </textarea>
-            </div> --}}
+                                                                    <label> Template Content </label>
+                                                                    <br>
+                                                                    <textarea class="form-control ckeditor" style="width: 100%;" id="editcontent" name="content"
+                                                                        required> </textarea>
+                                                                    </div> --}}
                                                                 <div class="row">
                                                                     <div class="col-8">
                                                                         <div class="form-group pt-2">
@@ -972,27 +963,30 @@
     <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
     <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
 
+
     <script>
-        $(".summernote-usage").summernote({
-            height: 200,
-        });
-
         $(document).ready(function() {
+
+            // Initialize DataTable
             $('#datatable').DataTable();
-        });
 
-        $(document).ready(function() {
+            // Initialize Summernote
+            $(".summernote-usage").summernote({
+                height: 200,
+            });
+
+            // Initialize Select2
             $('#type').select2();
-        });
-
-        $(document).ready(function() {
             $('#categories').select2();
-        });
-
-        $(document).ready(function() {
             $('#categories2').select2();
         });
+
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+        });
+
     </script>
+
     <script>
         $('#editSMSModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);

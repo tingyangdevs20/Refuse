@@ -49,7 +49,7 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Task List
-                            <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal"
+                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
                                 data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             @include('components.modalform')
 

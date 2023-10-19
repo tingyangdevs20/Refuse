@@ -35,7 +35,8 @@
                                 </select>
                             </span>
 
-                            <span style="float:right" class="">Status
+                            @include('components.modalform')
+                            <span style="float:right" class="mr-2">Status
                                 <select class="actionSelect">
                                     <option value="0">Show All</option>
                                     @foreach ($leadstatus as $ls)
@@ -44,7 +45,6 @@
 
                                 </select>
                             </span>
-                            @include('components.modalform')
                         </div>
                         <div class="card-body">
                             <table id="tasktable" class="table table-striped table-bordered">

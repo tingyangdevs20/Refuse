@@ -45,10 +45,6 @@
 
                                         <th scope="col">Message Title</th>
                                         <th scope="col">Content</th>
-
-
-
-
                                         <!--<th scope="col">Media URL</th>-->
                                         <th scope="col">Actions</th>
                                     </tr>
