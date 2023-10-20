@@ -64,7 +64,7 @@
                     </li>
                 @endif
 
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.campaign.index') }}"><i class="bx bx-home-circle"></i><span>Prospect
                             Campaigns</span></a>
                 </li>
@@ -75,7 +75,7 @@
                         <span>Conversations</span>
                     </a>
                 </li>
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.leadcampaign.index') }}"><i class="bx bx-home-circle"></i><span>Lead
                             Campaigns</span></a>
                 </li>
