@@ -109,19 +109,7 @@
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
 
-                        <!-- Group/list id will now get assigned while pushing to campaign -->
-
-                        <!-- <div class="form-group">
-                                    <label for="group_id">Select Group/Contact List</label>
-                                    <select name="group_id" id="group_id" class="form-control">
-                                        <option value="">Select Group/Contact List</option>
-                                        @if (isset($groups))
-                                            @foreach ($groups as $group)
-    <option value="{{ $group->id }}">{{ $group->name }}</option>
-    @endforeach
-                                        @endif
-                                    </select>
-                                </div>-->
+                      
 
                         <div class="form-group">
                             <label for="active">Active Status</label>
@@ -184,7 +172,10 @@
                 </div>
             </div>
         </div>
-    @endsection
+    
+    
+    
+        @endsection
     @section('scripts')
         <script>
             function getTemplate(type) {

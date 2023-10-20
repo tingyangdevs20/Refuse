@@ -34,7 +34,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0px auto;
+        margin: -25px auto;
         margin-bottom: 1rem;
         width: 350px;
         display: flex;
@@ -560,7 +560,7 @@
             </div>
 
             <div id="call-history" class="history-panel" style="display: none;">
-              <h4 style="margin-top:4px">Call History</h4>
+              <h4 style="margin-top:-4px">Call History</h4>
                 <!-- Call records list -->
                 <ul>
 
@@ -573,11 +573,11 @@
             </div>
 
             <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
-                <div class="col-4" style="margin-left: 2px;" id="show-dial-pad">
+                <div class="col-4" style="margin-left:-1.5em;" id="show-dial-pad">
                     <span class='material-icons custom-size-ui'id="show-dialpad"
                         style="margin-left: 14px;color: #220ada;">dialpad</span>
                 </div>
-                <div class="col-4" style="margin-left: 15px;">
+                <div class="col-4" style="margin-left: 10px;">
                     <span class='material-icons custom-size-ui' style="color: #D3D3D3;">support_agent</span>
                 </div>
                 <div class="col-4" style="left: 28px;">

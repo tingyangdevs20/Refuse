@@ -14,6 +14,8 @@ use App\Model\AutoResponder;
 use App\Model\AutoReply;
 use App\Model\Blacklist;
 use App\Model\Campaign;
+use App\Model\CampaignLead;
+use App\Model\Group;
 use App\Model\Category;
 use App\Model\FormTemplates;
 use App\Model\Market;
@@ -73,6 +75,13 @@ class SettingsController extends Controller
 
     public function CommunicationSetting()
     {
+
+        $groups = Group::all(); // Fetch groups from the database
+        $campaigns = Campaign::getAllCampaigns();
+        $leadcampaigns = CampaignLead::getAllLeadsCampaign();
+        $templates = Template::where('type' , 'SMS')->get();
+       // return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
+
         $responders = AutoResponder::all();
         $autoReplies = AutoReply::all();
         $quickResponses = QuickResponse::all();
@@ -141,7 +150,7 @@ class SettingsController extends Controller
             $all_phone_nums = Number::all();
         }
 
-        return view('back.pages.settings.communication', compact('responders', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
+        return view('back.pages.settings.communication', compact('responders', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms','groups','campaigns','leadcampaigns','templates'));
     }
 
     // Templates
@@ -372,6 +381,8 @@ class SettingsController extends Controller
             $settings->twilio_secret_key = $request->twilio_secret_key ?? 0;
         if ($request->twiml_app_sid != '')
             $settings->twiml_app_sid = $request->twiml_app_sid ?? 0;
+        if ($request->twiml_app_sid != '')
+            $settings->messaging_service_sid = $request->messaging_service_sid ?? 0;
 
 
         if ($request->call_forward_number != '')

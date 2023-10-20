@@ -72,7 +72,8 @@ class CampaignLeadController extends Controller
           
             
         }
-        return redirect()->route('admin.leadcampaigns.index')->with('success', 'Campaign created successfully.');
+      //  return redirect()->route('admin.leadcampaigns.index')->with('success', 'Campaign created successfully.');
+      return redirect()->back();
     }
 
     public function schedual()
@@ -249,7 +250,8 @@ class CampaignLeadController extends Controller
             // Add other fields for campaign details
         ]);
 
-        return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign created successfully.');
+       // return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign created successfully.');
+       return redirect()->back();
     }
 
     public function show(Campaign $campaign, Request $request)
@@ -303,7 +305,8 @@ class CampaignLeadController extends Controller
             // Add other fields for campaign details
         ]);
 
-        return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign updated successfully.');
+      //  return redirect()->route('admin.leadcampaign.index')->with('success', 'Lead Campaign updated successfully.');
+      return redirect()->back();
     }
 
     // Fix issue by John 14-09-2023
@@ -314,13 +317,15 @@ class CampaignLeadController extends Controller
             CampaignLead::where('id', $id)->delete();
             return response()->json([
                 'status' => true,
-                'message' => 'Lead Campaign deleted successfully!'
+                'message' => 'deleted'
             ]);
+          // return redirect()->back();
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong the server!'
             ]);
+           return redirect()->back();
         }
     }
 }
