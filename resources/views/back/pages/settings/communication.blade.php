@@ -773,7 +773,7 @@
                                                         method="POST" class="delete-form" style="display: inline-block;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="btn btn-danger delete-btn"
+                                                        <button type="button" class="btn btn-danger delete-btnn"
                                                             data-toggle="modal" data-target="#confirmationModal">
                                                             Delete
                                                         </button>
@@ -862,9 +862,9 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="name">Campaign Name</label>
-                                <input type="hidden" name="id" id="id_edit" class="form-control" value="0"
+                                <input type="hidden" name="id" id="lead_id_edit" class="form-control" value="0"
                                     required>
-                                <input type="text" name="name" id="name_edit" class="form-control" value=""
+                                <input type="text" name="name" id="lead_name_edit" class="form-control" value=""
                                     required>
                             </div>
                             
@@ -910,7 +910,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger confirm-delete-btn">Delete</button>
+                        <button type="button" class="btn btn-danger confirm-delete-btnn">Delete</button>
                     </div>
                 </div>
             </div>
@@ -1513,11 +1513,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
     <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
     <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+       
 
     <script>
         $(document).ready(function() {
             $('.datatable').DataTable();
-            $(".delete-btn").click(function() {
+            $(".delete-btnn").click(function() {
                     // Get the form associated with this delete button
                     var form = $(this).closest(".delete-form");
 
@@ -1525,7 +1527,7 @@
                     var actionUrl = form.attr("action");
 
                     // When the user confirms deletion, send an AJAX request
-                    $(".confirm-delete-btn").click(function() {
+                    $(".confirm-delete-btnn").click(function() {
                         $.ajax({
                             url: actionUrl,
                             type: "POST",
@@ -1534,13 +1536,13 @@
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function(res) {
-                               // alert(res);
+                               // alert(res.status);
                                 if (res.status == true) {
                                     // Sends a notification
                                     // Customize the Toastr message based on your requirements
-                                    toastr.success(res.message, {
-                                        timeOut: 10000, // Set the duration (10 seconds in this example)
-                                    });
+                                   // toastr.success(res.message, {
+                                       // timeOut: 10000, // Set the duration (10 seconds in this example)
+                                   // });
 
                                     setTimeout(function() {
                                         location.reload();
@@ -1597,8 +1599,8 @@
                 var group_id = button.data('group');
                 var modal = $(this);
 
-                $('#name_edit').val(name);
-                $('#id_edit').val(id);
+                $('#lead_name_edit').val(name);
+                $('#lead_id_edit').val(id);
                 $('#type_edit').val(type);
                 $('#send_after_days_edit').val(sendafterdays);
                 $('#send_after_hours_edit').val(sendafterhours);

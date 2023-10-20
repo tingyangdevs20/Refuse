@@ -291,7 +291,8 @@ class CampaignController extends Controller
                 $campaigns = CampaignList::where('id', $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s') , 'active' => 0]);
             }
         }
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
+       // return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
+       return redirect()->back();
 
     }
 
