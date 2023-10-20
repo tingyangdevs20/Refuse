@@ -150,7 +150,7 @@
                         <li><a href="#" class="waves-effect">Closed Deals</a></li>
                     </ul>
                 </li>
-                <li>
+                <li style="display:none">
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-handshake"></i>
                         <span>Closed Deals</span>

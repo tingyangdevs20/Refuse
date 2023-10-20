@@ -3,10 +3,13 @@ document.onreadystatechange = function (e) {
         // console.log("hi, inside document.onreadystatechange function");
         if (!window.jQuery) {
             // console.log('jQuery is not loaded');
-            loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js", loadChatWindow);
+
+            //------------SHOW CHAT BOX---------------
+          //  loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js", loadChatWindow);
             // console.log('JQuery is added now');
         } else {
-            loadChatWindow()
+            //------------SHOW CHAT BOX---------------
+           // loadChatWindow()
         }
     }
 }
