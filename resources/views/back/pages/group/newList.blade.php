@@ -127,9 +127,8 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label style="margin-right:50px">List Name</label>
                                             <input type="text" class="form-control" required name="list_name"
-                                                placeholder="Enter List Name" required>
+                                                placeholder="Enter List Name *" required>
                                         </div>
 
                                         <div class="form-group" style="display: none">
@@ -161,18 +160,18 @@
                                             <select class="custom-select" style="width: 100%;" id="market"
                                                 name="market_id" required>
                                                 <option value="">Select Market</option>
-                                                @foreach ($markets as $market)
-                                                    <option value="{{ $market->id }}" selected>{{ $market->name }}
-                                                    </option>
-                                                @endforeach
+                                                @if (count($markets) > 0)
+                                                    @foreach ($markets as $market)
+                                                        <option value="{{ $market->id }}" selected>{{ $market->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
 
                                         <div class="form-group pt-2">
-                                            <label>Select Tag</label><br>
                                             <select class="custom-select select2" required multiple="multiple"
                                                 style="width: 100%;" name="tag_id[]" id="tags">
-                                                <option value="" disabled>Select Tag</option>
                                                 @foreach ($tags as $tag)
                                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                                 @endforeach
@@ -180,9 +179,8 @@
                                         </div>
 
                                         <div class="form-group pt-2">
-                                            <label>Select Lead Status</label>
                                             <select class="custom-select select2" name="lead_status" style="width: 100%;">
-                                                <option value="">Lead Status</option>
+                                                <option value="">Select Lead Status *</option>
                                                 <option value="None/Unknown">
                                                     None/Unknown
                                                 </option>
@@ -318,10 +316,9 @@
                                         </div>
 
                                         <div class="form-group pt-2">
-                                            <label>Select Lead Source</label>
                                             <select class="custom-select select2" name="lead_source"
                                                 style="width: 100%;">
-                                                <option value="">Lead Source</option>
+                                                <option value="">Select Lead Source</option>
                                                 <option value="Bandit Signs">
                                                     Bandit Signs
                                                 </option>
@@ -387,9 +384,8 @@
                                         </div>
 
                                         <div class="form-group pt-2">
-                                            <label>Select Lead Type</label>
                                             <select class="custom-select select2" name="lead_type" style="width: 100%;">
-                                                <option value="">Lead
+                                                <option value="">Select Lead
                                                     Type
                                                 </option>
                                                 <option value="Agents">Agents
@@ -430,8 +426,7 @@
                                             <div id="my-dropzone" class="dropzone"></div>
                                         </div>
                                         <button type="button" style="float: right;" id="uploadButton"
-                                            class="btn btn-info">Read
-                                            CSV</button>
+                                            class="btn btn-info">Upload CSV</button>
                                         <div class="form-group" style="padding-top: 10px; display: none; float: right;"
                                             id="readingCSVId">
                                             <div class="d-flex align-items-center">
@@ -945,8 +940,6 @@
         <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript">
         </script>
 
-        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-
         <script>
             $(document).ready(function() {
                 // Inittialize Select2
@@ -1254,16 +1247,20 @@
             function initializeSelect2() {
                 // Initialize Select2
                 $('.select2').select2({
-                    // placeholder: "Select options",
+                    // placeholder: "Select Options", // Set your custom placeholder text
                     allowClear: true, // Show a clear button to remove the selection
                 });
+
+                // Find the corresponding select element based on the name attribute
+                var selectElement = $('#tags');
+                selectElement.prepend('<option value="" selected disabled>Select Tags *</option>');
                 $('#tags').on('change', function() {
-                    // Remove the "Select Tags" option if any other option is selected
+                    // Remove the "Select Tags *" option if any other option is selected
                     if ($('#tags option:selected').length > 0) {
                         $('#tags option[value=""]').remove();
                     } else {
-                        // Add the "Select Tags" option back if no options are selected
-                        $('#tags').prepend('<option value="" selected disabled>Select Tags</option>');
+                        // Add the "Select Tags *" option back if no options are selected
+                        $('#tags').prepend('<option value="" selected disabled>Select Tags *</option>');
                     }
                 });
 

@@ -14,6 +14,8 @@ use App\Model\AutoResponder;
 use App\Model\AutoReply;
 use App\Model\Blacklist;
 use App\Model\Campaign;
+use App\Model\CampaignLead;
+use App\Model\Group;
 use App\Model\Category;
 use App\Model\FormTemplates;
 use App\Model\Market;
@@ -73,6 +75,13 @@ class SettingsController extends Controller
 
     public function CommunicationSetting()
     {
+
+        $groups = Group::all(); // Fetch groups from the database
+        $campaigns = Campaign::getAllCampaigns();
+        $leadcampaigns = CampaignLead::getAllLeadsCampaign();
+        $templates = Template::where('type' , 'SMS')->get();
+       // return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
+
         $responders = AutoResponder::all();
         $autoReplies = AutoReply::all();
         $quickResponses = QuickResponse::all();

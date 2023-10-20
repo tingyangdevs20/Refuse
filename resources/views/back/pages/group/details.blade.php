@@ -53,7 +53,7 @@
                                         <th scope="col">Numbers</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">No. Of Tags</th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,7 +88,7 @@
 
                                             </td>
 
-                                           
+
                                             <!-- <td>
                                                         <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
                                                             <i class="fas fa-phone whatsapp-icon"></i>
@@ -125,13 +125,11 @@
                             name="group_id">
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter First Name"
-                                required>
+                            <input type="text" class="form-control" name="name" placeholder="Enter First Name" required>
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name"
-                                >
+                            <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
                         </div>
                         <div class="form-group">
                             <label>Street</label>
@@ -216,7 +214,7 @@
                 </div>
             </div>
         </div>
-    
+
     @endsection
     @section('scripts')
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
@@ -289,10 +287,10 @@
                 var selectedTaskIds = $('.task-checkbox:checked').map(function() {
                     return $(this).val();
                 }).get();
-                
-                
+
+
                 // Check if the selected value is "delete"
-                if (selectedValue === "1" && selectedTaskIds.length > 0 ) { 
+                if (selectedValue === "1" && selectedTaskIds.length > 0 ) {
                     // Show the confirmation modal
                     $('#confirmationModal').modal('show');
 
@@ -324,6 +322,6 @@
                 }
             }
 
-            
+
         </script>
     @endsection

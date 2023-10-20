@@ -513,6 +513,7 @@
                 <select class="custom-select" style="color:#C0C0C0;margin-top:5px" id="call_from">
 
                     @php
+                        $caller_id = 0;
                         use App\Model\Number;
                         $twilio_number = Number::get();
                         // $caller_id = $twilio_number['number'];

@@ -38,10 +38,11 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-5"></div>
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="">Custom date range</label>
-                                        <input type="text" placeholder="Select custom range" class="form-control"
+                                        <input type="text" placeholder="Select custom date range" class="form-control"
                                             name="datefilter" />
                                     </div>
                                 </div>
@@ -49,21 +50,21 @@
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Goal</th>
+                                        <th scope="col">Metric</th>
+                                        <th scope="col">Monthly Goal</th>
                                         <th scope="col">Today</th>
                                         <th scope="col">Past 7 days</th>
                                         <th scope="col">Past 30 days</th>
                                         <th scope="col">Past 90 days</th>
                                         <th scope="col">Past Year</th>
-                                        <th scope="col">Life time</th>
-                                        <th scope="col">Custom</th>
+                                        <th scope="col">Lifetime</th>
+                                        <th scope="col">Custom date range</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <th scope="col">People Touched</th>
-                                        <td>{{ $people_touched_records_count ?? '0' }}</td>
+                                        <td>{{ $goalValue ?? '0' }}</td>
                                         <td>{{ $people_touched_today ?? '0' }}</td>
                                         <td>{{ $people_touched_seven_days ?? '0' }}</td>
                                         <td>{{ $people_touched_month ?? '0' }}</td>
@@ -74,7 +75,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">#Lead</th>
-                                        <td>{{ $lead_records_count ?? '0' }}</td>
+                                        <td>{{ $goal_lead ?? '0' }}</td>
                                         <td>{{ $leads_count_today ?? '0' }}</td>
                                         <td>{{ $leads_count_seven_days ?? '0' }} </td>
                                         <td>{{ $leads_count_month ?? '0' }}</td>
@@ -85,7 +86,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">#Leads - Scheduled Appointments</th>
-                                        <td>{{ $scheduled_appointments_records_count ?? '0' }}</td>
+                                        <td>{{ $goal_appointment ?? '0' }}</td>
                                         <td>{{ $scheduled_appointments_count_today ?? '0' }}</td>
                                         <td>{{ $scheduled_appointments_count_seven_days ?? '0' }}</td>
                                         <td>{{ $scheduled_appointments_count_month ?? '0' }}</td>
@@ -96,7 +97,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">#Appointments Show Up/Sellers Talked To</th>
-                                        <td>{{ $appointments_showup_records_count ?? '0' }}</td>
+                                        <td>{{ $goal_appointment ?? '0' }}</td>
                                         <td>{{ $appointments_showup_count_today ?? '0' }}</td>
                                         <td>{{ $appointments_showup_count_seven_days ?? '0' }}</td>
                                         <td>{{ $appointments_showup_count_month ?? '0' }}</td>
@@ -107,7 +108,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">Call No Show</th>
-                                        <td>{{ $call_no_show_records_count ?? '0' }}</td>
+                                        <td>{{ $contacts_out ?? '0' }}</td>
                                         <td>{{ $call_no_show_count_today ?? '0' }}</td>
                                         <td>{{ $call_no_show_count_seven_days ?? '0' }}</td>
                                         <td>{{ $call_no_show_count_month ?? '0' }}</td>
@@ -118,7 +119,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">Contracts Signed</th>
-                                        <td>{{ $contracts_signed_records_count ?? '0' }}</td>
+                                        <td>{{ $contacts_signed ?? '0' }}</td>
                                         <td>{{ $contracts_signed_count_today ?? '0' }}</td>
                                         <td>{{ $contracts_signed_count_seven_days ?? '0' }}</td>
                                         <td>{{ $contracts_signed_count_month ?? '0' }}</td>
@@ -129,7 +130,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col">Deals Closed</th>
-                                        <td>{{ $deal_closed_records_count ?? '0' }}</td>
+                                        <td>{{ $deal_closed ?? '0' }}</td>
                                         <td>{{ $deal_closed_count_today ?? '0' }}</td>
                                         <td>{{ $deal_closed_count_seven_days ?? '0' }}</td>
                                         <td>{{ $deal_closed_count_month ?? '0' }}</td>
@@ -139,7 +140,7 @@
                                         <td id="deals_count">0</td>
                                     </tr>
                                     <tr>
-                                        <th scope="col">Money Expected</th>
+                                        <th scope="col">Profit Expected</th>
                                         <td>${{ number_format($money_expected, 2) }}</td>
                                         <td>${{ number_format(@$expected_money_todays, 2) }}</td>
                                         <td>${{ number_format(@$expected_money_seven_day, 2) }}</td>
@@ -150,7 +151,7 @@
                                         <td id="money_expected_count">$0.00</td>
                                     </tr>
                                     <tr>
-                                        <th scope="col">Money Collected</th>
+                                        <th scope="col">Profit Collected</th>
                                         <td>${{ number_format(@$money_collected, 2) }}</td>
                                         <td>${{ number_format(@$money_collected_todays, 2) }}</td>
                                         <td>${{ number_format(@$money_collected_seven_day, 2) }}</td>
@@ -542,7 +543,8 @@
                     cancelLabel: 'Clear'
                 },
                 showCustomRangeLabel: true,
-                autoApply: true
+                autoApply: true,
+                opens: 'left'
             });
 
             $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {

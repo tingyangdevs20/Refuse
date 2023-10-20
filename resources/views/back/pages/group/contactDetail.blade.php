@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
         integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css"
-        integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug==" crossorigin="anonymous"
-        referrerpolicy="no-referrer" />
+        integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
@@ -5707,9 +5707,12 @@
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <div id="error-messages" class="alert alert-danger alert-dismissible" style="display: none; margin-left: 1%;">
+                                                                        <div id="error-messages"
+                                                                            class="alert alert-danger alert-dismissible"
+                                                                            style="display: none; margin-left: 1%;">
                                                                             <!-- Close button -->
-                                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                            <button type="button" class="close"
+                                                                                data-dismiss="alert" aria-label="Close">
                                                                                 <span aria-hidden="true">&times;</span>
                                                                             </button>
                                                                             <!-- Error messages will be appended here -->
@@ -5746,99 +5749,108 @@
                                                                         <label for="seller_id"
                                                                             class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
-                                                                                <div class="checkbox-list">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" 
-                                                                                                table="lead_info"
-                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
-                                                                                                value="{{ $leadinfo->mail_to_owner1 }}"
-                                                                                                {{ $leadinfo->mail_to_owner1 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner1">Contact 1 ({{ $leadinfo->owner1_first_name }})</label>
-                                                                                        </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" 
-                                                                                                table="lead_info"
-                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
-                                                                                                value="{{ $leadinfo->mail_to_owner2 }}"
-                                                                                                {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner2">Contact 1 ({{ $leadinfo->owner2_first_name }})</label>
-                                                                                      
-                                                                                        </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" 
-                                                                                                table="lead_info"
-                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
-                                                                                                value="{{ $leadinfo->mail_to_owner3 }}"
-                                                                                                {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner3">Contact 1 ({{ $leadinfo->owner3_first_name }})</label>
-                                                                                        </div>
-                                                                                    </div>
+                                                                        <div class="checkbox-list">
+                                                                            <div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            table="lead_info"
+                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
+                                                                                            value="{{ $leadinfo->mail_to_owner1 }}"
+                                                                                            {{ $leadinfo->mail_to_owner1 == 1 ? 'checked' : '' }}
+                                                                                            name="mail_to_owner1">Contact
+                                                                                        1
+                                                                                        ({{ $leadinfo->owner1_first_name }})</label>
+                                                                                </div>
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            table="lead_info"
+                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
+                                                                                            value="{{ $leadinfo->mail_to_owner2 }}"
+                                                                                            {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
+                                                                                            name="mail_to_owner2">Contact
+                                                                                        1
+                                                                                        ({{ $leadinfo->owner2_first_name }})</label>
 
                                                                                 </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <div class="form-group"
-                                                                            style="margin-left: 15px;">
-                                                                            <small class="text-danger"><b>Please Keep
-                                                                                    {SIGNATURE_USER} in contenet for
-                                                                                    user sign</b></small>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="margin-left: 15px;">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary button-item saveUserAgreementContact">Create</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            @php
-                                                                $customeFields = getsectionsFields($section->id);
-                                                            @endphp
-                                                            <div class="row">
-                                                                @if (count($customeFields) > 0)
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                            <label>{{ $section->name }} (Custom
-                                                                                Fields)</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($customeFields as $field)
-                                                                        @php
-                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                        @endphp
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
-                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                <div class="input-group mb-2">
-                                                                                    <input type="{{ $field->type }}"
-                                                                                        class="form-control"
-                                                                                        placeholder="{{ $field->label }}"
-                                                                                        name="feild_value"
-                                                                                        section_id="{{ $section->id }}"
-                                                                                        id="{{ $field->id }}"
-                                                                                        table="custom_field_values"
-                                                                                        value="{{ $customeFieldValue }}">
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            table="lead_info"
+                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
+                                                                                            value="{{ $leadinfo->mail_to_owner3 }}"
+                                                                                            {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
+                                                                                            name="mail_to_owner3">Contact
+                                                                                        1
+                                                                                        ({{ $leadinfo->owner3_first_name }})</label>
                                                                                 </div>
                                                                             </div>
+
                                                                         </div>
-                                                                    @endforeach
-                                                                @endif
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <div class="form-group" style="margin-left: 15px;">
+                                                                        <small class="text-danger"><b>Please Keep
+                                                                                {SIGNATURE_USER} in contenet for
+                                                                                user sign</b></small>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group" style="margin-left: 15px;">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary button-item saveUserAgreementContact">Create</button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <hr>
+                                                        @php
+                                                            $customeFields = getsectionsFields($section->id);
+                                                        @endphp
+                                                        <div class="row">
+                                                            @if (count($customeFields) > 0)
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>{{ $section->name }} (Custom
+                                                                            Fields)</label>
+                                                                    </div>
+                                                                </div>
+                                                                @foreach ($customeFields as $field)
+                                                                    @php
+                                                                        $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                    @endphp
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                            <div class="input-group mb-2">
+                                                                                <input type="{{ $field->type }}"
+                                                                                    class="form-control"
+                                                                                    placeholder="{{ $field->label }}"
+                                                                                    name="feild_value"
+                                                                                    section_id="{{ $section->id }}"
+                                                                                    id="{{ $field->id }}"
+                                                                                    table="custom_field_values"
+                                                                                    value="{{ $customeFieldValue }}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
+                                                    <hr>
                                                     @elseif($section->id == '26')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading">
@@ -5849,8 +5861,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         @foreach ($TaskliSt as $appt)
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
+                                                                            <div class="form-group" style="padding: 0 10px;">
                                                                                 <div class="card-body">
                                                                                     <p>{{ $appt->tast }}</p>
                                                                                 </div>
@@ -5863,42 +5874,42 @@
 
                                                             </div>
                                                         </div>
-                                                        <hr>
+                                                    <hr>
 
                                                     @endif
                                                 @endforeach
                                             @endif
-                                        </div>
-                                    </div>
-                                    {{-- <div class="col-md-1"></div> --}}
-                                    <div class="col-md-4">
-                                        <div class="card content-div">
-                                            <div class="form-group" style="padding: 0 10px;">
-                                                <label style="margin-top: 5px;">Load Script</label>
-                                                <select class="custom-select" name="lead_assigned_to"
-                                                    onchange="loadScript(value)">
-                                                    <option value="">Select Script</option>
-                                                    @if (count($scripts) > 0)
-                                                        @foreach ($scripts as $script)
-                                                            <option value="{{ $script->id }}">{{ $script->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            <div readonly class="load_script"></div>
-                                        </div>
                                     </div>
                                 </div>
-                            </form>
+                                {{-- <div class="col-md-1"></div> --}}
+                                <div class="col-md-4">
+                                    <div class="card content-div">
+                                        <div class="form-group" style="padding: 0 10px;">
+                                            <label style="margin-top: 5px;">Load Script</label>
+                                            <select class="custom-select" name="lead_assigned_to"
+                                                onchange="loadScript(value)">
+                                                <option value="">Select Script</option>
+                                                @if (count($scripts) > 0)
+                                                    @foreach ($scripts as $script)
+                                                        <option value="{{ $script->id }}">{{ $script->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+                                        <div readonly class="load_script"></div>
+                                    </div>
+                                </div>
                         </div>
+                        </form>
                     </div>
                 </div>
-                {{-- <button type="submit" class="btn btn-primary mt-2" >Send SMS</button>
+            </div>
+            {{-- <button type="submit" class="btn btn-primary mt-2" >Send SMS</button>
                                             </div> --}}
 
-            </div>
         </div>
+    </div>
     </div>
     </div>
     <!-- end page title -->
@@ -5929,7 +5940,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
     <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=') }}<?= time() ?>"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -6033,58 +6044,73 @@
                 }
             });
 
-            // Agreement 
-            $(document).on("click", ".saveUserAgreementContact", function (e) {
+            // Agreement
+            $(document).on("click", ".saveUserAgreementContact", function(e) {
                 let CKEDITOR = [];
                 e.preventDefault();
                 var myData = $(this);
                 myData.attr('disabled', true);
-                console.log($("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"]));
-                $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"]);
+                console.log($("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
+                    "user-agreement-content"]));
+                $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
+                    "user-agreement-content"]);
                 var data = $(this).parents("form").serialize();
                 $.ajax({
                     url: "/admin/user-agreement/save",
                     method: "post",
                     data: data,
-                    success: function (response) {
+                    success: function(response) {
                         console.log(response);
                         if (response.success) {
                             location.reload();
-                        } else{
+                        } else {
                             console.log(response);
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         // Handle the error here (e.g., show an error message to the user)
                         console.log("AJAX Request Error: " + xhr.statusText);
                         var errors = xhr.responseJSON.errors;
                         var errorMessageContainer = $("#error-messages");
                         errorMessageContainer.empty(); // Clear any previous error messages
-                    
+
                         if (errors) {
                             // Scenario 1: Named errors
                             for (var fieldName in errors) {
-                                if (errors.hasOwnProperty(fieldName)) { 
+                                if (errors.hasOwnProperty(fieldName)) {
                                     var errorValues = errors[fieldName];
                                     if (Array.isArray(errorValues)) {
                                         console.log(errors[fieldName]);
-                                        if(errors[fieldName].length > 1){
+                                        if (errors[fieldName].length > 1) {
                                             errors[fieldName].forEach(element => {
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' value is not found in the contact record!</div><br>');
-                                            }); 
-                                        } else{
-                                            if(errorValues[0] === 'This field is required!'){
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
-                                                
+                                                errorMessageContainer.append(
+                                                    '<div> <i class="fa fa-info"></i> ' +
+                                                    fieldName + ' : ' + element +
+                                                    ' value is not found in the contact record!</div><br>'
+                                                    );
+                                            });
+                                        } else {
+                                            if (errorValues[0] === 'This field is required!') {
+                                                errorMessageContainer.append(
+                                                    '<div> <i class="fa fa-info"></i> ' +
+                                                    fieldName + ' : ' + errorValues +
+                                                    '</div><br>');
+
                                             } else {
-                                                
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' value is not found in the contact record!</div><br>');
+
+                                                errorMessageContainer.append(
+                                                    '<div> <i class="fa fa-info"></i> ' +
+                                                    fieldName + ' : ' + errorValues +
+                                                    ' value is not found in the contact record!</div><br>'
+                                                    );
                                             }
                                         }
                                         // If there are multiple error values, join them into a single line
                                         // var errorMessage = fieldName + ': ' + errorValues.join(', ');
                                     } else {
-                                        errorMessageContainer.append('<div> <i class="fa fa-info"></i> ' + fieldName + ' : ' + errorValues + '</div>');
+                                        errorMessageContainer.append(
+                                            '<div> <i class="fa fa-info"></i> ' +
+                                            fieldName + ' : ' + errorValues + '</div>');
                                     }
                                 }
                             }
@@ -6099,13 +6125,13 @@
                         }
                         errorMessageContainer.show();
                     }
-                    
-                });
-            
-            
-    });
 
-            
+                });
+
+
+            });
+
+
 
 
 
