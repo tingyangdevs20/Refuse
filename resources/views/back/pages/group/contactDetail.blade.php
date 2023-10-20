@@ -5746,40 +5746,10 @@
                                                                         <label for="seller_id"
                                                                             class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
-<<<<<<< HEAD
-                                                                        <div class="checkbox-list">
-                                                                            <div class="row">
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            name="mail_to_owner1"
-                                                                                            value="{{ $leadinfo->id }}">Contact
-                                                                                        1
-                                                                                        ({{ $leadinfo->owner1_first_name }})</label><br>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            name="mail_to_owner2"
-                                                                                            value="{{ $leadinfo->id }}">Contact
-                                                                                        2
-                                                                                        ({{ $leadinfo->owner2_first_name }})</label><br>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            name="mail_to_owner3"
-                                                                                            value="{{ $leadinfo->id }}">Contact
-                                                                                        3
-                                                                                        ({{ $leadinfo->owner3_first_name }})</label><br>
-=======
                                                                                 <div class="checkbox-list">
                                                                                     <div class="row">
                                                                                         <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" 
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
                                                                                                 table="lead_info"
                                                                                                 onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
                                                                                                 value="{{ $leadinfo->mail_to_owner1 }}"
@@ -5787,16 +5757,16 @@
                                                                                                 name="mail_to_owner1">Contact 1 ({{ $leadinfo->owner1_first_name }})</label>
                                                                                         </div>
                                                                                         <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" 
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
                                                                                                 table="lead_info"
                                                                                                 onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
                                                                                                 value="{{ $leadinfo->mail_to_owner2 }}"
                                                                                                 {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
                                                                                                 name="mail_to_owner2">Contact 1 ({{ $leadinfo->owner2_first_name }})</label>
-                                                                                      
+
                                                                                         </div>
                                                                                         <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" 
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
                                                                                                 table="lead_info"
                                                                                                 onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
                                                                                                 value="{{ $leadinfo->mail_to_owner3 }}"
@@ -5858,7 +5828,6 @@
                                                                                         id="{{ $field->id }}"
                                                                                         table="custom_field_values"
                                                                                         value="{{ $customeFieldValue }}">
->>>>>>> fb7670e66c3ff72f8f255e7c5ece77dcf7d63a09
                                                                                 </div>
                                                                             </div>
 
@@ -6117,7 +6086,7 @@
                 }
             });
 
-            // Agreement 
+            // Agreement
             $(document).on("click", ".saveUserAgreementContact", function (e) {
                 let CKEDITOR = [];
                 e.preventDefault();
@@ -6144,24 +6113,24 @@
                         var errors = xhr.responseJSON.errors;
                         var errorMessageContainer = $("#error-messages");
                         errorMessageContainer.empty(); // Clear any previous error messages
-                    
+
                         if (errors) {
                             // Scenario 1: Named errors
                             for (var fieldName in errors) {
-                                if (errors.hasOwnProperty(fieldName)) { 
+                                if (errors.hasOwnProperty(fieldName)) {
                                     var errorValues = errors[fieldName];
                                     if (Array.isArray(errorValues)) {
                                         console.log(errors[fieldName]);
                                         if(errors[fieldName].length > 1){
                                             errors[fieldName].forEach(element => {
                                                 errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' value is not found in the contact record!</div><br>');
-                                            }); 
+                                            });
                                         } else{
                                             if(errorValues[0] === 'This field is required!'){
                                                 errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
-                                                
+
                                             } else {
-                                                
+
                                                 errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' value is not found in the contact record!</div><br>');
                                             }
                                         }
@@ -6183,13 +6152,13 @@
                         }
                         errorMessageContainer.show();
                     }
-                    
+
                 });
-            
-            
+
+
     });
 
-            
+
 
 
 
