@@ -34,7 +34,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0px auto;
+        margin: -25px auto;
         margin-bottom: 1rem;
         width: 350px;
         display: flex;
@@ -320,7 +320,7 @@
         border-left: 0;  /* Hide left border */
     border-right: 0; /* Hide right border */
     border-top: 0;   /* Hide top border */
-    
+
     }
 
     #call-history ul li .ans-call {
@@ -343,7 +343,7 @@
         box-shadow: 0;
         background: #45c660;
     }
-    
+
     #call-history ul {
         /* margin-top: 10px; */
         margin-bottom: 1rem;
@@ -380,7 +380,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+
     border-radius: 50%; /* Make it a circle */
     padding: 4px 8px; /* Adjust padding as needed */
     font-size: 12px; /* Font size for the call count */
@@ -399,6 +399,66 @@
 }
 
 
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 20px;
+        margin-top: 20px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 19px;
+        left: 5px;
+        bottom: 0px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #50a5f1;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #556ee6;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
 </style>
 
 
@@ -407,7 +467,7 @@
         <button type="button" class="close close-dialer" data-dismiss="soft-phone-modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        
+
         <div class="modal-sidebar">
             <div class="sidebar-top">
                 <img class="rounded-circle header-profile-user" src="{{ asset('back/assets/images/user.png') }}"
@@ -424,7 +484,7 @@
                 style="margin-bottom: 15px;color:#708090">power_settings_new</span>
             </div>
         </div>
-        
+
         <div class="row text-center m-auto incoming-control d-none">
             <div class="col-12">
                 <p class="instructions">
@@ -496,10 +556,10 @@
             </div>
 
             <div id="call-history" class="history-panel" style="display: none;">
-              <h4 style="margin-top:4px">Call History</h4>
+              <h4 style="margin-top:-4px">Call History</h4>
                 <!-- Call records list -->
                 <ul>
-                    
+
                 </ul>
                 <div class="d-flex align-items-center">
                     <strong>Loading call logs...</strong>
@@ -509,11 +569,11 @@
             </div>
 
             <div class="row dialer-icons mt-2" style="margin-bottom: 5px;">
-                <div class="col-4" style="margin-left: 2px;" id="show-dial-pad">
+                <div class="col-4" style="margin-left:-1.5em;" id="show-dial-pad">
                     <span class='material-icons custom-size-ui'id="show-dialpad"
                         style="margin-left: 14px;color: #220ada;">dialpad</span>
                 </div>
-                <div class="col-4" style="margin-left: 15px;">
+                <div class="col-4" style="margin-left: 10px;">
                     <span class='material-icons custom-size-ui' style="color: #D3D3D3;">support_agent</span>
                 </div>
                 <div class="col-4" style="left: 28px;">

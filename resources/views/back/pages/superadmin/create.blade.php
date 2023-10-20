@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Create Users
-                            <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right" title="New" ><i class="fas fa-arrow-left"></i></a>
+                            <a href="{{URL::previous()}}" class="btn btn-outline-primary btn-sm float-right ml-2" title="New" ><i class="fas fa-arrow-left"></i></a>
                             @include('components.modalform')
                         </div>
                         <div class="card-body">

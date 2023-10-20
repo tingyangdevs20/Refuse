@@ -14,6 +14,7 @@ use App\goal_attribute;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Model\UserAgreementSeller;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -38,6 +39,202 @@ class AdminController extends Controller
         $messages_received_year_goals = getReportingDataOfSMSreceived(365);
         $user = Auth::id();
 
+        // People touched
+        $people_touched_records_count = 0;
+        $people_touched_lifetime = 0;
+        $people_touched_today = 0;
+        $people_touched_seven_days = 0;
+        $people_touched_month = 0;
+        $people_touched_ninety_days = 0;
+        $people_touched_year = 0;
+
+        // Get attribute details
+        $people_touched_attribute = goal_attribute::where('attribute', 'People Reached')->first();
+        if ($people_touched_attribute) {
+
+            $people_touched_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $people_touched_attribute->id)
+                ->where('lead_status', 'Prospect')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $people_touched_lifetime = $people_touched_records_count ?? 0;
+            $people_touched_today = people_touched_days_count(0, $user, $people_touched_attribute);
+            $people_touched_seven_days = people_touched_days_count(7, $user, $people_touched_attribute);
+            $people_touched_month = people_touched_days_count(30, $user, $people_touched_attribute);
+            $people_touched_ninety_days = people_touched_days_count(90, $user, $people_touched_attribute);
+            $people_touched_year = people_touched_days_count(365, $user, $people_touched_attribute);
+        }
+
+        // Leads
+        $lead_records_count = 0;
+        $leads_count_lifetime = 0;
+        $leads_count_today = 0;
+        $leads_count_seven_days = 0;
+        $leads_count_month = 0;
+        $leads_count_ninety_days = 0;
+        $leads_count_year = 0;
+
+        // Get attribute details
+        $lead_attribute = goal_attribute::where('attribute', 'Lead')->first();
+        if ($lead_attribute) {
+
+            $lead_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $lead_attribute->id)
+                ->where('lead_status', 'Lead')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $leads_count_lifetime = $lead_records_count ?? 0;
+            $leads_count_today = leads_days_count(0, $user, $lead_attribute);
+            $leads_count_seven_days = leads_days_count(7, $user, $lead_attribute);
+            $leads_count_month = leads_days_count(30, $user, $lead_attribute);
+            $leads_count_ninety_days = leads_days_count(90, $user, $lead_attribute);
+            $leads_count_year = leads_days_count(365, $user, $lead_attribute);
+        }
+
+        // Scheduled Appointments
+        $scheduled_appointments_records_count = 0;
+        $scheduled_appointments_count_lifetime = 0;
+        $scheduled_appointments_count_today = 0;
+        $scheduled_appointments_count_seven_days = 0;
+        $scheduled_appointments_count_month = 0;
+        $scheduled_appointments_count_ninety_days = 0;
+        $scheduled_appointments_count_year = 0;
+
+        // Get attribute details
+        $scheduled_appointment_attribute = goal_attribute::where('attribute', 'Phone Appointment')->first();
+        if ($scheduled_appointment_attribute) {
+
+            $scheduled_appointments_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $scheduled_appointment_attribute->id)
+                ->where('lead_status', 'Phone Call - Scheduled')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $scheduled_appointments_count_lifetime = $scheduled_appointments_records_count ?? 0;
+            $scheduled_appointments_count_today = scheduled_appointments_days_count(0, $user, $scheduled_appointment_attribute);
+            $scheduled_appointments_count_seven_days = scheduled_appointments_days_count(7, $user, $scheduled_appointment_attribute);
+            $scheduled_appointments_count_month = scheduled_appointments_days_count(30, $user, $scheduled_appointment_attribute);
+            $scheduled_appointments_count_ninety_days = scheduled_appointments_days_count(90, $user, $scheduled_appointment_attribute);
+            $scheduled_appointments_count_year = scheduled_appointments_days_count(365, $user, $scheduled_appointment_attribute);
+        }
+
+        // Scheduled Appointments
+        $appointments_showup_records_count = 0;
+        $appointments_showup_count_lifetime = 0;
+        $appointments_showup_count_today = 0;
+        $appointments_showup_count_seven_days = 0;
+        $appointments_showup_count_month = 0;
+        $appointments_showup_count_ninety_days = 0;
+        $appointments_showup_count_year = 0;
+
+        // Get attribute details
+        $appointment_attribute = goal_attribute::where('attribute', 'Appointments Show Up')->first();
+        if ($appointment_attribute) {
+
+            $appointments_showup_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $appointment_attribute->id)
+                ->where('lead_status', 'Phone Call - Completed')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $appointments_showup_count_lifetime = $appointments_showup_records_count ?? 0;
+            $appointments_showup_count_today = appointments_showup_days_count(0, $user, $appointment_attribute);
+            $appointments_showup_count_seven_days = appointments_showup_days_count(7, $user, $appointment_attribute);
+            $appointments_showup_count_month = appointments_showup_days_count(30, $user, $appointment_attribute);
+            $appointments_showup_count_ninety_days = appointments_showup_days_count(90, $user, $appointment_attribute);
+            $appointments_showup_count_year = appointments_showup_days_count(365, $user, $appointment_attribute);
+        }
+
+        // Call No Show
+        $call_no_show_records_count = 0;
+        $call_no_show_count_lifetime = 0;
+        $call_no_show_count_today = 0;
+        $call_no_show_count_seven_days = 0;
+        $call_no_show_count_month = 0;
+        $call_no_show_count_ninety_days = 0;
+        $call_no_show_count_year = 0;
+
+        // Get attribute details
+        $call_no_show_attribute = goal_attribute::where('attribute', 'Call No Show')->first();
+        if ($call_no_show_attribute) {
+
+            $call_no_show_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $call_no_show_attribute->id)
+                ->where('lead_status', 'Phone Call - No Show')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $call_no_show_count_lifetime = $call_no_show_records_count ?? 0;
+            $call_no_show_count_today = call_no_show_days_count(0, $user, $call_no_show_attribute);
+            $call_no_show_count_seven_days = call_no_show_days_count(7, $user, $call_no_show_attribute);
+            $call_no_show_count_month = call_no_show_days_count(30, $user, $call_no_show_attribute);
+            $call_no_show_count_ninety_days = call_no_show_days_count(90, $user, $call_no_show_attribute);
+            $call_no_show_count_year = call_no_show_days_count(365, $user, $call_no_show_attribute);
+        }
+
+        // Contracts Signed
+        $contracts_signed_records_count = 0;
+        $contracts_signed_count_lifetime = 0;
+        $contracts_signed_count_today = 0;
+        $contracts_signed_count_seven_days = 0;
+        $contracts_signed_count_month = 0;
+        $contracts_signed_count_ninety_days = 0;
+        $contracts_signed_count_year = 0;
+
+        // Get attribute details
+        $contracts_signed_attribute = goal_attribute::where('attribute', 'Contracts Signed')->first();
+        if ($contracts_signed_attribute) {
+
+            $contracts_signed_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $contracts_signed_attribute->id)
+                ->where('lead_status', 'Contract Signed - Buy Side')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $contracts_signed_count_lifetime = $contracts_signed_records_count ?? 0;
+            $contracts_signed_count_today = contracts_signed_days_count(0, $user, $contracts_signed_attribute);
+            $contracts_signed_count_seven_days = contracts_signed_days_count(7, $user, $contracts_signed_attribute);
+            $contracts_signed_count_month = contracts_signed_days_count(30, $user, $contracts_signed_attribute);
+            $contracts_signed_count_ninety_days = contracts_signed_days_count(90, $user, $contracts_signed_attribute);
+            $contracts_signed_count_year = contracts_signed_days_count(365, $user, $contracts_signed_attribute);
+        }
+
+        // Deals closed
+        $deal_closed_records_count = 0;
+        $deal_closed_count_lifetime = 0;
+        $deal_closed_count_today = 0;
+        $deal_closed_count_seven_days = 0;
+        $deal_closed_count_month = 0;
+        $deal_closed_count_ninety_days = 0;
+        $deal_closed_count_year = 0;
+
+        // Get attribute details
+        $deal_closed_attribute = goal_attribute::where('attribute', 'Deal Closed')->first();
+        if ($deal_closed_attribute) {
+
+            $deal_closed_records_count = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $deal_closed_attribute->id)
+                ->where('lead_status', 'Closed Deal - Buy Side')
+                ->where('user_id', $user)
+                ->count();
+
+            // Leads
+            $deal_closed_count_lifetime = $deal_closed_records_count ?? 0;
+            $deal_closed_count_today = deal_closed_days_count(0, $user, $deal_closed_attribute);
+            $deal_closed_count_seven_days = deal_closed_days_count(7, $user, $deal_closed_attribute);
+            $deal_closed_count_month = deal_closed_days_count(30, $user, $deal_closed_attribute);
+            $deal_closed_count_ninety_days = deal_closed_days_count(90, $user, $deal_closed_attribute);
+            $deal_closed_count_year = deal_closed_days_count(365, $user, $deal_closed_attribute);
+        }
+
         //goals
         $goal_people_reached = GoalsReached::where([['user_id', '=', $user], ['attribute_id', '=', '1']])->first();
         $goal_lead = GoalsReached::where([['user_id', '=', $user], ['attribute_id', '=', '2']])->first();
@@ -57,14 +254,6 @@ class AdminController extends Controller
 
         $money_expected = $money_expected->goals ?? 0;
         $money_collected = $money_collected->goals ?? 0;
-
-        // People touched
-        $people_touched_lifetime = $goal_people_reached->goals ?? 0;
-        $people_touched_todays = people_touched_count(0, $user);
-        $people_touched_seven_day = people_touched_count(7, $user);
-        $people_touched_month = people_touched_count(30, $user);
-        $people_touched_ninety_day = people_touched_count(90, $user);
-        $people_touched_year = people_touched_count(365, $user);
 
         // Deals Closed
         $deals_lifetime = (UserAgreementSeller::where([['user_id', $user], ['is_sign', '2']])->count());
@@ -176,6 +365,57 @@ class AdminController extends Controller
 
         return view('back.index', compact(
             'goalValue',
+            'lead_records_count',
+            'leads_count_lifetime',
+            'leads_count_today',
+            'leads_count_seven_days',
+            'leads_count_month',
+            'leads_count_ninety_days',
+            'leads_count_year',
+
+            'scheduled_appointments_records_count',
+            'scheduled_appointments_count_lifetime',
+            'scheduled_appointments_count_today',
+            'scheduled_appointments_count_seven_days',
+            'scheduled_appointments_count_month',
+            'scheduled_appointments_count_ninety_days',
+            'scheduled_appointments_count_year',
+
+            'appointments_showup_records_count',
+            'appointments_showup_count_lifetime',
+            'appointments_showup_count_today',
+            'appointments_showup_count_seven_days',
+            'appointments_showup_count_month',
+            'appointments_showup_count_ninety_days',
+            'appointments_showup_count_year',
+
+            // Call No Show
+            'call_no_show_records_count',
+            'call_no_show_count_lifetime',
+            'call_no_show_count_today',
+            'call_no_show_count_seven_days',
+            'call_no_show_count_month',
+            'call_no_show_count_ninety_days',
+            'call_no_show_count_year',
+
+            // Contracts Signed
+            'contracts_signed_records_count',
+            'contracts_signed_count_lifetime',
+            'contracts_signed_count_today',
+            'contracts_signed_count_seven_days',
+            'contracts_signed_count_month',
+            'contracts_signed_count_ninety_days',
+            'contracts_signed_count_year',
+
+            // Deals closed
+            'deal_closed_records_count',
+            'deal_closed_count_lifetime',
+            'deal_closed_count_today',
+            'deal_closed_count_seven_days',
+            'deal_closed_count_month',
+            'deal_closed_count_ninety_days',
+            'deal_closed_count_year',
+
             'total_sent_lifetime',
             'total_received_lifetime',
             'messages_sent_today',
@@ -210,11 +450,13 @@ class AdminController extends Controller
             'deals_month',
             'deals_ninety_day',
             'deals_year',
+            
+            'people_touched_records_count',
             'people_touched_lifetime',
-            'people_touched_todays',
-            'people_touched_seven_day',
+            'people_touched_today',
+            'people_touched_seven_days',
             'people_touched_month',
-            'people_touched_ninety_day',
+            'people_touched_ninety_days',
             'people_touched_year',
             'contracts_signed_lifetime',
             'contracts_signed_todays',
@@ -274,7 +516,7 @@ class AdminController extends Controller
         $appointments_count = appointments_count($start_date, $end_date, $user);
 
         // Get contracts signed count
-        $contracts_count = contracts_signed_range_count($start_date, $end_date, $user);
+        $contracts_signed_count = contracts_signed_range_count($start_date, $end_date, $user);
 
         // Get contracts lifetime count
         $contracts_out_count = contracts_out_range_count($start_date, $end_date, $user);
@@ -296,11 +538,11 @@ class AdminController extends Controller
                 'appointments_showup_count' => $appointments_showup_count,
                 'call_no_show_count' => $call_no_show_count,
                 'appointments_count' => $appointments_count,
-                'contracts_count' => $contracts_count,
+                'contracts_signed_count' => $contracts_signed_count,
                 'contracts_out_count' => $contracts_out_count,
-                'money_expected_count' => $money_expected_count,
-                'money_collected_count' => $money_collected_count
-            ] 
+                'money_expected_count' => '$' . $money_expected_count,
+                'money_collected_count' => '$' . $money_collected_count
+            ]
         ]);
     }
 

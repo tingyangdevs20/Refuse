@@ -3,7 +3,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         label span.required {
             color: red;
@@ -114,17 +113,10 @@
                                                 @endif
                                             </td>
 
-                                            <td>
-                                                <a href="" class="modalSellersList"
-                                                    title="Remove" data-id="{{ $useragreement->userAgreementSeller }}"
-                                                    data-toggle="modal"
-                                                    >
-                                                    {{ $useragreement->userAgreementSeller->count()}}
-                                                 </a>
-
-                                                
-                                            </td>
+                                            <td data-id="{{ $useragreement->id }}" class="data-td">
                                             
+                                            </td>
+
                                             <td>
                                                 <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
                                                     onclick="notifyuser({{ $useragreement->id }})"
@@ -169,6 +161,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=') }}<?= time() ?>"></script>
     <script>
+        function populateSellerNames(id, td) {
+            var userAgreementPath = publicPath + "user-agreement/";
+            $.ajax({
+                url: userAgreementPath + "signers/" + id,
+                method: "GET",
+                success: function (response) {
+                    // Handle the data and update the td content here
+                    var str = response;
+                    str = str.replace(/^:*/, '');
+                    // Remove the last colon
+                    str = str.replace(/:*$/, '');
+
+                    console.log(str);
+                    td.innerHTML = str;
+                },
+                error: function (error) {
+                    // Handle any errors if needed
+                    console.error("Error fetching data: " + error);
+                },
+            });
+        }
+
+        // Call the function when the page is loaded
+        $(document).ready(function () {
+            var dataTds = document.querySelectorAll(".data-td");
+
+            dataTds.forEach(function (td) {
+                var dataId = td.getAttribute("data-id");
+                populateSellerNames(dataId, td);
+            });
+        });
+
         function checkFilePermissions(pdfUrl, pdfId, hasPermission) {
             // Send an AJAX request to check if the file exists
             fetch(pdfUrl)

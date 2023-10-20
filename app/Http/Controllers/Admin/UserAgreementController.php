@@ -61,22 +61,66 @@ class UserAgreementController extends Controller
      */
     public function store(Request $request)
     {
-        
         $rules = [
             'template_id' => ['required'],
             'content'     => ['required'],
-            'seller_id'   => ['required'],
         ];
 
         $message = [
             'template_id.required'    => "This field is required!",
             'agreement_date.required' => "This field is required!",
             'content.required'        => "This field is required!",
-            'seller_id.required'      => "This field is required!",
         ];
         
+        if(!$request->mail_to_owner1 && !$request->mail_to_owner2 && !$request->mail_to_owner3) {
+            $rules = [
+                "seller_name" => ['required'],
+                
+            ];
+
         $validator = Validator::make($request->all(), $rules, $message);
+            
+        }
+        $contact_id = $request->contact_id;
         
+
+        $columns_with_user = [];
+        
+        $selle_name = Contact::find($contact_id);
+        $lead = DB::table('lead_info')->where('contact_id', $contact_id)->first(['mail_to_owner1', 'mail_to_owner2', 'mail_to_owner3', 'owner1_email1', 'owner1_email2', 'owner2_email1', 'owner2_email2', 'owner3_email1', 'owner3_email2' ]);
+
+        if($lead->mail_to_owner1){
+            
+            if(empty($lead->owner1_email1) && empty($lead->owner1_email2)){
+            
+                $rules = [
+                    "Contact_1_Email" => ['required'],
+                    
+                ];
+                
+            } 
+        }
+        if($lead->mail_to_owner2){
+            if(empty($lead->owner2_email1) && empty($lead->owner2_email2)){
+            
+                $rules = [
+                    "Contact_2_Email" => ['required'],
+                    
+                ];
+    
+            } 
+        }
+        if($lead->mail_to_owner3){
+            if(empty($lead->owner3_email1) && empty($lead->owner3_email2)){
+            
+                $rules = [
+                    "Contact_3_Email" => ['required'],
+                    
+                ];
+    
+            } 
+        }
+        $validator = Validator::make($request->all(), $rules, $message);
         if ($validator->fails()) {
             $response = [
                 'success' => false,
@@ -84,33 +128,26 @@ class UserAgreementController extends Controller
             ];
             return response()->json($response, 400);
         }
-        $columns_with_user = [];
-        if (count($request->seller_id) > 0) {
-            foreach ($request->seller_id as $sellerId) {
-                $selle_name = Contact::find($sellerId);
-                $pattern = '/\{([^}]+)\}/';
-                preg_match_all($pattern, $request->content, $matches);
-                $emptyColumns = [];
-                // $matches[1] will contain the words or substrings
-                $wordsInCurlyBraces = $matches[1];
-                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'contacts', $sellerId);
-                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'lead_info', $sellerId);
-                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'property_infos', $sellerId);
-                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'settings', $sellerId);
-                $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'title_company', $sellerId);
-                $columns = [];
-                $emptyColumns = array_unique(array_filter($emptyColumns));
+        $pattern = '/\{([^}]+)\}/';
+        preg_match_all($pattern, $request->content, $matches);
+        $emptyColumns = [];
+        // $matches[1] will contain the words or substrings
+        $wordsInCurlyBraces = $matches[1];
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'contacts', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'lead_info', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'property_infos', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'settings', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'title_company', $contact_id);
+        $columns = [];
+        $emptyColumns = array_unique(array_filter($emptyColumns));
+        
+        if(!empty($emptyColumns)){
+            foreach($emptyColumns as $col){
+                $columns_with_user[$selle_name->name] = $col;
                 
-                if(!empty($emptyColumns)){
-                    foreach($emptyColumns as $col){
-                        $columns_with_user[$selle_name->name] = $col;
-                        
-                    }
-                }
             }
-        } else{
-            return response()->json("Please select at least one seller", 400);
         }
+        
         
         if( !empty($columns_with_user)) {
             return response()->json(["success" => false , "errors" => $columns_with_user], 400);
@@ -125,20 +162,45 @@ class UserAgreementController extends Controller
         $userAgreement->created_at                 = date("Y-m-d H:i:s");
         $userAgreement->updated_at                 = date("Y-m-d H:i:s");
         $userAgreement->save();
-
+        
         $replaceSignature = "";
-        if (count($request->seller_id) > 0) {
-            foreach ($request->seller_id as $sellerId) {
-                $replaceSignature .= "<p>{SIGNATURE_$sellerId}</p>";
-                $userAgreementSeller                    = new UserAgreementSeller();
-                $userAgreementSeller->user_agreement_id = $userAgreement->id;
-                $userAgreementSeller->user_id           = $sellerId;
-                $userAgreementSeller->signature_key     = "{SIGNATURE_$sellerId}";
-                $userAgreementSeller->created_at        = date("Y-m-d H:i:s");
-                $userAgreementSeller->updated_at        = date("Y-m-d H:i:s");
-                $userAgreementSeller->save();
-            }
+        if($request->mail_to_owner1){
+            $replaceSignature .= "<p>{SIGNATURE_$contact_id}</p>";
+            $userAgreementSeller                    = new UserAgreementSeller();
+            $userAgreementSeller->user_agreement_id = $userAgreement->id;
+            $userAgreementSeller->user_id           = $contact_id;
+            $userAgreementSeller->signature_key     = "{SIGNATURE_$contact_id}";
+            $userAgreementSeller->contact_number = "mail_to_owner1";
+            $userAgreementSeller->created_at        = date("Y-m-d H:i:s");
+            $userAgreementSeller->updated_at        = date("Y-m-d H:i:s");
+            $userAgreementSeller->save();
         }
+
+        if($request->mail_to_owner2){
+            $replaceSignature .= "<p>{SIGNATURE_$contact_id}</p>";
+            $userAgreementSeller                    = new UserAgreementSeller();
+            $userAgreementSeller->user_agreement_id = $userAgreement->id;
+            $userAgreementSeller->user_id           = $contact_id;
+            $userAgreementSeller->signature_key     = "{SIGNATURE_$contact_id}";
+            $userAgreementSeller->contact_number = "mail_to_owner2";
+            $userAgreementSeller->created_at        = date("Y-m-d H:i:s");
+            $userAgreementSeller->updated_at        = date("Y-m-d H:i:s");
+            $userAgreementSeller->save();    
+        }
+
+        if($request->mail_to_owner3){
+            $replaceSignature .= "<p>{SIGNATURE_$contact_id}</p>";
+            $userAgreementSeller                    = new UserAgreementSeller();
+            $userAgreementSeller->user_agreement_id = $userAgreement->id;
+            $userAgreementSeller->user_id           = $contact_id;
+            $userAgreementSeller->signature_key     = "{SIGNATURE_$contact_id}";
+            $userAgreementSeller->contact_number = "mail_to_owner3";
+            $userAgreementSeller->created_at        = date("Y-m-d H:i:s");
+            $userAgreementSeller->updated_at        = date("Y-m-d H:i:s");
+            $userAgreementSeller->save();
+        }
+            
+        
 
         if ($replaceSignature != "") {
             $replaceSignature .= "<p>{SIGNATURE_USER}</p>";
@@ -146,7 +208,7 @@ class UserAgreementController extends Controller
             $userAgreement->save();
         }
 
-        Artisan::call("agreement:mail", ['userAgreementId' => $userAgreement->id]);
+        Artisan::call("agreement:mail", ['contact_id' => $contact_id]);
         //runCURL(url("api/agreement/{$userAgreement->id}/mail"));
 
         $response = [
@@ -333,19 +395,46 @@ class UserAgreementController extends Controller
         return redirect()->back();
     }
 
-    public function signers(Request $request)
+    public function signers($id)
     {
-        
-        $data = json_decode($request->input('data'));
-        if ($data) {
-            $userIds = collect($data)->pluck('user_id'); // Extract user_id values
-            
-            $contacts = Contact::whereIn('id', $userIds)->select('name', 'last_name')->get();
-            return response()->json($contacts);
-        }else {
-            // Handle the case where the JSON data couldn't be decoded
-            return response()->json(['error' => 'Invalid JSON data'], 400);
+
+        $userAgreement = UserAgreement::find($id);
+        $contact = UserAgreementSeller::where("user_agreement_id", $id)->first();
+        $lead = DB::table('lead_info')->where('contact_id', $contact->user_id)->first(['owner1_first_name', 'owner2_first_name', 'owner3_first_name', 'owner1_email1', 'owner1_email2', 'owner2_email1', 'owner2_email2', 'owner3_email1', 'owner3_email2' ]);
+        $returnvalue = '<a href="/admin/contact.detail/' . $contact->user_id . '">';
+        if ($userAgreement) {
+            // sachin changed the id
+
+            $owner1 = UserAgreementSeller::where(["user_agreement_id" => $userAgreement->id, 'contact_number' => 'mail_to_owner1'])->first();
+                if (!empty($owner1)) {
+                    $returnvalue = $returnvalue . $lead->owner1_first_name ;
+                }
+
+                $owner2 = UserAgreementSeller::where(["user_agreement_id" => $userAgreement->id, 'contact_number' => 'mail_to_owner2'])->first();
+                if (!empty($owner2)) {
+                    $returnvalue = $returnvalue .', '. $lead->owner2_first_name;
+                }
+
+                $owner3 = UserAgreementSeller::where(["user_agreement_id" => $userAgreement->id, 'contact_number' => 'mail_to_owner3'])->first();
+                if (!empty($owner3)) {
+                    $returnvalue = $returnvalue .', '. $lead->owner3_first_name;
+                }
+                $returnvalue =  $returnvalue.' </a> <br>';
+
         }
+
+        
+        // return response()->json( $contact);
+        return response()->json( $returnvalue);
+        // $data = json_decode($request->input('data'));
+        // if ($data) {
+        //     $userIds = collect($data)->pluck('user_id'); // Extract user_id values
+            
+        //     $contacts = Contact::whereIn('id', $userIds)->select('name', 'last_name')->get();
+        // }else {
+        //     // Handle the case where the JSON data couldn't be decoded
+        //     return response()->json(['error' => 'Invalid JSON data'], 400);
+        // }
         
     }
 

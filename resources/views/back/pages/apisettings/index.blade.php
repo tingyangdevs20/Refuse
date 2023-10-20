@@ -57,9 +57,6 @@
                                     name="document_closed_by" id="document_closed_by"
                                     value="{{ $settings->document_closed_by }}" required>
 
-
-
-
                                 <input type="hidden" class="form-control" placeholder="Reply To Email" name="reply_email"
                                     id="reply_email" value="{{ $settings->reply_email }}" required>
 
@@ -143,6 +140,15 @@
                                         <input type="text" class="form-control" placeholder="Enter Twilio Twiml SID"
                                             name="twiml_app_sid" id="twiml_app_sid"
                                             value="{{ $settings->twiml_app_sid }}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Twilio Messaging SID</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Enter Twilio Messaging SID"
+                                            name="messaging_service_sid" id="messaging_service_sid"
+                                            value="{{ $settings->messaging_service_sid }}" required>
                                     </div>
                                 </div>
 

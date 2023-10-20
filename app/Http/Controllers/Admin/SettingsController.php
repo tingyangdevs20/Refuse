@@ -372,6 +372,8 @@ class SettingsController extends Controller
             $settings->twilio_secret_key = $request->twilio_secret_key ?? 0;
         if ($request->twiml_app_sid != '')
             $settings->twiml_app_sid = $request->twiml_app_sid ?? 0;
+        if ($request->twiml_app_sid != '')
+            $settings->messaging_service_sid = $request->messaging_service_sid ?? 0;
 
 
         if ($request->call_forward_number != '')

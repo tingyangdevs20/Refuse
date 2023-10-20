@@ -9,12 +9,17 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 // use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class LeadInfo extends Model implements HasMedia
+class LeadInfo extends Model
 {
-    use InteractsWithMedia;
+    protected $table = 'lead_info';
     protected $guarded = [];
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'lead_tag');
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
     }
 }

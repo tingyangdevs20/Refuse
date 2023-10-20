@@ -33,7 +33,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
         Route::post('save', [UserAgreementController::class, 'store'])->name('user-agreement.store');
         Route::post('{userAgreementId}/edit', [UserAgreementController::class, 'edit'])->name('user-agreement.edit')->where('userAgreementId', '[0-9]+');
         Route::post('{userAgreementId}/update', [UserAgreementController::class, 'update'])->name('user-agreement.update')->where('userAgreementId', '[0-9]+');
-        Route::get('/signers', [UserAgreementController::class, 'signers'])->name('user-agreement.signers');
+        Route::get('/signers/{id}', [UserAgreementController::class, 'signers'])->name('user-agreement.signers');
         Route::post('{userAgreementId}/delete', [UserAgreementController::class, 'delete'])->name('user-agreement.delete')->where('userAgreementId', '[0-9]+');
         Route::post('{userAgreementId}/status', [UserAgreementController::class, 'status'])->name('user-agreement.status')->where('userAgreementId', '[0-9]+');
         Route::post('{userAgreementId}/download', [UserAgreementController::class, 'download'])->name('user-agreement.download')->where('userAgreementId', '[0-9]+');

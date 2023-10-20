@@ -44,6 +44,7 @@ use App\TaskList;
 use App\Model\TimeZones;
 use Session;
 use App\AccountDetail;
+use App\goal_attribute;
 use App\User;
 use App\TotalBalance;
 use App\Services\DatazappService;
@@ -61,7 +62,6 @@ class GroupController extends Controller
     public function index(Request $request)
     {
 
-        $account = Account::first();
         try {
             $groups = Group::with('contacts')->get()->sortByDesc("created_at");
 
@@ -108,7 +108,7 @@ class GroupController extends Controller
                     'message' => 'OK'
                 ]);
             } else {
-                return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template', 'account'));
+                return view('back.pages.group.index', compact('groups', 'groupCounts', 'sr', 'campaigns', 'markets', 'tags', 'form_Template'));
             }
         } catch (\Exception $e) {
 
@@ -153,11 +153,23 @@ class GroupController extends Controller
             $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
         }
         $leadinfo = DB::table('lead_info')->where('contact_id', $id)->first();
-        DB::table('lead_info')->where('contact_id', $id)->update([
-            'user_1_name' => $leadinfo->owner1_first_name . ' ' . $leadinfo->owner1_last_name,
-            'user_2_name' => $leadinfo->owner2_first_name . ' ' . $leadinfo->owner2_last_name,
-            'user_3_name' => $leadinfo->owner3_first_name . ' ' . $leadinfo->owner3_last_name,
-        ]);
+        if ($leadinfo->owner1_first_name || $leadinfo->owner1_last_name) {
+            DB::table('lead_info')->where('contact_id', $id)->update([
+                'user_1_name' => $leadinfo->owner1_first_name . ' ' . $leadinfo->owner1_last_name,
+            ]);
+        }
+        if ($leadinfo->owner2_first_name || $leadinfo->owner2_last_name) {
+            DB::table('lead_info')->where('contact_id', $id)->update([
+                'user_2_name' => $leadinfo->owner2_first_name . ' ' . $leadinfo->owner2_last_name,
+                
+            ]); 
+        }
+        if ($leadinfo->owner3_first_name || $leadinfo->owner3_last_name) {
+            DB::table('lead_info')->where('contact_id', $id)->update([
+                'user_3_name' => $leadinfo->owner3_first_name . ' ' . $leadinfo->owner3_last_name,
+            ]);
+        
+        }
 
         $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
         $property_infos = DB::table('property_infos')->where('contact_id', $id)->first();
@@ -269,6 +281,210 @@ class GroupController extends Controller
         return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments', 'files'));
     }
 
+    // public function updateinfo(Request $request)
+    // {
+    //     dd($request->all());
+    //     $table = $request->table;
+    //     $id = $request->id;
+    //     $feild_id = $request->feild_id;
+    //     $section_id = $request->section_id;
+    //     $fieldVal = $request->fieldVal;
+    //     $fieldName = $request->fieldName;
+    //     if ($table != null) {
+    //         if ($table == 'custom_field_values') {
+    //             $contact = DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->first();
+    //             if ($contact) {
+    //                 DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
+    //             } else {
+    //                 DB::table($table)->insert(['contact_id' => $id, 'feild_id' => $feild_id, 'section_id' => $section_id, $fieldName => $fieldVal]);
+    //             }
+    //         } else {
+    //             $contact = DB::table($table)->where('contact_id', $id)->first();
+    //             if ($contact) {
+    //                 DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
+    //             } else {
+    //                 DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+    //             }
+
+    //             // Check if lead_type exists
+    //             if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
+
+    //                 // Check if it is lead
+    //                 if ($fieldVal == 'Lead-New' || $fieldVal == 'Lead-Warm' || $fieldVal == 'Lead-Hot' || $fieldVal == 'Lead-Cold') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $lead_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Lead-New')->first();
+    //                     if (!$lead_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Lead')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Lead-New',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is lead-scheduled-appointment
+    //                 if ($fieldVal == 'Phone Call - Scheduled') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $appointment_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - Scheduled')->first();
+    //                     if (!$appointment_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Phone Appointment')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - Scheduled',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is appointment show up
+    //                 if ($fieldVal == 'Phone Call - Completed') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $appointment_completed_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - Completed')->first();
+    //                     if (!$appointment_completed_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Appointments Show Up')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - Completed',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Call no action
+    //                 if ($fieldVal == 'Phone Call - No Show') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $no_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - No Show')->first();
+    //                     if (!$no_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Call No Show')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - No Show',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Call said no
+    //                 if ($fieldVal == 'Phone Call - Said No') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $call_no_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Phone Call - Said No')->first();
+    //                     if (!$call_no_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Call Said No')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Phone Call - Said No',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Contracts out
+    //                 if ($fieldVal == 'Contract Out - Buy Side' || $fieldVal == 'Contracts Out - Sell Side') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $contracts_out_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Contract Out - Buy Side')->first();
+    //                     if (!$contracts_out_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Contarcts Out')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Contract Out - Buy Side',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Contracts signed
+    //                 if ($fieldVal == 'Contract Signed - Buy Side' || $fieldVal == 'Contracts Signed - Sell Side') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $contracts_signed_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Contract Signed - Buy Side')->first();
+    //                     if (!$contracts_signed_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Contarct Signed')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Contract Signed - Buy Side',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+
+    //                 // Check if it is Deals closed
+    //                 if ($fieldVal == 'Closed Deal - Buy Side') {
+    //                     // Check if record exists already with the same lead_type
+    //                     $closed_deal_show_new_record = DB::table('contact_goals_reacheds')->where('contact_id', $id)->where('lead_type', 'Closed Deal - Buy Side')->first();
+    //                     if (!$closed_deal_show_new_record) {
+    //                         // Fetch goal attribute record
+    //                         $attribute = goal_attribute::where('name', 'Deal Closed')->first();
+
+    //                         if ($attribute) {
+    //                             // Insert the record
+    //                             DB::table('contact_goals_reacheds')->where('contact_id', $id)->insert([
+    //                                 'lead_type' => 'Closed Deal - Buy Side',
+    //                                 'contact' => $contact->id,
+    //                                 'recorded_at' => now(),
+    //                                 'attribute_id' => $attribute->id,
+    //                                 'user_id' => auth()->id()
+    //                             ]);
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Data updated successfully!'
+    //     ]);
+    // }
+
     public function updateinfo(Request $request)
     {
         $table = $request->table;
@@ -277,28 +493,122 @@ class GroupController extends Controller
         $section_id = $request->section_id;
         $fieldVal = $request->fieldVal;
         $fieldName = $request->fieldName;
+
         if ($table != null) {
             if ($table == 'custom_field_values') {
-                $contact = DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->first();
-                if ($contact) {
-                    DB::table($table)->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
-                } else {
-                    DB::table($table)->insert(['contact_id' => $id, 'feild_id' => $feild_id, 'section_id' => $section_id, $fieldName => $fieldVal]);
-                }
+                $this->handleCustomFieldValues($id, $feild_id, $section_id, $fieldName, $fieldVal);
             } else {
-                $contact = DB::table($table)->where('contact_id', $id)->first();
-                if ($contact) {
-                    DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
-                } else {
-                    DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+                $this->handleContactGoalsReached($table, $id, $fieldName, $fieldVal);
+            }
+        }
+    }
+
+    public function handleCustomFieldValues($id, $feild_id, $section_id, $fieldName, $fieldVal)
+    {
+        $contact = DB::table('custom_field_values')->where('contact_id', $id)->where('feild_id', $feild_id)->first();
+        if ($contact) {
+            DB::table('custom_field_values')->where('contact_id', $id)->where('feild_id', $feild_id)->update([$fieldName => $fieldVal]);
+        } else {
+            DB::table('custom_field_values')->insert([
+                'contact_id' => $id,
+                'feild_id' => $feild_id,
+                'section_id' => $section_id,
+                $fieldName => $fieldVal
+            ]);
+        }
+    }
+
+    public function handleContactGoalsReached($table, $id, $fieldName, $fieldVal)
+    {
+        $contact = DB::table($table)->where('contact_id', $id)->first();
+        if ($contact) {
+            DB::table($table)->where('contact_id', $id)->update([$fieldName => $fieldVal]);
+        } else {
+            DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
+        }
+
+        if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
+            $leadStatus = [
+                'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
+                'Phone Call - Scheduled', 'Phone Call - Completed',
+                'Phone Call - No Show', 'Phone Call - Said No',
+                'Contract Out - Buy Side', 'Contracts Out - Sell Side',
+                'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
+                'Closed Deal - Buy Side', 'Prospect'
+            ];
+
+            if (in_array($fieldVal, $leadStatus)) {
+                $this->insertContactGoalReached($id, $fieldVal);
+            }
+        }
+    }
+
+    public function insertContactGoalReached($id, $leadStatus)
+    {
+        $lead_status = $leadStatus;
+
+        // Check if it is a lead
+        if ($lead_status == 'Lead-New' || $lead_status == 'Lead-Cold' || $lead_status == 'Lead-Hot' || $lead_status == 'Lead-Warm') {
+            $record = DB::table('contact_goals_reacheds')
+                ->where('contact_id', $id)
+                ->where('lead_status', 'Lead')
+                ->first();
+
+            if (!$record) {
+                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_status))->first();
+                if ($attribute) {
+
+                    DB::table('contact_goals_reacheds')->insert([
+                        'lead_status' => 'Lead',
+                        'contact_id' => $id,
+                        'recorded_at' => now(),
+                        'attribute_id' => $attribute->id,
+                        'user_id' => auth()->id(),
+                    ]);
+                }
+            }
+        } else {
+            $record = DB::table('contact_goals_reacheds')
+                ->where('contact_id', $id)
+                ->where('lead_status', $lead_status)
+                ->first();
+
+            if (!$record) {
+                $attribute = goal_attribute::where('attribute', $this->getAttributeName($lead_status))->first();
+                if ($attribute) {
+                    DB::table('contact_goals_reacheds')->insert([
+                        'lead_status' => $lead_status,
+                        'contact_id' => $id,
+                        'recorded_at' => now(),
+                        'attribute_id' => $attribute->id,
+                        'user_id' => auth()->id(),
+                    ]);
                 }
             }
         }
-        return response()->json([
-            'status' => true,
-            'message' => 'Data updated successfully!'
-        ]);
     }
+
+    public function getAttributeName($leadStatus)
+    {
+        // Define a mapping of lead types to attribute names
+        $leadAttributes = [
+            'Lead-New' => 'Lead',
+            'Lead-Hot' => 'Lead',
+            'Lead-Cold' => 'Lead',
+            'Lead-Warm' => 'Lead',
+            'Phone Call - Scheduled' => 'Phone Appointment',
+            'Phone Call - Completed' => 'Appointments Show Up',
+            'Phone Call - No Show' => 'Call No Show',
+            'Phone Call - Said No' => 'Call Said No',
+            'Contract Out - Buy Side' => 'Contracts Out',
+            'Contract Signed - Buy Side' => 'Contracts Signed',
+            'Closed Deal - Buy Side' => 'Deal Closed',
+            'Prospect' => 'People Reached',
+        ];
+
+        return $leadAttributes[$leadStatus] ?? '';
+    }
+
 
     public function updatetags(Request $request)
     {
@@ -1163,7 +1473,7 @@ class GroupController extends Controller
                                         }
                                     }
                                 }
-                                
+
                                 // Insert the data into the Contact table
                                 $property_infos = DB::table('property_infos')->where('contact_id', $contact->id)->first();
                                 if ($property_infos == null) {
@@ -1173,6 +1483,9 @@ class GroupController extends Controller
                                 // Save contact lead info
                                 $insertContactLeadData = [
                                     "contact_id" => $contact->id,
+                                    "lead_status" => $request->lead_status,
+                                    "lead_source" => $request->lead_source,
+                                    "lead_type" => $request->lead_type
                                 ];
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
@@ -1193,57 +1506,55 @@ class GroupController extends Controller
                                         }
                                     }
 
-                                    // Save contact lead info
-                                    $insertContactExpensesData = [
-                                        "contact_id" => $contact->id,
-                                    ];
-                                    // Iterate through the imported data and map it to the corresponding column
-                                    foreach ($importData as $headerIndex => $value) {
-
-                                        // Check if the header index is mapped to a column
-                                        if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
-                                            $column = $contactLeadInfoColumnToHeader[$headerIndex];
-                                            $header_index = $column . '_header';
-
-                                            // Check if this column has header too
-                                            if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
-                                                $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
-                                            }
-
-                                            if ($headerIndex == $header_index) {
-                                                // Set the column value in the insert data
-                                                $insertContactExpensesData[$column] = $value;
-                                            }
-                                        }
-                                    }
-                                    
                                     // Insert the data into the Contact table
                                     $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
                                     if ($lead_info == null) {
-                                        DB::table('lead_info')->insert($insertContactExpensesData);
-                                    }
-                                }
+                                        // $lead = DB::table('lead_info')->insert($insertContactLeadData);
+                                        $leadData = $insertContactLeadData; // Assuming $insertContactLeadData is an array of data to be inserted
+                                        $leadId = DB::table('lead_info')->insertGetId($leadData);
 
-                                // Save contact lead info
-                                $insertContactLeadData = [
-                                    "contact_id" => $contact->id,
-                                ];
-                                // Iterate through the imported data and map it to the corresponding column
-                                foreach ($importData as $headerIndex => $value) {
+                                        $leadStatus = [
+                                            'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
+                                            'Phone Call - Scheduled', 'Phone Call - Completed',
+                                            'Phone Call - No Show', 'Phone Call - Said No',
+                                            'Contract Out - Buy Side', 'Contracts Out - Sell Side',
+                                            'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
+                                            'Closed Deal - Buy Side', 'Prospect'
+                                        ];
 
-                                    // Check if the header index is mapped to a column
-                                    if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
-                                        $column = $contactLeadInfoColumnToHeader[$headerIndex];
-                                        $header_index = $column . '_header';
-
-                                        // Check if this column has header too
-                                        if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
-                                            $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
+                                        if (in_array($request->lead_status, $leadStatus)) {
+                                            $this->insertContactGoalReached($contact->id, $request->lead_status);
                                         }
 
-                                        if ($headerIndex == $header_index) {
-                                            // Set the column value in the insert data
-                                            $insertContactLeadData[$column] = $value;
+                                        // Get the currently associated tag IDs for the lead_info record
+                                        $currentTags = DB::table('lead_info_tags')
+                                        ->where('lead_info_id', $leadId)
+                                        ->pluck('tag_id')
+                                        ->toArray();
+
+                                        // Calculate the tags to insert (exclude already associated tags)
+                                        $tagsToInsert = array_diff($selectedTags, $currentTags);
+
+                                        // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+                                        $tagsToDelete = array_diff($currentTags, $selectedTags);
+
+                                        // Delete the tags that are not in $selectedTags or delete all if none are selected
+                                        if (!empty($tagsToDelete) || empty($selectedTags)) {
+                                            DB::table('lead_info_tags')
+                                                ->where('lead_info_id', $leadId)
+                                                ->whereIn('tag_id', $tagsToDelete)
+                                                ->delete();
+                                        }
+
+                                        // Insert the new tags
+                                        if (!empty($tagsToInsert)) {
+                                            // Iterate through the selected tags and insert them into the lead_info_tags table
+                                            foreach ($tagsToInsert as $tagId) {
+                                                DB::table('lead_info_tags')->insert([
+                                                    'lead_info_id' => $leadId,
+                                                    'tag_id' => $tagId,
+                                                ]);
+                                            }
                                         }
                                     }
 
@@ -1270,7 +1581,7 @@ class GroupController extends Controller
                                             }
                                         }
                                     }
-                                    
+
                                     // Insert the data into the Contact table
                                     $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $contact->id)->first();
                                     if ($property_finance_infos == null) {
@@ -1300,7 +1611,7 @@ class GroupController extends Controller
                                             }
                                         }
                                     }
-                                    
+
                                     // Insert the data into the Contact table
                                     $values_conditions = DB::table('values_conditions')->where('contact_id', $contact->id)->first();
                                     if ($values_conditions == null) {
@@ -1579,13 +1890,51 @@ class GroupController extends Controller
 
     public function getAllContacts(Group $group, Request $request)
     {
+        $lead_type = $request->lead_type;
+        $lead_status = $request->lead_status;
+        $lead_assigned_to = $request->lead_assiged_to;
+
         $sr = 1;
         $leadstatus = LeadStatus::where("is_active", 0)->orderBy('sr_order', 'asc')->get();
-        $contacts = Contact::where("is_dnc", 0)->get();
         $contractres = Contractupload::all()->sortByDesc("created_at");
+        $leads = LeadCategory::all();
         $id = $group->id;
 
-        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr', 'leadstatus'));
+        $contacts = Contact::where('is_dnc', 0);
+
+        if ($lead_status !== null) {
+            if ($lead_status == 'showAll') {
+                $contacts = $contacts;
+            } else {
+                $contacts->whereHas('leadInfo', function ($query) use ($lead_status) {
+                    $query->where('lead_status', $lead_status);
+                });
+            }
+        }
+
+        if ($lead_type !== null) {
+            if ($lead_type == 'showAll') {
+                $contacts = $contacts;
+            } else {
+                $contacts->whereHas('leadInfo', function ($query) use ($lead_type) {
+                    $query->where('lead_type', $lead_type);
+                });
+            }
+        }
+
+        if ($lead_assigned_to !== null) {
+            if ($lead_assigned_to == 'showAll') {
+                $contacts = $contacts;
+            } else {
+                $contacts->whereHas('leadInfo', function ($query) use ($lead_assigned_to) {
+                    $query->where('lead_assigned_to', $lead_assigned_to);
+                });
+            }
+        }
+
+        $contacts = $contacts->get();
+
+        return view('back.pages.group.view_all', compact('contacts', 'group', 'contractres', 'id', 'sr', 'leadstatus', 'leads'));
     }
 
     public function EditContacts(Request $request, $id)
@@ -1774,9 +2123,148 @@ class GroupController extends Controller
         return view('back.pages.group.myFile', compact('contractres'));
     }
 
+    public function fetchContactRecordsCount(Group $group)
+    {
+        $account = Account::first();
+        $contacts = $group->contacts;
+
+        $phone_scrubbed_last_date = $group->phone_scrub_date;
+        $emails_verified_date = $group->email_verification_date;
+
+        $contactsWithNumbers = 0;
+        $contactsWithoutNumbers = 0;
+
+        $contactsWithEmails = 0;
+        $contactsWithoutEmails = 0;
+
+        $contactsWithoutName = 0;
+
+        $contactsWithPhonesScrubbed = 0;
+        $contactsWithoutPhonesScrubbed = 0;
+
+        $contactsWithEmailsVerified = 0;
+        $contactsWithoutEmailsVerified = 0;
+
+        foreach ($contacts as $contact) {
+            $contactRecords = [$contact->number, $contact->number2, $contact->number3];
+
+            $contactRecordsEmails = [$contact->email1, $contact->email2];
+
+            $contactRecordNames = [$contact->name, $contact->last_name];
+
+            $hasNumber = false;
+
+            $hasEmail = false;
+
+            foreach ($contactRecords as $record) {
+                // Check if the record contains more than 6 digits or characters
+                if (strlen(preg_replace('/[^0-9]/', '', $record)) > 6) {
+                    $hasNumber = true;
+                    break; // No need to continue checking if one field has a number
+                }
+            }
+
+            if ($hasNumber) {
+                $contactsWithNumbers++;
+            } else {
+                $contactsWithoutNumbers++;
+            }
+
+            foreach ($contactRecordsEmails as $email) {
+                if (!empty($email)) {
+                    $hasEmail = true;
+                    break; // No need to continue checking if one field has an email
+                }
+            }
+
+            if ($hasEmail) {
+                $contactsWithEmails++;
+            } else {
+                $contactsWithoutEmails++;
+            }
+
+            // Check if both first name and last name are empty
+            if (empty($contact->name) && empty($contact->last_name)) {
+                $contactsWithoutName++;
+            }
+        }
+
+        // Exclude the scrubbed phones count
+        if ($phone_scrubbed_last_date != null) {
+            // Fetch the phones scrubbed
+            $phonesScrubbed = SkipTracingDetail::where('group_id', $group->id)
+                ->where('user_id', auth()->id())
+                ->whereIn('select_option', ['phone_scrub_non_scrubbed_numbers', 'phone_scrub_entire_list'])
+                ->whereNotNull('phone_scrub_date')
+                ->pluck('verified_numbers')
+                ->toArray();
+
+            // Create an array to store contact IDs that match the criteria
+            $contactIdsWithPhonesScrubbed = [];
+
+            foreach ($contacts as $contact) {
+                // Check if any of the contact's numbers are in $phonesScrubbed
+                if (in_array($contact->number, $phonesScrubbed) ||
+                    in_array($contact->number2, $phonesScrubbed) ||
+                    in_array($contact->number3, $phonesScrubbed)) {
+                    $contactIdsWithPhonesScrubbed[] = $contact->id;
+                }
+            }
+
+            // Count the contacts based on the criteria
+            $contactsWithPhonesScrubbed = count($contactIdsWithPhonesScrubbed);
+
+            // Count the contacts without phones scrubbed
+            $contactsWithoutPhonesScrubbed = count($contacts) - $contactsWithPhonesScrubbed;
+        }
+
+
+
+        // Cuont verified and non verified emails
+        if ($emails_verified_date != null) {
+            // Fetch the emails scrubbed
+            $emailsVerified = SkipTracingDetail::where('group_id', $group->id)
+                ->where('user_id', auth()->id())
+                ->whereIn('select_option', ['email_verification_non_verified', 'email_verification_entire_list'])
+                ->whereNotNull('email_verification_date')
+                ->pluck('append_emails')
+                ->toArray();
+
+            // Create an array to store contact IDs that match the criteria
+            $contactIdsWithEmailsVerified = [];
+
+            foreach ($contacts as $contact) {
+                // Check if any of the contact's emails are in $emailsVerified
+                if (in_array($contact->email1, $emailsVerified) || in_array($contact->email2, $emailsVerified)) {
+                    $contactIdsWithEmailsVerified[] = $contact->id;
+                }
+            }
+
+            // Count the contacts based on the criteria
+            $contactsWithEmailsVerified = count($contactIdsWithEmailsVerified);
+
+            // Count the contacts without emails verified
+            $contactsWithoutEmailsVerified = count($contacts) - $contactsWithEmailsVerified;
+        }
+
+
+        return response()->json([
+            'account' => $account,
+            'contactsWithNumbers' => $contactsWithNumbers,
+            'contactsWithoutNumbers' => $contactsWithoutNumbers,
+            'contactsWithEmails' => $contactsWithEmails,
+            'contactsWithoutEmails' => $contactsWithoutEmails,
+            'contactsWithoutName' => $contactsWithoutName,
+            'contactsWithPhonesScrubbed' => $contactsWithPhonesScrubbed,
+            'contactsWithoutPhonesScrubbed' => $contactsWithoutPhonesScrubbed,
+            'contactsWithEmailsVerified' => $contactsWithEmailsVerified,
+            'contactsWithoutEmailsVerified' => $contactsWithoutEmailsVerified
+        ]);
+    }
+
+
     public function skipTrace(DatazappService $datazappService, Request $request)
     {
-
         $date = now()->format('d M Y');
         $user_id = auth()->id();
         $balance = \DB::table('account_details')
@@ -1804,7 +2292,7 @@ class GroupController extends Controller
 
 
         if (!$group) {
-            return response()->json(['error' => 'Group not found.']);
+            return response()->json(['error' => 'Group not found!']);
         }
 
         // Extract the contact data from the group
@@ -1823,6 +2311,8 @@ class GroupController extends Controller
             'selectedOption' => $selectedOption,
         ]);
 
+        // $skipTraceRate = $request->skip_trace_option_amount;
+
         if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
         } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
@@ -1838,7 +2328,6 @@ class GroupController extends Controller
         }
 
         if ($skipTraceRate === null) {
-
             return response()->json(['error' => 'Invalid skip trace option.']);
         } else {
 
@@ -2543,17 +3032,8 @@ class GroupController extends Controller
         }
     }
 
-
-
     public function pushToCampaign(Request $request)
     {
-        
-        // dd($request);
-        
-        
-        
-       
-
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -2562,7 +3042,7 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
-        
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
@@ -2579,8 +3059,8 @@ class GroupController extends Controller
         $twilio_number = Number::where('id', 1)->get();
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
         $settings = Settings::first()->toArray();
-        
-        try{
+
+        try {
 
         foreach ($campaign_lists as $campaign_list) {
 
@@ -2604,34 +3084,33 @@ class GroupController extends Controller
                         }
                         $contactsArr[] = $number;
                     }
-                   
+
                 }
                 if(count($contactsArr) > 0){
                     $c_phones = implode(',',$contactsArr);
                     $sly_phone=$settings['slybroad_number'];
-                   
-                  
+
+
                     $vrm = \Slybroadcast::sendVoiceMail([
                                         'c_phone' => ".$c_phones.",
                                         'c_url' =>$_media,
                                         'c_record_audio' => '',
                                         'c_date' => 'now',
                                         'c_audio' => 'Mp3',
-                                       
+
                                         'c_callerID' => ".$sly_phone.",
-                                        
+
                                         'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
                                        ])->getResponse();
-                                      
+
                 }
-                
             }
-            
+
             //die('here');
             elseif(trim($_typ) == 'email') {
 
 
-                
+
                 $_subject = $campaign_list->subject;
 
 
@@ -2659,29 +3138,27 @@ class GroupController extends Controller
                    Mail::to($email)->send(new TestEmail($data));
                 }
             } elseif ($_typ == 'sms') {
-                
+
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
-                
+
                 $body = strip_tags($_body);
-                
+
                 foreach ($contact_numbrs as $contact_num) {
-                
+
                    // print_r($contact_num->number);
                // die("..");
-              
-               
-              
+
               // die($settings);
                $sid = $settings['twilio_acc_sid'];
                $token = $settings['twilio_auth_token'];
                $numberCounter = 0;
-               
-             
+
+
                    $client = new Client($sid, $token);
-                   
+
                    $cont_num=$contact_num->number;
                   // die($body);
-       
+
                    $sms_sent = $client->messages->create(
                        $cont_num,
                        [
@@ -2689,7 +3166,7 @@ class GroupController extends Controller
                            'body' => $body,
                        ]
                    );
-                 
+
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
@@ -2723,17 +3200,17 @@ class GroupController extends Controller
                            //  }
                            // $this->incrementSmsCount($numbers[$numberCounter]->number);
                        }
-       
+
                        // Alert::toast("SMS Sent Successfully", "success");
-       
+
                    }
-               
+
 
 
 
                 }
             } else {
-                
+
             }
         }
         return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
@@ -2748,15 +3225,8 @@ class GroupController extends Controller
         $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
     }
-
-
-
-
         // Return a response to indicate success
-        
-        
     }
-  
 
     // Show list create form
     public function newListForm()

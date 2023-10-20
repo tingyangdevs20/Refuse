@@ -2,7 +2,7 @@ $(document).ready(function () {
     let CKEDITOR = []
     var userAgreementPath = publicPath + "user-agreement/";
     $(document).on("click", ".addUserAgreement", function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         $.ajax({
             url: userAgreementPath + "create",
             method: "post",
@@ -19,7 +19,7 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", ".saveUserAgreement", function (e) {
-                e.preventDefault();
+                // e.preventDefault();
                 var myData = $(this);
                 myData.attr('disabled', true);
                 $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
@@ -54,15 +54,15 @@ $(document).ready(function () {
                                         console.log(errors[fieldName]);
                                         if(errors[fieldName].length > 1){
                                             errors[fieldName].forEach(element => {
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' value is not found in the contact record!</div><br>');
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' Value is not found in the contact record!</div><br>');
                                             }); 
                                         } else{
-                                            if(errorValues[0] === 'This field is required!'){
+                                            if(errorValues[0] === 'This field is required!' || errorValues[0] === 'The seller name field is required.'){
                                                 errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
                                                 
                                             } else {
                                                 
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' value is not found in the contact record!</div><br>');
+                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' Value is not found in the contact record!</div><br>');
                                             }
                                         }
                                         // If there are multiple error values, join them into a single line
@@ -209,36 +209,6 @@ $(document).ready(function () {
         });
     });
 
-    function populateSellerNames() {
-        // Find all elements with the class "modalSellersList"
-        $('.modalSellersList').each(function () {
-            var data = $(this).attr('data-id');
-            var tdCell = $(this).closest('td');
-            
-            $.ajax({
-                url: userAgreementPath + "signers",
-                method: "GET",
-                data: { data },
-                success: function (response) {
-                    tdCell.empty();
-                    var sellerNames = [];
-    
-                    for (var i = 0; i < response.length; i++) {
-                        var fullName = response[i].name + ' ' + response[i].last_name;
-                        sellerNames.push(index + '. ' + fullName);
-                    }
-    
-                    tdCell.html(sellerNames.join('<br>'));
-                },
-            });
-        });
-    }
-    
-    // Call the function when the page is loaded
-    $(document).ready(function () {
-        populateSellerNames();
-    });
-    
     $(document).on("change", ".formTemplate", function (e) {
         e.preventDefault();
         var templateId = $(this).val();
@@ -264,4 +234,6 @@ $(document).ready(function () {
             });
         }
     });
+
+    
 });
