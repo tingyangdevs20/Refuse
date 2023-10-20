@@ -892,7 +892,7 @@
                         success: function(data) {
                             // Handle success response
                             console.log(data);
-                             alert(data);
+                          //   alert(data);
                             if (data.success) {
 
                                 toastr.success(
