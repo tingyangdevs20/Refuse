@@ -142,6 +142,15 @@
                                             value="{{ $settings->twiml_app_sid }}" required>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Twilio Messaging SID</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Enter Twilio Messaging SID"
+                                            name="messaging_service_sid" id="messaging_service_sid"
+                                            value="{{ $settings->messaging_service_sid }}" required>
+                                    </div>
+                                </div>
 
 
 
