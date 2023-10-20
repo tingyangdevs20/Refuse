@@ -514,11 +514,14 @@
 
                     @php
                         use App\Model\Number;
-                        $twilio_number = Number::first()->toArray();
-                        $caller_id = $twilio_number['number'];
+                        $twilio_number = Number::get();
+                        // $caller_id = $twilio_number['number'];
 
                     @endphp
-                    <option value="{{ $caller_id }}" selected>{{ $caller_id }}</option>
+                    @foreach ($twilio_number as $number )
+                    <option value="{{ $number->number }}">{{  $number->number }}</option>
+                        
+                    @endforeach
 
                 </select>
 

@@ -402,6 +402,8 @@ Route::get('/myHtml/{id}/{contactid}', 'Admin\GroupController@myHtml')->name('my
 // Appointment Routes
 Route::resource('/appointments', 'Admin\AppointmentController');
 Route::resource('/manage-appointments', 'Admin\ViewAppointmentsController');
+Route::get('/manage-appointments/{id}/reminder', 'Admin\ViewAppointmentsController@reminder');
+Route::post('/manage-appointments/reminder', 'Admin\ViewAppointmentsController@sendreminder');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
