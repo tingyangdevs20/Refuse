@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
         integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css"
-        integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug==" crossorigin="anonymous"
-        referrerpolicy="no-referrer" />
+        integrity="sha512-0/rEDduZGrqo4riUlwqyuHDQzp2D1ZCgH/gFIfjMIL5az8so6ZiXyhf1Rg8i6xsjv+z/Ubc4tt1thLigEcu6Ug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
@@ -5739,83 +5739,99 @@
                                                                         <label for="seller_id"
                                                                             class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
-                                                                                <div class="checkbox-list">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner1" value="{{ $leadinfo->id }}">Contact 1 ({{ $leadinfo->owner1_first_name }})</label><br>
-                                                                                        </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner2" value="{{ $leadinfo->id }}">Contact 2 ({{ $leadinfo->owner2_first_name }})</label><br>
-                                                                                        </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller" name="mail_to_owner3" value="{{ $leadinfo->id }}">Contact 3 ({{ $leadinfo->owner3_first_name }})</label><br>
-                                                                                        </div>
-                                                                                    </div>
-
+                                                                        <div class="checkbox-list">
+                                                                            <div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            name="mail_to_owner1"
+                                                                                            value="{{ $leadinfo->id }}">Contact
+                                                                                        1
+                                                                                        ({{ $leadinfo->owner1_first_name }})</label><br>
                                                                                 </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <div class="form-group"
-                                                                            style="margin-left: 15px;">
-                                                                            <small class="text-danger"><b>Please Keep
-                                                                                    {SIGNATURE_USER} in contenet for
-                                                                                    user sign</b></small>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group" style="margin-left: 15px;">
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary button-item saveUserAgreementContact">Create</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            @php
-                                                                $customeFields = getsectionsFields($section->id);
-                                                            @endphp
-                                                            <div class="row">
-                                                                @if (count($customeFields) > 0)
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                            <label>{{ $section->name }} (Custom
-                                                                                Fields)</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($customeFields as $field)
-                                                                        @php
-                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                        @endphp
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
-                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                <div class="input-group mb-2">
-                                                                                    <input type="{{ $field->type }}"
-                                                                                        class="form-control"
-                                                                                        placeholder="{{ $field->label }}"
-                                                                                        name="feild_value"
-                                                                                        section_id="{{ $section->id }}"
-                                                                                        id="{{ $field->id }}"
-                                                                                        table="custom_field_values"
-                                                                                        value="{{ $customeFieldValue }}">
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            name="mail_to_owner2"
+                                                                                            value="{{ $leadinfo->id }}">Contact
+                                                                                        2
+                                                                                        ({{ $leadinfo->owner2_first_name }})</label><br>
+                                                                                </div>
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            name="mail_to_owner3"
+                                                                                            value="{{ $leadinfo->id }}">Contact
+                                                                                        3
+                                                                                        ({{ $leadinfo->owner3_first_name }})</label><br>
                                                                                 </div>
                                                                             </div>
+
                                                                         </div>
-                                                                    @endforeach
-                                                                @endif
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <div class="form-group" style="margin-left: 15px;">
+                                                                        <small class="text-danger"><b>Please Keep
+                                                                                {SIGNATURE_USER} in contenet for
+                                                                                user sign</b></small>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group" style="margin-left: 15px;">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary button-item saveUserAgreementContact">Create</button>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        @php
+                                                            $customeFields = getsectionsFields($section->id);
+                                                        @endphp
+                                                        <div class="row">
+                                                            @if (count($customeFields) > 0)
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group"
+                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
+                                                                        <label>{{ $section->name }} (Custom
+                                                                            Fields)</label>
+                                                                    </div>
+                                                                </div>
+                                                                @foreach ($customeFields as $field)
+                                                                    @php
+                                                                        $customeFieldValue = getsectionsFieldValue($id, $field->id);
+                                                                    @endphp
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group"
+                                                                            style="padding: 0 10px;">
+                                                                            {{-- <label>Owner 3 Social Security #</label> --}}
+                                                                            <div class="input-group mb-2">
+                                                                                <input type="{{ $field->type }}"
+                                                                                    class="form-control"
+                                                                                    placeholder="{{ $field->label }}"
+                                                                                    name="feild_value"
+                                                                                    section_id="{{ $section->id }}"
+                                                                                    id="{{ $field->id }}"
+                                                                                    table="custom_field_values"
+                                                                                    value="{{ $customeFieldValue }}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
+
                                                         <hr>
                                                     @elseif($section->id == '26')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
-                                                            style="padding:0px;">
+                                                        <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading">
@@ -5826,8 +5842,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         @foreach ($TaskliSt as $appt)
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
+                                                                            <div class="form-group" style="padding: 0 10px;">
                                                                                 <div class="card-body">
                                                                                     <p>{{ $appt->tast }}</p>
                                                                                 </div>
@@ -5840,7 +5855,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <hr>
+                                                <hr>
 
                                                     @endif
                                                 @endforeach
@@ -5906,7 +5921,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
     <script src="{{ asset('back/assets/js/pages/user-agreement.js?t=') }}<?= time() ?>"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
