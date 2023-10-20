@@ -33,7 +33,7 @@
                         <div class="card-header bg-soft-dark ">
                             Create Your Goals
                             <!-- <a href="{{ URL::previous() }}" class="btn btn-outline-primary btn-sm float-right" title="New"><i
-                                        class="fas fa-arrow-left"></i></a>-->
+                                            class="fas fa-arrow-left"></i></a>-->
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
                                 data-toggle="modal" data-target="#helpModal">How To Use</button> --}}
                             @include('components.modalform')
@@ -177,11 +177,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
-
-
-
-
 
                                 <div class="col-md-6" style="display:none">
                                     <div class="form-group">

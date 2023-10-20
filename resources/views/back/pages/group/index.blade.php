@@ -233,8 +233,8 @@
                 </div>
             </div>
             <!-- end page title -->
-
-        </div> <!-- container-fluid -->
+        </div>
+        <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
 
@@ -535,10 +535,12 @@
                         var contactsWithEmails = response.contactsWithEmails;
                         var contactsWithoutEmails = response.contactsWithoutEmails;
                         var contactsWithoutName = response.contactsWithoutName;
-                        var contactsWithoutPhonesScrubbed = response.contactsWithoutPhonesScrubbed;
+                        var contactsWithoutPhonesScrubbed = response
+                            .contactsWithoutPhonesScrubbed;
                         var contactsWithPhonesScrubbed = response.contactsWithPhonesScrubbed;
                         var contactsWithEmailsVerified = response.contactsWithEmailsVerified
-                        var contactsWithoutEmailsVerified = response.contactsWithoutEmailsVerified;
+                        var contactsWithoutEmailsVerified = response
+                            .contactsWithoutEmailsVerified;
                         var account = response.account;
 
                         // Convert phoneCellAppendRate to an integer

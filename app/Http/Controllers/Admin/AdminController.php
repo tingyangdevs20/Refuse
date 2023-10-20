@@ -450,7 +450,7 @@ class AdminController extends Controller
             'deals_month',
             'deals_ninety_day',
             'deals_year',
-            
+
             'people_touched_records_count',
             'people_touched_lifetime',
             'people_touched_today',

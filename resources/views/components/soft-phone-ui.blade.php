@@ -513,12 +513,16 @@
                 <select class="custom-select" style="color:#C0C0C0;margin-top:5px" id="call_from">
 
                     @php
+                        $caller_id = 0;
                         use App\Model\Number;
-                        $twilio_number = Number::first()->toArray();
-                        $caller_id = $twilio_number['number'];
+                        $twilio_number = Number::first();
+                        if ($twilio_number) {
+                            $twilio_number = $twilio_number->toArray();
+                            $caller_id = $twilio_number['number'];
+                        }
 
                     @endphp
-                    <option value="{{ $caller_id }}" selected>{{ $caller_id }}</option>
+                    <option value="{{ $caller_id ?? 0 }}" selected>{{ $caller_id }}</option>
 
                 </select>
 

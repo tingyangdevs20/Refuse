@@ -161,14 +161,14 @@ class GroupController extends Controller
         if ($leadinfo->owner2_first_name || $leadinfo->owner2_last_name) {
             DB::table('lead_info')->where('contact_id', $id)->update([
                 'user_2_name' => $leadinfo->owner2_first_name . ' ' . $leadinfo->owner2_last_name,
-                
-            ]); 
+
+            ]);
         }
         if ($leadinfo->owner3_first_name || $leadinfo->owner3_last_name) {
             DB::table('lead_info')->where('contact_id', $id)->update([
                 'user_3_name' => $leadinfo->owner3_first_name . ' ' . $leadinfo->owner3_last_name,
             ]);
-        
+
         }
 
         $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
@@ -1209,8 +1209,19 @@ class GroupController extends Controller
         $group_id = '';
         $campaign_id = '';
 
+        $market = Market::whereNotNull('id')->first();
+        $market_id = 0;
+        if ($market) {
+            $market_id = $market->id;
+        } else {
+            $newMarket = new Market();
+            $newMarket->name = 'Demo Market';
+            $newMarket->save();
+            $market_id = $newMarket->id;
+        }
+
         $group = new Group();
-        $group->market_id = $request->market_id ?? '0';
+        $group->market_id = $market_id ?? '0';
         // $group->tag_id = $request->tag_id;
         // $group->tag_id = json_encode($request->tag_id);
         $group->name = $request->list_name;
@@ -2035,8 +2046,6 @@ class GroupController extends Controller
 
     public function uploadcontract(Request $request)
     {
-
-
         $file = $request->file;
 
         $fileName = $file->getClientOriginalName();
@@ -2066,9 +2075,6 @@ class GroupController extends Controller
             return redirect()->back();
         }
     }
-
-
-
 
     public function uploadcontractedit(Request $request)
     {
