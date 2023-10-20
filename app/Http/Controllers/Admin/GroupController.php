@@ -3149,6 +3149,8 @@ class GroupController extends Controller
 
                 $body = strip_tags($_body);
 
+                die($body);
+
                 foreach ($contact_numbrs as $contact_num) {
 
                    // print_r($contact_num->number);
