@@ -474,8 +474,9 @@ class CampaignController extends Controller
             'active' => $request->active, // Set active status
             // Add other fields for campaign details
         ]);
-
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
+       // Alert::success('Success!', 'Campaign created successfully.');
+        return redirect()->back();
+       // return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
     }
 
     public function show(Campaign $campaign , Request $request)
@@ -529,7 +530,8 @@ class CampaignController extends Controller
             // Add other fields for campaign details
         ]);
 
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
+       // return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
+       return redirect()->back();
     }
 
     public function destroy(Campaign $campaign)
@@ -537,10 +539,11 @@ class CampaignController extends Controller
     try {
         CampaignList::where("campaign_id", $campaign->id)->delete();
         $campaign->delete();
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted successfully.');
+      //  return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted successfully.');
+      return redirect()->back();
     }
     catch (exception $e) {
-    return redirect()->route('admin.campaigns.index')->with('error', 'Something went wrong.');
+   // return redirect()->route('admin.campaigns.index')->with('error', 'Something went wrong.');
     }
     }
 }

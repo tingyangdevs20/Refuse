@@ -211,6 +211,10 @@
                                 </li>
                                 <li><a class="mr-3" href="#QuickResponse" data-toggle="tab">Quick Response</a>
                                 </li>
+                                <li><a class="mr-3" href="#ProspectCampaign" data-toggle="tab">Prospect Campaigns</a>
+                                </li>
+                                <li><a class="mr-3" href="#LeadCampaign" data-toggle="tab">Lead Campaigns</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -561,12 +565,357 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane" id="ProspectCampaign">
+                                    <div class="card">
+                                        <div class="card-header bg-soft-dark ">
+                                        Prospect Campaigns
+                                            <button class="btn btn-outline-primary btn-sm float-right" title="New"
+                                                data-toggle="modal" data-target="#createProspectModal"><i
+                                                    class="fas fa-plus-circle"></i></button>
+
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table table-striped table-bordered datatable" id="">
+                                                <thead>
+                                                <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Contact list</th>
+                                            <th scope="col">No. Of Contacts</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($campaigns as $campaign)
+                                            <tr>
+                                                <td><a
+                                                        href="{{ route('admin.campaign.list', $campaign->id) }}">{{ $campaign->name }}</a>
+                                                </td>
+
+
+                                                <td>{{ optional($campaign->group)->name ?? 'N/A' }}</td>
+                                                <td>{{ optional($campaign->group)->getContactsCount() }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button
+                                                            data-toggle="modal"
+                                                            class="btn btn-outline-warning">Copy</button></a>
+                                                    <button data-toggle="modal" class="btn btn-outline-primary"
+                                                        id="editModal" data-target="#editCampaignModal"
+                                                        data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}"
+                                                        data-template="{{ $campaign->template_id }}"
+                                                        data-sendafterdays="{{ $campaign->send_after_days }}"
+                                                        data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"
+                                                        data-id="{{ $campaign->id }}">Edit</button>
+                                                    <form action="{{ route('admin.campaigns.destroy', $campaign->id) }}"
+                                                        method="POST" style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+<!--ADD Prospect campaign modal-->
+<div class="modal fade" id="createProspectModal" tabindex="-1" role="dialog" aria-labelledby="createProspectModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create Campaign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   
+                    <form action="{{ route('admin.campaigns.store') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">Campaign Name</label>
+                            <input type="text" name="name" id="name" class="form-control" required>
+                        </div>
+
+                      
+
+                        <div class="form-group">
+                            <label for="active">Active Status</label>
+                            <select name="active" id="active" class="form-control" required>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Campaign</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--ADD Prospect campaign modal-->
+
+<!-- EDIT Prospect campaign modal-->
+
+<!-- Edit Campaign Modal -->
+<div class="modal fade" id="editCampaignModal" tabindex="-1" role="dialog" aria-labelledby="editCampaignModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCampaignModalLabel">Edit Campaign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @isset($campaign)
+                        <!-- Add the form for editing the campaign here -->
+                        <form action="{{ route('admin.campaigns.update', $campaign->id) }}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="name">Campaign Name</label>
+                                <input type="hidden" name="id" id="id_edit" class="form-control" value="0"
+                                    required>
+                                <input type="text" name="name" id="name_edit" class="form-control" value=""
+                                    required>
+                            </div>
+
+
+
+
+
+
+                            <!-- For example, schedule, message content, etc. -->
+                            <div class="form-group">
+                                <label for="active">Active Status</label>
+                                <select name="active" id="active" class="form-control" required>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Update Campaign</button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+
+<!-- EDIT Prospect campaign -->
+
+
+
+
+
+
+
+
+
+
+                                <div class="tab-pane" id="LeadCampaign">
+                                    <div class="card">
+                                        <div class="card-header bg-soft-dark ">
+                                        Lead Campaigns
+                                            <button class="btn btn-outline-primary btn-sm float-right" title="New"
+                                                data-toggle="modal" data-target="#createleadModal"><i
+                                                    class="fas fa-plus-circle"></i></button>
+
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table table-striped table-bordered datatable" id="">
+                                                <thead>
+                                                <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">No. Of Contacts</th>
+                                                                                    
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Status</th>
+
+                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($leadcampaigns as $campaign)
+                                        @php
+                                       $_count=optional($campaign->group)->getContactsCount();
+                                        
+
+
+                                        @endphp
+                                            <tr>
+                                                <td><a
+                                                        href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
+                                                </td>
+                                               
+                                                <td>{{$_count}}</td>
+                                                
+                                                
+                                                <td>
+                                                    <a href="{{ route('admin.compaignlead.copy', $campaign->id) }}"><button
+                                                            data-toggle="modal"
+                                                            class="btn btn-outline-warning">Copy</button></a>
+                                                    <button data-toggle="modal" class="btn btn-outline-primary"
+                                                        id="editModal" data-target="#editleadModal"
+                                                        data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}"
+                                                        data-template="{{ $campaign->template_id }}"
+                                                        data-sendafterdays="{{ $campaign->send_after_days }}"
+                                                        data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"
+                                                        data-id="{{ $campaign->id }}">Edit</button>
+                                                    <form action="{{ route('admin.leadcampaign.destroy', $campaign->id) }}"
+                                                        method="POST" class="delete-form" style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-danger delete-btn"
+                                                            data-toggle="modal" data-target="#confirmationModal">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                <input data-id="{{$campaign->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $campaign->active ? 'checked' : '' }}>
+                    
+                                                 </td>
+                                                 </tr>
+                                        @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- end page title -->
+
+            <!--ADD LEAD CAMPAIGN -->
+            <div class="modal fade" id="createleadModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create Campaign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- For example, you can use Laravel Collective's Form or standard HTML form -->
+                    <!-- Add the form for adding the campaign here -->
+                    <form action="{{ route('admin.leadcampaign.store') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">Campaign Name</label>
+                            <input type="text" name="name" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group" style="display:none">
+                            <label for="group_id">Select Group/Contact List</label>
+                            <select name="group_id" id="group_id" class="form-control">
+                                <option value="">Select Group/Contact List</option>
+                                @if (isset($groups))
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                       
+                        <button type="submit" class="btn btn-primary">Save Campaign</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <!--ADD LEAD CAMPAIGN -->
+
+
+
+            <!--EDIT LEAD CAMPAIGN -->
+
+            <div class="modal fade" id="editleadModal" tabindex="-1" role="dialog"
+        aria-labelledby="editCampaignModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCampaignModalLabel">Edit Campaign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @isset($campaign)
+                        <!-- Add the form for editing the campaign here -->
+                        <form action="{{ route('admin.leadcampaign.update', $campaign->id) }}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="name">Campaign Name</label>
+                                <input type="hidden" name="id" id="id_edit" class="form-control" value="0"
+                                    required>
+                                <input type="text" name="name" id="name_edit" class="form-control" value=""
+                                    required>
+                            </div>
+                            
+                            <div class="form-group" style="display:none">
+                                <label for="group_id">Select Group/Contact List</label>
+                                <select name="group_id" id="group_id_edit" class="form-control">
+                                    <option value="">Select Group/Contact List</option>
+                                    @if (isset($groups))
+                                        @foreach ($groups as $group)
+                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+
+                            <!-- Add other fields for campaign details -->
+                            <!-- For example, schedule, message content, etc. -->
+                          
+
+                            <button type="submit" class="btn btn-primary">Update Campaign</button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+             <!--EDIT LEAD CAMPAIGN -->
+ <!-- Confirmation Modal -->
+ <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this lead campgain?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger confirm-delete-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
             {{-- Modals Auto Respond --}}
             {{-- Modal New --}}
             <div class="modal fade" id="newModalAutoRespond" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1168,7 +1517,178 @@
     <script>
         $(document).ready(function() {
             $('.datatable').DataTable();
+            $(".delete-btn").click(function() {
+                    // Get the form associated with this delete button
+                    var form = $(this).closest(".delete-form");
+
+                    // Set the form action URL to the delete route
+                    var actionUrl = form.attr("action");
+
+                    // When the user confirms deletion, send an AJAX request
+                    $(".confirm-delete-btn").click(function() {
+                        $.ajax({
+                            url: actionUrl,
+                            type: "POST",
+                            data: {
+                                "_method": "DELETE",
+                                "_token": "{{ csrf_token() }}"
+                            },
+                            success: function(res) {
+                               // alert(res);
+                                if (res.status == true) {
+                                    // Sends a notification
+                                    // Customize the Toastr message based on your requirements
+                                    toastr.success(res.message, {
+                                        timeOut: 10000, // Set the duration (10 seconds in this example)
+                                    });
+
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                } else {
+                                    toastr.error(res.message, {
+                                        timeOut: 10000, // Set the duration (10 seconds in this example)
+                                    });
+
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            },
+                            error: function(res) {
+                                toastr.error('Something went wrong the server!', {
+                                    timeOut: 10000, // Set the duration (10 seconds in this example)
+                                });
+                                // Handle errors, e.g., show an error message
+                                console.log("Error:", res);
+                            }
+                        });
+
+                        // Close the confirmation modal
+                        $("#confirmationModal").modal("hide");
+                    });
+                });
         });
+        
+        function getleadTemplate(type) {
+                var url = '<?php echo url('/admin/get/template/'); ?>/' + type;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: '',
+                    processData: false,
+                    contentType: false,
+                    success: function(d) {
+                        $('#update-templates').html(d);
+                    }
+                });
+            }
+
+
+            $('#editleadModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var name = button.data('name');
+                var type = button.data('type');
+                var template_id = button.data('template');
+                getleadTemplateEdit(type, template_id);
+                var id = button.data('id');
+                var sendafterdays = button.data('sendafterdays');
+                var sendafterhours = button.data('sendafterhours');
+                var group_id = button.data('group');
+                var modal = $(this);
+
+                $('#name_edit').val(name);
+                $('#id_edit').val(id);
+                $('#type_edit').val(type);
+                $('#send_after_days_edit').val(sendafterdays);
+                $('#send_after_hours_edit').val(sendafterhours);
+                $('#group_id_edit').val(group_id);
+            });
+
+            function getleadTemplateEdit(type, template_id) {
+                var url = '<?php echo url('/admin/get/template/'); ?>/' + type;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: '',
+                    processData: false,
+                    contentType: false,
+                    success: function(d) {
+                        $('#update-templates-edit').html(d);
+                        setTimeout(function() {
+                            $('#template-select-edit').val(template_id);
+                        }, 500);
+
+                    }
+                });
+            }
+       
+       
+            //for prospect campaign
+            function getTemplate(type) {
+                var url = '<?php echo url('/admin/get/template/'); ?>/' + type;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: '',
+                    processData: false,
+                    contentType: false,
+                    success: function(d) {
+                        $('#update-templates').html(d);
+                    }
+                });
+            }
+
+
+            $('#editCampaignModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var name = button.data('name');
+                var type = button.data('type');
+                var template_id = button.data('template');
+                getTemplateEdit(type, template_id);
+                var id = button.data('id');
+                var sendafterdays = button.data('sendafterdays');
+                var sendafterhours = button.data('sendafterhours');
+                var group_id = button.data('group');
+                var modal = $(this);
+
+                $('#name_edit').val(name);
+                $('#id_edit').val(id);
+                $('#type_edit').val(type);
+                $('#send_after_days_edit').val(sendafterdays);
+                $('#send_after_hours_edit').val(sendafterhours);
+                $('#group_id_edit').val(group_id);
+            });
+
+            function getTemplateEdit(type, template_id) {
+                var url = '<?php echo url('/admin/get/template/'); ?>/' + type;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: '',
+                    processData: false,
+                    contentType: false,
+                    success: function(d) {
+                        $('#update-templates-edit').html(d);
+                        setTimeout(function() {
+                            $('#template-select-edit').val(template_id);
+                        }, 500);
+
+                    }
+                });
+            }
+        
+    
+
+
+
+
+
+
+
+
+
+
         $('#editModalAutoRespond').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var keyword = button.data('keyword');
