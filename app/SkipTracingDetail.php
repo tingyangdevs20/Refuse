@@ -8,4 +8,6 @@ class SkipTracingDetail extends Model
 {
     protected $table = "skip_tracing_details";
     protected $guarded = [];
+
+
 }

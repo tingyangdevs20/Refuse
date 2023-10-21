@@ -192,6 +192,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('admin.scraping.requests') }}" class=" waves-effect">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Scraping Requests</span>
+                    </a>
+                </li>
+
 
                 <li>
                     <a href="javascript:void(0)" class="has-arrow waves-effect">
@@ -308,7 +315,7 @@
 
                         <!-- <span> Quick Response</span></a></li> -->
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
-                
+
                <span> Quick Response</span></a></li> -->
 
 

@@ -164,7 +164,6 @@ function updateUIDisconnectedOutgoingCall() {
 }
 
 // HANDLE INCOMING CALL
-
 function handleIncomingCall(call) {
     modal.style.display = 'block';
     $("#soft-phone-modal").find(".incoming-control").removeClass('d-none');
