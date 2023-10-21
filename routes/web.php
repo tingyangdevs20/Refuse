@@ -431,7 +431,7 @@ Route::get('/call', [PhoneCallController::class, 'index']);
 
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
-Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
+Route::post('/handle-call', 'PhoneCallController@handleCallRouting')->name('handleCall');
 
 
 Route::get('/secure-payment/{token}', 'StripePaymentController@payment')->name('secure.payment');
