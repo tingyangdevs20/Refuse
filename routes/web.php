@@ -64,7 +64,7 @@ Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPa
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 Route::get('handle-call', 'Admin\VoiceController@handleIncomingCall')->name('voice.handle-call');
-Route::get('access-token', 'Admin\VoiceController@generateAccessToken')->name('voice.access-token');
+Route::get('access-token', 'Admin\VoiceController@generateAccessToken')->name('voice.access-token')->withoutMiddleware(['web', 'auth']);
 
 Route::resource('campaignlist', 'Admin\CampaignListController');
 
@@ -431,9 +431,6 @@ Route::get('/call', [PhoneCallController::class, 'index']);
 
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
-Route::post('/handle-call', 'PhoneCallController@handleCallRouting')->name('handleCall');
-
-
 Route::get('/secure-payment/{token}', 'StripePaymentController@payment')->name('secure.payment');
 
 
