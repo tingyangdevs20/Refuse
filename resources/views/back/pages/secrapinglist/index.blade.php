@@ -90,7 +90,6 @@
                                                 @endif
                                             </td>
 
-
                                             <td>
                                                 @if ($data->hasMedia('scraping_uploads'))
                                                     @php

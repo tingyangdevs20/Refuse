@@ -167,6 +167,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('scraping/edit/{id}', 'ScrapingSourceListController@edit')->name('scraping.edit');
     Route::post('scraping/update/{id}', 'ScrapingSourceListController@update')->name('scraping.update');
     Route::post('scraping/destroy/{id}', 'ScrapingSourceListController@destroy')->name('scraping.destroy');
+    Route::delete('scraping/destroy/force', 'ScrapingSourceListController@forceDestroy')->name('scraping.force-delete');
+    Route::post('scraping/multiple/force-delete', 'ScrapingSourceListController@forceDestroyMultiple')->name('scraping.multipledelete');
     Route::post('scraping/{scraping}/upload', 'ScrapingSourceListController@upload')->name('scraping.upload');
 
     // user task
