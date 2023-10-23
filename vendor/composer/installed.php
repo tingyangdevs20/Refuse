@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '730572d80c1ad876279e83fc6a38e25550f0c0e1',
+        'reference' => '32109222e74d3d4c3082e2d02e779d7b2219147b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -502,7 +502,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '730572d80c1ad876279e83fc6a38e25550f0c0e1',
+            'reference' => '32109222e74d3d4c3082e2d02e779d7b2219147b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -761,9 +761,9 @@
             'dev_requirement' => false,
         ),
         'phpseclib/phpseclib' => array(
-            'pretty_version' => '3.0.23',
-            'version' => '3.0.23.0',
-            'reference' => '866cc78fbd82462ffd880e3f65692afe928bed50',
+            'pretty_version' => '3.0.33',
+            'version' => '3.0.33.0',
+            'reference' => '33fa69b2514a61138dd48e7a49f99445711e0ad0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
@@ -922,8 +922,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0 || 2.0.0 || 3.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -936,9 +936,9 @@
             'dev_requirement' => false,
         ),
         'psy/psysh' => array(
-            'pretty_version' => 'v0.11.21',
-            'version' => '0.11.21.0',
-            'reference' => 'bcb22101107f3bf770523b65630c9d547f60c540',
+            'pretty_version' => 'v0.11.22',
+            'version' => '0.11.22.0',
+            'reference' => '128fa1b608be651999ed9789c95e6e2a31b5802b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psy/psysh',
             'aliases' => array(),
@@ -1185,9 +1185,9 @@
             'dev_requirement' => false,
         ),
         'stripe/stripe-php' => array(
-            'pretty_version' => 'v12.7.0',
-            'version' => '12.7.0.0',
-            'reference' => '01a4a316d7c724fd1a111f36f037b698ca425f2c',
+            'pretty_version' => 'v12.8.0',
+            'version' => '12.8.0.0',
+            'reference' => '6b6f4a775ad46fee4b1df2df4fdfa574365b1621',
             'type' => 'library',
             'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),

@@ -180,11 +180,11 @@
                                             <select class="form-control @error('no_of_bathrooms') is-invalid @enderror"
                                                 id="no_of_bathrooms" name="no_of_bathrooms">
                                                 <option value="">Select No of Bathrooms *</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
+                                                <option value="1+">1</option>
+                                                <option value="2+">2</option>
+                                                <option value="3+">3</option>
+                                                <option value="4+">4</option>
+                                                <option value="5+">5</option>
 
                                             </select>
                                             @error('no_of_bathrooms')
@@ -197,11 +197,11 @@
                                             <select class="form-control @error('no_of_bedrooms') is-invalid @enderror"
                                                 id="no_of_bedrooms" name="no_of_bedrooms">
                                                 <option value="">Select No of Bedrooms *</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
+                                                <option value="1+">1</option>
+                                                <option value="2+">2</option>
+                                                <option value="3+">3</option>
+                                                <option value="4+">4</option>
+                                                <option value="5+">5</option>
 
                                             </select>
                                             @error('no_of_bedrooms')

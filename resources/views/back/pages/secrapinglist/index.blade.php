@@ -78,14 +78,14 @@
                                             <td>{{ $data->no_of_bedrooms }}</td>
                                             <td>{{ $data->no_of_bathrooms }}</td>
                                             <td>
-                                                @if ($data->status == 0)
-                                                    <span>
-                                                        <i class="fas fa-spinner fa-spin text-warning"></i> In-Process
-                                                    </span>
-                                                @else
+                                                @if ($data->status == 1)
                                                     <span
                                                         style="border-radius: 6px; padding: 5px; background-color: transparent;">
                                                         <i class="fa fa-check-circle"></i> Data Ready
+                                                    </span>
+                                                @else
+                                                    <span>
+                                                        <i class="fas fa-spinner fa-spin text-warning"></i> In-Process
                                                     </span>
                                                 @endif
                                             </td>
@@ -114,8 +114,10 @@
                                             </td>
 
                                             <td>
-                                                <a href="{{ route('admin.scraping.push-list', $data->id) }}" class="btn btn-primary btn-sm" {{ $data->status == 1 ? '' : 'disabled' }}>Lists
+                                                <a href="{{ route('admin.scraping.push-list', $data->id) }}"
+                                                    class="btn btn-primary btn-sm{{ $data->status != 1 ? ' disabled' : '' }}">Lists
                                                 </a>
+
                                             </td>
 
                                             <td>

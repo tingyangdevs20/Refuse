@@ -12,12 +12,19 @@ use App\Model\Group;
 use App\Model\Market;
 use App\Model\Number;
 use App\Model\Tag;
-use App\ScrapingSourceList;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB; // Import DB facade
+use Illuminate\Support\Facades\Storage; // Import Storage facade
+use Spatie\Permission\Models\Role; // Import the Role model from Spatie
+use RealRashid\SweetAlert\Facades\Alert;
+
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\Admin\StoreUsersRequest;
+use App\Http\Requests\Admin\UpdateUsersRequest;
+use App\ScrapingSourceList;
 
 class ScrapingSourceListController extends Controller
 {
@@ -29,7 +36,6 @@ class ScrapingSourceListController extends Controller
     public function index()
     {
         $scrapingdata = ScrapingSourceList::all();
-
         return view('back.pages.secrapinglist.index', compact('scrapingdata'));
     }
 
@@ -167,6 +173,42 @@ class ScrapingSourceListController extends Controller
             session()->flash('error', 'File not found!');
             return redirect()->route('admin.scraping.requests');
         }
+    }
+
+    public function splitPriceRange($selectedPriceRange, $stepSize)
+    {
+        // Initialize an array to store the parsed price ranges
+        $priceRanges = [];
+
+        // Split the selected price range and generate the array
+        list($min, $max) = explode('-', $selectedPriceRange);
+
+        $min = (int) $min;
+        $max = (int) $max;
+
+        while ($min < $max) {
+            // Determine the maximum value for the current segment
+            if (count($priceRanges) === 0) {
+                // For the first iteration, increment the maximum by step size
+                $segmentMax = $min + $stepSize;
+            } else {
+                // For other iterations, keep the maximum constant
+                $segmentMax = $min + $stepSize - 1;
+            }
+
+            // Ensure that the maximum value doesn't exceed the selected price range
+            if ($segmentMax > $max) {
+                $segmentMax = $max;
+            }
+
+            // Add the segment to the priceRanges array
+            $priceRanges[] = $min . '-' . $segmentMax;
+
+            // Move to the next segment
+            $min = $segmentMax + 1;
+        }
+
+        return $priceRanges;
     }
 
     public function pushToListsView(Request $request, ScrapingSourceList $scraping)
@@ -347,182 +389,182 @@ class ScrapingSourceListController extends Controller
 
                                 $campaignsList = CampaignList::where('campaign_id', $campaign_id)->orderby('schedule', 'ASC')->first();
                                 // print_r($campaignsList);die;
-                                if ($campaignsList) {
-                                    $row = $campaignsList;
-                                    // $template = Template::where('id',$row->template_id)->first();
-                                    $template = FormTemplates::where('id', $request->email_template)->first();
-                                    $date = now()->format('d M Y');
-                                    if ($row->type == 'email') {
+                                // if ($campaignsList) {
+                                //     $row = $campaignsList;
+                                //     // $template = Template::where('id',$row->template_id)->first();
+                                //     $template = FormTemplates::where('id', $request->email_template)->first();
+                                //     $date = now()->format('d M Y');
+                                //     if ($row->type == 'email') {
 
 
-                                        if ($importData[9] != '') {
-                                            $email = $importData[9];
-                                        } elseif ($importData[10]) {
-                                            $email = $importData[10];
-                                        }
-                                        if ($email != '') {
-                                            $subject = $template->template_name;
-                                            $subject = str_replace("{name}", $importData[0], $subject);
-                                            $subject = str_replace("{street}", $importData[2], $subject);
-                                            $subject = str_replace("{city}", $importData[3], $subject);
-                                            $subject = str_replace("{state}", $importData[4], $subject);
-                                            $subject = str_replace("{zip}", $importData[5], $subject);
-                                            $subject = str_replace("{date}", $date, $subject);
-                                            $message = $template != null ? $template->content : '';
-                                            $message = str_replace("{name}", $importData[0], $message);
-                                            $message = str_replace("{street}", $importData[2], $message);
-                                            $message = str_replace("{city}", $importData[3], $message);
-                                            $message = str_replace("{state}", $importData[4], $message);
-                                            $message = str_replace("{zip}", $importData[5], $message);
-                                            $message = str_replace("{date}", $date, $message);
-                                            $unsub_link = url('admin/email/unsub/' . $email);
-                                            $data = ['message' => $message, 'subject' => $subject, 'name' => $importData[0], 'unsub_link' => $unsub_link];
-                                            // echo "<pre>";print_r($data);die;
-                                            Mail::to($email)->send(new TestEmail($data));;
-                                        }
-                                    } elseif ($row->type == 'sms') {
-                                        $client = new Client($sid, $token);
-                                        if ($importData[6] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
-                                        } elseif ($importData[7] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
-                                        } elseif ($importData[8] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
-                                        }
-                                        $receiver_number = $number;
-                                        $sender_number = $sender_numbers->number;
-                                        $message = $template != null && $template->body ? $template->body : '';
-                                        $message = str_replace("{name}", $importData[0], $message);
-                                        $message = str_replace("{street}", $importData[2], $message);
-                                        $message = str_replace("{city}", $importData[3], $message);
-                                        $message = str_replace("{state}", $importData[4], $message);
-                                        $message = str_replace("{zip}", $importData[5], $message);
-                                        if ($receiver_number != '') {
-                                            try {
-                                                $sms_sent = $client->messages->create(
-                                                    $receiver_number,
-                                                    [
-                                                        'from' => $sender_number,
-                                                        'body' => $message,
-                                                    ]
-                                                );
-                                                if ($sms_sent) {
-                                                    $old_sms = Sms::where('client_number', $receiver_number)->first();
-                                                    if ($old_sms == null) {
-                                                        $sms = new Sms();
-                                                        $sms->client_number = $receiver_number;
-                                                        $sms->twilio_number = $sender_number;
-                                                        $sms->message = $message;
-                                                        $sms->media = '';
-                                                        $sms->status = 1;
-                                                        $sms->save();
-                                                        $this->incrementSmsCount($sender_number);
-                                                    } else {
-                                                        $reply_message = new Reply();
-                                                        $reply_message->sms_id = $old_sms->id;
-                                                        $reply_message->to = $sender_number;
-                                                        $reply_message->from = $receiver_number;
-                                                        $reply_message->reply = $message;
-                                                        $reply_message->system_reply = 1;
-                                                        $reply_message->save();
-                                                        $this->incrementSmsCount($sender_number);
-                                                    }
-                                                }
-                                            } catch (\Exception $ex) {
-                                                $failed_sms = new FailedSms();
-                                                $failed_sms->client_number = $receiver_number;
-                                                $failed_sms->twilio_number = $sender_number;
-                                                $failed_sms->message = $message;
-                                                $failed_sms->media = '';
-                                                $failed_sms->error = $ex->getMessage();
-                                                $failed_sms->save();
-                                            }
-                                        }
-                                    } elseif ($row->type == 'mms') {
-                                        $client = new Client($sid, $token);
-                                        if ($importData[6] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
-                                        } elseif ($importData[7] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
-                                        } elseif ($importData[8] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
-                                        }
-                                        $receiver_number = $number;
-                                        $sender_number = $sender_numbers->number;
-                                        $message = $template != null ? $template->body : '';
-                                        $message = str_replace("{name}", $importData[0], $message);
-                                        $message = str_replace("{street}", $importData[2], $message);
-                                        $message = str_replace("{city}", $importData[3], $message);
-                                        $message = str_replace("{state}", $importData[4], $message);
-                                        $message = str_replace("{zip}", $importData[5], $message);
-                                        if ($receiver_number != '') {
-                                            try {
-                                                $sms_sent = $client->messages->create(
-                                                    $receiver_number,
-                                                    [
-                                                        'from' => $sender_number,
-                                                        'body' => $message,
-                                                        'mediaUrl' => [$template->mediaUrl],
-                                                    ]
-                                                );
+                                //         if ($importData[9] != '') {
+                                //             $email = $importData[9];
+                                //         } elseif ($importData[10]) {
+                                //             $email = $importData[10];
+                                //         }
+                                //         if ($email != '') {
+                                //             $subject = $template->template_name;
+                                //             $subject = str_replace("{name}", $importData[0], $subject);
+                                //             $subject = str_replace("{street}", $importData[2], $subject);
+                                //             $subject = str_replace("{city}", $importData[3], $subject);
+                                //             $subject = str_replace("{state}", $importData[4], $subject);
+                                //             $subject = str_replace("{zip}", $importData[5], $subject);
+                                //             $subject = str_replace("{date}", $date, $subject);
+                                //             $message = $template != null ? $template->content : '';
+                                //             $message = str_replace("{name}", $importData[0], $message);
+                                //             $message = str_replace("{street}", $importData[2], $message);
+                                //             $message = str_replace("{city}", $importData[3], $message);
+                                //             $message = str_replace("{state}", $importData[4], $message);
+                                //             $message = str_replace("{zip}", $importData[5], $message);
+                                //             $message = str_replace("{date}", $date, $message);
+                                //             $unsub_link = url('admin/email/unsub/' . $email);
+                                //             $data = ['message' => $message, 'subject' => $subject, 'name' => $importData[0], 'unsub_link' => $unsub_link];
+                                //             // echo "<pre>";print_r($data);die;
+                                //             Mail::to($email)->send(new TestEmail($data));;
+                                //         }
+                                //     } elseif ($row->type == 'sms') {
+                                //         $client = new Client($sid, $token);
+                                //         if ($importData[6] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+                                //         } elseif ($importData[7] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+                                //         } elseif ($importData[8] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
+                                //         }
+                                //         $receiver_number = $number;
+                                //         $sender_number = $sender_numbers->number;
+                                //         $message = $template != null && $template->body ? $template->body : '';
+                                //         $message = str_replace("{name}", $importData[0], $message);
+                                //         $message = str_replace("{street}", $importData[2], $message);
+                                //         $message = str_replace("{city}", $importData[3], $message);
+                                //         $message = str_replace("{state}", $importData[4], $message);
+                                //         $message = str_replace("{zip}", $importData[5], $message);
+                                //         if ($receiver_number != '') {
+                                //             try {
+                                //                 $sms_sent = $client->messages->create(
+                                //                     $receiver_number,
+                                //                     [
+                                //                         'from' => $sender_number,
+                                //                         'body' => $message,
+                                //                     ]
+                                //                 );
+                                //                 if ($sms_sent) {
+                                //                     $old_sms = Sms::where('client_number', $receiver_number)->first();
+                                //                     if ($old_sms == null) {
+                                //                         $sms = new Sms();
+                                //                         $sms->client_number = $receiver_number;
+                                //                         $sms->twilio_number = $sender_number;
+                                //                         $sms->message = $message;
+                                //                         $sms->media = '';
+                                //                         $sms->status = 1;
+                                //                         $sms->save();
+                                //                         $this->incrementSmsCount($sender_number);
+                                //                     } else {
+                                //                         $reply_message = new Reply();
+                                //                         $reply_message->sms_id = $old_sms->id;
+                                //                         $reply_message->to = $sender_number;
+                                //                         $reply_message->from = $receiver_number;
+                                //                         $reply_message->reply = $message;
+                                //                         $reply_message->system_reply = 1;
+                                //                         $reply_message->save();
+                                //                         $this->incrementSmsCount($sender_number);
+                                //                     }
+                                //                 }
+                                //             } catch (\Exception $ex) {
+                                //                 $failed_sms = new FailedSms();
+                                //                 $failed_sms->client_number = $receiver_number;
+                                //                 $failed_sms->twilio_number = $sender_number;
+                                //                 $failed_sms->message = $message;
+                                //                 $failed_sms->media = '';
+                                //                 $failed_sms->error = $ex->getMessage();
+                                //                 $failed_sms->save();
+                                //             }
+                                //         }
+                                //     } elseif ($row->type == 'mms') {
+                                //         $client = new Client($sid, $token);
+                                //         if ($importData[6] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+                                //         } elseif ($importData[7] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+                                //         } elseif ($importData[8] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
+                                //         }
+                                //         $receiver_number = $number;
+                                //         $sender_number = $sender_numbers->number;
+                                //         $message = $template != null ? $template->body : '';
+                                //         $message = str_replace("{name}", $importData[0], $message);
+                                //         $message = str_replace("{street}", $importData[2], $message);
+                                //         $message = str_replace("{city}", $importData[3], $message);
+                                //         $message = str_replace("{state}", $importData[4], $message);
+                                //         $message = str_replace("{zip}", $importData[5], $message);
+                                //         if ($receiver_number != '') {
+                                //             try {
+                                //                 $sms_sent = $client->messages->create(
+                                //                     $receiver_number,
+                                //                     [
+                                //                         'from' => $sender_number,
+                                //                         'body' => $message,
+                                //                         'mediaUrl' => [$template->mediaUrl],
+                                //                     ]
+                                //                 );
 
-                                                if ($sms_sent) {
-                                                    $old_sms = Sms::where('client_number', $receiver_number)->first();
-                                                    if ($old_sms == null) {
-                                                        $sms = new Sms();
-                                                        $sms->client_number = $receiver_number;
-                                                        $sms->twilio_number = $sender_number;
-                                                        $sms->message = $message;
-                                                        $sms->media = $template->mediaUrl;
-                                                        $sms->status = 1;
-                                                        $sms->save();
-                                                        $this->incrementSmsCount($sender_number);
-                                                    } else {
-                                                        $reply_message = new Reply();
-                                                        $reply_message->sms_id = $old_sms->id;
-                                                        $reply_message->to = $sender_number;
-                                                        $reply_message->from = $receiver_number;
-                                                        $reply_message->reply = $message;
-                                                        $reply_message->system_reply = 1;
-                                                        $reply_message->save();
-                                                        $this->incrementSmsCount($sender_number);
-                                                    }
-                                                }
-                                            } catch (\Exception $ex) {
-                                                $failed_sms = new FailedSms();
-                                                $failed_sms->client_number = $receiver_number;
-                                                $failed_sms->twilio_number = $sender_number;
-                                                $failed_sms->message = $message;
-                                                $failed_sms->media = $template->mediaUrl;
-                                                $failed_sms->error = $ex->getMessage();
-                                                $failed_sms->save();
-                                            }
-                                        }
-                                    } elseif ($row->type == 'rvm') {
-                                        $contactsArr = [];
-                                        if ($importData[6] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
-                                        } elseif ($importData[7] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
-                                        } elseif ($importData[8] != '') {
-                                            $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
-                                        }
-                                        if ($number) {
-                                            $c_phones = $number;
-                                            $vrm = \Slybroadcast::sendVoiceMail([
-                                                'c_phone' => ".$c_phones.",
-                                                'c_url' => $template->body,
-                                                'c_record_audio' => '',
-                                                'c_date' => 'now',
-                                                'c_audio' => 'Mp3',
-                                                //'c_callerID' => "4234606442",
-                                                'c_callerID' => $sender_numbers->number,
-                                                //'mobile_only' => 1,
-                                                'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
-                                            ])->getResponse();
-                                        }
-                                    }
-                                }
+                                //                 if ($sms_sent) {
+                                //                     $old_sms = Sms::where('client_number', $receiver_number)->first();
+                                //                     if ($old_sms == null) {
+                                //                         $sms = new Sms();
+                                //                         $sms->client_number = $receiver_number;
+                                //                         $sms->twilio_number = $sender_number;
+                                //                         $sms->message = $message;
+                                //                         $sms->media = $template->mediaUrl;
+                                //                         $sms->status = 1;
+                                //                         $sms->save();
+                                //                         $this->incrementSmsCount($sender_number);
+                                //                     } else {
+                                //                         $reply_message = new Reply();
+                                //                         $reply_message->sms_id = $old_sms->id;
+                                //                         $reply_message->to = $sender_number;
+                                //                         $reply_message->from = $receiver_number;
+                                //                         $reply_message->reply = $message;
+                                //                         $reply_message->system_reply = 1;
+                                //                         $reply_message->save();
+                                //                         $this->incrementSmsCount($sender_number);
+                                //                     }
+                                //                 }
+                                //             } catch (\Exception $ex) {
+                                //                 $failed_sms = new FailedSms();
+                                //                 $failed_sms->client_number = $receiver_number;
+                                //                 $failed_sms->twilio_number = $sender_number;
+                                //                 $failed_sms->message = $message;
+                                //                 $failed_sms->media = $template->mediaUrl;
+                                //                 $failed_sms->error = $ex->getMessage();
+                                //                 $failed_sms->save();
+                                //             }
+                                //         }
+                                //     } elseif ($row->type == 'rvm') {
+                                //         $contactsArr = [];
+                                //         if ($importData[6] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
+                                //         } elseif ($importData[7] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[7]);
+                                //         } elseif ($importData[8] != '') {
+                                //             $number = '+1' . preg_replace('/[^0-9]/', '', $importData[8]);
+                                //         }
+                                //         if ($number) {
+                                //             $c_phones = $number;
+                                //             $vrm = \Slybroadcast::sendVoiceMail([
+                                //                 'c_phone' => ".$c_phones.",
+                                //                 'c_url' => $template->body,
+                                //                 'c_record_audio' => '',
+                                //                 'c_date' => 'now',
+                                //                 'c_audio' => 'Mp3',
+                                //                 //'c_callerID' => "4234606442",
+                                //                 'c_callerID' => $sender_numbers->number,
+                                //                 //'mobile_only' => 1,
+                                //                 'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+                                //             ])->getResponse();
+                                //         }
+                                //     }
+                                // }
                             }
                         }
 
@@ -538,42 +580,6 @@ class ScrapingSourceListController extends Controller
         }
 
 
-    }
-
-    public function splitPriceRange($selectedPriceRange, $stepSize)
-    {
-        // Initialize an array to store the parsed price ranges
-        $priceRanges = [];
-
-        // Split the selected price range and generate the array
-        list($min, $max) = explode('-', $selectedPriceRange);
-
-        $min = (int) $min;
-        $max = (int) $max;
-
-        while ($min < $max) {
-            // Determine the maximum value for the current segment
-            if (count($priceRanges) === 0) {
-                // For the first iteration, increment the maximum by step size
-                $segmentMax = $min + $stepSize;
-            } else {
-                // For other iterations, keep the maximum constant
-                $segmentMax = $min + $stepSize - 1;
-            }
-
-            // Ensure that the maximum value doesn't exceed the selected price range
-            if ($segmentMax > $max) {
-                $segmentMax = $max;
-            }
-
-            // Add the segment to the priceRanges array
-            $priceRanges[] = $min . '-' . $segmentMax;
-
-            // Move to the next segment
-            $min = $segmentMax + 1;
-        }
-
-        return $priceRanges;
     }
 
 

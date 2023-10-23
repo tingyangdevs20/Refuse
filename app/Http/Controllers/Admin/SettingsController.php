@@ -99,27 +99,20 @@ class SettingsController extends Controller
         //print_r($activeNumberArray);
         //die("...");
         $numbers = [];
-
+        $account = Account::first();
+        $market = Market::first();
         foreach ($activeNumberArray as $activeNumber) {
             error_log('active number = ' . $activeNumber->phoneNumber);
-            $numbers[] = (object)[
-                'number' => $activeNumber->phoneNumber,
-                'name' => $activeNumber->friendlyName,
-                'sid' => $activeNumber->sid,
-                'capabilities' => $activeNumber->capabilities,
-            ];
-
-            $account = Account::first();
-            $market = Market::first();
-            $phn_num[] = $activeNumber->phoneNumber;
+            
+            $phn_num = $activeNumber->phoneNumber;
             $numbers[] = (object) [
                 'number' => $phn_num,
                 'name' => $activeNumber->friendlyName,
                 'sid' => $activeNumber->sid,
                 'capabilities' => $activeNumber->capabilities,
             ];
-            //dd($numbers);
-            $phone_number = Number::where('number', $numbers[0]->number)->first();
+            // dd($numbers);
+            $phone_number = Number::where('number', $activeNumber->phoneNumber)->first();
             // dd($phone_number);
             if (!$phone_number) {
                 $phn_nums = new Number();
@@ -127,30 +120,30 @@ class SettingsController extends Controller
                 //dd($phn_num);
                 $phn_nums->sid = $activeNumber->sid;
                 $capability = "";
-                if ($numbers[0]->capabilities["sms"] == true) {
-                    $capability .= "sms,";
+                if ($activeNumber->capabilities["sms"] == true) {
+                    $capability .= "sms, ";
                 }
-                if ($numbers[0]->capabilities["mms"] == true) {
-                    $capability .= "mms,";
+                if ($activeNumber->capabilities["mms"] == true) {
+                    $capability .= "mms, ";
                 }
-                if ($numbers[0]->capabilities["voice"] == true) {
-                    $capability .= "voice,";
+                if ($activeNumber->capabilities["voice"] == true) {
+                    $capability .= "voice, ";
                 }
-                if ($numbers[0]->capabilities["fax"] == true) {
-                    $capability .= "fax,";
+                if ($activeNumber->capabilities["fax"] == true) {
+                    $capability .= "fax, ";
                 }
-
-                // $phn_nums->capabilities = $capability;
-                // $phn_nums->sms_allowed = Settings::first()->sms_allowed;
-                // $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
-                // $phn_nums->account_id = $account->id;
-                // $phn_nums->market_id=$market->id;
-                // $phn_nums->save();
+                $phn_nums->capabilities = $capability;
+                $phn_nums->sms_allowed = Settings::first()->sms_allowed;
+                $phn_nums->a2p_compliance= $activeNumber->capabilities["sms"];
+                $phn_nums->account_id = $account->id;
+                $phn_nums->market_id=$market->id;
+                $phn_nums->save();
+                
             }
-            $all_phone_nums = Number::all();
         }
-
-        return view('back.pages.settings.communication', compact('responders', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms','groups','campaigns','leadcampaigns','templates'));
+        
+        $all_phone_nums = Number::all();
+        return view('back.pages.settings.communication', compact('responders', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
     }
 
     // Templates

@@ -44,7 +44,7 @@ class VoiceController extends Controller
         } else {
             $response->say("Thanks for calling!");
         }
-        return (string)$response;
+        return response($response)->header('Content-Type', 'application/xml'); 
     }
 
     public function generateAccessToken(Request $request)
@@ -77,7 +77,6 @@ class VoiceController extends Controller
         $accessToken->addGrant($voiceGrant);
 
         $token = $accessToken->toJWT();
-
         return response()->json(['token' => $token]);
         
     }

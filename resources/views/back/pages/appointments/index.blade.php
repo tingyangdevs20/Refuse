@@ -49,6 +49,7 @@
                                             <th scope="col">Date</th>
                                             <th scope="col">Time</th>
                                             <th scope="col">Status</th>
+                                            <th scope="col">Reminder</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -61,10 +62,9 @@
                                                 <td>{{ date('m-d-Y', strtotime($appt->appt_date)) }}</td>
                                                 <td>{{ date('H:i', strtotime($appt->appt_time)) }}</td>
                                                 <td>{{ $appt->status }}</td>
+                                                <td><a href="/manage-appointments/{{ $appt->id }}/reminder"><i class="fa fa-bell"></i></a></td>
 
                                                 <td>
-
-
                                                     <button class="btn btn-danger" title="Remove {{ $appt->name }}"
                                                         data-id="{{ $appt->id }}" data-toggle="modal"
                                                         data-target="#deleteModal">Cancel</button>
