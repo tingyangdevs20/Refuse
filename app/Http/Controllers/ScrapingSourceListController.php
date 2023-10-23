@@ -27,10 +27,26 @@ class ScrapingSourceListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function requests()
+    public function requests(Request $request)
     {
-        $scrapingdata = ScrapingSourceList::all();
+        $status = $request->status;
+        $scrapingdata = ScrapingSourceList::orderBy('deleted_at', 'desc');
 
+        if ($status !== null) {
+            if ($status == 'showAll') {
+                $scrapingdata = $scrapingdata->withTrashed();
+            } else if ($status == 'data-ready') {
+                $scrapingdata->where('status', 1);
+            } else if ($status == 'in-progress') {
+                $scrapingdata->where('status', 0)->orWhere('status', null);
+            } else if ($status == 'deleted') {
+                $scrapingdata = $scrapingdata->onlyTrashed();
+            } else {
+                $scrapingdata = $scrapingdata->withTrashed();
+            }
+        }
+
+        $scrapingdata = $scrapingdata->get();
         return view('back.pages.secrapinglist.requests', compact('scrapingdata'));
     }
 
@@ -107,7 +123,7 @@ class ScrapingSourceListController extends Controller
         // Save the Excel file to a temporary location
         $tempExcelPath = storage_path('app/temp/excel_file.xlsx');
 
-        $excel->store($excelExport, 'temp/excel_file.xlsx', 'local');
+        $excel->store($excelExport, $tempExcelPath, 'local');
 
         // Add the Excel file to the media collection of the model
         $data->addMedia($tempExcelPath)
@@ -277,7 +293,45 @@ class ScrapingSourceListController extends Controller
     {
         $record = ScrapingSourceList::find($id);
         $record->delete();
-        session()->flash('success', 'Record has been deleted !!');
+        session()->flash('success', 'Record has been deleted!');
         return redirect()->route('admin.scraping.list');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\ScrapingSourceList  $scrapingSourceList
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDestroy(Request $request)
+    {
+        $id = $request->id;
+        $softDeletedRecord = ScrapingSourceList::withTrashed()
+                        ->where('id', $id) // Replace 'id' with the column you want to use for identification
+                        ->first();
+        if ($softDeletedRecord) {
+            $softDeletedRecord->forceDelete();
+            session()->flash('success', 'Record has been deleted!');
+            return redirect()->route('admin.scraping.requests');
+        } else {
+            session()->flash('error', 'Record has been deleted!');
+            return redirect()->route('admin.scraping.requests');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\ScrapingSourceList  $scrapingSourceList
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDestroyMultiple(Request $request)
+    {
+        $ids = $request->ids;
+        ScrapingSourceList::withTrashed()
+            ->whereIn('id', $ids)
+            ->forceDelete();
+
+        return response()->json(['message' => 'Records deleted successfully!']);
     }
 }
