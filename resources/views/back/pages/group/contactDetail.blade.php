@@ -5776,10 +5776,9 @@
                                                                                     </div>
 
                                                                                 </div>
-                                                                        </div>
                                                                     </div>
-
                                                                 </div>
+
 
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
@@ -5799,95 +5798,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @php
-                                                                $customeFields = getsectionsFields($section->id);
-                                                            @endphp
-                                                            <div class="row">
-                                                                @if (count($customeFields) > 0)
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                            <label>{{ $section->name }} (Custom
-                                                                                Fields)</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    @foreach ($customeFields as $field)
-                                                                        @php
-                                                                            $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                        @endphp
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
-                                                                                {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                                <div class="input-group mb-2">
-                                                                                    <input type="{{ $field->type }}"
-                                                                                        class="form-control"
-                                                                                        placeholder="{{ $field->label }}"
-                                                                                        name="feild_value"
-                                                                                        section_id="{{ $section->id }}"
-                                                                                        id="{{ $field->id }}"
-                                                                                        table="custom_field_values"
-                                                                                        value="{{ $customeFieldValue }}">
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <div class="form-group" style="margin-left: 15px;">
-                                                                        <small class="text-danger"><b>Please Keep
-                                                                                {SIGNATURE_USER} in contenet for
-                                                                                user sign</b></small>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group" style="margin-left: 15px;">
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary button-item saveUserAgreementContact">Create</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @php
-                                                            $customeFields = getsectionsFields($section->id);
-                                                        @endphp
-                                                        <div class="row">
-                                                            @if (count($customeFields) > 0)
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group"
-                                                                        style="padding: 0 10px;border-bottom: 1px solid #eee;">
-                                                                        <label>{{ $section->name }} (Custom
-                                                                            Fields)</label>
-                                                                    </div>
-                                                                </div>
-                                                                @foreach ($customeFields as $field)
-                                                                    @php
-                                                                        $customeFieldValue = getsectionsFieldValue($id, $field->id);
-                                                                    @endphp
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group"
-                                                                            style="padding: 0 10px;">
-                                                                            {{-- <label>Owner 3 Social Security #</label> --}}
-                                                                            <div class="input-group mb-2">
-                                                                                <input type="{{ $field->type }}"
-                                                                                    class="form-control"
-                                                                                    placeholder="{{ $field->label }}"
-                                                                                    name="feild_value"
-                                                                                    section_id="{{ $section->id }}"
-                                                                                    id="{{ $field->id }}"
-                                                                                    table="custom_field_values"
-                                                                                    value="{{ $customeFieldValue }}">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif
                                                         </div>
 
                                                         <hr>
@@ -5916,7 +5826,7 @@
 
                                                             </div>
                                                         </div>
-                                                <hr>
+                                                        <hr>
 
                                                     @endif
                                                 @endforeach
