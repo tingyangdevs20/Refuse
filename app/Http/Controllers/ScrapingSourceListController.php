@@ -123,7 +123,7 @@ class ScrapingSourceListController extends Controller
         // Save the Excel file to a temporary location
         $tempExcelPath = storage_path('app/temp/excel_file.xlsx');
 
-        $excel->store($excelExport, 'temp/excel_file.xlsx', 'local');
+        $excel->store($excelExport, $tempExcelPath, 'local');
 
         // Add the Excel file to the media collection of the model
         $data->addMedia($tempExcelPath)
