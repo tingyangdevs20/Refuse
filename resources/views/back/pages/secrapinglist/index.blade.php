@@ -114,9 +114,8 @@
                                             </td>
 
                                             <td>
-                                                <button class="btn btn-primary btn-sm" {{ $data->status == 1 ? '' : 'disabled' }} data-toggle="modal"
-                                                    data-target="#campaignModal">Lists
-                                                </button>
+                                                <a href="{{ route('admin.scraping.push-list', $data->id) }}" class="btn btn-primary btn-sm" {{ $data->status == 1 ? '' : 'disabled' }}>Lists
+                                                </a>
                                             </td>
 
                                             <td>
