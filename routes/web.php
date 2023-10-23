@@ -64,7 +64,7 @@ Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPa
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 Route::get('handle-call', 'Admin\VoiceController@handleIncomingCall')->name('voice.handle-call');
-Route::get('access-token', 'Admin\VoiceController@generateAccessToken')->name('voice.access-token');
+Route::get('access-token', 'Admin\VoiceController@generateAccessToken')->name('voice.access-token')->withoutMiddleware(['web', 'auth']);
 
 Route::resource('campaignlist', 'Admin\CampaignListController');
 
@@ -163,6 +163,13 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('scraping/edit/{id}', 'ScrapingSourceListController@edit')->name('scraping.edit');
     Route::post('scraping/update/{id}', 'ScrapingSourceListController@update')->name('scraping.update');
     Route::post('scraping/destroy/{id}', 'ScrapingSourceListController@destroy')->name('scraping.destroy');
+<<<<<<< HEAD
+=======
+    Route::delete('scraping/destroy/force', 'ScrapingSourceListController@forceDestroy')->name('scraping.force-delete');
+    Route::post('scraping/multiple/force-delete', 'ScrapingSourceListController@forceDestroyMultiple')->name('scraping.multipledelete');
+    Route::post('scraping/{scraping}/upload', 'ScrapingSourceListController@upload')->name('scraping.upload');
+
+>>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
@@ -402,6 +409,8 @@ Route::get('/myHtml/{id}/{contactid}', 'Admin\GroupController@myHtml')->name('my
 // Appointment Routes
 Route::resource('/appointments', 'Admin\AppointmentController');
 Route::resource('/manage-appointments', 'Admin\ViewAppointmentsController');
+Route::get('/manage-appointments/{id}/reminder', 'Admin\ViewAppointmentsController@reminder');
+Route::post('/manage-appointments/reminder', 'Admin\ViewAppointmentsController@sendreminder');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
@@ -429,9 +438,12 @@ Route::get('/call', [PhoneCallController::class, 'index']);
 
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
+<<<<<<< HEAD
 Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
 
 
+=======
+>>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
 Route::get('/secure-payment/{token}', 'StripePaymentController@payment')->name('secure.payment');
 
 

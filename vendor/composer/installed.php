@@ -3,7 +3,11 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => 'adeaafbedaea358824d6ded76e606a9678034116',
+=======
+        'reference' => '730572d80c1ad876279e83fc6a38e25550f0c0e1',
+>>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -484,7 +488,11 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => 'adeaafbedaea358824d6ded76e606a9678034116',
+=======
+            'reference' => '730572d80c1ad876279e83fc6a38e25550f0c0e1',
+>>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -697,6 +705,18 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+=======
+        'phpoffice/phpspreadsheet' => array(
+            'pretty_version' => '1.25.2',
+            'version' => '1.25.2.0',
+            'reference' => 'a317a09e7def49852400a4b3eca4a4b0790ceeb5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+>>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.1',
             'version' => '1.9.1.0',

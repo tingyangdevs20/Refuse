@@ -92,7 +92,6 @@
                                                 @endif
                                             </td>
 
-
                                             <td>
                                                 @if ($data->file)
                                                     <a href="{{ asset('upload/' . $data->file) }}" download>
