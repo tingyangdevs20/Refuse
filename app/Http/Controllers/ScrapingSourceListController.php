@@ -137,10 +137,19 @@ class ScrapingSourceListController extends Controller
             $excelExport = new GenerateScrapingRequestExcel($collection);
         }
 
-        // Save the Excel file to a temporary location
-        $tempExcelPath = storage_path('app/temp/excel_file.xlsx');
+        // // Save the Excel file to a temporary location
+        // $tempExcelPath = storage_path('app/temp/excel_file.xlsx');
 
-        $excel->store($excelExport, $tempExcelPath, 'local');
+        // $excel->store($excelExport, $tempExcelPath, 'local');
+
+        $tempDirectory = public_path('temp');
+
+        if (!file_exists($tempDirectory)) {
+            mkdir($tempDirectory, 0755, true);
+        }
+
+        $tempExcelPath = public_path('temp/excel_file.xlsx');
+        file_put_contents($tempExcelPath, $excelExport);
 
         // Add the Excel file to the media collection of the model
         $data->addMedia($tempExcelPath)
@@ -371,8 +380,29 @@ class ScrapingSourceListController extends Controller
                                     "group_id" => $group_id,
                                 ];
 
-                                // Insert the data into the Contact table
                                 $contact = Contact::create($insertData);
+
+                                // Check if contact is created
+                                if ($contact) {
+                                    $insertContactPropertyData = [
+                                        "contact_id" => $contact->id,
+                                        "property_address" => $address,
+                                        "property_city" => $city,
+                                        "property_state" => $state,
+                                        "property_zip" => $zip,
+                                        "bedrooms" => $beds,
+                                        "bathrooms" => $bath,
+                                        "square_footage" => $sqr_ft,
+                                        "lot_size" => $lot_size,
+
+                                    ];
+
+                                    // Insert the data into the Contact table
+                                    $property_infos = DB::table('property_infos')->where('contact_id', $contact->id)->first();
+                                    if ($property_infos == null) {
+                                        DB::table('property_infos')->insert($insertContactPropertyData);
+                                    }
+                                }
 
                                 $groupsID = Group::where('id', $group_id)->first();
                                 $sender_numbers = Number::where('market_id', $groupsID->market_id)->inRandomOrder()->first();
