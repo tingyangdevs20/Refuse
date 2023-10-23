@@ -31,13 +31,16 @@ use App\Http\Controllers\PhoneCallController;
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
 });
-
 Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
 });
 
 Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
+});
+
+Route::get('/storage-link', function () {
+    $exitCode = Artisan::call('storage:link');
 });
 
 Route::get('test-call', 'Admin\PhoneController@makeCallTesting');
@@ -158,11 +161,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     // scraping list route
     Route::get('/scraping/list', 'ScrapingSourceListController@index')->name('scraping.list');
+    Route::get('scraping/requests', 'ScrapingSourceListController@requests')->name('scraping.requests');
     Route::get('scraping/create', 'ScrapingSourceListController@create')->name('scraping.create');
     Route::post('scraping/store', 'ScrapingSourceListController@store')->name('scraping.store');
     Route::get('scraping/edit/{id}', 'ScrapingSourceListController@edit')->name('scraping.edit');
     Route::post('scraping/update/{id}', 'ScrapingSourceListController@update')->name('scraping.update');
     Route::post('scraping/destroy/{id}', 'ScrapingSourceListController@destroy')->name('scraping.destroy');
+    Route::post('scraping/{scraping}/upload', 'ScrapingSourceListController@upload')->name('scraping.upload');
+
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');

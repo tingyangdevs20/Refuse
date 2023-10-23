@@ -17,24 +17,21 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Scraping Management</h4>
+                        <h4 class="mb-0 font-size-18">Scraping Requests</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Scraping Management</li>
-                                <li class="breadcrumb-item active">Data</li>
+                                <li class="breadcrumb-item">Scraping Requests</li>
+                                <li class="breadcrumb-item active">Requests</li>
                             </ol>
                         </div>
                     </div>
                     @include('back.pages.partials.messages')
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            All Data
+                            All Requests
                             @if (auth()->user()->can('administrator') ||
                                     auth()->user()->can('scraping_create'))
-                                <a href="{{ route('admin.scraping.create') }}"
-                                    class="btn btn-outline-primary btn-sm float-right ml-2" title="New"><i
-                                        class="fas fa-plus-circle"></i></a>
                             @endif
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
@@ -52,7 +49,7 @@
                                         <th scope="col">Baths</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">File</th>
-                                        <th scope="col">Push to</th>
+                                        <th scope="col">Upload</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -92,9 +89,9 @@
 
 
                                             <td>
-                                                @if ($data->hasMedia('scraping_uploads'))
+                                                @if ($data->hasMedia('scraping_requests'))
                                                     @php
-                                                        $media = $data->getFirstMedia('scraping_uploads');
+                                                        $media = $data->getFirstMedia('scraping_requests');
                                                     @endphp
                                                     @if ($media)
                                                         <a href="{{ $media->getUrl() }}" download target="_blank">
@@ -115,12 +112,35 @@
                                             </td>
 
                                             <td>
-                                                <button class="btn btn-primary btn-sm" {{ $data->status == 1 ? '' : 'disabled' }} data-toggle="modal"
-                                                    data-target="#campaignModal">Lists
-                                                </button>
+                                                <form method="POST"
+                                                    action="{{ route('admin.scraping.upload', $data->id) }}"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="input-group input-group-sm">
+                                                        <!-- Add input-group-sm to make it smaller -->
+                                                        <div class="custom-file" style="width: 150px;">
+                                                            <!-- Adjust the width as needed -->
+                                                            <input type="file" class="custom-file-input"
+                                                                id="excelFileInput" name="excel_file" accept=".xlsx, .xls">
+                                                            <label class="custom-file-label" for="excelFileInput">Choose
+                                                                file</label>
+                                                        </div>
+                                                        <div class="input-group-append">
+                                                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                                                <i class="fas fa-upload"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </td>
 
                                             <td>
+                                                @if (auth()->user()->can('administrator') ||
+                                                        auth()->user()->can('scraping_edit'))
+                                                    <a href="{{ route('admin.scraping.edit', $data->id) }}"
+                                                        class="btn btn-outline-primary btn-sm" title="Edit  User"><i
+                                                            class="fas fa-edit"></i></a> -
+                                                @endif
                                                 @if (auth()->user()->can('administrator') ||
                                                         auth()->user()->can('scraping_delete'))
                                                     <a href="{{ route('admin.scraping.destroy', $data->id) }}"

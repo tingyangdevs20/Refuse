@@ -86,19 +86,19 @@
 
                                                     <!-- @foreach ($sms->replies()->get() as $reply)
     <li class="{{ $reply->system_reply ? 'right' : '' }}">
-                                                                        <div class="conversation-list">
-                                                                            <div
-                                                                                class="ctext-wrap  {{ $reply->system_reply ? 'text-primary' : 'text-success' }}">
-                                                                                <p style="font-size: larger">
-                                                                                    {{ $reply->reply }}
-                                                                                </p>
-                                                                                <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $reply->type }}</span><i
-                                                                                        class="bx bx-time-five align-middle mr-1"></i> {{ $reply->created_at }}
-                                                                                </p>
-                                                                            </div>
+                                                                                <div class="conversation-list">
+                                                                                    <div
+                                                                                        class="ctext-wrap  {{ $reply->system_reply ? 'text-primary' : 'text-success' }}">
+                                                                                        <p style="font-size: larger">
+                                                                                            {{ $reply->reply }}
+                                                                                        </p>
+                                                                                        <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $reply->type }}</span><i
+                                                                                                class="bx bx-time-five align-middle mr-1"></i> {{ $reply->created_at }}
+                                                                                        </p>
+                                                                                    </div>
 
-                                                                        </div>
-                                                                    </li>
+                                                                                </div>
+                                                                            </li>
     @endforeach-->
                                                     @foreach ($conversations as $conversation)
                                                         <li>
@@ -189,13 +189,9 @@
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-rounded chat-send w-md waves-effect waves-light"
                                                                 {{ $number->sms_allowed == $number->sms_count ? 'disabled' : '' }}
-                                                                {{ $smsInfo->is_dnc ? 'disabled' : '' }}>
+                                                                {{ $smsInfo ? ($smsInfo->is_dnc ? 'disabled' : '') : '' }}>
                                                                 <span class="d-none d-sm-inline-block mr-2">Send</span>
                                                                 <i class="mdi mdi-send"></i></button>
-
-
-
-
                                                         </div>
                                                     </div>
                                                 </div>
