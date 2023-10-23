@@ -19,10 +19,7 @@
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
-<<<<<<< HEAD
-=======
         "maatwebsite/excel": "^3.0",
->>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
         "realrashid/sweet-alert": "^3.1",
         "riazxrazor/slybroadcast": "^1.1",
         "smalot/pdfparser": "^2.7",
@@ -51,7 +48,7 @@
         }
     },
     "autoload": {
-        
+
         "psr-4": {
             "App\\": "app/"
         },

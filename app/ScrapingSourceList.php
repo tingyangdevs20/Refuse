@@ -3,18 +3,47 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-=======
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
->>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
 
-class ScrapingSourceList extends Model
+class ScrapingSourceList extends Model implements HasMedia
 {
-<<<<<<< HEAD
-=======
     use HasMediaTrait, SoftDeletes;
->>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
     protected $guarded = [];
+
+    protected $appends = ['formatted_price_range'];
+
+    public function getFormattedPriceRangeAttribute()
+    {
+        // Split the price range into min and max values
+        list($min, $max) = explode('-', $this->attributes['price_range']);
+
+        // Convert min and max to "k" format
+        $min = $this->formatNumber($min);
+        $max = $this->formatNumber($max);
+
+        return "$min-$max";
+    }
+
+    protected function formatNumber($number)
+    {
+        $number = number_format($number / 1000, 0);
+
+        // Append "k" to the formatted number
+        return $number . 'k';
+    }
+
+
+    /**
+     * Register the media collections.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('scraping_requests')
+            ->singleFile(); // To ensure only one file is stored in this collection
+
+            $this->addMediaCollection('scraping_uploads')
+            ->singleFile(); // To ensure only one file is stored in this collection
+    }
 }

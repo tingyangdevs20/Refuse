@@ -5,14 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB; // Import DB facade
-use Illuminate\Support\Facades\Storage; // Import Storage facade
 use Spatie\Permission\Models\Role; // Import the Role model from Spatie
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\Admin\StoreUsersRequest;
-use App\Http\Requests\Admin\UpdateUsersRequest;
 
 class UserController extends Controller
 {
@@ -78,8 +73,6 @@ class UserController extends Controller
             }
             session()->flash('success', 'User has been created !!');
             return redirect()->route('admin.user-list.index');
-
-
     }
 
     public function edit( $id)

@@ -158,18 +158,18 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     // scraping list route
     Route::get('/scraping/list', 'ScrapingSourceListController@index')->name('scraping.list');
+    Route::get('scraping/requests', 'ScrapingSourceListController@requests')->name('scraping.requests');
     Route::get('scraping/create', 'ScrapingSourceListController@create')->name('scraping.create');
     Route::post('scraping/store', 'ScrapingSourceListController@store')->name('scraping.store');
     Route::get('scraping/edit/{id}', 'ScrapingSourceListController@edit')->name('scraping.edit');
     Route::post('scraping/update/{id}', 'ScrapingSourceListController@update')->name('scraping.update');
     Route::post('scraping/destroy/{id}', 'ScrapingSourceListController@destroy')->name('scraping.destroy');
-<<<<<<< HEAD
-=======
     Route::delete('scraping/destroy/force', 'ScrapingSourceListController@forceDestroy')->name('scraping.force-delete');
     Route::post('scraping/multiple/force-delete', 'ScrapingSourceListController@forceDestroyMultiple')->name('scraping.multipledelete');
     Route::post('scraping/{scraping}/upload', 'ScrapingSourceListController@upload')->name('scraping.upload');
+    Route::get('scraping/{scraping}/lists', 'ScrapingSourceListController@pushToListsView')->name('scraping.push-list');
+    Route::post('scraping/{scraping}/push', 'ScrapingSourceListController@pushToLists')->name('scraping.push');
 
->>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
@@ -438,12 +438,6 @@ Route::get('/call', [PhoneCallController::class, 'index']);
 
 
 Route::post('/make_call', 'CallingController@make_call')->name('make_call');
-<<<<<<< HEAD
-Route::post('/handle-call', 'CallingController@handleCall')->name('handleCall');
-
-
-=======
->>>>>>> fc47628412f3cfa6e39cd3693d49fe73f9f84771
 Route::get('/secure-payment/{token}', 'StripePaymentController@payment')->name('secure.payment');
 
 
