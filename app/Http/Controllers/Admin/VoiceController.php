@@ -25,8 +25,6 @@ class VoiceController extends Controller
         $callerId = $settings['call_forward_number'];
         $response = new VoiceResponse();
         $response->say('Hello, friend. This is a test call from Twilio make by REIFuze!');
-
-    // Return the TwiML response
         return response($response)->header('Content-Type', 'application/xml');
         if ($phone == $callerId) {
             # Receiving an incoming call to the browser from an external phone
