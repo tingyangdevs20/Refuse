@@ -35,11 +35,8 @@ class AppointmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $rq, $uid = '')
-    {
-        if (!empty($uid)) {
-
+    {   
             $this->setupGoogleCalendar();
-
             $appointmentSettings = CalendarSetting::first() ?? new CalendarSetting();
             $adminTimezone = $appointmentSettings->timezone;
             $advance_booking_duration = $appointmentSettings->advance_booking_duration;
@@ -53,12 +50,10 @@ class AppointmentController extends Controller
                 $this->getBookedSlotsFromGoogleCalendar($appointmentSettings, $adminTimezone)
             );
 
-            $uid = decrypt($uid);
+            $uid = 1;
 
             return view('book-appointment', compact('timezones', 'adminTimezone', 'availableSlots', 'bookedSlots', 'uid', 'advance_booking_duration'));
-        } else {
-            return Redirect::back();
-        }
+        
     }
 
 

@@ -14,5 +14,11 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'receive-sms*',
         'handle-call',
+        'appointment/*',
+        'appointments',
+        'appointments/*',
+        'appointments/store',
+        'fetch-all-slots',
+        'get-appointment',
     ];
 }
