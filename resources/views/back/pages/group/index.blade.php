@@ -885,8 +885,8 @@
                         },
                         success: function(data) {
                             // Handle success response
-                            console.log(data);
-                          //   alert(data);
+                           // console.log(data);
+                            // alert(data);
                             if (data.success) {
 
                                 toastr.success(

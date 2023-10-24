@@ -3063,8 +3063,13 @@ class GroupController extends Controller
         //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
         // }
         $twilio_number = Number::where('id', 1)->get();
+        $twilio_sender=$twilio_number[0]->number;
+       // die($twilio_number[0]->number);
+       // die("...");
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
         $settings = Settings::first()->toArray();
+
+        //die(".........");
 
         try {
 
@@ -3073,6 +3078,7 @@ class GroupController extends Controller
             $_typ = $campaign_list->type;
             $_body = $campaign_list->body;
             $_media=$campaign_list->mediaUrl;
+
            // die($_typ);
 
             if($_typ == 'rvm'){
@@ -3114,6 +3120,7 @@ class GroupController extends Controller
 
             //die('here');
             elseif(trim($_typ) == 'email') {
+               // die("emaillllll");
 
 
 
@@ -3141,46 +3148,56 @@ class GroupController extends Controller
                       //  $message->to($email);
                    // });
                    $data = ['message' => $body ,'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
+                  // die($data);
                    Mail::to($email)->send(new TestEmail($data));
                 }
             } elseif ($_typ == 'sms') {
-
+//die($twilio_sender);
                 $contact_numbrs = Contact::where('group_id', $groupId)->get();
+               // die($contact_numbrs);
 
                 $body = strip_tags($_body);
 
-                die($body);
+                //die($body);
 
                 foreach ($contact_numbrs as $contact_num) {
 
-                   // print_r($contact_num->number);
-               // die("..");
+                    
+               // die($contact_num);
 
-              // die($settings);
+              // print_r($settings);
+               //die("....");
                $sid = $settings['twilio_acc_sid'];
                $token = $settings['twilio_auth_token'];
                $numberCounter = 0;
+               //print_r($token);
+              // die("...");
 
 
                    $client = new Client($sid, $token);
+               // print_r($client);
+              // die("...");
 
                    $cont_num=$contact_num->number;
-                  // die($body);
+                  // dd($twilio_sender);
+                  // die('....');
 
                    $sms_sent = $client->messages->create(
                        $cont_num,
                        [
-                           'from' => $twilio_number,
+                           'from' => $twilio_sender,
                            'body' => $body,
                        ]
                    );
 
+                  // print_r($sms_sent);
+                  // die("...");
                    if ($sms_sent) {
                        $old_sms = Sms::where('client_number', $cont_num)->first();
                        if ($old_sms == null) {
                            $sms = new Sms();
                            $sms->client_number = $cont_num;
-                           $sms->twilio_number = $twilio_number;
+                           $sms->twilio_number = $twilio_sender;
                            $sms->lname = null;
                            $sms->fname = null;
                            $sms->message = $body;
@@ -3197,7 +3214,7 @@ class GroupController extends Controller
                            $reply_message = new Reply();
                            $reply_message->sms_id = $old_sms->id;
                            $reply_message->to = $cont_num;
-                           $reply_message->from = $twilio_number;
+                           $reply_message->from = $twilio_sender;
                            $reply_message->reply = $body;
                            $reply_message->system_reply = 1;
                            $reply_message->save();

@@ -50,8 +50,10 @@ class CampaignListController extends Controller
         $templates = Template::all();
         //dd($templates);
         $files = RvmFile::all();
+        //die($files);
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id', $id)->orderby('schedule', 'ASC')->get();
+       // die($campaignsList);
         $campaign_name=Campaign::where('id', $id)->first();
 
         return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories','campaign_name'));
@@ -312,6 +314,7 @@ class CampaignListController extends Controller
         $subject = $request->subject;
         //dd($_POST['media_file']);
         $body = $request->body;
+       
         $templ_ate = $request->templat;
         
        
@@ -319,7 +322,9 @@ class CampaignListController extends Controller
         $settings = Settings::first()->toArray(); 
         $sid = $settings['twilio_acc_sid'];
         $token = $settings['twilio_auth_token'];
-        
+        $body_text ="";
+        $bodytext='';
+        $subject='';
 
         
 
@@ -353,22 +358,25 @@ class CampaignListController extends Controller
                         } else {
                             $media = '';
                         }
-                    }
-                }
-                
-                //return $media;
-                //return $sendAfter;
-                $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
+
+                        $body_text = TemplateMessages::where('template_id', $request->templat[$key])->get();
                 
                 if(count($body_text)>0)
                 {
                 $bodytext=$body_text[0]->msg_content;
                 $subject=$body_text[0]->subject;
                 }
-                else{
-                    $bodytext='';
-                $subject='';
+               
+                    }
                 }
+                
+                //return $media;
+                //return $sendAfter;
+               
+                //die(count($request->templat));
+                //die("..");
+                
+                
                 // Create the campaign
                 if ($request->campaign_list_id[$key] == 0) {
                     //dd($request->campaign_list_id[$key]);
