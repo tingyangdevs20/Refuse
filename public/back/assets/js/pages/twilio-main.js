@@ -66,7 +66,7 @@ async function startupClient() {
 
         log("Got a token.");
         token = data.token;
-        console.log(token +"its my token");
+        // console.log(token +"its my token");
         setClientNameUI('bulk-sms');
         intitializeDevice();
     } catch (err) {
