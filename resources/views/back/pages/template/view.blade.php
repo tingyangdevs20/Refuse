@@ -53,19 +53,15 @@
                                     @if ($templates != null)
                                         @foreach ($templates as $template)
                                             <tr>
-
                                                 <td>{{ $template->msg_title }}</td>
                                                 <td>{{ strip_tags($template->msg_content) }}</td>
-
-
-
                                                 <td>
                                                     <button class="btn btn-outline-primary btn-sm edit-template"
                                                         title="Edit {{ $template->msg_title }}"
                                                         data-title="{{ $template->msg_title }}"
                                                         data-mediaurl="{{ $template->mediaUrl }}"
                                                         data-subject="{{ $template->subject }}"
-                                                        data-body="{{ htmlspecialchars_decode(stripslashes($template->message_content)) }}"
+                                                        data-body="{{ htmlspecialchars_decode(stripslashes($template->msg_content)) }}"
                                                         data-id="{{ $template->id }}" data-toggle="modal"
                                                         data-target="#editModal"><i class="fas fa-edit"></i></button>
                                                     -
@@ -113,11 +109,6 @@
                             <input type="text" class="form-control" name="title" placeholder="Enter Message Title"
                                 required>
                         </div>
-
-
-
-
-
                         <div class="show_media_mms" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>

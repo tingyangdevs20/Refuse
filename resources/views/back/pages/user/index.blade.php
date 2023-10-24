@@ -1,6 +1,24 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                                white-space: nowrap;
+                            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -31,38 +49,40 @@
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col">Phone#</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>{{ $user->fname . ' ' . $user->lname }}</td>
-                                            <td>{{ $user->role->name }}</td>
-                                            <td>{{ $user->phone_no }}</td>
-                                            <td>
-                                                <button class="btn btn-outline-primary btn-sm"
-                                                    title="Edit {{ $user->lname . "'s" }} Role"
-                                                    data-username="{{ $user->lname }}" data-userid="{{ $user->id }}"
-                                                    data-toggle="modal" data-target="#editModal"><i
-                                                        class="fas fa-edit"></i></button> -
-                                                <button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $user->name }}" data-userid="{{ $user->id }}"
-                                                    data-toggle="modal" data-target="#deleteModal"><i
-                                                        class="fas fa-times-circle"></i></button>
-                                            </td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Phone#</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $user)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>{{ $user->fname . ' ' . $user->lname }}</td>
+                                                <td>{{ $user->role->name }}</td>
+                                                <td>{{ $user->phone_no }}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-sm"
+                                                        title="Edit {{ $user->lname . "'s" }} Role"
+                                                        data-username="{{ $user->lname }}"
+                                                        data-userid="{{ $user->id }}" data-toggle="modal"
+                                                        data-target="#editModal"><i class="fas fa-edit"></i></button> -
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $user->name }}" data-userid="{{ $user->id }}"
+                                                        data-toggle="modal" data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,6 +136,7 @@
         </div>
     </div>
     {{-- End Modal Edit --}}
+
     {{-- Modal Delete --}}
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

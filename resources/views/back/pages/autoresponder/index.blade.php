@@ -1,6 +1,24 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -33,37 +51,39 @@
 
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Keyword</th>
-                                        <th scope="col">Response</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($responders as $respond)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>{{ $respond->keyword }}</td>
-                                            <td>{{ $respond->response }}</td>
-                                            <td>
-                                                <button class="btn btn-outline-primary btn-sm"
-                                                    title="Edit {{ $respond->keyword }}"
-                                                    data-keyword="{{ $respond->keyword }}"
-                                                    data-response="{{ $respond->response }}" data-id={{ $respond->id }}
-                                                    data-toggle="modal" data-target="#editModal"><i
-                                                        class="fas fa-edit"></i></button> -
-                                                <button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $respond->keyword }}" data-id="{{ $respond->id }}"
-                                                    data-toggle="modal" data-target="#deleteModal"><i
-                                                        class="fas fa-times-circle"></i></button>
-                                            </td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Keyword</th>
+                                            <th scope="col">Response</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($responders as $respond)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>{{ $respond->keyword }}</td>
+                                                <td>{{ $respond->response }}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-sm"
+                                                        title="Edit {{ $respond->keyword }}"
+                                                        data-keyword="{{ $respond->keyword }}"
+                                                        data-response="{{ $respond->response }}" data-id={{ $respond->id }}
+                                                        data-toggle="modal" data-target="#editModal"><i
+                                                            class="fas fa-edit"></i></button> -
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $respond->keyword }}" data-id="{{ $respond->id }}"
+                                                        data-toggle="modal" data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

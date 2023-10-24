@@ -2,6 +2,25 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -27,77 +46,78 @@
                         <div class="card-header bg-soft-dark ">
                             All Numbers
                             <span>
-                              <select class="actionSelect" onchange="delete_selected(this)">
+                                <select class="actionSelect" onchange="delete_selected(this)">
                                     <option value="0">Action</option>
                                     <option value="1">Delete Selected</option>
-
                                 </select>
                             </span>
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
-                                data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
+                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New"
+                                data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal"
                                 data-toggle="modal" data-target="#helpModal">How To Use</button> --}}
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Street</th>
-                                        <th scope="col">City</th>
-                                        <th scope="col">State</th>
-                                        <th scope="col">Zip</th>
-                                        <th scope="col">Numbers</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">No. Of Tags</th>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Last Name</th>
+                                            <th scope="col">Street</th>
+                                            <th scope="col">City</th>
+                                            <th scope="col">State</th>
+                                            <th scope="col">Zip</th>
+                                            <th scope="col">Numbers</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">No. Of Tags</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    @foreach ($group->contacts()->get() as $contact)
-                                        <tr data-task-id="{{ $contact->id }}">
-                                            <td>
-                                                <input type="checkbox" class="task-checkbox" name="contact[]"
-                                                    value="{{ $contact->id }}">
-                                            </td>
-                                            <td><a
-                                                    href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->name }}</a>
-                                            </td>
-                                            <td><a
-                                                    href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->last_name }}</a>
-                                            </td>
-                                            <td>{{ $contact->street }}</td>
-                                            <td>{{ $contact->city }}</td>
-                                            <td>{{ $contact->state }}</td>
-                                            <td>{{ $contact->zip }}</td>
-                                            <td>
-                                                {{ $contact->number }}<br>
-                                                {{ $contact->number2 }}<br>
-                                                {{ $contact->number3 }}
-                                            </td>
-                                            <td>
-                                                {{ $contact->email1 }}<br>
-                                                {{ $contact->email2 }}
-                                            </td>
-                                            <td>
-                                                {{ $group->getContactCountByEmailId($contact->email1, $contact->email2, $contact->number, $contact->number2, $contact->number3) }}<br>
+                                        @foreach ($group->contacts()->get() as $contact)
+                                            <tr data-task-id="{{ $contact->id }}">
+                                                <td>
+                                                    <input type="checkbox" class="task-checkbox" name="contact[]"
+                                                        value="{{ $contact->id }}">
+                                                </td>
+                                                <td><a
+                                                        href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->name }}</a>
+                                                </td>
+                                                <td><a
+                                                        href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->last_name }}</a>
+                                                </td>
+                                                <td>{{ $contact->street }}</td>
+                                                <td>{{ $contact->city }}</td>
+                                                <td>{{ $contact->state }}</td>
+                                                <td>{{ $contact->zip }}</td>
+                                                <td>
+                                                    {{ $contact->number }}<br>
+                                                    {{ $contact->number2 }}<br>
+                                                    {{ $contact->number3 }}
+                                                </td>
+                                                <td>
+                                                    {{ $contact->email1 }}<br>
+                                                    {{ $contact->email2 }}
+                                                </td>
+                                                <td>
+                                                    {{ $group->getContactCountByEmailId($contact->email1, $contact->email2, $contact->number, $contact->number2, $contact->number3) }}<br>
 
-                                            </td>
+                                                </td>
 
 
-                                            <!-- <td>
-                                                        <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
-                                                            <i class="fas fa-phone whatsapp-icon"></i>
-                                                        </a>
-                                                        <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
-                                                    </td> -->
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                <!-- <td>
+                                                                    <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
+                                                                        <i class="fas fa-phone whatsapp-icon"></i>
+                                                                    </a>
+                                                                    <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
+                                                                </td> -->
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,7 +145,8 @@
                             name="group_id">
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter First Name" required>
+                            <input type="text" class="form-control" name="name" placeholder="Enter First Name"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
@@ -133,41 +154,35 @@
                         </div>
                         <div class="form-group">
                             <label>Street</label>
-                            <input type="text" class="form-control" name="street" placeholder="Enter Street" >
+                            <input type="text" class="form-control" name="street" placeholder="Enter Street">
                         </div>
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" class="form-control" name="city" placeholder="Enter City" >
+                            <input type="text" class="form-control" name="city" placeholder="Enter City">
                         </div>
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" class="form-control" name="state" placeholder="Enter State"
-                                >
+                            <input type="text" class="form-control" name="state" placeholder="Enter State">
                         </div>
                         <div class="form-group">
                             <label>Zip</label>
-                            <input type="text" class="form-control" name="zip" placeholder="Enter Zip code"
-                                >
+                            <input type="text" class="form-control" name="zip" placeholder="Enter Zip code">
                         </div>
                         <div class="form-group">
                             <label>Phone 1</label>
-                            <input type="text" class="form-control" name="number" placeholder="Enter Phone"
-                                >
+                            <input type="text" class="form-control" name="number" placeholder="Enter Phone">
                         </div>
                         <div class="form-group">
                             <label>Phone 2</label>
-                            <input type="text" class="form-control" name="number2" placeholder="Enter Phone"
-                                >
+                            <input type="text" class="form-control" name="number2" placeholder="Enter Phone">
                         </div>
                         <div class="form-group">
                             <label>Email 1</label>
-                            <input type="text" class="form-control" name="email1" placeholder="Enter email"
-                                >
+                            <input type="text" class="form-control" name="email1" placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label>Email 2</label>
-                            <input type="text" class="form-control" name="email2" placeholder="Enter email"
-                                >
+                            <input type="text" class="form-control" name="email2" placeholder="Enter email">
                         </div>
 
                         <div class="modal-footer">
@@ -194,8 +209,8 @@
         </div>
 
         <!-- Confirmation Modal -->
-        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -214,7 +229,6 @@
                 </div>
             </div>
         </div>
-
     @endsection
     @section('scripts')
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
@@ -290,7 +304,7 @@
 
 
                 // Check if the selected value is "delete"
-                if (selectedValue === "1" && selectedTaskIds.length > 0 ) {
+                if (selectedValue === "1" && selectedTaskIds.length > 0) {
                     // Show the confirmation modal
                     $('#confirmationModal').modal('show');
 
@@ -321,7 +335,5 @@
                     });
                 }
             }
-
-
         </script>
     @endsection

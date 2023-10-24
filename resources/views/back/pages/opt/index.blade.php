@@ -2,6 +2,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                        white-space: nowrap;
+                    } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
 
@@ -42,38 +60,40 @@
 
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">List Name</th>
-                                        <th scope="col">Numbers</th>
-                                        <th scope="col">Market</th>
-                                        <th scope="col">Tag</th>
-                                        <th scope="col">Campaign</th>
-                                        <th scope="col">Created At</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($groups as $group)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>{{ $group->name }}</td>
-                                            <td><a href="{{ route('admin.group.show', $group->id) }}"
-                                                    id="trigger-startup-button">View Contacts</a></td>
-                                            <td>{{ $group->market_id }}</td>
-                                            <td>{{ $group->tag_id }}</td>
-                                            <td>{{ $group->campaign_id }}</td>
-                                            <td>{{ $group->created_at->format('j F Y') }}</td>
-                                            <td><button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $group->name }}" data-id="{{ $group->id }}"
-                                                    data-toggle="modal" data-target="#deleteModal"><i
-                                                        class="fas fa-times-circle"></i></button></td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">List Name</th>
+                                            <th scope="col">Numbers</th>
+                                            <th scope="col">Market</th>
+                                            <th scope="col">Tag</th>
+                                            <th scope="col">Campaign</th>
+                                            <th scope="col">Created At</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($groups as $group)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>{{ $group->name }}</td>
+                                                <td><a href="{{ route('admin.group.show', $group->id) }}"
+                                                        id="trigger-startup-button">View Contacts</a></td>
+                                                <td>{{ $group->market_id }}</td>
+                                                <td>{{ $group->tag_id }}</td>
+                                                <td>{{ $group->campaign_id }}</td>
+                                                <td>{{ $group->created_at->format('j F Y') }}</td>
+                                                <td><button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $group->name }}" data-id="{{ $group->id }}"
+                                                        data-toggle="modal" data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

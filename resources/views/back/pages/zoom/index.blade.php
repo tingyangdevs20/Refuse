@@ -3,6 +3,23 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                                white-space: nowrap;
+                            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         .status-span {
             background-color: red;
             color: #fff;
@@ -54,78 +71,80 @@
                                     title="Create New Meeting"><i class="fas fa-plus-circle"></i></a>
                             @endif
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">How to Use</button>   --}}
+                            data-target="#helpModal">How to Use</button>   --}}
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Topic</th>
-                                        <th scope="col">Date Time</th>
-                                        <th scope="col">Timezone</th>
-                                        <th scope="col">Duration (Minutes)</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col" style="text-align:center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($meetings as $meeting)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $meeting->meeting_name }}</td>
-                                            <td>{{ $meeting->meeting_date }}</td>
-                                            <td>{{ $meeting->time_zone }}</td>
-                                            <td>{{ $meeting->duration_minute }}</td>
-                                            <td>
-                                                @if ($meeting->meeting_status == '0')
-                                                    <span class="badge badge-info">Awaited</span>
-                                                @endif
-                                                @if ($meeting->meeting_status == '1')
-                                                    <span class="badge badge-success">Finished</span>
-                                                @endif
-                                                @if ($meeting->meeting_status == '2')
-                                                    <span class="badge badge-danger">Cancelled</span>
-                                                @endif
-                                            </td>
-                                            <td style="text-align:center">
-                                                @if (auth()->user()->can('administrator') ||
-                                                        auth()->user()->can('meeting_edit'))
-                                                    <a href="{{ route('admin.zoom.edit', $meeting->id) }}"
-                                                        class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
-                                                        title="Edit"><i class="fas fa-edit"></i> Edit</a>
-                                                @endif
-
-                                                @if (auth()->user()->can('administrator') ||
-                                                        auth()->user()->can('meeting_edit'))
-                                                    <!-- meeting url generate -->
-                                                    <a href="" class="btn btn-outline-warning btn-sm"
-                                                        title="Join meeting url" data-toggle="tooltip"><i
-                                                            class="fas fa-link"></i> Join Meeting</a>
-                                                @endif
-
-                                                @if (auth()->user()->can('administrator') ||
-                                                        auth()->user()->can('meeting_delete'))
-                                                    <a href="{{ route('admin.zoom.destroy', $meeting->id) }}"
-                                                        class="btn btn-outline-danger btn-sm" title="Remove"
-                                                        data-toggle="tooltip"
-                                                        onclick="event.preventDefault(); confirmDelete({{ $meeting->id }});">
-                                                        <i class="fas fa-times-circle"></i> Remove
-                                                    </a>
-                                                    <form id="delete-form-{{ $meeting->id }}"
-                                                        action="{{ route('admin.zoom.destroy', $meeting->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                    </form>
-                                                @endif
-
-                                            </td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Topic</th>
+                                            <th scope="col">Date Time</th>
+                                            <th scope="col">Timezone</th>
+                                            <th scope="col">Duration (Minutes)</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col" style="text-align:center">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($meetings as $meeting)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $meeting->meeting_name }}</td>
+                                                <td>{{ $meeting->meeting_date }}</td>
+                                                <td>{{ $meeting->time_zone }}</td>
+                                                <td>{{ $meeting->duration_minute }}</td>
+                                                <td>
+                                                    @if ($meeting->meeting_status == '0')
+                                                        <span class="badge badge-info">Awaited</span>
+                                                    @endif
+                                                    @if ($meeting->meeting_status == '1')
+                                                        <span class="badge badge-success">Finished</span>
+                                                    @endif
+                                                    @if ($meeting->meeting_status == '2')
+                                                        <span class="badge badge-danger">Cancelled</span>
+                                                    @endif
+                                                </td>
+                                                <td style="text-align:center">
+                                                    @if (auth()->user()->can('administrator') ||
+                                                            auth()->user()->can('meeting_edit'))
+                                                        <a href="{{ route('admin.zoom.edit', $meeting->id) }}"
+                                                            class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
+                                                            title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                                                    @endif
+
+                                                    @if (auth()->user()->can('administrator') ||
+                                                            auth()->user()->can('meeting_edit'))
+                                                        <!-- meeting url generate -->
+                                                        <a href="" class="btn btn-outline-warning btn-sm"
+                                                            title="Join meeting url" data-toggle="tooltip"><i
+                                                                class="fas fa-link"></i> Join Meeting</a>
+                                                    @endif
+
+                                                    @if (auth()->user()->can('administrator') ||
+                                                            auth()->user()->can('meeting_delete'))
+                                                        <a href="{{ route('admin.zoom.destroy', $meeting->id) }}"
+                                                            class="btn btn-outline-danger btn-sm" title="Remove"
+                                                            data-toggle="tooltip"
+                                                            onclick="event.preventDefault(); confirmDelete({{ $meeting->id }});">
+                                                            <i class="fas fa-times-circle"></i> Remove
+                                                        </a>
+                                                        <form id="delete-form-{{ $meeting->id }}"
+                                                            action="{{ route('admin.zoom.destroy', $meeting->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                        </form>
+                                                    @endif
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

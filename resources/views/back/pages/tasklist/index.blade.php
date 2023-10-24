@@ -5,6 +5,23 @@
 
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                            white-space: nowrap;
+                        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         .active-status {
             background-color: lightgreen;
             border-radius: 5px;
@@ -49,8 +66,8 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Task List
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
-                                data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
+                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New"
+                                data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             @include('components.modalform')
 
                         </div>
@@ -91,49 +108,51 @@
                                             </div>
                                         </form>
 
-                                        <table id="tasktable" class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                                    <th>S.No</th>
-                                                    <th>Task</th>
-                                                    <th>Assigned To</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                    <th>Drag</th> <!-- New drag handle column -->
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($tasks as $key => $task)
-                                                    <tr data-task-id="{{ $task->id }}">
-                                                        <!-- Add data-task-id attribute -->
-                                                        <td>
-                                                            <input type="checkbox" class="task-checkbox" name="task_id[]"
-                                                                value="{{ $task->id }}">
-                                                        </td>
-                                                        <td>{{ @$loop->iteration }}</td>
-                                                        <td><a href="{{ route('admin.task-list.show', $task->id) }}"
-                                                                id="trigger-startup-button">{{ @$task->tast }} </a> </td>
-                                                        <td>{{ @$task->user->name }}</td>
-                                                        <td>{{ @$task->status }}</td>
-                                                        <td>
-                                                            <!-- @if (auth()->user()->can('administrator') ||
-                                                                    auth()->user()->can('user_task_edit'))
-    -->
-                                                            <button class="btn btn-outline-primary btn-sm edit-task"
-                                                                data-task-id="{{ @$task->id }}"
-                                                                data-task-name="{{ @$task->tast }}"
-                                                                data-assignee-id="{{ @$task->user->id }}"
-                                                                title="Edit Task"><i class="fas fa-edit"></i></button>
-                                                @endif
-                                                </td>
-                                                <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
-                                                <!-- Drag handle icon -->
-                                                </tr>
-                                                <!--
-    @endforeach -->
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table id="tasktable" class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
+                                                        <th>S.No</th>
+                                                        <th>Task</th>
+                                                        <th>Assigned To</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                        <th>Drag</th> <!-- New drag handle column -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($tasks as $key => $task)
+                                                        <tr data-task-id="{{ $task->id }}">
+                                                            <!-- Add data-task-id attribute -->
+                                                            <td>
+                                                                <input type="checkbox" class="task-checkbox" name="task_id[]"
+                                                                    value="{{ $task->id }}">
+                                                            </td>
+                                                            <td>{{ @$loop->iteration }}</td>
+                                                            <td><a href="{{ route('admin.task-list.show', $task->id) }}"
+                                                                    id="trigger-startup-button">{{ @$task->tast }} </a> </td>
+                                                            <td>{{ @$task->user->name }}</td>
+                                                            <td>{{ @$task->status }}</td>
+                                                            <td>
+                                                                <!-- @if (auth()->user()->can('administrator') ||
+                                                                        auth()->user()->can('user_task_edit'))
+                                                                -->
+                                                                <button class="btn btn-outline-primary btn-sm edit-task"
+                                                                    data-task-id="{{ @$task->id }}"
+                                                                    data-task-name="{{ @$task->tast }}"
+                                                                    data-assignee-id="{{ @$task->user->id }}"
+                                                                    title="Edit Task"><i class="fas fa-edit"></i></button>
+                                                    @endif
+                                                    </td>
+                                                    <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
+                                                    <!-- Drag handle icon -->
+                                                    </tr>
+                                                    <!--
+                                                    @endforeach -->
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +353,7 @@
             //   });
 
             const sortableList = new Sortable(document.getElementById('tasktable').getElementsByTagName('tbody')[
-            0], {
+                0], {
                 handle: '.drag-handle', // Specify the handle element for dragging
                 animation: 150,
                 onEnd: function(evt) {

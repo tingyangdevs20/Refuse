@@ -2,6 +2,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -36,62 +54,66 @@
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Body</th>
-                                        <!--<th scope="col">Media URL</th>-->
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($templates as $template)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>{{ $template->title }}</td>
-                                            <td>{{ $template->type }}</td>
-                                            <td>{{ $template->getCategoryName() }}</td>
-                                            <td>
-                                                <?php echo htmlspecialchars_decode(stripslashes($template->body)); ?>
-                                                <!--{{ $template->body }}-->
-                                                @if ($template->type == 'MMS')
-                                                    <br>{{ $template->mediaUrl }}
-                                                @endif
-                                            </td>
-                                            <!--<td>-->
-                                            <!--    @if ($template->type == 'MMS')
+                                            <th scope="col">#</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Body</th>
+                                            <!--<th scope="col">Media URL</th>-->
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($templates as $template)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>{{ $template->title }}</td>
+                                                <td>{{ $template->type }}</td>
+                                                <td>{{ $template->getCategoryName() }}</td>
+                                                <td>
+                                                    <?php echo htmlspecialchars_decode(stripslashes($template->body)); ?>
+                                                    <!--{{ $template->body }}-->
+                                                    @if ($template->type == 'MMS')
+                                                        <br>{{ $template->mediaUrl }}
+                                                    @endif
+                                                </td>
+                                                <!--<td>-->
+                                                <!--    @if ($template->type == 'MMS')
     -->
-                                            <!--        {{ $template->mediaUrl }}-->
-                                        <!--    @else-->
-                                            <!--        {{ $template->body }}-->
-                                            <!--
+                                                <!--        {{ $template->mediaUrl }}-->
+                                            <!--    @else-->
+                                                <!--        {{ $template->body }}-->
+                                                <!--
     @endif-->
 
-                                            <!--</td>-->
-                                            <td>
-                                                <button class="btn btn-outline-primary btn-sm edit-template"
-                                                    title="Edit {{ $template->title }}" data-title="{{ $template->title }}"
-                                                    data-mediaurl="{{ $template->mediaUrl }}"
-                                                    data-category="{{ $template->category_id }}"
-                                                    data-type="{{ $template->type }}"
-                                                    data-subject="{{ $template->subject }}"
-                                                    data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}"
-                                                    data-id="{{ $template->id }}" data-toggle="modal"
-                                                    data-target="#editModal"><i class="fas fa-edit"></i></button>
-                                                -
-                                                <button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $template->title }}" data-id="{{ $template->id }}"
-                                                    data-toggle="modal" data-target="#deleteModal"><i
-                                                        class="fas fa-times-circle"></i></button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                <!--</td>-->
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-sm edit-template"
+                                                        title="Edit {{ $template->title }}"
+                                                        data-title="{{ $template->title }}"
+                                                        data-mediaurl="{{ $template->mediaUrl }}"
+                                                        data-category="{{ $template->category_id }}"
+                                                        data-type="{{ $template->type }}"
+                                                        data-subject="{{ $template->subject }}"
+                                                        data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}"
+                                                        data-id="{{ $template->id }}" data-toggle="modal"
+                                                        data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                                    -
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $template->title }}"
+                                                        data-id="{{ $template->id }}" data-toggle="modal"
+                                                        data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,24 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
 
-    </head>
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -37,39 +54,41 @@
 
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Message</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($autoReplies as $autoreply)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>{{ $autoreply->category->name }}</td>
-                                            <td>{{ $autoreply->message }}</td>
-                                            <td>
-                                                <button class="btn btn-outline-primary btn-sm" title="Edit"
-                                                    data-message="{{ $autoreply->message }}" data-id={{ $autoreply->id }}
-                                                    data-toggle="modal" data-target="#editModal"><i
-                                                        class="fas fa-edit"></i></button>
-
-                                                @if ($autoreply->category_id > 1)
-                                                    -
-                                                    <button class="btn btn-outline-danger btn-sm" title="Remove"
-                                                        data-id="{{ $autoreply->id }}" data-toggle="modal"
-                                                        data-target="#deleteModal"><i
-                                                            class="fas fa-times-circle"></i></button>
-                                                @endif
-                                            </td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Message</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($autoReplies as $autoreply)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>{{ $autoreply->category->name }}</td>
+                                                <td>{{ $autoreply->message }}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-sm" title="Edit"
+                                                        data-message="{{ $autoreply->message }}"
+                                                        data-id={{ $autoreply->id }} data-toggle="modal"
+                                                        data-target="#editModal"><i class="fas fa-edit"></i></button>
+
+                                                    @if ($autoreply->category_id > 1)
+                                                        -
+                                                        <button class="btn btn-outline-danger btn-sm" title="Remove"
+                                                            data-id="{{ $autoreply->id }}" data-toggle="modal"
+                                                            data-target="#deleteModal"><i
+                                                                class="fas fa-times-circle"></i></button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
