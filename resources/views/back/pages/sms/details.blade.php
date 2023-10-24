@@ -28,6 +28,7 @@
     <div class="page-content">
         <div class="container-fluid">
 
+<<<<<<< HEAD
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -60,6 +61,36 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($messages as $msg)
+=======
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 font-size-18">Received SMS</h4>
+                                   
+                                </div>
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        All Messages
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped table-bordered" id="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Client#</th>
+                                                <th scope="col">Twilio#</th>
+                                                <th scope="col">Media</th>
+                                                <th scope="col">Message</th>
+                                                <th scope="col">Replies</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($messages as $msg)
+>>>>>>> 6da0dfed6002badc556f10928e1a5933ea4bb8c9
                                             <tr>
                                                 <td>{{ $sr++ }}</td>
                                                 <td>{{ $msg->client_number }}</td>

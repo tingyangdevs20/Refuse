@@ -487,13 +487,7 @@
                     <div class="page-title-box d-flex align-items-center justify-content-between">
 
                         <h4 class="mb-0 font-size-18">Contact Record</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Contact</li>
-                                <li class="breadcrumb-item active">Contact Record</li>
-                            </ol>
-                        </div>
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -5748,31 +5742,34 @@
                                                                         <label for="seller_id"
                                                                             class="col-form-label">Select Contacts <span
                                                                                 class="required">*</span></label>
-                                                                        <div class="checkbox-list">
-                                                                            <div class="row">
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            table="lead_info"
-                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
-                                                                                            value="{{ $leadinfo->mail_to_owner1 }}"
-                                                                                            {{ $leadinfo->mail_to_owner1 == 1 ? 'checked' : '' }}
-                                                                                            name="mail_to_owner1">Contact
-                                                                                        1
-                                                                                        ({{ $leadinfo->owner1_first_name }})</label>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            table="lead_info"
-                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
-                                                                                            value="{{ $leadinfo->mail_to_owner2 }}"
-                                                                                            {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
-                                                                                            name="mail_to_owner2">Contact
-                                                                                        1
-                                                                                        ({{ $leadinfo->owner2_first_name }})</label>
+                                                                                <div class="checkbox-list">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
+                                                                                                table="lead_info"
+                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
+                                                                                                value="{{ $leadinfo->mail_to_owner1 }}"
+                                                                                                {{ $leadinfo->mail_to_owner1 == 1 ? 'checked' : '' }}
+                                                                                                name="mail_to_owner1">Contact 1 ({{ $leadinfo->owner1_first_name }})</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
+                                                                                                table="lead_info"
+                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
+                                                                                                value="{{ $leadinfo->mail_to_owner2 }}"
+                                                                                                {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
+                                                                                                name="mail_to_owner2">Contact 2 ({{ $leadinfo->owner2_first_name }})</label>
+
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
+                                                                                                table="lead_info"
+                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
+                                                                                                value="{{ $leadinfo->mail_to_owner3 }}"
+                                                                                                {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
+                                                                                                name="mail_to_owner3">Contact 3 ({{ $leadinfo->owner3_first_name }})</label>
+                                                                                        </div>
+                                                                                    </div>
 
                                                                                 </div>
                                                                                 <div class="col-md-4">
@@ -5792,8 +5789,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <div class="form-group"

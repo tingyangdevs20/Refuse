@@ -3,7 +3,7 @@
     <div data-simplebar class="h-100">
 
         <!--- Sidemenu -->
-        <div id="sidebar-menu">
+        <div id="sidebar-menu" style="overflow-x:hidden">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
@@ -290,6 +290,7 @@
                                         Database</a></li>
                             </ul>
                         </li> --}}
+                       
                         <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation
                                 Management</a></li>
 

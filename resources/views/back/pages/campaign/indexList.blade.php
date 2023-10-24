@@ -23,13 +23,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Prospect Campaigns</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Prospect Campaigns</li>
-                                <li class="breadcrumb-item active">{{ $campaign_name->name }}</li>
-                            </ol>
-                        </div>
+                        
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -119,9 +113,10 @@
                                                                         RVM</option>
                                                                 </select>
                                                             </div>
+                                                            @if($campaign->template_id!=null)
                                                             <div class="form-group mt-3" id="dvCategory">
                                                                 <label>Select Template</label>
-                                                                <select class="custom-select category" name="templat[]"
+                                                                <select class="custom-select category"  name="templat[]"
                                                                     required>
                                                                     <option value="">Select Template</option>
                                                                     @foreach ($templates as $template)
@@ -131,6 +126,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     {{-- <div class="form-group">
@@ -138,6 +134,7 @@
                                                                     <input type="file" class="form-control-file" name="media_file">
                                                                 </div> --}}
                                                     <div class="show_sms_{{ $count }}">
+                                                        
                                                         @if ($campaign->type == 'sms')
                                                             @php
                                                                 if ($campaign->template_id > 0) {
@@ -253,7 +250,7 @@
                                                         @elseif($campaign->type == 'rvm')
                                                             <input type="hidden" class="form-control"
                                                                 placeholder="Hours" value="" name="body[]">
-                                                            <div class="row" style="display:none">
+                                                            <div class="row" id="selectRvm" name="selectRvm">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group mt-3">
                                                                         <label>RVM File</label>
@@ -261,6 +258,7 @@
                                                                             required>
                                                                             <option value="">Select RVM File</option>
                                                                             @if (count($files) > 0)
+                                                                            
                                                                                 @foreach ($files as $file)
                                                                                     <option value="{{ $file->mediaUrl }}"
                                                                                         @if ($campaign->mediaUrl == $file->mediaUrl) selected @endif>
@@ -357,7 +355,7 @@
                 ',value);" required><option value="">Select Type</option><option value="sms">SMS</option><option value="email">Email</option><option value="mms">MMS</option><option value="rvm">RVM</option></select></div>';
 
             recRow +=
-                '<div class="form-group mt-3" id="dvcategory"><label>Select Template</label><select class="custom-select" name="templat[]"><option value="" >Select Template</option>';
+                '<div class="form-group mt-3" id="dvcategoryy"><label>Select Template</label><select class="custom-select" name="templat[]"><option value="" >Select Template</option>';
             $.each(templates, function(key, value) {
 
                 recRow += '<option value=' + value.id + '>' + value.title + '</option>';
@@ -406,7 +404,7 @@
         //  };
 
         function messageType(type, id) {
-            //alert(type)
+           // alert(id);
             if (type == "rvm") {
 
                 $('.show_sms_' + id).html('');
@@ -421,6 +419,7 @@
                     success: function(d) {
                         $('.show_sms_' + id).html(d);
                         $("#dvSelectTemp").hide();
+                        $("#dvcategory").hide();
                     }
                 });
             }
@@ -447,12 +446,14 @@
                         //  alert(d);
                         $('.show_sms_' + id).html(d);
 
-                        $("#dvcategory").hide();
+                        $("#dvcategoryy").hide();
                     }
                 });
             } else {
                 // $('.show_sms_'+id).html('');
-                $("#dvcategory").show();
+                $("#dvcategoryy").show();
+                $("#selectRvms").hide();
+                
             }
 
         }

@@ -33,12 +33,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Appointment Settings</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Appointment Settings</li>
-                            </ol>
-                        </div>
+                       
                     </div>
 
 
@@ -63,8 +58,7 @@
 
                                         <select class="input form-control timezones" name="timezone" required>
                                             @foreach ($timezones as $timezone)
-                                                <option value="{{ $timezone }}"
-                                                    {{ $timezone === $appointmentSetting->timezone ? 'selected' : '' }}>
+                                                <option value="{{ $timezone }}">
                                                     {{ $timezone }}</option>
                                             @endforeach
                                         </select>
@@ -91,7 +85,7 @@
                                         </div>
                                         <input type="number" class="form-control" placeholder="Advance booking duration"
                                             name="advance_booking_duration" id="advanceBookingDuration"
-                                            value="{{ $appointmentSetting->advance_booking_duration }}" required>
+                                            value="{{ $appointmentSetting->advance_booking_duration }}" >
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -303,6 +297,19 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         $(document).ready(function() {
+            var savedTimezone = {!! $appointmentSetting!!};
+            var userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if(savedTimezone.timezone !== null ){
+                userTimezone = savedTimezone.timezone;
+            }
+            var selectElement = document.querySelector('.timezones');
+            // Loop through the options and set the selected attribute based on the user's timezone
+            for (var i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].value === userTimezone) {
+                    selectElement.options[i].selected = true;
+                    break; // No need to continue searching once found
+                }
+            }
             $('#datatable').DataTable();
         });
     </script>

@@ -29,6 +29,7 @@
     <div class="page-content">
         <div class="container-fluid">
 
+<<<<<<< HEAD
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -46,6 +47,22 @@
                         <div class="card-header bg-soft-dark ">
                             All Conversations
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
+=======
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 font-size-18">Conversations</h4>
+                                  
+                                </div>
+                                <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                        All Conversations
+                                        {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
+>>>>>>> 6da0dfed6002badc556f10928e1a5933ea4bb8c9
                         data-target="#helpModal">How to Use</button>   --}}
                             @include('components.modalform')
                         </div>
