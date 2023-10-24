@@ -5,6 +5,9 @@
         #hidden_div {
             display: none;
         }
+        .popover .arrow {
+            display: none !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -30,14 +33,17 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             <i style="" class="fas fa-edit mr-1"></i>
-                            @include('components.modalform')
+                            {{-- @include('components.modalform') --}}
                         </div>
                         <div class="card-body" >
 
                             <div class="row">
                                 <div class="col-md-2" style="padding: 0px 10px 10px 0px;"></div>
                                 <div class="col-md-7" style="padding: 0px 10px 10px 0px; color: #495057;">
-                                    <form id="messageForm" class="form-group" style="padding: 0 10px;">
+                                    <form id="messageForm" method="POST" action="{{ route('appointments.sendReminder') }}" class="form-group" style="padding: 0 10px;">
+                                        @csrf
+                                        <input type="hidden" name="user_id"  value="{{ $user_id }}">
+
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group text-right mt-2">
@@ -71,7 +77,7 @@
                                         </div>
                                         <div class="form-group" style="padding: 0 10px;">
                                             {{-- <label>Select Message Type:</label> --}}
-                                            <select id="messageType" onchange="showMessageTypeData()" class="custom-select">
+                                            <select id="messageType" name="type" onchange="showMessageTypeData()" class="custom-select">
                                                 <option value="">Select Message Type
                                                 </option>
                                                 <option value="sms">SMS</option>
@@ -85,19 +91,17 @@
                                             <h3>SMS Data</h3>
                                             <div class="row">
                                                 <div class="form-group" style=" display: none; padding: 0 10px;">
-                                                    <label>Media File (<small class="text-danger">Disregard
-                                                            if not sending
-                                                            MMS</small>)</label>
+                                                    
                                                     {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
                                                 </div>
-                                                <input type="hidden" class="form-control" placeholder="Hours"
+                                                {{-- <input type="hidden" class="form-control" placeholder="Hours"
                                                     value="" name="mediaUrl[]">
                                                 <input type="hidden" class="form-control" placeholder="Subject"
-                                                    value="" name="subject[]">
+                                                    value="" name="subject[]"> --}}
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label>Message</label>
-                                                        <textarea id="template_text" class="form-control" rows="10" name="body[]"></textarea>
+                                                        <textarea id="template_text" class="form-control" rows="10" name="sms_body"></textarea>
                                                         <div id='count' class="float-lg-right"></div>
                                                     </div>
 
@@ -107,8 +111,8 @@
                                         </div>
 
                                         <div id="emailData" style="display: none; padding: 0 10px;">
-                                            <input type="hidden" class="form-control" placeholder="Hours" value=""
-                                                name="mediaUrl[]">
+                                            {{-- <input type="hidden" class="form-control" placeholder="Hours" value=""
+                                                name="mediaUrl[]"> --}}
                                             <div class="form-group" style=" display: none;">
                                                 {{-- <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label> --}}
                                                 {{-- <input type="file" class="form-control-file" name="media_file{{ $count }}"> --}}
@@ -118,7 +122,7 @@
                                                     <div class="form-group ">
                                                         <label>Subject</label>
                                                         <input type="text" class="form-control" placeholder="Subject"
-                                                            value="" name="subject[]">
+                                                            value="" name="email_subject">
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,7 +130,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label>Message</label>
-                                                        <textarea id="template_text" class="form-control summernote-usage" rows="10" name="body[]"></textarea>
+                                                        <textarea id="body" class="form-control summernote-usage" rows="10" name="email_body"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,7 +152,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group ">
                                                         <label>Message</label>
-                                                        <textarea id="template_text" class="form-control" rows="10" name="body[]"></textarea>
+                                                        <textarea id="template_text" class="form-control" rows="10" name="mms_body"></textarea>
                                                         <div id='count' class="float-lg-right"></div>
                                                     </div>
                                                 </div>
@@ -161,9 +165,10 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group mt-3">
                                                         <label>Rvm Files</label>
-                                                        <select class="custom-select" name="mediaUrl[]" required>
+                                                        <select class="custom-select" name="rvm_mediaUrl">
                                                             <option value="">Rvm
                                                                 File</option>
+                                                                
                                                             @if (count($files) > 0)
                                                                 @foreach ($files as $file)
                                                                     <option value="{{ $file->mediaUrl }}">
@@ -180,7 +185,7 @@
                                         </div>
                                         <div class="form-group" style="padding: 0 10px;">
 
-                                            <button type="button" class="btn btn-primary">Send
+                                            <button type="submit" class="btn btn-primary">Send
                                                 Reminder</button>
                                         </div>
                                     </form>

@@ -50,9 +50,10 @@ class ViewAppointmentsController extends Controller
     // }
   }
 
-  public function reminder(){
+  public function reminder($id){
+    $user_id = $id;
     $files = RvmFile::all();
-    return view('back.pages.appointments.indexList', compact('files'));
+    return view('back.pages.appointments.indexList', compact(['files', 'user_id']));
   }
 
   public function store(Request $request)
@@ -366,6 +367,6 @@ class ViewAppointmentsController extends Controller
         }
         
         //return $request->campaign_id;
-        return redirect('admin/compaignlead/list/'.$request->campaign_id)->with('success', 'Campaign list created successfully.');
+        return redirect('/manage-appointments')->with('success', 'Reminder Sent successfully.');
     }
 }

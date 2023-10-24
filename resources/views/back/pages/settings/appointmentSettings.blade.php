@@ -70,7 +70,7 @@
                                         </div>
                                         <input type="number" class="form-control" placeholder="Advance booking duration"
                                             name="advance_booking_duration" id="advanceBookingDuration"
-                                            value="{{ $appointmentSetting->advance_booking_duration }}" required>
+                                            value="{{ $appointmentSetting->advance_booking_duration }}">
                                     </div>
                                 </div>
 

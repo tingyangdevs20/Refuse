@@ -5772,7 +5772,7 @@
                                                                                             value="{{ $leadinfo->mail_to_owner2 }}"
                                                                                             {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
                                                                                             name="mail_to_owner2">Contact
-                                                                                        1
+                                                                                        2
                                                                                         ({{ $leadinfo->owner2_first_name }})</label>
 
                                                                                 </div>
@@ -5785,7 +5785,7 @@
                                                                                             value="{{ $leadinfo->mail_to_owner3 }}"
                                                                                             {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
                                                                                             name="mail_to_owner3">Contact
-                                                                                        1
+                                                                                        3
                                                                                         ({{ $leadinfo->owner3_first_name }})</label>
                                                                                 </div>
                                                                             </div>

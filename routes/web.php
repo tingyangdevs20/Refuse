@@ -266,7 +266,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('settings', 'Admin\SettingsController');
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
-    Route::get('/appointment', 'Admin\SettingsController@appointment')->name('settings.appointment.appointment');
+    // Route::get('/appointment', 'Admin\SettingsController@appointment')->name('settings.appointment.appointment');
 
     Route::get('get/template/{id}', 'Admin\TemplateController@getTemplate');
     Route::get('get/templatecontent/{id}', 'Admin\TemplateController@getTemplateContent');
@@ -409,7 +409,7 @@ Route::get('/myHtml/{id}/{contactid}', 'Admin\GroupController@myHtml')->name('my
 Route::resource('/appointments', 'Admin\AppointmentController');
 Route::resource('/manage-appointments', 'Admin\ViewAppointmentsController');
 Route::get('/manage-appointments/{id}/reminder', 'Admin\ViewAppointmentsController@reminder');
-Route::post('/manage-appointments/reminder', 'Admin\ViewAppointmentsController@sendreminder');
+Route::post('/manage-appointments/reminder', 'Admin\AppointmentController@appointmentReminder')->name('appointments.sendReminder');
 
 Route::post('/receive-sms', 'Admin\ReceiveController@store')->name('sms.receive');
 
