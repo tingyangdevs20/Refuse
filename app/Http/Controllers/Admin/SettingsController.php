@@ -434,6 +434,9 @@ class SettingsController extends Controller
     {
         $data = $request->all();
         $data['calendar_type'] = "Appointments";
+        if (empty($data["advance_booking_duration"])){
+            $data["advance_booking_duration"] = 7;
+        }
 
         if ($appointmentSetting = CalendarSetting::first()) {
             $appointmentSetting->update($data);

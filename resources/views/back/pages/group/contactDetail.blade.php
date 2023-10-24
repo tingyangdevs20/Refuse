@@ -5756,7 +5756,7 @@
                                                                                                 onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
                                                                                                 value="{{ $leadinfo->mail_to_owner2 }}"
                                                                                                 {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner2">Contact 1 ({{ $leadinfo->owner2_first_name }})</label>
+                                                                                                name="mail_to_owner2">Contact 2 ({{ $leadinfo->owner2_first_name }})</label>
 
                                                                                         </div>
                                                                                         <div class="col-md-4">
@@ -5765,15 +5765,13 @@
                                                                                                 onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
                                                                                                 value="{{ $leadinfo->mail_to_owner3 }}"
                                                                                                 {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner3">Contact 1 ({{ $leadinfo->owner3_first_name }})</label>
+                                                                                                name="mail_to_owner3">Contact 3 ({{ $leadinfo->owner3_first_name }})</label>
                                                                                         </div>
                                                                                     </div>
 
                                                                                 </div>
                                                                     </div>
                                                                 </div>
-
-
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <div class="form-group"
