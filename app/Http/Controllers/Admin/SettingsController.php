@@ -143,7 +143,7 @@ class SettingsController extends Controller
         }
         
         $all_phone_nums = Number::all();
-        return view('back.pages.settings.communication', compact('responders', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
+        return view('back.pages.settings.communication', compact('responders','campaigns','leadcampaigns','templates', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
     }
 
     // Templates

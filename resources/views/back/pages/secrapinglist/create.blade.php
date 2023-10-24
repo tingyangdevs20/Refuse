@@ -71,13 +71,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Scraping Data</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Scraping Data</li>
-                                Scraping Request
-                            </ol>
-                        </div>
+                       
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -180,11 +174,11 @@
                                             <select class="form-control @error('no_of_bathrooms') is-invalid @enderror"
                                                 id="no_of_bathrooms" name="no_of_bathrooms">
                                                 <option value="">Select No of Bathrooms *</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
+                                                <option value="1+">1</option>
+                                                <option value="2+">2</option>
+                                                <option value="3+">3</option>
+                                                <option value="4+">4</option>
+                                                <option value="5+">5</option>
 
                                             </select>
                                             @error('no_of_bathrooms')
@@ -197,11 +191,11 @@
                                             <select class="form-control @error('no_of_bedrooms') is-invalid @enderror"
                                                 id="no_of_bedrooms" name="no_of_bedrooms">
                                                 <option value="">Select No of Bedrooms *</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
+                                                <option value="1+">1</option>
+                                                <option value="2+">2</option>
+                                                <option value="3+">3</option>
+                                                <option value="4+">4</option>
+                                                <option value="5+">5</option>
 
                                             </select>
                                             @error('no_of_bedrooms')

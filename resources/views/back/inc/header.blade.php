@@ -44,15 +44,15 @@
                 <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
             </button>
-
             <a href="/admin/single-sms" class="btn" id="open-modal-btnn">
-                <span style="font-size:20px;color:#50a5f1"><i class="fas fa-sms fa-lg"></i></span>
+                <span style="font-size:20px;color:#50a5f1;"><i class="fas fa-sms fa-lg"></i></span>
 
             </a>
             <button class="btn" id="open-modal-btn">
-                <span style="font-size:20px;color:#50a5f1"><i class="fas fa-phone"></i></span>
+                <span style="font-size:20px;color:#50a5f1;"><i class="fas fa-phone"></i></span>
 
             </button>
+           
             <div class="dropdown-menu dropdown-menu-right">
 
                 <a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i
@@ -71,6 +71,7 @@
                     @csrf
                 </form>
             </div>
+           
         </div>
 
 

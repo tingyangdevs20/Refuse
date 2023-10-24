@@ -178,34 +178,34 @@
             }
         });
         $('#show-dial-pad').on('click', function() {
-        var historyPanel = document.getElementById("call-history");
-        var historyPanel2 = document.getElementById("dial_pad");
-        if (historyPanel2.style.display === "none") {
-            historyPanel2.style.display = "block";
-            historyPanel.style.display = "none";
+            var historyPanel = document.getElementById("call-history");
+            var historyPanel2 = document.getElementById("dial_pad");
+            if (historyPanel2.style.display === "none") {
+                historyPanel2.style.display = "block";
+                historyPanel.style.display = "none";
 
-            const showdial = document.getElementById("show-dialpad");
-            showdial.style.color = "blue";
-            const showHistoryButton = document.getElementById("show-history");
-            showHistoryButton.style.color = "#d3d3d3";
+                const showdial = document.getElementById("show-dialpad");
+                showdial.style.color = "blue";
+                const showHistoryButton = document.getElementById("show-history");
+                showHistoryButton.style.color = "#d3d3d3";
 
-            fetchCallRecords(currentPage);
-        }
-    });
+                fetchCallRecords(currentPage);
+            }
+        });
         // Flag to prevent multiple simultaneous requests
         function formatDate(date) {
-    const options = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-    };
-    return date.toLocaleString('en-US', options);
-}
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+            return date.toLocaleString('en-US', options);
+        }
 
-         function fetchCallRecords(page) {
+        function fetchCallRecords(page) {
             if (isLoading || page < 1) {
                 return;
             }
@@ -243,22 +243,36 @@
 
                             if (number === call.to && call.status === "completed") {
                                 listItem.addClass('incoming-call');
-                                listItem.append('<i class="fas fa-arrow-down call-icon" style="color: green;"></i>');
-                                listItem.append('<div class="call-from">' + call.from + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
+                                listItem.append(
+                                    '<i class="fas fa-arrow-down call-icon" style="color: green;"></i>'
+                                    );
+                                listItem.append('<div class="call-from">' + call.from + '(<small>' +
+                                    counter + '</small>)<br> <small>' + formattedStartTime +
+                                    '</small> </div>');
                             } else if (number === call.from) {
                                 listItem.addClass('outgoing-call');
-                                listItem.append('<i class="fas fa-arrow-up call-icon" style="color: blue;"></i>');
-                                listItem.append('<div class="call-from">' + call.to + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
+                                listItem.append(
+                                    '<i class="fas fa-arrow-up call-icon" style="color: blue;"></i>'
+                                    );
+                                listItem.append('<div class="call-from">' + call.to + '(<small>' +
+                                    counter + '</small>)<br> <small>' + formattedStartTime +
+                                    '</small> </div>');
                             } else {
                                 listItem.addClass('missed-call');
-                                listItem.append('<i class="fas fa-phone-slash call-icon" style="color: red;"></i>');
-                                listItem.append('<div class="call-from">' + call.from + '(<small>' + counter + '</small>)<br> <small>' + formattedStartTime + '</small> </div>');
+                                listItem.append(
+                                    '<i class="fas fa-phone-slash call-icon" style="color: red;"></i>'
+                                    );
+                                listItem.append('<div class="call-from">' + call.from + '(<small>' +
+                                    counter + '</small>)<br> <small>' + formattedStartTime +
+                                    '</small> </div>');
                             }
 
-                            lastValu = call;  // Update the lastValu for the next iteration
+                            lastValu = call; // Update the lastValu for the next iteration
 
                             counter = 1;
-                            var answerCallButton = $('<button style="margin-top: 10px;" id="answer-call" class="ans-call"><i class="fa fa-phone" aria-hidden="true"></i></button>');
+                            var answerCallButton = $(
+                                '<button style="margin-top: 10px;" id="answer-call" class="ans-call"><i class="fa fa-phone" aria-hidden="true"></i></button>'
+                                );
                             listItem.append(answerCallButton);
 
                             callHistoryList.append(listItem);

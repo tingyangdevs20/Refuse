@@ -31,6 +31,7 @@ use App\Http\Controllers\PhoneCallController;
 Route::get('/config-cache', function () {
     $exitCode = Artisan::call('db:wipe');
 });
+
 Route::get('/config-clear', function () {
     $exitCode = Artisan::call('config:cache');
 });
@@ -167,7 +168,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('scraping/edit/{id}', 'ScrapingSourceListController@edit')->name('scraping.edit');
     Route::post('scraping/update/{id}', 'ScrapingSourceListController@update')->name('scraping.update');
     Route::post('scraping/destroy/{id}', 'ScrapingSourceListController@destroy')->name('scraping.destroy');
+    Route::delete('scraping/destroy/force', 'ScrapingSourceListController@forceDestroy')->name('scraping.force-delete');
+    Route::post('scraping/multiple/force-delete', 'ScrapingSourceListController@forceDestroyMultiple')->name('scraping.multipledelete');
     Route::post('scraping/{scraping}/upload', 'ScrapingSourceListController@upload')->name('scraping.upload');
+    Route::get('scraping/{scraping}/lists', 'ScrapingSourceListController@pushToListsView')->name('scraping.push-list');
+    Route::post('scraping/{scraping}/push', 'ScrapingSourceListController@pushToLists')->name('scraping.push');
 
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');

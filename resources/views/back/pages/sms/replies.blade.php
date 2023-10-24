@@ -16,13 +16,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Replies</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">Conversations</li>
-                                <li class="breadcrumb-item active">Replies To {{ $sms->client_number }}</li>
-                            </ol>
-                        </div>
+                       
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -86,19 +80,19 @@
 
                                                     <!-- @foreach ($sms->replies()->get() as $reply)
     <li class="{{ $reply->system_reply ? 'right' : '' }}">
-                                                                                <div class="conversation-list">
-                                                                                    <div
-                                                                                        class="ctext-wrap  {{ $reply->system_reply ? 'text-primary' : 'text-success' }}">
-                                                                                        <p style="font-size: larger">
-                                                                                            {{ $reply->reply }}
-                                                                                        </p>
-                                                                                        <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $reply->type }}</span><i
-                                                                                                class="bx bx-time-five align-middle mr-1"></i> {{ $reply->created_at }}
-                                                                                        </p>
-                                                                                    </div>
+                                                                        <div class="conversation-list">
+                                                                            <div
+                                                                                class="ctext-wrap  {{ $reply->system_reply ? 'text-primary' : 'text-success' }}">
+                                                                                <p style="font-size: larger">
+                                                                                    {{ $reply->reply }}
+                                                                                </p>
+                                                                                <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $reply->type }}</span><i
+                                                                                        class="bx bx-time-five align-middle mr-1"></i> {{ $reply->created_at }}
+                                                                                </p>
+                                                                            </div>
 
-                                                                                </div>
-                                                                            </li>
+                                                                        </div>
+                                                                    </li>
     @endforeach-->
                                                     @foreach ($conversations as $conversation)
                                                         <li>
@@ -189,9 +183,13 @@
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-rounded chat-send w-md waves-effect waves-light"
                                                                 {{ $number->sms_allowed == $number->sms_count ? 'disabled' : '' }}
-                                                                {{ $smsInfo ? ($smsInfo->is_dnc ? 'disabled' : '') : '' }}>
+                                                                {{ $smsInfo->is_dnc ? 'disabled' : '' }}>
                                                                 <span class="d-none d-sm-inline-block mr-2">Send</span>
                                                                 <i class="mdi mdi-send"></i></button>
+
+
+
+
                                                         </div>
                                                     </div>
                                                 </div>
