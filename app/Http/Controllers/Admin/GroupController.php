@@ -3157,11 +3157,17 @@ class GroupController extends Controller
                // die($contact_numbrs);
 
                 $body = strip_tags($_body);
+               
+                
 
                 //die($body);
 
                 foreach ($contact_numbrs as $contact_num) {
-
+                    $body = str_replace("{name}", $contact_num->name, $body);
+                    $body = str_replace("{street}", $contact_num->street, $body);
+                    $body = str_replace("{city}", $contact_num->city, $body);
+                    $body = str_replace("{state}", $contact_num->state, $body);
+                    $body = str_replace("{zip}", $contact_num->zip, $body);
                     
                // die($contact_num);
 
