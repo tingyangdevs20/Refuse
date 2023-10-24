@@ -3068,6 +3068,8 @@ class GroupController extends Controller
        // die("...");
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
         $settings = Settings::first()->toArray();
+        $sid = $settings['twilio_acc_sid'];
+               $token = $settings['twilio_auth_token'];
 
         //die(".........");
 
@@ -3117,6 +3119,87 @@ class GroupController extends Controller
 
                 }
             }
+//MMS TYPE
+elseif($_typ == 'mms') {
+    $client = new Client($sid, $token);
+    $contacts = Contact::where('group_id' , $groupId)->get();
+    //dd($contacts);
+    if(count($contacts) > 0) {
+        foreach($contacts as $cont) {
+            $receiver_number = $cont->number;
+            $sender_number = $sender_numbers->number;
+            if($template){
+                $message = $template->body;
+            }
+            //else{
+               // $message = $checkCompainList->body;
+           // }
+            $message = str_replace("{name}", $cont->name, $message);
+            $message = str_replace("{street}", $cont->street, $message);
+            $message = str_replace("{city}", $cont->city, $message);
+            $message = str_replace("{state}", $cont->state, $message);
+            $message = str_replace("{zip}", $cont->zip, $message);
+            if($template){
+                $mediaUrl = $template->mediaUrl;
+            }else{
+                $mediaUrl = $checkCompainList->mediaUrl;
+            }
+            try {
+                $sms_sent = $client->messages->create(
+                    $receiver_number,
+                    [
+                        'from' => $sender_number,
+                        'body' => $message,
+                        'mediaUrl' => [$mediaUrl],
+                    ]
+                );
+                //dd($sms_sent);
+                if ($sms_sent) {
+                    $old_sms = Sms::where('client_number', $receiver_number)->first();
+                    if ($old_sms == null) {
+                        $sms = new Sms();
+                        $sms->client_number = $receiver_number;
+                        $sms->twilio_number = $sender_number;
+                        $sms->message = $message;
+                        $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                        $sms->status = 1;
+                        $sms->save();
+                        $this->incrementSmsCount($sender_number);
+                    } else {
+                        $reply_message = new Reply();
+                        $reply_message->sms_id = $old_sms->id;
+                        $reply_message->to = $sender_number;
+                        $reply_message->from = $receiver_number;
+                        $reply_message->reply = $message;
+                        $reply_message->system_reply = 1;
+                        $reply_message->save();
+                        $this->incrementSmsCount($sender_number);
+                    }
+
+                }
+             }   catch (\Exception $ex) {
+                $failed_sms = new FailedSms();
+                $failed_sms->client_number = $receiver_number;
+                $failed_sms->twilio_number = $sender_number;
+                $failed_sms->message = $message;
+                $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                $failed_sms->error = $ex->getMessage();
+                $failed_sms->save();
+            }
+        }
+    }
+}
+
+//MMS TYPE ENDS
+
+
+
+
+
+
+
+
+
 
             //die('here');
             elseif(trim($_typ) == 'email') {
@@ -3173,8 +3256,7 @@ class GroupController extends Controller
 
               // print_r($settings);
                //die("....");
-               $sid = $settings['twilio_acc_sid'];
-               $token = $settings['twilio_auth_token'];
+               
                $numberCounter = 0;
                //print_r($token);
               // die("...");
