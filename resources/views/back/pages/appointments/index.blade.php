@@ -18,14 +18,24 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark">
                             All Appointments
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2"
+                            {{-- <button class="btn btn-outline-primary btn-sm float-right ml-2"
                                 title="New" data-toggle="modal" data-target=""><i
-                                    class="fas fa-plus-circle"></i></button>
-                            {{-- <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
-                            @include('components.modalform')
+                                    class="fas fa-plus-circle"></i></button> --}}
+                                    {{-- <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
+                                    @include('components.modalform')
                             <a href="{{ url('appointment', [encrypt(Auth::id())]) }}"
-                                target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right mr-2"
-                                title="appointments">Booking Link</a>
+                            target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right mr-2"
+                            title="appointments">Booking Link</a>
+                                    
+                            <button class="btn btn-outline-primary btn-sm float-right mr-2"
+                                id="copyButton" title="Embed Code" data-toggle="modal" data-target="">Copy Embed Code</button>
+                            {{-- <button id="copyButton">Copy Embed Code</button> --}}
+                                <textarea id="embedCode" rows="4" cols="50" style="display: none">
+                                    <iframe src='http://127.0.0.1:8000/appointment/embeded-code' frameborder='0' width='100%' height='400'>Embed Booking Link</iframe>
+                                </textarea>
+                                    
+                                
+
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" style="margin-right: 5px"title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
 
@@ -293,6 +303,37 @@
                     // var modal = $(this);
                     //modal.find('.modal-body #id').val(id);
                 });
+            });
+        </script>
+        {{-- <script>
+            const copyButton = document.getElementById('copyButton');
+            const embedCode = document.getElementById('embedCode');
+            copyButton.addEventListener('click', () => {
+                embedCode.select();
+               document.execCommand('copy');
+              copyButton.textContent = 'Code Copied!';
+              setTimeout(() => {
+                copyButton.textContent = 'Copy Embed Code';
+              }, 2000); // Reset button text after 2 seconds
+              
+            });
+          </script> --}}
+          <script>
+            const copyButton = document.getElementById('copyButton');
+            const embedCode = document.getElementById('embedCode');
+        
+            copyButton.addEventListener('click', () => {
+                // Create a temporary textarea element
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = embedCode.value;
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextarea);
+                copyButton.textContent = 'Code Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy Embed Code';
+                }, 2000); // Reset button text after 2 seconds
             });
         </script>
     @endsection
