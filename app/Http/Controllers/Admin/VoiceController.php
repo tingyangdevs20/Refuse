@@ -25,14 +25,7 @@ class VoiceController extends Controller
         $callerId = $settings['call_forward_number'];
         $response = new VoiceResponse();
         $response->say('Hello, friend. This is a test call from Twilio make by REIFuze!');
-    
-        // Set the XML version and encoding
-        $twiml = $response->asXML(); // Get the TwiML XML as a string
-        $twimlWithVersion = '<?xml version="1.0" encoding="UTF-8"?>' . $twiml;
-    
-        // Return the TwiML response
-        return response($twimlWithVersion)->header('Content-Type', 'application/xml');
-    
+        return response($response)->header('Content-Type', 'application/xml');
         if ($phone == $callerId) {
             # Receiving an incoming call to the browser from an external phone
             $dial = $response->dial($phone);
