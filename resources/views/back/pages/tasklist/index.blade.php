@@ -5,6 +5,23 @@
 
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                            white-space: nowrap;
+                        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         .active-status {
             background-color: lightgreen;
             border-radius: 5px;
@@ -43,7 +60,7 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             Task List
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
+                            <button id="add-task-button" class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
                                 data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             @include('components.modalform')
 
@@ -53,10 +70,11 @@
 
                                 <div class="card-body">
                                     <div id="task-list-container">
-                                        <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
+                                        
+                                    <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
                                             @csrf
                                             <div class="row">
-                                                <div class="col-md-6 col-12 mb-3">
+                                                <!-- <div class="col-md-6 col-12 mb-3">
                                                     <label for="task">Task</label>
                                                     <input type="text" name="task" id="task"
                                                         class="form-control">
@@ -64,19 +82,15 @@
                                                 <div class="col-md-6 col-12 mb-3">
                                                     <label for="assignee">Assign To</label>
                                                     <select class="form-control select2" id="assignee" name="assignee">
-                                                        <!-- Populate this select box with user options -->
                                                         <option value="">Select User</option>
                                                         @foreach ($users as $user)
                                                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                         @endforeach
                                                     </select>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-12 mb-3">
                                                     @if (auth()->user()->can('administrator') ||
                                                             auth()->user()->can('user_task_create'))
-                                                        <button type="submit" class="btn btn-primary"
-                                                            id="add-task-button">Add
-                                                            Task</button>
                                                         <button type="submit" class="btn btn-danger"
                                                             id="delete-selected-button" style="display: none">Delete
                                                             Task</button>
@@ -89,10 +103,10 @@
                                             <thead>
                                                 <tr>
                                                     <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                                    <th>S.No</th>
+                                                    <!-- <th>S.No</th> -->
                                                     <th>Task</th>
-                                                    <th>Assigned To</th>
-                                                    <th>Status</th>
+                                                    <!-- <th>Assigned To</th> -->
+                                                    <!-- <th>Status</th> -->
                                                     <th>Action</th>
                                                     <th>Drag</th> <!-- New drag handle column -->
                                                 </tr>
@@ -105,27 +119,26 @@
                                                             <input type="checkbox" class="task-checkbox" name="task_id[]"
                                                                 value="{{ $task->id }}">
                                                         </td>
-                                                        <td>{{ @$loop->iteration }}</td>
+                                                        <!-- <td>{{ @$loop->iteration }}</td> -->
                                                         <td><a href="{{ route('admin.task-list.show', $task->id) }}"
                                                                 id="trigger-startup-button">{{ @$task->tast }} </a> </td>
-                                                        <td>{{ @$task->user->name }}</td>
-                                                        <td>{{ @$task->status }}</td>
+                                                        <!-- <td>{{ @$task->user->name }}</td> -->
+                                                        <!-- <td>{{ @$task->status }}</td> -->
                                                         <td>
                                                             <!-- @if (auth()->user()->can('administrator') ||
-                                                                    auth()->user()->can('user_task_edit'))
-    -->
+                                                                    auth()->user()->can('user_task_edit'))-->
                                                             <button class="btn btn-outline-primary btn-sm edit-task"
                                                                 data-task-id="{{ @$task->id }}"
                                                                 data-task-name="{{ @$task->tast }}"
-                                                                data-assignee-id="{{ @$task->user->id }}"
+                                                                data-toggle="modal"
+                                                                data-target="#newModal"
                                                                 title="Edit Task"><i class="fas fa-edit"></i></button>
-                                                @endif
-                                                </td>
-                                                <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
-                                                <!-- Drag handle icon -->
-                                                </tr>
-                                                <!--
-    @endforeach -->
+                                                        <!-- @endif -->
+                                                        </td>
+                                                        <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
+                                                        <!-- Drag handle icon -->
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -155,25 +168,24 @@
                                     <label for="task">Task</label>
                                     <input type="text" name="task" id="task" class="form-control">
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="task">Description</label>
                                     <textarea type="text" name="description" id="description" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="assignee">Assign To</label>
                                     <select class="form-control select2" id="assignee" name="assignee">
-                                        <!-- Populate this select box with user options -->
                                         <option value="">Select User</option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                                         @endforeach
                                     </select>
-
-                                </div>
+                                </div> -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Save Task</button>
+                                <button id="save-task-button" type="submit" class="btn btn-primary">Save Task</button>
+                                <button id="update-task-button" type="button" class="btn btn-primary">Update Task</button>
                             </div>
                         </form>
                     </div>
@@ -263,34 +275,32 @@
                 }
             });
 
+            $('#add-task-button').click(function() {
+                $("#save-task-button").show();
+                $("#update-task-button").hide();
+                $('#task').val("");
+            });
+
             // Handle edit button click
             $('.edit-task').click(function() {
                 var taskId = $(this).data('task-id');
                 var taskName = $(this).data('task-name');
-                var assigneeId = $(this).data('assignee-id');
-
+                // var assigneeId = $(this).data('assignee-id');
 
                 // Populate form fields with task data
                 $('#task').val(taskName);
-                $('#assignee').val(assigneeId);
-
-                // Update form action URL for updating the specific task
-                // $('#task-form').attr('action', 'admin/update-task/' + taskId);
-
-                // Change submit button text and handler
-                $('#add-task-button').text('Update Task');
-                $('#add-task-button').attr('id', 'update-task-button');
-
+                // $('#assignee').val(assigneeId);
+                $("#save-task-button").hide();
+                $("#update-task-button").show();
 
                 // Handle update button click
                 $('#update-task-button').click(function(e) {
                     e.preventDefault(); // Prevent form submission
 
-
                     var taskName = $('#task').val();
-                    var assigneeId = $('#assignee').val();
+                    // var assigneeId = $('#assignee').val();
 
-                    if (taskName && assigneeId) {
+                    if (taskName /*&& assigneeId*/) {
 
                         $.ajax({
 
@@ -300,7 +310,7 @@
                                 _token: '{{ csrf_token() }}', // Add CSRF token
                                 task: taskName,
                                 id: taskId,
-                                assignee: assigneeId,
+                                // assignee: assigneeId,
                                 // Add other fields as needed
                             },
                             success: function(response) {
@@ -328,7 +338,7 @@
             //   });
 
             const sortableList = new Sortable(document.getElementById('tasktable').getElementsByTagName('tbody')[
-            0], {
+                0], {
                 handle: '.drag-handle', // Specify the handle element for dragging
                 animation: 150,
                 onEnd: function(evt) {

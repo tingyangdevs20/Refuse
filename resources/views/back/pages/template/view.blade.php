@@ -47,19 +47,15 @@
                                     @if ($templates != null)
                                         @foreach ($templates as $template)
                                             <tr>
-
                                                 <td>{{ $template->msg_title }}</td>
                                                 <td>{{ strip_tags($template->msg_content) }}</td>
-
-
-
                                                 <td>
                                                     <button class="btn btn-outline-primary btn-sm edit-template"
                                                         title="Edit {{ $template->msg_title }}"
                                                         data-title="{{ $template->msg_title }}"
                                                         data-mediaurl="{{ $template->mediaUrl }}"
                                                         data-subject="{{ $template->subject }}"
-                                                        data-body="{{ htmlspecialchars_decode(stripslashes($template->message_content)) }}"
+                                                        data-body="{{ htmlspecialchars_decode(stripslashes($template->msg_content)) }}"
                                                         data-id="{{ $template->id }}" data-toggle="modal"
                                                         data-target="#editModal"><i class="fas fa-edit"></i></button>
                                                     -
@@ -107,11 +103,6 @@
                             <input type="text" class="form-control" name="title" placeholder="Enter Message Title"
                                 required>
                         </div>
-
-
-
-
-
                         <div class="show_media_mms" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
@@ -213,9 +204,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.template.update', 'test') }}" method="post" id="editForm"
+                <form action="{{ route('admin.template.updatemsg') }}" method="post" id="editForm"
                     enctype="multipart/form-data">
-                    @method('PUT')
+                    @method('POST')
                     @csrf
                     <input id="tmpid" style="display:none" value="{{ $id }}" />
                     <div class="modal-body">
@@ -406,7 +397,7 @@
                 $('.show_sms_edit').show();
                 modal.find('.modal-body #body_sms').val(body);
             } else if (typ === 'MMS') {
-                alert(body);
+               // alert(body);
                 $(".body_sms").removeAttr("required");
                 $(".email_body").removeAttr("required");
                 $('.show_email_edit').hide();

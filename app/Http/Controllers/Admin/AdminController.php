@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Model\UserAgreementSeller;
 use Illuminate\Support\Facades\DB;
 
+use App\TaskList;
+use App\TaskLists;
+use App\Model\Contact;
+use Illuminate\Support\Facades\Gate;
+
 class AdminController extends Controller
 {
     public function index()
@@ -363,7 +368,20 @@ class AdminController extends Controller
         //    $messages_sent_week=(Sms::whereDate('created_at', Carbon::today())->where('is_received',0)->withTrashed()->count())+(Reply::where('system_reply',1)->whereDate('created_at', Carbon::today())->withTrashed()->count());
         //    $messages_received_week=(Sms::whereDate('created_at', Carbon::today())->where('is_received',1)->withTrashed()->count())+(Reply::where('system_reply',0)->whereDate('created_at', Carbon::today())->withTrashed()->count());
 
+
+        if (Gate::allows('user_module') || Gate::allows('administrator')) {
+            $users = User::all();
+            // $tasks = TaskList::all();
+            $tasks = TaskList::orderBy('position')->get();
+            // $tasks = TaskList::all();
+
+        }else{
+            return abort(401);
+        }
+
         return view('back.index', compact(
+            'users',
+            'tasks',
             'goalValue',
             'lead_records_count',
             'leads_count_lifetime',

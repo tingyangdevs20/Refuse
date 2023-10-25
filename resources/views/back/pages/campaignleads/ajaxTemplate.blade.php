@@ -60,10 +60,10 @@
 @elseif($type == 'rvm')
     <input type="hidden" class="form-control" placeholder="Hours" value="" name="body[]">
     <div class="col-md-12">
-        <div class="form-group mt-3">
-            <label>Rvm Files</label>
+        <div class="form-group mt-3" id="selectRvms">
+            <label>RVM File</label>
             <select class="custom-select" name="mediaUrl[]" required>
-                <option value="">Rvm File</option>
+                <option value="">Select RVM File</option>
                 @if(count($files) > 0)
                     @foreach($files as $file)
                         <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>

@@ -6,6 +6,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+            white-space: nowrap;
+        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         /* Adjust the margin between the input and dropdown arrow */
         .select2-container .select2-selection--multiple .select2-selection__rendered {
             margin-right: 10px;
@@ -115,113 +132,118 @@
                                     <p>{{ Session::get('payment_infoo') }}</p><br>
                                 </div>
                             @endif
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">List Name</th>
-                                        <th scope="col">Contact</th>
-                                        <th scope="col">Pushed To Campaign</th>
-                                        <th scope="col">Pushed To Campaign Date</th>
-                                        <th scope="col">Date of Last Email Skip Trace</th>
-                                        <th scope="col">Date of Last Phone Skip Trace</th>
-                                        <th scope="col">Date of Last Name Skip Trace</th>
-                                        <th scope="col">Date of Last Email Verification</th>
-                                        <th scope="col">Date of Last Phone Scrub </th>
-                                        <th scope="col">% with Phone Numbers </th>
-                                        <th scope="col">Created On</th>
-                                        <th scope="col">Skip Trace</th>
-                                        <th scope="col">Push to</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($groups as $group)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $group->name }}</td>
-                                            <td><a href="{{ route('admin.group.show', $group->id) }}"
-                                                    id="trigger-startup-button">View ({{ $group->getContactsCount() }}) </a>
-                                            </td>
-                                            <td>
-                                                @if ($group->campaign_name)
-                                                    {{ $group->campaign_name }}
-                                                @else
-                                                    <span style="color:#efefef"> Not Pushed Yet</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->pushed_to_camp_date)
-                                                    {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
-                                                @else
-                                                    <span style="color:#efefef">NA</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->email_skip_trace_date)
-                                                    {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->email_skip_trace_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->phone_skip_trace_date)
-                                                    {{ \Carbon\Carbon::parse($group->phone_skip_trace_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->phone_skip_trace_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->name_skip_trace_date)
-                                                    {{ \Carbon\Carbon::parse($group->name_skip_trace_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->name_skip_trace_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->email_verification_date)
-                                                    {{ \Carbon\Carbon::parse($group->email_verification_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->email_verification_date }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($group->phone_scrub_date)
-                                                    {{ \Carbon\Carbon::parse($group->phone_scrub_date)->format('m/d/Y') }}
-                                                @else
-                                                    {{ $group->phone_scrub_date }}
-                                                @endif
-                                            </td>
-                                            {{-- <td>{{ $groupCounts[$group->id]['contacts_counts_without_phone_numbers'] }}</td> --}}
-                                            <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
-
-                                            <td>{{ $group->created_at->format('m/d/Y') }}</td>
-
-                                            <td>
-
-                                                <button class="btn btn-outline-primary btn-sm model"
-                                                    data-group-id="{{ $group->id }}"
-                                                    title="Skip Trace {{ $group->name }}" data-toggle="modal"
-                                                    data-target="#skiptracingModal"><i class="fas fa-search"></i></button>
-
-                                            </td>
-
-                                            <td>
-                                                <button class="btn btn-primary btn-sm push-to-campaign" data-toggle="modal"
-                                                    data-target="#campaignModal" data-group-id="{{ $group->id }}"
-                                                    data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
-                                                    data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
-                                                </button>
-                                            </td>
-
-                                            <td>
-                                                <button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $group->name }}" data-id="{{ $group->id }}"
-                                                    data-toggle="modal" data-target="#deleteModal"><i
-                                                        class="fas fa-times-circle"></i></button>
-                                            </td>
+                                            <th scope="col">List Name</th>
+                                            <th scope="col">Contact</th>
+                                            <th scope="col">Pushed To Campaign</th>
+                                            <th scope="col">Pushed To Campaign Date</th>
+                                            <th scope="col">Date of Last Email Skip Trace</th>
+                                            <th scope="col">Date of Last Phone Skip Trace</th>
+                                            <th scope="col">Date of Last Name Skip Trace</th>
+                                            <th scope="col">Date of Last Email Verification</th>
+                                            <th scope="col">Date of Last Phone Scrub </th>
+                                            <th scope="col">% with Phone Numbers </th>
+                                            <th scope="col">Created On</th>
+                                            <th scope="col">Skip Trace</th>
+                                            <th scope="col">Push to</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($groups as $group)
+                                            <tr>
+                                                <td>{{ $group->name }}</td>
+                                                <td><a href="{{ route('admin.group.show', $group->id) }}"
+                                                        id="trigger-startup-button">View ({{ $group->getContactsCount() }})
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @if ($group->campaign_name)
+                                                        {{ $group->campaign_name }}
+                                                    @else
+                                                        <span style="color:#efefef"> Not Pushed Yet</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->pushed_to_camp_date)
+                                                        {{ \Carbon\Carbon::parse($group->pushed_to_camp_date)->format('m/d/Y') }}
+                                                    @else
+                                                        <span style="color:#efefef">NA</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->email_skip_trace_date)
+                                                        {{ \Carbon\Carbon::parse($group->email_skip_trace_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->email_skip_trace_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->phone_skip_trace_date)
+                                                        {{ \Carbon\Carbon::parse($group->phone_skip_trace_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->phone_skip_trace_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->name_skip_trace_date)
+                                                        {{ \Carbon\Carbon::parse($group->name_skip_trace_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->name_skip_trace_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->email_verification_date)
+                                                        {{ \Carbon\Carbon::parse($group->email_verification_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->email_verification_date }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($group->phone_scrub_date)
+                                                        {{ \Carbon\Carbon::parse($group->phone_scrub_date)->format('m/d/Y') }}
+                                                    @else
+                                                        {{ $group->phone_scrub_date }}
+                                                    @endif
+                                                </td>
+                                                {{-- <td>{{ $groupCounts[$group->id]['contacts_counts_without_phone_numbers'] }}</td> --}}
+                                                <td>{{ number_format($groupCounts[$loop->index]['percentage'], 2) }}%</td>
+
+                                                <td>{{ $group->created_at->format('m/d/Y') }}</td>
+
+                                                <td>
+
+                                                    <button class="btn btn-outline-primary btn-sm model"
+                                                        data-group-id="{{ $group->id }}"
+                                                        title="Skip Trace {{ $group->name }}" data-toggle="modal"
+                                                        data-target="#skiptracingModal"><i
+                                                            class="fas fa-search"></i></button>
+
+                                                </td>
+
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm push-to-campaign"
+                                                        data-toggle="modal" data-target="#campaignModal"
+                                                        data-group-id="{{ $group->id }}"
+                                                        data-group-name="{{ implode(', ', $group->contacts->pluck('name')->toArray()) }}"
+                                                        data-group-email="{{ implode(', ', $group->contacts->pluck('email1')->toArray()) }}">Campaign
+                                                    </button>
+                                                </td>
+
+                                                <td>
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $group->name }}" data-id="{{ $group->id }}"
+                                                        data-toggle="modal" data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -885,8 +907,13 @@
                         },
                         success: function(data) {
                             // Handle success response
+<<<<<<< HEAD
                             console.log(data);
-                          //   alert(data);
+                            //   alert(data);
+=======
+                           // console.log(data);
+                            // alert(data);
+>>>>>>> 6da0dfed6002badc556f10928e1a5933ea4bb8c9
                             if (data.success) {
 
                                 toastr.success(

@@ -74,10 +74,6 @@ Route::resource('campaignlist', 'Admin\CampaignListController');
 
 Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], function () {
 
-
-
-
-
     Route::get('account/detail', 'AccountDetailController@index')->name('account.detail');
 
     Route::post('process-stripe-payment', 'StripePaymentController@processStripePayment')->name('process-stripe-payment');
@@ -125,7 +121,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('/google-drive-login', 'GoogleDriveController@googleLogin')->name('google.drive.login');
     Route::get('/google-drive-callback', 'GoogleDriveController@handleGoogleCallback')->name('google-drive-callback');
     // Route::get('/googledrive-callback', 'GoogleDriveController@handleGoogleCallback')->name('googledrive-callback');
-
 
     // ZOOM MEETING ROUTES - 14-09-2023 (John Raj)
     Route::get('/zoom', 'ZoomController@index')->name('zoom.index');
@@ -355,7 +350,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
     Route::delete('/del-temp-message', 'Admin\TemplateMessagesController@destroy')->name('template.msg.destroy');
-
+    Route::post('/update-temp-message', 'Admin\TemplateMessagesController@update')->name('template.updatemsg');
+    
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
     route::post('get/template_con/', 'Admin\TemplateController@getTemplateWithoutCategory');

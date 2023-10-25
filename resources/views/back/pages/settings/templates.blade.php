@@ -6,6 +6,23 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                                            white-space: nowrap;
+                                        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         .checkbox label .toggle,
         .checkbox-inline .toggle {
             margin-left: -20px;
@@ -131,26 +148,23 @@
             padding: 5px 15px;
         }
 
-        .nav-tabs .active a {
-            background-color: #327cad;
+        /* Style for the active tab link */
+        .nav-tabs .nav-item .nav-link.active {
+            background-color: #38B6FF;
             /* Change to your preferred button color */
             color: #fff;
             /* Text color for the active tab */
-            border-color: #327cad;
+            border-color: #38B6FF;
             /* Border color for the active tab */
             border-radius: 5px;
             /* Optional: Add rounded corners */
-            padding: 13px;
+            /* padding: 13px; */
         }
 
-        /* Add other CSS styles for the non-active tabs as needed */
-        .nav-tabs li a {
-            /* background-color: #fff; Default background color for non-active tabs */
-            color: #333;
+        /* Add other CSS styles for the non-active tab links as needed */
+        .nav-tabs .nav-item .nav-link {
             /* Default text color for non-active tabs */
-            border-color: #ddd;
-            /* Default border color for non-active tabs */
-            padding: 13px;
+            /* border-color: #38B6FF; */
         }
 
         .popover .arrow {
@@ -187,59 +201,66 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header  bg-soft-dark  ">
-                            <ul class="nav nav-tabs">
-                                <li class="active mr-3">
-                                    <a href="#scripts2" data-toggle="tab"> Scripts</a>
-                                </li>
-                                <li><a class="mr-3" href="#sms_templates" data-toggle="tab">SMS/MMS Templates</a>
-                                </li>
-                                <li><a class="mr-3" href="#digital_sign_templates" data-toggle="tab">Digital Sign.
-                                        Templates</a>
-                                </li>
-                            </ul>
+                        <div class="card-header  bg-soft-dark">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link active" href="#scripts2" data-toggle="tab"> Scripts</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#sms_templates"
+                                            data-toggle="tab">SMS/MMS Templates</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#digital_sign_templates"
+                                            data-toggle="tab">Digital Sign.
+                                            Templates</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="tab-content clearfix">
                                 <div class="tab-pane active" id="scripts2">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i>Scripts>
+                                            <i class="fas fa-cog mr-1"></i>Scripts
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newScriptodal"><i
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered" id="datatable">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($scripts as $script)
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered" id="datatable">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $script->name }}</td>
-                                                            <td>
-                                                                <button class="btn btn-outline-primary btn-sm edit-Script"
-                                                                    title="Edit {{ $script->name }}"
-                                                                    data-name="{{ $script->name }}"
-                                                                    data-body="{{ htmlspecialchars_decode(stripslashes($script->scripts)) }}"
-                                                                    data-id="{{ $script->id }}" data-toggle="modal"
-                                                                    data-target="#editScriptModal"><i
-                                                                        class="fas fa-edit"></i></button>
-                                                                -
-                                                                <button class="btn btn-outline-danger btn-sm"
-                                                                    title="Remove {{ $script->name }}"
-                                                                    data-id="{{ $script->id }}" data-toggle="modal"
-                                                                    data-target="#deleteScriptModal"><i
-                                                                        class="fas fa-times-circle"></i></button>
-                                                            </td>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Actions</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($scripts as $script)
+                                                            <tr>
+                                                                <td>{{ $script->name }}</td>
+                                                                <td>
+                                                                    <button
+                                                                        class="btn btn-outline-primary btn-sm edit-Script"
+                                                                        title="Edit {{ $script->name }}"
+                                                                        data-name="{{ $script->name }}"
+                                                                        data-body="{{ htmlspecialchars_decode(stripslashes($script->scripts)) }}"
+                                                                        data-id="{{ $script->id }}" data-toggle="modal"
+                                                                        data-target="#editScriptModal"><i
+                                                                            class="fas fa-edit"></i></button>
+                                                                    -
+                                                                    <button class="btn btn-outline-danger btn-sm"
+                                                                        title="Remove {{ $script->name }}"
+                                                                        data-id="{{ $script->id }}" data-toggle="modal"
+                                                                        data-target="#deleteScriptModal"><i
+                                                                            class="fas fa-times-circle"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             {{-- Modals --}}
                                             {{-- Modal New --}}
                                             <div class="modal fade" id="newScriptodal" tabindex="-1" role="dialog"
@@ -395,56 +416,58 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered datatable">
-                                                <thead>
-                                                    <tr>
-
-                                                        <th scope="col">Template Name</th>
-                                                        <th scope="col">Type</th>
-                                                        <th scope="col">Message Count</th>
-
-
-                                                        <!--<th scope="col">Media URL</th>-->
-                                                        <th scope="col">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($templates as $template)
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered datatable">
+                                                    <thead>
                                                         <tr>
 
-                                                            <td><a
-                                                                    href="template/view/{{ $template->id }}">{{ $template->title }}</a>
-                                                            </td>
-                                                            <td>{{ $template->type }}</td>
+                                                            <th scope="col">Template Name</th>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Message Count</th>
 
-                                                            <td>
-                                                                {{ $template->message_count }}
-                                                            </td>
 
-                                                            <td>
-                                                                <button
-                                                                    class="btn btn-outline-primary btn-sm edit-template"
-                                                                    title="Edit {{ $template->title }}"
-                                                                    data-title="{{ $template->title }}"
-                                                                    data-mediaurl="{{ $template->mediaUrl }}"
-                                                                    data-category="{{ $template->category_id }}"
-                                                                    data-type="{{ $template->type }}"
-                                                                    data-subject="{{ $template->subject }}"
-                                                                    data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}"
-                                                                    data-id="{{ $template->id }}" data-toggle="modal"
-                                                                    data-target="#editSMSModal"><i
-                                                                        class="fas fa-edit"></i></button>
-                                                                -
-                                                                <button class="btn btn-outline-danger btn-sm"
-                                                                    title="Remove {{ $template->title }}"
-                                                                    data-id="{{ $template->id }}" data-toggle="modal"
-                                                                    data-target="#deleteSMSModal"><i
-                                                                        class="fas fa-times-circle"></i></button>
-                                                            </td>
+                                                            <!--<th scope="col">Media URL</th>-->
+                                                            <th scope="col">Actions</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($templates as $template)
+                                                            <tr>
+
+                                                                <td><a
+                                                                        href="template/view/{{ $template->id }}">{{ $template->title }}</a>
+                                                                </td>
+                                                                <td>{{ $template->type }}</td>
+
+                                                                <td>
+                                                                    {{ $template->message_count }}
+                                                                </td>
+
+                                                                <td>
+                                                                    <button
+                                                                        class="btn btn-outline-primary btn-sm edit-template"
+                                                                        title="Edit {{ $template->title }}"
+                                                                        data-title="{{ $template->title }}"
+                                                                        data-mediaurl="{{ $template->mediaUrl }}"
+                                                                        data-category="{{ $template->category_id }}"
+                                                                        data-type="{{ $template->type }}"
+                                                                        data-subject="{{ $template->subject }}"
+                                                                        data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}"
+                                                                        data-id="{{ $template->id }}" data-toggle="modal"
+                                                                        data-target="#editSMSModal"><i
+                                                                            class="fas fa-edit"></i></button>
+                                                                    -
+                                                                    <button class="btn btn-outline-danger btn-sm"
+                                                                        title="Remove {{ $template->title }}"
+                                                                        data-id="{{ $template->id }}" data-toggle="modal"
+                                                                        data-target="#deleteSMSModal"><i
+                                                                            class="fas fa-times-circle"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <!-- End Page-content -->
                                             {{-- Modals --}}
                                             {{-- Modal New --}}
@@ -663,104 +686,108 @@
                                             </button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered datatable">
-                                                <thead>
-                                                    <tr>
-
-                                                        <th scope="col"> Template Name </th>
-                                                        <th scope="col"> Status </th>
-
-                                                        <th scope="col">Created On</th>
-                                                        <th scope="col">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($groups as $group)
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered datatable">
+                                                    <thead>
                                                         <tr>
 
-                                                            <td>{{ $group->template_name }}</td>
+                                                            <th scope="col"> Template Name </th>
+                                                            <th scope="col"> Status </th>
+
+                                                            <th scope="col">Created On</th>
+                                                            <th scope="col">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($groups as $group)
+                                                            <tr>
+
+                                                                <td>{{ $group->template_name }}</td>
 
 
-                                                            <td>
-                                                                @if ($group->status == 0)
-                                                                    {{ 'Active' }}
-                                                                @else
-                                                                    {{ 'Deactive' }}
-                                                                @endif
-                                                            </td>
-                                                            <td>{{ \Carbon\Carbon::parse($group->created_at)->format('m/d/Y') }}
-                                                            </td>
-                                                            <td>
-                                                                <button
-                                                                    class="btn btn-outline-primary btn-sm edit-template"
-                                                                    data-html="{{ $group->content }}"
-                                                                    onclick="autofill($(this), '{{ json_encode(['id' => $group->id, 'template_name' => $group->template_name, 'status' => $group->status]) }}')"
-                                                                    title="Edit {{ $group->name }}"
-                                                                    data-id="{{ $group->id }}" data-toggle="modal"
-                                                                    data-target="#editModal">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
+                                                                <td>
+                                                                    @if ($group->status == 0)
+                                                                        {{ 'Active' }}
+                                                                    @else
+                                                                        {{ 'Deactive' }}
+                                                                    @endif
+                                                                </td>
+                                                                <td>{{ \Carbon\Carbon::parse($group->created_at)->format('m/d/Y') }}
+                                                                </td>
+                                                                <td>
+                                                                    <button
+                                                                        class="btn btn-outline-primary btn-sm edit-template"
+                                                                        data-html="{{ $group->content }}"
+                                                                        onclick="autofill($(this), '{{ json_encode(['id' => $group->id, 'template_name' => $group->template_name, 'status' => $group->status]) }}')"
+                                                                        title="Edit {{ $group->name }}"
+                                                                        data-id="{{ $group->id }}" data-toggle="modal"
+                                                                        data-target="#editModal">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </button>
 
-                                                                <button class="btn btn-outline-danger btn-sm"
-                                                                    title="Remove {{ $group->name }}"
-                                                                    data-id="{{ $group->id }}" data-toggle="modal"
-                                                                    data-target="#deleteDigitalModal{{ $group->id }}">
-                                                                    <i class="fas fa-times-circle"></i>
-                                                                </button>
-                                                            </td>
+                                                                    <button class="btn btn-outline-danger btn-sm"
+                                                                        title="Remove {{ $group->name }}"
+                                                                        data-id="{{ $group->id }}" data-toggle="modal"
+                                                                        data-target="#deleteDigitalModal{{ $group->id }}">
+                                                                        <i class="fas fa-times-circle"></i>
+                                                                    </button>
+                                                                </td>
 
-                                                            <!-- Edit Modal -->
+                                                                <!-- Edit Modal -->
 
-                                                            {{-- Edit Modal New --}}
+                                                                {{-- Edit Modal New --}}
 
-                                                            {{-- End Modal New --}}
+                                                                {{-- End Modal New --}}
 
-                                                            <!-- End Edit Modal -->
+                                                                <!-- End Edit Modal -->
 
-                                                            {{-- Modal Delete --}}
-                                                            <div class="modal fade"
-                                                                id="deleteDigitalModal{{ $group->id }}" tabindex="-1"
-                                                                role="dialog" aria-hidden="true">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title">Delete List</h5>
-                                                                            <button type="button" class="close"
-                                                                                data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <form
-                                                                            action="{{ route('admin.delete-form-templates') }}"
-                                                                            method="post" id="editForm">
-                                                                            @method('POST') @csrf <div
-                                                                                class="modal-body">
-                                                                                <div class="modal-body">
-                                                                                    <p class="text-center"> Are you sure
-                                                                                        you want to delete
-                                                                                        this? </p>
-                                                                                    <input type="hidden" id="id"
-                                                                                        name="id"
-                                                                                        value="{{ $group->id }}">
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button"
-                                                                                        class="btn btn-secondary"
-                                                                                        data-dismiss="modal">Cancel</button>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-danger">Delete</button>
-                                                                                </div>
+                                                                {{-- Modal Delete --}}
+                                                                <div class="modal fade"
+                                                                    id="deleteDigitalModal{{ $group->id }}"
+                                                                    tabindex="-1" role="dialog" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">Delete List</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
                                                                             </div>
-                                                                        </form>
+                                                                            <form
+                                                                                action="{{ route('admin.delete-form-templates') }}"
+                                                                                method="post" id="editForm">
+                                                                                @method('POST') @csrf <div
+                                                                                    class="modal-body">
+                                                                                    <div class="modal-body">
+                                                                                        <p class="text-center"> Are you
+                                                                                            sure
+                                                                                            you want to delete
+                                                                                            this? </p>
+                                                                                        <input type="hidden"
+                                                                                            id="id" name="id"
+                                                                                            value="{{ $group->id }}">
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-secondary"
+                                                                                            data-dismiss="modal">Cancel</button>
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-danger">Delete</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            {{-- End Modal Delete --}}
+                                                                {{-- End Modal Delete --}}
 
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
                                             {{-- Modal New --}}
                                             <div class="modal fade" id="newModal" tabindex="-1" role="dialog"
@@ -979,7 +1006,6 @@
         $(document).ready(function() {
             $('.datatable').DataTable();
         });
-
     </script>
 
     <script>

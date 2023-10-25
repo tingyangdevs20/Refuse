@@ -54,7 +54,7 @@ class TaskListController extends Controller
             // Validate the form data
             $validatedData = $request->validate([
               'task' => 'required|string|max:255',
-              'assignee' => 'required',
+            //   'assignee' => 'required',
 
           ]);
 
@@ -62,7 +62,7 @@ class TaskListController extends Controller
           // Create a new user instance
           $task = new TaskList([
               'tast' => $validatedData['task'],
-              'user_id' => $validatedData['assignee'],
+            //   'user_id' => $validatedData['assignee'],
               'checked' => 1,
               'status' => 'assignee',
 
