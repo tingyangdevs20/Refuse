@@ -168,7 +168,7 @@ class TemplateController extends Controller
           //  }
        // }
 
-        $template = TemplateMessages::find($request->id);
+        $template = Template::find($request->id);
         $template->msg_title = $request->title;
         $template->msg_content = $request->body;
         //$template->body = $request->body . "\n" . $media;
