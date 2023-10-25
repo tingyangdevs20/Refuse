@@ -731,6 +731,12 @@ class CampaignListController extends Controller
         return redirect()->route('admin.campaign.show', $request->campaign_id)->with('success', 'Campaign list updated successfully.');
     }
 
+    public function deleteList($id='')
+    {
+        CampaignList::where('id',$id)->delete();
+        return redirect()->route('admin.campaign.show', $id)->with('success', 'Campaign list deleted successfully.');
+    }
+
     public function destroy(CampaignList $campaignlist)
     {
         //dd($campaignlist);

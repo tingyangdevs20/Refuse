@@ -358,6 +358,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
     Route::get('compaign/copy/{id}', 'Admin\CampaignController@copy')->name('compaign.copy');
     Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');
+    Route::get('campaign/delete/{id}', 'Admin\CampaignListController@deleteList')->name('campaign.delete');
     Route::get('compaignlead/copy/{id}', 'Admin\CampaignLeadController@copy')->name('compaignlead.copy');
     Route::get('compaignlead/list/{id}', 'Admin\CampaignLeadListController@compaignList')->name('compaignlead.list');
     Route::get('get/leadmessage/{type}/{id}', 'Admin\CampaignLeadListController@getTemplate');
