@@ -23,7 +23,7 @@ class VoiceController extends Controller
         $phone = $request->get('To');
         $settings = Settings::first()->toArray();
         // $callerId = $settings['call_forward_number'];
-        $callerId = '+14234609555';
+        $callerId = '+19105502344';
         $response = new VoiceResponse();
         if ($phone == $callerId) {
             # Receiving an incoming call to the browser from an external phone
@@ -54,20 +54,19 @@ class VoiceController extends Controller
         $settings = Settings::first()->toArray();
 
 
-        //old account 
+        //old account
 
         //$TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
         // $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
         // $API_KEY = 'SKe98914905647ed119d608121a51534db';
         // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
 
-
-        //new account 
-
-        $TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
-        $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
-        $API_KEY = 'SKe98914905647ed119d608121a51534db';
-        $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
+        //new account
+        
+        $TWILIO_ACCOUNT_SID = $settings['twilio_acc_sid'];
+        $TWILIO_SECRET_KEY = $settings['twilio_secret_key'];
+        $API_KEY = $settings['twilio_api_sid'];
+        $TWIML_APP_SID = $settings['twiml_app_sid'];
 
         $accessToken = new AccessToken($TWILIO_ACCOUNT_SID, $API_KEY, $TWILIO_SECRET_KEY, 3600, 'bulk-sms');
 
@@ -87,20 +86,10 @@ class VoiceController extends Controller
         $settings = Settings::first()->toArray();
 
 
-        //old account 
-
-        //$TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
-        // $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
-        // $API_KEY = 'SKe98914905647ed119d608121a51534db';
-        // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
-
-
-        //new account 
-
-        $TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
-        $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
-        $API_KEY = 'SKe98914905647ed119d608121a51534db';
-        $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
+        $TWILIO_ACCOUNT_SID = $settings['twilio_acc_sid'];
+        $TWILIO_SECRET_KEY = $settings['twilio_secret_key'];
+        $API_KEY = $settings['twilio_api_sid'];
+        $TWIML_APP_SID = $settings['twiml_app_sid'];
 
         $accessToken = new AccessToken($TWILIO_ACCOUNT_SID, $API_KEY, $TWILIO_SECRET_KEY, 3600, 'bulk-sms');
 
