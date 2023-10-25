@@ -4,6 +4,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                white-space: nowrap;
+            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
@@ -21,41 +39,43 @@
                             <button class="btn btn-outline-primary btn-sm float-right" title="New" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Send after days</th>
-                                    <th scope="col">Send after hours</th>
-                                    <th scope="col">Template</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                                </thead>
-                                <tbody> 
-                                    @if(count($campaign->campaigns()->get()) > 0)
-                                        @foreach ($campaign->campaigns()->get() as $campaignList)
-                                            <tr>
-                                                <td>{{ $campaignList->type }}</td>
-                                                <td>{{ $campaignList->send_after_days }}</td>
-                                                <td>{{ $campaignList->send_after_hours }}</td>
-                                                <td>{{ optional($campaignList->template)->title ?? "N/A" }}</td>
-                                                <td>
-                                                    <button data-toggle="modal" class="btn btn-outline-primary" id="editModal" data-target="#editCampaignModal" data-campaignid="{{ $campaignList->campaign_id }}" data-type="{{ $campaignList->type }}" data-template="{{ $campaignList->template_id }}" data-sendafterdays="{{ $campaignList->send_after_days }}" data-sendafterhours="{{ $campaignList->send_after_hours }}"data-group="{{ $campaignList->group_id }}"  data-id="{{ $campaignList->id }}">Edit</button>
-                                                    <form action="{{ route('admin.campaignlist.destroy', $campaignList->id) }}" method="POST" style="display: inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </td>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Send after days</th>
+                                        <th scope="col">Send after hours</th>
+                                        <th scope="col">Template</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(count($campaign->campaigns()->get()) > 0)
+                                            @foreach ($campaign->campaigns()->get() as $campaignList)
+                                                <tr>
+                                                    <td>{{ $campaignList->type }}</td>
+                                                    <td>{{ $campaignList->send_after_days }}</td>
+                                                    <td>{{ $campaignList->send_after_hours }}</td>
+                                                    <td>{{ optional($campaignList->template)->title ?? "N/A" }}</td>
+                                                    <td>
+                                                        <button data-toggle="modal" class="btn btn-outline-primary" id="editModal" data-target="#editCampaignModal" data-campaignid="{{ $campaignList->campaign_id }}" data-type="{{ $campaignList->type }}" data-template="{{ $campaignList->template_id }}" data-sendafterdays="{{ $campaignList->send_after_days }}" data-sendafterhours="{{ $campaignList->send_after_hours }}"data-group="{{ $campaignList->group_id }}"  data-id="{{ $campaignList->id }}">Edit</button>
+                                                        <form action="{{ route('admin.campaignlist.destroy', $campaignList->id) }}" method="POST" style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr >
+                                                <td colspan="5" style="text-align: center;">No Record Found.</td>
                                             </tr>
-                                        @endforeach
-                                    @else
-                                        <tr >
-                                            <td colspan="5" style="text-align: center;">No Record Found.</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +121,7 @@
                             <label for="send_after_days">Send After Days</label>
                             <input type="number" name="send_after_days" id="send_after_days" class="form-control" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="send_after_hours">Send After Hours</label>
                             <input type="number" name="send_after_hours" id="send_after_hours" class="form-control" required>
@@ -156,17 +176,17 @@
                                     <option value="{{ $template->id }}">{{ $template->title }}</option>
                                 @endforeach
                             </select>
-                        </div> 
+                        </div>
                         <div class="form-group">
                             <label for="send_after_days">Send After Days</label>
                             <input type="number" name="send_after_days" id="send_after_days_edit" class="form-control" value="" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="send_after_hours">Send After Hours</label>
                             <input type="number" name="send_after_hours" id="send_after_hours_edit" class="form-control" value="" required>
                         </div>
-                        
+
                         <!-- For example, schedule, message content, etc. -->
                         <div class="form-group">
                             <label for="active">Active Status</label>
@@ -196,13 +216,13 @@
             processData: false,
             contentType: false,
             success: function (d) {
-                
+
                 $('#update-templates').html(d);
             }
         });
     }
-    
-    
+
+
     $('#editCampaignModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);// Button that triggered the modal
         var campaignid = button.data('campaignid');
@@ -211,12 +231,12 @@
         var template_id = button.data('template');
         getTemplateEdit(type,template_id);
         var id = button.data('id');
-        
+
         var sendafterdays = button.data('sendafterdays');
         var sendafterhours = button.data('sendafterhours');
         var group_id = button.data('group');
         var modal = $(this);
-        
+
         //$('#name_edit').val(name);
         $('#id').val(id);
         $('#campaign_id_edit').val(campaignid);
@@ -225,7 +245,7 @@
         $('#send_after_hours_edit').val(sendafterhours);
         $('#group_id_edit').val(group_id);
     });
-    
+
     function getTemplateEdit(type,template_id){
         var url = '<?php echo url('/admin/get/template/') ?>/'+type;
         $.ajax({
@@ -239,7 +259,7 @@
                 setTimeout(function() {
                     $('#template-select-edit').val(template_id);
                 }, 500);
-                
+
             }
         });
     }

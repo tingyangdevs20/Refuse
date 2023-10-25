@@ -5,6 +5,23 @@
 
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                            white-space: nowrap;
+                        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         .active-status {
             background-color: lightgreen;
             border-radius: 5px;
@@ -321,7 +338,7 @@
             //   });
 
             const sortableList = new Sortable(document.getElementById('tasktable').getElementsByTagName('tbody')[
-            0], {
+                0], {
                 handle: '.drag-handle', // Specify the handle element for dragging
                 animation: 150,
                 onEnd: function(evt) {

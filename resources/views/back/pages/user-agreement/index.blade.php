@@ -11,6 +11,23 @@
         .select2-container {
             display: block !important;
         }
+
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                                white-space: nowrap;
+                            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -40,101 +57,104 @@
                         //print_r($userAgreements);
                         ?>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        {{-- <th scope="col">#</th> --}}
-                                        <th scope="col">Agreement Date</th>
-                                        <th scope="col">Form Template</th>
-                                        <th scope="col">No. of Users </th>
-                                        <th scope="col">Contract Signed </th>
-                                        <th scope="col">Contract PDF</th>
-                                        <th scope="col">Document Sent to</th>
-                                        <th scope="col">Reminder </th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($userAgreements as $key => $useragreement)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            {{-- <td>{{ $key+1}}</td> --}}
-                                            <td>{{ \Carbon\Carbon::parse($useragreement->agreement_date)->format('m-d-Y') }}
-                                            </td>
-
-
-                                            <td>{{ $useragreement->template_name }}</td>
-                                            <td>
-                                                @if (isset($useragreement->userAgreementSeller) && $useragreement->userAgreementSeller->count() > 0)
-                                                    <span class="badge badge-success">
-                                                        @if ($useragreement->userAgreementSeller->count() == 1)
-                                                            {{ $useragreement->userAgreementSeller->count() }} Signer
-                                                        @else
-                                                            {{ $useragreement->userAgreementSeller->count() }} Signers
-                                                        @endif
-                                                    </span>
-                                                @else
-                                                    <span class="badge badge-danger">
-                                                        No Users
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            {{-- <td>{{$useragreement->is_send_mail}}</td> --}}
-                                            <td>
-                                                @if ($useragreement->is_sign >= 2 || $useragreement->pdf_path != '')
-                                                    <span class="badge badge-success">Completed</span>
-                                                @else
-                                                    <span class="badge badge-danger">Pending</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (isset($useragreement->userAgreementSeller) && $useragreement->userAgreementSeller->count() > 0)
-                                                    @foreach ($useragreement->userAgreementSeller as $pdf)
-                                                        @php
-                                                            $path = $pdf->pdf_path;
-                                                            $path_array = explode('/', $path);
-                                                            $path = end($path_array);
-                                                            $pdfUrl = asset('agreement_pdf/' . $path);
-                                                            $hasPermission = Auth::user()->can('viewPdf', $pdf); // Check permission here
-                                                        @endphp
-
-                                                        <a href="{{ $pdfUrl }}" target="_blank"
-                                                            class="btn btn-outline-primary btn-sm" title="View PDF"
-                                                            onclick="checkFilePermissions('{{ $pdfUrl }}', '{{ $pdf->id }}', {{ $hasPermission ? 'true' : 'false' }}); return false;"><i
-                                                                class="fas fa-eye"></i></a>
-                                                    @endforeach
-                                                @else
-                                                    <p>No PDFs available</p>
-                                                @endif
-                                            </td>
-
-                                            <td data-id="{{ $useragreement->id }}" class="data-td">
-                                            
-                                            </td>
-
-                                            <td>
-                                                <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
-                                                    onclick="notifyuser({{ $useragreement->id }})"
-                                                    data-id="{{ $useragreement->id }}"><i class="fas fa-bell"></i></button>
-                                            </td>
-                                            <td>
-                                                @if ($useragreement->pdf_path == '')
-                                                    <button class="btn btn-outline-primary btn-sm editUserAgreement"
-                                                        title="Edit" data-id="{{ $useragreement->id }}"><i
-                                                            class="fas fa-edit"></i></button>
-
-
-                                                    <button class="btn btn-outline-danger btn-sm deleteUserAgreement"
-                                                        title="Remove" data-id="{{ $useragreement->id }}"
-                                                        data-toggle="modal"
-                                                        data-target="#deleteModal{{ $useragreement->id }}">
-                                                        <i class="fas fa-times-circle"></i>
-                                                    </button>
-                                                @endif
-                                            </td>
+                                            {{-- <th scope="col">#</th> --}}
+                                            <th scope="col">Agreement Date</th>
+                                            <th scope="col">Form Template</th>
+                                            <th scope="col">No. of Users </th>
+                                            <th scope="col">Contract Signed </th>
+                                            <th scope="col">Contract PDF</th>
+                                            <th scope="col">Document Sent to</th>
+                                            <th scope="col">Reminder </th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($userAgreements as $key => $useragreement)
+                                            <tr>
+                                                {{-- <td>{{ $key+1}}</td> --}}
+                                                <td>{{ \Carbon\Carbon::parse($useragreement->agreement_date)->format('m-d-Y') }}
+                                                </td>
+
+
+                                                <td>{{ $useragreement->template_name }}</td>
+                                                <td>
+                                                    @if (isset($useragreement->userAgreementSeller) && $useragreement->userAgreementSeller->count() > 0)
+                                                        <span class="badge badge-success">
+                                                            @if ($useragreement->userAgreementSeller->count() == 1)
+                                                                {{ $useragreement->userAgreementSeller->count() }} Signer
+                                                            @else
+                                                                {{ $useragreement->userAgreementSeller->count() }} Signers
+                                                            @endif
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-danger">
+                                                            No Users
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                {{-- <td>{{$useragreement->is_send_mail}}</td> --}}
+                                                <td>
+                                                    @if ($useragreement->is_sign >= 2 || $useragreement->pdf_path != '')
+                                                        <span class="badge badge-success">Completed</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Pending</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (isset($useragreement->userAgreementSeller) && $useragreement->userAgreementSeller->count() > 0)
+                                                        @foreach ($useragreement->userAgreementSeller as $pdf)
+                                                            @php
+                                                                $path = $pdf->pdf_path;
+                                                                $path_array = explode('/', $path);
+                                                                $path = end($path_array);
+                                                                $pdfUrl = asset('agreement_pdf/' . $path);
+                                                                $hasPermission = Auth::user()->can('viewPdf', $pdf); // Check permission here
+                                                            @endphp
+
+                                                            <a href="{{ $pdfUrl }}" target="_blank"
+                                                                class="btn btn-outline-primary btn-sm" title="View PDF"
+                                                                onclick="checkFilePermissions('{{ $pdfUrl }}', '{{ $pdf->id }}', {{ $hasPermission ? 'true' : 'false' }}); return false;"><i
+                                                                    class="fas fa-eye"></i></a>
+                                                        @endforeach
+                                                    @else
+                                                        <p>No PDFs available</p>
+                                                    @endif
+                                                </td>
+
+                                                <td data-id="{{ $useragreement->id }}" class="data-td">
+
+                                                </td>
+
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-sm" title="Notify Signer"
+                                                        onclick="notifyuser({{ $useragreement->id }})"
+                                                        data-id="{{ $useragreement->id }}"><i
+                                                            class="fas fa-bell"></i></button>
+                                                </td>
+                                                <td>
+                                                    @if ($useragreement->pdf_path == '')
+                                                        <button class="btn btn-outline-primary btn-sm editUserAgreement"
+                                                            title="Edit" data-id="{{ $useragreement->id }}"><i
+                                                                class="fas fa-edit"></i></button>
+
+
+                                                        <button class="btn btn-outline-danger btn-sm deleteUserAgreement"
+                                                            title="Remove" data-id="{{ $useragreement->id }}"
+                                                            data-toggle="modal"
+                                                            data-target="#deleteModal{{ $useragreement->id }}">
+                                                            <i class="fas fa-times-circle"></i>
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,7 +180,7 @@
             $.ajax({
                 url: userAgreementPath + "signers/" + id,
                 method: "GET",
-                success: function (response) {
+                success: function(response) {
                     // Handle the data and update the td content here
                     var str = response;
                     str = str.replace(/^:*/, '');
@@ -170,7 +190,7 @@
                     console.log(str);
                     td.innerHTML = str;
                 },
-                error: function (error) {
+                error: function(error) {
                     // Handle any errors if needed
                     console.error("Error fetching data: " + error);
                 },
@@ -178,10 +198,10 @@
         }
 
         // Call the function when the page is loaded
-        $(document).ready(function () {
+        $(document).ready(function() {
             var dataTds = document.querySelectorAll(".data-td");
 
-            dataTds.forEach(function (td) {
+            dataTds.forEach(function(td) {
                 var dataId = td.getAttribute("data-id");
                 populateSellerNames(dataId, td);
             });

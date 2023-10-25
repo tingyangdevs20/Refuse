@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TestEmail;
 use App\Model\Account;
 use App\Model\CalendarSetting;
 use App\Model\Scheduler;
@@ -14,9 +15,16 @@ use Carbon\Carbon;
 use DB;
 use DATETIME;
 use App\Model\Contact;
+use App\Model\FailedSms;
+use App\Model\Number;
+use App\Model\Reply;
+use App\Model\Sms;
+use App\Model\Template;
 use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 use \Illuminate\Support\Facades\View as View;
+use Twilio\Rest\Client;
 
 class AppointmentController extends Controller
 {
@@ -27,11 +35,8 @@ class AppointmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $rq, $uid = '')
-    {
-        if (!empty($uid)) {
-
+    {   
             $this->setupGoogleCalendar();
-
             $appointmentSettings = CalendarSetting::first() ?? new CalendarSetting();
             $adminTimezone = $appointmentSettings->timezone;
             $advance_booking_duration = $appointmentSettings->advance_booking_duration;
@@ -45,12 +50,10 @@ class AppointmentController extends Controller
                 $this->getBookedSlotsFromGoogleCalendar($appointmentSettings, $adminTimezone)
             );
 
-            $uid = decrypt($uid);
+            $uid = 1;
 
             return view('book-appointment', compact('timezones', 'adminTimezone', 'availableSlots', 'bookedSlots', 'uid', 'advance_booking_duration'));
-        } else {
-            return Redirect::back();
-        }
+        
     }
 
 
@@ -562,230 +565,140 @@ class AppointmentController extends Controller
             exit;
         }
     }
-    // public function appointmentReminder(Request $request)
-    // {
-    //     $campaign_id = $request->campaign_id;
-    //     $campaign_list_id = $request->campaign_list_id;
-    //     $types = $request->type;
-    //     $send_after_days = $request->send_after_days;
-    //     $send_after_hours = $request->send_after_hours;
-    //     $send_after_hours = $request->send_after_hours;
-    //     $user_id = $request->user_id;
-    //     $user = Scheduler::find($user_id);
-    //     $subject = $request->subject;
-    //     //dd($_POST['media_file']);
-    //     $body = $request->body;
-    //     $count = 1;
+    public function appointmentReminder(Request $request)
+    {
+        $user_id = $request->user_id;
+        $user = Scheduler::find($user_id);
+        $sender_numbers = Number::inRandomOrder()->first();
+        $account = Account::first(); 
+        $sms_body = $request->sms_body;
+        $mms_body  = $request->mms_body;
+        //dd($_POST['media_file']);
+            if ($request->type == 'email') {
+                        $unsub_link = url('admin/email/unsub/' . $user->email);
+                        $data = ['message' => $request->email_body, 'subject' => $request->email_subject, 'name' => $user->name, 'unsub_link' => $unsub_link];
+                        Mail::to($user->email)->send(new TestEmail($data));
+            //             //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
+                
+            } elseif ($request->type == 'sms') {
+                
+
+                $client = new Client($account->account_id,$account->account_token);
+                    
+                        $receiver_number = $user->mobile;
+                        $sender_number = $sender_numbers->number;
+                        try {
+                            $sms_sent = $client->messages->create(
+                                $receiver_number,
+                                [
+                                    'from' => $sender_number,
+                                    'body' => $sms_body,
+                                ]
+                            );
+                            if ($sms_sent) {
+                                $old_sms = Sms::where('client_number', $receiver_number)->first();
+                                if ($old_sms == null) {
+                                    $sms = new Sms();
+                                    $sms->client_number = $receiver_number;
+                                    $sms->twilio_number = $sender_number;
+                                    $sms->message = $sms_body;
+                                    $sms->media = '';
+                                    $sms->status = 1;
+                                    $sms->save();
+                                    $this->incrementSmsCount($sender_number);
+                                } else {
+                                    $reply_message = new Reply();
+                                    $reply_message->sms_id = $old_sms->id;
+                                    $reply_message->to = $sender_number;
+                                    $reply_message->from = $receiver_number;
+                                    $reply_message->reply = $sms_body;
+                                    $reply_message->system_reply = 1;
+                                    $reply_message->save();
+                                    $this->incrementSmsCount($sender_number);
+                                }
+                            }
+                        } catch (\Exception $ex) {
+                            $failed_sms = new FailedSms();
+                            $failed_sms->client_number = $receiver_number;
+                            $failed_sms->twilio_number = $sender_number;
+                            $failed_sms->message = $sms_body;
+                            $failed_sms->media = '';
+                            $failed_sms->error = $ex->getMessage();
+                            $failed_sms->save();
+                        }
+                    
+            } elseif ($request->type == 'mms') {
+                $client = new Client($account->account_id,$account->account_token);
+                
+                        $receiver_number = $user->mobile;
+                        //$receiver_number = '4234606442';
+                        $sender_number = $sender_numbers->number;
+                        try {
+                            $sms_sent = $client->messages->create(
+                                $receiver_number,
+                                [
+                                    'from' => $sender_number,
+                                    'body' => $mms_body,
+                                    // 'mediaUrl' => [$mediaUrl],
+                                ]
+                            );
+                            //dd($sms_sent);
+                            if ($sms_sent) {
+                                $old_sms = Sms::where('client_number', $receiver_number)->first();
+                                if ($old_sms == null) {
+                                    $sms = new Sms();
+                                    $sms->client_number = $receiver_number;
+                                    $sms->twilio_number = $sender_number;
+                                    $sms->message = $mms_body;
+                                    // $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                                    $sms->status = 1;
+                                    $sms->save();
+                                    $this->incrementSmsCount($sender_number);
+                                } else {
+                                    $reply_message = new Reply();
+                                    $reply_message->sms_id = $old_sms->id;
+                                    $reply_message->to = $sender_number;
+                                    $reply_message->from = $receiver_number;
+                                    $reply_message->reply = $mms_body;
+                                    $reply_message->system_reply = 1;
+                                    $reply_message->save();
+                                    $this->incrementSmsCount($sender_number);
+                                }
+                            }
+                        } catch (\Exception $ex) {
+                            $failed_sms = new FailedSms();
+                            $failed_sms->client_number = $receiver_number;
+                            $failed_sms->twilio_number = $sender_number;
+                            $failed_sms->message = $mms_body;
+                            // $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                            $failed_sms->error = $ex->getMessage();
+                            $failed_sms->save();
+                        }
+                
+            } elseif ($request->type == 'rvm') {
+                try {
+                        //$c_phones = '3128692422';
+                        $vrm = \Slybroadcast::sendVoiceMail([
+                            'c_phone' => ".$user->mpbile.",
+                            // 'c_url' => $message,
+                            'c_record_audio' => '',
+                            'c_date' => 'now',
+                            'c_audio' => 'Mp3',
+                            //'c_callerID' => "4234606442",
+                            'c_callerID' => $sender_numbers->number,
+                            //'mobile_only' => 1,
+                            'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
+                        ])->getResponse();
+                    } catch (\Exception $ex) {
+                    }
+                
+            }
+            // $campaign->active = $request->active; // Update active
+            // $checkCompainList1 = CampaignLeadList::where('campaign_id', $request->campaign_id)->first();
+            // $campaigns = CampaignLeadList::where('id', $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s'), 'active' => 0]);
         
-    //     if (count($checkCompainList) == 1) {
 
-    //         $template = Template::where('id', $request->template_id)->first();
-    //         if ($request->type == 'email') {
-    //             $contacts = Contact::where('group_id', $compain->group_id)->get();
-    //             if (count($contacts) > 0) {
-    //                 foreach ($contacts as $cont) {
-    //                     //return $cont->name;
-    //                     if ($cont->email1 != '') {
-    //                         $email = $cont->email1;
-    //                     } elseif ($cont->email2) {
-    //                         $email = $cont->email2;
-    //                     }
-    //                     if ($template) {
-    //                         $subject = $template->subject;
-    //                     } else {
-    //                         $subject = $checkCompainList->subject;
-    //                     }
-    //                     $subject = $template->subject;
-    //                     $subject = str_replace("{name}", $cont->name, $subject);
-    //                     $subject = str_replace("{street}", $cont->street, $subject);
-    //                     $subject = str_replace("{city}", $cont->city, $subject);
-    //                     $subject = str_replace("{state}", $cont->state, $subject);
-    //                     $subject = str_replace("{zip}", $cont->zip, $subject);
-    //                     if ($template) {
-    //                         $message = $template->body;
-    //                     } else {
-    //                         $message = $checkCompainList->body;
-    //                     }
-    //                     $message = str_replace("{name}", $cont->name, $message);
-    //                     $message = str_replace("{street}", $cont->street, $message);
-    //                     $message = str_replace("{city}", $cont->city, $message);
-    //                     $message = str_replace("{state}", $cont->state, $message);
-    //                     $message = str_replace("{zip}", $cont->zip, $message);
-    //                     $unsub_link = url('admin/email/unsub/' . $email);
-    //                     $data = ['message' => $message, 'subject' => $subject, 'name' => $cont->name, 'unsub_link' => $unsub_link];
-    //                     Mail::to($email)->send(new TestEmail($data));
-    //                     //Mail::to('rizwangill132@gmail.com')->send(new TestEmail($data));
-    //                 }
-    //             }
-    //         } elseif ($request->type == 'sms') {
-    //             $client = new Client($sid, $token);
-    //             $contacts = Contact::where('group_id', $compain->group_id)->get();
-    //             if (count($contacts) > 0) {
-    //                 foreach ($contacts as $cont) {
-    //                     if ($cont->number != '') {
-    //                         $number = $cont->number;
-    //                     } elseif ($cont->number2 != '') {
-    //                         $number = $cont->number2;
-    //                     } elseif ($cont->number3 != '') {
-    //                         $number = $cont->number2;
-    //                     }
-    //                     $receiver_number = $number;
-    //                     $sender_number = $sender_numbers->number;
-    //                     if ($template) {
-    //                         $message = $template->body;
-    //                     } else {
-    //                         $message = $checkCompainList->body;
-    //                     }
-    //                     $message = str_replace("{name}", $cont->name, $message);
-    //                     $message = str_replace("{street}", $cont->street, $message);
-    //                     $message = str_replace("{city}", $cont->city, $message);
-    //                     $message = str_replace("{state}", $cont->state, $message);
-    //                     $message = str_replace("{zip}", $cont->zip, $message);
-    //                     try {
-    //                         $sms_sent = $client->messages->create(
-    //                             $receiver_number,
-    //                             [
-    //                                 'from' => $sender_number,
-    //                                 'body' => $message,
-    //                             ]
-    //                         );
-    //                         if ($sms_sent) {
-    //                             $old_sms = Sms::where('client_number', $receiver_number)->first();
-    //                             if ($old_sms == null) {
-    //                                 $sms = new Sms();
-    //                                 $sms->client_number = $receiver_number;
-    //                                 $sms->twilio_number = $sender_number;
-    //                                 $sms->message = $message;
-    //                                 $sms->media = '';
-    //                                 $sms->status = 1;
-    //                                 $sms->save();
-    //                                 $this->incrementSmsCount($sender_number);
-    //                             } else {
-    //                                 $reply_message = new Reply();
-    //                                 $reply_message->sms_id = $old_sms->id;
-    //                                 $reply_message->to = $sender_number;
-    //                                 $reply_message->from = $receiver_number;
-    //                                 $reply_message->reply = $message;
-    //                                 $reply_message->system_reply = 1;
-    //                                 $reply_message->save();
-    //                                 $this->incrementSmsCount($sender_number);
-    //                             }
-    //                         }
-    //                     } catch (\Exception $ex) {
-    //                         $failed_sms = new FailedSms();
-    //                         $failed_sms->client_number = $receiver_number;
-    //                         $failed_sms->twilio_number = $sender_number;
-    //                         $failed_sms->message = $message;
-    //                         $failed_sms->media = '';
-    //                         $failed_sms->error = $ex->getMessage();
-    //                         $failed_sms->save();
-    //                     }
-    //                 }
-    //             }
-    //         } elseif ($request->type == 'mms') {
-    //             $client = new Client($sid, $token);
-    //             $contacts = Contact::where('group_id', $compain->group_id)->get();
-    //             if (count($contacts) > 0) {
-    //                 foreach ($contacts as $cont) {
-    //                     $receiver_number = $cont->number;
-    //                     //$receiver_number = '4234606442';
-    //                     $sender_number = $sender_numbers->number;
-    //                     if ($template) {
-    //                         $message = $template->body;
-    //                     } else {
-    //                         $message = $checkCompainList->body;
-    //                     }
-    //                     $message = str_replace("{name}", $cont->name, $message);
-    //                     $message = str_replace("{street}", $cont->street, $message);
-    //                     $message = str_replace("{city}", $cont->city, $message);
-    //                     $message = str_replace("{state}", $cont->state, $message);
-    //                     $message = str_replace("{zip}", $cont->zip, $message);
-    //                     if ($template) {
-    //                         $mediaUrl = $template->mediaUrl;
-    //                     } else {
-    //                         $mediaUrl = $checkCompainList->mediaUrl;
-    //                     }
-    //                     try {
-    //                         $sms_sent = $client->messages->create(
-    //                             $receiver_number,
-    //                             [
-    //                                 'from' => $sender_number,
-    //                                 'body' => $message,
-    //                                 'mediaUrl' => [$mediaUrl],
-    //                             ]
-    //                         );
-    //                         //dd($sms_sent);
-    //                         if ($sms_sent) {
-    //                             $old_sms = Sms::where('client_number', $receiver_number)->first();
-    //                             if ($old_sms == null) {
-    //                                 $sms = new Sms();
-    //                                 $sms->client_number = $receiver_number;
-    //                                 $sms->twilio_number = $sender_number;
-    //                                 $sms->message = $message;
-    //                                 $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-    //                                 $sms->status = 1;
-    //                                 $sms->save();
-    //                                 $this->incrementSmsCount($sender_number);
-    //                             } else {
-    //                                 $reply_message = new Reply();
-    //                                 $reply_message->sms_id = $old_sms->id;
-    //                                 $reply_message->to = $sender_number;
-    //                                 $reply_message->from = $receiver_number;
-    //                                 $reply_message->reply = $message;
-    //                                 $reply_message->system_reply = 1;
-    //                                 $reply_message->save();
-    //                                 $this->incrementSmsCount($sender_number);
-    //                             }
-    //                         }
-    //                     } catch (\Exception $ex) {
-    //                         $failed_sms = new FailedSms();
-    //                         $failed_sms->client_number = $receiver_number;
-    //                         $failed_sms->twilio_number = $sender_number;
-    //                         $failed_sms->message = $message;
-    //                         $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-    //                         $failed_sms->error = $ex->getMessage();
-    //                         $failed_sms->save();
-    //                     }
-    //                 }
-    //             }
-    //         } elseif ($request->type == 'rvm') {
-    //             $contactsArr = [];
-    //             $contacts = Contact::where('group_id', $compain->group_id)->get();
-    //             if (count($contacts) > 0) {
-    //                 foreach ($contacts as $cont) {
-    //                     $contactsArr[] = $cont->number;
-    //                 }
-    //             }
-    //             if (count($contactsArr) > 0) {
-    //                 try {
-    //                     if ($template) {
-    //                         $message = $template->body;
-    //                     } else {
-    //                         $message = $checkCompainList->body;
-    //                     }
-    //                     $c_phones = implode(',', $contactsArr);
-    //                     //$c_phones = '3128692422';
-    //                     $vrm = \Slybroadcast::sendVoiceMail([
-    //                         'c_phone' => ".$c_phones.",
-    //                         'c_url' => $message,
-    //                         'c_record_audio' => '',
-    //                         'c_date' => 'now',
-    //                         'c_audio' => 'Mp3',
-    //                         //'c_callerID' => "4234606442",
-    //                         'c_callerID' => $sender_numbers->number,
-    //                         //'mobile_only' => 1,
-    //                         'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/voicepostback'
-    //                     ])->getResponse();
-    //                 } catch (\Exception $ex) {
-    //                 }
-    //             }
-    //         }
-    //         // $campaign->active = $request->active; // Update active
-    //         $checkCompainList1 = CampaignLeadList::where('campaign_id', $request->campaign_id)->first();
-    //         $campaigns = CampaignLeadList::where('id', $checkCompainList1->id)->update(['updated_at' => date('Y-m-d H:i:s'), 'active' => 0]);
-    //     }
-
-    //     //return $request->campaign_id;
-    //     return redirect('admin/compaignlead/list/' . $request->campaign_id)->with('success', 'Campaign list created successfully.');
-    // }
+        //return $request->campaign_id;
+        return redirect('admin/compaignlead/list/' . $request->campaign_id)->with('success', 'Campaign list created successfully.');
+    }
 }

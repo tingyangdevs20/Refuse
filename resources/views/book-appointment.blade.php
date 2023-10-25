@@ -692,7 +692,6 @@
             var allSlots = {!! $availableSlots !!};
 
             var advance_booking_duration = {!! $advance_booking_duration !!};
-            console.log(advance_booking_duration);
             // function to hide booked time slots
             function hideBookedTimeSlots() {
                 let currentDate = new Date();
@@ -705,9 +704,11 @@
                 let currentTime = currentHour * 60 + currentMinute; // Convert to minutes since midnight
 
                 // Hide slots based on bookedSlots data
+                console.log(bookedSlots);
                 $.each(bookedSlots, function(index, day) {
                     $.each(day, function(key, slot) {
-                        $('.myc-day-time-container a[data-time="' + slot.appt_time +
+                        
+                        $('.myc-day-time-container a [data-time="' + slot.appt_time +
                             '"][data-date="' + slot.appt_date + '"]').hide();
                     });
                 });

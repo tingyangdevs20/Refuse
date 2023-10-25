@@ -4,6 +4,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                white-space: nowrap;
+            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
@@ -18,14 +36,24 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark">
                             All Appointments
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2"
+                            {{-- <button class="btn btn-outline-primary btn-sm float-right ml-2"
                                 title="New" data-toggle="modal" data-target=""><i
-                                    class="fas fa-plus-circle"></i></button>
-                            {{-- <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
-                            @include('components.modalform')
+                                    class="fas fa-plus-circle"></i></button> --}}
+                                    {{-- <button class="btn btn-outline-primary btn-sm float-right" style="margin-right: 5px" title="helpModal" data-toggle="modal" data-target="#helpModal">How to Use</button> --}}
+                                    @include('components.modalform')
                             <a href="{{ url('appointment', [encrypt(Auth::id())]) }}"
-                                target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right mr-2"
-                                title="appointments">Booking Link</a>
+                            target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right mr-2"
+                            title="appointments">Booking Link</a>
+                                    
+                            <button class="btn btn-outline-primary btn-sm float-right mr-2"
+                                id="copyButton" title="Embed Code" data-toggle="modal" data-target="">Copy Embed Code</button>
+                            {{-- <button id="copyButton">Copy Embed Code</button> --}}
+                                <textarea id="embedCode" rows="4" cols="50" style="display: none">
+                                    <iframe src='http://127.0.0.1:8000/appointment/embeded-code' frameborder='0' width='100%' height='400'>Embed Booking Link</iframe>
+                                </textarea>
+                                    
+                                
+
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" style="margin-right: 5px"title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
 
@@ -34,39 +62,41 @@
                             @if ($appointments->isEmpty())
                                 <p>No Appointments Booked.</p>
                             @else
-                                <table class="table table-striped table-bordered" id="datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Mobile</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Reminder</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($appointments as $appt)
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
                                             <tr>
-                                                <td>{{ $appt->name }}</td>
-                                                <td>{{ $appt->email }}</td>
-                                                <td>{{ $appt->mobile }}</td>
-                                                <td>{{ date('m-d-Y', strtotime($appt->appt_date)) }}</td>
-                                                <td>{{ date('H:i', strtotime($appt->appt_time)) }}</td>
-                                                <td>{{ $appt->status }}</td>
-                                                <td><a href="/manage-appointments/{{ $appt->id }}/reminder"><i class="fa fa-bell"></i></a></td>
-
-                                                <td>
-                                                    <button class="btn btn-danger" title="Remove {{ $appt->name }}"
-                                                        data-id="{{ $appt->id }}" data-toggle="modal"
-                                                        data-target="#deleteModal">Cancel</button>
-                                                </td>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Mobile</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Reminder</th>
+                                                <th scope="col">Action</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($appointments as $appt)
+                                                <tr>
+                                                    <td>{{ $appt->name }}</td>
+                                                    <td>{{ $appt->email }}</td>
+                                                    <td>{{ $appt->mobile }}</td>
+                                                    <td>{{ date('m-d-Y', strtotime($appt->appt_date)) }}</td>
+                                                    <td>{{ date('H:i', strtotime($appt->appt_time)) }}</td>
+                                                    <td>{{ $appt->status }}</td>
+                                                    <td><a href="/manage-appointments/{{ $appt->id }}/reminder"><i class="fa fa-bell"></i></a></td>
+
+                                                    <td>
+                                                        <button class="btn btn-danger" title="Remove {{ $appt->name }}"
+                                                            data-id="{{ $appt->id }}" data-toggle="modal"
+                                                            data-target="#deleteModal">Cancel</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -293,6 +323,37 @@
                     // var modal = $(this);
                     //modal.find('.modal-body #id').val(id);
                 });
+            });
+        </script>
+        {{-- <script>
+            const copyButton = document.getElementById('copyButton');
+            const embedCode = document.getElementById('embedCode');
+            copyButton.addEventListener('click', () => {
+                embedCode.select();
+               document.execCommand('copy');
+              copyButton.textContent = 'Code Copied!';
+              setTimeout(() => {
+                copyButton.textContent = 'Copy Embed Code';
+              }, 2000); // Reset button text after 2 seconds
+              
+            });
+          </script> --}}
+          <script>
+            const copyButton = document.getElementById('copyButton');
+            const embedCode = document.getElementById('embedCode');
+        
+            copyButton.addEventListener('click', () => {
+                // Create a temporary textarea element
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = embedCode.value;
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextarea);
+                copyButton.textContent = 'Code Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy Embed Code';
+                }, 2000); // Reset button text after 2 seconds
             });
         </script>
     @endsection
