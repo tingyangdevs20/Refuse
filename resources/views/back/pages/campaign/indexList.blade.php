@@ -86,7 +86,7 @@
                                                         <div class="col-md-3">
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close" style="color: #f00;padding: 10px 5px;"
-                                                                onclick="removeRow('{{ $count }}');">
+                                                                onclick="removeRow('{{ $count }}','{{ $campaign->id }}');">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </div>
@@ -388,7 +388,7 @@
 
         }
 
-        function removeRow(removeNum) {
+        function removeRow(removeNum,idd) {
             jQuery('#rowCount' + removeNum).remove();
             if($('[id^=rowCount]').length==0)
             {
@@ -398,6 +398,19 @@
             {
                 $("#btnsv").show();
             }
+
+            var url = '<?php echo url('/admin/campaign/delete/'); ?>/' + idd;
+                //alert(url);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: '',
+                    processData: false,
+                    contentType: false,
+                    success: function(d) {
+                      //alert(d);
+                    }
+                });
         }
     </script>
     <script>
