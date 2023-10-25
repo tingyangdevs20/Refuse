@@ -1320,7 +1320,7 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label>Rvm</label>
+                                <label>RVM</label>
                                 <input type="file" class="form-control" name="mediaUrl" placeholder="Enter RVM Name"
                                     required>
                             </div>
@@ -1352,7 +1352,7 @@
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input type="hidden" id="id" name="id" value="">
-                                    <input type="text" class="form-control" name="name" id="name">
+                                    <input type="text" class="form-control" name="rvm_name" id="rvm_name">
                                 </div>
                                 <div class="form-group">
                                     <label>Rvm</label>
@@ -1774,6 +1774,7 @@
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
             var rvmname = button.data('rvmname');
+           // alert(rvmname);
             var modal = $(this);
 
             modal.find('.modal-body #id').val(id);

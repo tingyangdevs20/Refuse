@@ -87,6 +87,7 @@ class CreateRvmController extends Controller
      */
     public function update(Request $request)
     {
+       // dd($request);
         $media = null;
         if ($request->mediaUrl != null) {
             $media = $request->file('mediaUrl');
@@ -97,10 +98,13 @@ class CreateRvmController extends Controller
             $media = config('app.url') . '/public/uploads/' . $path;
         }
         $rvm=RvmFile::find($request->id);
-        $rvm->name=$request->name;
+        $rvm->name=$request->rvm_name;
+        if($media!='')
+        {
         $rvm->mediaUrl=$media;
+        }
         $rvm->save();
-        Alert::success('Success','Tag Updated!');
+        Alert::success('Success','RVM Updated!');
         return redirect()->back();
     }
 
