@@ -8,10 +8,6 @@ use Twilio\Rest\Client;
 use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VoiceGrant;
 use Twilio\TwiML\VoiceResponse;
-
-
-
-
 use App\Model\Settings;
 
 
@@ -62,10 +58,11 @@ class VoiceController extends Controller
         // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
 
         //new account
-        $TWILIO_ACCOUNT_SID = 'AC28c9cf33623247a487bf51ca9af20b50';
-        $TWILIO_SECRET_KEY = 'Tl2HBCvYyM3Cok2nZF24m2iraSUGk1IE';
-        $API_KEY = 'SK425464914ef14c872c7646fd4a8bf990';
-        $TWIML_APP_SID = 'APdeee523d0cc61d907533530460b34197';
+
+        $TWILIO_ACCOUNT_SID = $settings['twilio_acc_sid'];
+        $TWILIO_SECRET_KEY = $settings['twilio_secret_key'];
+        $API_KEY = $settings['twilio_api_sid'];
+        $TWIML_APP_SID = $settings['twiml_app_sid'];
 
         $accessToken = new AccessToken($TWILIO_ACCOUNT_SID, $API_KEY, $TWILIO_SECRET_KEY, 3600, 'bulk-sms');
 
@@ -85,19 +82,10 @@ class VoiceController extends Controller
         $settings = Settings::first()->toArray();
 
 
-        //old account
-
-        //$TWILIO_ACCOUNT_SID = 'ACa068bcfb703b21e18077f86851761d44';
-        // $TWILIO_SECRET_KEY = 'ev637SpAE8pP16xKI8wkuToVGrDtlkwt';
-        // $API_KEY = 'SKe98914905647ed119d608121a51534db';
-        // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
-
-
-        //new account
-        $TWILIO_ACCOUNT_SID = 'AC28c9cf33623247a487bf51ca9af20b50';
-        $TWILIO_SECRET_KEY = 'Tl2HBCvYyM3Cok2nZF24m2iraSUGk1IE';
-        $API_KEY = 'SK425464914ef14c872c7646fd4a8bf990';
-        $TWIML_APP_SID = 'APdeee523d0cc61d907533530460b34197';
+        $TWILIO_ACCOUNT_SID = $settings['twilio_acc_sid'];
+        $TWILIO_SECRET_KEY = $settings['twilio_secret_key'];
+        $API_KEY = $settings['twilio_api_sid'];
+        $TWIML_APP_SID = $settings['twiml_app_sid'];
 
         $accessToken = new AccessToken($TWILIO_ACCOUNT_SID, $API_KEY, $TWILIO_SECRET_KEY, 3600, 'bulk-sms');
 

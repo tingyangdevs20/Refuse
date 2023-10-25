@@ -1,6 +1,6 @@
 <div class="vertical-menu">
 
-    <div data-simplebar class="h-100">
+    <div class="h-100" id="demo">
 
         <!--- Sidemenu -->
         <div id="sidebar-menu" style="overflow-x:hidden">
@@ -17,8 +17,8 @@
 
 
                 {{-- @if (auth()->user()->can('dashboard') ||
-    auth()->user()->can('administrator') ||
-    auth()->user()->can('scraping_module'))
+                    auth()->user()->can('administrator') ||
+                    auth()->user()->can('scraping_module'))
                     <li>
                         <a href="{{ route('admin.create.goals') }}">
                             <i class="bx bx-check-square"></i>
@@ -35,6 +35,16 @@
                 @endif --}}
 
                 <li class="menu-title">Lead Generation</li>
+                @if (auth()->user()->can('dashboard') ||
+                        auth()->user()->can('administrator') ||
+                        auth()->user()->can('scraping_module'))
+                    <li>
+                        <a href="{{ route('admin.scraping.list') }}" class="waves-effect">
+                            <i class="fas fa-bars"></i>
+                            <span>Scraping Data</span>
+                        </a>
+                    </li>
+                @endif
 
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
                         <span>My Lists</span></a>
@@ -53,16 +63,7 @@
                         <span>OPT-IN</span>
                     </a>
                 </li>
-                @if (auth()->user()->can('dashboard') ||
-                        auth()->user()->can('administrator') ||
-                        auth()->user()->can('scraping_module'))
-                    <li>
-                        <a href="{{ route('admin.scraping.list') }}" class="waves-effect">
-                            <i class="fas fa-bars"></i>
-                            <span>Scraping Data</span>
-                        </a>
-                    </li>
-                @endif
+
 
                 <li style="display:none">
                     <a href="{{ route('admin.campaign.index') }}"><i class="bx bx-home-circle"></i><span>Prospect
@@ -81,9 +82,7 @@
                 </li>
                 <li style="display:none"><a href="javscript:void(0);" class="waves-effect"> <i class="fas fa-bars"></i>
                         <span>Research</span></a></li>
-                <li>
 
-                </li>
                 <!--<li><a href="{{ route('admin.manage-appointments', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>-->
                 <li><a href="{{ route('admin.manage-appointments') }}" class="waves-effect"><i
                             class="fa fa-calendar"></i><span>Appointments</span></a></li>
@@ -314,25 +313,12 @@
                             </a>
                         </li>
 
-
-
-
-
-
-
-
-
-
-
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
 
                         <!-- <span> Quick Response</span></a></li> -->
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
 
-               <span> Quick Response</span></a></li> -->
-
-
-
+                        <span> Quick Response</span></a></li> -->
 
                         <li style="display:none">
                             <a href="{{ route('admin.lead-category.index') }}" class=" waves-effect">
@@ -644,9 +630,10 @@
                                      </li>
                                  </ul>
                              </li>
-              --}}
+                            --}}
                     </ul>
-
+                </li>
+            </ul>
         </div>
         <!-- Sidebar -->
     </div>

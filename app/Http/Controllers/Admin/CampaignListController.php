@@ -304,7 +304,13 @@ class CampaignListController extends Controller
 
     public function store(Request $request)
     {
-        
+       
+       // print_r(count($request->all()));
+       // dd($request);
+        // die("..");
+
+        if(count($request->all())>3)
+        {
         $campaign_id = $request->campaign_id;
         $campaign_list_id = $request->campaign_list_id;
         $types = $request->type;
@@ -328,8 +334,7 @@ class CampaignListController extends Controller
 
         
 
-    // dd($request);
-        // die("..");
+    
         
         $count = 1;
         if (count($types)  > 0) {
@@ -677,6 +682,10 @@ class CampaignListController extends Controller
 
         //return $request->campaign_id;
         return redirect('admin/campaign/list/' . $request->campaign_id)->with('success', 'Campaign list created successfully.');
+        }else
+        {
+            return redirect()->back();
+        }
     }
 
     public function show(CampaignList $campaignList)

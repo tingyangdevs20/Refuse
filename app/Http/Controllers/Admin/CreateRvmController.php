@@ -46,7 +46,7 @@ class CreateRvmController extends Controller
             $extension = $media->getClientOriginalExtension();
             $tmpname = 'RVM_'.time() .'.'. $extension;
             $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-            $media = config('app.url') . '/public/uploads/' . $path;
+            $media = config('app.live_url') . '/public/uploads/' . $path;
         }
         $rvm = new RvmFile();
         $rvm->name = $request->name;
@@ -87,6 +87,7 @@ class CreateRvmController extends Controller
      */
     public function update(Request $request)
     {
+       // dd($request);
         $media = null;
         if ($request->mediaUrl != null) {
             $media = $request->file('mediaUrl');
@@ -94,13 +95,16 @@ class CreateRvmController extends Controller
             $extension = $media->getClientOriginalExtension();
             $tmpname = 'RVM_'.time() .'.'. $extension;
             $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-            $media = config('app.url') . '/public/uploads/' . $path;
+            $media = config('app.live_url') . '/public/uploads/' . $path;
         }
         $rvm=RvmFile::find($request->id);
-        $rvm->name=$request->name;
+        $rvm->name=$request->rvm_name;
+        if($media!='')
+        {
         $rvm->mediaUrl=$media;
+        }
         $rvm->save();
-        Alert::success('Success','Tag Updated!');
+        Alert::success('Success','RVM Updated!');
         return redirect()->back();
     }
 

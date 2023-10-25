@@ -914,6 +914,10 @@
                                                                                 @endif>Phone Call
                                                                                 (Incoming)
                                                                             </option>
+                                                                            <option value="Radio"
+                                                                            @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Radio') selected @endif
+                                                                            @endif>Radio
+                                                                        </option>
                                                                             <option value="Referral"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Referral') selected @endif
                                                                                 @endif>Referral
@@ -5772,21 +5776,6 @@
                                                                                     </div>
 
                                                                                 </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            table="lead_info"
-                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
-                                                                                            value="{{ $leadinfo->mail_to_owner3 }}"
-                                                                                            {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
-                                                                                            name="mail_to_owner3">Contact
-                                                                                        1
-                                                                                        ({{ $leadinfo->owner3_first_name }})</label>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -5810,35 +5799,60 @@
                                                         </div>
 
                                                         <hr>
-                                                    @elseif($section->id == '26')
-                                                        <div class="col-md-12" id="{{ $section->id }}"
-                                                            style="padding:0px;">
+                                                    @elseif($section->id == '24')
+                                                        <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading">
                                                                         <label>{{ $section->name }}</label>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        @foreach ($TaskliSt as $appt)
-                                                                            <div class="form-group"
-                                                                                style="padding: 0 10px;">
-                                                                                <div class="card-body">
-                                                                                    <p>{{ $appt->tast }}</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-
-
+                                                                <div class="card col-md-12" style="padding: 0 10px;">
+                                                                    <table id="tasktable" class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
+                                                                                <!-- <th>S.No</th> -->
+                                                                                <th>Task</th>
+                                                                                <!-- <th>Assigned To</th> -->
+                                                                                <!-- <th>Status</th> -->
+                                                                                <th>Action</th>
+                                                                                <th>Drag</th> <!-- New drag handle column -->
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach ($tasks as $key => $task)
+                                                                                <tr data-task-id="{{ $task->id }}">
+                                                                                    <!-- Add data-task-id attribute -->
+                                                                                    <td>
+                                                                                        <input type="checkbox" class="task-checkbox" name="task_id[]"
+                                                                                            value="{{ $task->id }}">
+                                                                                    </td>
+                                                                                    <!-- <td>{{ @$loop->iteration }}</td> -->
+                                                                                    <td><a href="{{ route('admin.task-list.show', $task->id) }}"
+                                                                                            id="trigger-startup-button">{{ @$task->tast }} </a> </td>
+                                                                                    <!-- <td>{{ @$task->user->name }}</td> -->
+                                                                                    <!-- <td>{{ @$task->status }}</td> -->
+                                                                                    <td>
+                                                                                        <!-- @if (auth()->user()->can('administrator') ||
+                                                                                                auth()->user()->can('user_task_edit'))-->
+                                                                                        <button class="btn btn-outline-primary btn-sm edit-task"
+                                                                                            data-task-id="{{ @$task->id }}"
+                                                                                            data-task-name="{{ @$task->tast }}"
+                                                                                            data-assignee-id="{{ @$task->user->id }}"
+                                                                                            title="Edit Task"><i class="fas fa-edit"></i></button>
+                                                                                    <!-- @endif -->
+                                                                                    </td>
+                                                                                    <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
+                                                                                    <!-- Drag handle icon -->
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                         <hr>
-
                                                     @endif
                                                 @endforeach
                                             @endif
