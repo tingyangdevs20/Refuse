@@ -46,7 +46,7 @@ class CreateRvmController extends Controller
             $extension = $media->getClientOriginalExtension();
             $tmpname = 'RVM_'.time() .'.'. $extension;
             $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-            $media = config('app.url') . '/public/uploads/' . $path;
+            $media = config('app.live_url') . '/public/uploads/' . $path;
         }
         $rvm = new RvmFile();
         $rvm->name = $request->name;
