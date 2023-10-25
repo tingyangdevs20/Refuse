@@ -30,7 +30,6 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Digital Signing Templates</h4>
-                        
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark "> All Digital Signing Template
@@ -39,7 +38,7 @@
                                 <i class="fas fa-plus-circle"></i>
                             </button>
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
-                        data-target="#helpModal">How to Use</button>   --}}
+                                data-target="#helpModal">How to Use</button>   --}}
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
@@ -47,10 +46,8 @@
                                 <table class="table table-striped table-bordered" id="datatable">
                                     <thead>
                                         <tr>
-
-                                            <th scope="col"> Template Name </th>
-                                            <th scope="col"> Status </th>
-
+                                            <th scope="col">Template Name</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col">Created On</th>
                                             <th scope="col">Actions</th>
                                         </tr>
@@ -58,10 +55,7 @@
                                     <tbody>
                                         @foreach ($groups as $group)
                                             <tr>
-
                                                 <td>{{ $group->template_name }}</td>
-
-
                                                 <td>
                                                     @if ($group->status == 0)
                                                         {{ 'Active' }}

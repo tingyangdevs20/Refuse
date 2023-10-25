@@ -79,7 +79,7 @@
                     <a href="{{ route('admin.leadcampaign.index') }}"><i class="bx bx-home-circle"></i><span>Lead
                             Campaigns</span></a>
                 </li>
-                <li style="display:none"><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
+                <li style="display:none"><a href="javscript:void(0);" class="waves-effect"> <i class="fas fa-bars"></i>
                         <span>Research</span></a></li>
                 <li>
 
@@ -147,8 +147,21 @@
                         <span>Deals</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#" class="waves-effect">Deals In Progress</a></li>
-                        <li><a href="#" class="waves-effect">Closed Deals</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Under Contract</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Inspection</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Inspection</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Funding</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Close</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Closed Deal</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Rehab in Progress</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Hold - Marketed for Rent</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Hold - Rented</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Marketed for Sale</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Under Contract</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Pending Inspection</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Pending Funding</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Pending Close</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Closed Deal</a></li>
                     </ul>
                 </li>
                 <li style="display:none">
@@ -157,8 +170,8 @@
                         <span>Closed Deals</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#" class="waves-effect">Passive</a></li>
-                        <li><a href="#" class="waves-effect">Flips</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Passive</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Flips</a></li>
                     </ul>
                 </li>
 
@@ -290,7 +303,7 @@
                                         Database</a></li>
                             </ul>
                         </li> --}}
-                       
+
                         <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation
                                 Management</a></li>
 
@@ -330,7 +343,7 @@
 
                         @if (\App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
                             <li>
-                                <a href="#" class=" waves-effect">
+                                <a href="javscript:void(0);" class=" waves-effect">
 
                                     <span>Billing</span>
                                 </a>
@@ -353,7 +366,7 @@
                                      <span>Client Management</span>
                                  </a>
                                  <ul class="sub-menu" aria-expanded="false">
-                                     <li><a href="#">All Clients</a></li>
+                                     <li><a href="javscript:void(0);">All Clients</a></li>
                                  </ul>
                              </li>
                              <li>
@@ -362,15 +375,15 @@
                                      <span>Store Management</span>
                                  </a>
                                  <ul class="sub-menu" aria-expanded="false">
-                                     <li><a href="#">Categories</a></li>
-                                     <li><a href="#">Sizes</a></li>
-                                     <li><a href="#">Products</a></li>
-                                     <li><a href="#">Coupons</a></li>
-                                     <li><a href="#">Order's Status</a></li>
+                                     <li><a href="javscript:void(0);">Categories</a></li>
+                                     <li><a href="javscript:void(0);">Sizes</a></li>
+                                     <li><a href="javscript:void(0);">Products</a></li>
+                                     <li><a href="javscript:void(0);">Coupons</a></li>
+                                     <li><a href="javscript:void(0);">Order's Status</a></li>
                                  </ul>
                              </li>
                              <li>
-                                 <a href="#" class=" waves-effect">
+                                 <a href="javscript:void(0);" class=" waves-effect">
                                      <i class="bx bx-shopping-bag"></i>
                                      <span>Orders
 
