@@ -13,7 +13,7 @@ class TemplateMessagesController extends Controller
 {
     public function create(Request $request)
     {
-        dd($request);
+        //dd($request);
         $media = null;
      
         
