@@ -1,36 +1,38 @@
-<table class="table table-striped table-bordered" id="datatable">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-
-            <!--<th scope="col">Media URL</th>-->
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($scripts as $script)
+<div class="table-responsive">
+    <table class="table table-striped table-bordered" id="datatable">
+        <thead>
             <tr>
-                <td>{{ $sr++ }}</td>
-                <td>{{ $script->name }}</td>
-                <td>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
 
-                </td>
-                <td>
-                    <button class="btn btn-outline-primary btn-sm edit-Script" title="Edit {{ $script->name }}"
-                        data-name="{{ $script->name }}"
-                        data-body="{{ htmlspecialchars_decode(stripslashes($script->scripts)) }}"
-                        data-id="{{ $script->id }}" data-toggle="modal" data-target="#editModal"><i
-                            class="fas fa-edit"></i></button>
-                    -
-                    <button class="btn btn-outline-danger btn-sm" title="Remove {{ $script->name }}"
-                        data-id="{{ $script->id }}" data-toggle="modal" data-target="#deleteModal"><i
-                            class="fas fa-times-circle"></i></button>
-                </td>
+                <!--<th scope="col">Media URL</th>-->
+                <th scope="col">Actions</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($scripts as $script)
+                <tr>
+                    <td>{{ $sr++ }}</td>
+                    <td>{{ $script->name }}</td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-primary btn-sm edit-Script" title="Edit {{ $script->name }}"
+                            data-name="{{ $script->name }}"
+                            data-body="{{ htmlspecialchars_decode(stripslashes($script->scripts)) }}"
+                            data-id="{{ $script->id }}" data-toggle="modal" data-target="#editModal"><i
+                                class="fas fa-edit"></i></button>
+                        -
+                        <button class="btn btn-outline-danger btn-sm" title="Remove {{ $script->name }}"
+                            data-id="{{ $script->id }}" data-toggle="modal" data-target="#deleteModal"><i
+                                class="fas fa-times-circle"></i></button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 <!-- End Page-content -->
 {{-- Modals --}}
 {{-- Modal New --}}

@@ -7,6 +7,23 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                            white-space: nowrap;
+                        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         /* Apply 100% width to the Select2 element */
         .select2 {
             width: 100%;
@@ -104,10 +121,18 @@
                                                 <select class="custom-select select2" name="status"
                                                     onchange="submitForm()">
                                                     <option value="">Choose Request Status</option>
-                                                    <option value="showAll" {{ request('status') == 'showAll' ? 'selected' : '' }}>Show All</option>
-                                                    <option value="data-ready" {{ request('status') == 'data-ready' ? 'selected' : '' }}>Data-Ready</option>
-                                                    <option value="in-progress" {{ request('status') == 'in-progress' ? 'selected' : '' }}>In-Progress</option>
-                                                    <option value="deleted" {{ request('status') == 'deleted' ? 'selected' : '' }}>Deleted/Paused</option>
+                                                    <option value="showAll"
+                                                        {{ request('status') == 'showAll' ? 'selected' : '' }}>Show All
+                                                    </option>
+                                                    <option value="data-ready"
+                                                        {{ request('status') == 'data-ready' ? 'selected' : '' }}>Data-Ready
+                                                    </option>
+                                                    <option value="in-progress"
+                                                        {{ request('status') == 'in-progress' ? 'selected' : '' }}>
+                                                        In-Progress</option>
+                                                    <option value="deleted"
+                                                        {{ request('status') == 'deleted' ? 'selected' : '' }}>
+                                                        Deleted/Paused</option>
                                                 </select>
 
                                             </div>
@@ -119,135 +144,140 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="selectAll" class="data-checkbox"></th>
-                                        <th scope="col">Job Name</th>
-                                        <th scope="col">State</th>
-                                        <th scope="col">Price Range</th>
-                                        <th scope="col">Property Type</th>
-                                        <th scope="col">Beds</th>
-                                        <th scope="col">Baths</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">File</th>
-                                        <th scope="col">Upload</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="requests">
-                                    @foreach ($scrapingdata as $data)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <input type="checkbox" class="data-checkbox" name="data[]"
-                                                    value="{{ $data->id }}">
-                                            </td>
-                                            <td>{{ $data->job_name }}</td>
-                                            <td>{{ $data->state }}</td>
-                                            <td>{{ $data->formatted_price_range }}</td>
-                                            <td>
-                                                @php
-                                                    $propertyTypes = explode(', ', $data->property_type);
-                                                @endphp
-
-                                                @foreach ($propertyTypes as $property)
-                                                    <span class="badge badge-info">{{ trim($property) }}</span>
-                                                    @unless ($loop->last)
-                                                        ,
-                                                    @endunless
-                                                @endforeach
-                                            </td>
-
-                                            <td>{{ $data->no_of_bedrooms }}</td>
-                                            <td>{{ $data->no_of_bathrooms }}</td>
-                                            <td>
-                                                @if ($data->status == 0 && !$data->deleted_at)
-                                                    <span>
-                                                        <i class="fas fa-spinner fa-spin text-warning"></i> In-Process
-                                                    </span>
-                                                @elseif (!$data->status && $data->deleted_at)
-                                                    <span>
-                                                        <i class="fas fa-pause text-warning"></i> Paused
-                                                    </span>
-                                                @else
-                                                    <span
-                                                        style="border-radius: 6px; padding: 5px; background-color: transparent;">
-                                                        <i class="fa fa-check-circle"></i> Data Ready
-                                                    </span>
-                                                @endif
-                                            </td>
-
-
-                                            <td>
-                                                @if ($data->hasMedia('scraping_requests'))
-                                                    @php
-                                                        $media = $data->getFirstMedia('scraping_requests');
-                                                    @endphp
-                                                    @if ($media)
-                                                        <a href="{{ $media->getUrl() }}" download target="_blank">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" fill="currentColor" class="bi bi-download"
-                                                                viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M7.293 1.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L8 4.414V11a1 1 0 11-2 0V4.414L2.293 6.707a1 1 0 01-1.414-1.414l4-4z" />
-                                                                <path fill-rule="evenodd"
-                                                                    d="M7 0a1 1 0 011 1v10a1 1 0 11-2 0V1a1 1 0 011-1z" />
-                                                            </svg>
-                                                            Download
-                                                        </a>
-                                                    @endif
-                                                @else
-                                                    No File
-                                                @endif
-                                            </td>
-
-                                            <td>
-                                                <form method="POST"
-                                                    action="{{ route('admin.scraping.upload', $data->id) }}"
-                                                    enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="input-group input-group-sm">
-                                                        <!-- Add input-group-sm to make it smaller -->
-                                                        <div class="custom-file" style="width: 150px;">
-                                                            <!-- Adjust the width as needed -->
-                                                            <input type="file" class="custom-file-input"
-                                                                id="excelFileInput" name="excel_file" accept=".xlsx, .xls">
-                                                            <label class="custom-file-label" for="excelFileInput">Choose
-                                                                file</label>
-                                                        </div>
-                                                        <div class="input-group-append">
-                                                            <button type="submit" class="btn btn-outline-primary btn-sm">
-                                                                <i class="fas fa-upload"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </td>
-
-                                            <td>
-                                                @if (auth()->user()->can('administrator') ||
-                                                        auth()->user()->can('scraping_delete'))
-                                                    {{-- <a href="{{ route('admin.scraping.force-delete', $data->id) }}"
-                                                        class="btn btn-outline-danger btn-sm" title="Remove"
-                                                        onclick="event.preventDefault(); confirmDelete({{ $data->id }});">
-                                                        <i class="fas fa-times-circle"></i>
-                                                    </a>
-                                                    <form id="delete-form-{{ $data->id }}"
-                                                        action="{{ route('admin.scraping.force-delete', $data->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                    </form> --}}
-                                                    <button class="btn btn-outline-danger btn-sm"
-                                                        title="Remove {{ $data->name }}" data-id="{{ $data->id }}"
-                                                        data-toggle="modal" data-target="#deleteModal"><i
-                                                            class="fas fa-times-circle"></i></button>
-                                                @endif
-
-                                            </td>
+                                            <th><input type="checkbox" id="selectAll" class="data-checkbox"></th>
+                                            <th scope="col">Job Name</th>
+                                            <th scope="col">State</th>
+                                            <th scope="col">Price Range</th>
+                                            <th scope="col">Property Type</th>
+                                            <th scope="col">Beds</th>
+                                            <th scope="col">Baths</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">File</th>
+                                            <th scope="col">Upload</th>
+                                            <th scope="col">Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="requests">
+                                        @foreach ($scrapingdata as $data)
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="data-checkbox" name="data[]"
+                                                        value="{{ $data->id }}">
+                                                </td>
+                                                <td>{{ $data->job_name }}</td>
+                                                <td>{{ $data->state }}</td>
+                                                <td>{{ $data->formatted_price_range }}</td>
+                                                <td>
+                                                    @php
+                                                        $propertyTypes = explode(', ', $data->property_type);
+                                                    @endphp
+
+                                                    @foreach ($propertyTypes as $property)
+                                                        <span class="badge badge-info">{{ trim($property) }}</span>
+                                                        @unless ($loop->last)
+                                                            ,
+                                                        @endunless
+                                                    @endforeach
+                                                </td>
+
+                                                <td>{{ $data->no_of_bedrooms }}</td>
+                                                <td>{{ $data->no_of_bathrooms }}</td>
+                                                <td>
+                                                    @if ($data->status == 0 && !$data->deleted_at)
+                                                        <span>
+                                                            <i class="fas fa-spinner fa-spin text-warning"></i> In-Process
+                                                        </span>
+                                                    @elseif (!$data->status && $data->deleted_at)
+                                                        <span>
+                                                            <i class="fas fa-pause text-warning"></i> Paused
+                                                        </span>
+                                                    @else
+                                                        <span
+                                                            style="border-radius: 6px; padding: 5px; background-color: transparent;">
+                                                            <i class="fa fa-check-circle"></i> Data Ready
+                                                        </span>
+                                                    @endif
+                                                </td>
+
+
+                                                <td>
+                                                    @if ($data->hasMedia('scraping_requests'))
+                                                        @php
+                                                            $media = $data->getFirstMedia('scraping_requests');
+                                                        @endphp
+                                                        @if ($media)
+                                                            <a href="{{ $media->getUrl() }}" download target="_blank">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor"
+                                                                    class="bi bi-download" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M7.293 1.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L8 4.414V11a1 1 0 11-2 0V4.414L2.293 6.707a1 1 0 01-1.414-1.414l4-4z" />
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M7 0a1 1 0 011 1v10a1 1 0 11-2 0V1a1 1 0 011-1z" />
+                                                                </svg>
+                                                                Download
+                                                            </a>
+                                                        @endif
+                                                    @else
+                                                        No File
+                                                    @endif
+                                                </td>
+
+                                                <td>
+                                                    <form method="POST"
+                                                        action="{{ route('admin.scraping.upload', $data->id) }}"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="input-group input-group-sm">
+                                                            <!-- Add input-group-sm to make it smaller -->
+                                                            <div class="custom-file" style="width: 150px;">
+                                                                <!-- Adjust the width as needed -->
+                                                                <input type="file" class="custom-file-input"
+                                                                    id="excelFileInput" name="excel_file"
+                                                                    accept=".xlsx, .xls">
+                                                                <label class="custom-file-label" for="excelFileInput">Choose
+                                                                    file</label>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-primary btn-sm">
+                                                                    <i class="fas fa-upload"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </td>
+
+                                                <td>
+                                                    @if (auth()->user()->can('administrator') ||
+                                                            auth()->user()->can('scraping_delete'))
+                                                        {{-- <a href="{{ route('admin.scraping.force-delete', $data->id) }}"
+                                                            class="btn btn-outline-danger btn-sm" title="Remove"
+                                                            onclick="event.preventDefault(); confirmDelete({{ $data->id }});">
+                                                            <i class="fas fa-times-circle"></i>
+                                                        </a>
+                                                        <form id="delete-form-{{ $data->id }}"
+                                                            action="{{ route('admin.scraping.force-delete', $data->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                        </form> --}}
+                                                        <button class="btn btn-outline-danger btn-sm"
+                                                            title="Remove {{ $data->name }}"
+                                                            data-id="{{ $data->id }}" data-toggle="modal"
+                                                            data-target="#deleteModal"><i
+                                                                class="fas fa-times-circle"></i></button>
+                                                    @endif
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

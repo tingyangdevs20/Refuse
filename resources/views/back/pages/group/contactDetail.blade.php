@@ -487,7 +487,7 @@
                     <div class="page-title-box d-flex align-items-center justify-content-between">
 
                         <h4 class="mb-0 font-size-18">Contact Record</h4>
-                        
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -3611,8 +3611,7 @@
                                                                         </div>
                                                                         <button type="submit"
                                                                             onclick="updateValue('Yes','stop_followup','followup_sequences')"
-                                                                            class="btn btn-primary button-item mt-2">Stop
-                                                                            Followup</button>
+                                                                            class="btn btn-primary button-item mt-2">Stop Followup</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -5627,63 +5626,63 @@
                                                                 <div class="form-group" style="padding: 0 10px;">
                                                                     <div class="card">
                                                                         <div class="">
-                                                                            <table
-                                                                                class="table table-striped table-bordered"
-                                                                                id="datatable">
-                                                                                <thead>
-                                                                                    <tr>
+                                                                            <div class="table-responsive">
+                                                                                <table
+                                                                                    class="table table-striped table-bordered"
+                                                                                    id="datatable">
+                                                                                    <thead>
+                                                                                        <tr>
 
-                                                                                        <th scope="col">Skip trace
-                                                                                            option</th>
-                                                                                        <th scope="col">Name</th>
-                                                                                        <th scope="col">Address
-                                                                                        </th>
-                                                                                        <th scope="col">City</th>
-                                                                                        <th scope="col">Zip</th>
+                                                                                            <th scope="col">Skip trace
+                                                                                                option</th>
+                                                                                            <th scope="col">Name</th>
+                                                                                            <th scope="col">Address
+                                                                                            </th>
+                                                                                            <th scope="col">City</th>
+                                                                                            <th scope="col">Zip</th>
 
-                                                                                        <th scope="col">Verified
-                                                                                            Numbers & Emails</th>
-                                                                                        <th scope="col">Scam
-                                                                                            Numbers & Emails</th>
-                                                                                        <th scope="col">Append Name
-                                                                                            & Emails
+                                                                                            <th scope="col">Verified
+                                                                                                Numbers & Emails</th>
+                                                                                            <th scope="col">Scam
+                                                                                                Numbers & Emails</th>
+                                                                                            <th scope="col">Append Name
+                                                                                                & Emails
 
-                                                                                        </th>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @if ($collection)
+                                                                                            @foreach ($collection as $skipTraceRecord)
+                                                                                                <tr>
+                                                                                                    <td>{{ @$skipTraceRecord->select_option }}
+                                                                                                    </td>
+                                                                                                    <td>{{ @$skipTraceRecord->first_name }}
+                                                                                                        {{ @$skipTraceRecord->last_name }}
+                                                                                                    </td>
+                                                                                                    <td>{{ @$skipTraceRecord->address }}
+                                                                                                    </td>
+                                                                                                    <td>{{ @$skipTraceRecord->city }}
+                                                                                                    </td>
+                                                                                                    <td>{{ @$skipTraceRecord->zip }}
+                                                                                                    </td>
 
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    @if ($collection)
-                                                                                        @foreach ($collection as $skipTraceRecord)
-                                                                                            <tr>
-                                                                                                <td>{{ @$skipTraceRecord->select_option }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->first_name }}
-                                                                                                    {{ @$skipTraceRecord->last_name }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->address }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->city }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->zip }}
-                                                                                                </td>
+                                                                                                    <td>{{ @$skipTraceRecord->verified_numbers }}
+                                                                                                        {{ @$skipTraceRecord->verified_emails }}
+                                                                                                    </td>
+                                                                                                    <td>{{ @$skipTraceRecord->scam_numbers }}
+                                                                                                        {{ @$skipTraceRecord->scam_emails }}
+                                                                                                    </td>
+                                                                                                    <td>{{ @$skipTraceRecord->append_names }}
+                                                                                                        {{ @$skipTraceRecord->append_emails }}
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            @endforeach
 
-
-                                                                                                <td>{{ @$skipTraceRecord->verified_numbers }}
-                                                                                                    {{ @$skipTraceRecord->verified_emails }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->scam_numbers }}
-                                                                                                    {{ @$skipTraceRecord->scam_emails }}
-                                                                                                </td>
-                                                                                                <td>{{ @$skipTraceRecord->append_names }}
-                                                                                                    {{ @$skipTraceRecord->append_emails }}
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        @endforeach
-
-                                                                                    @endif
-                                                                                </tbody>
-                                                                            </table>
+                                                                                        @endif
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -5701,9 +5700,12 @@
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group" style="padding: 0 10px;">
-                                                                        <div id="error-messages" class="alert alert-danger alert-dismissible" style="display: none; margin-left: 1%;">
+                                                                        <div id="error-messages"
+                                                                            class="alert alert-danger alert-dismissible"
+                                                                            style="display: none; margin-left: 1%;">
                                                                             <!-- Close button -->
-                                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                            <button type="button" class="close"
+                                                                                data-dismiss="alert" aria-label="Close">
                                                                                 <span aria-hidden="true">&times;</span>
                                                                             </button>
                                                                             <!-- Error messages will be appended here -->
@@ -5770,6 +5772,21 @@
                                                                                     </div>
 
                                                                                 </div>
+                                                                                <div class="col-md-4">
+                                                                                    <label><input style="margin-right:5px"
+                                                                                            type="checkbox"
+                                                                                            class="user-seller"
+                                                                                            table="lead_info"
+                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
+                                                                                            value="{{ $leadinfo->mail_to_owner3 }}"
+                                                                                            {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
+                                                                                            name="mail_to_owner3">Contact
+                                                                                        1
+                                                                                        ({{ $leadinfo->owner3_first_name }})</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -5794,7 +5811,8 @@
 
                                                         <hr>
                                                     @elseif($section->id == '26')
-                                                        <div class="col-md-12" id="{{ $section->id }}" style="padding:0px;">
+                                                        <div class="col-md-12" id="{{ $section->id }}"
+                                                            style="padding:0px;">
                                                             <div class="row" id="APPOINTMENTS">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group lead-heading">
@@ -5805,7 +5823,8 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         @foreach ($TaskliSt as $appt)
-                                                                            <div class="form-group" style="padding: 0 10px;">
+                                                                            <div class="form-group"
+                                                                                style="padding: 0 10px;">
                                                                                 <div class="card-body">
                                                                                     <p>{{ $appt->tast }}</p>
                                                                                 </div>
@@ -5989,27 +6008,29 @@
             });
 
             // Agreement
-            $(document).on("click", ".saveUserAgreementContact", function (e) {
+            $(document).on("click", ".saveUserAgreementContact", function(e) {
                 let CKEDITOR = [];
                 e.preventDefault();
                 var myData = $(this);
                 myData.attr('disabled', true);
-                console.log($("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"]));
-                $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"]);
+                console.log($("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
+                    "user-agreement-content"]));
+                $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
+                    "user-agreement-content"]);
                 var data = $(this).parents("form").serialize();
                 $.ajax({
                     url: "/admin/user-agreement/save",
                     method: "post",
                     data: data,
-                    success: function (response) {
+                    success: function(response) {
                         console.log(response);
                         if (response.success) {
                             location.reload();
-                        } else{
+                        } else {
                             console.log(response);
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         // Handle the error here (e.g., show an error message to the user)
                         console.log("AJAX Request Error: " + xhr.statusText);
                         var errors = xhr.responseJSON.errors;
@@ -6023,23 +6044,36 @@
                                     var errorValues = errors[fieldName];
                                     if (Array.isArray(errorValues)) {
                                         console.log(errors[fieldName]);
-                                        if(errors[fieldName].length > 1){
+                                        if (errors[fieldName].length > 1) {
                                             errors[fieldName].forEach(element => {
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' value is not found in the contact record!</div><br>');
+                                                errorMessageContainer.append(
+                                                    '<div> <i class="fa fa-info"></i> ' +
+                                                    fieldName + ' : ' + element +
+                                                    ' value is not found in the contact record!</div><br>'
+                                                    );
                                             });
-                                        } else{
-                                            if(errorValues[0] === 'This field is required!'){
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
+                                        } else {
+                                            if (errorValues[0] === 'This field is required!') {
+                                                errorMessageContainer.append(
+                                                    '<div> <i class="fa fa-info"></i> ' +
+                                                    fieldName + ' : ' + errorValues +
+                                                    '</div><br>');
 
                                             } else {
 
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' value is not found in the contact record!</div><br>');
+                                                errorMessageContainer.append(
+                                                    '<div> <i class="fa fa-info"></i> ' +
+                                                    fieldName + ' : ' + errorValues +
+                                                    ' value is not found in the contact record!</div><br>'
+                                                    );
                                             }
                                         }
                                         // If there are multiple error values, join them into a single line
                                         // var errorMessage = fieldName + ': ' + errorValues.join(', ');
                                     } else {
-                                        errorMessageContainer.append('<div> <i class="fa fa-info"></i> ' + fieldName + ' : ' + errorValues + '</div>');
+                                        errorMessageContainer.append(
+                                            '<div> <i class="fa fa-info"></i> ' +
+                                            fieldName + ' : ' + errorValues + '</div>');
                                     }
                                 }
                             }
@@ -6058,7 +6092,7 @@
                 });
 
 
-    });
+            });
 
 
 

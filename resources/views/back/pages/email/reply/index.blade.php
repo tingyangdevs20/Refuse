@@ -2,6 +2,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -23,36 +41,39 @@
                             All Replies
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Replies</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($msg as $sms)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>SMS</td>
-                                            <td>{{ $sms->to }}</td>
-                                            <td>{{ $sms->replies->count() }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.email-conversations.show', $sms) }}"
-                                                    class="btn btn-outline-warning btn-sm" title="Reply">View Replies</a> -
-                                                    
-                                                <button data-toggle="modal" data-target="#deleteModal"
-                                                    class="btn btn-outline-danger btn-sm" title="Delete"
-                                                    data-id="{{ $sms->id }}">Delete</button>
-
-                                            </td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Replies</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($msg as $sms)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>SMS</td>
+                                                <td>{{ $sms->to }}</td>
+                                                <td>{{ $sms->replies->count() }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.email-conversations.show', $sms) }}"
+                                                        class="btn btn-outline-warning btn-sm" title="Reply">View
+                                                        Replies</a> -
+
+                                                    <button data-toggle="modal" data-target="#deleteModal"
+                                                        class="btn btn-outline-danger btn-sm" title="Delete"
+                                                        data-id="{{ $sms->id }}">Delete</button>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

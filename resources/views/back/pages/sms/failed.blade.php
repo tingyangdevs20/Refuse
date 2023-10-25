@@ -1,6 +1,24 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                            white-space: nowrap;
+                        } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -25,41 +43,43 @@
                             @include('components.modalform')
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Client#</th>
-                                        <th scope="col">Twilio#</th>
-                                        <th scope="col">Media</th>
-                                        <th scope="col">Message</th>
-                                        <th scope="col">Error</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($messages as $msg)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $sr++ }}</td>
-                                            <td>{{ $msg->client_number }}</td>
-                                            <td>{{ $msg->twilio_number }}</td>
-                                            @if ($msg->media != 'No')
-                                                <td><a href="{{ asset($msg->media) }}" target="_blank">Yes</a></td>
-                                            @else
-                                                <td><a href="#">No</a></td>
-                                            @endif
-                                            <td>{{ $msg->message }}</td>
-                                            <td>{{ $msg->error }}</td>
-                                            <td>
-                                                <button data-toggle="modal" data-target="#deleteModal"
-                                                    class="btn btn-outline-danger btn-sm" title="Remove"
-                                                    data-id="{{ $msg->id }}"><i class="fas fa-trash"></i></button>
-
-                                            </td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Client#</th>
+                                            <th scope="col">Twilio#</th>
+                                            <th scope="col">Media</th>
+                                            <th scope="col">Message</th>
+                                            <th scope="col">Error</th>
+                                            <th scope="col">Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($messages as $msg)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
+                                                <td>{{ $msg->client_number }}</td>
+                                                <td>{{ $msg->twilio_number }}</td>
+                                                @if ($msg->media != 'No')
+                                                    <td><a href="{{ asset($msg->media) }}" target="_blank">Yes</a></td>
+                                                @else
+                                                    <td><a href="#">No</a></td>
+                                                @endif
+                                                <td>{{ $msg->message }}</td>
+                                                <td>{{ $msg->error }}</td>
+                                                <td>
+                                                    <button data-toggle="modal" data-target="#deleteModal"
+                                                        class="btn btn-outline-danger btn-sm" title="Remove"
+                                                        data-id="{{ $msg->id }}"><i class="fas fa-trash"></i></button>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,23 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                white-space: nowrap;
+            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         /* Apply 100% width to the Select2 element */
         .select2 {
             width: 100%;
@@ -261,68 +278,71 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <table id="tasktable" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Street</th>
-                                        <th scope="col">City</th>
-                                        <th scope="col">State</th>
-                                        <th scope="col">Zip</th>
-                                        <th scope="col">Numbers</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Lead Category</th>
-                                        <th scope="col">No. Of Tags</th>
-                                        <th scope="col">DNC</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($contacts as $contact)
-                                        <tr data-task-id="{{ $contact->id }}">
-                                            <td>
-                                                <input type="checkbox" class="task-checkbox" name="contact[]"
-                                                    value="{{ $contact->id }}">
-                                            </td>
-                                            <td>{{ $contact->name }}</td>
-                                            <td>{{ $contact->last_name }}</td>
-                                            <td>{{ $contact->street }}</td>
-                                            <td>{{ $contact->city }}</td>
-                                            <td>{{ $contact->state }}</td>
-                                            <td>{{ $contact->zip }}</td>
-                                            <td>
-                                                {{ $contact->number }}<br>
-
-                                                {{ $contact->number2 }}<br>
-                                                {{ $contact->number3 }}
-                                            </td>
-                                            <td>
-                                                {{ $contact->email1 }}<br>
-                                                {{ $contact->email2 }}
-
-                                            </td>
-                                            <td>{{ $contact->getLeadCategory() }}</td>
-                                            <td>
-                                                {{ $group->getContactCountByEmailId($contact->email1, $contact->email2, $contact->number, $contact->number2, $contact->number3) }}<br>
-
-                                            </td>
-                                            <td>{{ $contact->is_dnc ? 'YES' : 'NO' }}</td>
-                                            <td>
-                                                <button class="btn btn-outline-danger btn-sm"
-                                                    title="Remove {{ $contact->name }}" data-id="{{ $contact->id }}"
-                                                    data-toggle="modal" data-target="#deleteModal"><i
-                                                        class="fas fa-times-circle"></i></button>
-                                                <a href="{{ route('admin.group-contacts.edit', $contact->id) }}"
-                                                    class="btn btn-outline-primary btn-sm" title="Edit  User"><i
-                                                        class="fas fa-edit"></i></a> -
-                                            </td>
-
+                            <div class="table-responsive">
+                                <table id="tasktable" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Last Name</th>
+                                            <th scope="col">Street</th>
+                                            <th scope="col">City</th>
+                                            <th scope="col">State</th>
+                                            <th scope="col">Zip</th>
+                                            <th scope="col">Numbers</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Lead Category</th>
+                                            <th scope="col">No. Of Tags</th>
+                                            <th scope="col">DNC</th>
+                                            <th scope="col">Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($contacts as $contact)
+                                            <tr data-task-id="{{ $contact->id }}">
+                                                <td>
+                                                    <input type="checkbox" class="task-checkbox" name="contact[]"
+                                                        value="{{ $contact->id }}">
+                                                </td>
+                                                <td>{{ $contact->name }}</td>
+                                                <td>{{ $contact->last_name }}</td>
+                                                <td>{{ $contact->street }}</td>
+                                                <td>{{ $contact->city }}</td>
+                                                <td>{{ $contact->state }}</td>
+                                                <td>{{ $contact->zip }}</td>
+                                                <td>
+                                                    {{ $contact->number }}<br>
+
+                                                    {{ $contact->number2 }}<br>
+                                                    {{ $contact->number3 }}
+                                                </td>
+                                                <td>
+                                                    {{ $contact->email1 }}<br>
+                                                    {{ $contact->email2 }}
+
+                                                </td>
+                                                <td>{{ $contact->getLeadCategory() }}</td>
+                                                <td>
+                                                    {{ $group->getContactCountByEmailId($contact->email1, $contact->email2, $contact->number, $contact->number2, $contact->number3) }}<br>
+
+                                                </td>
+                                                <td>{{ $contact->is_dnc ? 'YES' : 'NO' }}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $contact->name }}"
+                                                        data-id="{{ $contact->id }}" data-toggle="modal"
+                                                        data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button>
+                                                    <a href="{{ route('admin.group-contacts.edit', $contact->id) }}"
+                                                        class="btn btn-outline-primary btn-sm" title="Edit  User"><i
+                                                            class="fas fa-edit"></i></a> -
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
