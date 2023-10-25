@@ -475,9 +475,9 @@
                                             <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
+                                                       
                                                         <th scope="col">Name</th>
-                                                        <th scope="col">Media Url</th>
+                                                       
                                                         <th scope="col">Actions</th>
 
                                                     </tr>
@@ -485,9 +485,9 @@
                                                 <tbody>
                                                     @foreach ($rvms as $rvm)
                                                         <tr>
-                                                            <td>{{ $loop->iteration }}</td>
+                                                          
                                                             <td>{{ $rvm->name }}</td>
-                                                            <td>{{ $rvm->mediaUrl }}</td>
+                                                            <td style="display:none">{{ $rvm->mediaUrl }}</td>
                                                             <td>
                                                                 <button class="btn btn-outline-primary btn-sm"
                                                                     title="Edit {{ $rvm->name }}"
