@@ -4,6 +4,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                white-space: nowrap;
+            } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
@@ -44,39 +62,41 @@
                             @if ($appointments->isEmpty())
                                 <p>No Appointments Booked.</p>
                             @else
-                                <table class="table table-striped table-bordered" id="datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Mobile</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Reminder</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($appointments as $appt)
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
                                             <tr>
-                                                <td>{{ $appt->name }}</td>
-                                                <td>{{ $appt->email }}</td>
-                                                <td>{{ $appt->mobile }}</td>
-                                                <td>{{ date('m-d-Y', strtotime($appt->appt_date)) }}</td>
-                                                <td>{{ date('H:i', strtotime($appt->appt_time)) }}</td>
-                                                <td>{{ $appt->status }}</td>
-                                                <td><a href="/manage-appointments/{{ $appt->id }}/reminder"><i class="fa fa-bell"></i></a></td>
-
-                                                <td>
-                                                    <button class="btn btn-danger" title="Remove {{ $appt->name }}"
-                                                        data-id="{{ $appt->id }}" data-toggle="modal"
-                                                        data-target="#deleteModal">Cancel</button>
-                                                </td>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Mobile</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Reminder</th>
+                                                <th scope="col">Action</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($appointments as $appt)
+                                                <tr>
+                                                    <td>{{ $appt->name }}</td>
+                                                    <td>{{ $appt->email }}</td>
+                                                    <td>{{ $appt->mobile }}</td>
+                                                    <td>{{ date('m-d-Y', strtotime($appt->appt_date)) }}</td>
+                                                    <td>{{ date('H:i', strtotime($appt->appt_time)) }}</td>
+                                                    <td>{{ $appt->status }}</td>
+                                                    <td><a href="/manage-appointments/{{ $appt->id }}/reminder"><i class="fa fa-bell"></i></a></td>
+
+                                                    <td>
+                                                        <button class="btn btn-danger" title="Remove {{ $appt->name }}"
+                                                            data-id="{{ $appt->id }}" data-toggle="modal"
+                                                            data-target="#deleteModal">Cancel</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             @endif
                         </div>
                     </div>

@@ -6,6 +6,24 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
@@ -20,74 +38,80 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark">
                             All Lead Campaigns
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
-                                data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
-                                {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
+                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New"
+                                data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i></button>
+                            {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How To Use</button>   --}}
-                        @include('components.modalform')
+                            @include('components.modalform')
                         </div>
                         <div class="card-body">
                             @if ($campaigns->isEmpty())
                                 <p>No campaigns available.</p>
                             @else
-                                <table class="table table-striped table-bordered" id="datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Name</th>
-                                        
-                                            <th scope="col">No. Of Contacts</th>
-                                            
-                                            
-                                            <th scope="col">Action</th>
-                                            <th scope="col">Status</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($campaigns as $campaign)
-                                        @php
-                                       $_count=optional($campaign->group)->getContactsCount();
-                                        
-
-
-                                        @endphp
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
                                             <tr>
-                                                <td><a
-                                                        href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
-                                                </td>
-                                               
-                                                <td>{{$_count}}</td>
-                                                
-                                                
-                                                <td>
-                                                    <a href="{{ route('admin.compaignlead.copy', $campaign->id) }}"><button
-                                                            data-toggle="modal"
-                                                            class="btn btn-outline-warning">Copy</button></a>
-                                                    <button data-toggle="modal" class="btn btn-outline-primary"
-                                                        id="editModal" data-target="#editCampaignModal"
-                                                        data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}"
-                                                        data-template="{{ $campaign->template_id }}"
-                                                        data-sendafterdays="{{ $campaign->send_after_days }}"
-                                                        data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"
-                                                        data-id="{{ $campaign->id }}">Edit</button>
-                                                    <form action="{{ route('admin.leadcampaign.destroy', $campaign->id) }}"
-                                                        method="POST" class="delete-form" style="display: inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="btn btn-danger delete-btn"
-                                                            data-toggle="modal" data-target="#confirmationModal">
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                                <td>
-                                                <input data-id="{{$campaign->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $campaign->active ? 'checked' : '' }}>
-                    
-</td>
+                                                <th scope="col">Name</th>
+
+                                                <th scope="col">No. Of Contacts</th>
+
+
+                                                <th scope="col">Action</th>
+                                                <th scope="col">Status</th>
+
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($campaigns as $campaign)
+                                                @php
+                                                    $_count = optional($campaign->group)->getContactsCount();
+
+                                                @endphp
+                                                <tr>
+                                                    <td><a
+                                                            href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
+                                                    </td>
+
+                                                    <td>{{ $_count }}</td>
+
+
+                                                    <td>
+                                                        <a href="{{ route('admin.compaignlead.copy', $campaign->id) }}"><button
+                                                                data-toggle="modal"
+                                                                class="btn btn-outline-warning">Copy</button></a>
+                                                        <button data-toggle="modal" class="btn btn-outline-primary"
+                                                            id="editModal" data-target="#editCampaignModal"
+                                                            data-name="{{ $campaign->name }}"
+                                                            data-type="{{ $campaign->type }}"
+                                                            data-template="{{ $campaign->template_id }}"
+                                                            data-sendafterdays="{{ $campaign->send_after_days }}"
+                                                            data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"
+                                                            data-id="{{ $campaign->id }}">Edit</button>
+                                                        <form
+                                                            action="{{ route('admin.leadcampaign.destroy', $campaign->id) }}"
+                                                            method="POST" class="delete-form"
+                                                            style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-danger delete-btn"
+                                                                data-toggle="modal" data-target="#confirmationModal">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <input data-id="{{ $campaign->id }}" class="toggle-class"
+                                                            type="checkbox" data-onstyle="success" data-offstyle="danger"
+                                                            data-toggle="toggle" data-on="Active" data-off="InActive"
+                                                            {{ $campaign->active ? 'checked' : '' }}>
+
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -116,7 +140,7 @@
                             <label for="name">Campaign Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
-                        
+
                         <div class="form-group" style="display:none">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
@@ -129,7 +153,7 @@
                             </select>
                         </div>
 
-                       
+
                         <button type="submit" class="btn btn-primary">Save Campaign</button>
                     </form>
                 </div>
@@ -161,7 +185,7 @@
                                 <input type="text" name="name" id="name_edit" class="form-control" value=""
                                     required>
                             </div>
-                            
+
                             <div class="form-group" style="display:none">
                                 <label for="group_id">Select Group/Contact List</label>
                                 <select name="group_id" id="group_id_edit" class="form-control">
@@ -176,7 +200,7 @@
 
                             <!-- Add other fields for campaign details -->
                             <!-- For example, schedule, message content, etc. -->
-                          
+
 
                             <button type="submit" class="btn btn-primary">Update Campaign</button>
                         </form>
@@ -213,34 +237,27 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
-<script>
-    
-    
-         $('.toggle-class').change(function() { 
-            var status = $(this).prop('checked') == true ? 1 : 0;  
-           var camp_id = $(this).data('id');  
-          // alert(camp_id);
-        let data = {
-            camp_id: camp_id,
-                sts: status,
-               
-            }
-            
+        <script>
+            $('.toggle-class').change(function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var camp_id = $(this).data('id');
+                // alert(camp_id);
+                let data = {
+                    camp_id: camp_id,
+                    sts: status,
+
+                }
+
                 axios.post('leadcampaign/changeStatus', data)
                     .then(response => {
-                            if (response.data.status == 200) {
-                               //alert("updated");
-                            }
-                                })
-                            
+                        if (response.data.status == 200) {
+                            //alert("updated");
                         }
-                    )
-                  
-            
-  
-   
-</script>
-<script>
+                    })
+
+            })
+        </script>
+        <script>
             $(document).ready(function() {
                 $(".delete-btn").click(function() {
                     // Get the form associated with this delete button

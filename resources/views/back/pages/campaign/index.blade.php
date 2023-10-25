@@ -4,6 +4,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                    white-space: nowrap;
+                } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-content">
@@ -28,47 +46,51 @@
                             @if ($campaigns->isEmpty())
                                 <p>No campaigns available.</p>
                             @else
-                                <table class="table table-striped table-bordered" id="datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Contact list</th>
-                                            <th scope="col">No. Of Contacts</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($campaigns as $campaign)
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
                                             <tr>
-                                                <td><a
-                                                        href="{{ route('admin.campaign.list', $campaign->id) }}">{{ $campaign->name }}</a>
-                                                </td>
-
-
-                                                <td>{{ optional($campaign->group)->name ?? 'N/A' }}</td>
-                                                <td>{{ optional($campaign->group)->getContactsCount() }}</td>
-                                                <td>
-                                                    <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button
-                                                            data-toggle="modal"
-                                                            class="btn btn-outline-warning">Copy</button></a>
-                                                    <button data-toggle="modal" class="btn btn-outline-primary"
-                                                        id="editModal" data-target="#editCampaignModal"
-                                                        data-name="{{ $campaign->name }}" data-type="{{ $campaign->type }}"
-                                                        data-template="{{ $campaign->template_id }}"
-                                                        data-sendafterdays="{{ $campaign->send_after_days }}"
-                                                        data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"
-                                                        data-id="{{ $campaign->id }}">Edit</button>
-                                                    <form action="{{ route('admin.campaigns.destroy', $campaign->id) }}"
-                                                        method="POST" style="display: inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </td>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Contact list</th>
+                                                <th scope="col">No. Of Contacts</th>
+                                                <th scope="col">Action</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($campaigns as $campaign)
+                                                <tr>
+                                                    <td><a
+                                                            href="{{ route('admin.campaign.list', $campaign->id) }}">{{ $campaign->name }}</a>
+                                                    </td>
+
+
+                                                    <td>{{ optional($campaign->group)->name ?? 'N/A' }}</td>
+                                                    <td>{{ optional($campaign->group)->getContactsCount() }}</td>
+                                                    <td>
+                                                        <a href="{{ route('admin.compaign.copy', $campaign->id) }}"><button
+                                                                data-toggle="modal"
+                                                                class="btn btn-outline-warning">Copy</button></a>
+                                                        <button data-toggle="modal" class="btn btn-outline-primary"
+                                                            id="editModal" data-target="#editCampaignModal"
+                                                            data-name="{{ $campaign->name }}"
+                                                            data-type="{{ $campaign->type }}"
+                                                            data-template="{{ $campaign->template_id }}"
+                                                            data-sendafterdays="{{ $campaign->send_after_days }}"
+                                                            data-sendafterhours="{{ $campaign->send_after_hours }}"data-group="{{ $campaign->group_id }}"
+                                                            data-id="{{ $campaign->id }}">Edit</button>
+                                                        <form
+                                                            action="{{ route('admin.campaigns.destroy', $campaign->id) }}"
+                                                            method="POST" style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -103,7 +125,7 @@
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
 
-                      
+
 
                         <div class="form-group">
                             <label for="active">Active Status</label>
@@ -166,10 +188,7 @@
                 </div>
             </div>
         </div>
-    
-    
-    
-        @endsection
+    @endsection
     @section('scripts')
         <script>
             function getTemplate(type) {

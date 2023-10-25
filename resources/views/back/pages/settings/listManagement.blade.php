@@ -6,6 +6,23 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                                        white-space: nowrap;
+                                    } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
         .checkbox label .toggle,
         .checkbox-inline .toggle {
             margin-left: -20px;
@@ -131,26 +148,22 @@
             padding: 5px 15px;
         }
 
-        .nav-tabs .active a {
-            background-color: #327cad;
+        .nav-tabs .nav-item .nav-link.active {
+            background-color: #38B6FF;
             /* Change to your preferred button color */
             color: #fff;
             /* Text color for the active tab */
-            border-color: #327cad;
+            border-color: #38B6FF;
             /* Border color for the active tab */
             border-radius: 5px;
             /* Optional: Add rounded corners */
-            padding: 13px;
+            /* padding: 13px; */
         }
 
-        /* Add other CSS styles for the non-active tabs as needed */
-        .nav-tabs li a {
-            /* background-color: #fff; Default background color for non-active tabs */
-            color: #333;
+        /* Add other CSS styles for the non-active tab links as needed */
+        .nav-tabs .nav-item .nav-link {
             /* Default text color for non-active tabs */
-            border-color: #ddd;
-            /* Default border color for non-active tabs */
-            padding: 13px;
+            /* border-color: #38B6FF; */
         }
     </style>
 
@@ -189,18 +202,23 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header  bg-soft-dark  ">
-                            <ul class="nav nav-tabs">
-                                <li class="active mr-3">
-                                    <a href="#tags" data-toggle="tab">Tags</a>
-                                </li>
-                                <li><a class="mr-3" href="#sms_templates" data-toggle="tab">Custom Fields</a>
-                                </li>
-                                <li><a class="mr-3" href="#dnc_keywords" data-toggle="tab">DNC Keywords</a>
-                                </li>
-                                <li><a class="mr-3" href="#dnc_database" data-toggle="tab">Blacklist Management</a>
-                                </li>
-                            </ul>
+                        <div class="card-header bg-soft-dark">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link active" href="#tags" data-toggle="tab">Tags</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#sms_templates"
+                                            data-toggle="tab">Custom Fields</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#dnc_keywords" data-toggle="tab">DNC
+                                            Keywords</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#dnc_database"
+                                            data-toggle="tab">Blacklist Management</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="tab-content clearfix">
@@ -213,42 +231,45 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered datatable" id="">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Number of Contacts</th>
-                                                        <th scope="col">Actions</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($tags as $tag)
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered datatable" id="">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $tag->name }}</td>
-                                                            <td><a
-                                                                    href="{{ route('admin.tags.contacts', $tag->id) }}">{{ $tag->contactCount }}</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn btn-outline-primary btn-sm"
-                                                                    title="Edit {{ $tag->name }}"
-                                                                    data-id="{{ $tag->id }}"
-                                                                    data-tagname="{{ $tag->name }}" data-toggle="modal"
-                                                                    data-target="#editTagModal"><i
-                                                                        class="fas fa-edit"></i></button>
-                                                                @if ($tag->id > 1)
-                                                                    -
-                                                                    <button class="btn btn-outline-danger btn-sm"
-                                                                        title="Remove {{ $tag->name }}"
-                                                                        data-tagid="{{ $tag->id }}" data-toggle="modal"
-                                                                        data-target="#deleteTagModal"><i
-                                                                            class="fas fa-times-circle"></i></button>
-                                                                @endif
-                                                            </td>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Number of Contacts</th>
+                                                            <th scope="col">Actions</th>
+
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($tags as $tag)
+                                                            <tr>
+                                                                <td>{{ $tag->name }}</td>
+                                                                <td><a
+                                                                        href="{{ route('admin.tags.contacts', $tag->id) }}">{{ $tag->contactCount }}</a>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-outline-primary btn-sm"
+                                                                        title="Edit {{ $tag->name }}"
+                                                                        data-id="{{ $tag->id }}"
+                                                                        data-tagname="{{ $tag->name }}"
+                                                                        data-toggle="modal" data-target="#editTagModal"><i
+                                                                            class="fas fa-edit"></i></button>
+                                                                    @if ($tag->id > 1)
+                                                                        -
+                                                                        <button class="btn btn-outline-danger btn-sm"
+                                                                            title="Remove {{ $tag->name }}"
+                                                                            data-tagid="{{ $tag->id }}"
+                                                                            data-toggle="modal"
+                                                                            data-target="#deleteTagModal"><i
+                                                                                class="fas fa-times-circle"></i></button>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
                                             {{-- Modal New --}}
                                             <div class="modal fade" id="newTag  Modal" tabindex="-1" role="dialog"
@@ -491,43 +512,46 @@
                                 </div>
                                 <div class="tab-pane" id="dnc_keywords">
                                     <div class="card">
-                                        <div class="card-header bg-soft-dark ">
+                                        <div class="card-header bg-soft-dark">
                                             <i class="fas fa-cog mr-1"></i>DNC Keywords
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newDNCKeywordsModal"><i
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered datatable" id="">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Keyword</th>
-                                                        <th scope="col">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($dncs as $dnc)
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered datatable"
+                                                    id="">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $sr++ }}</td>
-                                                            <td>{{ $dnc->keyword }}</td>
-                                                            <td>
-                                                                <button class="btn btn-outline-primary btn-sm"
-                                                                    title="Edit {{ $dnc->keyword }}"
-                                                                    data-keyword="{{ $dnc->keyword }}"
-                                                                    data-id={{ $dnc->id }} data-toggle="modal"
-                                                                    data-target="#editDNCKeywordsModal"><i
-                                                                        class="fas fa-edit"></i></button> -
-                                                                <button class="btn btn-outline-danger btn-sm"
-                                                                    title="Remove {{ $dnc->keyword }}"
-                                                                    data-id="{{ $dnc->id }}" data-toggle="modal"
-                                                                    data-target="#deleteDNCKeywordsModal"><i
-                                                                        class="fas fa-times-circle"></i></button>
-                                                            </td>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Keyword</th>
+                                                            <th scope="col">Actions</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($dncs as $dnc)
+                                                            <tr>
+                                                                <td>{{ $sr++ }}</td>
+                                                                <td>{{ $dnc->keyword }}</td>
+                                                                <td>
+                                                                    <button class="btn btn-outline-primary btn-sm"
+                                                                        title="Edit {{ $dnc->keyword }}"
+                                                                        data-keyword="{{ $dnc->keyword }}"
+                                                                        data-id={{ $dnc->id }} data-toggle="modal"
+                                                                        data-target="#editDNCKeywordsModal"><i
+                                                                            class="fas fa-edit"></i></button> -
+                                                                    <button class="btn btn-outline-danger btn-sm"
+                                                                        title="Remove {{ $dnc->keyword }}"
+                                                                        data-id="{{ $dnc->id }}" data-toggle="modal"
+                                                                        data-target="#deleteDNCKeywordsModal"><i
+                                                                            class="fas fa-times-circle"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
                                             {{-- Modal New --}}
                                             <div class="modal fade" id="newDNCKeywordsModal" tabindex="-1"
@@ -651,36 +675,39 @@
                                                     class="fas fa-plus-circle"></i></button>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-striped table-bordered datatable" id="">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Number</th>
-                                                        <th scope="col">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($numbers as $number)
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered datatable"
+                                                    id="">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $sr++ }}</td>
-                                                            <td>{{ $number->number }}</td>
-                                                            <td>
-                                                                <button class="btn btn-outline-primary btn-sm"
-                                                                    title="Edit {{ $number->number }}"
-                                                                    data-number="{{ $number->number }}"
-                                                                    data-id={{ $number->id }} data-toggle="modal"
-                                                                    data-target="#editBlackListModal"><i
-                                                                        class="fas fa-edit"></i></button> -
-                                                                <button class="btn btn-outline-danger btn-sm"
-                                                                    title="Remove {{ $number->number }}"
-                                                                    data-id="{{ $number->id }}" data-toggle="modal"
-                                                                    data-target="#deleteBlackListModal"><i
-                                                                        class="fas fa-times-circle"></i></button>
-                                                            </td>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Number</th>
+                                                            <th scope="col">Actions</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($numbers as $number)
+                                                            <tr>
+                                                                <td>{{ $sr++ }}</td>
+                                                                <td>{{ $number->number }}</td>
+                                                                <td>
+                                                                    <button class="btn btn-outline-primary btn-sm"
+                                                                        title="Edit {{ $number->number }}"
+                                                                        data-number="{{ $number->number }}"
+                                                                        data-id={{ $number->id }} data-toggle="modal"
+                                                                        data-target="#editBlackListModal"><i
+                                                                            class="fas fa-edit"></i></button> -
+                                                                    <button class="btn btn-outline-danger btn-sm"
+                                                                        title="Remove {{ $number->number }}"
+                                                                        data-id="{{ $number->id }}" data-toggle="modal"
+                                                                        data-target="#deleteBlackListModal"><i
+                                                                            class="fas fa-times-circle"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
                                             {{-- Modal New --}}
                                             <div class="modal fade" id="newBlacklistModal" tabindex="-1" role="dialog"
@@ -720,8 +747,8 @@
                                             {{-- End Modal New --}}
 
                                             {{-- Modal Edit --}}
-                                            <div class="modal fade" id="editBlackListModal" tabindex="-1" role="dialog"
-                                                aria-hidden="true">
+                                            <div class="modal fade" id="editBlackListModal" tabindex="-1"
+                                                role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -758,9 +785,10 @@
                                                 </div>
                                             </div>
                                             {{-- End Modal Edit --}}
+
                                             {{-- Modal Delete --}}
-                                            <div class="modal fade" id="deleteBlackListModal" tabindex="-1" role="dialog"
-                                                aria-hidden="true">
+                                            <div class="modal fade" id="deleteBlackListModal" tabindex="-1"
+                                                role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">

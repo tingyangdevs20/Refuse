@@ -1,45 +1,47 @@
 
-    <table class="table table-striped table-bordered" id="datatable">
-        <thead>
-            <tr>
-
-                <th scope="col">Template Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Message Count</th>
-
-
-                <!--<th scope="col">Media URL</th>-->
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($templates as $template)
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="datatable">
+            <thead>
                 <tr>
 
-                    <td><a href="template/view/{{ $template->id }}">{{ $template->title }}</a></td>
-                    <td>{{ $template->type }}</td>
+                    <th scope="col">Template Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Message Count</th>
 
-                    <td>
-                        {{ $template->message_count }}
-                    </td>
 
-                    <td>
-                        <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->title }}"
-                            data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}"
-                            data-category="{{ $template->category_id }}" data-type="{{ $template->type }}"
-                            data-subject="{{ $template->subject }}"
-                            data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}"
-                            data-id="{{ $template->id }}" data-toggle="modal" data-target="#editModal"><i
-                                class="fas fa-edit"></i></button>
-                        -
-                        <button class="btn btn-outline-danger btn-sm" title="Remove {{ $template->title }}"
-                            data-id="{{ $template->id }}" data-toggle="modal" data-target="#deleteModal"><i
-                                class="fas fa-times-circle"></i></button>
-                    </td>
+                    <!--<th scope="col">Media URL</th>-->
+                    <th scope="col">Actions</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($templates as $template)
+                    <tr>
+
+                        <td><a href="template/view/{{ $template->id }}">{{ $template->title }}</a></td>
+                        <td>{{ $template->type }}</td>
+
+                        <td>
+                            {{ $template->message_count }}
+                        </td>
+
+                        <td>
+                            <button class="btn btn-outline-primary btn-sm edit-template" title="Edit {{ $template->title }}"
+                                data-title="{{ $template->title }}" data-mediaurl="{{ $template->mediaUrl }}"
+                                data-category="{{ $template->category_id }}" data-type="{{ $template->type }}"
+                                data-subject="{{ $template->subject }}"
+                                data-body="{{ htmlspecialchars_decode(stripslashes($template->body)) }}"
+                                data-id="{{ $template->id }}" data-toggle="modal" data-target="#editModal"><i
+                                    class="fas fa-edit"></i></button>
+                            -
+                            <button class="btn btn-outline-danger btn-sm" title="Remove {{ $template->title }}"
+                                data-id="{{ $template->id }}" data-toggle="modal" data-target="#deleteModal"><i
+                                    class="fas fa-times-circle"></i></button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
     <!-- End Page-content -->
     {{-- Modals --}}
     {{-- Modal New --}}

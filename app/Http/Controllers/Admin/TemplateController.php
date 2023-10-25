@@ -21,7 +21,7 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = Template::all();
-        
+
         $categories = Category::all();
         $sr = 1;
         return view('back.pages.template.index', compact('templates', 'categories', 'sr'));
@@ -31,9 +31,9 @@ class TemplateController extends Controller
     {
         $templates = TemplateMessages::where('template_id',$id)->get();
         $template_type = Template::where('id',$id)->first();
-       
-        $type=$template_type->type;
-       
+
+        $type = $template_type->type;
+
         $sr = 1;
         return view('back.pages.template.view', compact('templates', 'id','type'));
     }
@@ -75,7 +75,7 @@ class TemplateController extends Controller
           //      $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
             //    $media = config('app.url') . '/public/uploads/' . $path;
          //   }
-        
+
 
         //return $media;
         $template = new Template();
@@ -167,9 +167,9 @@ class TemplateController extends Controller
           //  }
        // }
 
-        $template = Template::find($request->id);
-        $template->title = $request->title;
-        $template->type = $request->type;
+        $template = TemplateMessages::find($request->id);
+        $template->msg_title = $request->title;
+        $template->msg_content = $request->body;
         //$template->body = $request->body . "\n" . $media;
       //  $template->category_id = $request->category_id;
        // if($request->type == 'SMS'){
@@ -233,7 +233,7 @@ class TemplateController extends Controller
     }
     public function getTemplateWithoutCategory(Request $request){
         $template_type = (!empty($request->template_type)) ? strtoupper($request->template_type) : '';
-       
+
         $count = $request->id;
 
         $templates = Template::where('type',$template_type)->where('category_id',$category)->first();
