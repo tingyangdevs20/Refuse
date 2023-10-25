@@ -129,7 +129,7 @@ class TemplateController extends Controller
      */
     public function update(Request $request)
     {
-        dd($request);
+        //dd($request);
         $media = null;
         // if ($request->media_file != null) {
         //     $media = $request->file('media_file');
