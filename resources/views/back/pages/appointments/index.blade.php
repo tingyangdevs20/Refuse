@@ -31,7 +31,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">All Appointments</h4>
-                       
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark">
@@ -44,15 +44,15 @@
                             <a href="{{ url('appointment', [encrypt(Auth::id())]) }}"
                             target="_blank"style="margin-right: 5px" class="btn btn-outline-primary btn-sm float-right mr-2"
                             title="appointments">Booking Link</a>
-                                    
+
                             <button class="btn btn-outline-primary btn-sm float-right mr-2"
                                 id="copyButton" title="Embed Code" data-toggle="modal" data-target="">Copy Embed Code</button>
                             {{-- <button id="copyButton">Copy Embed Code</button> --}}
                                 <textarea id="embedCode" rows="4" cols="50" style="display: none">
                                     <iframe src='http://127.0.0.1:8000/appointment/embeded-code' frameborder='0' width='100%' height='400'>Embed Booking Link</iframe>
                                 </textarea>
-                                    
-                                
+
+
 
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" style="margin-right: 5px"title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
@@ -106,8 +106,6 @@
         </div> <!-- container-fluid -->
     </div>
 
-
-
     {{-- Modal Add on 31-08-2023 --}}
     <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -144,7 +142,6 @@
         </div>
     </div>
     {{-- End Modal on 31-08-2023 --}}
-
 
     <!-- Add Campaign Modal -->
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
@@ -335,13 +332,13 @@
               setTimeout(() => {
                 copyButton.textContent = 'Copy Embed Code';
               }, 2000); // Reset button text after 2 seconds
-              
+
             });
           </script> --}}
           <script>
             const copyButton = document.getElementById('copyButton');
             const embedCode = document.getElementById('embedCode');
-        
+
             copyButton.addEventListener('click', () => {
                 // Create a temporary textarea element
                 const tempTextarea = document.createElement('textarea');

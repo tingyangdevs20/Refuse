@@ -69,7 +69,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">LISTS MANAGEMENT</h4>
-                       
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -355,6 +355,8 @@
                                                 </option>
                                                 <option value="Phone Call (Incoming)">
                                                     Phone Call (Incoming)
+                                                </option>
+                                                <option value="Radio">Radio
                                                 </option>
                                                 <option value="Referral">Referral
                                                 </option>
@@ -1197,6 +1199,7 @@
                         alert("Lead Status is required!");
                         return; // Abort the form submission
                     }
+
                     // Go to step with force
                     $('#smartwizard').smartWizard("goToStep", 1, true);
                     myDropzone.processQueue(); // Process the Dropzone queue

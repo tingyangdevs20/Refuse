@@ -58,6 +58,7 @@ ringtoneDevices.addEventListener("change", updateRingtoneDevice);
 // SETUP STEP 2: Request an Access Token
 async function startupClient() {
     log("Requesting Access Token...");
+    console.log('twilio version ' + Twilio.VERSION);
 
     try {
         var baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
@@ -97,13 +98,23 @@ function intitializeDevice() {
 function addDeviceListeners(device) {
     device.on("registered", function () {
         log("Twilio.Device Ready to make and receive calls!");
+        console.log("Twilio.Device is registered and ready to make and receive calls!");
         callControlsDiv.classList.remove("hide");
     });
 
     device.on("error", function (error) {
         log("Twilio.Device Error: " + error.message);
     });
-    device.on("incoming", handleIncomingCall);
+
+    // device.on("incoming", handleIncomingCall);
+    device.on("incoming", function (connection) {
+        log("Incoming call received from: " + connection.parameters.From);
+        // Log other relevant data associated with the incoming call
+        console.log(connection);
+
+        // Handle the incoming call as needed
+        handleIncomingCall(connection);
+    });
 
     device.audio.on("deviceChange", updateAllAudioDevices.bind(device));
 
