@@ -129,7 +129,7 @@ class TemplateController extends Controller
      */
     public function update(Request $request)
     {
-       // dd($request);
+        dd($request);
         $media = null;
         // if ($request->media_file != null) {
         //     $media = $request->file('media_file');
@@ -169,8 +169,8 @@ class TemplateController extends Controller
        // }
 
         $template = Template::find($request->id);
-        $template->msg_title = $request->title;
-        $template->msg_content = $request->body;
+        $template->title = $request->title;
+        $template->type = $request->type;
         //$template->body = $request->body . "\n" . $media;
       //  $template->category_id = $request->category_id;
        // if($request->type == 'SMS'){
