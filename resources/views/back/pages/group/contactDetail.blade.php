@@ -5772,21 +5772,6 @@
                                                                                     </div>
 
                                                                                 </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label><input style="margin-right:5px"
-                                                                                            type="checkbox"
-                                                                                            class="user-seller"
-                                                                                            table="lead_info"
-                                                                                            onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
-                                                                                            value="{{ $leadinfo->mail_to_owner3 }}"
-                                                                                            {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
-                                                                                            name="mail_to_owner3">Contact
-                                                                                        1
-                                                                                        ({{ $leadinfo->owner3_first_name }})</label>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
