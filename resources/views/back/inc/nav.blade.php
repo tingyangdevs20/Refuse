@@ -35,6 +35,16 @@
                 @endif --}}
 
                 <li class="menu-title">Lead Generation</li>
+                @if (auth()->user()->can('dashboard') ||
+                        auth()->user()->can('administrator') ||
+                        auth()->user()->can('scraping_module'))
+                    <li>
+                        <a href="{{ route('admin.scraping.list') }}" class="waves-effect">
+                            <i class="fas fa-bars"></i>
+                            <span>Scraping Data</span>
+                        </a>
+                    </li>
+                @endif
 
                 <li><a href="{{ route('admin.group.index') }}" class=" waves-effect"> <i class="fas fa-phone"></i>
                         <span>My Lists</span></a>
@@ -53,16 +63,7 @@
                         <span>OPT-IN</span>
                     </a>
                 </li>
-                @if (auth()->user()->can('dashboard') ||
-                        auth()->user()->can('administrator') ||
-                        auth()->user()->can('scraping_module'))
-                    <li>
-                        <a href="{{ route('admin.scraping.list') }}" class="waves-effect">
-                            <i class="fas fa-bars"></i>
-                            <span>Scraping Data</span>
-                        </a>
-                    </li>
-                @endif
+               
 
                 <li style="display:none">
                     <a href="{{ route('admin.campaign.index') }}"><i class="bx bx-home-circle"></i><span>Prospect
