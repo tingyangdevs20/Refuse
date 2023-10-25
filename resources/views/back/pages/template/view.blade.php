@@ -204,9 +204,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.template.update', 'test') }}" method="post" id="editForm"
+                <form action="{{ route('admin.template.updatemsg') }}" method="post" id="editForm"
                     enctype="multipart/form-data">
-                    @method('PUT')
+                    @method('POST')
                     @csrf
                     <input id="tmpid" style="display:none" value="{{ $id }}" />
                     <div class="modal-body">
@@ -397,7 +397,7 @@
                 $('.show_sms_edit').show();
                 modal.find('.modal-body #body_sms').val(body);
             } else if (typ === 'MMS') {
-                alert(body);
+               // alert(body);
                 $(".body_sms").removeAttr("required");
                 $(".email_body").removeAttr("required");
                 $('.show_email_edit').hide();
