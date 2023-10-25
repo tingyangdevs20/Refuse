@@ -41,6 +41,7 @@ use Google_Service_Drive as Drive;
 use Auth;
 use App\LeadInfo;
 use App\TaskList;
+use App\TaskLists;
 use App\Model\TimeZones;
 use Session;
 use App\AccountDetail;
@@ -51,6 +52,7 @@ use App\Services\DatazappService;
 
 use App\Mail\CampaignConfirmation;
 use App\Mail\CampaignMail;
+use Illuminate\Support\Facades\Gate;
 
 class GroupController extends Controller
 {
@@ -124,7 +126,6 @@ class GroupController extends Controller
         $tags = Tag::all();
         $sections = Section::all();
         $contact = Contact::where('id', $id)->first();
-        $TaskliSt = TaskList::all();
         $files = RvmFile::all();
 
         if ($contact) {
@@ -278,7 +279,9 @@ class GroupController extends Controller
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
         }
 
-        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'TaskliSt', 'utility_deparments', 'files'));
+        $tasks = TaskList::orderBy('position')->get();
+
+        return view('back.pages.group.contactDetail', compact('id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'utility_deparments', 'tasks', 'files'));
     }
 
     // public function updateinfo(Request $request)
