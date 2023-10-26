@@ -204,7 +204,7 @@
                     </a>
                 </li>
 
-                <li style="display:none">
+                <li>
                     <a href="{{ route('admin.scraping.requests') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
                         <span>Scraping Requests</span>
