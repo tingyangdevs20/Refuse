@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\MarketingSpend;
 use App\Model\CalendarSetting;
 use App\Model\Number;
 use App\Model\Template;
@@ -73,6 +74,14 @@ class SettingsController extends Controller
         return view('back.pages.settings.appointmentSettings', compact('settings', 'timezones', 'appointmentSetting'));
     }
 
+    // Marketing spend index
+    public function marketingSpend()
+    {
+        $data = MarketingSpend::where('user_id', auth()->id())->get();
+        $data = $data->count() ? $data[0] : new MarketingSpend();
+        return view('back.pages.settings.marketingSpend', compact('data'));
+    }
+
     public function CommunicationSetting()
     {
 
@@ -103,7 +112,7 @@ class SettingsController extends Controller
         $market = Market::first();
         foreach ($activeNumberArray as $activeNumber) {
             error_log('active number = ' . $activeNumber->phoneNumber);
-            
+
             $phn_num = $activeNumber->phoneNumber;
             $numbers[] = (object) [
                 'number' => $phn_num,
@@ -138,10 +147,10 @@ class SettingsController extends Controller
                 $phn_nums->account_id = $account->id;
                 $phn_nums->market_id=$market->id;
                 $phn_nums->save();
-                
+
             }
         }
-        
+
         $all_phone_nums = Number::all();
         return view('back.pages.settings.communication', compact('responders','campaigns','leadcampaigns','templates', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
     }
@@ -447,6 +456,25 @@ class SettingsController extends Controller
         }
 
         Alert::success('Success', 'Appointments Calendar Settings Updated!');
+        return redirect()->back();
+    }
+
+    public function updateMarketingSpend(Request $request)
+    {
+        $data = [
+            'lead_source' => $request->lead_source,
+            'date' => $request->date,
+            'amount' => $request->amount
+        ];
+
+        $data['user_id'] = auth()->id();
+        if ($marketing = MarketingSpend::first()) {
+            $marketing->update($data);
+        } else {
+            $marketing = MarketingSpend::create($data);
+        }
+
+        Alert::success('Success', 'Marketing Spend Settings Updated!');
         return redirect()->back();
     }
 }
