@@ -5715,20 +5715,18 @@
                                                                             </button>
                                                                             <!-- Error messages will be appended here -->
                                                                         </div>
-                                                                        <label for="recipient-name"
-                                                                            class="col-form-label">Form Template <span
-                                                                                class="required">*</span></label>
-                                                                        <select class="form-control formTemplate"
-                                                                            onchange="fetch(this)" id="template_id"
-                                                                            name="template_id" required>
-                                                                            <option value="">Select Form Template
-                                                                            </option>
+                                                                        <label>Select Form Template</label>
+                                                                        <div class="row">
                                                                             @foreach (getFormTemplate() as $templateId => $template)
-                                                                                <option value="{{ $templateId }}">
-                                                                                    {{ $template }}
-                                                                                </option>
+                                                                                <div class="checkbox  col-md-4">
+                                                                                    <label>
+                                                                                        <input type="checkbox" class="formTemplateCheckbox" value="{{ $templateId }}">
+                                                                                        {{ $template }}
+                                                                                    </label>
+                                                                                </div>
                                                                             @endforeach
-                                                                        </select>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -5790,12 +5788,16 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="margin-left: 15px;">
                                                                         <button type="button"
-                                                                            class="btn btn-primary button-item saveUserAgreementContact">Create</button>
+                                                                            class="btn btn-primary button-item saveUserAgreementContact">Send for digital signature</button>
+                                                                        <button type="button"
+                                                                        class="btn btn-primary button-item saveUserAgreementContact">Save Pdf</button>
+                                                                    
                                                                     </div>
                                                                 </div>
+                                                                
                                                             </div>
                                                         </div>
 
