@@ -616,7 +616,7 @@
                             </div>
                             <div class="form-group">
                                 <label style="padding:10px;font-weight:bold">What do you hope to get out of this
-                                    call?</label>`
+                                    call?</label>
                                 <div class="input-group">
                                     <textarea type="text" class="input description" style="height:100px"
                                         placeholder="What do you hope to get out of this call?" name="description" id="description" required>{{ old('description') }}</textarea>
