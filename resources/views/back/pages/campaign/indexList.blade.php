@@ -143,9 +143,10 @@
                         <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
-                                                                            <label>Message Type</label>
-                                                                            <select class="custom-select" name="type" required>
-                                                                                <option value="sms">SMS</option>
+                                                                            <label>Select Message Type</label>
+                                                                            <select class="custom-select" name="type" onchange="check_type(this)" required>
+                                                                               
+                                                                            <option value="sms">SMS</option>
                                                                                 <option value="email">Email</option>
                                                                                 <option value="mms">MMS</option>
                                                                                 <option value="rvm">RVM</option>
@@ -153,11 +154,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                <div class="row" id="dvTemplate">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Select Template</label>
-                                                                            <select class="custom-select" name="template"  required>
+                                                                            <select class="custom-select" name="template" id="template"  required>
                                                                             <option value="0">Select Template</option>
                                                                             @foreach ($templates as $template)
                                                                             <option value="{{$template->id}}">{{$template->title}}</option>
@@ -167,7 +168,21 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                        <div class="show_media_mms" style="display:none;">
+                                                                <div class="row" id="dvRvm" style="display:none">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group mt-3">
+                                                                            <label>Select RVM</label>
+                                                                            <select class="custom-select" name="rvm"  required>
+                                                                            <option value="0">Select RVM File</option>
+                                                                            @foreach ($files as $rvm)
+                                                                            <option value="{{$rvm->name}}">{{$rvm->name}}</option>
+                                                                            @endforeach
+                                                                                
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                        <div class="show_media_mms" id="dvMediaFile" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                 <input type="file" class="form-control-file" name="media_file_mms">
@@ -313,7 +328,7 @@
                     </button>
                 </div>
                 <form action="{{ route('admin.campaign.remove') }}" method="post" id="editForm">
-                    @method('DELETE')
+                    @method('POST')
                     @csrf
                     <div class="modal-body">
                         <div class="modal-body">
@@ -343,14 +358,30 @@
     <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote-bs4.css') }}" />
     <script src="{{ asset('/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script>
-        var typ = $("#tmp_type").val();
-        messageType(typ);
-        messageTypeEdit(typ);
-        //alert(typ);
-        $(".summernote-usage").summernote({
-            height: 200,
-        });
 
+        function check_type(ctrl)
+        {
+            //alert(ctrl.value);
+            if(ctrl.value=='rvm')
+            {
+                $("#dvRvm").show();
+                $("#dvTemplate").hide();
+                $("#dvMediaFile").hide();
+            }
+            else if(ctrl.value=='mms')//
+            {
+                $("#dvMediaFile").show();
+                $("#dvTemplate").show();
+                $("#dvRvm").hide();
+            }
+            else
+            {
+                $("#dvRvm").hide();
+                $("#dvTemplate").show();
+                $("#dvMediaFile").hide();
+            }
+        }
+        
         function messageType(val) {
             if (val === 'SMS') {
                 $(".email_body").removeAttr("required");

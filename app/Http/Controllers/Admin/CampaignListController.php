@@ -327,6 +327,12 @@ class CampaignListController extends Controller
                 if ($types == 'rvm') 
                 {
                     $media = $request->mediaUrl;
+                    $subject=$request->rvm;
+                    
+                } 
+                if ($types == 'mms') 
+                {
+                    $media = $request->media_file_mms;
                     
                 } 
                
@@ -432,11 +438,11 @@ class CampaignListController extends Controller
         CampaignList::where('id',$id)->delete();
         return redirect()->route('admin.campaign.show', $id)->with('success', 'Campaign list deleted successfully.');
     }
-    public function removeList(Request $request)
+    public function remove(Request $request)
     {
-        dd($request);
-        CampaignList::where('id',$id)->delete();
-        return redirect()->route('admin.campaign.show', $id)->with('success', 'Campaign list deleted successfully.');
+       // dd($request);
+        CampaignList::where('id',$request->id)->delete();
+        return redirect()->back();
     }
     public function destroy(CampaignList $campaignlist)
     {
