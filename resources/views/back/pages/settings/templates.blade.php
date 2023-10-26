@@ -208,11 +208,10 @@
                                         <a class="nav-link active" href="#scripts2" data-toggle="tab">Phone Scripts</a>
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#sms_templates"
-                                            data-toggle="tab">SMS/MMS Templates</a>
+                                            data-toggle="tab">SMS/MMS/Email</a>
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#digital_sign_templates"
-                                            data-toggle="tab">Digital Sign.
-                                            Templates</a>
+                                            data-toggle="tab">Digital Signing </a>
                                     </li>
                                 </ul>
                             </div>
@@ -410,7 +409,7 @@
                                 <div class="tab-pane" id="sms_templates">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i> SMS/MMS Templates
+                                            <i class="fas fa-cog mr-1"></i> SMS/MMS/Email
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newSMSModal"><i
                                                     class="fas fa-plus-circle"></i></button>
@@ -679,7 +678,7 @@
                                 <div class="tab-pane" id="digital_sign_templates">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i> Digital Sign. Templates
+                                            <i class="fas fa-cog mr-1"></i> Digital Signing
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newModal">
                                                 <i class="fas fa-plus-circle"></i>
