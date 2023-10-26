@@ -198,7 +198,7 @@
                                 </li>
                                 <li><a class="mr-3" href="#CallForward" data-toggle="tab">Call Forward Number</a>
                                 </li>
-                                <li><a class="mr-3" href="#PhoneNumber" data-toggle="tab">Phone Number</a>
+                                <li><a class="mr-3" href="#PhoneNumber" data-toggle="tab">Phone Numbers</a>
                                 </li>
                                 <li><a class="mr-3"href="#markets" data-toggle="tab">Markets</a>
                                 </li>

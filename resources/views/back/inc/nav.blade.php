@@ -230,7 +230,7 @@
                         </li>
                         {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
                                 class=" waves-effect">Appointment Settings</a></li> --}}
-                        <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">APIs Settings</a>
+                        <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">3rd Party APIs</a>
                         </li>
                         <li>
                             <a href="{{ route('admin.templates.index') }}" class="waves-effect">
