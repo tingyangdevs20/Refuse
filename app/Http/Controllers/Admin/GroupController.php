@@ -530,6 +530,10 @@ class GroupController extends Controller
             DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
         }
 
+        if ($table == 'followup_sequences' && in_array($fieldName, ['followup_reminder', 'reminder_text'])) {
+            DB::table($table)->where('contact_id', $id)->update(['assigner_id' => auth()->id()]);
+        }
+
         if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
             $leadStatus = [
                 'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
@@ -560,9 +564,20 @@ class GroupController extends Controller
                 }
             }
         }
+
+        // Insert Profit Collected
+        if ($table == 'negotiations' && $fieldName == 'closing_date' && $fieldVal) {
+            $negotiations = DB::table('negotiations')->where('contact_id', $id)->first();
+            if ($negotiations) {
+                if ($negotiations->closing_date) {
+                    # code...
+                    $this->insertContactGoalReachedProfitCollected($id, $negotiations->actual_profit, $fieldVal);
+                }
+            }
+        }
     }
 
-    public function insertContactGoalReachedProfitCollected($id, $value)
+    public function insertContactGoalReachedProfitCollected($id, $value, $closing_date)
     {
         $record = DB::table('contact_goals_reacheds')
             ->where('contact_id', $id)
@@ -575,7 +590,7 @@ class GroupController extends Controller
                 DB::table('contact_goals_reacheds')->insert([
                     'profit_collected' => $value,
                     'contact_id' => $id,
-                    'recorded_at' => now(),
+                    'recorded_at' => $closing_date,
                     'attribute_id' => $attribute->id,
                     'user_id' => auth()->id(),
                 ]);

@@ -295,6 +295,30 @@ function profit_expected_days_count($days, $user, $attribute)
     return $count;
 }
 
+// Get profit collected sum
+function profit_collected_days_count($days, $user, $attribute)
+{
+    $count = 0;
+
+    if ($days == 0) {
+        $count = DB::table('contact_goals_reacheds')
+            ->where('attribute_id', $attribute->id)
+            ->whereNotNull('profit_collected')
+            ->where('user_id', $user)
+            ->whereDate('recorded_at', Carbon::today()->subDays($days))
+            ->sum('profit_collected');
+    } else {
+        $count = DB::table('contact_goals_reacheds')
+            ->where('attribute_id', $attribute->id)
+            ->whereNotNull('profit_collected')
+            ->where('user_id', $user)
+            ->whereBetween('recorded_at', [Carbon::today()->subDays($days), Carbon::today()])
+            ->sum('profit_collected');
+    }
+
+    return $count;
+}
+
 
 function contracts_signed_count($days, $user)
 {
@@ -371,23 +395,22 @@ function profit_expected_range_count($start_date, $end_date, $user)
     return $count;
 }
 
-function money_collected_range_count($start_date, $end_date, $user)
+function profit_collected_range_count($start_date, $end_date, $user)
 {
-    // Clean the input values and convert percentages to decimals
-    $moneyCollected = 0;
+    $count = 0;
+    // Get attribute details
+    $attribute = goal_attribute::where('attribute', 'Profit Collected')->first();
+    if ($attribute) {
 
-    $money_collected_reached = GoalsReached::where([
-        ['user_id', '=', $user],
-        ['attribute_id', '=', 8], // Assuming 'attribute_id' is a specific value
-    ])
-        ->whereBetween('created_at', [$start_date, $end_date]) // Add date range condition
-        ->first();
+        $count = DB::table('contact_goals_reacheds')
+        ->where('attribute_id', $attribute->id)
+        ->whereNotNull('profit_collected')
+        ->where('user_id', $user)
+        ->whereBetween('recorded_at', [$start_date, $end_date]) // Add date range condition
+        ->sum('profit_collected');
 
-    if ($money_collected_reached) {
-        $moneyCollected = $money_collected_reached->goals;
     }
-
-    return $moneyCollected;
+    return $count;
 }
 
 function people_touch_range_count($start_date, $end_date, $user)

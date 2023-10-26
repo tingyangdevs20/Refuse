@@ -196,7 +196,7 @@
                         </a>
                     </li>
                 @endif
-                
+
                 <li style="display:none">
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
                         <i class="fa fa-user"></i>
@@ -228,7 +228,7 @@
                                 auth()->user()->can('access_all'))
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                
+
                                     <span>Productivity</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
@@ -240,16 +240,17 @@
                                     @if (auth()->user()->can('dashboard') ||
                                             auth()->user()->can('administrator') ||
                                             auth()->user()->can('roles_module'))
-                                            
+
                                             <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
                                     @endif
-                                  
+
 
                                 </ul>
                             </li>
 
                         @endif
-                       
+                        <li><a href="{{ route('admin.settings.marketing-spend') }}" class=" waves-effect">Marketing Spend</a>
+                        </li>
                         {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
                                 class=" waves-effect">Appointment Settings</a></li> --}}
                         <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">3rd Party APIs</a>
@@ -274,7 +275,7 @@
                         <li>
                             <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>
                         </li>
-                       
+
                         @if (auth()->user()->can('dashboard') ||
                                 auth()->user()->can('administrator') ||
                                 auth()->user()->can('access_all'))
@@ -310,13 +311,13 @@
                             </li>
 
                         @endif
-                       
+
                         <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
-                       
+
                         <li style="display:none"><a href="{{ route('admin.category.index') }}"
                                 class=" waves-effect">Lead Categories</a></li>
-                       
-                       
+
+
                         {{-- <li><a href="{{ route('admin.field.index') }}" class=" waves-effect">Custom Fields</a></li> --}}
                         {{-- <li><a href="javascript: void(0);" class="has-arrow waves-effect"><span>DNC
                                     Management</span></a>
@@ -328,9 +329,9 @@
                             </ul>
                         </li> --}}
 
-                        
 
-                        
+
+
 
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
 

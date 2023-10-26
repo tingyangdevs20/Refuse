@@ -95,8 +95,9 @@ class TaskListController extends Controller
             $users = User::all();
             // $tasks = TaskList::all();
             $tasks = TaskLists::where('tasklist_id',$id)->orderBy('position')->get();
-
-            return view('back.pages.tasklist.task-view',compact('tasks', 'users', 'id'));
+            $taskList = TaskList::where('id',$id)->get();
+            $tasklist_name = $taskList[0]['tast'];
+            return view('back.pages.tasklist.task-view',compact('tasks', 'users', 'id','tasklist_name'));
       }else{
           return abort(401);
       }

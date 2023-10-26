@@ -167,13 +167,13 @@
                                         <tr>
                                             <th scope="col">Profit Collected</th>
                                             <td>${{ number_format(@$money_collected, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_todays, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_seven_day, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_month, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_ninety_day, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_year, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_lifetime, 2) }}</td>
-                                            <td id="money_collected_count">$0.00</td>
+                                            <td>${{ number_format(@$profit_collected_count_today, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_seven_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_month, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_ninety_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_year, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_lifetime, 2) }}</td>
+                                            <td id="profit_collected_count">$0.00</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -575,6 +575,47 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-soft-dark ">
+                            Reminders Task List
+                        </div>
+                        <div class="card-body">
+                            <div id="reminder-task-list-container">
+                                <table id="reminder_tasktable" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Completed</th>
+                                        <th>Name</th>
+                                        <th>Reminder At</th>
+                                        <th>Assigned By</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($reminders as $key => $task)
+                                            <tr data-task-id="{{ $task->id }}">
+                                                <td>
+                                                    <input style="margin-right:5px"
+                                                           type="checkbox" name="stop_followup"
+                                                           onchange="updateValue(this.checked ? 'Yes' : null, 'stop_followup', 'followup_sequences', {{$task->contact_id}})"
+                                                           value="{{ 'Yes' }}" {{ $task->stop_followup == 'Yes' ? 'checked' : '' }}>
+                                                </td>
+                                                <td><a href="{{ route('admin.contact.detail', $task->contact_id) }}#12"
+                                                       id="trigger-startup-button">{{ $task->contact->name.' '.$task->contact->last_name }} </a> </td>
+                                                <td>
+                                                    {{ $task->followup_reminder }}
+                                                </td>
+                                                <td>
+                                                    {{ $task->assigner->name }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- <div class="row">
                                                                                     <div class="col-xl-12">
@@ -943,6 +984,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="{{ asset('/back/assets/libs/jquery-notify/notify.js') }}"></script>
     <script>
         $(function() {
             $('input[name="datefilter"]').daterangepicker({
@@ -1018,6 +1060,36 @@
                     toastr.error('API Error: ' + response.responseText, 'API Response Error', {
                         timeOut: 9000,
                     });
+                }
+            });
+        }
+
+        function updateValue(fieldVal, fieldName, table, id) {
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                method: "POST",
+                url: '<?php echo url('admin/contact/detail/update'); ?>',
+                data: {
+                    id: id,
+                    fieldVal: fieldVal,
+                    table: table,
+                    fieldName: fieldName,
+                    _token: _token
+                },
+                success: function(res) {
+                    if (res.status == true) {
+                        toastr.success(res.message, {
+                            timeOut: 10000, // Set the duration (10 seconds in this example)
+                        });
+                        // setTimeout(function() {
+                        //     location.reload();
+                        // }, 1000);
+                    } else {
+                        $.notify(res.message, 'error');
+                    }
+                },
+                error: function(err) {
+                    $.notify('Error occurred while saving.', 'error');
                 }
             });
         }

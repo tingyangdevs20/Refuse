@@ -337,7 +337,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('market', 'Admin\MarketController');
     Route::resource('settings', 'Admin\SettingsController');
     Route::post('settings/appointment-calendar-settings', 'Admin\SettingsController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
-
+    Route::get('marketing-spend', 'Admin\SettingsController@marketingSpend')->name('settings.marketing-spend');
+    Route::post('marketing-spend/update', 'Admin\SettingsController@updateMarketingSpend')->name('marketing-spend.update');
 
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');
@@ -351,7 +352,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('/save-temp-message', 'Admin\TemplateMessagesController@create')->name('template.savemsg');
     Route::delete('/del-temp-message', 'Admin\TemplateMessagesController@destroy')->name('template.msg.destroy');
     Route::post('/update-temp-message', 'Admin\TemplateMessagesController@update')->name('template.updatemsg');
-    
+
     //gurpreet
     route::post('get/template_msg/', 'Admin\TemplateController@getTemplateWithCondition');
     route::post('get/template_con/', 'Admin\TemplateController@getTemplateWithoutCategory');
