@@ -33,6 +33,8 @@
         }
     </style>
 
+    <script src="{{ asset('back/assets/libs/jquery/jquery.min.js') }}"></script>
+
 </head>
 
 <body data-sidebar="dark">
@@ -124,7 +126,6 @@
     <script>
         var publicPath = "{!! URL::to('/') !!}/admin/";
     </script>
-    <script src="{{ asset('back/assets/libs/jquery/jquery.min.js') }}"></script>
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
