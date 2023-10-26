@@ -3589,33 +3589,28 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Schedule Follow up Reminder </label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <select class="custom-select"
-                                                                                name="followup_reminder"
-                                                                                onchange="updateValue(value,'followup_reminder','followup_sequences')">
-                                                                                <option value="">Schedule Follow up
-                                                                                    Reminder </option>
-                                                                                <option value="1"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '1') selected @endif
-                                                                                    @endif>1 Day
-                                                                                </option>
-                                                                                <option value="2"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '2') selected @endif
-                                                                                    @endif>2 Days
-                                                                                </option>
-                                                                                <option value="3"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '3') selected @endif
-                                                                                    @endif>4 Days
-                                                                                </option>
-                                                                                <option value="4"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '4') selected @endif
-                                                                                    @endif>1 Week
-                                                                                </option>
-
-                                                                            </select>
+                                                                            <input type="date" class="form-control"
+                                                                                   placeholder="Schedule Follow up Reminder" name="followup_reminder"
+                                                                                   table="followup_sequences" id="followup_reminder"
+                                                                                   value="{{ isset($followup_sequences) && $followup_sequences->followup_reminder ? $followup_sequences->followup_reminder : '' }}">
                                                                         </div>
-                                                                        <button type="submit"
-                                                                            onclick="updateValue('Yes','stop_followup','followup_sequences')"
-                                                                            class="btn btn-primary button-item mt-2">Stop Followup</button>
+                                                                        <div class="input-group mb-2">
+                                                                            <textarea class="form-control"
+                                                                                      placeholder="Reminder Text"
+                                                                                      table="followup_sequences" id="reminder_text"
+                                                                                      name="reminder_text">{{ isset($followup_sequences) && $followup_sequences->reminder_text ? $followup_sequences->reminder_text : '' }}</textarea>
+                                                                        </div>
+                                                                        <div class="input-group mb-2">
+                                                                            <input style="margin-right:5px"
+                                                                                   type="checkbox" name="stop_followup"
+                                                                                   onchange="updateValue(this.checked ? 'Yes' : null, 'stop_followup', 'followup_sequences')"
+                                                                                   value="{{ 'Yes' }}"
+                                                                                {{ isset($followup_sequences) && $followup_sequences->stop_followup == 'Yes' ? 'checked' : '' }}>
+                                                                            Completed
+                                                                        </div>
+{{--                                                                        <button type="submit"--}}
+{{--                                                                            onclick="updateValue('Yes','stop_followup','followup_sequences')"--}}
+{{--                                                                            class="btn btn-primary button-item mt-2">Stop Followup</button>--}}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -5923,6 +5918,7 @@
 
     <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
     <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
+    <script src="{{ asset('/back/assets/libs/jquery-notify/notify.js') }}"></script>
 
 
     <script>

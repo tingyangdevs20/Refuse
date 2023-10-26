@@ -530,6 +530,10 @@ class GroupController extends Controller
             DB::table($table)->insert(['contact_id' => $id, $fieldName => $fieldVal]);
         }
 
+        if ($table == 'followup_sequences' && in_array($fieldName, ['followup_reminder', 'reminder_text'])) {
+            DB::table($table)->where('contact_id', $id)->update(['assigner_id' => auth()->id()]);
+        }
+
         if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
             $leadStatus = [
                 'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
