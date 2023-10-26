@@ -268,6 +268,34 @@ class AdminController extends Controller
             $profit_expected_count_year = profit_expected_days_count(365, $user, $profit_expected_attribute);
         }
 
+        // Profit collected
+        $profit_collected_records_count = 0;
+        $profit_collected_count_lifetime = 0;
+        $profit_collected_count_today = 0;
+        $profit_collected_count_seven_days = 0;
+        $profit_collected_count_month = 0;
+        $profit_collected_count_ninety_days = 0;
+        $profit_collected_count_year = 0;
+
+        // Get attribute details
+        $profit_collected_attribute = goal_attribute::where('attribute', 'Profit Collected')->first();
+        if ($profit_collected_attribute) {
+
+            $profit_collected_total = DB::table('contact_goals_reacheds')
+                ->where('attribute_id', $profit_collected_attribute->id)
+                ->whereNotNull('profit_collected')
+                ->where('user_id', $user)
+                ->sum('profit_collected');
+
+            // Leads
+            $profit_collected_count_lifetime = $profit_collected_records_count ?? 0;
+            $profit_collected_count_today = profit_collected_days_count(0, $user, $profit_collected_attribute);
+            $profit_collected_count_seven_days = profit_collected_days_count(7, $user, $profit_collected_attribute);
+            $profit_collected_count_month = profit_collected_days_count(30, $user, $profit_collected_attribute);
+            $profit_collected_count_ninety_days = profit_collected_days_count(90, $user, $profit_collected_attribute);
+            $profit_collected_count_year = profit_collected_days_count(365, $user, $profit_collected_attribute);
+        }
+
         //goals
         $goal_people_reached = GoalsReached::where([['user_id', '=', $user], ['attribute_id', '=', '1']])->first();
         $goal_lead = GoalsReached::where([['user_id', '=', $user], ['attribute_id', '=', '2']])->first();
@@ -471,6 +499,15 @@ class AdminController extends Controller
             'profit_expected_count_ninety_days',
             'profit_expected_count_year',
 
+            // Profit collected
+            'profit_collected_records_count',
+            'profit_collected_count_lifetime',
+            'profit_collected_count_today',
+            'profit_collected_count_seven_days',
+            'profit_collected_count_month',
+            'profit_collected_count_ninety_days',
+            'profit_collected_count_year',
+
             'total_sent_lifetime',
             'total_received_lifetime',
             'messages_sent_today',
@@ -580,7 +617,7 @@ class AdminController extends Controller
         $profit_expected_count = profit_expected_range_count($start_date, $end_date, $user);
 
         // Get money collected count
-        $money_collected_count = money_collected_range_count($start_date, $end_date, $user);
+        $profit_collected_count = profit_collected_range_count($start_date, $end_date, $user);
 
         return response()->json([
             'status' => true,
@@ -596,7 +633,7 @@ class AdminController extends Controller
                 'contracts_signed_count' => $contracts_signed_count,
                 'contracts_out_count' => $contracts_out_count,
                 'profit_expected_count' => '$' . $profit_expected_count,
-                'money_collected_count' => '$' . $money_collected_count
+                'profit_collected_count' => '$' . $profit_collected_count
             ]
         ]);
     }

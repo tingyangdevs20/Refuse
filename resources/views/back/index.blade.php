@@ -167,13 +167,13 @@
                                         <tr>
                                             <th scope="col">Profit Collected</th>
                                             <td>${{ number_format(@$money_collected, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_todays, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_seven_day, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_month, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_ninety_day, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_year, 2) }}</td>
-                                            <td>${{ number_format(@$money_collected_lifetime, 2) }}</td>
-                                            <td id="money_collected_count">$0.00</td>
+                                            <td>${{ number_format(@$profit_collected_count_today, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_seven_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_month, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_ninety_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_year, 2) }}</td>
+                                            <td>${{ number_format(@$profit_collected_count_lifetime, 2) }}</td>
+                                            <td id="profit_collected_count">$0.00</td>
                                         </tr>
                                     </tbody>
                                 </table>
