@@ -174,7 +174,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Settings</h4>
-                        
+
                     </div>
 
                     <div class="card">
@@ -370,18 +370,18 @@
                                             <i class="fas fa-cog"></i> Call Forward Number
                                         </div>
                                         <div class="card-body">
-                                           
+
                                                 <table class="table table-striped table-bordered datatable" id="">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Number</th>
                                                             <th scope="col">Action</th>
-                                                            
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                       
-                                                       
+
+
                                                             <tr>
                                                                 <td>{{ $Settings->call_forward_number }}</td>
                                                                 <td>
@@ -399,17 +399,17 @@
                                                                         class="fas fa-times-circle"></i></button>
                                                             </td>
 
-                                                               
-                                                               
+
+
                                                             </tr>
-                                                           
+
                                                     </tbody>
                                                 </table>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="tab-pane" id="markets">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
@@ -475,9 +475,9 @@
                                             <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
-                                                       
+
                                                         <th scope="col">Name</th>
-                                                        
+
                                                         <th scope="col">Actions</th>
 
                                                     </tr>
@@ -485,9 +485,9 @@
                                                 <tbody>
                                                     @foreach ($rvms as $rvm)
                                                         <tr>
-                                                            
+
                                                             <td>{{ $rvm->name }}</td>
-                                                            
+
                                                             <td>
                                                                 <button class="btn btn-outline-primary btn-sm"
                                                                     title="Edit {{ $rvm->name }}"
@@ -626,7 +626,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                   
+
                     <form action="{{ route('admin.campaigns.store') }}" method="post">
                         @csrf
                         <div class="form-group">
@@ -634,7 +634,7 @@
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
 
-                      
+
 
                         <div class="form-group">
                             <label for="active">Active Status</label>
@@ -702,8 +702,8 @@
                 </div>
             </div>
         </div>
-    
-    
+
+
 
 <!-- EDIT Prospect campaign -->
 
@@ -731,7 +731,7 @@
                                                 <tr>
                                             <th scope="col">Name</th>
                                             <th scope="col">No. Of Contacts</th>
-                                                                                    
+
                                             <th scope="col">Action</th>
                                             <th scope="col">Status</th>
 
@@ -741,7 +741,7 @@
                                                 @foreach ($leadcampaigns as $campaign)
                                         @php
                                        $_count=optional($campaign->group)->getContactsCount();
-                                        
+
 
 
                                         @endphp
@@ -749,10 +749,10 @@
                                                 <td><a
                                                         href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
                                                 </td>
-                                               
+
                                                 <td>{{$_count}}</td>
-                                                
-                                                
+
+
                                                 <td>
                                                     <a href="{{ route('admin.compaignlead.copy', $campaign->id) }}"><button
                                                             data-toggle="modal"
@@ -776,7 +776,7 @@
                                                 </td>
                                                 <td>
                                                 <input data-id="{{$campaign->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $campaign->active ? 'checked' : '' }}>
-                    
+
                                                  </td>
                                                  </tr>
                                         @endforeach
@@ -812,7 +812,7 @@
                             <label for="name">Campaign Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>
                         </div>
-                        
+
                         <div class="form-group" style="display:none">
                             <label for="group_id">Select Group/Contact List</label>
                             <select name="group_id" id="group_id" class="form-control">
@@ -825,7 +825,7 @@
                             </select>
                         </div>
 
-                       
+
                         <button type="submit" class="btn btn-primary">Save Campaign</button>
                     </form>
                 </div>
@@ -862,7 +862,7 @@
                                 <input type="text" name="name" id="lead_name_edit" class="form-control" value=""
                                     required>
                             </div>
-                            
+
                             <div class="form-group" style="display:none">
                                 <label for="group_id">Select Group/Contact List</label>
                                 <select name="group_id" id="group_id_edit" class="form-control">
@@ -877,7 +877,7 @@
 
                             <!-- Add other fields for campaign details -->
                             <!-- For example, schedule, message content, etc. -->
-                          
+
 
                             <button type="submit" class="btn btn-primary">Update Campaign</button>
                         </form>
@@ -1320,7 +1320,7 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label>Rvm</label>
+                                <label>RVM</label>
                                 <input type="file" class="form-control" name="mediaUrl" placeholder="Enter RVM Name"
                                     required>
                             </div>
@@ -1352,7 +1352,7 @@
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input type="hidden" id="id" name="id" value="">
-                                    <input type="text" class="form-control" name="name" id="name">
+                                    <input type="text" class="form-control" name="rvm_name" id="rvm_name">
                                 </div>
                                 <div class="form-group">
                                     <label>Rvm</label>
@@ -1509,7 +1509,7 @@
     <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
     <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-       
+
 
     <script>
         $(document).ready(function() {
@@ -1566,7 +1566,7 @@
                     });
                 });
         });
-        
+
         function getleadTemplate(type) {
                 var url = '<?php echo url('/admin/get/template/'); ?>/' + type;
                 $.ajax({
@@ -1619,8 +1619,8 @@
                     }
                 });
             }
-       
-       
+
+
             //for prospect campaign
             function getTemplate(type) {
                 var url = '<?php echo url('/admin/get/template/'); ?>/' + type;
@@ -1674,8 +1674,8 @@
                     }
                 });
             }
-        
-    
+
+
 
 
 
@@ -1748,8 +1748,8 @@
         });
         $('#editModalCallForward').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
-            var phone = button.data('phone');
-            
+            var phone = button.data('name');
+
             var id = button.data('id');
 
             var modal = $(this);
@@ -1774,6 +1774,7 @@
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
             var rvmname = button.data('rvmname');
+           // alert(rvmname);
             var modal = $(this);
 
             modal.find('.modal-body #id').val(id);

@@ -8,10 +8,6 @@ use Twilio\Rest\Client;
 use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VoiceGrant;
 use Twilio\TwiML\VoiceResponse;
-
-
-
-
 use App\Model\Settings;
 
 
@@ -62,7 +58,7 @@ class VoiceController extends Controller
         // $TWIML_APP_SID = 'AP9150882055bff4025c1f7c6d94925d7d';
 
         //new account
-        
+
         $TWILIO_ACCOUNT_SID = $settings['twilio_acc_sid'];
         $TWILIO_SECRET_KEY = $settings['twilio_secret_key'];
         $API_KEY = $settings['twilio_api_sid'];

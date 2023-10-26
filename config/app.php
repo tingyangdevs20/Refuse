@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://127.0.0.1:8000'),
 
+    'live_url' => env('APP_URL', 'https://app.reifuze.com/'),
+
     'asset_url' => env('ASSET_URL', null),
 
     /*
