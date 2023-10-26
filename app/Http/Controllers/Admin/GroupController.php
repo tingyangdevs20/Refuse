@@ -544,6 +544,64 @@ class GroupController extends Controller
                 $this->insertContactGoalReached($id, $fieldVal);
             }
         }
+
+        // Insert Profit Expected
+        if ($table == 'negotiations' && $fieldName == 'expected_profit' && $fieldVal) {
+            $this->insertContactGoalReachedProfit($id, $fieldVal);
+        }
+
+        // Insert Profit Collected
+        if ($table == 'negotiations' && $fieldName == 'actual_profit' && $fieldVal) {
+            $negotiations = DB::table('negotiations')->where('contact_id', $id)->first();
+            if ($negotiations) {
+                if ($negotiations->closing_date) {
+                    # code...
+                    $this->insertContactGoalReachedProfitCollected($id, $fieldVal, $negotiations->closing_date);
+                }
+            }
+        }
+    }
+
+    public function insertContactGoalReachedProfitCollected($id, $value)
+    {
+        $record = DB::table('contact_goals_reacheds')
+            ->where('contact_id', $id)
+            ->whereNotNull('profit_collected')
+            ->first();
+
+        if (!$record) {
+            $attribute = goal_attribute::where('attribute', 'Profit Collected')->first();
+            if ($attribute) {
+                DB::table('contact_goals_reacheds')->insert([
+                    'profit_collected' => $value,
+                    'contact_id' => $id,
+                    'recorded_at' => now(),
+                    'attribute_id' => $attribute->id,
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        }
+    }
+
+    public function insertContactGoalReachedProfit($id, $value)
+    {
+        $record = DB::table('contact_goals_reacheds')
+            ->where('contact_id', $id)
+            ->whereNotNull('profit_expected')
+            ->first();
+
+        if (!$record) {
+            $attribute = goal_attribute::where('attribute', 'Profit Expected')->first();
+            if ($attribute) {
+                DB::table('contact_goals_reacheds')->insert([
+                    'profit_expected' => $value,
+                    'contact_id' => $id,
+                    'recorded_at' => now(),
+                    'attribute_id' => $attribute->id,
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        }
     }
 
     public function insertContactGoalReached($id, $leadStatus)
@@ -3243,8 +3301,8 @@ elseif($_typ == 'mms') {
                // die($contact_numbrs);
 
                 $body = strip_tags($_body);
-               
-                
+
+
 
                 //die($body);
 
@@ -3254,12 +3312,12 @@ elseif($_typ == 'mms') {
                     $body = str_replace("{city}", $contact_num->city, $body);
                     $body = str_replace("{state}", $contact_num->state, $body);
                     $body = str_replace("{zip}", $contact_num->zip, $body);
-                    
+
                // die($contact_num);
 
               // print_r($settings);
                //die("....");
-               
+
                $numberCounter = 0;
                //print_r($token);
               // die("...");

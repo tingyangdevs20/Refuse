@@ -58,7 +58,7 @@ class UserAgreementDownloadPDF extends Mailable
             $settings = Settings::first();
             if($settings){
                 
-                $mail_signature = $settings->auth_email;
+                $mail_signature = $settings->auth_name;
                 if(!$mail_signature) {
                     $mail_signature = "REIFuze";
                 }

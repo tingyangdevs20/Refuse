@@ -8,6 +8,7 @@
         .popover .arrow {
             display: none !important;
         }
+        
     </style>
 @endsection
 @section('content')

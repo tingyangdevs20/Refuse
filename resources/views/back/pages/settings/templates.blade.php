@@ -205,14 +205,13 @@
                             <div class="nav-tabs-wrapper">
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item m-1">
-                                        <a class="nav-link active" href="#scripts2" data-toggle="tab"> Scripts</a>
+                                        <a class="nav-link active" href="#scripts2" data-toggle="tab">Phone Scripts</a>
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#sms_templates"
-                                            data-toggle="tab">SMS/MMS Templates</a>
+                                            data-toggle="tab">SMS/MMS/Email</a>
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#digital_sign_templates"
-                                            data-toggle="tab">Digital Sign.
-                                            Templates</a>
+                                            data-toggle="tab">Digital Signing </a>
                                     </li>
                                 </ul>
                             </div>
@@ -222,7 +221,7 @@
                                 <div class="tab-pane active" id="scripts2">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i>Scripts
+                                            <i class="fas fa-cog mr-1"></i>Phone Scripts
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newScriptodal"><i
                                                     class="fas fa-plus-circle"></i></button>
@@ -268,7 +267,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">New Script</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel">New Phone Script</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -311,7 +310,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Script
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Phone Script
                                                             </h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
@@ -373,7 +372,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Delete Script</h5>
+                                                            <h5 class="modal-title">Delete Phone Script</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -410,7 +409,7 @@
                                 <div class="tab-pane" id="sms_templates">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i> SMS/MMS Templates
+                                            <i class="fas fa-cog mr-1"></i> SMS/MMS/Email
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newSMSModal"><i
                                                     class="fas fa-plus-circle"></i></button>
@@ -679,7 +678,7 @@
                                 <div class="tab-pane" id="digital_sign_templates">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i> Digital Sign. Templates
+                                            <i class="fas fa-cog mr-1"></i> Digital Signing
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newModal">
                                                 <i class="fas fa-plus-circle"></i>

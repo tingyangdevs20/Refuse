@@ -245,7 +245,7 @@
                                 listItem.addClass('incoming-call');
                                 listItem.append(
                                     '<i class="fas fa-arrow-down call-icon" style="color: green;"></i>'
-                                    );
+                                );
                                 listItem.append('<div class="call-from">' + call.from + '(<small>' +
                                     counter + '</small>)<br> <small>' + formattedStartTime +
                                     '</small> </div>');
@@ -253,7 +253,7 @@
                                 listItem.addClass('outgoing-call');
                                 listItem.append(
                                     '<i class="fas fa-arrow-up call-icon" style="color: blue;"></i>'
-                                    );
+                                );
                                 listItem.append('<div class="call-from">' + call.to + '(<small>' +
                                     counter + '</small>)<br> <small>' + formattedStartTime +
                                     '</small> </div>');
@@ -261,7 +261,7 @@
                                 listItem.addClass('missed-call');
                                 listItem.append(
                                     '<i class="fas fa-phone-slash call-icon" style="color: red;"></i>'
-                                    );
+                                );
                                 listItem.append('<div class="call-from">' + call.from + '(<small>' +
                                     counter + '</small>)<br> <small>' + formattedStartTime +
                                     '</small> </div>');
@@ -272,7 +272,7 @@
                             counter = 1;
                             var answerCallButton = $(
                                 '<button style="margin-top: 10px;" id="answer-call" class="ans-call"><i class="fa fa-phone" aria-hidden="true"></i></button>'
-                                );
+                            );
                             listItem.append(answerCallButton);
 
                             callHistoryList.append(listItem);
@@ -344,6 +344,52 @@
 
         $(document).on('click', ".close-dialer", function(e) {
             modal.style.display = 'none';
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            myInstance = new SimpleBar(document.getElementById('demo'), {
+                autoHide: true,
+                forceVisible: false,
+                classNames: {
+                    resizeWrapper: 'simplebar-resize-wrapper',
+                    content: 'simplebar-content',
+                    offset: 'simplebar-offset',
+                    mask: 'simplebar-mask',
+                    wrapper: 'simplebar-wrapper',
+                    placeholder: 'simplebar-placeholder',
+                    scrollbar: 'simplebar-scrollbar',
+                    track: 'simplebar-track',
+                    heightAutoObserverWrapperEl: 'simplebar-height-auto-observer-wrapper',
+                    heightAutoObserverEl: 'simplebar-height-auto-observer',
+                    visible: 'simplebar-visible',
+                    horizontal: 'simplebar-horizontal',
+                    vertical: 'simplebar-vertical',
+                    hover: 'simplebar-hover',
+                    dragging: 'simplebar-dragging'
+                },
+                scrollbarMinSize: 25,
+                scrollbarMaxSize: 0,
+                direction: 'ltr',
+                timeout: 1000
+            })
+
+            // Find the active link within the .vertical-menu
+            var activeLink = $('.vertical-menu #sidebar-menu ul li a.active');
+
+            // Check if there is an active link
+            if (activeLink.length > 0) {
+                // Get the Simplebar instance of the .vertical-menu
+                var verticalMenu = myInstance.getScrollElement();
+
+                // Calculate the scroll position to the active link
+                var scrollPosition = activeLink.position().top;
+
+                // Set the scrollTop of the scrollable container
+                if (verticalMenu) {
+                    verticalMenu.scrollTop = scrollPosition;
+                }
+            }
         });
     </script>
     <script src="{{ asset('chat-box/js/script.js') }}"></script>

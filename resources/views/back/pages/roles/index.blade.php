@@ -33,7 +33,6 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Roles Management</h4>
-<<<<<<< HEAD
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
@@ -41,9 +40,6 @@
                                 <li class="breadcrumb-item active">Roles</li>
                             </ol>
                         </div>
-=======
-                       
->>>>>>> 6da0dfed6002badc556f10928e1a5933ea4bb8c9
                     </div>
                     @include('back.pages.partials.messages')
                     <div class="card">

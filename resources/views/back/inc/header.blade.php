@@ -52,7 +52,7 @@
                 <span style="font-size:20px;color:#50a5f1;"><i class="fas fa-phone"></i></span>
 
             </button>
-           
+
             <div class="dropdown-menu dropdown-menu-right">
 
                 <a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i
@@ -71,7 +71,7 @@
                     @csrf
                 </form>
             </div>
-           
+
         </div>
 
 

@@ -1,6 +1,6 @@
 <div class="vertical-menu">
 
-    <div data-simplebar class="h-100">
+    <div class="h-100" id="demo">
 
         <!--- Sidemenu -->
         <div id="sidebar-menu" style="overflow-x:hidden">
@@ -17,8 +17,8 @@
 
 
                 {{-- @if (auth()->user()->can('dashboard') ||
-    auth()->user()->can('administrator') ||
-    auth()->user()->can('scraping_module'))
+                    auth()->user()->can('administrator') ||
+                    auth()->user()->can('scraping_module'))
                     <li>
                         <a href="{{ route('admin.create.goals') }}">
                             <i class="bx bx-check-square"></i>
@@ -63,7 +63,7 @@
                         <span>OPT-IN</span>
                     </a>
                 </li>
-               
+
 
                 <li style="display:none">
                     <a href="{{ route('admin.campaign.index') }}"><i class="bx bx-home-circle"></i><span>Prospect
@@ -80,11 +80,9 @@
                     <a href="{{ route('admin.leadcampaign.index') }}"><i class="bx bx-home-circle"></i><span>Lead
                             Campaigns</span></a>
                 </li>
-                <li style="display:none"><a href="#" class="waves-effect"> <i class="fas fa-bars"></i>
+                <li style="display:none"><a href="javscript:void(0);" class="waves-effect"> <i class="fas fa-bars"></i>
                         <span>Research</span></a></li>
-                <li>
 
-                </li>
                 <!--<li><a href="{{ route('admin.manage-appointments', [encrypt(Auth::id())]) }}" class="waves-effect"><i class="fa fa-calendar"></i><span>Appointments</span></a></li>-->
                 <li><a href="{{ route('admin.manage-appointments') }}" class="waves-effect"><i
                             class="fa fa-calendar"></i><span>Appointments</span></a></li>
@@ -148,8 +146,21 @@
                         <span>Deals</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#" class="waves-effect">Deals In Progress</a></li>
-                        <li><a href="#" class="waves-effect">Closed Deals</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Under Contract</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Inspection</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Inspection</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Funding</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Pending Close</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Buy - Closed Deal</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Rehab in Progress</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Hold - Marketed for Rent</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Hold - Rented</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Marketed for Sale</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Under Contract</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Pending Inspection</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Pending Funding</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Pending Close</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Sell - Closed Deal</a></li>
                     </ul>
                 </li>
                 <li style="display:none">
@@ -158,8 +169,8 @@
                         <span>Closed Deals</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#" class="waves-effect">Passive</a></li>
-                        <li><a href="#" class="waves-effect">Flips</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Passive</a></li>
+                        <li><a href="javscript:void(0);" class="waves-effect">Flips</a></li>
                     </ul>
                 </li>
 
@@ -185,10 +196,10 @@
                         </a>
                     </li>
                 @endif
-
-                <li>
+                
+                <li style="display:none">
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
-                        <i class="fas fa-file-invoice"></i>
+                        <i class="fa fa-user"></i>
                         <span>Administrative Settings</span>
                     </a>
                 </li>
@@ -202,7 +213,7 @@
 
                 <li>
                     <a href="javascript:void(0)" class="has-arrow waves-effect">
-                        <i class="fas fa-stethoscope"></i>
+                        <i class="fa fa-cog"></i>
                         <span>Settings</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -210,16 +221,38 @@
                                 class="waves-effect">Communication Settings</a></li>
                         <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment
                                 Settings</a></li>
-                        <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">System Settings</a>
+                        <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">General Settings</a>
                         </li>
-                        <li>
-                            <a href="{{ route('admin.create.goals') }}" class=" waves-effect">
-                                Goals
-                            </a>
-                        </li>
+                        @if (auth()->user()->can('dashboard') ||
+                                auth()->user()->can('administrator') ||
+                                auth()->user()->can('access_all'))
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                
+                                    <span>Productivity</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('user_module'))
+                                            <li><a href="{{ route('admin.task-list.index') }}">Tasks List</a></li>
+                                    @endif
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('roles_module'))
+                                            
+                                            <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
+                                    @endif
+                                  
+
+                                </ul>
+                            </li>
+
+                        @endif
+                       
                         {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
                                 class=" waves-effect">Appointment Settings</a></li> --}}
-                        <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">APIs Settings</a>
+                        <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">3rd Party APIs</a>
                         </li>
                         <li>
                             <a href="{{ route('admin.templates.index') }}" class="waves-effect">
@@ -228,7 +261,7 @@
                             {{-- <ul class="submenu" aria-expanded="false">
                                 <li>
                                     <a href="{{ route('admin.script.index') }}" class=" waves-effect">
-                                        Scripts
+                                       Phone Scripts
                                     </a>
                                 </li>
                                 <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS
@@ -241,6 +274,7 @@
                         <li>
                             <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>
                         </li>
+                       
                         @if (auth()->user()->can('dashboard') ||
                                 auth()->user()->can('administrator') ||
                                 auth()->user()->can('access_all'))
@@ -265,22 +299,24 @@
                                             auth()->user()->can('permissions_module'))
                                         <li><a href="{{ route('admin.permissions.index') }}">Permission</a></li>
                                     @endif
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('permissions_module'))
+                                            <li><a href="{{ route('admin.invitation.index') }}">Invitation
+                                Management</a></li>
+                                    @endif
 
                                 </ul>
                             </li>
 
                         @endif
-                        <!-- <li><a href="{{ route('admin.auto-responder.index') }}" class=" waves-effect">Keyword Auto-Responder</a></li> -->
-                        <!-- <li><a href="{{ route('admin.auto-reply.index') }}" class=" waves-effect">Auto-Reply</a></li> -->
-                        <!-- <li><a href="{{ route('admin.phone.numbers') }}" class="waves-effect">Phone Numbers</a></li> -->
+                       
                         <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
-                        <!-- <li><a href="{{ route('admin.market.index') }}" class=" waves-effect">Markets</a></li> -->
+                       
                         <li style="display:none"><a href="{{ route('admin.category.index') }}"
                                 class=" waves-effect">Lead Categories</a></li>
-                        {{-- <li><a href="{{ route('admin.tag.index') }}" class=" waves-effect">Tags</a></li> --}}
-                        <!-- <li><a href="{{ route('admin.rvm.index') }}" class=" waves-effect">RVMS</a></li> -->
-                        <li><a href="{{ route('admin.googleCalendersetting.setting') }}" class=" waves-effect">
-                                Google Calendar Settings</a></li>
+                       
+                       
                         {{-- <li><a href="{{ route('admin.field.index') }}" class=" waves-effect">Custom Fields</a></li> --}}
                         {{-- <li><a href="javascript: void(0);" class="has-arrow waves-effect"><span>DNC
                                     Management</span></a>
@@ -291,36 +327,17 @@
                                         Database</a></li>
                             </ul>
                         </li> --}}
-                       
-                        <li><a href="{{ route('admin.invitation.index') }}" class=" waves-effect">Invitation
-                                Management</a></li>
 
-                        <li>
-                            <a href="{{ route('admin.task-list.index') }}" class=" waves-effect">
+                        
 
-                                <span>Tasks</span>
-                            </a>
-                        </li>
-
-
-
-
-
-
-
-
-
-
+                        
 
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
 
                         <!-- <span> Quick Response</span></a></li> -->
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect">
 
-               <span> Quick Response</span></a></li> -->
-
-
-
+                        <span> Quick Response</span></a></li> -->
 
                         <li style="display:none">
                             <a href="{{ route('admin.lead-category.index') }}" class=" waves-effect">
@@ -331,7 +348,7 @@
 
                         @if (\App\Model\AutoResponder::all()->count() > 0 || \App\Model\AutoReply::all()->count() > 0)
                             <li>
-                                <a href="#" class=" waves-effect">
+                                <a href="javscript:void(0);" class=" waves-effect">
 
                                     <span>Billing</span>
                                 </a>
@@ -354,7 +371,7 @@
                                      <span>Client Management</span>
                                  </a>
                                  <ul class="sub-menu" aria-expanded="false">
-                                     <li><a href="#">All Clients</a></li>
+                                     <li><a href="javscript:void(0);">All Clients</a></li>
                                  </ul>
                              </li>
                              <li>
@@ -363,15 +380,15 @@
                                      <span>Store Management</span>
                                  </a>
                                  <ul class="sub-menu" aria-expanded="false">
-                                     <li><a href="#">Categories</a></li>
-                                     <li><a href="#">Sizes</a></li>
-                                     <li><a href="#">Products</a></li>
-                                     <li><a href="#">Coupons</a></li>
-                                     <li><a href="#">Order's Status</a></li>
+                                     <li><a href="javscript:void(0);">Categories</a></li>
+                                     <li><a href="javscript:void(0);">Sizes</a></li>
+                                     <li><a href="javscript:void(0);">Products</a></li>
+                                     <li><a href="javscript:void(0);">Coupons</a></li>
+                                     <li><a href="javscript:void(0);">Order's Status</a></li>
                                  </ul>
                              </li>
                              <li>
-                                 <a href="#" class=" waves-effect">
+                                 <a href="javscript:void(0);" class=" waves-effect">
                                      <i class="bx bx-shopping-bag"></i>
                                      <span>Orders
 
@@ -632,9 +649,10 @@
                                      </li>
                                  </ul>
                              </li>
-              --}}
+                            --}}
                     </ul>
-
+                </li>
+            </ul>
         </div>
         <!-- Sidebar -->
     </div>

@@ -14,8 +14,8 @@
 
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
-                    white-space: nowrap;
-                } */
+                                        white-space: nowrap;
+                                    } */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -33,7 +33,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Command Central</h4>
-                       
+
                     </div>
                     @include('back.pages.partials.messages')
                     <div class="card">
@@ -156,13 +156,13 @@
                                         <tr>
                                             <th scope="col">Profit Expected</th>
                                             <td>${{ number_format($money_expected, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_todays, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_seven_day, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_month, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_ninety_day, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_year, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_lifetime, 2) }}</td>
-                                            <td id="money_expected_count">$0.00</td>
+                                            <td>${{ number_format(@$profit_expected_count_today, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_seven_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_month, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_ninety_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_year, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_lifetime, 2) }}</td>
+                                            <td id="profit_expected_count">$0.00</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Profit Collected</th>
@@ -181,401 +181,719 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- start page title -->
-            <div class="row">
                 <div class="col-12">
-                    <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Task List</h4>
-                      
-                    </div>
-                    @include('back.pages.partials.messages')
                     <div class="card">
-                        <div class="card-header bg-soft-dark ">
-                            Task List
-                            <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
-                                data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
-                            @include('components.modalform')
-
+                        <div class="card-header bg-soft-dark">
+                            Leads Statistics
                         </div>
                         <div class="card-body">
-                            <div class="card">
-
-                                <div class="card-body">
-                                    <div id="task-list-container">
-                                        
-
-                                        <table id="tasktable" class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                                    <!-- <th>S.No</th> -->
-                                                    <th>Task</th>
-                                                    <!-- <th>Assigned To</th> -->
-                                                    <!-- <th>Status</th> -->
-                                                    <th>Action</th>
-                                                    <th>Drag</th> <!-- New drag handle column -->
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($tasks as $key => $task)
-                                                    <tr data-task-id="{{ $task->id }}">
-                                                        <!-- Add data-task-id attribute -->
-                                                        <td>
-                                                            <input type="checkbox" class="task-checkbox" name="task_id[]"
-                                                                value="{{ $task->id }}">
-                                                        </td>
-                                                        <!-- <td>{{ @$loop->iteration }}</td> -->
-                                                        <td><a href="{{ route('admin.task-list.show', $task->id) }}"
-                                                                id="trigger-startup-button">{{ @$task->tast }} </a> </td>
-                                                        <!-- <td>{{ @$task->user->name }}</td> -->
-                                                        <!-- <td>{{ @$task->status }}</td> -->
-                                                        <td>
-                                                            <!-- @if (auth()->user()->can('administrator') ||
-                                                                    auth()->user()->can('user_task_edit'))
-    -->
-                                                            <button class="btn btn-outline-primary btn-sm edit-task"
-                                                                data-task-id="{{ @$task->id }}"
-                                                                data-task-name="{{ @$task->tast }}"
-                                                                data-assignee-id="{{ @$task->user->id }}"
-                                                                title="Edit Task"><i class="fas fa-edit"></i></button>
-                                                @endif
-                                                </td>
-                                                <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
-                                                <!-- Drag handle icon -->
-                                                </tr>
-                                                <!--
-    @endforeach -->
-                                            </tbody>
-                                        </table>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-5"></div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Select custom date range" class="form-control"
+                                            name="datefilter" />
                                     </div>
                                 </div>
                             </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Metric</th>
+                                            <th scope="col">% of Your Leads</th>
+                                            <th scope="col">% of Your Deals</th>
+                                            <th scope="col">% of Your Profit</th>
+                                            <th scope="col">Cost per Lead</th>
+                                            <th scope="col">Cost per Appointment</th>
+                                            <th scope="col">Cost per Call</th>
+                                            <th scope="col">Cost per Purchase Agreement</th>
+                                            <th scope="col">Cost per Deal</th>
+                                            <th scope="col">Average Profit per Deal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Bandit Signs</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Billboards</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cold Calling</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Direct Mail</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Door Knocking</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Facebook Ads</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Flyers</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Google Ads</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Instagram Ads</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>iSpeedToLead</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>LinkedIn Ads</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Magazine</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MMS</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Newspaper</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone Call (Incoming)</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Radio</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Referral</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Retargeting</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>RVM</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SEO</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SMS</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Social Media</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tiktok Ads</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Twitter Ads</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Website</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TOTAL</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-soft-dark ">
+                            Task List
+                        </div>
+                        <div class="card-body">
+                            <div id="task-list-container">
+
+
+                                <table id="tasktable" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
+                                            <!-- <th>S.No</th> -->
+                                            <th>Task</th>
+                                            <!-- <th>Assigned To</th> -->
+                                            <!-- <th>Status</th> -->
+                                            <th>Action</th>
+                                            <th>Drag</th> <!-- New drag handle column -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($tasks as $key => $task)
+                                            <tr data-task-id="{{ $task->id }}">
+                                                <!-- Add data-task-id attribute -->
+                                                <td>
+                                                    <input type="checkbox" class="task-checkbox" name="task_id[]"
+                                                        value="{{ $task->id }}">
+                                                </td>
+                                                <!-- <td>{{ @$loop->iteration }}</td> -->
+                                                <td><a href="{{ route('admin.task-list.show', $task->id) }}"
+                                                        id="trigger-startup-button">{{ @$task->tast }} </a> </td>
+                                                <!-- <td>{{ @$task->user->name }}</td> -->
+                                                <!-- <td>{{ @$task->status }}</td> -->
+                                                <td>
+                                                    <!-- @if (auth()->user()->can('administrator') ||
+                                                            auth()->user()->can('user_task_edit'))
+    -->
+                                                    <button class="btn btn-outline-primary btn-sm edit-task"
+                                                        data-task-id="{{ @$task->id }}"
+                                                        data-task-name="{{ @$task->tast }}"
+                                                        data-assignee-id="{{ @$task->user->id }}" title="Edit Task"><i
+                                                            class="fas fa-edit"></i></button>
+                                        @endif
+                                        </td>
+                                        <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
+                                        <!-- Drag handle icon -->
+                                        </tr>
+                                        <!--
+    @endforeach -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
             <!-- <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-3">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
+                                                                                    <div class="col-xl-12">
+                                                                                        <div class="row">
+                                                                                            <div class="col-sm-3">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">People to Reach (Goals)</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $goalValue }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-3">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">People Reached (Today)</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $messages_sent_today_goals }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-3">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">People Reached (In 7 Days)</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $messages_sent_seven_days_goals }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-3">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">People Reached (In 30 Days)</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $messages_sent_month_days_goals }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-3">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">People Reached (In 90 Days)</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $messages_sent_ninety_days_goals }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-sm-3">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">People Reached (Lifetime)</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $total_sent_lifetime }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <h5 class="font-size-14 mb-0">People to Reach (Goals)</h5>
                                                                                     </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $goalValue }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">People Reached (Today)</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $messages_sent_today_goals }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">People Reached (In 7 Days)</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $messages_sent_seven_days_goals }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">People Reached (In 30 Days)</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $messages_sent_month_days_goals }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">People Reached (In 90 Days)</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $messages_sent_ninety_days_goals }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">People Reached (Lifetime)</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $total_sent_lifetime }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
-
-            <!-- <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">Received Today</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $messages_sent_today }}</h4>
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">Sent Today</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>{{ $messages_sent_today }}</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bxs-dollar-circle"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">Cost Today</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>
-                                                                                            ${{ ($messages_sent_today + $messages_received_today) * $settings->sms_rate }}</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
-
+                                                                                </div> -->
 
             <!-- <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
+                                                                                    <div class="col-xl-12">
+                                                                                        <div class="row">
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Received Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $messages_sent_today }}</h4>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Sent Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>{{ $messages_sent_today }}</h4>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bxs-dollar-circle"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Cost Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>
+                                                                                                                ${{ ($messages_sent_today + $messages_received_today) * $settings->sms_rate }}</h4>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <h5 class="font-size-14 mb-0">Received Today</h5>
                                                                                     </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        {{--                                        <h4>{{ $messages_received }}</h4> --}}
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">Sent Today</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        {{--                                        <h4>{{ $messages_sent }}</h4> --}}
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bxs-dollar-circle"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">Cost Today</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>$51.04</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
+                                                                                </div> -->
 
 
             <!-- <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt-dots"></i>
-                                                                                                        </span>
+                                                                                    <div class="col-xl-12">
+                                                                                        <div class="row">
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Received Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            {{--                                        <h4>{{ $messages_received }}</h4> --}}
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Sent Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            {{--                                        <h4>{{ $messages_sent }}</h4> --}}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bxs-dollar-circle"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Cost Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>$51.04</h4>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <h5 class="font-size-14 mb-0">Received Today</h5>
                                                                                     </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        {{--                                        <h4>{{ $messages_received }}</h4> --}}
+                                                                                </div> -->
 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
 
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bx-message-alt"></i>
-                                                                                                        </span>
+            <!-- <div class="row">
+                                                                                    <div class="col-xl-12">
+                                                                                        <div class="row">
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt-dots"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Received Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            {{--                                        <h4>{{ $messages_received }}</h4> --}}
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bx-message-alt"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Sent Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            {{--                                        <h4>{{ $messages_sent }}</h4> --}}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <div class="card">
+                                                                                                    <div class="card-body">
+                                                                                                        <div class="d-flex align-items-center mb-3">
+                                                                                                            <div class="avatar-xs mr-3">
+                                                                                                                            <span
+                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                <i class="bx bxs-dollar-circle"></i>
+                                                                                                                            </span>
+                                                                                                            </div>
+                                                                                                            <h5 class="font-size-14 mb-0">Cost Today</h5>
+                                                                                                        </div>
+                                                                                                        <div class="text-muted mt-4">
+                                                                                                            <h4>$51.04</h4>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <h5 class="font-size-14 mb-0">Sent Today</h5>
                                                                                     </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        {{--                                        <h4>{{ $messages_sent }}</h4> --}}
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                    <div class="d-flex align-items-center mb-3">
-                                                                                        <div class="avatar-xs mr-3">
-                                                                                                        <span
-                                                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                            <i class="bx bxs-dollar-circle"></i>
-                                                                                                        </span>
-                                                                                        </div>
-                                                                                        <h5 class="font-size-14 mb-0">Cost Today</h5>
-                                                                                    </div>
-                                                                                    <div class="text-muted mt-4">
-                                                                                        <h4>$51.04</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
+                                                                                </div> -->
             {{--
                         <div class="card">
                             <div class="card-header bg-soft-dark">

@@ -18,7 +18,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class RoleController extends Controller
 {
 
-    
+
 
 
     public function index()
@@ -29,7 +29,7 @@ class RoleController extends Controller
 
         $roles = Role::all();
         return view('back.pages.roles.index',compact('roles'));
-      
+
     }
 
     /**
@@ -55,8 +55,6 @@ class RoleController extends Controller
      */
     public function store(StoreRolesRequest $request)
     {
-
-      
         // if (! Gate::allows('users_manage')) {
         //     return abort(401);
         // }
@@ -82,7 +80,7 @@ class RoleController extends Controller
         // }
        $role = Role::find($id);
         $permissions = Permission::get()->pluck('name', 'name');
-      
+
         return view('back.pages.roles.edit', compact('role', 'permissions'));
     }
 
