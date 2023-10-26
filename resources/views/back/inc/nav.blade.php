@@ -196,32 +196,7 @@
                         </a>
                     </li>
                 @endif
-                @if (auth()->user()->can('dashboard') ||
-                                auth()->user()->can('administrator') ||
-                                auth()->user()->can('access_all'))
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa fa-industry"></i>
-                                    <span>Productivity</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    @if (auth()->user()->can('dashboard') ||
-                                            auth()->user()->can('administrator') ||
-                                            auth()->user()->can('user_module'))
-                                            <li><a href="{{ route('admin.task-list.index') }}">Tasks List</a></li>
-                                    @endif
-                                    @if (auth()->user()->can('dashboard') ||
-                                            auth()->user()->can('administrator') ||
-                                            auth()->user()->can('roles_module'))
-                                            
-                                            <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
-                                    @endif
-                                  
-
-                                </ul>
-                            </li>
-
-                        @endif
+                
                 <li>
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
                         <i class="fa fa-user"></i>
@@ -248,6 +223,32 @@
                                 Settings</a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">General Settings</a>
                         </li>
+                        @if (auth()->user()->can('dashboard') ||
+                                auth()->user()->can('administrator') ||
+                                auth()->user()->can('access_all'))
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                
+                                    <span>Productivity</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('user_module'))
+                                            <li><a href="{{ route('admin.task-list.index') }}">Tasks List</a></li>
+                                    @endif
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('roles_module'))
+                                            
+                                            <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
+                                    @endif
+                                  
+
+                                </ul>
+                            </li>
+
+                        @endif
                        
                         {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
                                 class=" waves-effect">Appointment Settings</a></li> --}}
