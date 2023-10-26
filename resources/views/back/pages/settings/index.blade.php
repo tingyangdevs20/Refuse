@@ -55,6 +55,14 @@
                                 <label>Authorized Name</label>
                                 <div class="input-group mb-2">
 
+                                    <input type="text" class="form-control" placeholder="Auth. Name" name="auth_name"
+                                        id="auth_name" value="{{ $settings->auth_name }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Authorized Email</label>
+                                <div class="input-group mb-2">
+
                                     <input type="text" class="form-control" placeholder="Auth. Name" name="auth_email"
                                         id="auth_email" value="{{ $settings->auth_email }}" required>
                                 </div>

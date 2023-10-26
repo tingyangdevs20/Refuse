@@ -699,6 +699,6 @@ class AppointmentController extends Controller
         
 
         //return $request->campaign_id;
-        return redirect('admin/compaignlead/list/' . $request->campaign_id)->with('success', 'Campaign list created successfully.');
+        return redirect('/manage-appointments')->with('success', 'Reminder Sent successfully.');
     }
 }
