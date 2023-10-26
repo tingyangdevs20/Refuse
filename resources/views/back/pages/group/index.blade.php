@@ -390,7 +390,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="" method="post" id="campaginFormId">
+                <form action="{{ route('admin.push-to-campaign') }}" method="post" id="campaginFormId">
                     @csrf
                     @method('POST')
                     <div class="modal-body">
@@ -906,13 +906,8 @@
                         },
                         success: function(data) {
                             // Handle success response
-<<<<<<< HEAD
-                            console.log(data);
-                            //   alert(data);
-=======
                            // console.log(data);
                             // alert(data);
->>>>>>> 6da0dfed6002badc556f10928e1a5933ea4bb8c9
                             if (data.success) {
 
                                 toastr.success(

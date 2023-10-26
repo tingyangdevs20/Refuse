@@ -3028,9 +3028,10 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Profit Expected</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" class="form-control"
                                                                                 placeholder="Profit Expected"
                                                                                 name="expected_profit"
+                                                                                table="negotiations"
                                                                                 value="{{ $negotiations->expected_profit == '' ? '' : $negotiations->expected_profit }}">
                                                                         </div>
                                                                     </div>
@@ -3039,11 +3040,24 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Profit Collected</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" class="form-control"
                                                                                 placeholder="Profit Collected"
                                                                                 name="actual_profit"
                                                                                 table="negotiations"
                                                                                 value="{{ $negotiations->actual_profit == '' ? '' : $negotiations->actual_profit }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <!-- Display the date as text -->
+                                                                            <input class="form-control"
+                                                                                placeholder="Closing Date"
+                                                                                name="closing_date" table="negotiations"
+                                                                                type="date"
+                                                                                onchange="updateValue(value,'closing_date','negotiations')"
+                                                                                value="{{ $negotiations->closing_date == '' ? '' : $negotiations->closing_date }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -6386,6 +6400,14 @@
             var fieldVal = $(this).val();
             var table = $(this).attr('table');
             var fieldName = $(this).attr('name');
+
+            // Check the input type
+            var inputType = $(this).attr('type');
+            var isNumberInput = (inputType === 'number');
+
+            // Set the delay time in milliseconds (e.g., 1000 ms)
+            var delayTime = 1000;
+
             if (table == 'custom_field_values') {
                 var section_id = $(this).attr('section_id');
                 var feild_id = $(this).attr('id');
@@ -6394,34 +6416,48 @@
                 var section_id = 0;
             }
             var type = $(this).attr('type');
-            $.ajax({
-                method: "POST",
-                url: '<?php echo url('admin/contact/detail/update'); ?>',
-                data: {
-                    id: id,
-                    fieldVal: fieldVal,
-                    table: table,
-                    feild_id: feild_id,
-                    section_id: section_id,
-                    fieldName: fieldName,
-                    type: type,
-                    _token: _token
-                },
-                success: function(res) {
-                    if (res.status == true) {
-                        // $.notify(res.message, 'success');
-                        $("#custom_message").modal("hide");
-                        // setTimeout(function() {
-                        //     location.reload();
-                        // }, 1000);
-                    } else {
-                        $.notify(res.message, 'error');
+
+            // Apply a delay for number input elements
+            if (isNumberInput) {
+                clearTimeout($(this).data('timeout'));
+                $(this).data('timeout', setTimeout(function() {
+                    sendAjaxRequest();
+                }, delayTime));
+            } else {
+                // Immediately update for other input types
+                sendAjaxRequest();
+            }
+
+            function sendAjaxRequest() {
+                $.ajax({
+                    method: "POST",
+                    url: '<?php echo url('admin/contact/detail/update'); ?>',
+                    data: {
+                        id: id,
+                        fieldVal: fieldVal,
+                        table: table,
+                        feild_id: feild_id,
+                        section_id: section_id,
+                        fieldName: fieldName,
+                        type: type,
+                        _token: _token
+                    },
+                    success: function(res) {
+                        if (res.status == true) {
+                            // $.notify(res.message, 'success');
+                            $("#custom_message").modal("hide");
+                            // setTimeout(function() {
+                            //     location.reload();
+                            // }, 1000);
+                        } else {
+                            $.notify(res.message, 'error');
+                        }
+                    },
+                    error: function(err) {
+                        $.notify('Error occurred while saving.', 'error');
                     }
-                },
-                error: function(err) {
-                    $.notify('Error occurred while saving.', 'error');
-                }
-            });
+                });
+            }
         });
 
         function getRealtorPropertyId() {
