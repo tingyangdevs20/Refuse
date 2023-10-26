@@ -197,14 +197,14 @@
                     </li>
                 @endif
                 
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
                         <i class="fa fa-user"></i>
                         <span>Administrative Settings</span>
                     </a>
                 </li>
 
-                <li>
+                <li style="display:none">
                     <a href="{{ route('admin.scraping.requests') }}" class=" waves-effect">
                         <i class="fas fa-file-invoice"></i>
                         <span>Scraping Requests</span>
