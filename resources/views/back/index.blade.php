@@ -156,13 +156,13 @@
                                         <tr>
                                             <th scope="col">Profit Expected</th>
                                             <td>${{ number_format($money_expected, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_todays, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_seven_day, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_month, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_ninety_day, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_year, 2) }}</td>
-                                            <td>${{ number_format(@$expected_money_lifetime, 2) }}</td>
-                                            <td id="money_expected_count">$0.00</td>
+                                            <td>${{ number_format(@$profit_expected_count_today, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_seven_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_month, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_ninety_days, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_year, 2) }}</td>
+                                            <td>${{ number_format(@$profit_expected_count_lifetime, 2) }}</td>
+                                            <td id="profit_expected_count">$0.00</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Profit Collected</th>
@@ -211,6 +211,7 @@
                                             <th scope="col">Cost per Call</th>
                                             <th scope="col">Cost per Purchase Agreement</th>
                                             <th scope="col">Cost per Deal</th>
+                                            <th scope="col">Average Profit per Deal</th>
                                         </tr>
                                     </thead>
                                     <tbody>

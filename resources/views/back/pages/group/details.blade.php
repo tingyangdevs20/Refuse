@@ -11,8 +11,8 @@
 
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
-                        white-space: nowrap;
-                    } */
+                    white-space: nowrap;
+                } */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -278,11 +278,11 @@
 
 
                                                 <!-- <td>
-                                                                        <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
-                                                                            <i class="fas fa-phone whatsapp-icon"></i>
-                                                                        </a>
-                                                                        <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
-                                                                    </td> -->
+                                                                                <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
+                                                                                    <i class="fas fa-phone whatsapp-icon"></i>
+                                                                                </a>
+                                                                                <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
+                                                                            </td> -->
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -305,60 +305,60 @@
                         </button>
                     </div>
 
-                    <form action="{{ route('admin.contactlist.store') }}" method="POST" enctype="multipart/form-data" />
+                    <form action="{{ route('admin.contactlist.store') }}" method="POST" enctype="multipart/form-data">
 
-                    <div class="modal-body">
-                        @csrf
-                        @method('POST')
-                        <input type="hidden" class="form-control" placeholder="Days" value="{{ $id }}"
-                            name="group_id">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter First Name"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
-                        </div>
-                        <div class="form-group">
-                            <label>Street</label>
-                            <input type="text" class="form-control" name="street" placeholder="Enter Street">
-                        </div>
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" class="form-control" name="city" placeholder="Enter City">
-                        </div>
-                        <div class="form-group">
-                            <label>State</label>
-                            <input type="text" class="form-control" name="state" placeholder="Enter State">
-                        </div>
-                        <div class="form-group">
-                            <label>Zip</label>
-                            <input type="text" class="form-control" name="zip" placeholder="Enter Zip code">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone 1</label>
-                            <input type="text" class="form-control" name="number" placeholder="Enter Phone">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone 2</label>
-                            <input type="text" class="form-control" name="number2" placeholder="Enter Phone">
-                        </div>
-                        <div class="form-group">
-                            <label>Email 1</label>
-                            <input type="text" class="form-control" name="email1" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label>Email 2</label>
-                            <input type="text" class="form-control" name="email2" placeholder="Enter email">
-                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            @method('POST')
+                            <input type="hidden" class="form-control" placeholder="Days" value="{{ $id }}"
+                                name="group_id">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Enter First Name"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Street</label>
+                                <input type="text" class="form-control" name="street" placeholder="Enter Street">
+                            </div>
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" class="form-control" name="city" placeholder="Enter City">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="form-control" name="state" placeholder="Enter State">
+                            </div>
+                            <div class="form-group">
+                                <label>Zip</label>
+                                <input type="text" class="form-control" name="zip" placeholder="Enter Zip code">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone 1</label>
+                                <input type="text" class="form-control" name="number" placeholder="Enter Phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone 2</label>
+                                <input type="text" class="form-control" name="number2" placeholder="Enter Phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Email 1</label>
+                                <input type="text" class="form-control" name="email1" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label>Email 2</label>
+                                <input type="text" class="form-control" name="email2" placeholder="Enter email">
+                            </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
                         </div>
-                    </div>
                     </form>
                 </div>
             </div>
