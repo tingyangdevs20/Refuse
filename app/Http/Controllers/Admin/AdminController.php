@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\FollowupSequences;
 use App\Model\Reply;
 use App\Model\Settings;
 use App\Model\Scheduler;
@@ -435,6 +436,8 @@ class AdminController extends Controller
             return abort(401);
         }
 
+        $reminders = FollowupSequences::whereNotNull('followup_reminder')->get();
+
         return view('back.index', compact(
             'users',
             'tasks',
@@ -573,7 +576,8 @@ class AdminController extends Controller
             'money_collected_month',
             'money_collected_ninety_day',
             'money_collected_year',
-            'money_collected_lifetime'
+            'money_collected_lifetime',
+            'reminders'
         ));
     }
 
