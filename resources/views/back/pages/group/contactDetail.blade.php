@@ -29,6 +29,8 @@
         .date-input-container input:not(:placeholder-shown)+.placeholder {
             transform: translateY(-100%) scale(0.8);
         }
+        
+        
 
         #hidden_div {
             display: none;
@@ -467,6 +469,9 @@
         }
 
         .popover .arrow {
+            display: none !important;
+        }
+        .note-toolbar .panel-heading{
             display: none !important;
         }
     </style>
@@ -4000,14 +4005,10 @@
                                                                             style="padding: 0 10px;">
 
                                                                             <button type="button"
-                                                                                class="btn btn-primary">Send
+                                                                                class="btn btn-primary button-item">Send
                                                                                 Messages</button>
                                                                         </div>
                                                                     </form>
-
-
-
-
                                                                     {{-- <div class="card-body"> <label
                                                                             style="font-size:16px">Send
                                                                             Email</label>
@@ -6909,6 +6910,7 @@
                 data: '',
                 success: function(res) {
                     $('.load_script').html(res);
+                    $('.load_script .note-toolbar.panel-heading').hide();
                 },
                 error: function(err) {
                     $.notify('Error occurred while saving.', 'error');

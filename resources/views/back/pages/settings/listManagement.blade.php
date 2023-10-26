@@ -215,7 +215,7 @@
                                             Keywords</a>
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#dnc_database"
-                                            data-toggle="tab">Blacklist Management</a>
+                                            data-toggle="tab">DNC List</a>
                                     </li>
                                 </ul>
                             </div>
@@ -669,7 +669,7 @@
                                 <div class="tab-pane" id="dnc_database">
                                     <div class="card">
                                         <div class="card-header bg-soft-dark ">
-                                            <i class="fas fa-cog mr-1"></i>Blacklist Management
+                                            <i class="fas fa-cog mr-1"></i>DNC List
                                             <button class="btn btn-outline-primary btn-sm float-right" title="New"
                                                 data-toggle="modal" data-target="#newBlacklistModal"><i
                                                     class="fas fa-plus-circle"></i></button>
@@ -715,7 +715,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">New Blacklist
+                                                            <h5 class="modal-title" id="exampleModalLabel">New DNC
                                                                 Number</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
@@ -752,7 +752,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Blacklist
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit DNC
                                                                 Number</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
