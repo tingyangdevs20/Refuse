@@ -196,10 +196,35 @@
                         </a>
                     </li>
                 @endif
+                @if (auth()->user()->can('dashboard') ||
+                                auth()->user()->can('administrator') ||
+                                auth()->user()->can('access_all'))
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa fa-industry"></i>
+                                    <span>Productivity</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('user_module'))
+                                            <li><a href="{{ route('admin.task-list.index') }}">Tasks List</a></li>
+                                    @endif
+                                    @if (auth()->user()->can('dashboard') ||
+                                            auth()->user()->can('administrator') ||
+                                            auth()->user()->can('roles_module'))
+                                            
+                                            <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
+                                    @endif
+                                  
 
+                                </ul>
+                            </li>
+
+                        @endif
                 <li>
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
-                        <i class="fas fa-file-invoice"></i>
+                        <i class="fa fa-user"></i>
                         <span>Administrative Settings</span>
                     </a>
                 </li>
@@ -213,7 +238,7 @@
 
                 <li>
                     <a href="javascript:void(0)" class="has-arrow waves-effect">
-                        <i class="fas fa-stethoscope"></i>
+                        <i class="fa fa-cog"></i>
                         <span>Settings</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -248,32 +273,7 @@
                         <li>
                             <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>
                         </li>
-                        @if (auth()->user()->can('dashboard') ||
-                                auth()->user()->can('administrator') ||
-                                auth()->user()->can('access_all'))
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-
-                                    <span>Productivity</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    @if (auth()->user()->can('dashboard') ||
-                                            auth()->user()->can('administrator') ||
-                                            auth()->user()->can('user_module'))
-                                            <li><a href="{{ route('admin.task-list.index') }}">Tasks List</a></li>
-                                    @endif
-                                    @if (auth()->user()->can('dashboard') ||
-                                            auth()->user()->can('administrator') ||
-                                            auth()->user()->can('roles_module'))
-                                            
-                                            <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
-                                    @endif
-                                  
-
-                                </ul>
-                            </li>
-
-                        @endif
+                       
                         @if (auth()->user()->can('dashboard') ||
                                 auth()->user()->can('administrator') ||
                                 auth()->user()->can('access_all'))
