@@ -49,7 +49,7 @@
                                 id="copyButton" title="Embed Code" data-toggle="modal" data-target="">Copy Embed Code</button>
                             {{-- <button id="copyButton">Copy Embed Code</button> --}}
                                 <textarea id="embedCode" rows="4" cols="50" style="display: none">
-                                    <iframe src='http://127.0.0.1:8000/appointment/embeded-code' frameborder='0' width='100%' height='400'>Embed Booking Link</iframe>
+                                    <iframe src='https://app.reifuze.com/appointment/embeded-code' frameborder='0' width='100%' height='400'>Embed Booking Link</iframe>
                                 </textarea>
 
 
