@@ -1062,11 +1062,6 @@
 
             // Example usage:
             // To disable slots based on a 1-day advance booking duration:
-
-
-
-
-
         });
     </script>
 

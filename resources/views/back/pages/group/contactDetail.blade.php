@@ -29,6 +29,8 @@
         .date-input-container input:not(:placeholder-shown)+.placeholder {
             transform: translateY(-100%) scale(0.8);
         }
+        
+        
 
         #hidden_div {
             display: none;
