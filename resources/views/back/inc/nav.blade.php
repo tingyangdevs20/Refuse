@@ -235,7 +235,7 @@
                             {{-- <ul class="submenu" aria-expanded="false">
                                 <li>
                                     <a href="{{ route('admin.script.index') }}" class=" waves-effect">
-                                        Scripts
+                                       Phone Scripts
                                     </a>
                                 </li>
                                 <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS
