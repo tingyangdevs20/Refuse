@@ -471,6 +471,9 @@
         .popover .arrow {
             display: none !important;
         }
+        .note-toolbar .panel-heading{
+            display: none !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -6875,6 +6878,7 @@
                 data: '',
                 success: function(res) {
                     $('.load_script').html(res);
+                    $('.load_script .note-toolbar.panel-heading').hide();
                 },
                 error: function(err) {
                     $.notify('Error occurred while saving.', 'error');

@@ -51,9 +51,6 @@
                                 <textarea id="embedCode" rows="4" cols="50" style="display: none">
                                     <iframe src='https://app.reifuze.com/appointment/embeded-code' frameborder='0' width='100%' height='400'>Embed Booking Link</iframe>
                                 </textarea>
-
-
-
                             {{-- <button class="btn btn-outline-primary btn-sm float-right mr-2" style="margin-right: 5px"title="helpModal" data-toggle="modal"
                         data-target="#helpModal">How to Use</button>   --}}
 
@@ -86,7 +83,6 @@
                                                     <td>{{ date('H:i', strtotime($appt->appt_time)) }}</td>
                                                     <td>{{ $appt->status }}</td>
                                                     <td><a href="/manage-appointments/{{ $appt->id }}/reminder"><i class="fa fa-bell"></i></a></td>
-
                                                     <td>
                                                         <button class="btn btn-danger" title="Remove {{ $appt->name }}"
                                                             data-id="{{ $appt->id }}" data-toggle="modal"

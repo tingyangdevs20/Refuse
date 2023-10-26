@@ -897,8 +897,6 @@
                     },
                     buttons: {
                         "Update": function() {
-
-
                             var rescheduleDate = $('.appt_date').val(); // date
                             var rescheduleTime = $('.appt_time').val(); // time
                             // alert(appt_id);
@@ -913,7 +911,7 @@
                                 },
                                 dataType: "json",
                                 success: function(data) {
-                                    console.log(data);
+                                    // console.log(data);
                                     // Ajax call completed successfully
                                     if (data.success == 1) {
                                         $('.reschedule_appt_modal').dialog("close");
