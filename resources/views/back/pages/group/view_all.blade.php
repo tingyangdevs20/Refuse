@@ -84,7 +84,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Contacts Management</h4>
-                       
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -291,7 +291,7 @@
                                             <th scope="col">Zip</th>
                                             <th scope="col">Numbers</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col">Lead Category</th>
+                                            {{-- <th scope="col">Lead Category</th> --}}
                                             <th scope="col">No. Of Tags</th>
                                             <th scope="col">DNC</th>
                                             <th scope="col">Action</th>
@@ -304,8 +304,8 @@
                                                     <input type="checkbox" class="task-checkbox" name="contact[]"
                                                         value="{{ $contact->id }}">
                                                 </td>
-                                                <td>{{ $contact->name }}</td>
-                                                <td>{{ $contact->last_name }}</td>
+                                                <td><a href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->name }}</a></td>
+                                                <td><a href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->last_name }}</a></td>
                                                 <td>{{ $contact->street }}</td>
                                                 <td>{{ $contact->city }}</td>
                                                 <td>{{ $contact->state }}</td>
@@ -319,12 +319,10 @@
                                                 <td>
                                                     {{ $contact->email1 }}<br>
                                                     {{ $contact->email2 }}
-
                                                 </td>
-                                                <td>{{ $contact->getLeadCategory() }}</td>
+                                                {{-- <td>{{ $contact->getLeadCategory() }}</td> --}}
                                                 <td>
-                                                    {{ $group->getContactCountByEmailId($contact->email1, $contact->email2, $contact->number, $contact->number2, $contact->number3) }}<br>
-
+                                                    {{ $group->getContactTagsCount($contact->id) }}<br>
                                                 </td>
                                                 <td>{{ $contact->is_dnc ? 'YES' : 'NO' }}</td>
                                                 <td>
@@ -337,7 +335,6 @@
                                                         class="btn btn-outline-primary btn-sm" title="Edit  User"><i
                                                             class="fas fa-edit"></i></a> -
                                                 </td>
-
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -348,7 +345,6 @@
                 </div>
             </div>
             <!-- end page title -->
-
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->

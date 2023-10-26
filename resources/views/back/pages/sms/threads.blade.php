@@ -29,7 +29,6 @@
     <div class="page-content">
         <div class="container-fluid">
 
-<<<<<<< HEAD
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -61,35 +60,6 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($msg as $sms)
-=======
-                <div class="page-content">
-                    <div class="container-fluid">
-
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18">Saved Threads</h4>
-                                  
-                                </div>
-                                <div class="card">
-                                    <div class="card-header bg-soft-dark ">
-                                        All Saved Threads
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-striped table-bordered" id="datatable">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Lead Name</th>
-                                                <th scope="col">Number</th>
-                                                <th scope="col">Replies</th>
-                                                <th scope="col">Actions</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($msg as $sms)
->>>>>>> 6da0dfed6002badc556f10928e1a5933ea4bb8c9
                                             <tr>
                                                 <td>{{ $sr++ }}</td>
                                                 <td>{{ $sms->getLeadName() }}</td>
