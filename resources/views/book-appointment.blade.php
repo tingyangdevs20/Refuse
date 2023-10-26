@@ -708,8 +708,8 @@
                 $.each(bookedSlots, function(index, day) {
                     $.each(day, function(key, slot) {
                         
-                        $('.myc-day-time-container a [data-time="' + slot.appt_time +
-                            '"][data-date="' + slot.appt_date + '"]').hide();
+                    $('.myc-day-time-container a[data-time="' + slot.appt_time + '"][data-date="' + slot.appt_date + '"]').hide();
+
                     });
                 });
 
@@ -755,6 +755,8 @@
                         $('.appt_time').val(t);
                     });
                     console.log("slot");
+                    disableSlotsOutsideRange();
+                    hideBookedTimeSlots();
 
                     // $('#selected-dates').html(html);
                 },
@@ -763,7 +765,6 @@
                     // console.log(ev);
                     instance.setAvailability(allSlots);
 
-                    hideBookedTimeSlots();
                     disableSlotsOutsideRange();
                 }
             });
@@ -896,8 +897,6 @@
                     },
                     buttons: {
                         "Update": function() {
-
-
                             var rescheduleDate = $('.appt_date').val(); // date
                             var rescheduleTime = $('.appt_time').val(); // time
                             // alert(appt_id);
@@ -912,7 +911,7 @@
                                 },
                                 dataType: "json",
                                 success: function(data) {
-                                    console.log(data);
+                                    // console.log(data);
                                     // Ajax call completed successfully
                                     if (data.success == 1) {
                                         $('.reschedule_appt_modal').dialog("close");
@@ -1062,11 +1061,6 @@
 
             // Example usage:
             // To disable slots based on a 1-day advance booking duration:
-
-
-
-
-
         });
     </script>
 

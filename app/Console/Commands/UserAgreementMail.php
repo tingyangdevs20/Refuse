@@ -151,7 +151,7 @@ class UserAgreementMail extends Command
             }
 
            // $new_array['{auth_email}'] =  Auth::id();
-            $settings = DB::table('settings')->where('id', '1')->first(["auth_email", "document_closed_by"]);
+            $settings = DB::table('settings')->where('id', '1')->first(["auth_email","auth_name", "document_closed_by"]);
             if(!empty($settings) ){
                 foreach($settings as $key => $setting){
                     $new_array['{'.$key.'}'] = $setting;

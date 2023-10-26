@@ -355,6 +355,8 @@ class SettingsController extends Controller
             $settings->sender_name = $request->sender_name ?? 0;
         if ($request->auth_email != '')
             $settings->auth_email = $request->auth_email ?? 0;
+        if ($request->auth_name != '')
+            $settings->auth_name = $request->auth_name ?? 0;
         if ($request->document_closed_by != '')
             $settings->document_closed_by = $request->document_closed_by ?? 0;
         if ($request->reply_email != '')

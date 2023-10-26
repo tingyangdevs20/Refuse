@@ -59,7 +59,7 @@ class FormTemplatesController extends Controller
             }
         }
 
-        $settings = DB::table('settings')->first(["auth_email", "document_closed_by"]);
+        $settings = DB::table('settings')->first(["auth_email", "auth_name", "document_closed_by"]);
         if(!empty($settings) ){
             foreach($settings as $key => $setting){
                 $short_code[$key] = $setting;
