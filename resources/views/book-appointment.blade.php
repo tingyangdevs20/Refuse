@@ -616,7 +616,7 @@
                             </div>
                             <div class="form-group">
                                 <label style="padding:10px;font-weight:bold">What do you hope to get out of this
-                                    call?</label>
+                                    call?</label>`
                                 <div class="input-group">
                                     <textarea type="text" class="input description" style="height:100px"
                                         placeholder="What do you hope to get out of this call?" name="description" id="description" required>{{ old('description') }}</textarea>
@@ -708,8 +708,8 @@
                 $.each(bookedSlots, function(index, day) {
                     $.each(day, function(key, slot) {
                         
-                        $('.myc-day-time-container a [data-time="' + slot.appt_time +
-                            '"][data-date="' + slot.appt_date + '"]').hide();
+                    $('.myc-day-time-container a[data-time="' + slot.appt_time + '"][data-date="' + slot.appt_date + '"]').hide();
+
                     });
                 });
 
@@ -755,6 +755,8 @@
                         $('.appt_time').val(t);
                     });
                     console.log("slot");
+                    disableSlotsOutsideRange();
+                    hideBookedTimeSlots();
 
                     // $('#selected-dates').html(html);
                 },
@@ -763,7 +765,6 @@
                     // console.log(ev);
                     instance.setAvailability(allSlots);
 
-                    hideBookedTimeSlots();
                     disableSlotsOutsideRange();
                 }
             });
