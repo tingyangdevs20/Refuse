@@ -87,75 +87,7 @@ $(document).ready(function () {
                 });
         });
 
-        $(document).on("click", ".savePdf", function (e) {
-                // e.preventDefault();
-                var myData = $(this);
-                // console.log(myData);
-                myData.attr('disabled', true);
-                $("form#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"].getData());
-                var data = $(this).parents("form").serialize();
-                $.ajax({
-                    url: userAgreementPath + "pdf",
-                    method: "post",
-                    data: data,
-                    success: function (response) {
-                        console.log(response);
-                        if (response.success) {
-                            $("#modalUserAgreement").find("form")[0].reset();
-                            $("#modalUserAgreement").modal("hide");
-                            location.reload();
-                        } else{
-                            console.log(response);
-                        }
-                    },
-                    error: function (xhr) {
-                        // Handle the error here (e.g., show an error message to the user)
-                        console.log("AJAX Request Error: " + xhr.statusText);
-                        var errors = xhr.responseJSON.errors;
-                        var errorMessageContainer = $("#error-messages");
-                        errorMessageContainer.empty(); // Clear any previous error messages
-                    
-                        if (errors) {
-                            // Scenario 1: Named errors
-                            for (var fieldName in errors) {
-                                if (errors.hasOwnProperty(fieldName)) { 
-                                    var errorValues = errors[fieldName];
-                                    if (Array.isArray(errorValues)) {
-                                        console.log(errors[fieldName]);
-                                        if(errors[fieldName].length > 1){
-                                            errors[fieldName].forEach(element => {
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + element + ' Value is not found in the contact record!</div><br>');
-                                            }); 
-                                        } else{
-                                            if(errorValues[0] === 'This field is required!' || errorValues[0] === 'The seller name field is required.'){
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + '</div><br>');
-                                                
-                                            } else {
-                                                
-                                                errorMessageContainer.append('<div> <i class="fa fa-info"></i> '+ fieldName + ' : ' + errorValues + ' Value is not found in the contact record!</div><br>');
-                                            }
-                                        }
-                                        // If there are multiple error values, join them into a single line
-                                        // var errorMessage = fieldName + ': ' + errorValues.join(', ');
-                                    } else {
-                                        errorMessageContainer.append('<div> <i class="fa fa-info"></i> ' + fieldName + ' : ' + errorValues + '</div>');
-                                    }
-                                }
-                            }
-                        } else {
-                            // Scenario 2: Missing field error
-                            var errorList = xhr.responseJSON;
-                            var errorHTML = "";
-                            for (var i = 0; i < errorList.length; i++) {
-                                errorHTML += errorList[i] + ' is required!' + "<br>";
-                            }
-                            errorMessageContainer.append('<div>' + errorHTML + '</div>');
-                        }
-                        errorMessageContainer.show();
-                    }
-                    
-                });
-            });
+        
 
     // $(document).on("click", ".saveUserAgreement", function (e) {
     //     if ($(".user-seller:checked").length === 0) {
