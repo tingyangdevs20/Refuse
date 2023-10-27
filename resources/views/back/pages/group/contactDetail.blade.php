@@ -5724,20 +5724,18 @@
                                                                             </button>
                                                                             <!-- Error messages will be appended here -->
                                                                         </div>
-                                                                        <label for="recipient-name"
-                                                                            class="col-form-label">Form Template <span
-                                                                                class="required">*</span></label>
-                                                                        <select class="form-control formTemplate"
-                                                                            onchange="fetch(this)" id="template_id"
-                                                                            name="template_id" required>
-                                                                            <option value="">Select Form Template
-                                                                            </option>
+                                                                        <label>Select Form Template</label>
+                                                                        <div class="row">
                                                                             @foreach (getFormTemplate() as $templateId => $template)
-                                                                                <option value="{{ $templateId }}">
-                                                                                    {{ $template }}
-                                                                                </option>
+                                                                                <div class="checkbox  col-md-4">
+                                                                                    <label>
+                                                                                        <input type="checkbox" class="formTemplateCheckbox" value="{{ $templateId }}">
+                                                                                        {{ $template }}
+                                                                                    </label>
+                                                                                </div>
                                                                             @endforeach
-                                                                        </select>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -5799,12 +5797,16 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group" style="margin-left: 15px;">
                                                                         <button type="button"
-                                                                            class="btn btn-primary button-item saveUserAgreementContact">Create</button>
+                                                                            class="btn btn-primary button-item saveUserAgreementContact">Send for digital signature</button>
+                                                                        <button type="button"
+                                                                        class="btn btn-primary button-item savePdf">Save Pdf</button>
+                                                                    
                                                                     </div>
                                                                 </div>
+                                                                
                                                             </div>
                                                         </div>
 
@@ -6035,13 +6037,10 @@
             // Agreement
             $(document).on("click", ".saveUserAgreementContact", function(e) {
                 let CKEDITOR = [];
-                e.preventDefault();
+                // e.preventDefault();
                 var myData = $(this);
                 myData.attr('disabled', true);
-                console.log($("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
-                    "user-agreement-content"]));
-                $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
-                    "user-agreement-content"]);
+                $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR["user-agreement-content"]);
                 var data = $(this).parents("form").serialize();
                 $.ajax({
                     url: "/admin/user-agreement/save",
@@ -6115,32 +6114,92 @@
                     }
 
                 });
+            });
 
+            $(document).on("click", ".savePdf", function(e) {
+            let CKEDITOR = [];
+            // e.preventDefault();
+            var myData = $(this);
+            myData.attr('disabled', true);
+            $("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
+                "user-agreement-content"]);
+            var data = $(this).parents("form").serialize();
+            $.ajax({
+                url: "/admin/user-agreement/pdf",
+                method: "post",
+                data: data,
+                success: function(response) {
+                    console.log(response);
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(xhr) {
+                    // Handle the error here (e.g., show an error message to the user)
+                    console.log("AJAX Request Error: " + xhr.statusText);
+                    var errors = xhr.responseJSON.errors;
+                    var errorMessageContainer = $("#error-messages");
+                    errorMessageContainer.empty(); // Clear any previous error messages
+
+                    if (errors) {
+                        // Scenario 1: Named errors
+                        for (var fieldName in errors) {
+                            if (errors.hasOwnProperty(fieldName)) {
+                                var errorValues = errors[fieldName];
+                                if (Array.isArray(errorValues)) {
+                                    console.log(errors[fieldName]);
+                                    if (errors[fieldName].length > 1) {
+                                        errors[fieldName].forEach(element => {
+                                            errorMessageContainer.append(
+                                                '<div> <i class="fa fa-info"></i> ' +
+                                                fieldName + ' : ' + element +
+                                                ' value is not found in the contact record!</div><br>'
+                                                );
+                                        });
+                                    } else {
+                                        if (errorValues[0] === 'This field is required!') {
+                                            errorMessageContainer.append(
+                                                '<div> <i class="fa fa-info"></i> ' +
+                                                fieldName + ' : ' + errorValues +
+                                                '</div><br>');
+
+                                        } else {
+
+                                            errorMessageContainer.append(
+                                                '<div> <i class="fa fa-info"></i> ' +
+                                                fieldName + ' : ' + errorValues +
+                                                ' value is not found in the contact record!</div><br>'
+                                                );
+                                        }
+                                    }
+                                    // If there are multiple error values, join them into a single line
+                                    // var errorMessage = fieldName + ': ' + errorValues.join(', ');
+                                } else {
+                                    errorMessageContainer.append(
+                                        '<div> <i class="fa fa-info"></i> ' +
+                                        fieldName + ' : ' + errorValues + '</div>');
+                                }
+                            }
+                        }
+                    } else {
+                        // Scenario 2: Missing field error
+                        var errorList = xhr.responseJSON;
+                        var errorHTML = "";
+                        for (var i = 0; i < errorList.length; i++) {
+                            errorHTML += errorList[i] + ' is required!' + "<br>";
+                        }
+                        errorMessageContainer.append('<div>' + errorHTML + '</div>');
+                    }
+                    errorMessageContainer.show();
+                }
 
             });
 
 
+        });
 
-
-
-            // $('#fileManagerModal').on('show.bs.modal', function (e) {
-            //         var modal = $(this);
-            //         var id = {!! $id !!};
-
-            //         // Perform an AJAX request to fetch content
-            //         $.ajax({
-            //             url: '/admin/file-manager/'+id, // Replace with your actual AJAX endpoint
-            //             type: 'GET',
-            //             success: function (data) {
-            //                 // Update the modal content with the received data
-            //                 // modal.find('.modal-body').html(data);
-            //                 console.log(data);
-            //             },
-            //             error: function (xhr, status, error) {
-            //                 console.error(error);
-            //             }
-            //         });
-            //     });
 
             $("#custom-upload-button").click(function() {
                 myDropzone.processQueue(); // Process the Dropzone queue
@@ -6167,23 +6226,6 @@
             // Refresh Select2 to apply the changes
             $('.select2').trigger('change.select2');
 
-            // $("#custom-upload-button").click(function() {
-            //     console.log('work');
-            //     var form = $("#my-awesome-dropzone");
-            //     var form2 = $("#main_form");
-
-            //     // Set the form's action attribute to the new route
-            //     form.attr("action", "{{ route('admin.google.drive.login') }}");
-            //     form2.attr("action", "{{ route('admin.google.drive.login') }}");
-            //     // Submit the form
-            //     // form.submit();
-            //     form2.submit();
-
-            // });
-
-
-            // Get a reference to the hidden input
-            // Get a reference to the hidden input
 
 
 

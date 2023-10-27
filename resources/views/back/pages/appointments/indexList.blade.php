@@ -141,7 +141,7 @@
                                                                 if not sending
                                                                 MMS</small>)</label>
                                                         <input type="file" class="form-control-file"
-                                                            name="media_file">
+                                                            name="mms_file">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">

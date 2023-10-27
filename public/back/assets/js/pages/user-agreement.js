@@ -85,9 +85,9 @@ $(document).ready(function () {
                     }
                     
                 });
-            
-            
-    });
+        });
+
+        
 
     // $(document).on("click", ".saveUserAgreement", function (e) {
     //     if ($(".user-seller:checked").length === 0) {
@@ -123,7 +123,7 @@ $(document).ready(function () {
     // });
 
     $(document).on("click", ".editUserAgreement", function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         var id = $(this).data('id');
         //var id = $(this).attr('data-id')
         $.ajax({
@@ -235,5 +235,55 @@ $(document).ready(function () {
         }
     });
 
+    var ckEditorInstance;
+
+$(document).on("click", ".formTemplateCheckbox", function() {
+    var selectedCheckboxes = $('.formTemplateCheckbox:checked');
     
+    if (selectedCheckboxes.length > 0) { // Check if any checkbox is selected
+        var promises = []; // Store promises for each AJAX request
+        var contentArray = []; // Store content from each template
+        
+        selectedCheckboxes.each(function() {
+            var templateId = $(this).val();
+            
+            var ajaxPromise = $.ajax({
+                url: userAgreementPath + templateId + "/getTemplateData",
+                type: 'post',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        contentArray.push(response.content);
+                    }
+                },
+            });
+            
+            promises.push(ajaxPromise);
+        });
+        
+        $.when.apply($, promises).done(function() {
+            // All AJAX requests have completed
+            var combinedContent = contentArray.join('<br>'); // Concatenate the content
+            
+            if (!ckEditorInstance) {
+                // Initialize CKEditor if it doesn't exist
+                ClassicEditor
+                    .create(document.querySelector('#user-agreement-content'))
+                    .then(editor => {
+                        ckEditorInstance = editor;
+                        ckEditorInstance.setData(combinedContent); // Set the content
+                    });
+            } else {
+                // Update the existing CKEditor instance's content
+                ckEditorInstance.setData(combinedContent);
+            }
+        });
+    } else {
+        // No checkboxes are selected, clear the content
+        if (ckEditorInstance) {
+            ckEditorInstance.setData('');
+        }
+    }
+});
+
 });
