@@ -5793,7 +5793,7 @@
                                                                         <button type="button"
                                                                             class="btn btn-primary button-item saveUserAgreementContact">Send for digital signature</button>
                                                                         <button type="button"
-                                                                        class="btn btn-primary button-item saveUserAgreementContact">Save Pdf</button>
+                                                                        class="btn btn-primary button-item savePdf">Save Pdf</button>
                                                                     
                                                                     </div>
                                                                 </div>
@@ -6027,7 +6027,7 @@
             // Agreement
             $(document).on("click", ".saveUserAgreementContact", function(e) {
                 let CKEDITOR = [];
-                e.preventDefault();
+                // e.preventDefault();
                 var myData = $(this);
                 myData.attr('disabled', true);
                 console.log($("#user-agreement-create").find("textarea[name='content']").val(CKEDITOR[
