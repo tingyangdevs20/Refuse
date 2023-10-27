@@ -31,6 +31,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
         Route::post('create', [UserAgreementController::class, 'create'])->name('user-agreement.create');
         Route::post('{templateId}/getTemplateData', [UserAgreementController::class, 'getTemplateData'])->name('user-agreement.template')->where('templateId', '[0-9]+');
         Route::post('save', [UserAgreementController::class, 'store'])->name('user-agreement.store');
+        Route::post('pdf', [UserAgreementController::class, 'pdf'])->name('user-agreement.pdf');
         Route::post('{userAgreementId}/edit', [UserAgreementController::class, 'edit'])->name('user-agreement.edit')->where('userAgreementId', '[0-9]+');
         Route::post('{userAgreementId}/update', [UserAgreementController::class, 'update'])->name('user-agreement.update')->where('userAgreementId', '[0-9]+');
         Route::get('/signers/{id}', [UserAgreementController::class, 'signers'])->name('user-agreement.signers');

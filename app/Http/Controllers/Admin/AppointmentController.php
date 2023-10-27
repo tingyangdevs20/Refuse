@@ -634,12 +634,16 @@ class AppointmentController extends Controller
                         //$receiver_number = '4234606442';
                         $sender_number = $sender_numbers->number;
                         try {
+                            $file = $request->file('mms_file');
+                            $mediaurl = $user->addMedia($file)->toMediaCollection('appointment_reminder');
+                            $user->save();
+                            
                             $sms_sent = $client->messages->create(
                                 $receiver_number,
                                 [
                                     'from' => $sender_number,
                                     'body' => $mms_body,
-                                    // 'mediaUrl' => [$mediaUrl],
+                                    'mediaUrl' => [$mediaurl->getUrl()],
                                 ]
                             );
                             //dd($sms_sent);

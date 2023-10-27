@@ -18,8 +18,8 @@ class VoiceController extends Controller
     {
         $phone = $request->get('To');
         $settings = Settings::first()->toArray();
-        $callerId = $settings['call_forward_number'];
-        // $callerId = '+19105502344';
+        // $callerId = $settings['call_forward_number'];
+        $callerId = '+19105502344';
         $response = new VoiceResponse();
         if ($phone == $callerId) {
             # Receiving an incoming call to the browser from an external phone
