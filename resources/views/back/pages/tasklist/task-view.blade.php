@@ -9,7 +9,9 @@
         .table-responsive {
             overflow-x: auto;
         }
-
+        .table-task-view{
+            text-align: center;
+        }
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
                                 white-space: nowrap;
@@ -54,12 +56,12 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Task List</h4>
-                    
+
                     </div>
                     @include('back.pages.partials.messages')
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            Task List
+                            {{ @$tasklist_name }}
                             <button class="btn btn-outline-primary btn-sm float-right ml-2" title="New"
                                 data-toggle="modal" data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             @include('components.modalform')
@@ -71,18 +73,18 @@
                                 <div class="card-body">
                                     <div id="task-list-container">
                                         <div class="table-responsive">
-                                            <table id="tasktable" class="table table-bordered">
+                                            <table id="tasktable" class="table table-bordered table-task-view">
                                                 <thead>
                                                     <tr>
-                                                        <th><input type="checkbox" id="selectAll" class="task-checkbox">
+                                                        <th width="5%"><input type="checkbox" id="selectAll" class="task-checkbox">
                                                         </th>
-                                                        <th>S.No</th>
+                                                        {{-- <th>S.No</th> --}}
                                                         <th>Task</th>
-                                                        <th>Description</th>
+                                                        {{-- <th>Description</th> --}}
                                                         <th>Assigned To</th>
-                                                        <th>Status</th>
+                                                        {{-- <th>Status</th> --}}
                                                         <th>Action</th>
-                                                        <th>Drag</th> <!-- New drag handle column -->
+                                                        <th width="5%">Drag</th> <!-- New drag handle column -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -93,12 +95,12 @@
                                                                 <input type="checkbox" class="task-checkbox"
                                                                     name="task_id[]" value="{{ $task->id }}">
                                                             </td>
-                                                            <td>{{ @$loop->iteration }}</td>
+                                                            {{-- <td>{{ @$loop->iteration }}</td> --}}
                                                             <td>{{ @$task->tast }}</td>
-                                                            <td>{{ @$task->description }}</td>
+                                                            {{-- <td>{{ @$task->description }}</td> --}}
                                                             <td>{{ @$task->user->name }}</td>
-                                                            <td><input type="checkbox" name="my_checkbox"
-                                                                    {{ @$task->status == 0 ? 'checked' : '' }}></td>
+                                                            {{-- <td><input type="checkbox" name="my_checkbox"
+                                                                    {{ @$task->status == 0 ? 'checked' : '' }}></td> --}}
                                                             <td>
                                                                 @if (auth()->user()->can('administrator') ||
                                                                         auth()->user()->can('user_task_edit'))
@@ -144,10 +146,10 @@
                                     <label for="task">Task</label>
                                     <input type="text" name="task" id="task" class="form-control">
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="task">Description</label>
                                     <textarea type="text" name="description" id="description" class="form-control"></textarea>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="assignee">Assign To</label>
                                     <select class="form-control select2" id="assignee" name="assignee">
