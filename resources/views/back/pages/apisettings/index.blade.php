@@ -1,6 +1,176 @@
 @extends('back.inc.master')
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <style>
+        /* Ensure the table takes the full width of its container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Add horizontal scrolling for the table on smaller screens */
+        /* .table {
+                                        white-space: nowrap;
+                                    } */
+
+        /* Add responsive breakpoints and adjust table font size and padding as needed */
+        @media (max-width: 768px) {
+            .table {
+                font-size: 12px;
+            }
+        }
+
+        .checkbox label .toggle,
+        .checkbox-inline .toggle {
+            margin-left: -20px;
+            margin-right: 5px
+        }
+
+        .toggle {
+            position: relative;
+            overflow: hidden
+        }
+
+        .toggle input[type=checkbox] {
+            display: none
+        }
+
+        .toggle-group {
+            position: absolute;
+            width: 200%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            transition: left .35s;
+            -webkit-transition: left .35s;
+            -moz-user-select: none;
+            -webkit-user-select: none
+        }
+
+        .toggle.off .toggle-group {
+            left: -100%
+        }
+
+        .toggle-on {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 50%;
+            margin: 0;
+            border: 0;
+            border-radius: 0
+        }
+
+        .toggle-off {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            right: 0;
+            margin: 0;
+            border: 0;
+            border-radius: 0
+        }
+
+        .toggle-handle {
+            position: relative;
+            margin: 0 auto;
+            padding-top: 0;
+            padding-bottom: 0;
+            height: 100%;
+            width: 0;
+            border-width: 0 1px
+        }
+
+        .toggle.btn {
+            min-width: 100px;
+            min-height: 34px
+        }
+
+        .toggle-on.btn {
+            padding-right: 24px
+        }
+
+        .toggle-off.btn {
+            padding-left: 24px
+        }
+
+        .toggle.btn-lg {
+            min-width: 79px;
+            min-height: 45px
+        }
+
+        .toggle-on.btn-lg {
+            padding-right: 31px
+        }
+
+        .toggle-off.btn-lg {
+            padding-left: 31px
+        }
+
+        .toggle-handle.btn-lg {
+            width: 40px
+        }
+
+        .toggle.btn-sm {
+            min-width: 50px;
+            min-height: 30px
+        }
+
+        .toggle-on.btn-sm {
+            padding-right: 20px
+        }
+
+        .toggle-off.btn-sm {
+            padding-left: 20px
+        }
+
+        .toggle.btn-xs {
+            min-width: 35px;
+            min-height: 22px
+        }
+
+        .toggle-on.btn-xs {
+            padding-right: 12px
+        }
+
+        .toggle-off.btn-xs {
+            padding-left: 12px
+        }
+
+        #exTab2 h3 {
+            color: white;
+            background-color: #428bca;
+            padding: 5px 15px;
+        }
+
+        .nav-tabs .nav-item .nav-link.active {
+            background-color: #38B6FF;
+            /* Change to your preferred button color */
+            color: #fff;
+            /* Text color for the active tab */
+            border-color: #38B6FF;
+            /* Border color for the active tab */
+            border-radius: 5px;
+            /* Optional: Add rounded corners */
+            /* padding: 13px; */
+        }
+
+        /* Add other CSS styles for the non-active tab links as needed */
+        .nav-tabs .nav-item .nav-link {
+            /* Default text color for non-active tabs */
+            /* border-color: #38B6FF; */
+        }
+    </style>
+
+    <style>
+        #hidden_div {
+            display: none;
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -14,7 +184,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">API Settings</h4>
+                        <h4 class="mb-0 font-size-18">3rd Party APIs</h4>
                        
                     </div>
                     <div class="card">
@@ -22,45 +192,94 @@
                             <i class="fas fa-cog mr-1"></i>All APIs Settings
                             @include('components.modalform')
                         </div>
-                        <div class="card-body">
-                            <form action="{{ route('admin.settings.update', $settings) }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <!-- <div class="form-group"> -->
-                                <!-- <label>Auto-Reply</label> -->
-                                <select hidden class="custom-select" name="auto_reply" required>
-                                    <option value="1" {{ $settings->auto_reply ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ $settings->auto_reply ? '' : 'selected' }}>Not Active</option>
-                                </select>
-                                <!-- </div> -->
-                                <!-- <div class="form-group"> -->
-                                <!-- <label>Auto Keyword Responder</label> -->
-                                <select hidden class="custom-select" name="auto_respond" required>
-                                    <option value="1" {{ $settings->auto_responder ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ $settings->auto_responder ? '' : 'selected' }}>Not Active
-                                    </option>
-                                </select>
-                                <!-- </div> -->
+                    </div>
 
-
-                                <input type="hidden" class="form-control" placeholder="Auth. Name" name="auth_email"
-                                    id="auth_email" value="{{ $settings->auth_email }}" required>
-
-
-                                <input type="hidden" class="form-control" placeholder="Document Closed By"
-                                    name="document_closed_by" id="document_closed_by"
-                                    value="{{ $settings->document_closed_by }}" required>
-
-                                <input type="hidden" class="form-control" placeholder="Reply To Email" name="reply_email"
-                                    id="reply_email" value="{{ $settings->reply_email }}" required>
-
-
-                                <div class="card-header bg-soft-dark ">
-                                    <i class="fas fa-cog"></i> SendGrid API Settings
-
+                        
+<!-- CONTENT SECTION -->
+<div class="card">
+                        <div class="card-header  bg-soft-dark">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link active" href="#google" data-toggle="tab">Google Calendar</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#SendGrid"
+                                            data-toggle="tab">SendGrid</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#Twilio"
+                                            data-toggle="tab">Twilio</a>
+                                    </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#Slybroadcast"
+                                            data-toggle="tab">Slybroadcast</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                     <div class="card-body">
+                            <div class="tab-content clearfix">
+                                <div class="tab-pane active" id="google">
+                                    <div class="card">
+                                        <div class="card-header bg-soft-dark ">
+                                            <i class="fas fa-cog mr-1"></i>Google Calendar API Settings
+                                           
+                                        </div>
+                                        <div class="form-group">
                                 </div>
-                                <br />
+                                        <div class="form-group">
+                                                <label>Calendar ID</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Google calendar ID" name="calendar_id"
+                                                        id="calendar_id" value="{{ $accounts->calendar_id }}" required>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" name="calendar_credentials_path"
+                                                value="{{ $accounts->calendar_credentials_path }}">
+
+                                            <div class="form-group">
+                                                <label>Calendar Status</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-check"></i></div>
+                                                    </div>
+                                                    <select class="input form-control" name="calendar_enable" required>
+                                                        <option value="Y"
+                                                            {{ $accounts->calendar_enable === 'Y' ? 'selected' : '' }}>
+                                                            Enable</option>
+                                                        <option value="N"
+                                                            {{ $accounts->calendar_enable === 'N' ? 'selected' : '' }}>
+                                                            Disable</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Calendar Credentials File <small>(if you don't want to update your
+                                                        credentials leave it blank)</small></label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                                    </div>
+                                                    <input type="file" class="form-control" accept="application/json"
+                                                        name="calendar_credentials_file" id="credentials">
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="SendGrid">
+                                    <div class="card">
+                                    <div class="card-header bg-soft-dark ">
+                                    <i class="fas fa-cog"></i> SendGrid API Settings
+                                    
+                                    </div>
+                                <div class="form-group">
+                                </div>
+                                
                                 <div class="form-group">
                                     <label>Send From Email (Send Grid)</label>
                                     <div class="input-group mb-2">
@@ -89,11 +308,17 @@
                                             required>
                                     </div>
                                 </div>
-                                <div class="card-header bg-soft-dark ">
+                                       
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="Twilio">
+                                    <div class="card">
+                                    <div class="card-header bg-soft-dark ">
                                     <i class="fas fa-cog"></i> Twilio API Settings
 
                                 </div>
-                                <br />
+                                <div class="form-group">
+</div>
                                 <div class="form-group">
                                     <label>Twilio Account SID</label>
                                     <div class="input-group mb-2">
@@ -146,119 +371,55 @@
                                             value="{{ $settings->messaging_service_sid }}" required>
                                     </div>
                                 </div>
-
-
-
-
-                                {{-- <div class="card-header bg-soft-dark ">
-                                    <i class="fas fa-cog"></i> Google Drive Keys
-
-                                </div>
-                                <br />
-
-                                <div class="form-group">
-                                    <label>Google Drive Client Id</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter Google Drive Client Id" name="google_drive_client_id"
-                                            id="google_drive_client_id" value="{{ $settings->google_drive_client_id }}">
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label>Google Drive Client Secret </label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter Google Drive Client Secret"
-                                            name="google_drive_client_secret" id="google_drive_client_secret"
-                                            value="{{ $settings->google_drive_client_secret }}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Google Drive Developer Key </label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter Google Drive Developer Key"
-                                            name="google_drive_developer_key" id="google_drive_developer_key"
-                                            value="{{ $settings->google_drive_developer_key }}">
-                                    </div>
-                                </div> --}}
-
-
-
-
-                                <button type="submit" class="btn btn-primary">Update Settings</button>
-                                <br />
-                                <br />
-
-                            </form>
-                            <form>
+                                <div class="tab-pane" id="Slybroadcast">
                                 <div class="card">
                                     <div class="card-header bg-soft-dark ">
-                                        <i class="fas fa-cog"></i> Google Calendar Settings
+                                    <i class="fas fa-cog"></i> Slybroadcast
 
-                                        @include('components.modalform')
-                                    </div>
-                                    <div class="card-body">
-                                        <form action="{{ url('admin/account/google-calendar') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-
-
-                                            <div class="form-group">
-                                                <label>Calendar ID</label>
-                                                <div class="input-group mb-2">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
-                                                    </div>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Google calendar ID" name="calendar_id"
-                                                        id="calendar_id" value="{{ $accounts->calendar_id }}" required>
-                                                </div>
-                                            </div>
-
-                                            <input type="hidden" name="calendar_credentials_path"
-                                                value="{{ $accounts->calendar_credentials_path }}">
-
-                                            <div class="form-group">
-                                                <label>Calendar Status</label>
-                                                <div class="input-group mb-2">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text"><i class="fas fa-check"></i></div>
-                                                    </div>
-                                                    <select class="input form-control" name="calendar_enable" required>
-                                                        <option value="Y"
-                                                            {{ $accounts->calendar_enable === 'Y' ? 'selected' : '' }}>
-                                                            Enable</option>
-                                                        <option value="N"
-                                                            {{ $accounts->calendar_enable === 'N' ? 'selected' : '' }}>
-                                                            Disable</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>Calendar Credentials File <small>(if you don't want to update your
-                                                        credentials leave it blank)</small></label>
-                                                <div class="input-group mb-2">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
-                                                    </div>
-                                                    <input type="file" class="form-control" accept="application/json"
-                                                        name="calendar_credentials_file" id="credentials">
-                                                </div>
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary">Update Settings</button>
-
-                                        </form>
-                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="form-group">
+</div>
+                                    <div class="form-group">
+                                    <label>Username</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Enter Username"
+                                            name="sly_phone" id="sly_phone"
+                                            value="{{ $settings->messaging_service_sid }}" required>
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <label>Password</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="password" class="form-control" placeholder="Enter Password"
+                                            name="sly_phone" id="sly_phone"
+                                            value="{{ $settings->messaging_service_sid }}" required>
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <div class="input-group mb-2">
+
+                                        <input type="text" class="form-control" placeholder="Enter Phone Number"
+                                            name="sly_phone" id="sly_phone"
+                                            value="{{ $settings->messaging_service_sid }}" required>
+                                    </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div> 
                     </div>
+
+
+<!-- CONTENT SECTION ENDS -->
+
+
+
+                    
                 </div>
             </div>
             <!-- end page title -->

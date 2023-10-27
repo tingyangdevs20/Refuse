@@ -7,9 +7,13 @@
     <style>
         /* Ensure the table takes the full width of its container */
         .table-responsive {
-            overflow-x: auto;
+            overflow-x: auto;            
         }
-
+        .table-task-list{
+            text-align: center;
+            max-width: 1300px;
+            margin: auto;
+        }
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
                             white-space: nowrap;
@@ -21,7 +25,7 @@
                 font-size: 12px;
             }
         }
-
+        
         .active-status {
             background-color: lightgreen;
             border-radius: 5px;
@@ -99,16 +103,16 @@
                                             </div>
                                         </form>
 
-                                        <table id="tasktable" class="table table-bordered">
+                                        <table id="tasktable" class="table table-bordered table-task-list">
                                             <thead>
                                                 <tr>
-                                                    <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
+                                                    <th width="8%"><input type="checkbox" id="selectAll" class="task-checkbox"></th>
                                                     <!-- <th>S.No</th> -->
                                                     <th>Task</th>
                                                     <!-- <th>Assigned To</th> -->
                                                     <!-- <th>Status</th> -->
                                                     <th>Action</th>
-                                                    <th>Drag</th> <!-- New drag handle column -->
+                                                    <th width="8%">Drag</th> <!-- New drag handle column -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -201,7 +205,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 
     <script>

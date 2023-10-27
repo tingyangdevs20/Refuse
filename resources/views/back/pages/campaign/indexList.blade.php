@@ -243,74 +243,105 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Template</h5>
+
+                    <h5 class="modal-title" id="exampleModalLabel">Update Message To Sequence</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.template.updatemsg') }}" method="post" id="editForm"
-                    enctype="multipart/form-data">
-                    @method('POST')
-                    @csrf
-                    <input id="tmpid" style="display:none" value="{{ $id }}" />
+                <form action="{{ route('admin.campaignlist.store') }}" method="POST" enctype="multipart/form-data">
+
                     <div class="modal-body">
+                        @csrf
+                        @method('POST')
+                        <input name="tmpid" style="display:none" value="{{ $id }}" />
+                        <input name="type" style="display:none" value="" />
                         <div class="form-group">
-                            <label>Message Title</label>
-                            <input type="hidden" id="id" name="id" value="">
-                            <input type="text" class="form-control" name="title" id="title" required>
+                        <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group text-right mt-2">
+                                                                            <label>Delay</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group" style="width:115px">
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <div class="input-group-text"><i class="fas fa-calendar"></i></div>
+                                                                                </div>
+                                                                                <input  type="number" min="0" class="form-control" placeholder="Days" value="" name="send_after_days">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group" style="width:120px">
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <div class="input-group-text"><i class="fas fa-calendar"></i></div>
+                                                                                </div>
+                                                                                <input type="number" min="0" class="form-control" placeholder="Hours" value="" name="send_after_hours">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                  
+                                                                </div>
                         </div>
-
-                        <div class="email_body_edit" style="display:none;">
-
-                            <div class="form-group">
-                                <label>Content</label>
-                                <textarea class="form-control text112 mms_body" id="mms_body_edit" name="mms_body" rows="10"></textarea>
-                                <div id='count112' class="float-lg-right"></div>
-                            </div>
-                            <div class="form-group">
-
-                                <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
-                            </div>
-                        </div>
-
-                        <!--//////-->
-
-                        <div class="show_media_mms_edit" style="display:none;">
+                        <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group mt-3">
+                                                                            <label>Select Message Type</label>
+                                                                            <select class="custom-select" name="type" onchange="check_type(this)" required>
+                                                                               
+                                                                            <option value="sms">SMS</option>
+                                                                                <option value="email">Email</option>
+                                                                                <option value="mms">MMS</option>
+                                                                                <option value="rvm">RVM</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" id="dvTemplate">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group mt-3">
+                                                                            <label>Select Template</label>
+                                                                            <select class="custom-select" name="template" id="template"  required>
+                                                                            <option value="0">Select Template</option>
+                                                                            @foreach ($templates as $template)
+                                                                            <option value="{{$template->id}}">{{$template->title}}</option>
+                                                                            @endforeach
+                                                                                
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" id="dvRvm" style="display:none">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group mt-3">
+                                                                            <label>Select RVM</label>
+                                                                            <select class="custom-select" name="rvm"  required>
+                                                                            <option value="0">Select RVM File</option>
+                                                                            @foreach ($files as $rvm)
+                                                                            <option value="{{$rvm->name}}">{{$rvm->name}}</option>
+                                                                            @endforeach
+                                                                                
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                        <div class="show_media_mms" id="dvMediaFile" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
                                 <input type="file" class="form-control-file" name="media_file_mms">
-                                <label>(<small class="text-danger font-weight-bold file-name"></small>)</label>
                             </div>
-                            <div class="form-group">
-                                <label>Content</label>
-                                <textarea class="form-control text112 mms_body" id="mms_body_edit" name="mms_body" rows="10"></textarea>
-                                <div id='count112' class="float-lg-right"></div>
-                            </div>
-                            <div class="form-group">
-
-                                <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
-                            </div>
+                           
+                            
                         </div>
-                        <div class="show_sms_edit" style="display:none;">
-                            <div class="form-group">
-                                <label>Content</label>
-                                <textarea class="form-control text2 body_sms_edit" id="body_sms" name="body" rows="10"></textarea>
-                                <div id='count2' class="float-lg-right"></div>
-                            </div>
-                            <div class="form-group">
-
-                                <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
-                            </div>
-                        </div>
-
-
+                       
+                       
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </form>
             </div>
@@ -447,39 +478,21 @@
             var id = button.data('id');
             var subject = button.data('subject');
             var mediaurl = button.data('mediaurl');
+
             var modal = $(this);
-            if (typ === 'SMS') {
-                $(".email_body").removeAttr("required");
-                $(".body_sms").attr("required", "true");
+           
+          //  if (typ === 'SMS') {
+               // $(".email_body").removeAttr("required");
+              //  $(".body_sms").attr("required", "true");
 
-                $('.show_media_mms_edit').hide();
-                $('.show_email_edit').hide();
-                $('.show_sms_edit').show();
-                modal.find('.modal-body #body_sms').val(body);
-            } else if (typ === 'MMS') {
-               // alert(body);
-                $(".body_sms").removeAttr("required");
-                $(".email_body").removeAttr("required");
-                $('.show_email_edit').hide();
-                $('.show_sms_edit').hide();
+              //  $('.show_media_mms_edit').hide();
+              //  $('.show_email_edit').hide();
+              //  $('.show_sms_edit').show();
+             //   modal.find('.modal-body #body_sms').val(body);
+          //  } 
+            //modal.find('.modal-body #title').val(title);
 
-                $('.show_media_mms_edit').show();
-                modal.find('.modal-body #mms_body_edit').val(body);
-                $('.file-name').html(mediaurl);
-            } else if (typ === 'Email') {
-                $(".body_sms").removeAttr("required");
-                $(".email_body").attr("required", "true");
-                $('.show_sms_edit').hide();
-
-                $('.show_media_mms_edit').hide();
-                $('.show_email_edit').show();
-                modal.find('.modal-body #subject').val(subject);
-                $('#body_email').summernote('code', body);
-                //$('#body_email').val(body);
-            }
-            modal.find('.modal-body #title').val(title);
-
-            modal.find('.modal-body #id').val(id);
+          //  modal.find('.modal-body #id').val(id);
 
 
 

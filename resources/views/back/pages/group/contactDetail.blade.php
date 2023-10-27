@@ -29,8 +29,8 @@
         .date-input-container input:not(:placeholder-shown)+.placeholder {
             transform: translateY(-100%) scale(0.8);
         }
-        
-        
+
+
 
         #hidden_div {
             display: none;
@@ -922,7 +922,7 @@
                                                                             <option value="Radio"
                                                                             @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Radio') selected @endif
                                                                             @endif>Radio
-                                                                        </option>
+                                                                            </option>
                                                                             <option value="Referral"
                                                                                 @if (isset($leadinfo)) @if ($leadinfo->lead_source == 'Referral') selected @endif
                                                                                 @endif>Referral
@@ -3033,9 +3033,10 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Profit Expected</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" class="form-control"
                                                                                 placeholder="Profit Expected"
                                                                                 name="expected_profit"
+                                                                                table="negotiations"
                                                                                 value="{{ $negotiations->expected_profit == '' ? '' : $negotiations->expected_profit }}">
                                                                         </div>
                                                                     </div>
@@ -3044,11 +3045,24 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Profit Collected</label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" class="form-control"
                                                                                 placeholder="Profit Collected"
                                                                                 name="actual_profit"
                                                                                 table="negotiations"
                                                                                 value="{{ $negotiations->actual_profit == '' ? '' : $negotiations->actual_profit }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" style="padding: 0 10px;">
+                                                                        <div class="input-group mb-2">
+                                                                            <!-- Display the date as text -->
+                                                                            <input class="form-control"
+                                                                                placeholder="Closing Date"
+                                                                                name="closing_date" table="negotiations"
+                                                                                type="date"
+                                                                                onchange="updateValue(value,'closing_date','negotiations')"
+                                                                                value="{{ $negotiations->closing_date == '' ? '' : $negotiations->closing_date }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3594,33 +3608,28 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         {{-- <label>Schedule Follow up Reminder </label> --}}
                                                                         <div class="input-group mb-2">
-                                                                            <select class="custom-select"
-                                                                                name="followup_reminder"
-                                                                                onchange="updateValue(value,'followup_reminder','followup_sequences')">
-                                                                                <option value="">Schedule Follow up
-                                                                                    Reminder </option>
-                                                                                <option value="1"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '1') selected @endif
-                                                                                    @endif>1 Day
-                                                                                </option>
-                                                                                <option value="2"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '2') selected @endif
-                                                                                    @endif>2 Days
-                                                                                </option>
-                                                                                <option value="3"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '3') selected @endif
-                                                                                    @endif>4 Days
-                                                                                </option>
-                                                                                <option value="4"
-                                                                                    @if (isset($followup_sequences)) @if ($followup_sequences->followup_reminder == '4') selected @endif
-                                                                                    @endif>1 Week
-                                                                                </option>
-
-                                                                            </select>
+                                                                            <input type="date" class="form-control"
+                                                                                   placeholder="Schedule Follow up Reminder" name="followup_reminder"
+                                                                                   table="followup_sequences" id="followup_reminder"
+                                                                                   value="{{ isset($followup_sequences) && $followup_sequences->followup_reminder ? $followup_sequences->followup_reminder : '' }}">
                                                                         </div>
-                                                                        <button type="submit"
-                                                                            onclick="updateValue('Yes','stop_followup','followup_sequences')"
-                                                                            class="btn btn-primary button-item mt-2">Stop Followup</button>
+                                                                        <div class="input-group mb-2">
+                                                                            <textarea class="form-control"
+                                                                                      placeholder="Reminder Text"
+                                                                                      table="followup_sequences" id="reminder_text"
+                                                                                      name="reminder_text">{{ isset($followup_sequences) && $followup_sequences->reminder_text ? $followup_sequences->reminder_text : '' }}</textarea>
+                                                                        </div>
+                                                                        <div class="input-group mb-2">
+                                                                            <input style="margin-right:5px"
+                                                                                   type="checkbox" name="stop_followup"
+                                                                                   onchange="updateValue(this.checked ? 'Yes' : null, 'stop_followup', 'followup_sequences')"
+                                                                                   value="{{ 'Yes' }}"
+                                                                                {{ isset($followup_sequences) && $followup_sequences->stop_followup == 'Yes' ? 'checked' : '' }}>
+                                                                            Completed
+                                                                        </div>
+{{--                                                                        <button type="submit"--}}
+{{--                                                                            onclick="updateValue('Yes','stop_followup','followup_sequences')"--}}
+{{--                                                                            class="btn btn-primary button-item mt-2">Stop Followup</button>--}}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -5926,6 +5935,7 @@
 
     <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote.css') }}" />
     <script src="{{ asset('/summernote/dist/summernote.min.js') }}"></script>
+    <script src="{{ asset('/back/assets/libs/jquery-notify/notify.js') }}"></script>
 
 
     <script>
@@ -6389,6 +6399,14 @@
             var fieldVal = $(this).val();
             var table = $(this).attr('table');
             var fieldName = $(this).attr('name');
+
+            // Check the input type
+            var inputType = $(this).attr('type');
+            var isNumberInput = (inputType === 'number');
+
+            // Set the delay time in milliseconds (e.g., 1000 ms)
+            var delayTime = 1000;
+
             if (table == 'custom_field_values') {
                 var section_id = $(this).attr('section_id');
                 var feild_id = $(this).attr('id');
@@ -6397,34 +6415,48 @@
                 var section_id = 0;
             }
             var type = $(this).attr('type');
-            $.ajax({
-                method: "POST",
-                url: '<?php echo url('admin/contact/detail/update'); ?>',
-                data: {
-                    id: id,
-                    fieldVal: fieldVal,
-                    table: table,
-                    feild_id: feild_id,
-                    section_id: section_id,
-                    fieldName: fieldName,
-                    type: type,
-                    _token: _token
-                },
-                success: function(res) {
-                    if (res.status == true) {
-                        // $.notify(res.message, 'success');
-                        $("#custom_message").modal("hide");
-                        // setTimeout(function() {
-                        //     location.reload();
-                        // }, 1000);
-                    } else {
-                        $.notify(res.message, 'error');
+
+            // Apply a delay for number input elements
+            if (isNumberInput) {
+                clearTimeout($(this).data('timeout'));
+                $(this).data('timeout', setTimeout(function() {
+                    sendAjaxRequest();
+                }, delayTime));
+            } else {
+                // Immediately update for other input types
+                sendAjaxRequest();
+            }
+
+            function sendAjaxRequest() {
+                $.ajax({
+                    method: "POST",
+                    url: '<?php echo url('admin/contact/detail/update'); ?>',
+                    data: {
+                        id: id,
+                        fieldVal: fieldVal,
+                        table: table,
+                        feild_id: feild_id,
+                        section_id: section_id,
+                        fieldName: fieldName,
+                        type: type,
+                        _token: _token
+                    },
+                    success: function(res) {
+                        if (res.status == true) {
+                            // $.notify(res.message, 'success');
+                            $("#custom_message").modal("hide");
+                            // setTimeout(function() {
+                            //     location.reload();
+                            // }, 1000);
+                        } else {
+                            $.notify(res.message, 'error');
+                        }
+                    },
+                    error: function(err) {
+                        $.notify('Error occurred while saving.', 'error');
                     }
-                },
-                error: function(err) {
-                    $.notify('Error occurred while saving.', 'error');
-                }
-            });
+                });
+            }
         });
 
         function getRealtorPropertyId() {
