@@ -361,8 +361,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('campaign/list/{id}', 'Admin\CampaignListController@compaignList')->name('campaign.list');
     Route::get('campaign/delete/{id}', 'Admin\CampaignListController@deleteList')->name('campaign.delete');
     Route::post('campaign/remove', 'Admin\CampaignListController@remove')->name('campaign.remove');
+    Route::post('campaignlst/update', 'Admin\CampaignListController@update')->name('campaignlst.update');
     Route::get('compaignlead/copy/{id}', 'Admin\CampaignLeadController@copy')->name('compaignlead.copy');
     Route::get('compaignlead/list/{id}', 'Admin\CampaignLeadListController@compaignList')->name('compaignlead.list');
+    Route::post('campaignlead/remove', 'Admin\CampaignLeadListController@remove')->name('campaignlead.remove');
+    Route::post('campaignlead/update', 'Admin\CampaignLeadListController@update')->name('campaignleadlist.update');
     Route::get('get/leadmessage/{type}/{id}', 'Admin\CampaignLeadListController@getTemplate');
 
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');

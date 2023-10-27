@@ -233,7 +233,7 @@
     </div>
 
     <script type="text/javascript">
-        var publicPath = "{!! URL::to('/'); !!}/";
+        var publicPath = "{!! URL::to('/') !!}/";
     </script>
 
     <script src="{{asset('front/js/jquery-3.6.0.min.js')}}" type="text/javascript"></script>

@@ -62,10 +62,16 @@
                                                 <td>{{$campaignsLst->template->title}}</td>
                                                 @endif
                                                 <td>
-                                                    <button class="btn btn-outline-primary btn-sm edit-template"
+                                                <button class="btn btn-outline-primary btn-sm edit-template"
                                                        
-                                                        data-id="{{ $campaignsLst->id }}" data-toggle="modal"
-                                                        data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                                       data-id="{{ $campaignsLst->id }}" data-toggle="modal"
+                                                       data-type="{{ $campaignsLst->type }}"
+                                                                   data-temp_id="{{ $campaignsLst->template_id }}"
+                                                                  
+                                                                   data-send_after_days="{{ $campaignsLst->send_after_days }}"
+                                                                   data-send_after_hours="{{ $campaignsLst->send_after_hours }}"
+                                                                   
+                                                       data-target="#editModal"><i class="fas fa-edit"></i></button>
                                                     -
                                                     <button class="btn btn-outline-danger btn-sm"
                                                        
@@ -249,13 +255,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin.campaignlist.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.campaignlst.update') }}" method="POST" enctype="multipart/form-data">
 
                     <div class="modal-body">
                         @csrf
                         @method('POST')
-                        <input name="tmpid" style="display:none" value="{{ $id }}" />
-                        <input name="type" style="display:none" value="" />
+                        <input name="lstid" id="lstid" style="display:none" value="" />
+                      
                         <div class="form-group">
                         <div class="row">
                                                                     <div class="col-md-3">
@@ -290,7 +296,7 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Select Message Type</label>
-                                                                            <select class="custom-select" name="type" onchange="check_type(this)" required>
+                                                                            <select class="custom-select" name="type" id="type" onchange="check_type_edit(this)" required>
                                                                                
                                                                             <option value="sms">SMS</option>
                                                                                 <option value="email">Email</option>
@@ -300,7 +306,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row" id="dvTemplate">
+                                                                <div class="row" id="dvTemplate2">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Select Template</label>
@@ -314,11 +320,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row" id="dvRvm" style="display:none">
+                                                                <div class="row" id="dvRvm2" style="display:none">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Select RVM</label>
-                                                                            <select class="custom-select" name="rvm"  required>
+                                                                            <select class="custom-select" name="rvm" id="rvm"  required>
                                                                             <option value="0">Select RVM File</option>
                                                                             @foreach ($files as $rvm)
                                                                             <option value="{{$rvm->name}}">{{$rvm->name}}</option>
@@ -328,10 +334,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                        <div class="show_media_mms" id="dvMediaFile" style="display:none;">
+                        <div class="show_media_mms" id="dvMediaFile2" style="display:none;">
                             <div class="form-group">
                                 <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
-                                <input type="file" class="form-control-file" name="media_file_mms">
+                                <input type="file" class="form-control-file" name="media_file_mms" name="media_file_mms">
                             </div>
                            
                             
@@ -412,60 +418,31 @@
                 $("#dvMediaFile").hide();
             }
         }
+        function check_type_edit(ctrl)
+        {
+            //alert(ctrl.value);
+            if(ctrl.value=='rvm')
+            {
+                $("#dvRvm2").show();
+                $("#dvTemplate2").hide();
+                $("#dvMediaFile2").hide();
+            }
+            else if(ctrl.value=='mms')//
+            {
+                $("#dvMediaFile2").show();
+                $("#dvTemplate2").show();
+                $("#dvRvm2").hide();
+            }
+            else
+            {
+                $("#dvRvm2").hide();
+                $("#dvTemplate2").show();
+                $("#dvMediaFile2").hide();
+            }
+        }
         
-        function messageType(val) {
-            if (val === 'SMS') {
-                $(".email_body").removeAttr("required");
-                $(".body_sms").attr("required", "true");
 
-                $('.show_media').hide();
-                $('.show_email').hide();
-
-                $('.show_media_mms').hide();
-                $('.show_sms').show();
-            } else if (val === 'MMS') {
-                $(".body_sms").removeAttr("required");
-                $(".email_body").removeAttr("required");
-                $('.show_email').hide();
-                $('.show_sms').hide();
-
-                $('.show_media_mms').show();
-            } else if (val === 'Email') {
-                $(".body_sms").removeAttr("required");
-                $(".email_body").attr("required", "true");
-                $('.show_sms').hide();
-                $('.show_media').hide();
-
-                $('.show_media_mms').hide();
-                $('.show_email').show();
-            }
-        }
-
-        function messageTypeEdit(val) {
-            if (val === 'SMS') {
-                $(".email_body_edit").removeAttr("required");
-                $(".body_sms_edit").attr("required", "true");
-
-                $('.show_media_mms_edit').hide();
-                $('.show_email_edit').hide();
-                $('.show_sms_edit').show();
-            } else if (val === 'MMS') {
-                $(".body_sms_edit").removeAttr("required");
-                $(".email_body_edit").removeAttr("required");
-                $('.show_email_edit').hide();
-                $('.show_sms_edit').hide();
-
-                $('.show_media_mms_edit').show();
-
-            } else if (val === 'Email') {
-                $(".body_sms_edit").removeAttr("required");
-                $(".email_body_edit").attr("required", "true");
-                $('.show_sms_edit').hide();
-
-                $('.show_media_mms_edit').hide();
-                $('.show_email_edit').show();
-            }
-        }
+        
         $(document).ready(function() {
             $('#datatable').DataTable();
         });
@@ -473,27 +450,46 @@
     <script>
         $('#editModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
-            var title = button.data('title');
-            var body = button.data('body');
+            var type = button.data('type');
+            var temp_id = button.data('temp_id');
             var id = button.data('id');
-            var subject = button.data('subject');
-            var mediaurl = button.data('mediaurl');
+            var send_after_days=button.data('send_after_days');
+            var send_after_hours=button.data('send_after_hours');
+
+            if(type=="email")
+            {
+                $("#dvMediaFile2").hide();
+                $("#dvTemplate2").show();
+                $("#dvRvm2").hide();
+            }
+            else if(type=="sms" )
+            {
+                $("#dvMediaFile2").hide();
+                $("#dvTemplate2").show();
+                $("#dvRvm2").hide();
+            }
+            else if(type=="mms")
+            {
+                $("#dvMediaFile2").show();
+                $("#dvTemplate2").show();
+                $("#dvRvm2").hide();
+            }
+            else 
+            {
+                $("#dvMediaFile2").hide();
+                $("#dvTemplate2").hide();
+                $("#dvRvm2").show();
+            }
+
+
+
+
 
             var modal = $(this);
-           
-          //  if (typ === 'SMS') {
-               // $(".email_body").removeAttr("required");
-              //  $(".body_sms").attr("required", "true");
-
-              //  $('.show_media_mms_edit').hide();
-              //  $('.show_email_edit').hide();
-              //  $('.show_sms_edit').show();
-             //   modal.find('.modal-body #body_sms').val(body);
-          //  } 
-            //modal.find('.modal-body #title').val(title);
-
-          //  modal.find('.modal-body #id').val(id);
-
+            modal.find('.modal-body #type').val(type);//
+            modal.find('.modal-body #template').val(temp_id);//
+            modal.find('.modal-body #lstid').val(id);//
+         
 
 
         });
@@ -516,11 +512,7 @@
             count2.innerHTML = "Characters: " + e.target.value.length + "/160";
         };
 
-        // const textarea11 = document.querySelector('.text11')
-        // const count11 = document.getElementById('count11')
-        // textarea11.onkeyup = (e) => {
-        //     count11.innerHTML = "Characters: "+e.target.value.length+"/160";
-        // };
+        
         const textarea111 = document.querySelector('.text111')
         const count111 = document.getElementById('count111')
         textarea111.onkeyup = (e) => {

@@ -7,6 +7,7 @@ use App\Model\Blacklist;
 use App\Model\Contact;
 use App\Model\FailedSms;
 use App\Model\LeadCategory;
+use App\Model\CampaignLead;
 use App\Model\Number;
 use App\Model\QuickResponse;
 use App\Model\Reply;
@@ -76,9 +77,11 @@ class SMSController extends Controller
         //print_r($leadCategories);
         //die('..');
 
+        $leadCampaigns=CampaignLead::all();
+
         $conversations=Conversations::orderBy('received_on', 'ASC')->get();
    
-        return view('back.pages.sms.replies',compact('sms','smsInfo',"quickResponses",'number','leadCategories','conversations'));
+        return view('back.pages.sms.replies',compact('sms','smsInfo',"quickResponses",'number','leadCategories','conversations','leadCampaigns'));
     }
     public function saveThread(Request $request)
     {
