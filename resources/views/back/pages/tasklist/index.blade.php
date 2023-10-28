@@ -112,7 +112,7 @@
                                                     <!-- <th>Assigned To</th> -->
                                                     <!-- <th>Status</th> -->
                                                     <th>Action</th>
-                                                    <th width="8%">Drag</th> <!-- New drag handle column -->
+                                                    <th width="8%" style="display:none">Drag</th> <!-- New drag handle column -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -139,7 +139,7 @@
                                                                 title="Edit Task"><i class="fas fa-edit"></i></button>
                                                         <!-- @endif -->
                                                         </td>
-                                                        <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
+                                                        <td style="display:none" class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
                                                         <!-- Drag handle icon -->
                                                     </tr>
                                                 @endforeach

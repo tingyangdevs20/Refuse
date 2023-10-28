@@ -114,9 +114,9 @@
                                 <div id='count111' class="float-lg-right"></div>
                             </div>
                             <div class="form-group">
-
+                              
                                 <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
+                                        respective fields</b><br/><p style="color:black"><u><b>Important:</b> List of words not to use in your SMS & MMS messages: interested, selling, offer, property, cash, local investor, purchase, looking, mortgage, loan, insurance, debt, lend.</u></p></small>
                             </div>
                         </div>
                         <div class="show_sms" style="display:none;">
@@ -128,7 +128,8 @@
                             <div class="form-group">
 
                                 <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
+                                        respective fields. </b><br/><p style="color:black"><u><b>Important:</b> List of words not to use in your SMS & MMS messages: interested, selling, offer, property, cash, local investor, purchase, looking, mortgage, loan, insurance, debt, lend.</u></p></small>
+
                             </div>
                         </div>
                         <div class="show_email" style="display:none;">
@@ -226,7 +227,7 @@
                             <div class="form-group">
 
                                 <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
+                                        respective fields</b><br/><p style="color:black"><u><b>Important:</b> List of words not to use in your SMS & MMS messages: interested, selling, offer, property, cash, local investor, purchase, looking, mortgage, loan, insurance, debt, lend.</u></p></small>
                             </div>
                         </div>
 
@@ -246,7 +247,7 @@
                             <div class="form-group">
 
                                 <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
+                                        respective fields</b><br/><p style="color:black"><u><b>Important:</b> List of words not to use in your SMS & MMS messages: interested, selling, offer, property, cash, local investor, purchase, looking, mortgage, loan, insurance, debt, lend.</u></p></small>
                             </div>
                         </div>
                         <div class="show_sms_edit" style="display:none;">
@@ -258,7 +259,7 @@
                             <div class="form-group">
 
                                 <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the
-                                        respective fields</b></small>
+                                        respective fields</b><br/><p style="color:black"><u><b>Important:</b> List of words not to use in your SMS & MMS messages: interested, selling, offer, property, cash, local investor, purchase, looking, mortgage, loan, insurance, debt, lend.</u></p></small>
                             </div>
                         </div>
 

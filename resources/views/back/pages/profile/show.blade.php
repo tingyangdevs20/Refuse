@@ -35,6 +35,12 @@
                                 <form action="{{ route('admin.profile.update') }}" class="profileform" method="post">
                                     @csrf
                                     <div class="row">
+                                    <div class="row">
+                                    <label for="name">Profile</label>
+    </div>
+
+    </div>
+                                    <div class="row">
                                         <!-- <div class="form-group"> -->
 
                                         <div class="col">
@@ -46,10 +52,10 @@
                                             @enderror
                                         </div>
                                         <div class="col">
-                                            <label for="name">Last Name</label>
+                                            <label for="last_name">Last Name</label>
                                             <input type="text" name="last_name" id="last_name" class="form-control"
                                                 value="{{ old('last_name', $user->last_name) }}">
-                                            @error('name')
+                                            @error('last_name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -69,7 +75,7 @@
                                         
 
                                         <div class="col">
-                                            <label for="name">New Password</label>
+                                            <label for="password">New Password</label>
                                             <input type="password" name="password" id="password" class="form-control"
                                                >
                                             @error('password')
