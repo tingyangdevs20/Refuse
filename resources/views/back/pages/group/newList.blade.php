@@ -1188,11 +1188,11 @@
                         return; // Abort the form submission
                     }
 
-                    if (!tagIds || tagIds.length === 0) {
-                        // Handle the case where 'tagIds' is empty
-                        alert("Select at least one Tag.");
-                        return; // Abort the form submission
-                    }
+                    // if (!tagIds || tagIds.length === 0) {
+                    //     // Handle the case where 'tagIds' is empty
+                    //     alert("Select at least one Tag.");
+                    //     return; // Abort the form submission
+                    // }
 
                     if (!leadStatus) {
                         // Handle the case where 'tagIds' is empty
@@ -1250,14 +1250,14 @@
 
                 // Find the corresponding select element based on the name attribute
                 var selectElement = $('#tags');
-                selectElement.prepend('<option value="" selected disabled>Select Tags *</option>');
+                selectElement.prepend('<option value="" selected disabled>Select Tags</option>');
                 $('#tags').on('change', function() {
                     // Remove the "Select Tags *" option if any other option is selected
                     if ($('#tags option:selected').length > 0) {
                         $('#tags option[value=""]').remove();
                     } else {
                         // Add the "Select Tags *" option back if no options are selected
-                        $('#tags').prepend('<option value="" selected disabled>Select Tags *</option>');
+                        $('#tags').prepend('<option value="" selected disabled>Select Tags</option>');
                     }
                 });
 
@@ -1318,11 +1318,11 @@
                     return; // Abort the form submission
                 }
 
-                if (!tagIds || tagIds.length === 0) {
-                    // Handle the case where 'tagIds' is empty
-                    alert("Select at least one Tag.");
-                    return; // Abort the form submission
-                }
+                // if (!tagIds || tagIds.length === 0) {
+                //     // Handle the case where 'tagIds' is empty
+                //     alert("Select at least one Tag.");
+                //     return; // Abort the form submission
+                // }
 
                 if (!leadStatus) {
                     // Handle the case where 'tagIds' is empty

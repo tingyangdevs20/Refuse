@@ -40,7 +40,6 @@ class CustomFieldController extends Controller
 
     public function store(Request $request)
     {
-
         $section = $request->section_id;
         if (count($section)  > 0) {
             foreach ($section as $key => $val) {

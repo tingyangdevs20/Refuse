@@ -450,7 +450,7 @@
 
                         <div class="form-group">
                             <select class="from-control select2 skip_trace_option" style="width: 100%;" required
-                                name="skip_trace_option" data-group-id="{{ $group->id }}">
+                                name="skip_trace_option">
 
                                 <option value="">Select an Option</option>
                                 <option value="skip_entire_list_phone" data-amount="">

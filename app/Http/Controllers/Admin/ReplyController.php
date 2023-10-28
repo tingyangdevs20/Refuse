@@ -54,15 +54,15 @@ class ReplyController extends Controller
         $number=Number::where('number',$request->twilio_number)->first();
         if($number){
             // Your Account SID and Auth Token from twilio.com/console
-            $settings = Settings::first()->toArray(); 
-        
+            $settings = Settings::first()->toArray();
+
             $sid = $settings['twilio_acc_sid'];
-            
+
             $token = $settings['twilio_auth_token'];
-           
-            
+
+
         }
-      
+
         try {
             $client = new Client( $sid, $token );
                 $sms_sent = $client->messages->create(
@@ -96,16 +96,9 @@ class ReplyController extends Controller
                 $conversation->system_reply=0;
                 $conversation->save();
                 $this->incrementSmsCount($request->twilio_number);
-
-
-
-
-
-
-
             }
             Alert::success('Success','Message Sent To '.$request->from);
-           
+
             return redirect()->back();
         } catch (\Exception $ex) {
             $failed_sms=New FailedSms();

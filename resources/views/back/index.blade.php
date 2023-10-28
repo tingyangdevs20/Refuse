@@ -556,7 +556,7 @@
                                                 <td>
                                                     <!-- @if (auth()->user()->can('administrator') ||
                                                             auth()->user()->can('user_task_edit'))
-    -->
+                                                    -->
                                                     <button class="btn btn-outline-primary btn-sm edit-task"
                                                         data-task-id="{{ @$task->id }}"
                                                         data-task-name="{{ @$task->tast }}"
@@ -568,7 +568,8 @@
                                         <!-- Drag handle icon -->
                                         </tr>
                                         <!--
-    @endforeach -->
+                                            @endforeach
+                                        -->
                                     </tbody>
                                 </table>
                             </div>
@@ -738,7 +739,7 @@
                                                                                     </div>
                                                                                 </div> -->
 
-            <!-- <div class="row">
+                                                                                <!-- <div class="row">
                                                                                     <div class="col-xl-12">
                                                                                         <div class="row">
                                                                                             <div class="col-sm-4">
@@ -805,7 +806,7 @@
                                                                                 </div> -->
 
 
-            <!-- <div class="row">
+                                                                                <!-- <div class="row">
                                                                                     <div class="col-xl-12">
                                                                                         <div class="row">
                                                                                             <div class="col-sm-4">
@@ -871,7 +872,7 @@
                                                                                 </div> -->
 
 
-            <!-- <div class="row">
+                                                                                <!-- <div class="row">
                                                                                     <div class="col-xl-12">
                                                                                         <div class="row">
                                                                                             <div class="col-sm-4">
