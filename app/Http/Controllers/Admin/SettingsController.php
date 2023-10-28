@@ -78,7 +78,6 @@ class SettingsController extends Controller
     public function marketingSpend()
     {
         $data = MarketingSpend::where('user_id', auth()->id())->get();
-        $data = $data->count() ? $data[0] : new MarketingSpend();
         return view('back.pages.settings.marketingSpend', compact('data'));
     }
 
@@ -99,7 +98,6 @@ class SettingsController extends Controller
         $markets = Market::all();
         $rvms = RvmFile::all();
         $Settings = Settings::first();
-
 
         $context = $this->client->getAccount();
         $activeNumbers = $context->incomingPhoneNumbers;
@@ -464,22 +462,50 @@ class SettingsController extends Controller
         return redirect()->back();
     }
 
-    public function updateMarketingSpend(Request $request)
+    public function storeMarketingSpend(Request $request)
     {
         $data = [
             'lead_source' => $request->lead_source,
-            'date' => $request->date,
+            'daterange' => $request->daterange,
             'amount' => $request->amount
         ];
 
         $data['user_id'] = auth()->id();
-        if ($marketing = MarketingSpend::first()) {
-            $marketing->update($data);
+
+        $record = MarketingSpend::where('lead_source', $request->lead_source)->first();
+        if ($record) {
+            $record->update($data);
         } else {
-            $marketing = MarketingSpend::create($data);
+            MarketingSpend::create($data);
         }
 
         Alert::success('Success', 'Marketing Spend Settings Updated!');
+        return redirect()->back();
+    }
+
+    public function updateMarketingSpend(Request $request)
+    {
+        $data = [
+            'lead_source' => $request->lead_source,
+            'daterange' => $request->daterange,
+            'amount' => $request->amount
+        ];
+
+        $data['user_id'] = auth()->id();
+
+        $marketing = MarketingSpend::find($request->id);
+        $marketing->update($data);
+
+        Alert::success('Success', 'Marketing Spend Settings Updated!');
+        return redirect()->back();
+    }
+
+    public function destroyMarketingSpend(Request $request)
+    {
+        $marketing = MarketingSpend::find($request->id);
+        $marketing->delete();
+
+        Alert::success('Success', 'Marketing Spend Settings Deleted!');
         return redirect()->back();
     }
 }

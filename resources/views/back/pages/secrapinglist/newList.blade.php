@@ -103,7 +103,7 @@
                                         </div>
 
                                         <div class="form-group pt-2">
-                                            <select class="custom-select select2" required multiple="multiple"
+                                            <select class="custom-select select2" multiple="multiple"
                                                 style="width: 100%;" name="tag_id[]" id="tags">
                                                 @foreach ($tags as $tag)
                                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -380,14 +380,14 @@
 
             // Find the corresponding select element based on the name attribute
             var selectElement = $('#tags');
-            selectElement.prepend('<option value="" selected disabled>Select Tags *</option>');
+            selectElement.prepend('<option value="" selected disabled>Select Tags</option>');
             $('#tags').on('change', function() {
                 // Remove the "Select Tags *" option if any other option is selected
                 if ($('#tags option:selected').length > 0) {
                     $('#tags option[value=""]').remove();
                 } else {
                     // Add the "Select Tags *" option back if no options are selected
-                    $('#tags').prepend('<option value="" selected disabled>Select Tags *</option>');
+                    $('#tags').prepend('<option value="" selected disabled>Select Tags</option>');
                 }
             });
 

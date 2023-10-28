@@ -1193,7 +1193,6 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-
         $columns_array = [
             "name" => $request->name,
             "last_name" => $request->last_name,
@@ -1278,7 +1277,6 @@ class GroupController extends Controller
         $contact_property_values_condition_headers_indexes = [
             "asking_price_header" => $request->asking_price_header
         ];
-
 
         $existing_group_id = '';
         $existing_group_id = $request->existing_group_id;
@@ -1586,7 +1584,6 @@ class GroupController extends Controller
                                         if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
                                             $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
                                         }
-
                                         if ($headerIndex == $header_index) {
                                             // Set the column value in the insert data
                                             $insertContactLeadData[$column] = $value;
@@ -1613,34 +1610,38 @@ class GroupController extends Controller
                                             $this->insertContactGoalReached($contact->id, $request->lead_status);
                                         }
 
-                                        // Get the currently associated tag IDs for the lead_info record
-                                        $currentTags = DB::table('lead_info_tags')
-                                        ->where('lead_info_id', $leadId)
-                                        ->pluck('tag_id')
-                                        ->toArray();
+                                        if ($selectedTags || !empty($selectedTags)) {
+                                            // Get the currently associated tag IDs for the lead_info record
+                                            $currentTags = DB::table('lead_info_tags')
+                                            ->where('lead_info_id', $leadId)
+                                            ->pluck('tag_id')
+                                            ->toArray();
 
-                                        // Calculate the tags to insert (exclude already associated tags)
-                                        $tagsToInsert = array_diff($selectedTags, $currentTags);
+                                            if ($selectedTags || !empty($selectedTags)) {
+                                                // Calculate the tags to insert (exclude already associated tags)
+                                                $tagsToInsert = array_diff($selectedTags, $currentTags);
 
-                                        // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
-                                        $tagsToDelete = array_diff($currentTags, $selectedTags);
+                                                // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+                                                $tagsToDelete = array_diff($currentTags, $selectedTags);
 
-                                        // Delete the tags that are not in $selectedTags or delete all if none are selected
-                                        if (!empty($tagsToDelete) || empty($selectedTags)) {
-                                            DB::table('lead_info_tags')
-                                                ->where('lead_info_id', $leadId)
-                                                ->whereIn('tag_id', $tagsToDelete)
-                                                ->delete();
-                                        }
+                                                // Delete the tags that are not in $selectedTags or delete all if none are selected
+                                                if (!empty($tagsToDelete) || empty($selectedTags)) {
+                                                    DB::table('lead_info_tags')
+                                                        ->where('lead_info_id', $leadId)
+                                                        ->whereIn('tag_id', $tagsToDelete)
+                                                        ->delete();
+                                                }
 
-                                        // Insert the new tags
-                                        if (!empty($tagsToInsert)) {
-                                            // Iterate through the selected tags and insert them into the lead_info_tags table
-                                            foreach ($tagsToInsert as $tagId) {
-                                                DB::table('lead_info_tags')->insert([
-                                                    'lead_info_id' => $leadId,
-                                                    'tag_id' => $tagId,
-                                                ]);
+                                                // Insert the new tags
+                                                if (!empty($tagsToInsert)) {
+                                                    // Iterate through the selected tags and insert them into the lead_info_tags table
+                                                    foreach ($tagsToInsert as $tagId) {
+                                                        DB::table('lead_info_tags')->insert([
+                                                            'lead_info_id' => $leadId,
+                                                            'tag_id' => $tagId,
+                                                        ]);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -2371,7 +2372,6 @@ class GroupController extends Controller
 
 
         $group = Group::with('contacts')->find($groupId);
-
 
         if (!$group) {
             return response()->json(['error' => 'Group not found!']);
