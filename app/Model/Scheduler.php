@@ -3,9 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Scheduler extends Model
+class Scheduler extends Model implements HasMedia
 {
+    use HasMediaTrait;
     protected $table = 'scheduler'; // table name
     protected $guarded = [];
     // protected $fillable = [

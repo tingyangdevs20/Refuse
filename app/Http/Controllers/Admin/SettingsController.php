@@ -351,6 +351,7 @@ class SettingsController extends Controller
         //     return redirect()->back();
         // }
 
+       // dd($request);
         $settings = $settings->find(1);
         $settings->auto_reply = $request->auto_reply ?? 0;
         $settings->auto_responder = $request->auto_respond ?? 0;
@@ -372,6 +373,10 @@ class SettingsController extends Controller
             $settings->sendgrid_key = $request->sendgrid_key ?? 0;
             if ($request->slybroad_call_url != '')
             $settings->slybroad_number = $request->slybroad_call_url ?? 0;
+            if ($request->slybroad_username != '')
+            $settings->slybroad_username = $request->slybroad_username ?? 0;
+            if ($request->slybroad_pass != '')
+            $settings->slybroad_pass = $request->slybroad_pass ?? 0;
 
         if ($request->twilio_acc_sid != '')
             $settings->twilio_acc_sid = $request->twilio_acc_sid ?? 0;

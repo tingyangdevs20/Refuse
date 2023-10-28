@@ -363,19 +363,6 @@ class CampaignListController extends Controller
                
 
                    
-                              
-                                // CampaignList::where('id', $request->tmpid)->update([
-                                //     'type' =>  $val,
-                                //     'send_after_days' => $request->send_after_days[$key],
-                                //     'send_after_hours' => $request->send_after_hours[$key],
-                                //     'schedule' => $sendAfter,
-                                //     'template_id' => $request->templat[$key],
-                                //     'mediaUrl' => $media,
-                                //     'body' => $bodytext,
-                                //     'subject' => $subject,
-                                //     'active' => 1, // Set active status
-                                //     // Add other fields for campaign details
-                                // ]);
                             
                         
                     
@@ -402,35 +389,59 @@ class CampaignListController extends Controller
 
     public function update(Request $request, CampaignList $campaignlist)
     {
-        //dd($campaignlist);
-        $request->validate([
-            //'name' => 'required|string|max:255',
-            'type' => 'required|in:email,sms,mms,rvm',
-            'send_after_days' => 'nullable|integer|min:0',
-            'send_after_hours' => 'nullable|integer|min:0',
-            //'group_id' => 'required|exists:groups,id', // Ensure group_id exists in the groups table
-            'active' => 'required|boolean', // Add validation for active status
-            // Add other validation rules for campaign details
-        ]);
 
-        // Calculate the send_after time
-        $sendAfter = null;
-        if ($request->send_after_days !== null && $request->send_after_hours !== null) {
-            $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
-        }
-        //return $sendAfter;
+       // dd($request);
+        $types = $request->type;
+        $send_after_days = $request->send_after_days;
+        $send_after_hours = $request->send_after_hours;
+        $templ_ate = $request->template;
+               
+        $campaign_id=$request->tmpid;
+        $body_text ="";
+        $bodytext='';
+        $subject='';
+        $media="";
+
+                $sendAfter = null;
+                if ($request->send_after_days !== null && $request->send_after_hours !== null) {
+                    $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
+                }
+                if ($types == 'rvm') 
+                {
+                    $media = $request->mediaUrl;
+                    $subject=$request->rvm;
+                    
+                } 
+                if ($types == 'mms') 
+                {
+                    $media = $request->media_file_mms;
+                    
+                } 
+               
+
+                $body_text = TemplateMessages::where('template_id', $request->template)->get();
+               
+                if(count($body_text)>0)
+                {
+                $bodytext=$body_text[0]->msg_content;
+                $subject=$body_text[0]->subject;
+                }
+        
         // Update the campaign
-        CampaignList::where('id', $request->id)->update([
+        CampaignList::where('id', $request->lstid)->update([
             'type' => $request->type,
             'send_after_days' => $request->send_after_days,
             'send_after_hours' => $request->send_after_hours,
             'schedule' => $sendAfter,
-            'template_id' => $request->template_id,
-            'active' => $request->active, // Set active status
+            'mediaUrl' => $media,
+            'template_id' => $request->template,
+            'body' => $bodytext,
+            'subject' => $subject,
+            'active' => 1, // Set active status
             // Add other fields for campaign details
         ]);
 
-        return redirect()->route('admin.campaign.show', $request->campaign_id)->with('success', 'Campaign list updated successfully.');
+        return redirect()->back();
     }
 
     public function deleteList($id='')

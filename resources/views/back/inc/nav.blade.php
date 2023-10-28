@@ -220,7 +220,7 @@
                         <li><a href="{{ route('admin.CommunicationSetting.index') }}"
                                 class="waves-effect">Communication Settings</a></li>
                         <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment
-                                Settings</a></li>
+                                </a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">General Settings</a>
                         </li>
                         @if (auth()->user()->can('dashboard') ||
@@ -259,18 +259,7 @@
                             <a href="{{ route('admin.templates.index') }}" class="waves-effect">
                                 Templates
                             </a>
-                            {{-- <ul class="submenu" aria-expanded="false">
-                                <li>
-                                    <a href="{{ route('admin.script.index') }}" class=" waves-effect">
-                                       Phone Scripts
-                                    </a>
-                                </li>
-                                <li><a href="{{ route('admin.template.index') }}" class="waves-effect">SMS/MMS
-                                        Templates</a>
-                                </li>
-                                <li><a href="{{ route('admin.formtemplates') }}" class="waves-effect">Digital Sign.
-                                        Templates</a></li>
-                            </ul> --}}
+                           
                         </li>
                         <li>
                             <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>
@@ -312,7 +301,7 @@
 
                         @endif
 
-                        <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Failed SMS</a></li>
+                        <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Activity</a></li>
 
                         <li style="display:none"><a href="{{ route('admin.category.index') }}"
                                 class=" waves-effect">Lead Categories</a></li>

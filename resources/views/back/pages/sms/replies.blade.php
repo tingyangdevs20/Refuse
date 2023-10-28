@@ -38,6 +38,17 @@
                                             @csrf
                                             @method('POST')
                                             <input type="hidden" name="number" value="{{ $smsInfo->number }}">
+                                            <label for="">Assign Lead Campaign:</label>
+                                            <select class="from-control" id="lead" name="lead_id" required>
+                                                <option value="">Select Lead Campaign</option>
+                                                @foreach ($leadCampaigns as $leadCamp)
+                                                    <option value="{{ $leadCamp->id }}">
+                                                        {{ $leadCamp->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button class="btn btn-success btn-sm" style="background-color:#556ee6;"
+                                                type="submit">Assign</button>
                                             <label for="">Lead Category:</label>
                                             <select class="from-control" id="lead" name="lead_id" required>
                                                 <option value="">Select Lead Category</option>
@@ -48,12 +59,12 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <button class="btn btn-success btn-sm" style="background-color:#556ee6;"
-                                                type="submit">Change</button>
+                                            
+                                            
                                         </form>
                                     @endif
                                     @if ($smsInfo != null)
-                                        <div style="margin-left:360px;margin-top: -24px;">
+                                        <div style="margin-left:760px;margin-top: -24px;">
                                             <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span>
                                             @if (strlen($number) > 0)
                                                 <span style="margin-left:5px;">{{ $number->number }}</span>
@@ -97,7 +108,7 @@
                                                     @foreach ($conversations as $conversation)
                                                         <li>
                                                             <div class="conversation-list">
-                                                                <div class="ctext-wrap'text-primary">
+                                                                <div class="ctext-wrap {{ $reply->system_reply?'text-primary':'text-success' }}">
 
                                                                     @if ($conversation->is_read == 0)
                                                                         <p style="font-size: larger;font-weight:bold">

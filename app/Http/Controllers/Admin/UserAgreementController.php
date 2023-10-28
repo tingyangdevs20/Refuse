@@ -59,6 +59,7 @@ class UserAgreementController extends Controller
      * @return void
      * @author Bhavesh Vyas
      */
+
     public function store(Request $request)
     {
         $rules = [
@@ -217,6 +218,179 @@ class UserAgreementController extends Controller
         ];
 
         return response()->json($response, 200);
+    }
+
+    public function pdf(Request $request){
+        return $request->all();
+        $rules = [
+            'content'     => ['required'],
+        ];
+
+        $message = [
+            'template_id.required'    => "This field is required!",
+            'agreement_date.required' => "This field is required!",
+            'content.required'        => "This field is required!",
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $message);
+        $contact_id = $request->contact_id;
+        
+
+        $columns_with_user = [];
+        
+        $selle_name = Contact::find($contact_id);
+        $lead = DB::table('lead_info')->where('contact_id', $contact_id)->first(['mail_to_owner1', 'mail_to_owner2', 'mail_to_owner3', 'owner1_email1', 'owner1_email2', 'owner2_email1', 'owner2_email2', 'owner3_email1', 'owner3_email2' ]);
+
+        if($lead->mail_to_owner1){
+            
+            if(empty($lead->owner1_email1) && empty($lead->owner1_email2)){
+            
+                $rules = [
+                    "Contact_1_Email" => ['required'],
+                    
+                ];
+                
+            } 
+        }
+        if($lead->mail_to_owner2){
+            if(empty($lead->owner2_email1) && empty($lead->owner2_email2)){
+            
+                $rules = [
+                    "Contact_2_Email" => ['required'],
+                    
+                ];
+    
+            } 
+        }
+        if($lead->mail_to_owner3){
+            if(empty($lead->owner3_email1) && empty($lead->owner3_email2)){
+            
+                $rules = [
+                    "Contact_3_Email" => ['required'],
+                    
+                ];
+    
+            } 
+        }
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            $response = [
+                'success' => false,
+                'errors'  => $validator->errors()->toArray(),
+            ];
+            return response()->json($response, 400);
+        }
+        $pattern = '/\{([^}]+)\}/';
+        preg_match_all($pattern, $request->content, $matches);
+        $emptyColumns = [];
+        // $matches[1] will contain the words or substrings
+        $wordsInCurlyBraces = $matches[1];
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'contacts', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'lead_info', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'property_infos', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'settings', $contact_id);
+        $emptyColumns[] = $this->fetch_empty_columns($wordsInCurlyBraces, 'title_company', $contact_id);
+        $emptyColumns = array_unique(array_filter($emptyColumns));
+        
+        if(!empty($emptyColumns)){
+            foreach($emptyColumns as $col){
+                $columns_with_user[$selle_name->name] = $col;
+                
+            }
+        }
+        
+        if( !empty($columns_with_user)) {
+            return response()->json(["success" => false , "errors" => $columns_with_user], 400);
+        }
+        
+        $replaceSignature = "";
+        $new_array = [];
+            $contacts = DB::table('contacts')->where('id', $contact_id)->first(['name','last_name','street','city','state','zip','number','number2','number3','number3','email1','email2']);
+            if(!empty($contacts)){
+                foreach($contacts as $key => $contact){
+                    $new_array['{'.$key.'}'] = $contact;
+                }
+            }
+
+            $leadinfo1 = DB::table('lead_info')->where('contact_id', $contact_id)->first();
+            if ($leadinfo1) {
+                // The query returned a valid result, so you can access its properties safely
+                if ($leadinfo1->owner1_first_name || $leadinfo1->owner1_last_name) {
+                    DB::table('lead_info')->where('contact_id', $contact_id)->update([
+                        'user_1_name' => $leadinfo1->owner1_first_name . ' ' . $leadinfo1->owner1_last_name,
+                    ]);
+                }
+                if ($leadinfo1->owner2_first_name || $leadinfo1->owner2_last_name) {
+                    DB::table('lead_info')->where('contact_id', $contact_id)->update([
+                        'user_2_name' => $leadinfo1->owner2_first_name . ' ' . $leadinfo1->owner2_last_name,
+                        
+                    ]); 
+                }
+                if ($leadinfo1->owner3_first_name || $leadinfo1->owner3_last_name) {
+                    DB::table('lead_info')->where('contact_id', $contact_id)->update([
+                        'user_3_name' => $leadinfo1->owner3_first_name . ' ' . $leadinfo1->owner3_last_name,
+                    ]);
+                
+                }
+            }
+            $leadinfo = DB::table('lead_info')->where('contact_id', $contact_id)->first(['owner1_first_name','owner1_last_name','owner1_primary_number','owner1_number2','owner1_number3','owner1_email1','owner1_email2','owner1_dob','owner1_mother_name','owner2_first_name','owner2_last_name','owner2_primary_number','owner2_number2','owner2_number3','owner2_email1','owner2_email2','owner2_social_security','owner2_dob','owner2_mother_name','owner3_first_name','owner3_last_name','owner3_primary_number','owner3_number2','owner3_number3','owner3_email1','owner3_email2','owner3_social_security','owner3_dob','owner3_mother_name', 'user_1_name', 'user_1_signature', 'user_2_name', 'user_2_signature', 'user_3_name', 'user_3_signature']);
+            if(!empty($leadinfo)){
+                foreach($leadinfo as $key => $lead){
+                    $new_array['{'.$key.'}'] = $lead;
+                }
+            }
+
+
+            $property_infos = DB::table('property_infos')->where('contact_id', $contact_id)->first(['property_address','property_city','property_state','property_zip','map_link','zillow_link']);
+            if(!empty($property_infos) ){
+                foreach($property_infos as $key => $property){
+                    $new_array['{'.$key.'}'] = $property;
+                }
+            }
+
+            $users = DB::table('users')->first(["name", "email", "mobile", "company_name" , "address", "street", "state", "city", "zip"]);
+            if(!empty($users) ){
+                foreach($users as $key => $user){
+                    $new_array['{user_'.$key.'}'] = $user;
+                }
+            }
+
+           // $new_array['{auth_email}'] =  Auth::id();
+            $settings = DB::table('settings')->where('id', '1')->first(["auth_email","auth_name", "document_closed_by"]);
+            if(!empty($settings) ){
+                foreach($settings as $key => $setting){
+                    $new_array['{'.$key.'}'] = $setting;
+                }
+            }
+            //$new_array['{auth_email}'] = $settings->auth_email;
+            $title_company = DB::table('title_company')->where('contact_id', $contact_id)->first(["buy_sell_entity_detail"]);
+            if(!empty($title_company) ){
+                foreach($title_company as $key => $title){
+                    $new_array['{'.$key.'}'] = $title;
+                }
+            }
+
+            
+
+            $agreementDirectory = "agreement_pdf";
+            $pdfPath            = public_path($agreementDirectory);
+            makeDir($pdfPath, true);
+
+            //$userAgreement_update_pdf = UserAgreement::find($userAgreementId);
+            $content       = stripslashes($request->content);
+            $content       = str_replace("{SIGNATURE_USER}", "", $content);
+            if(!empty($new_array) && !empty($content)){
+                $find = array_keys($new_array);
+                $replace = array_values($new_array);
+                $content = str_replace($find, $replace, $content);
+            }
+            $pdf           = app('dompdf.wrapper');
+            $pdf->getDomPDF()->set_option("enable_php", true);
+            $pdf->loadView('agreement.pdf', compact('content', 'pdf'));
+            $fileName = getUniqueFileName() . ".pdf";
+            $pdf->save($pdfPath . '/' . $fileName);
+            return response()->json(["success" => true ,$pdf], 200);         
+           
     }
 
     public function fetch_empty_columns($columnPattern, $table, $sellerId){
