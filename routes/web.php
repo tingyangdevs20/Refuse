@@ -338,7 +338,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::resource('settings', 'Admin\SettingsController');
     Route::post('settings/appointment-calendar-settings', 'Admin\SettingsController@updateAppointmentCalendarSettings')->name('admin.appointment.calendar-settings.update');
     Route::get('marketing-spend', 'Admin\SettingsController@marketingSpend')->name('settings.marketing-spend');
-    Route::post('marketing-spend/update', 'Admin\SettingsController@updateMarketingSpend')->name('marketing-spend.update');
+    Route::put('marketing-spend/update', 'Admin\SettingsController@updateMarketingSpend')->name('marketing-spend.update');
+    Route::post('marketing-spend/store', 'Admin\SettingsController@storeMarketingSpend')->name('marketing-spend.store');
+    Route::delete('marketing-spend/destroy', 'Admin\SettingsController@destroyMarketingSpend')->name('marketing-spend.destroy');
 
     Route::resource('script', 'Admin\ScriptController');
     Route::resource('adminsettings', 'Admin\AdminSettingsController');

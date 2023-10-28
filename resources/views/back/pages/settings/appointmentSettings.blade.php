@@ -8,9 +8,10 @@
         }
 
         /* Add horizontal scrolling for the table on smaller screens */
-        /* .table {
-                            white-space: nowrap;
-                        } */
+            /* .table {
+                white-space: nowrap;
+            }
+        */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -33,7 +34,6 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Settings</h4>
-                       
                     </div>
 
                     <div class="card">
@@ -44,9 +44,8 @@
                         <div class="card-body">
                             <form action="{{ url('admin/settings/appointment-calendar-settings') }}" method="post"
                                 enctype="multipart/form-data">
+
                                 @csrf
-
-
                                 <div class="form-group">
                                     <label>Timezone</label>
                                     <div class="input-group mb-2">

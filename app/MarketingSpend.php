@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MarketingSpend extends Model
 {
-    protected $fillable = ['lead_source', 'user_id', 'date', 'amount'];
+    protected $fillable = ['lead_source', 'user_id', 'daterange', 'amount'];
     // Belongs to a user
     public function user()
     {
