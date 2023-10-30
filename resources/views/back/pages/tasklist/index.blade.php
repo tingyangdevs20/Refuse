@@ -112,11 +112,7 @@
                                                     <!-- <th>Assigned To</th> -->
                                                     <!-- <th>Status</th> -->
                                                     <th>Action</th>
-<<<<<<< HEAD
                                                     {{-- <th width="8%">Drag</th> <!-- New drag handle column --> --}}
-=======
-                                                    <th width="8%" style="display:none">Drag</th> <!-- New drag handle column -->
->>>>>>> 804ddb137b8b40a04ab837554260829b329c778d
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -143,11 +139,7 @@
                                                                 title="Edit Task"><i class="fas fa-edit"></i></button>
                                                         <!-- @endif -->
                                                         </td>
-<<<<<<< HEAD
                                                         {{-- <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td> --}}
-=======
-                                                        <td style="display:none" class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
->>>>>>> 804ddb137b8b40a04ab837554260829b329c778d
                                                         <!-- Drag handle icon -->
                                                     </tr>
                                                 @endforeach

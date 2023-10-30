@@ -197,7 +197,7 @@
                     </li>
                 @endif
 
-                <li style="display:none">
+                <li>
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
                         <i class="fa fa-user"></i>
                         <span>Administrative Settings</span>
@@ -240,14 +240,10 @@
                                     @if (auth()->user()->can('dashboard') ||
                                             auth()->user()->can('administrator') ||
                                             auth()->user()->can('roles_module'))
-
                                             <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
                                     @endif
-
-
                                 </ul>
                             </li>
-
                         @endif
                         <li><a href="{{ route('admin.settings.marketing-spend') }}" class=" waves-effect">Marketing Spend</a>
                         </li>
@@ -259,7 +255,6 @@
                             <a href="{{ route('admin.templates.index') }}" class="waves-effect">
                                 Templates
                             </a>
-
                         </li>
                         <li>
                             <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>

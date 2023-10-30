@@ -16,7 +16,6 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Permission Management</h4>
-                      
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -31,7 +30,6 @@
                                     <label for="name">Role Name</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter a Role Name">
                                 </div>
-
                                 <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save Role</button>
                             </form>
                         </div>

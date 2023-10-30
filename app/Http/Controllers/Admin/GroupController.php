@@ -2223,9 +2223,6 @@ class GroupController extends Controller
         $contactsWithoutEmailsVerified = 0;
 
         foreach ($contacts as $contact) {
-            $contactRecords = [$contact->number, $contact->number2, $contact->number3];
-
-            $contactRecordsEmails = [$contact->email1, $contact->email2];
 
             $contactRecordNames = [$contact->name, $contact->last_name];
 
@@ -2233,31 +2230,45 @@ class GroupController extends Controller
 
             $hasEmail = false;
 
-            foreach ($contactRecords as $record) {
-                // Check if the record contains more than 6 digits or characters
-                if (strlen(preg_replace('/[^0-9]/', '', $record)) > 6) {
-                    $hasNumber = true;
-                    break; // No need to continue checking if one field has a number
+            // Access the leadInfo relation and its properties
+            $leadInfo = $contact->leadInfo;
+
+            if ($leadInfo) {
+                $contactRecords = [
+                    $leadInfo->owner1_primary_number,
+                    $leadInfo->owner1_number2,
+                    $leadInfo->owner1_number3
+                ];
+
+                $contactRecordsEmails = [$leadInfo->owner1_email1, $leadInfo->owner1_email2];
+
+                // Check if any of the records contains more than 6 digits
+                foreach ($contactRecords as $record) {
+                    // Check if the record contains more than 6 digits or characters
+                    if (strlen(preg_replace('/[^0-9]/', '', $record)) > 6) {
+                        $hasNumber = true;
+                        break; // No need to continue checking if one field has a number
+                    }
                 }
-            }
 
-            if ($hasNumber) {
-                $contactsWithNumbers++;
-            } else {
-                $contactsWithoutNumbers++;
-            }
-
-            foreach ($contactRecordsEmails as $email) {
-                if (!empty($email)) {
-                    $hasEmail = true;
-                    break; // No need to continue checking if one field has an email
+                if ($hasNumber) {
+                    $contactsWithNumbers++;
+                } else {
+                    $contactsWithoutNumbers++;
                 }
-            }
 
-            if ($hasEmail) {
-                $contactsWithEmails++;
-            } else {
-                $contactsWithoutEmails++;
+                foreach ($contactRecordsEmails as $email) {
+                    if (!empty($email)) {
+                        $hasEmail = true;
+                        break; // No need to continue checking if one field has an email
+                    }
+                }
+
+                if ($hasEmail) {
+                    $contactsWithEmails++;
+                } else {
+                    $contactsWithoutEmails++;
+                }
             }
 
             // Check if both first name and last name are empty
@@ -2280,11 +2291,15 @@ class GroupController extends Controller
             $contactIdsWithPhonesScrubbed = [];
 
             foreach ($contacts as $contact) {
-                // Check if any of the contact's numbers are in $phonesScrubbed
-                if (in_array($contact->number, $phonesScrubbed) ||
-                    in_array($contact->number2, $phonesScrubbed) ||
-                    in_array($contact->number3, $phonesScrubbed)) {
-                    $contactIdsWithPhonesScrubbed[] = $contact->id;
+                // Access the leadInfo relation and its properties
+                $leadInfo = $contact->leadInfo;
+                if ($leadInfo) {
+                    // Check if any of the contact's numbers are in $phonesScrubbed
+                    if (in_array($leadInfo->owner1_primary_number, $phonesScrubbed) ||
+                        in_array($leadInfo->owner1_number2, $phonesScrubbed) ||
+                        in_array($leadInfo->owner1_number3, $phonesScrubbed)) {
+                        $contactIdsWithPhonesScrubbed[] = $contact->id;
+                    }
                 }
             }
 
@@ -2311,9 +2326,14 @@ class GroupController extends Controller
             $contactIdsWithEmailsVerified = [];
 
             foreach ($contacts as $contact) {
-                // Check if any of the contact's emails are in $emailsVerified
-                if (in_array($contact->email1, $emailsVerified) || in_array($contact->email2, $emailsVerified)) {
-                    $contactIdsWithEmailsVerified[] = $contact->id;
+                // Access the leadInfo relation and its properties
+                $leadInfo = $contact->leadInfo;
+
+                if ($leadInfo) {
+                    // Check if any of the contact's emails are in $emailsVerified
+                    if (in_array($leadInfo->owner1_email1, $emailsVerified) || in_array($leadInfo->owner1_email2, $emailsVerified)) {
+                        $contactIdsWithEmailsVerified[] = $contact->id;
+                    }
                 }
             }
 
@@ -2375,9 +2395,11 @@ class GroupController extends Controller
         $groupContacts = $group->contacts;
 
         // Remove duplicates based on both 'email' and 'number' attributes
-        $uniqueContacts = $groupContacts->unique(function ($contact) {
-            return $contact->email1 . '|' . $contact->number;
-        });
+        // $uniqueContacts = $groupContacts->unique(function ($contact) {
+        //     return $contact->email1 . '|' . $contact->number;
+        // });
+
+        $uniqueContacts = $groupContacts;
 
         $skipTraceRate = null;
         Session::put('record_detail', [
