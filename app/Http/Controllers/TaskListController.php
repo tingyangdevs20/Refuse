@@ -18,7 +18,6 @@ class TaskListController extends Controller
      */
     public function index()
     {
-
         if (Gate::allows('user_module') || Gate::allows('administrator')) {
             $users = User::all();
             // $tasks = TaskList::all();

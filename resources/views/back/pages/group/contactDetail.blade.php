@@ -1054,7 +1054,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Email 1" name="owner1_email1"
                                                                                 table="lead_info"
-                                                                                value="{{ $leadinfo->mailing_state == '' ? '' : $leadinfo->mailing_state }}">
+                                                                                value="{{ $leadinfo->owner1_email1 == '' ? '' : $leadinfo->owner1_email1 }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1065,7 +1065,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 placeholder="Email 2" name="owner1_email2"
                                                                                 table="lead_info"
-                                                                                value="{{ $leadinfo->mailing_state == '' ? '' : $leadinfo->mailing_state }}">
+                                                                                value="{{ $leadinfo->owner1_email2 == '' ? '' : $leadinfo->owner1_email2 }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -5803,10 +5803,10 @@
                                                                             class="btn btn-primary button-item saveUserAgreementContact">Send for digital signature</button>
                                                                         <button type="button"
                                                                         class="btn btn-primary button-item savePdf">Save Pdf</button>
-                                                                    
+
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                             </div>
                                                         </div>
 

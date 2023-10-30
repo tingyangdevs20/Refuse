@@ -33,4 +33,10 @@ class Contact extends Model implements HasMedia
         return $this->hasOne(LeadInfo::class);
     }
 
+    // In the Contact model
+    public function propertyInfo()
+    {
+        return $this->hasOne(PropertyInfo::class);
+    }
+
 }

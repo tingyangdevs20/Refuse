@@ -235,7 +235,7 @@
                                     @if (auth()->user()->can('dashboard') ||
                                             auth()->user()->can('administrator') ||
                                             auth()->user()->can('user_module'))
-                                            <li><a href="{{ route('admin.task-list.index') }}">Tasks List</a></li>
+                                            <li><a href="{{ route('admin.task-list.index') }}">Task Lists</a></li>
                                     @endif
                                     @if (auth()->user()->can('dashboard') ||
                                             auth()->user()->can('administrator') ||
@@ -259,7 +259,7 @@
                             <a href="{{ route('admin.templates.index') }}" class="waves-effect">
                                 Templates
                             </a>
-                           
+
                         </li>
                         <li>
                             <a href="{{ route('admin.list-management') }}" class="waves-effect">List Management</a>

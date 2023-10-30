@@ -7,7 +7,7 @@
     <style>
         /* Ensure the table takes the full width of its container */
         .table-responsive {
-            overflow-x: auto;            
+            overflow-x: auto;
         }
         .table-task-list{
             text-align: center;
@@ -25,7 +25,7 @@
                 font-size: 12px;
             }
         }
-        
+
         .active-status {
             background-color: lightgreen;
             border-radius: 5px;
@@ -57,13 +57,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 font-size-18">Task List</h4>
-                      
+                        <h4 class="mb-0 font-size-18">Task Lists</h4>
+
                     </div>
                     @include('back.pages.partials.messages')
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
-                            Task List
+                            Task Lists
                             <button id="add-task-button" class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
                                 data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
                             @include('components.modalform')
@@ -74,7 +74,7 @@
 
                                 <div class="card-body">
                                     <div id="task-list-container">
-                                        
+
                                     <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
                                             @csrf
                                             <div class="row">
@@ -97,7 +97,7 @@
                                                             auth()->user()->can('user_task_create'))
                                                         <button type="submit" class="btn btn-danger"
                                                             id="delete-selected-button" style="display: none">Delete
-                                                            Task</button>
+                                                            List</button>
                                                     @endif
                                                 </div>
                                             </div>
@@ -112,7 +112,11 @@
                                                     <!-- <th>Assigned To</th> -->
                                                     <!-- <th>Status</th> -->
                                                     <th>Action</th>
+<<<<<<< HEAD
+                                                    {{-- <th width="8%">Drag</th> <!-- New drag handle column --> --}}
+=======
                                                     <th width="8%" style="display:none">Drag</th> <!-- New drag handle column -->
+>>>>>>> 804ddb137b8b40a04ab837554260829b329c778d
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -139,7 +143,11 @@
                                                                 title="Edit Task"><i class="fas fa-edit"></i></button>
                                                         <!-- @endif -->
                                                         </td>
+<<<<<<< HEAD
+                                                        {{-- <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td> --}}
+=======
                                                         <td style="display:none" class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
+>>>>>>> 804ddb137b8b40a04ab837554260829b329c778d
                                                         <!-- Drag handle icon -->
                                                     </tr>
                                                 @endforeach
@@ -159,7 +167,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Task Form</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add Task List</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -169,8 +177,8 @@
                                 @csrf
                                 @method('POST')
                                 <div class="form-group">
-                                    <label for="task">Task</label>
-                                    <input type="text" name="task" id="task" class="form-control">
+                                    <label for="task">Task List Name</label>
+                                    <input type="text" placeholder="Task List Name" name="task" id="task" class="form-control">
                                 </div>
                                 <!-- <div class="form-group">
                                     <label for="task">Description</label>
