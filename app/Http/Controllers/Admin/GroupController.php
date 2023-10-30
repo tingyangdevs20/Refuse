@@ -68,19 +68,29 @@ class GroupController extends Controller
             $groups = Group::with('contacts')->get()->sortByDesc("created_at");
 
             $groupCounts = $groups->map(function ($group) {
-                $totalColumns = 0;
                 $filledColumns = 0;
+                $totalColumns = 0;
 
                 foreach ($group->contacts as $contact) {
-                    $contactRecords = [$contact->number, $contact->number2, $contact->number3];
+                    // Access the leadInfo relation and its properties
+                    $leadInfo = $contact->leadInfo;
 
-                    foreach ($contactRecords as $record) {
-                        // Check if the record contains more than 6 digits or characters
-                        if (strlen(preg_replace('/[^0-9]/', '', $record)) > 6) {
-                            $filledColumns += 1;
+                    if ($leadInfo) {
+                        $contactRecords = [
+                            $leadInfo->owner1_primary_number,
+                            $leadInfo->owner1_number2,
+                            $leadInfo->owner1_number3
+                        ];
+
+                        // Check if any of the records contains more than 6 digits
+                        foreach ($contactRecords as $record) {
+                            if (strlen(preg_replace('/[^0-9]/', '', $record)) > 6) {
+                                $filledColumns += 1;
+                                break; // Exit the loop if any record is valid
+                            }
                         }
-                        $totalColumns += 1;
                     }
+                    $totalColumns += 1;
                 }
 
                 if ($totalColumns > 0) {
@@ -88,6 +98,8 @@ class GroupController extends Controller
                 } else {
                     $percentage = 0;
                 }
+
+                // Now $percentage contains the percentage of contacts with phone numbers in leadInfo relation.
 
                 return [
                     'group_name' => $group->name, // Replace 'name' with the actual group name attribute
@@ -1174,7 +1186,7 @@ class GroupController extends Controller
     //                     Contact::create($insertData);
     //                 }
     //             }
-    //             Alert::success('Success!', 'Group Created!');
+    //             Alert::success('Success!', 'List Created!');
     //         } else {
     //             Alert::error('Oops!', 'File too large. File must be less than 2MB');
     //         }
@@ -1196,27 +1208,11 @@ class GroupController extends Controller
         $columns_array = [
             "name" => $request->name,
             "last_name" => $request->last_name,
-            "street" => $request->street,
-            "city" => $request->city,
-            "state" => $request->state,
-            "zip" => $request->zip,
-            "number" => $request->number,
-            "number2" => $request->number2,
-            "email1" => $request->email1,
-            "email2" => $request->email2
         ];
 
         $headers_indexes = [
             "name_header" =>  $request->name_header,
             "last_name_header" =>  $request->last_name_header,
-            "street_header" =>  $request->street_header,
-            "city_header" =>  $request->city_header,
-            "state_header" =>  $request->state_header,
-            "zip_header" =>  $request->zip_header,
-            "number_header" =>  $request->number_header,
-            "number2_header" =>  $request->number2_header,
-            "email1_header" =>  $request->email1_header,
-            "email2_header" =>  $request->email2_header
         ];
 
         $contact_property_info_columns_array = [
@@ -1248,6 +1244,11 @@ class GroupController extends Controller
         ];
 
         $contact_lead_info_columns_array = [
+            "owner1_primary_number" => $request->owner1_primary_number,
+            "owner1_number2" => $request->owner1_number2,
+            "owner1_number3" => $request->owner1_number3,
+            "owner1_email1" => $request->owner1_email1,
+            "owner1_email2" => $request->owner1_email2,
             "mailing_address" => $request->mailing_address,
             "mailing_city" => $request->mailing_city,
             "mailing_zip" => $request->mailing_zip,
@@ -1255,6 +1256,11 @@ class GroupController extends Controller
         ];
 
         $contact_lead_info_headers_indexes = [
+            "owner1_primary_number_header" => $request->owner1_primary_number_header,
+            "owner1_number2_header" => $request->owner1_number2_header,
+            "owner1_number3_header" => $request->owner1_number3_header,
+            "owner1_email1_header" => $request->owner1_email1_header,
+            "owner1_email2_header" => $request->owner1_email2_header,
             "mailing_address_header" =>  $request->mailing_address_header,
             "mailing_city_header" =>  $request->mailing_city_header,
             "mailing_zip_header" =>  $request->mailing_zip_header,
@@ -1489,24 +1495,10 @@ class GroupController extends Controller
                     if ($group_id != '') {
                         $checkContact = Contact::where('number', '+1' . preg_replace('/[^0-9]/', '', $importData[5]))->where('group_id', $group_id)->first();
                         if ($checkContact == null) {
+
                             $insertData = [
                                 "group_id" => $group_id,
                             ];
-                            // $insertData1 = array(
-                            //     "group_id" => $group_id,
-                            //     "name" => $importData[0],
-                            //     "last_name" => $importData[1],
-                            //     "street" => $importData[2],
-                            //     "city" => $importData[3],
-                            //     "state" => $importData[4],
-                            //     "zip" => $importData[5],
-                            //     "number" => '+1' . preg_replace('/[^0-9]/', '', $importData[6]),
-                            //     "number2" => '+1' . preg_replace('/[^0-9]/', '', $importData[7]),
-                            //     "number3" => '+1' . preg_replace('/[^0-9]/', '', $importData[8]),
-                            //     "email1" => $importData[9],
-                            //     "email2" => $importData[10]
-                            // );
-                            // Contact::create($insertData1);
 
                             // Iterate through the imported data and map it to the corresponding column
                             foreach ($importData as $headerIndex => $value) {
@@ -1570,8 +1562,9 @@ class GroupController extends Controller
                                     "contact_id" => $contact->id,
                                     "lead_status" => $request->lead_status,
                                     "lead_source" => $request->lead_source,
-                                    "lead_type" => $request->lead_type
+                                    "lead_type" => $request->lead_type,
                                 ];
+
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
 
@@ -1584,127 +1577,128 @@ class GroupController extends Controller
                                         if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
                                             $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
                                         }
+
                                         if ($headerIndex == $header_index) {
                                             // Set the column value in the insert data
                                             $insertContactLeadData[$column] = $value;
                                         }
                                     }
+                                }
 
-                                    // Insert the data into the Contact table
-                                    $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
-                                    if ($lead_info == null) {
-                                        // $lead = DB::table('lead_info')->insert($insertContactLeadData);
-                                        $leadData = $insertContactLeadData; // Assuming $insertContactLeadData is an array of data to be inserted
-                                        $leadId = DB::table('lead_info')->insertGetId($leadData);
+                                // Insert the data into the Contact table
+                                $lead_info = DB::table('lead_info')->where('contact_id', $contact->id)->first();
+                                if ($lead_info == null) {
+                                    // $lead = DB::table('lead_info')->insert($insertContactLeadData);
+                                    $leadData = $insertContactLeadData; // Assuming $insertContactLeadData is an array of data to be inserted
+                                    $leadId = DB::table('lead_info')->insertGetId($leadData);
 
-                                        $leadStatus = [
-                                            'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
-                                            'Phone Call - Scheduled', 'Phone Call - Completed',
-                                            'Phone Call - No Show', 'Phone Call - Said No',
-                                            'Contract Out - Buy Side', 'Contracts Out - Sell Side',
-                                            'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
-                                            'Closed Deal - Buy Side', 'Prospect'
-                                        ];
+                                    $leadStatus = [
+                                        'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
+                                        'Phone Call - Scheduled', 'Phone Call - Completed',
+                                        'Phone Call - No Show', 'Phone Call - Said No',
+                                        'Contract Out - Buy Side', 'Contracts Out - Sell Side',
+                                        'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
+                                        'Closed Deal - Buy Side', 'Prospect'
+                                    ];
 
-                                        if (in_array($request->lead_status, $leadStatus)) {
-                                            $this->insertContactGoalReached($contact->id, $request->lead_status);
-                                        }
+                                    if (in_array($request->lead_status, $leadStatus)) {
+                                        $this->insertContactGoalReached($contact->id, $request->lead_status);
+                                    }
+
+                                    if ($selectedTags || !empty($selectedTags)) {
+                                        // Get the currently associated tag IDs for the lead_info record
+                                        $currentTags = DB::table('lead_info_tags')
+                                        ->where('lead_info_id', $leadId)
+                                        ->pluck('tag_id')
+                                        ->toArray();
 
                                         if ($selectedTags || !empty($selectedTags)) {
-                                            // Get the currently associated tag IDs for the lead_info record
-                                            $currentTags = DB::table('lead_info_tags')
-                                            ->where('lead_info_id', $leadId)
-                                            ->pluck('tag_id')
-                                            ->toArray();
+                                            // Calculate the tags to insert (exclude already associated tags)
+                                            $tagsToInsert = array_diff($selectedTags, $currentTags);
 
-                                            if ($selectedTags || !empty($selectedTags)) {
-                                                // Calculate the tags to insert (exclude already associated tags)
-                                                $tagsToInsert = array_diff($selectedTags, $currentTags);
+                                            // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
+                                            $tagsToDelete = array_diff($currentTags, $selectedTags);
 
-                                                // Calculate the tags to delete (tags in $currentTags but not in $selectedTags)
-                                                $tagsToDelete = array_diff($currentTags, $selectedTags);
+                                            // Delete the tags that are not in $selectedTags or delete all if none are selected
+                                            if (!empty($tagsToDelete) || empty($selectedTags)) {
+                                                DB::table('lead_info_tags')
+                                                    ->where('lead_info_id', $leadId)
+                                                    ->whereIn('tag_id', $tagsToDelete)
+                                                    ->delete();
+                                            }
 
-                                                // Delete the tags that are not in $selectedTags or delete all if none are selected
-                                                if (!empty($tagsToDelete) || empty($selectedTags)) {
-                                                    DB::table('lead_info_tags')
-                                                        ->where('lead_info_id', $leadId)
-                                                        ->whereIn('tag_id', $tagsToDelete)
-                                                        ->delete();
-                                                }
-
-                                                // Insert the new tags
-                                                if (!empty($tagsToInsert)) {
-                                                    // Iterate through the selected tags and insert them into the lead_info_tags table
-                                                    foreach ($tagsToInsert as $tagId) {
-                                                        DB::table('lead_info_tags')->insert([
-                                                            'lead_info_id' => $leadId,
-                                                            'tag_id' => $tagId,
-                                                        ]);
-                                                    }
+                                            // Insert the new tags
+                                            if (!empty($tagsToInsert)) {
+                                                // Iterate through the selected tags and insert them into the lead_info_tags table
+                                                foreach ($tagsToInsert as $tagId) {
+                                                    DB::table('lead_info_tags')->insert([
+                                                        'lead_info_id' => $leadId,
+                                                        'tag_id' => $tagId,
+                                                    ]);
                                                 }
                                             }
                                         }
                                     }
+                                }
 
-                                    // Save contact Finance info
-                                    $insertContactFinanceData = [
-                                        "contact_id" => $contact->id,
-                                    ];
-                                    // Iterate through the imported data and map it to the corresponding column
-                                    foreach ($importData as $headerIndex => $value) {
+                                // Save contact Finance info
+                                $insertContactFinanceData = [
+                                    "contact_id" => $contact->id,
+                                ];
+                                // Iterate through the imported data and map it to the corresponding column
+                                foreach ($importData as $headerIndex => $value) {
 
-                                        // Check if the header index is mapped to a column
-                                        if (isset($contactFinanceInfoColumnToHeader[$headerIndex])) {
-                                            $column = $contactFinanceInfoColumnToHeader[$headerIndex];
-                                            $header_index = $column . '_header';
+                                    // Check if the header index is mapped to a column
+                                    if (isset($contactFinanceInfoColumnToHeader[$headerIndex])) {
+                                        $column = $contactFinanceInfoColumnToHeader[$headerIndex];
+                                        $header_index = $column . '_header';
 
-                                            // Check if this column has header too
-                                            if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index])) {
-                                                $header_index = $contactFinanceInfoColumnToHeaderIndex[$header_index];
-                                            }
+                                        // Check if this column has header too
+                                        if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index])) {
+                                            $header_index = $contactFinanceInfoColumnToHeaderIndex[$header_index];
+                                        }
 
-                                            if ($headerIndex == $header_index) {
-                                                // Set the column value in the insert data
-                                                $insertContactFinanceData[$column] = $value;
-                                            }
+                                        if ($headerIndex == $header_index) {
+                                            // Set the column value in the insert data
+                                            $insertContactFinanceData[$column] = $value;
                                         }
                                     }
+                                }
 
-                                    // Insert the data into the Contact table
-                                    $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $contact->id)->first();
-                                    if ($property_finance_infos == null) {
-                                        DB::table('property_finance_infos')->insert($insertContactFinanceData);
-                                    }
+                                // Insert the data into the Contact table
+                                $property_finance_infos = DB::table('property_finance_infos')->where('contact_id', $contact->id)->first();
+                                if ($property_finance_infos == null) {
+                                    DB::table('property_finance_infos')->insert($insertContactFinanceData);
+                                }
 
-                                    // Save contact Value and condition info
-                                    $insertContactValuesConditionData = [
-                                        "contact_id" => $contact->id,
-                                    ];
-                                    // Iterate through the imported data and map it to the corresponding column
-                                    foreach ($importData as $headerIndex => $value) {
+                                // Save contact Value and condition info
+                                $insertContactValuesConditionData = [
+                                    "contact_id" => $contact->id,
+                                ];
+                                // Iterate through the imported data and map it to the corresponding column
+                                foreach ($importData as $headerIndex => $value) {
 
-                                        // Check if the header index is mapped to a column
-                                        if (isset($contactValuesConditionColumnToHeader[$headerIndex])) {
-                                            $column = $contactValuesConditionColumnToHeader[$headerIndex];
-                                            $header_index = $column . '_header';
+                                    // Check if the header index is mapped to a column
+                                    if (isset($contactValuesConditionColumnToHeader[$headerIndex])) {
+                                        $column = $contactValuesConditionColumnToHeader[$headerIndex];
+                                        $header_index = $column . '_header';
 
-                                            // Check if this column has header too
-                                            if (isset($contactValuesConditionColumnToHeaderIndex[$header_index])) {
-                                                $header_index = $contactValuesConditionColumnToHeaderIndex[$header_index];
-                                            }
+                                        // Check if this column has header too
+                                        if (isset($contactValuesConditionColumnToHeaderIndex[$header_index])) {
+                                            $header_index = $contactValuesConditionColumnToHeaderIndex[$header_index];
+                                        }
 
-                                            if ($headerIndex == $header_index) {
-                                                // Set the column value in the insert data
-                                                $insertContactValuesConditionData[$column] = $value;
-                                            }
+                                        if ($headerIndex == $header_index) {
+                                            // Set the column value in the insert data
+                                            $insertContactValuesConditionData[$column] = $value;
                                         }
                                     }
+                                }
 
-                                    // Insert the data into the Contact table
-                                    $values_conditions = DB::table('values_conditions')->where('contact_id', $contact->id)->first();
-                                    if ($values_conditions == null) {
-                                        DB::table('values_conditions')->insert($insertContactValuesConditionData);
-                                    }
+                                // Insert the data into the Contact table
+                                $values_conditions = DB::table('values_conditions')->where('contact_id', $contact->id)->first();
+                                if ($values_conditions == null) {
+                                    DB::table('values_conditions')->insert($insertContactValuesConditionData);
                                 }
                             }
 
@@ -1951,7 +1945,7 @@ class GroupController extends Controller
                 }
                 return response()->json([
                     'status' => true,
-                    'message' => 'Group created successfully!'
+                    'message' => 'List created successfully!'
                 ]);
             } else {
                 return response()->json([
@@ -2089,7 +2083,7 @@ class GroupController extends Controller
     public function destroy(Request $request)
     {
         Group::find($request->id)->delete();
-        Alert::success('Success!', 'Group Removed!');
+        Alert::success('Success!', 'List Removed!');
         return redirect()->back();
     }
 
@@ -2374,7 +2368,7 @@ class GroupController extends Controller
         $group = Group::with('contacts')->find($groupId);
 
         if (!$group) {
-            return response()->json(['error' => 'Group not found!']);
+            return response()->json(['error' => 'List not found!']);
         }
 
         // Extract the contact data from the group

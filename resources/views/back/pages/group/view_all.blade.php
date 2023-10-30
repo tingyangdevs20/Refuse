@@ -306,21 +306,39 @@
                                                 </td>
                                                 <td><a href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->name }}</a></td>
                                                 <td><a href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->last_name }}</a></td>
-                                                <td>{{ $contact->street }}</td>
-                                                <td>{{ $contact->city }}</td>
-                                                <td>{{ $contact->state }}</td>
-                                                <td>{{ $contact->zip }}</td>
                                                 <td>
-                                                    {{ $contact->number }}<br>
-
-                                                    {{ $contact->number2 }}<br>
-                                                    {{ $contact->number3 }}
+                                                    @if(isset($contact->propertyInfo))
+                                                        {{ $contact->propertyInfo->property_address }}
+                                                    @endif
                                                 </td>
                                                 <td>
-                                                    {{ $contact->email1 }}<br>
-                                                    {{ $contact->email2 }}
+                                                    @if(isset($contact->propertyInfo))
+                                                        {{ $contact->propertyInfo->property_city }}
+                                                    @endif
                                                 </td>
-                                                {{-- <td>{{ $contact->getLeadCategory() }}</td> --}}
+                                                <td>
+                                                    @if(isset($contact->propertyInfo))
+                                                        {{ $contact->propertyInfo->property_state }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(isset($contact->propertyInfo))
+                                                        {{ $contact->propertyInfo->property_zip }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(isset($contact->leadInfo))
+                                                        {{ $contact->leadInfo->owner1_primary_number }}<br>
+                                                        {{ $contact->leadInfo->owner1_number2 }}<br>
+                                                        {{ $contact->leadInfo->owner1_number3 }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(isset($contact->leadInfo))
+                                                        {{ $contact->leadInfo->owner1_email1 }}<br>
+                                                        {{ $contact->leadInfo->owner1_email2 }}
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     {{ $group->getContactTagsCount($contact->id) }}<br>
                                                 </td>

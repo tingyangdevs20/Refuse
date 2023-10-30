@@ -477,86 +477,20 @@
                                                     </select>
                                                 </div>
                                             </div>
-
+                                        </div>
+                                        <h4 style="margin-top: 1rem;">Contact's Lead Info</h4>
+                                        <div class="row" style="margin-top: 1rem;">
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
-                                                    {{-- <label for="street">Street</label> --}}
-                                                    <input id="street" readonly type="text" class="form-control"
-                                                        name="street" placeholder="Street">
+                                                    {{-- <label for="number">Primary Phone number</label> --}}
+                                                    <input id="owner1_primary_number" readonly type="text" class="form-control"
+                                                        name="owner1_primary_number" placeholder="Primary Phone number">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="street_header" id="street_select"
-                                                        class="form-control select2">
-                                                        <option value="">Chose Header</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label for="city">City</label> --}}
-                                                    <input id="city" readonly type="text" class="form-control"
-                                                        name="city" placeholder="City">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="city_header" id="city_select"
-                                                        class="form-control select2">
-                                                        <option value="">Chose Header</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label for="state">State</label> --}}
-                                                    <input id="state" readonly type="text" class="form-control"
-                                                        name="state" placeholder="State">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="state_header" id="state_select"
-                                                        class="form-control select2">
-                                                        <option value="">Chose Header</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label for="zip">Zip</label> --}}
-                                                    <input id="zip" readonly type="text" class="form-control"
-                                                        name="zip" placeholder="Zip">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="zip_header" id="zip_select"
-                                                        class="form-control select2">
-                                                        <option value="">Chose Header</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label for="number">Phone number 1</label> --}}
-                                                    <input id="number" readonly type="text" class="form-control"
-                                                        name="number" placeholder="Phone number 1">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mt-2">
-                                                <div class="form-group">
-                                                    {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="number_header" id="number_select"
+                                                    <select name="owner1_primary_number_header" id="owner1_primary_number_select"
                                                         class="form-control select2">
                                                         <option value="">Chose Header</option>
                                                     </select>
@@ -566,14 +500,31 @@
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label for="number2">Phone number 2</label> --}}
-                                                    <input id="number2" readonly type="text" class="form-control"
-                                                        name="number2" placeholder="Phone number 2">
+                                                    <input id="owner1_number2" readonly type="text" class="form-control"
+                                                        name="owner1_number2" placeholder="Phone number 2">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="number2_header" id="number2_select"
+                                                    <select name="owner1_number2_header" id="owner1_number2_select"
+                                                        class="form-control select2">
+                                                        <option value="">Chose Header</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label for="number2">Phone number 2</label> --}}
+                                                    <input id="owner1_number3" readonly type="text" class="form-control"
+                                                        name="owner1_number3" placeholder="Phone number 2">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="form-group">
+                                                    {{-- <label>Choose column from CSV</label> --}}
+                                                    <select name="owner1_number3_header" id="owner1_number3_select"
                                                         class="form-control select2">
                                                         <option value="">Chose Header</option>
                                                     </select>
@@ -583,14 +534,14 @@
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label for="email1">Email 1</label> --}}
-                                                    <input id="email1" readonly type="text" class="form-control"
-                                                        name="email1" placeholder="Email 1">
+                                                    <input id="owner1_email1" readonly type="text" class="form-control"
+                                                        name="owner1_email1" placeholder="Email 1">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="email1_header" id="email1_select"
+                                                    <select name="owner1_email1_header" id="owner1_email1_select"
                                                         class="form-control select2">
                                                         <option value="">Chose Header</option>
                                                     </select>
@@ -600,22 +551,19 @@
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label for="email2">Email 2</label> --}}
-                                                    <input id="email2" readonly type="text" class="form-control"
-                                                        name="email2" placeholder="Email 2">
+                                                    <input id="owner1_email2" readonly type="text" class="form-control"
+                                                        name="owner1_email2" placeholder="Email 2">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     {{-- <label>Choose column from CSV</label> --}}
-                                                    <select name="email2_header" id="email2_select"
+                                                    <select name="owner1_email2_header" id="owner1_email2_select"
                                                         class="form-control select2">
                                                         <option value="">Chose Header</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <h4 style="margin-top: 1rem;">Contact's Lead Info</h4>
-                                        <div class="row" style="margin-top: 1rem;">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <input type="text" readonly id="mailing_address"
@@ -993,36 +941,28 @@
                                     select: "last_name_select"
                                 },
                                 {
-                                    field: "street",
-                                    select: "street_select"
+                                    field: "owner1_primary_number",
+                                    select: "owner1_primary_number_select"
                                 },
                                 {
-                                    field: "city",
-                                    select: "city_select"
+                                    field: "owner1_number2",
+                                    select: "owner1_number2_select"
                                 },
                                 {
-                                    field: "state",
-                                    select: "state_select"
+                                    field: "owner1_number2",
+                                    select: "owner1_number2_select"
                                 },
                                 {
-                                    field: "zip",
-                                    select: "zip_select"
+                                    field: "owner1_number3",
+                                    select: "owner1_number3_select"
                                 },
                                 {
-                                    field: "number",
-                                    select: "number_select"
+                                    field: "owner1_email1",
+                                    select: "owner1_email1_select"
                                 },
                                 {
-                                    field: "number2",
-                                    select: "number2_select"
-                                },
-                                {
-                                    field: "email1",
-                                    select: "email1_select"
-                                },
-                                {
-                                    field: "email2",
-                                    select: "email2_select"
+                                    field: "owner1_email2",
+                                    select: "owner1_email2_select"
                                 },
                                 {
                                     field: "mailing_address",
@@ -1124,16 +1064,16 @@
                                 }
 
                                 // Assign the selected header to the input field
-                                selectBox.on('change', function() {
-                                    var selectedHeaderIndex = $(this).val();
-                                    if (selectedHeaderIndex !== "") {
-                                        inputField.val(csvHeaders[selectedHeaderIndex]);
-                                    } else {
-                                        inputField.val(
-                                            ""
-                                        ); // Clear the input field if "Choose Header" is selected
-                                    }
-                                });
+                                // selectBox.on('change', function() {
+                                //     var selectedHeaderIndex = $(this).val();
+                                //     if (selectedHeaderIndex !== "") {
+                                //         inputField.val(csvHeaders[selectedHeaderIndex]);
+                                //     } else {
+                                //         inputField.val(
+                                //             ""
+                                //         ); // Clear the input field if "Choose Header" is selected
+                                //     }
+                                // });
                             });
 
                         } else {
