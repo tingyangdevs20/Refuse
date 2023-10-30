@@ -52,7 +52,7 @@
                                                         <select class="custom-select" required="" name="sender_number">
                                                             <option value="">Sender's Number</option>
                                                             @foreach($numbers as $number)
-                                                            <option value="{{ $number->number.'|'.$number->account->account_id.'|'.$number->account->account_token }}">{{ $number->number }} - {{ $number->account->account_name }} - Available Sends: {{ $number->sms_allowed - $number->sms_count }}</option>
+                                                            <option value="{{ $number->number.'|'.$number->account->account_id.'|'.$number->account->account_token }}">{{ $number->number }} </option>
                                                                 @endforeach
                                                         </select>
                                                     </div>
@@ -84,7 +84,7 @@
                                                 <textarea id="template_text" class="form-control"  rows="10" required name="message"></textarea>
                                                 <div id='count' class="float-lg-right">
                                             </div>
-                                            <button type="submit" class="btn btn-primary mt-2" {{ $number->sms_allowed ==$number->sms_count?'disabled':'' }}>Send SMS</button>
+                                            <button type="submit" class="btn btn-primary mt-2">Send SMS</button>
                                             </div>
                                         </form>
 
