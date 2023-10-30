@@ -11,13 +11,12 @@
 
     <div class="page-content">
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">User Management</h4>
-                       
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -76,8 +75,6 @@
                                     </div>
                                 </div>
 
-
-
                                 <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="status">Status</label>
@@ -91,8 +88,6 @@
                                     @enderror
                                 </div>
                             </div>
-
-
                                 <!-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="user_profile">Image</label>
@@ -125,14 +120,11 @@
 
                                 <button type="submit" class="btn btn-primary">Add User</button>
                             </form>
-
-
                         </div>
                     </div>
                 </div>
             </div>
             <!-- end page title -->
-
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->

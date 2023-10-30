@@ -8,10 +8,9 @@
         }
 
         /* Add horizontal scrolling for the table on smaller screens */
-        /* .table {
-                        white-space: nowrap;
-                    } */
-
+            /* .table {
+                white-space: nowrap;
+            } */
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
             .table {
@@ -55,7 +54,6 @@
                                 <table class="table table-striped table-bordered" id="datatable">
                                     <thead>
                                         <tr>
-
                                             <th scope="col">Name</th>
                                             <th scope="col">Associated Numbers</th>
                                             <th scope="col">Actions</th>
@@ -64,7 +62,6 @@
                                     <tbody>
                                         @foreach ($markets as $market)
                                             <tr>
-
                                                 <td>{{ $market->name }}</td>
                                                 @if ($market->numbers()->get()->isEmpty())
                                                     <td>None</td>
@@ -100,10 +97,6 @@
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-
-
-
-
 
     {{-- Modals --}}
     {{-- Modal New --}}
@@ -155,7 +148,6 @@
                             <input type="hidden" id="id" name="id" value="">
                             <input type="text" class="form-control" name="name" id="name" required>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

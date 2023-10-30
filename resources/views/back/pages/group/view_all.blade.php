@@ -366,6 +366,7 @@
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+
     <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -387,6 +388,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('scripts')
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>

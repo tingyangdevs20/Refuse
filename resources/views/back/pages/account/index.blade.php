@@ -15,7 +15,7 @@
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="mb-0 font-size-18">Administrative Settings</h4>
-                    
+
                 </div>
 
                 <div class="card">
@@ -154,7 +154,7 @@
                                         id="scraping_charge_per_record" value="{{ $accounts->scraping_charge_per_record }}" step="0.00001" min="0" required>
                                 </div>
                             </div>
-                          
+
 
                             <div class="card-header bg-soft-dark ">
                                 <i class="fas fa-cog"></i> Campaign Schedule Settings
@@ -176,17 +176,17 @@
                             </div>
                             <br />
 
-                            
+
 
 
                             <button type="submit" class="btn btn-primary">Update Settings</button>
 
                         </form>
-                       
+
                     </div>
                 </div>
                 <div class="card">
-                   
+
                     <div class="card-body">
                         <form action="{{ route('admin.settings.update', $settings) }}" method="post"
                             enctype="multipart/form-data">
@@ -207,23 +207,23 @@
                                     </option>
                                 </select>
                             <!-- </div> -->
-                           
+
 
                                     <input type="hidden" class="form-control" placeholder="Auth. Name" name="auth_email"
                                         id="auth_email" value="{{ $settings->auth_email }}" required>
-                        
+
 
                                     <input type="hidden" class="form-control" placeholder="Document Closed By"
                                         name="document_closed_by" id="document_closed_by"
                                         value="{{ $settings->document_closed_by }}" required>
- 
 
-                           
+
+
 
                                     <input type="hidden" class="form-control" placeholder="Reply To Email"
                                         name="reply_email" id="reply_email" value="{{ $settings->reply_email }}"
                                         required>
-                               
+
 
                                         <div class="card-header bg-soft-dark ">
                                 <i class="fas fa-cog"></i> API Settings
@@ -293,22 +293,22 @@
 
 
 
-                           
 
-                           
 
-                           
+
+
+
                             <div class="card-header bg-soft-dark ">
                                 <i class="fas fa-cog"></i> Connect Gmail
                             </div>
                             <br />
 
                             <div class="form-group">
-                                @if(LaravelGmail::check())
+                                {{-- @if(LaravelGmail::check())
                                 <a href="{{ route('gmail.logout') }}" class="btn btn-secondary">Logout From Gmail</a>
                                 @else
                                 <a href="{{ route('gmail.login') }}" class="btn btn-secondary">Login to Gmail</a>
-                                @endif
+                                @endif --}}
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update Settings</button>
@@ -316,7 +316,7 @@
                         </form>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <!-- end page title -->

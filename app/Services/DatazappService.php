@@ -82,10 +82,24 @@ class DatazappService
                 $requestData['Data'][] = [
                     "FirstName" => $contact->name,
                     "LastName" => $contact->last_name,
-                    "Address" => $contact->street,
-                    "City" => $contact->city,
-                    "Zip" => $contact->zip,
                 ];
+
+                if ($contact->propertyInfo) {
+                    $propertyData = [
+                        "Address" => $contact->propertyInfo->property_street,
+                        "City" => $contact->propertyInfo->property_city,
+                        "Zip" => $contact->propertyInfo->property_zip,
+                    ];
+
+                    // Check if any of the property values is null and set them to null if needed
+                    foreach ($propertyData as $key => $value) {
+                        if ($value === null) {
+                            $propertyData[$key] = null;
+                        }
+                    }
+
+                    $requestData['Data'][] = $propertyData;
+                }
 
             } elseif ($skipTraceOption === 'skip_entire_list_email' || $skipTraceOption === 'skip_records_without_emails') {
                 // Email Append API request
@@ -95,23 +109,46 @@ class DatazappService
                 $requestData['Data'][] = [
                     "FirstName" => $contact->name,
                     "LastName" => $contact->last_name,
-                    "Address" => $contact->street,
-                    "City" => $contact->city,
-                    "Zip" => $contact->zip,
-
                 ];
+
+                if ($contact->propertyInfo) {
+                    $propertyData = [
+                        "Address" => $contact->propertyInfo->property_street,
+                        "City" => $contact->propertyInfo->property_city,
+                        "Zip" => $contact->propertyInfo->property_zip,
+                    ];
+
+                    // Check if any of the property values is null and set them to null if needed
+                    foreach ($propertyData as $key => $value) {
+                        if ($value === null) {
+                            $propertyData[$key] = null;
+                        }
+                    }
+
+                    $requestData['Data'][] = $propertyData;
+                }
+
             }elseif($skipTraceOption === 'append_names'){
                 // Name Append API request
                 $requestData['AppendModule'] = "NameAppendAPI";
 
 
-                $requestData['Data'][] = [
+                if ($contact->propertyInfo) {
+                    $propertyData = [
+                        "Address" => $contact->propertyInfo->property_street,
+                        "City" => $contact->propertyInfo->property_city,
+                        "Zip" => $contact->propertyInfo->property_zip,
+                    ];
 
-                    "Address" => $contact->street,
-                    "City" => $contact->city,
-                    "Zip" => $contact->zip,
+                    // Check if any of the property values is null and set them to null if needed
+                    foreach ($propertyData as $key => $value) {
+                        if ($value === null) {
+                            $propertyData[$key] = null;
+                        }
+                    }
 
-                ];
+                    $requestData['Data'][] = $propertyData;
+                }
             }
             elseif($skipTraceOption === 'append_emails'){
                 // Name Append API request
@@ -121,33 +158,64 @@ class DatazappService
                 $requestData['Data'][] = [
                     "FirstName" => $contact->name,
                     "LastName" => $contact->last_name,
-                    "Address" => $contact->street,
-                    "City" => $contact->city,
-                    "Zip" => $contact->zip,
-
                 ];
+
+                if ($contact->propertyInfo) {
+                    $propertyData = [
+                        "Address" => $contact->propertyInfo->property_street,
+                        "City" => $contact->propertyInfo->property_city,
+                        "Zip" => $contact->propertyInfo->property_zip,
+                    ];
+
+                    // Check if any of the property values is null and set them to null if needed
+                    foreach ($propertyData as $key => $value) {
+                        if ($value === null) {
+                            $propertyData[$key] = null;
+                        }
+                    }
+
+                    $requestData['Data'][] = $propertyData;
+                }
 
             }elseif($skipTraceOption === 'email_verification_entire_list' || $skipTraceOption === 'email_verification_non_verified'){
                  // Emal Verificationd API request
                  $requestData['AppendModule'] = "EmailVerificationAPI";
 
-                 $requestData['Data'][] = [
+                 if ($contact->leadInfo) {
+                    $leadData = [
+                        "Email" => $contact->leadInfo->owner1_email1,
+                        "Email" => $contact->leadInfo->owner1_email2
+                    ];
 
-                     "Email" => $contact->email1,
-                     "Email" => $contact->email2,
+                    // Check if any of the property values is null and set them to null if needed
+                    foreach ($leadData as $key => $value) {
+                        if ($value === null) {
+                            $leadData[$key] = null;
+                        }
+                    }
 
-                 ];
+                    $requestData['Data'][] = $leadData;
+                }
             } elseif($skipTraceOption === 'phone_scrub_entire_list' || $skipTraceOption === 'phone_scrub_non_scrubbed_numbers'){
                  // phone scrubbing API request
                  $requestData['AppendModule'] = "PhoneScrubAPI";
 
-                 $requestData['Data'][] = [
+                 if ($contact->leadInfo) {
+                    $propertyData = [
+                        "Phone" => $contact->leadInfo->owner1_primary_phone,
+                        "Phone" => $contact->leadInfo->owner1_number2,
+                        "Phone" => $contact->leadInfo->owner1_number3,
+                    ];
 
-                     "Phone" => $contact->number,
-                     "Phone" => $contact->number2,
-                     "Phone" => $contact->number3,
+                    // Check if any of the property values is null and set them to null if needed
+                    foreach ($propertyData as $key => $value) {
+                        if ($value === null) {
+                            $propertyData[$key] = null;
+                        }
+                    }
 
-                 ];
+                    $requestData['Data'][] = $propertyData;
+                }
             }else {
                 // Handle other skip trace options if needed
                 return ['message' => 'Invalid skip trace option.'];
@@ -177,30 +245,35 @@ class DatazappService
         $filteredContacts = [];
 
         foreach ($contacts as $contact) {
-            if ($type === 'skip_entire_list_phone' || $type == 'phone_scrub_entire_list') {
-                // Check if the contact has a value in 'number', 'number2', or 'number3'
-                if (!empty($contact->number) || !empty($contact->number2) || !empty($contact->number3)) {
-                    $filteredContacts[] = $contact;
-                }
-            } elseif ($type === 'skip_records_without_numbers_phone') {
-                // Check if all three columns are empty
-                if (empty($contact->number) && empty($contact->number2) && empty($contact->number3)) {
-                    $filteredContacts[] = $contact;
-                }
-            } elseif ($type == 'skip_entire_list_email') {
-                if (!empty($contact->email1) || !empty($contact->email2)) {
-                    $filteredContacts[] = $contact;
-                }
-            } elseif ($type == 'skip_records_without_emails' || $type == 'append_emails') {
-                // Check if all three columns are empty
-                if (empty($contact->email1) && empty($contact->email2)) {
-                    $filteredContacts[] = $contact;
-                }
-            } elseif ($type == 'append_names') {
-                // Check if all three columns are empty
-                if (empty($contact->name) && empty($contact->last_name)) {
-                    $filteredContacts[] = $contact;
-                }
+            // Access the leadInfo relation and its properties
+            $leadInfo = $contact->leadInfo;
+
+            if ($leadInfo) {
+                if ($type === 'skip_entire_list_phone' || $type == 'phone_scrub_entire_list') {
+                    // Check if the contact has a value in 'number', 'number2', or 'number3'
+                    if (!empty($leadInfo->owner1_primary_number) || !empty($leadInfo->owner1_number2) || !empty($leadInfo->owner1_number3)) {
+                            $filteredContacts[] = $contact;
+                        }
+                    } elseif ($type === 'skip_records_without_numbers_phone') {
+                        // Check if all three columns are empty
+                        if (empty($leadInfo->owner1_primary_number) && empty($leadInfo->owner1_number2) && empty($leadInfo->owner1_number3)) {
+                            $filteredContacts[] = $contact;
+                        }
+                    } elseif ($type == 'skip_entire_list_email') {
+                        if (!empty($leadInfo->owner1_email1) || !empty($leadInfo->owner1_email2)) {
+                            $filteredContacts[] = $contact;
+                        }
+                    } elseif ($type == 'skip_records_without_emails' || $type == 'append_emails') {
+                        // Check if all three columns are empty
+                        if (empty($leadInfo->owner1_email1) && empty($leadInfo->owner1_email2)) {
+                            $filteredContacts[] = $contact;
+                        }
+                    } elseif ($type == 'append_names') {
+                        // Check if all three columns are empty
+                        if (empty($contact->name) && empty($contact->last_name)) {
+                            $filteredContacts[] = $contact;
+                        }
+                    }
             }
         }
 
@@ -215,9 +288,14 @@ class DatazappService
                     ->toArray();
 
                 foreach ($contacts as $contact) {
-                    // Check if any of the contact's emails are in $emailsVerified
-                    if (in_array($contact->email1, $emailsVerified) || in_array($contact->email2, $emailsVerified)) {
-                        $filteredContacts[] =$contact;
+                    // Access the leadInfo relation and its properties
+                    $leadInfo = $contact->leadInfo;
+
+                    if ($leadInfo) {
+                        // Check if any of the contact's emails are in $emailsVerified
+                        if (in_array($leadInfo->owner1_email1, $emailsVerified) || in_array($leadInfo->owner1_email2, $emailsVerified)) {
+                            $filteredContacts[] =$contact;
+                        }
                     }
                 }
             }
@@ -232,10 +310,16 @@ class DatazappService
                     ->toArray();
 
                 foreach ($contacts as $contact) {
-                    // Check if any of the contact's emails are in $emailsVerified
-                    if (!in_array($contact->email1, $emailsVerified) && !in_array($contact->email2, $emailsVerified)) {
-                        $filteredContacts[] =$contact;
+                    // Access the leadInfo relation and its properties
+                    $leadInfo = $contact->leadInfo;
+
+                    if ($leadInfo) {
+                        // Check if any of the contact's emails are in $emailsVerified
+                        if (!in_array($leadInfo->owner1_email1, $emailsVerified) && !in_array($leadInfo->owner1_email2, $emailsVerified)) {
+                            $filteredContacts[] =$contact;
+                        }
                     }
+
                 }
             }
         } else if ($type == 'phone_scrub_non_scrubbed_numbers') {
@@ -249,11 +333,16 @@ class DatazappService
                     ->toArray();
 
                 foreach ($contacts as $contact) {
-                    // Check if any of the contact's numbers are in $phonesScrubbed
-                    if (in_array($contact->number, $phonesScrubbed) ||
-                        in_array($contact->number2, $phonesScrubbed) ||
-                        in_array($contact->number3, $phonesScrubbed)) {
-                        $filteredContacts[] = $contact;
+                    // Access the leadInfo relation and its properties
+                    $leadInfo = $contact->leadInfo;
+
+                    if ($leadInfo) {
+                        // Check if any of the contact's numbers are in $phonesScrubbed
+                        if (in_array($leadInfo->owner1_primary_number, $phonesScrubbed) ||
+                            in_array($leadInfo->owner1_number2, $phonesScrubbed) ||
+                            in_array($leadInfo->owner1_number3, $phonesScrubbed)) {
+                            $filteredContacts[] = $contact;
+                        }
                     }
                 }
             }
@@ -268,11 +357,16 @@ class DatazappService
                     ->toArray();
 
                 foreach ($contacts as $contact) {
-                    // Check if any of the contact's numbers are in $phonesScrubbed
-                    if (!in_array($contact->number, $phonesScrubbed) &&
-                        !in_array($contact->number2, $phonesScrubbed) &&
-                        !in_array($contact->number3, $phonesScrubbed)) {
-                        $filteredContacts[] = $contact;
+                    // Access the leadInfo relation and its properties
+                    $leadInfo = $contact->leadInfo;
+
+                    if ($leadInfo) {
+                        // Check if any of the contact's numbers are in $phonesScrubbed
+                        if (!in_array($leadInfo->owner1_primary_number, $phonesScrubbed) &&
+                            !in_array($leadInfo->owner1_number2, $phonesScrubbed) &&
+                            !in_array($leadInfo->owner1_number3, $phonesScrubbed)) {
+                            $filteredContacts[] = $contact;
+                        }
                     }
                 }
             }

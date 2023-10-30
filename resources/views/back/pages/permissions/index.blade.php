@@ -33,7 +33,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Permissions Management</h4>
-                        
+
                     </div>
                     @include('back.pages.partials.messages')
                     <div class="card">
@@ -46,7 +46,6 @@
                                         class="fas fa-plus-circle"></i></a>
                             @endif
                             @include('components.modalform')
-
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -56,7 +55,6 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Permissions</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,7 +62,6 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $permission->name }}</td>
-
                                                 <td>
                                                     @if (auth()->user()->can('administrator') ||
                                                             auth()->user()->can('permissions_edit'))
@@ -72,7 +69,6 @@
                                                             class="btn btn-outline-primary btn-sm"
                                                             title="Edit  Permission"><i class="fas fa-edit"></i></a> -
                                                     @endif
-
                                                     @if (auth()->user()->can('administrator') ||
                                                             auth()->user()->can('permissions_delete'))
                                                         <a href="{{ route('admin.permissions.destroy', $permission->id) }}"
