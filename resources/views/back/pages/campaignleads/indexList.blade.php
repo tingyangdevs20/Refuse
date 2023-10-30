@@ -251,7 +251,7 @@
                                                                                 <div class="input-group-prepend">
                                                                                     <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                                                                                 </div>
-                                                                                <input  type="number" min="0" class="form-control" placeholder="Days" value="" name="send_after_days" id="send_after_days">
+                                                                                <input  type="number" min="0" class="form-control" placeholder="Days" value="" name="send_after_days_edit" id="send_after_days_edit">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -261,7 +261,7 @@
                                                                                 <div class="input-group-prepend">
                                                                                     <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                                                                                 </div>
-                                                                                <input type="number" min="0" class="form-control" placeholder="Hours" value="" id="send_after_hours" name="send_after_hours">
+                                                                                <input type="number" min="0" class="form-control" placeholder="Hours" value="" id="send_after_hours_edit" name="send_after_hours_edit">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -272,7 +272,7 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Select Message Type</label>
-                                                                            <select class="custom-select" name="type" id="type" onchange="check_type_edit(this)" required>
+                                                                            <select class="custom-select" name="type_edit" id="type_edit" onchange="check_type_edit(this)" required>
                                                                             
                                                                             <option value="sms">SMS</option>
                                                                                 <option value="email">Email</option>
@@ -286,7 +286,7 @@
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group ">
                                                                                     <label >Subject</label>
-                                                                                    <input type="text"  class="form-control" required placeholder="Subject" value="" name="subject" id="subject">
+                                                                                    <input type="text"  class="form-control" required placeholder="Subject" value="" name="subject_edit" id="subject_edit">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -294,7 +294,7 @@
                                                                             <div class="col-md-12">
                                                                                 <div class="form-group">
                                                                                     <label >Message</label>
-                                                                                    <textarea id="body" class="form-control summernote-usage" required  rows="10"  name="body"></textarea>
+                                                                                    <textarea id="body" class="form-control summernote-usage" required  rows="10" id="body_edit"  name="body_edit"></textarea>
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
@@ -305,14 +305,14 @@
                                                                        
                                                                         <div class="form-group" style=" display: none;">
                                                                             <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
-                                                                            <input type="file" class="form-control-file" name="media_file">
+                                                                            <input type="file" class="form-control-file" name="media_file_edit" id="media_file_edit">
                                                                         </div>
                                                                      </div>
                                                                 <div class="row" id="dvRvm2" style="display:none">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group mt-3">
                                                                             <label>Select RVM</label>
-                                                                            <select class="custom-select" name="rvm"  required>
+                                                                            <select class="custom-select" name="rvm_edit" id="rvm_edit"  required>
                                                                             <option value="0">Select RVM File</option>
                                                                             @foreach ($files as $rvm)
                                                                             <option value="{{$rvm->name}}">{{$rvm->name}}</option>

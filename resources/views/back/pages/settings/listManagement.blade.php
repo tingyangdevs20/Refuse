@@ -235,7 +235,7 @@
                                                 <table class="table table-striped table-bordered datatable" id="">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Tag Name</th>
                                                             <th scope="col">Number of Contacts</th>
                                                             <th scope="col">Actions</th>
 
@@ -255,7 +255,7 @@
                                                                         data-tagname="{{ $tag->name }}"
                                                                         data-toggle="modal" data-target="#editTagModal"><i
                                                                             class="fas fa-edit"></i></button>
-                                                                    @if ($tag->id > 1)
+                                                                   
                                                                         -
                                                                         <button class="btn btn-outline-danger btn-sm"
                                                                             title="Remove {{ $tag->name }}"
@@ -263,7 +263,7 @@
                                                                             data-toggle="modal"
                                                                             data-target="#deleteTagModal"><i
                                                                                 class="fas fa-times-circle"></i></button>
-                                                                    @endif
+                                                                   
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -288,7 +288,7 @@
                                                                 @csrf
                                                                 @method('POST')
                                                                 <div class="form-group">
-                                                                    <label>Name</label>
+                                                                    <label>Tag Name</label>
                                                                     <input type="text" class="form-control"
                                                                         name="name" placeholder="Enter Tag Name"
                                                                         required>
@@ -324,7 +324,7 @@
                                                             @csrf
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    <label>Name</label>
+                                                                    <label>Tag Name</label>
                                                                     <input type="hidden" id="id" name="id"
                                                                         value="">
                                                                     <input type="text" class="form-control"

@@ -17,7 +17,7 @@
                         <img src="{{ asset('back/assets/images/favicon.ico') }}" alt="" height="58">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('back/assets/images/sms.png') }}" alt="" height="50">
+                        <img src="{{ asset('back/assets/images/sms.png') }}"  alt="" height="57">
                     </span>
                 </a>
             </div>

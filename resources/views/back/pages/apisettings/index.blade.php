@@ -172,7 +172,7 @@
                                                 @method('PUT')
 
                                                 <div class="form-group">
-                                                    <label>Send From Email (Send Grid)</label>
+                                                    <label>Send From Email Address</label>
                                                     <div class="input-group mb-2">
 
                                                         <input type="text" class="form-control"
@@ -182,7 +182,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>From Name (Send Grid)</label>
+                                                    <label>Send From Name</label>
                                                     <div class="input-group mb-2">
 
                                                         <input type="text" class="form-control"
