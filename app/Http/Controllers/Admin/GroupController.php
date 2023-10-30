@@ -52,6 +52,7 @@ use App\Services\DatazappService;
 
 use App\Mail\CampaignConfirmation;
 use App\Mail\CampaignMail;
+use App\Model\PropertyInfo;
 use Illuminate\Support\Facades\Gate;
 
 class GroupController extends Controller
@@ -1554,7 +1555,16 @@ class GroupController extends Controller
                                 // Insert the data into the Contact table
                                 $property_infos = DB::table('property_infos')->where('contact_id', $contact->id)->first();
                                 if ($property_infos == null) {
-                                    DB::table('property_infos')->insert($insertContactPropertyData);
+                                    $propertyId = DB::table('property_infos')->insertGetId($insertContactPropertyData);
+
+                                    $property = PropertyInfo::where('id', $propertyId)->first();
+                                    if ($property) {
+                                        $contact->street = $property->property_address;
+                                        $contact->city = $property->property_city;
+                                        $contact->state = $property->property_street;
+                                        $contact->zip = $property->property_zip;
+                                        $contact->save();
+                                    }
                                 }
 
                                 // Save contact lead info
@@ -1563,6 +1573,8 @@ class GroupController extends Controller
                                     "lead_status" => $request->lead_status,
                                     "lead_source" => $request->lead_source,
                                     "lead_type" => $request->lead_type,
+                                    "owner1_first_name" => $contact->name,
+                                    "owner1_last_name" => $contact->last_name
                                 ];
 
                                 // Iterate through the imported data and map it to the corresponding column
@@ -1591,6 +1603,16 @@ class GroupController extends Controller
                                     // $lead = DB::table('lead_info')->insert($insertContactLeadData);
                                     $leadData = $insertContactLeadData; // Assuming $insertContactLeadData is an array of data to be inserted
                                     $leadId = DB::table('lead_info')->insertGetId($leadData);
+
+                                    $lead = LeadInfo::where('id', $leadId)->first();
+                                    if ($lead) {
+                                        $contact->number = $lead->owner1_primary_number;
+                                        $contact->number2 = $lead->owner1_number2;
+                                        $contact->number3 = $lead->owner1_number3;
+                                        $contact->email1 = $lead->owner1_email1;
+                                        $contact->email2 = $lead->owner1_email2;
+                                        $contact->save();
+                                    }
 
                                     $leadStatus = [
                                         'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
@@ -2387,19 +2409,18 @@ class GroupController extends Controller
 
         $group = Group::with('contacts')->find($groupId);
 
+
         if (!$group) {
-            return response()->json(['error' => 'List not found!']);
+            return response()->json(['error' => 'Group not found!']);
         }
 
         // Extract the contact data from the group
         $groupContacts = $group->contacts;
 
         // Remove duplicates based on both 'email' and 'number' attributes
-        // $uniqueContacts = $groupContacts->unique(function ($contact) {
-        //     return $contact->email1 . '|' . $contact->number;
-        // });
-
-        $uniqueContacts = $groupContacts;
+        $uniqueContacts = $groupContacts->unique(function ($contact) {
+            return $contact->email1 . '|' . $contact->number;
+        });
 
         $skipTraceRate = null;
         Session::put('record_detail', [
@@ -2478,6 +2499,9 @@ class GroupController extends Controller
                                     // Update the contact in the database with the matched phone number
 
                                     if ($matchingContact) {
+                                        if ($matchingContact->leadInfo) {
+                                            $matchingContact->leadInfo->update(['owner1_primary_number' => $matchedPhone]);
+                                        }
                                         $matchingContact->update(['number' => $matchedPhone]);
                                     }
 
@@ -2583,6 +2607,9 @@ class GroupController extends Controller
 
                                     // Update the contact in the database with the matched phone number
                                     if ($matchingContact) {
+                                        if ($matchingContact->leadInfo) {
+                                            $matchingContact->leadInfo->update(['owner1_email1' => $matchedEmail]);
+                                        }
                                         $matchingContact->update(['email1' => $matchedEmail]);
                                     }
 
