@@ -1355,7 +1355,7 @@ class GroupController extends Controller
 
             // Check if the header index is not null (i.e., there is a mapping)
             if ($headerIndex !== null) {
-                $columnToHeader[$headerIndex] = $column;
+                $columnToHeader[$column] = $headerIndex;
             }
         }
 
@@ -1373,7 +1373,7 @@ class GroupController extends Controller
 
             // Check if the header index is not null (i.e., there is a mapping)
             if ($headerIndex !== null) {
-                $contactPropertyInfoColumnToHeader[$headerIndex] = $column;
+                $contactPropertyInfoColumnToHeader[$column] = $headerIndex;
             }
         }
 
@@ -1393,7 +1393,7 @@ class GroupController extends Controller
 
             // Check if the header index is not null (i.e., there is a mapping)
             if ($headerIndex !== null) {
-                $contactLeadInfoColumnToHeader[$headerIndex] = $column;
+                $contactLeadInfoColumnToHeader[$column] = $headerIndex;
             }
         }
 
@@ -1413,7 +1413,7 @@ class GroupController extends Controller
 
             // Check if the header index is not null (i.e., there is a mapping)
             if ($headerIndex !== null) {
-                $contactFinanceInfoColumnToHeader[$headerIndex] = $column;
+                $contactFinanceInfoColumnToHeader[$column] = $headerIndex;
             }
         }
 
@@ -1433,7 +1433,7 @@ class GroupController extends Controller
 
             // Check if the header index is not null (i.e., there is a mapping)
             if ($headerIndex !== null) {
-                $contactValuesConditionColumnToHeader[$headerIndex] = $column;
+                $contactValuesConditionColumnToHeader[$column] = $headerIndex;
             }
         }
 
@@ -1504,17 +1504,14 @@ class GroupController extends Controller
                             // Iterate through the imported data and map it to the corresponding column
                             foreach ($importData as $headerIndex => $value) {
 
-                                // Check if the header index is mapped to a column
-                                if (isset($columnToHeader[$headerIndex])) {
-                                    $column = $columnToHeader[$headerIndex];
+                                // Find the matching columns for the given header index
+                                $matchingColumns = array_keys($columnToHeader, $headerIndex);
 
+                                foreach ($matchingColumns as $column) {
                                     $header_index = $column . '_header';
-                                    // Check if this column has header too
-                                    if (isset($columnToHeaderIndex[$header_index])) {
-                                        $header_index = $columnToHeaderIndex[$header_index];
-                                    }
 
-                                    if ($headerIndex == $header_index) {
+                                    // Check if this column has a header too
+                                    if (isset($columnToHeaderIndex[$header_index]) && $headerIndex == $columnToHeaderIndex[$header_index]) {
                                         // Set the column value in the insert data
                                         $insertData[$column] = $value;
                                     }
@@ -1535,17 +1532,30 @@ class GroupController extends Controller
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
 
-                                    // Check if the header index is mapped to a column
-                                    if (isset($contactPropertyInfoColumnToHeader[$headerIndex])) {
-                                        $column = $contactPropertyInfoColumnToHeader[$headerIndex];
+                                    // // Check if the header index is mapped to a column
+                                    // if (isset($contactPropertyInfoColumnToHeader[$headerIndex])) {
+                                    //     $column = $contactPropertyInfoColumnToHeader[$headerIndex];
+                                    //     $header_index = $column . '_header';
+
+                                    //     // Check if this column has header too
+                                    //     if (isset($contactPropertyInfoColumnToHeaderIndex[$header_index])) {
+                                    //         $header_index = $contactPropertyInfoColumnToHeaderIndex[$header_index];
+                                    //     }
+
+                                    //     if ($headerIndex == $header_index) {
+                                    //         // Set the column value in the insert data
+                                    //         $insertContactPropertyData[$column] = $value;
+                                    //     }
+                                    // }
+
+                                    // Find the matching columns for the given header index
+                                    $matchingColumns = array_keys($contactPropertyInfoColumnToHeader, $headerIndex);
+
+                                    foreach ($matchingColumns as $column) {
                                         $header_index = $column . '_header';
 
-                                        // Check if this column has header too
-                                        if (isset($contactPropertyInfoColumnToHeaderIndex[$header_index])) {
-                                            $header_index = $contactPropertyInfoColumnToHeaderIndex[$header_index];
-                                        }
-
-                                        if ($headerIndex == $header_index) {
+                                        // Check if this column has a header too
+                                        if (isset($contactPropertyInfoColumnToHeaderIndex[$header_index]) && $headerIndex == $contactPropertyInfoColumnToHeaderIndex[$header_index]) {
                                             // Set the column value in the insert data
                                             $insertContactPropertyData[$column] = $value;
                                         }
@@ -1580,17 +1590,30 @@ class GroupController extends Controller
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
 
-                                    // Check if the header index is mapped to a column
-                                    if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
-                                        $column = $contactLeadInfoColumnToHeader[$headerIndex];
+                                    // // Check if the header index is mapped to a column
+                                    // if (isset($contactLeadInfoColumnToHeader[$headerIndex])) {
+                                    //     $column = $contactLeadInfoColumnToHeader[$headerIndex];
+                                    //     $header_index = $column . '_header';
+
+                                    //     // Check if this column has header too
+                                    //     if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
+                                    //         $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
+                                    //     }
+
+                                    //     if ($headerIndex == $header_index) {
+                                    //         // Set the column value in the insert data
+                                    //         $insertContactLeadData[$column] = $value;
+                                    //     }
+                                    // }
+
+                                    // Find the matching columns for the given header index
+                                    $matchingColumns = array_keys($contactLeadInfoColumnToHeader, $headerIndex);
+
+                                    foreach ($matchingColumns as $column) {
                                         $header_index = $column . '_header';
 
-                                        // Check if this column has header too
-                                        if (isset($contactLeadInfoColumnToHeaderIndex[$header_index])) {
-                                            $header_index = $contactLeadInfoColumnToHeaderIndex[$header_index];
-                                        }
-
-                                        if ($headerIndex == $header_index) {
+                                        // Check if this column has a header too
+                                        if (isset($contactLeadInfoColumnToHeaderIndex[$header_index]) && $headerIndex == $contactLeadInfoColumnToHeaderIndex[$header_index]) {
                                             // Set the column value in the insert data
                                             $insertContactLeadData[$column] = $value;
                                         }
@@ -1670,17 +1693,29 @@ class GroupController extends Controller
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
 
-                                    // Check if the header index is mapped to a column
-                                    if (isset($contactFinanceInfoColumnToHeader[$headerIndex])) {
-                                        $column = $contactFinanceInfoColumnToHeader[$headerIndex];
+                                    // // Check if the header index is mapped to a column
+                                    // if (isset($contactFinanceInfoColumnToHeader[$headerIndex])) {
+                                    //     $column = $contactFinanceInfoColumnToHeader[$headerIndex];
+                                    //     $header_index = $column . '_header';
+
+                                    //     // Check if this column has header too
+                                    //     if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index])) {
+                                    //         $header_index = $contactFinanceInfoColumnToHeaderIndex[$header_index];
+                                    //     }
+
+                                    //     if ($headerIndex == $header_index) {
+                                    //         // Set the column value in the insert data
+                                    //         $insertContactFinanceData[$column] = $value;
+                                    //     }
+                                    // }
+                                    // Find the matching columns for the given header index
+                                    $matchingColumns = array_keys($contactFinanceInfoColumnToHeader, $headerIndex);
+
+                                    foreach ($matchingColumns as $column) {
                                         $header_index = $column . '_header';
 
-                                        // Check if this column has header too
-                                        if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index])) {
-                                            $header_index = $contactFinanceInfoColumnToHeaderIndex[$header_index];
-                                        }
-
-                                        if ($headerIndex == $header_index) {
+                                        // Check if this column has a header too
+                                        if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index]) && $headerIndex == $contactFinanceInfoColumnToHeaderIndex[$header_index]) {
                                             // Set the column value in the insert data
                                             $insertContactFinanceData[$column] = $value;
                                         }
@@ -1700,17 +1735,30 @@ class GroupController extends Controller
                                 // Iterate through the imported data and map it to the corresponding column
                                 foreach ($importData as $headerIndex => $value) {
 
-                                    // Check if the header index is mapped to a column
-                                    if (isset($contactValuesConditionColumnToHeader[$headerIndex])) {
-                                        $column = $contactValuesConditionColumnToHeader[$headerIndex];
+                                    // // Check if the header index is mapped to a column
+                                    // if (isset($contactValuesConditionColumnToHeader[$headerIndex])) {
+                                    //     $column = $contactValuesConditionColumnToHeader[$headerIndex];
+                                    //     $header_index = $column . '_header';
+
+                                    //     // Check if this column has header too
+                                    //     if (isset($contactValuesConditionColumnToHeaderIndex[$header_index])) {
+                                    //         $header_index = $contactValuesConditionColumnToHeaderIndex[$header_index];
+                                    //     }
+
+                                    //     if ($headerIndex == $header_index) {
+                                    //         // Set the column value in the insert data
+                                    //         $insertContactValuesConditionData[$column] = $value;
+                                    //     }
+                                    // }
+
+                                    // Find the matching columns for the given header index
+                                    $matchingColumns = array_keys($contactValuesConditionColumnToHeader, $headerIndex);
+
+                                    foreach ($matchingColumns as $column) {
                                         $header_index = $column . '_header';
 
-                                        // Check if this column has header too
-                                        if (isset($contactValuesConditionColumnToHeaderIndex[$header_index])) {
-                                            $header_index = $contactValuesConditionColumnToHeaderIndex[$header_index];
-                                        }
-
-                                        if ($headerIndex == $header_index) {
+                                        // Check if this column has a header too
+                                        if (isset($contactValuesConditionColumnToHeaderIndex[$header_index]) && $headerIndex == $contactValuesConditionColumnToHeaderIndex[$header_index]) {
                                             // Set the column value in the insert data
                                             $insertContactValuesConditionData[$column] = $value;
                                         }
