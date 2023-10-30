@@ -588,6 +588,47 @@ class GroupController extends Controller
                 }
             }
         }
+
+        // Define a mapping of field names to database columns
+        $fieldToColumn = [
+            'owner1_first_name' => 'name',
+            'owner1_last_name' => 'last_name',
+            'owner1_email1' => 'email1',
+            'owner1_email2' => 'email2',
+            'owner1_primary_number' => 'number',
+            'owner1_number2' => 'number2',
+            'owner1_number3' => 'number3', // Note: You had a typo in 'oowner1_number3'
+        ];
+
+        if ($table == 'lead_info' && $fieldVal && isset($fieldToColumn[$fieldName])) {
+            $columnName = $fieldToColumn[$fieldName];
+            $record = Contact::where('id', $id)->first();
+
+            if ($record) {
+                $record->update([
+                    $columnName => $fieldVal
+                ]);
+            }
+        }
+
+        // Define a mapping of field names to database columns
+        $propertyFieldToColumn = [
+            'property_address' => 'street',
+            'property_city' => 'city',
+            'property_state' => 'state',
+            'property_zip' => 'zip'
+        ];
+
+        if ($table == 'property_infos' && $fieldVal && isset($propertyFieldToColumn[$fieldName])) {
+            $columnName = $propertyFieldToColumn[$fieldName];
+            $record = Contact::where('id', $id)->first();
+
+            if ($record) {
+                $record->update([
+                    $columnName => $fieldVal
+                ]);
+            }
+        }
     }
 
     public function insertContactGoalReachedProfitCollected($id, $value, $closing_date)
@@ -2759,6 +2800,10 @@ class GroupController extends Controller
 
                                     // Update the contact in the database with the matched phone number
                                     if ($matchingContact) {
+                                        if ($matchingContact->leadInfo) {
+                                            $matchingContact->leadInfo->update(['owner1_first_name' => $matchedFirstName]);
+                                            $matchingContact->leadInfo->update(['owner1_last_name' => $matchedLastName]);
+                                        }
                                         $matchingContact->update([
                                             'name' => $matchedFirstName,
                                             'last_name' => $matchedLastName,
@@ -2882,6 +2927,9 @@ class GroupController extends Controller
 
                                     // Update the contact in the database with the matched phone number
                                     if ($matchingContact) {
+                                        if ($matchingContact->leadInfo) {
+                                            $matchingContact->leadInfo->update(['owner1_email1' => $matchedEmail]);
+                                        }
                                         $matchingContact->update([
                                             'email1' => $matchedEmail,
                                         ]);
@@ -3000,6 +3048,10 @@ class GroupController extends Controller
 
                                     // Update the contact in the database with the matched email
                                     if ($matchingContact) {
+                                        if ($matchingContact->leadInfo) {
+                                            $matchingContact->leadInfo->update(['owner1_email1' => $matchedEmail]);
+                                            $matchingContact->leadInfo->update(['owner1_email2' => $matchedEmail]);
+                                        }
                                         $matchingContact->update([
                                             'email1' => $matchedEmail,
                                             'email2' => $matchedEmail,
@@ -3132,6 +3184,11 @@ class GroupController extends Controller
 
                                     // Update the contact in the database with the matched phone number
                                     if ($matchingContact) {
+                                        if ($matchingContact->leadInfo) {
+                                            $matchingContact->leadInfo->update(['owner1_primary_number' => $matchedPhone1]);
+                                            $matchingContact->leadInfo->update(['owner1_number2' => $matchedPhone2]);
+                                            $matchingContact->leadInfo->update(['owner1_number3' => $matchedPhone3]);
+                                        }
                                         $matchingContact->update([
                                             'number' => $matchedPhone1,
                                             'number2' => $matchedPhone2,
