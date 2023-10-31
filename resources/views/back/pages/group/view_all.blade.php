@@ -12,8 +12,8 @@
 
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
-                        white-space: nowrap;
-                    } */
+                            white-space: nowrap;
+                        } */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -359,8 +359,8 @@
                                                         data-id="{{ $contact->id }}" data-toggle="modal"
                                                         data-target="#deleteModal"><i
                                                             class="fas fa-times-circle"></i></button>
-                                                    <a href="{{ route('admin.group-contacts.edit', $contact->id) }}"
-                                                        class="btn btn-outline-primary btn-sm" title="Edit  User"><i
+                                                    <a href="{{ route('admin.group.contact.edit', $contact->id) }}"
+                                                        class="btn btn-outline-primary btn-sm" title="Edit Contact"><i
                                                             class="fas fa-edit"></i></a> -
                                                 </td>
                                             </tr>
@@ -376,6 +376,36 @@
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+
+    {{-- Modal Delete --}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Contact Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.group.contact.destroy', 'test') }}" method="post" id="editForm">
+                    @method('DELETE')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="modal-body">
+                            <p class="text-center">
+                                Are you sure you want to delete this record?
+                            </p>
+                            <input type="hidden" id="id" name="id" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -529,6 +559,13 @@
                     });
                 }
             }
+        });
+
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('.modal-body #id').val(id);
         });
     </script>
 @endsection

@@ -11,8 +11,8 @@
 
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
-                            white-space: nowrap;
-                        } */
+                                    white-space: nowrap;
+                                } */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -38,6 +38,9 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             All Numbers
+                            <a href="{{ route('admin.group.contact.create', $group->id) }}"
+                                class="btn btn-outline-primary btn-sm float-right ml-2" title="New Contact"><i
+                                    class="fas fa-plus-circle"></i></a>
                             @include('components.modalform')
                         </div>
                     </div>
@@ -247,7 +250,7 @@
                                             <th scope="col">Numbers</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">No. Of Tags</th>
-
+                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -304,11 +307,20 @@
 
 
                                                 <!-- <td>
-                                                                                        <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
-                                                                                            <i class="fas fa-phone whatsapp-icon"></i>
-                                                                                        </a>
-                                                                                        <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
-                                                                                    </td> -->
+                                                                                                <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
+                                                                                                    <i class="fas fa-phone whatsapp-icon"></i>
+                                                                                                </a>
+                                                                                                <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
+                                                                                            </td> -->
+                                                <td>
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        title="Remove {{ $contact->name }}" data-id="{{ $contact->id }}"
+                                                        data-toggle="modal" data-target="#deleteModal"><i
+                                                            class="fas fa-times-circle"></i></button>
+                                                    <a href="{{ route('admin.group.contact.edit', $contact->id) }}"
+                                                        class="btn btn-outline-primary btn-sm" title="Edit Contact"><i
+                                                            class="fas fa-edit"></i></a> -
+                                                </td>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -320,6 +332,36 @@
             <!-- end page title -->
 
         </div> <!-- container-fluid -->
+
+        {{-- Modal Delete --}}
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Contact Record</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.group.contact.destroy', 'test') }}" method="post" id="editForm">
+                        @method('DELETE')
+                        @csrf
+                        <div class="modal-body">
+                            <div class="modal-body">
+                                <p class="text-center">
+                                    Are you sure you want to delete this record?
+                                </p>
+                                <input type="hidden" id="id" name="id" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -345,7 +387,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Last Name</label>
-                                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+                                <input type="text" class="form-control" name="last_name"
+                                    placeholder="Enter Last Name">
                             </div>
                             <div class="form-group">
                                 <label>Street</label>
@@ -560,6 +603,13 @@
                         });
                     }
                 }
+            });
+
+            $('#deleteModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var modal = $(this);
+                modal.find('.modal-body #id').val(id);
             });
         </script>
     @endsection
