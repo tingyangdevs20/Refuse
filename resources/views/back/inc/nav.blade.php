@@ -219,7 +219,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.CommunicationSetting.index') }}"
                                 class="waves-effect">Communication Settings</a></li>
-                        <li><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment
+                        <li style="display:none"><a href="{{ route('admin.AppointmentSetting.index') }}" class="waves-effect">Appointment
                                 </a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">General Settings</a>
                         </li>
@@ -296,7 +296,7 @@
 
                         @endif
 
-                        <li><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Activity</a></li>
+                        <li style="display:none"><a href="{{ route('admin.sms.failed') }}" class="waves-effect">Activity</a></li>
 
                         <li style="display:none"><a href="{{ route('admin.category.index') }}"
                                 class=" waves-effect">Lead Categories</a></li>
