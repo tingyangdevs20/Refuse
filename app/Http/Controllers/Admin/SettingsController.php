@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\MarketingSpend;
 use App\Model\CalendarSetting;
+use App\Model\FailedSms;
 use App\Model\Number;
 use App\Model\Template;
 use App\Model\Settings;
@@ -57,8 +58,9 @@ class SettingsController extends Controller
         $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
 
         $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting();
-
-        return view('back.pages.settings.index', compact('settings', 'timezones', 'appointmentSetting'));
+        $messages=FailedSms::orderBy('created_at','DESC')->get();
+        $sr=1;
+        return view('back.pages.settings.index', compact('settings', 'timezones', 'appointmentSetting','messages','sr'));
     }
 
     public function appointment()
