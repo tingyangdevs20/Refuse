@@ -24,9 +24,9 @@ class ContactListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Group $group)
+    public function create()
     {
-        return view('back.pages.group.newContact', compact('group'));
+        return view('back.pages.group.newContact');
     }
 
     /**
@@ -35,7 +35,7 @@ class ContactListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Group $group)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
@@ -55,7 +55,7 @@ class ContactListController extends Controller
             'email2' => $request->input('email2'),
         ]);
 
-        $group->contacts()->save($contact);
+        $contact->save();
 
         // Add lead info
         DB::table('lead_info')->updateOrInsert(
@@ -83,7 +83,7 @@ class ContactListController extends Controller
         );
 
         Alert::success('Success', 'Contact Record Added!');
-        return redirect()->route('admin.group.show', $group->id);
+        return redirect()->route('admin.group-contacts-all');
     }
 
     /**

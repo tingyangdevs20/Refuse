@@ -384,8 +384,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
-    Route::get('lists/{group}/contact/create', 'Admin\ContactListController@create')->name('group.contact.create');
-    Route::post('lists/{group}/contact/store', 'Admin\ContactListController@store')->name('group.contact.store');
+    Route::get('lists/contact/create', 'Admin\ContactListController@create')->name('group.contact.create');
+    Route::post('lists/contact/store', 'Admin\ContactListController@store')->name('group.contact.store');
     Route::get('lists/contact/{contact}/edit', 'Admin\ContactListController@edit')->name('group.contact.edit');
     Route::post('lists/contact/{contact}/update', 'Admin\ContactListController@update')->name('group.contact.update');
     Route::delete('lists/contact/destroy', 'Admin\ContactListController@destroy')->name('group.contact.destroy');

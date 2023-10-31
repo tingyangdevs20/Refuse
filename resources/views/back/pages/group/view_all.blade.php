@@ -89,6 +89,9 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             All Contacts
+                            <a href="{{ route('admin.group.contact.create') }}"
+                                class="btn btn-outline-primary btn-sm float-right ml-2" title="New Contact"><i
+                                    class="fas fa-plus-circle"></i></a>
                             @include('components.modalform')
                         </div>
                     </div>
