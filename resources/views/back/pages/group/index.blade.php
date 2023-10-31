@@ -877,8 +877,6 @@
                     campaignModal.removeClass('d-none'); // Remove the class to show the first modal
                 });
 
-
-
                 // Show the modal
                 confirmationModal.modal('show');
 
