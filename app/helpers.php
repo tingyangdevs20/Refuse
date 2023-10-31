@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Model\UserAgreement;
 use App\Model\UserAgreementSeller;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\Models\Media;
 
 function getReportingDataOfSMS($days)
 {
@@ -554,4 +555,37 @@ function gmail_remove_reply_part($from, $to, $str)
     $string = implode("\n", $lines);
 
     return $string = implode("\n", $lines);
+}
+
+function deleteContactRecords($contactId)
+{
+    DB::table('agent_infos')->where('contact_id', $contactId)->delete();
+    DB::table('appointments')->where('contact_id', $contactId)->delete();
+    DB::table('commitments')->where('contact_id', $contactId)->delete();
+    DB::table('custom_field_values')->where('contact_id', $contactId)->delete();
+    DB::table('emails')->where('contact_id', $contactId)->delete();
+    DB::table('followup_sequences')->where('contact_id', $contactId)->delete();
+    DB::table('future_seller_infos')->where('contact_id', $contactId)->delete();
+    DB::table('hoa_info')->where('contact_id', $contactId)->delete();
+    DB::table('insurance_company')->where('contact_id', $contactId)->delete();
+    DB::table('lead_info')->where('contact_id', $contactId)->delete();
+    DB::table('negotiations')->where('contact_id', $contactId)->delete();
+    DB::table('objections')->where('contact_id', $contactId)->delete();
+    DB::table('property_finance_infos')->where('contact_id', $contactId)->delete();
+    DB::table('property_infos')->where('contact_id', $contactId)->delete();
+    DB::table('selling_motivations')->where('contact_id', $contactId)->delete();
+    DB::table('stuffs')->where('contact_id', $contactId)->delete();
+    DB::table('title_company')->where('contact_id', $contactId)->delete();
+    DB::table('utility_deparments')->where('contact_id', $contactId)->delete();
+    DB::table('values_conditions')->where('contact_id', $contactId)->delete();
+
+    // Get the media associated with the contact's collections
+    $media = Media::where('model_id', $contactId)
+    ->where('model_type', 'App/Model/Contact')
+    ->get();
+
+    // Delete the associated media files and their database records
+    $media->each->delete();
+
+    DB::table('contacts')->where('id', $contactId)->delete();
 }

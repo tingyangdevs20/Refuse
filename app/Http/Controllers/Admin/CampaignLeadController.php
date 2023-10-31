@@ -30,13 +30,13 @@ class CampaignLeadController extends Controller
     }
     public function changeStatus(Request $request)
     {
-        
+
         $id=$request->id;
         $camp = CampaignLead::where('id' , $id)->first();
-        $camp->active = $request->sts; 
-        
-        $camp->save(); 
-        return response()->json(['success'=>'Status changed successfully.']); 
+        $camp->active = $request->sts;
+
+        $camp->save();
+        return response()->json(['success'=>'Status changed successfully.']);
     }
 
     public function copy($id = '')
@@ -68,9 +68,9 @@ class CampaignLeadController extends Controller
                     $checkCompainList = CampaignLeadList::where('campaign_id', $campaign_id)->get();
                 }
             }
-          
-          
-            
+
+
+
         }
       //  return redirect()->route('admin.leadcampaigns.index')->with('success', 'Campaign created successfully.');
       return redirect()->back();
@@ -178,6 +178,7 @@ class CampaignLeadController extends Controller
                                         $contactsArr[] = $number;
                                     }
                                 }
+
                                 if (count($contactsArr) > 0) {
                                     $c_phones = implode(',', $contactsArr);
                                     $vrm = \Slybroadcast::sendVoiceMail([

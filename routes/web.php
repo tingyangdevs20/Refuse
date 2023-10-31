@@ -176,7 +176,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('delete-List', 'TaskListController@deleteList')->name('delete-List');
     Route::post('update-task', 'TaskListController@update')->name('update-task');
 
-
     Route::get('/account', 'Admin\AccountController@index')->name('account.index');
     Route::put('account/google-calendar', 'Admin\AccountController@updateGoogleCalendarSettings')->name('admin.calendar-settings.update');
     Route::get('/dashboard', 'Admin\AdminController@index')->name('dashboard');
@@ -189,6 +188,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::post('goals', 'Admin\AdminController@getGoals')->name('goals');
     Route::get('/send-email', 'Admin\SendGridEmailController@sendMail')->name('sendMail');
     Route::get('/test-rvm', 'Admin\RvmController@sendrvm')->name('sendrvm');
+
     // Source list route
     Route::get('/source-list', 'Admin\SourceListController@index')->name('source.list');
 
@@ -245,7 +245,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('group-contacts-all', 'Admin\GroupController@getAllContacts')->name('group-contacts-all');
     Route::get('group-contacts/edit/{id}', 'Admin\GroupController@editContacts')->name('group-contacts.edit');
     Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
-    Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
+
+    // Route::post('group-contacts/store', 'Admin\GroupController@StoreContacts')->name('StoreContacts');
 
 
     Route::resource('auto-responder', 'Admin\AutoResponderController');
@@ -383,6 +384,12 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
 
 
     Route::get('contact.detail/{id}', 'Admin\GroupController@contactInfo')->name('contact.detail');
+    Route::get('lists/{group}/contact/create', 'Admin\ContactListController@create')->name('group.contact.create');
+    Route::post('lists/{group}/contact/store', 'Admin\ContactListController@store')->name('group.contact.store');
+    Route::get('lists/contact/{contact}/edit', 'Admin\ContactListController@edit')->name('group.contact.edit');
+    Route::post('lists/contact/{contact}/update', 'Admin\ContactListController@update')->name('group.contact.update');
+    Route::delete('lists/contact/destroy', 'Admin\ContactListController@destroy')->name('group.contact.destroy');
+
     Route::post('contact/detail/update', 'Admin\GroupController@updateinfo');
 
     Route::get('load/script/{id}', 'Admin\GroupController@getScript');

@@ -53,6 +53,7 @@ use App\Services\DatazappService;
 use App\Mail\CampaignConfirmation;
 use App\Mail\CampaignMail;
 use App\Model\PropertyInfo;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Gate;
 
 class GroupController extends Controller
@@ -2193,9 +2194,34 @@ class GroupController extends Controller
 
     public function destroy(Request $request)
     {
-        Group::find($request->id)->delete();
-        Alert::success('Success!', 'List Removed!');
+        $groupId = $request->id;
+
+        DB::table('campaigns')->where('group_id', $groupId)->update(['group_id' => null]);
+        DB::table('campaign_leads')->where('group_id', $groupId)->update(['group_id' => null]);
+
+        $contactIds = DB::table('contacts')->where('group_id', $groupId)->pluck('id')->toArray();
+
+        foreach ($contactIds as $contactId) {
+            deleteContactRecords($contactId);
+        }
+
+        DB::table('group_tags')->where('group_id', $groupId)->delete();
+
+        DB::table('skip_tracing_details')->where('group_id', $groupId)->delete();
+
+        DB::table('skip_tracing_payment_records')->where('group_id', $groupId)->delete();
+
+        $group = Group::find($groupId);
+
+        if ($group) {
+            $group->delete();
+            Alert::success('Success!', 'List Removed!');
+        } else {
+            Alert::error('Error!', 'Group not found.');
+        }
+
         return redirect()->back();
+
     }
 
 

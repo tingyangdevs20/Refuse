@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Contact;
+use App\Model\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Models\Media as ModelsMedia;
 
 class ContactListController extends Controller
 {
@@ -20,9 +24,9 @@ class ContactListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Group $group)
     {
-        //
+        return view('back.pages.group.newContact', compact('group'));
     }
 
     /**
@@ -31,25 +35,55 @@ class ContactListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Group $group)
     {
-        $group_id = $request->group_id;
-        $contact = new Contact();
-        $contact->group_id = $group_id;
-        $contact->name = $request->name;
-        $contact->last_name = $request->last_name;
-        $contact->street = $request->street;
-        $contact->city = $request->city;
-        $contact->state = $request->state;
-        $contact->zip = $request->zip;
-        $contact->number = $request->number;
-        $contact->number2 = $request->number2;
-        $contact->email1 = $request->email1;
-        $contact->email2 = $request->email2;
+        $request->validate([
+            'name' => 'required|string',
+        ]);
 
-        $contact->save();
-        Alert::success('Success', 'Contact Added!');
-        return redirect()->back();
+        $contact = new Contact([
+            'name' => $request->name,
+            'last_name' => $request->input('last_name'),
+            'street' => $request->input('street'),
+            'city' => $request->input('city'),
+            'state' => $request->input('state'),
+            'zip' => $request->input('zip'),
+            'number' => $request->input('number'),
+            'number2' => $request->input('number2'),
+            'number3' => $request->input('number3'),
+            'email1' => $request->input('email1'),
+            'email2' => $request->input('email2'),
+        ]);
+
+        $group->contacts()->save($contact);
+
+        // Add lead info
+        DB::table('lead_info')->updateOrInsert(
+            ['contact_id' => $contact->id],
+            [
+                'owner1_first_name' => $contact->name,
+                'owner1_last_name' => $contact->last_name,
+                'owner1_primary_number' => $contact->number,
+                'owner1_number2' => $contact->number2,
+                'owner1_number3' => $contact->number3,
+                'owner1_email1' => $contact->email1,
+                'owner1_email2' => $contact->email2
+            ]
+        );
+
+        // Add property info
+        DB::table('property_infos')->updateOrInsert(
+            ['contact_id' => $contact->id],
+            [
+                'property_address' => $contact->street,
+                'property_city' => $contact->city,
+                'property_state' => $contact->state,
+                'property_zip' => $contact->zip
+            ]
+        );
+
+        Alert::success('Success', 'Contact Record Added!');
+        return redirect()->route('admin.group.show', $group->id);
     }
 
     /**
@@ -69,9 +103,9 @@ class ContactListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Contact $contact)
     {
-        //
+        return view('back.pages.group.editcontact', compact('contact'));
     }
 
     /**
@@ -81,23 +115,52 @@ class ContactListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Contact $contact)
     {
-        $media = null;
-        if ($request->mediaUrl != null) {
-            $media = $request->file('mediaUrl');
-            $filename = $media->getClientOriginalName();
-            $extension = $media->getClientOriginalExtension();
-            $tmpname = 'RVM_'.time() .'.'. $extension;
-            $path = $media->storeAs("MMS_Media", $tmpname, "uploads");
-            $media = config('app.url') . '/public/uploads/' . $path;
-        }
-        $rvm=RvmFile::find($request->id);
-        $rvm->name=$request->name;
-        $rvm->mediaUrl=$media;
-        $rvm->save();
-        Alert::success('Success','Tag Updated!');
-        return redirect()->back();
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $contact->name = $request->name;
+        $contact->last_name = $request->input('last_name');
+        $contact->street = $request->input('street');
+        $contact->city = $request->input('city');
+        $contact->state = $request->input('state');
+        $contact->zip = $request->input('zip');
+        $contact->number = $request->input('number');
+        $contact->number2 = $request->input('number2');
+        $contact->number3 = $request->input('number3');
+        $contact->email1 = $request->input('email1');
+        $contact->email2 = $request->input('email2');
+        $contact->save();
+
+        // Update or insert lead info
+        DB::table('lead_info')->updateOrInsert(
+            ['contact_id' => $contact->id],
+            [
+                'owner1_first_name' => $contact->name,
+                'owner1_last_name' => $contact->last_name,
+                'owner1_primary_number' => $contact->number,
+                'owner1_number2' => $contact->number2,
+                'owner1_number3' => $contact->number3,
+                'owner1_email1' => $contact->email1,
+                'owner1_email2' => $contact->email2
+            ]
+        );
+
+        // Update or insert property info
+        DB::table('property_infos')->updateOrInsert(
+            ['contact_id' => $contact->id],
+            [
+                'property_address' => $contact->street,
+                'property_city' => $contact->city,
+                'property_state' => $contact->state,
+                'property_zip' => $contact->zip
+            ]
+        );
+
+        Alert::success('Success', 'Contact Record Updated!');
+        return redirect()->route('admin.group-contacts-all');
     }
 
     /**
@@ -108,8 +171,10 @@ class ContactListController extends Controller
      */
     public function destroy(Request $request)
     {
-        RvmFile::find($request->rvm_id)->delete();
-        Alert::success('Success','Rvm Removed!');
+        $contactId = $request->id;
+        deleteContactRecords($contactId);
+
+        Alert::success('Success', 'Contact Record Removed!');
         return redirect()->back();
     }
 }
