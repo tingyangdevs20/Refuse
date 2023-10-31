@@ -11,8 +11,8 @@
 
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
-                    white-space: nowrap;
-                } */
+                            white-space: nowrap;
+                        } */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -227,6 +227,12 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-danger btn-md" id="delete-selected-button"
+                                        style="display: none;">Delete Selected Records</button>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered" id="datatable">
                                     <thead>
@@ -259,34 +265,34 @@
                                                         href="{{ route('admin.contact.detail', $contact->id) }}">{{ $contact->last_name }}</a>
                                                 </td>
                                                 <td>
-                                                    @if(isset($contact->propertyInfo))
+                                                    @if (isset($contact->propertyInfo))
                                                         {{ $contact->propertyInfo->property_address }}
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if(isset($contact->propertyInfo))
+                                                    @if (isset($contact->propertyInfo))
                                                         {{ $contact->propertyInfo->property_city }}
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if(isset($contact->propertyInfo))
+                                                    @if (isset($contact->propertyInfo))
                                                         {{ $contact->propertyInfo->property_state }}
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if(isset($contact->propertyInfo))
+                                                    @if (isset($contact->propertyInfo))
                                                         {{ $contact->propertyInfo->property_zip }}
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if(isset($contact->leadInfo))
+                                                    @if (isset($contact->leadInfo))
                                                         {{ $contact->leadInfo->owner1_primary_number }}<br>
                                                         {{ $contact->leadInfo->owner1_number2 }}<br>
                                                         {{ $contact->leadInfo->owner1_number3 }}
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if(isset($contact->leadInfo))
+                                                    @if (isset($contact->leadInfo))
                                                         {{ $contact->leadInfo->owner1_email1 }}<br>
                                                         {{ $contact->leadInfo->owner1_email2 }}
                                                     @endif
@@ -298,11 +304,11 @@
 
 
                                                 <!-- <td>
-                                                                                <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
-                                                                                    <i class="fas fa-phone whatsapp-icon"></i>
-                                                                                </a>
-                                                                                <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
-                                                                            </td> -->
+                                                                                        <a id="button-call" href="javascript:void(0)" phone-number="{{ $contact->number }}">
+                                                                                            <i class="fas fa-phone whatsapp-icon"></i>
+                                                                                        </a>
+                                                                                        <button id="button-hangup-outgoing" class='d-none fas fa-phone whatsapp-icon hangupicon'></button>
+                                                                                    </td> -->
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -429,18 +435,7 @@
 
         <script>
             $(document).ready(function() {
-                $('#datatable').DataTable({
-
-                        'columnDefs': [{
-
-                            'render': function(data, type, full, meta) {
-                                return '<input type="checkbox" name="id[]" value="">';
-                            }
-                        }],
-                    }
-
-
-                );
+                $('#datatable').DataTable();
             });
             $('#delete-selected-button').hide();
 
@@ -459,8 +454,12 @@
                 toggleDeleteButtonVisibility();
             });
 
+            // Individual checkbox change event
+            $('.task-checkbox').change(function() {
+                toggleDeleteButtonVisibility();
+            });
 
-
+            // Function to toggle delete button visibility
             function toggleDeleteButtonVisibility() {
                 var selectedCount = $('.task-checkbox:checked').length;
                 if (selectedCount > 0) {
@@ -469,8 +468,8 @@
 
                     $('#delete-selected-button').hide();
                 }
-
             }
+
             var isChecked = false;
 
             function allSelected() {
@@ -527,5 +526,40 @@
                     alert('Select the contact to be deleted!')
                 }
             }
+
+            // Handle delete button click
+            $('#delete-selected-button').click(function(e) {
+                e.preventDefault();
+                var selectedTaskIds = $('.task-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                console.log(selectedTaskIds);
+
+                if (selectedTaskIds.length > 0) {
+                    // Show confirmation modal if needed
+                    if (confirm('Are you sure you want to delete the selected records?')) {
+
+                        $.ajax({
+                            url: '{{ route('admin.delete-List') }}',
+                            method: 'POST',
+
+                            data: {
+                                task_id: selectedTaskIds,
+                                _token: '{{ csrf_token() }}', // Add CSRF token
+                            },
+                            success: function(response) {
+                                // Handle success, e.g., refresh the page or update the table
+                                toastr.success(response.message, 'Success');
+                                window.location.reload();
+                            },
+                            error: function(error) {
+                                // Handle error
+                                toastr.error(error, 'Error');
+                                console.error(error);
+                            }
+                        });
+                    }
+                }
+            });
         </script>
     @endsection

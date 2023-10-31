@@ -177,7 +177,7 @@ class DatazappService
         $filteredContacts = [];
 
         foreach ($contacts as $contact) {
-            if ($type === 'skip_entire_list_phone' || $type == 'phone_scrub_entire_list') {
+            if ($type === 'skip_entire_list_phone') {
                 // Check if the contact has a value in 'number', 'number2', or 'number3'
                 if (!empty($contact->number) || !empty($contact->number2) || !empty($contact->number3)) {
                     $filteredContacts[] = $contact;

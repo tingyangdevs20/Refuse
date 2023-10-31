@@ -314,9 +314,6 @@
                         </li> --}}
 
 
-
-
-
                         <!-- <li><a href="{{ route('admin.quick-response.index') }}" class=" waves-effect"> -->
 
                         <!-- <span> Quick Response</span></a></li> -->
