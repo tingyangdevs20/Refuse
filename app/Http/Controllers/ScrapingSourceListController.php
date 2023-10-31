@@ -382,6 +382,11 @@ class ScrapingSourceListController extends Controller
                             if ($checkContact == null) {
                                 $insertData = [
                                     "group_id" => $group_id,
+                                    "street" => $address,
+                                    "city" => $city,
+                                    "state" => $state,
+                                    "zip" => $zip,
+                                    "number" => $primaryPhoneNumber,
                                 ];
 
                                 $contact = Contact::create($insertData);
