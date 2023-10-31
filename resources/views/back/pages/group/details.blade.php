@@ -38,9 +38,6 @@
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
                             All Numbers
-                            <a href="{{ route('admin.group.contact.create', $group->id) }}"
-                                class="btn btn-outline-primary btn-sm float-right ml-2" title="New Contact"><i
-                                    class="fas fa-plus-circle"></i></a>
                             @include('components.modalform')
                         </div>
                     </div>

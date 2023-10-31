@@ -31,7 +31,7 @@
                                 <div class="alert alert-success">{{ session('success') }}</div>
                             @endif
                             <div class="col-md-7">
-                                <form action="{{ route('admin.group.contact.store', $group->id) }}" class="" method="post">
+                                <form action="{{ route('admin.group.contact.store') }}" class="" method="post">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
