@@ -12,8 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use DB;
+
 use Illuminate\Support\Facades\Schema;
 
 class UserAgreementController extends Controller
@@ -216,18 +217,19 @@ class UserAgreementController extends Controller
 
     public function pdf(Request $request)
     {
+        dd($request->content);
+        // $rules = [
+        //     'content'     => ['required'],
+        // ];
 
-        $rules = [
-            'content'     => ['required'],
-        ];
+        // $message = [
+        //     'template_id.required'    => "This field is required!",
+        //     'agreement_date.required' => "This field is required!",
+        //     'content.required'        => "This field is required!",
+        // ];
 
-        $message = [
-            'template_id.required'    => "This field is required!",
-            'agreement_date.required' => "This field is required!",
-            'content.required'        => "This field is required!",
-        ];
+        // $validator = Validator::make($request->all(), $rules, $message);
 
-        $validator = Validator::make($request->all(), $rules, $message);
         $contact_id = $request->contact_id;
 
 
@@ -264,14 +266,14 @@ class UserAgreementController extends Controller
                 ];
             }
         }
-        $validator = Validator::make($request->all(), $rules, $message);
-        if ($validator->fails()) {
-            $response = [
-                'success' => false,
-                'errors'  => $validator->errors()->toArray(),
-            ];
-            return response()->json($response, 400);
-        }
+        // $validator = Validator::make($request->all(), $rules, $message);
+        // if ($validator->fails()) {
+        //     $response = [
+        //         'success' => false,
+        //         'errors'  => $validator->errors()->toArray(),
+        //     ];
+        //     return response()->json($response, 400);
+        // }
         $pattern = '/\{([^}]+)\}/';
         preg_match_all($pattern, $request->content, $matches);
         $emptyColumns = [];
@@ -380,7 +382,6 @@ class UserAgreementController extends Controller
         $fileName = getUniqueFileName() . ".pdf";
         $pdf->save($pdfPath . '/' . $fileName);
         return response()->download($pdfPath . '/' . $fileName);
-
     }
 
     public function fetch_empty_columns($columnPattern, $table, $sellerId)

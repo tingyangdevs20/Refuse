@@ -5742,7 +5742,7 @@
                                                                     <div class="form-group" style="padding: 0 10px;">
                                                                         <label>Template Content <span
                                                                                 class="required">*</span></label>
-                                                                        <textarea class="form-control text1 userAgreementContent" id="RF-content" name="content"
+                                                                        <textarea class="form-control text1 userAgreementContent" id="user-agreement-content" name="content"
                                                                             rows="10"></textarea>
                                                                         <div id='count' class="float-lg-right">
                                                                         </div>
