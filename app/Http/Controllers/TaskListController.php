@@ -73,7 +73,7 @@ class TaskListController extends Controller
           // Assign roles using Spatie's role package
 
           session()->flash('success', 'Task has been created !!');
-          return redirect()->route('admin.task-list.index');
+          return redirect()->back();
       }else{
           return abort(401);
       }
@@ -174,6 +174,7 @@ class TaskListController extends Controller
     public function storeLists(Request $request)
     {
         // Validate the form data
+        dd($request);
         $validatedData = $request->validate([
             'task' => 'required|string|max:255',
             'description' => 'nullable|string',

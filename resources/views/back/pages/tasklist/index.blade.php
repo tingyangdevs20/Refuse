@@ -78,20 +78,7 @@
                                     <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
                                             @csrf
                                             <div class="row">
-                                                <!-- <div class="col-md-6 col-12 mb-3">
-                                                    <label for="task">Task</label>
-                                                    <input type="text" name="task" id="task"
-                                                        class="form-control">
-                                                </div>
-                                                <div class="col-md-6 col-12 mb-3">
-                                                    <label for="assignee">Assign To</label>
-                                                    <select class="form-control select2" id="assignee" name="assignee">
-                                                        <option value="">Select User</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div> -->
+                                               
                                                 <div class="col-12 mb-3">
                                                     @if (auth()->user()->can('administrator') ||
                                                             auth()->user()->can('user_task_create'))
