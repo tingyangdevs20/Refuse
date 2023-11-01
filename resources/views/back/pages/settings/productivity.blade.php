@@ -229,94 +229,7 @@
                                                       enctype="multipart/form-data">
                                                       @csrf
                                                       @method('PUT')
-                                                      @include('back.pages.partials.messages')
-                    <div class="card">
-                        <div class="card-header bg-soft-dark ">
-                            Task Lists
-                            <button id="add-task-button" class="btn btn-outline-primary btn-sm float-right ml-2" title="New" data-toggle="modal"
-                                data-target="#newModal"><i class="fas fa-plus-circle"></i></button>
-                            @include('components.modalform')
-
-                        </div>
-                        <div class="card-body">
-                            <div class="card">
-
-                                <div class="card-body">
-                                    <div id="task-list-container">
-
-                                    <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
-                                            @csrf
-                                            <div class="row">
-                                                <!-- <div class="col-md-6 col-12 mb-3">
-                                                    <label for="task">Task</label>
-                                                    <input type="text" name="task" id="task"
-                                                        class="form-control">
-                                                </div>
-                                                <div class="col-md-6 col-12 mb-3">
-                                                    <label for="assignee">Assign To</label>
-                                                    <select class="form-control select2" id="assignee" name="assignee">
-                                                        <option value="">Select User</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div> -->
-                                                <div class="col-12 mb-3">
-                                                    @if (auth()->user()->can('administrator') ||
-                                                            auth()->user()->can('user_task_create'))
-                                                        <button type="submit" class="btn btn-danger"
-                                                            id="delete-selected-button" style="display: none">Delete
-                                                            List</button>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <table id="tasktable" class="table table-bordered table-task-list">
-                                            <thead>
-                                                <tr>
-                                                    <th width="8%"><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                                    <!-- <th>S.No</th> -->
-                                                    <th>Task</th>
-                                                    <!-- <th>Assigned To</th> -->
-                                                    <!-- <th>Status</th> -->
-                                                    <th>Action</th>
-                                                    {{-- <th width="8%">Drag</th> <!-- New drag handle column --> --}}
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($tasks as $key => $task)
-                                                    <tr data-task-id="{{ $task->id }}">
-                                                        <!-- Add data-task-id attribute -->
-                                                        <td>
-                                                            <input type="checkbox" class="task-checkbox" name="task_id[]"
-                                                                value="{{ $task->id }}">
-                                                        </td>
-                                                        <!-- <td>{{ @$loop->iteration }}</td> -->
-                                                        <td><a href="{{ route('admin.task-list.show', $task->id) }}"
-                                                                id="trigger-startup-button">{{ @$task->tast }} </a> </td>
-                                                        <!-- <td>{{ @$task->user->name }}</td> -->
-                                                        <!-- <td>{{ @$task->status }}</td> -->
-                                                        <td>
-                                                            <!-- @if (auth()->user()->can('administrator') ||
-                                                                    auth()->user()->can('user_task_edit'))-->
-                                                            <button class="btn btn-outline-primary btn-sm edit-task"
-                                                                data-task-id="{{ @$task->id }}"
-                                                                data-task-name="{{ @$task->tast }}"
-                                                                data-toggle="modal"
-                                                                data-target="#newModal"
-                                                                title="Edit Task"><i class="fas fa-edit"></i></button>
-                                                        <!-- @endif -->
-                                                        </td>
-                                                        {{-- <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td> --}}
-                                                        <!-- Drag handle icon -->
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                                           
 
                                             
 
@@ -352,7 +265,54 @@
                                           </div>
                                        </div>
                                       <!-- TAB 2 CONTENT ENDS -->
-                                      
+                                       <!-- TAB 3 CONTENT -->
+                                       <div class="tab-pane" id="Twilio">
+                                          <div class="card">
+                                               <div class="card-header bg-soft-dark ">
+                                                  <i class="fas fa-cog mr-1"></i>Twilio
+                                                  
+                                                </div>
+
+                                                <div class="card-body">
+                                                  <form action="{{ route('admin.settings.update', $settings) }}" method="post"
+                                                      enctype="multipart/form-data">
+                                                      @csrf
+                                                      @method('PUT')
+                                           
+
+                                            
+
+                                            
+                                                      <button type="submit" class="btn btn-primary" style="background-color:#38B6FF;border-color:#38B6FF">Update Settings</button>
+                                                 </form>
+                                                </div>
+                                          </div>
+                                       </div>
+                                      <!-- TAB 3 CONTENT ENDS -->
+                                       <!-- TAB 4 CONTENT -->
+                                       <div class="tab-pane" id="Slybroadcast">
+                                          <div class="card">
+                                               <div class="card-header bg-soft-dark ">
+                                                  <i class="fas fa-cog mr-1"></i>Slybroadcast
+                                                  
+                                                </div>
+
+                                                <div class="card-body">
+                                                  <form action="{{ route('admin.settings.update', $settings) }}" method="post"
+                                                      enctype="multipart/form-data">
+                                                      @csrf
+                                                      @method('PUT')
+                                           
+
+                                            
+
+                                            
+                                                      <button type="submit" class="btn btn-primary" style="background-color:#38B6FF;border-color:#38B6FF">Update Settings</button>
+                                                 </form>
+                                                </div>
+                                          </div>
+                                       </div>
+                                      <!-- TAB 4 CONTENT ENDS -->
 
 
 
