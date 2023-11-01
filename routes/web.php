@@ -99,6 +99,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
     // Route::get('/api-settings', 'Admin\ApiSettingsController@index')->name('apisettings.index');
     Route::get('/appointment-settings', 'Admin\SettingsController@AppointmentSettings')->name('AppointmentSetting.index');
+    Route::get('/productivity-settings', 'Admin\SettingsController@ProductivitySettings')->name('productivity.index');
 
     // Templates routes
     Route::get('templates', 'Admin\SettingsController@templatesIndex')->name('templates.index');

@@ -11,6 +11,9 @@ use App\Model\Template;
 use App\Model\Settings;
 use App\Model\Account;
 use App\Model\Tag;
+use App\TaskList;
+use App\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Model\AutoResponder;
 use App\Model\AutoReply;
@@ -268,6 +271,23 @@ class SettingsController extends Controller
 
         $appointmentSetting = $appointmentSetting->count() ? $appointmentSetting[0] : new CalendarSetting();
         return view('back.pages.settings.appointment', compact('appointmentSetting', 'timezones'));
+    }
+
+    public function ProductivitySettings()
+    {
+        $settings = Settings::first();
+
+        if (Gate::allows('user_module') || Gate::allows('administrator')) {
+            $users = User::all();
+            // $tasks = TaskList::all();
+            $tasks = TaskList::orderBy('position')->get();
+            // $tasks = TaskList::all();
+
+            return view('back.pages.settings.productivity',compact('settings','users','tasks'));
+        }else{
+            return abort(401);
+        }
+       
     }
 
     /**

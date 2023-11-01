@@ -223,11 +223,13 @@
                                 </a></li>
                         <li><a href="{{ route('admin.settings.index') }}" class=" waves-effect">General Settings</a>
                         </li>
+                        <li><a href="{{ route('admin.productivity.index') }}" class=" waves-effect">Productivity</a>
+                        </li>
                         @if (auth()->user()->can('dashboard') ||
                                 auth()->user()->can('administrator') ||
                                 auth()->user()->can('access_all'))
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                          <!--<li>
+                                <a href="{{ route('admin.productivity.index') }}" class="has-arrow waves-effect">
 
                                     <span>Productivity</span>
                                 </a>
@@ -242,11 +244,11 @@
                                             auth()->user()->can('roles_module'))
                                             <li><a href="{{ route('admin.create.goals') }}">Goals</a></li>
                                     @endif
+                                    <li><a href="{{ route('admin.settings.marketing-spend') }}">Marketing Spend</a></li>
                                 </ul>
-                            </li>
+                            </li>-->
                         @endif
-                        <li><a href="{{ route('admin.settings.marketing-spend') }}" class=" waves-effect">Marketing Spend</a>
-                        </li>
+                       
                         {{-- <li><a href="{{ route('admin.settings.appointment.appointment') }}"
                                 class=" waves-effect">Appointment Settings</a></li> --}}
                         <li><a href="{{ route('admin.apisettings.index') }}" class=" waves-effect">3rd Party APIs</a>
