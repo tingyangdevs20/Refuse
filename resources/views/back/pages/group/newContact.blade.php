@@ -42,7 +42,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" name="name" id="name" placeholder="First Name"
-                                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                                                    class="form-control @error('name') is-invalid @enderror"
+                                                    value="{{ old('name') }}">
                                                 @error('name')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -52,7 +53,9 @@
                                             {{-- <label for="name">Last Name</label> --}}
                                             <div class="form-group">
                                                 <input type="text" name="last_name" placeholder="Last Name"
-                                                    id="last_name" class="form-control @error('last_name') is-invalid @enderror" value="{{ old('last_name') }}">
+                                                    id="last_name"
+                                                    class="form-control @error('last_name') is-invalid @enderror"
+                                                    value="{{ old('last_name') }}">
                                                 @error('last_name')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -120,7 +123,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" name="number" placeholder="Primary Phone Number"
-                                                    id="number" class="form-control" value="{{ old('number') }}">
+                                                    id="number" class="form-control" value="+1{{ old('number') }}">
                                                 @error('number')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -129,7 +132,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" placeholder="Phone Number 2" name="number2"
-                                                    id="number2" class="form-control" value="{{ old('number2') }}">
+                                                    id="number2" class="form-control" value="+1{{ old('number2') }}">
                                                 @error('number2')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -138,7 +141,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" placeholder="Phone Number 3" name="number3"
-                                                    id="number3" class="form-control" value="{{ old('number3') }}">
+                                                    id="number3" class="form-control" value="+1{{ old('number3') }}">
                                                 @error('number3')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -155,8 +158,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="email" name="email1" placeholder="Email 1" id="email"
-                                                    class="form-control" value="{{ old('email1') }}">
+                                                <input type="email" name="email1" placeholder="Email 1"
+                                                    id="email" class="form-control" value="{{ old('email1') }}">
                                                 @error('email1')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -165,8 +168,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="email" name="email2" placeholder="Email 2" id="email"
-                                                    class="form-control" value="{{ old('email2') }}">
+                                                <input type="email" name="email2" placeholder="Email 2"
+                                                    id="email" class="form-control" value="{{ old('email2') }}">
                                                 @error('email2')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
