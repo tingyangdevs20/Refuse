@@ -16,8 +16,8 @@ class LeadCategoryController extends Controller
      */
     public function index()
     {
-        $leads=LeadCategory::all();
-        $sr=1;
+        $leads = LeadCategory::all();
+        $sr = 1;
         return view('back.pages.leadCategory.index',compact('leads','sr'));
     }
 

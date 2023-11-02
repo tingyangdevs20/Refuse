@@ -199,7 +199,7 @@
 
                 <li>
                     <a href="{{ route('admin.account.index') }}" class=" waves-effect">
-                        <i class="fa fa-user"></i>
+                        <i class="fa fa-user" style="display:none"></i>
                         <span>Administrative Settings</span>
                     </a>
                 </li>
