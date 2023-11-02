@@ -1626,11 +1626,7 @@ class GroupController extends Controller
                                                 // Skip this row and continue to the next one
                                                 continue 3; // Skip to the outer loop (next importData)
                                             }
-<<<<<<< HEAD
                                        }
-=======
-                                        }
->>>>>>> 0b38de587e22308e9f14c7005cfeb8bd540e17c0
                                     }
                                     if (in_array($column, ['owner1_email1', 'owner1_email2'])) {
                                         if ($value && $value != '') {
