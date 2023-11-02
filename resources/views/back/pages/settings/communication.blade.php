@@ -79,7 +79,7 @@
         }
 
         .toggle-off.btn {
-            padding-left: 24px
+            padding-left: 2px
         }
 
         .toggle.btn-lg {
@@ -339,7 +339,7 @@
                                                                         class="toggle-phone-system" data-toggle="toggle"
                                                                         data-onstyle="success" data-offstyle="warning"
                                                                         {{ $p_num->system_number ? 'checked' : '' }}
-                                                                        data-on="System" data-off="Market">
+                                                                        data-on="System" data-off="Marketing">
                                                                 </td>
                                                                 <td>
                                                                     <input data-id="{{ $p_num->id }}"
