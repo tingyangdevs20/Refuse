@@ -60,7 +60,15 @@
                                     <td>{{ strip_tags($campaignsLst->body) }}</td>
                                     @endif
                                     <td>
-                                        <button class="btn btn-outline-primary btn-sm edit-template" data-id="{{ $campaignsLst->id }}" data-toggle="modal" data-type="{{ $campaignsLst->type }}" data-body="{{ $campaignsLst->body }}" data-subject="{{ $campaignsLst->subject }}" data-send_after_days="{{ $campaignsLst->send_after_days }}" data-send_after_hours="{{ $campaignsLst->send_after_hours }}" data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-outline-primary btn-sm edit-template" 
+                                        data-id="{{ $campaignsLst->id }}" 
+                                        data-toggle="modal" 
+                                        data-type="{{ $campaignsLst->type }}" 
+                                        data-body="{{ $campaignsLst->body }}" 
+                                        data-subject="{{ $campaignsLst->subject }}" 
+                                        data-send_after_days="{{ $campaignsLst->send_after_days }}" 
+                                        data-send_after_hours="{{ $campaignsLst->send_after_hours }}" 
+                                        data-target="#editModal"><i class="fas fa-edit"></i></button>
                                         -
                                         <button class="btn btn-outline-danger btn-sm" data-id="{{ $campaignsLst->id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-times-circle"></i></button>
                                     </td>
@@ -252,7 +260,7 @@
                                 <div class="form-group">
                                     <label>Message Type</label>
                                     <select class="custom-select" onchange="check_type_edit(this)" id="type_edit" name="type_edit" required>
-                                    <option value="" selected>Select Message Type</option>
+                                    <option value="">Select Message Type</option>
                                         <option value="sms">SMS</option>
                                         <option value="email">Email</option>
                                         <option value="mms">MMS</option>
@@ -281,7 +289,7 @@
                             <div class="col-md-12" id="dvMessage2">
                                 <div class="form-group" >
                                     <label>Message</label>
-                                    <textarea id="msg" class="form-control" rows="10" name="msg_edit" id="msg_edit"></textarea>
+                                    <textarea class="form-control" rows="10" name="msg_edit" id="msg_edit"></textarea>
                                     <div id='count' class="float-lg-right"></div>
                                 </div>
                                 <div class="form-group">
@@ -394,6 +402,25 @@
 <link rel="stylesheet" href="{{ asset('/summernote/dist/summernote-bs4.css') }}" />
 <script src="{{ asset('/summernote/dist/summernote-bs4.min.js') }}"></script>
 <script>
+    $('#editModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var type = button.data('type');
+            var msg = button.data('body');
+            var subject = button.data('subject');
+            //alert(msg);
+            var id = button.data('id');
+            var send_after_days=button.data('send_after_days');
+            var send_after_hours=button.data('send_after_hours');//
+
+            var modal = $(this);
+            $('#send_after_days_edit').val(send_after_days);
+            $('#send_after_hours_edit').val(send_after_hours);
+            $('#msg_edit').text(msg);
+            $('#subject_edit').text(subject);
+            $('#type_edit').val(type);
+            $('#lstid').val(id);
+
+        });
    
     function check_type(ctrl) {
 

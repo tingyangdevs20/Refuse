@@ -117,37 +117,38 @@ class CampaignLeadListController extends Controller
     {
 
 
-        $types = $request->type;
-        $id = $request->cid;
+       // dd($request);
+        $types = $request->type_edit;
+        $id = $request->lstid;
         $subject = '';
         $media = "";
 
 
 
         $sendAfter = null;
-        if ($request->send_after_days !== null && $request->send_after_hours !== null) {
-            $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
+        if ($request->send_after_days_edit !== null && $request->send_after_hours_edit !== null) {
+            $sendAfter = now()->addDays($request->send_after_days_edit)->addHours($request->send_after_hours_edit);
         }
         if ($types == 'rvm') {
-            $media = $request->rvm;
+            $media = $request->rvm_edit;
         }
         if ($types == 'mms') {
-            $media = $request->media_file_mms;
+            $media = $request->media_file_edit;
         }
         if ($types == 'email') {
-            $subject = $request->subject;
+            $subject = $request->subject_edit;
         }
 
         // Update the campaign
-        CampaignLeadList::where('id', $request->cid)->update([
-            'type' => $request->type,
-            'send_after_days' => $request->send_after_days,
-            'send_after_hours' => $request->send_after_hours,
+        CampaignLeadList::where('id', $id)->update([
+            'type' => $types,
+            'send_after_days' => $request->send_after_days_edit,
+            'send_after_hours' => $request->send_after_hours_edit,
             'schedule' => $sendAfter,
             'mediaUrl' => $media,
             'template_id' => null,
             'subject' => $subject,
-            'body' => $request->body,
+            'body' => $request->msg_edit,
             'active' => 1, // Set active status
         ]);
 
