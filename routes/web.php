@@ -370,6 +370,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('compaignlead/list/{id}', 'Admin\CampaignLeadListController@compaignList')->name('compaignlead.list');
     Route::post('campaignlead/remove', 'Admin\CampaignLeadListController@remove')->name('campaignlead.remove');
     Route::post('campaignlead/update', 'Admin\CampaignLeadListController@update')->name('campaignleadlist.update');
+    Route::post('campaignlead/store', 'Admin\CampaignLeadListController@store')->name('campaignleadlist.store');
     Route::get('get/leadmessage/{type}/{id}', 'Admin\CampaignLeadListController@getTemplate');
 
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
