@@ -17,7 +17,7 @@ class MarketController extends Controller
      */
     public function index()
     {;
-        $sr=1;
+        $sr = 1;
         $markets=Market::all();
         return view('back.pages.market.index',compact('markets','sr'));
     }
@@ -76,8 +76,8 @@ class MarketController extends Controller
      */
     public function update(Request $request)
     {
-        $market=Market::find($request->id);
-        $market->name=$request->name;
+        $market = Market::find($request->id);
+        $market->name = $request->name;
         $market->save();
         Alert::success('Success','Market Updated!');
         return redirect()->back();

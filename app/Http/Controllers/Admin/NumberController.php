@@ -25,7 +25,7 @@ class NumberController extends Controller
         $accounts = Account::all();
         $numbers = Number::all();
         $markets=Market::all();
-        
+
         return view('back.pages.number.index', compact('sr', 'accounts', 'numbers','markets'));
     }
 
@@ -93,7 +93,7 @@ class NumberController extends Controller
         $number = Number::find($request->id);
         $number->number = $contact;
         $number->account_id = $request->account_id;
-        $number->market_id=$request->market_id;
+        $number->market_id = $request->market_id;
         $number->save();
         Alert::success('Success', 'Number Updated!');
         return redirect()->back();

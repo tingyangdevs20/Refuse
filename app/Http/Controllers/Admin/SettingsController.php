@@ -282,8 +282,10 @@ class SettingsController extends Controller
             // $tasks = TaskList::all();
             $tasks = TaskList::orderBy('position')->get();
             // $tasks = TaskList::all();
+            $data = MarketingSpend::where('user_id', auth()->id())->get();
+        
 
-            return view('back.pages.settings.productivity',compact('settings','users','tasks'));
+            return view('back.pages.settings.productivity',compact('settings','users','tasks','data'));
         }else{
             return abort(401);
         }

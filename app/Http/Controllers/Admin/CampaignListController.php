@@ -306,7 +306,7 @@ class CampaignListController extends Controller
     {
        
        // print_r(count($request->all()));
-       // dd($request);
+        dd($request);
         // die("..");
 
         $types = $request->type;
