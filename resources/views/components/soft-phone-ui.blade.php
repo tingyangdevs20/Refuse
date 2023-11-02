@@ -516,10 +516,11 @@
                     @php
                         $caller_id = 0;
                         use App\Model\Number;
-                        $twilio_number = Number::get();
+                        $twilio_number = Number::where('system_number', 1)->get();
                         // $caller_id = $twilio_number['number'];
 
-                    @endphp
+                    @endphp                    
+                    <p>{{$twilio_number}}</p>
                     @foreach ($twilio_number as $number )
                     <option value="{{ $number->number }}">{{  $number->number }}</option>
                         
