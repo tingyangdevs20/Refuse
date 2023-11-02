@@ -3313,6 +3313,7 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
+        $settings = Settings::first()->toArray();
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -3385,9 +3386,195 @@ class GroupController extends Controller
                     }
                 }
                 //MMS TYPE
-                elseif ($_typ == 'mms') {
+                elseif ($_typ == 'mms') 
+                {
+                    $this->SendMMS($groupId,$twilio_sender,'','');
+                    
+                }
 
-                    $client = new Client($sid, $token);
+                //MMS TYPE ENDS
+
+
+
+
+
+
+
+
+
+
+                //die('here');
+                elseif (trim($_typ) == 'email') 
+                {
+
+                    $this->SendMail($_body,$groupId,$campaign_list);
+
+                } 
+                elseif ($_typ == 'sms') 
+                {
+                    $this->SendSMS($groupId,$_body,$twilio_sender);
+                } 
+                else {
+
+                }
+            }
+            return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
+        } 
+        catch (\Exception $ex) {
+            $failed_sms = new FailedSms();
+            $failed_sms->client_number = '';
+            $failed_sms->twilio_number = '';
+            $failed_sms->message = '';
+            $failed_sms->media = '';
+            $failed_sms->error = $ex->getMessage();
+            $failed_sms->save();
+            Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
+        }
+        // Return a response to indicate success
+    }
+
+    // Show list create form
+    public function newListForm()
+    {
+        $groups = Group::all();
+        $markets = Market::all();
+        $tags = Tag::all();
+        $campaigns = Campaign::getAllCampaigns();
+        $form_Template = FormTemplates::get();
+        return view('back.pages.group.newList', compact('groups', 'markets', 'tags', 'campaigns', 'form_Template'));
+    }
+    public function SendMail($_body,$groupId,$campaign_list)
+    {
+        $_subject = $campaign_list->subject;
+
+
+        $contact_numbrs = Contact::where('group_id', $groupId)->get();
+        foreach ($contact_numbrs as $contact_num) {
+           // print_r($contact_num->email1);
+           // die("....");
+            if ($contact_num->email1 != null) {
+
+                $subject = $_subject;
+                $body = strip_tags($_body);
+                $body = str_replace("{name}", $contact_num->name, $body);
+                $body = str_replace("{street}", $contact_num->street, $body);
+                $body = str_replace("{city}", $contact_num->city, $body);
+                $body = str_replace("{state}", $contact_num->state, $body);
+                $body = str_replace("{zip}", $contact_num->zip, $body);
+                
+                $email = $contact_num->email1;
+                $unsub_link = url('admin/email/unsub/' . $email);
+
+               
+                $data = ['message' => $body, 'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
+               
+
+                Mail::to($email)->send(new TestEmail($data));
+               
+            }
+        }
+    }
+
+    public function SendSMS($groupId,$_body,$twilio_sender)
+    {
+        //die($twilio_sender);
+        $settings = Settings::first()->toArray();
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
+        $contact_numbrs = Contact::where('group_id', $groupId)->get();
+        // die($contact_numbrs);
+
+        $body = strip_tags($_body);
+
+
+
+        //die($body);
+
+        foreach ($contact_numbrs as $contact_num) {
+            $body = str_replace("{name}", $contact_num->name, $body);
+            $body = str_replace("{street}", $contact_num->street, $body);
+            $body = str_replace("{city}", $contact_num->city, $body);
+            $body = str_replace("{state}", $contact_num->state, $body);
+            $body = str_replace("{zip}", $contact_num->zip, $body);
+
+            // die($contact_num);
+
+            // print_r($settings);
+            //die("....");
+
+            $numberCounter = 0;
+            //print_r($token);
+            // die("...");
+
+
+            $client = new Client($sid, $token);
+            // print_r($client);
+            // die("...");
+
+            $cont_num = $contact_num->number;
+            // dd($twilio_sender);
+            // die('....');
+
+            $sms_sent = $client->messages->create(
+                $cont_num,
+                [
+                    'from' => $twilio_sender,
+                    'body' => $body,
+                ]
+            );
+
+            // print_r($sms_sent);
+            // die("...");
+            if ($sms_sent) {
+                $old_sms = Sms::where('client_number', $cont_num)->first();
+                if ($old_sms == null) {
+                    $sms = new Sms();
+                    $sms->client_number = $cont_num;
+                    $sms->twilio_number = $twilio_sender;
+                    $sms->lname = null;
+                    $sms->fname = null;
+                    $sms->message = $body;
+                    $sms->media = "NO";
+                    $sms->status = 1;
+                    $sms->save();
+                    //$contact = Contact::where('number', $contact->number)->get();;
+                    // foreach ($contact as $contacts) {
+                    // $contacts->msg_sent = 1;
+                    // $contacts->save();
+                    // }
+                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                } else {
+                    $reply_message = new Reply();
+                    $reply_message->sms_id = $old_sms->id;
+                    $reply_message->to = $cont_num;
+                    $reply_message->from = $twilio_sender;
+                    $reply_message->reply = $body;
+                    $reply_message->system_reply = 1;
+                    $reply_message->save();
+                    // $contact = Contact::where('number', $contact->number)->get();;
+                    // foreach ($contact as $contacts) {
+                    //  $contacts->msg_sent = 1;
+                    //  $contacts->save();
+                    //  }
+                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                }
+
+                // Alert::toast("SMS Sent Successfully", "success");
+
+            }
+
+
+
+
+        }
+    }
+
+    public function SendMMS($groupId,$sender_numbers,$template,$checkCompainList)
+    {
+        $settings = Settings::first()->toArray();
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
+        $client = new Client($sid, $token);
                     $contacts = Contact::where('group_id', $groupId)->get();
                     //dd($contacts);
                     if (count($contacts) > 0) {
@@ -3454,176 +3641,6 @@ class GroupController extends Controller
                             }
                         }
                     }
-                }
-
-                //MMS TYPE ENDS
-
-
-
-
-
-
-
-
-
-
-                //die('here');
-                elseif (trim($_typ) == 'email') {
-
-                    $this->SendMail($_body,$groupId,$campaign_list);
-
-
-                    
-                } 
-                elseif ($_typ == 'sms') 
-                {
-                    //die($twilio_sender);
-                    $settings = Settings::first()->toArray();
-                    $sid = $settings['twilio_acc_sid'];
-                    $token = $settings['twilio_auth_token'];
-                    $contact_numbrs = Contact::where('group_id', $groupId)->get();
-                    // die($contact_numbrs);
-
-                    $body = strip_tags($_body);
-
-
-
-                    //die($body);
-
-                    foreach ($contact_numbrs as $contact_num) {
-                        $body = str_replace("{name}", $contact_num->name, $body);
-                        $body = str_replace("{street}", $contact_num->street, $body);
-                        $body = str_replace("{city}", $contact_num->city, $body);
-                        $body = str_replace("{state}", $contact_num->state, $body);
-                        $body = str_replace("{zip}", $contact_num->zip, $body);
-
-                        // die($contact_num);
-
-                        // print_r($settings);
-                        //die("....");
-
-                        $numberCounter = 0;
-                        //print_r($token);
-                        // die("...");
-
-
-                        $client = new Client($sid, $token);
-                        // print_r($client);
-                        // die("...");
-
-                        $cont_num = $contact_num->number;
-                        // dd($twilio_sender);
-                        // die('....');
-
-                        $sms_sent = $client->messages->create(
-                            $cont_num,
-                            [
-                                'from' => $twilio_sender,
-                                'body' => $body,
-                            ]
-                        );
-
-                        // print_r($sms_sent);
-                        // die("...");
-                        if ($sms_sent) {
-                            $old_sms = Sms::where('client_number', $cont_num)->first();
-                            if ($old_sms == null) {
-                                $sms = new Sms();
-                                $sms->client_number = $cont_num;
-                                $sms->twilio_number = $twilio_sender;
-                                $sms->lname = null;
-                                $sms->fname = null;
-                                $sms->message = $body;
-                                $sms->media = "NO";
-                                $sms->status = 1;
-                                $sms->save();
-                                //$contact = Contact::where('number', $contact->number)->get();;
-                                // foreach ($contact as $contacts) {
-                                // $contacts->msg_sent = 1;
-                                // $contacts->save();
-                                // }
-                                // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                            } else {
-                                $reply_message = new Reply();
-                                $reply_message->sms_id = $old_sms->id;
-                                $reply_message->to = $cont_num;
-                                $reply_message->from = $twilio_sender;
-                                $reply_message->reply = $body;
-                                $reply_message->system_reply = 1;
-                                $reply_message->save();
-                                // $contact = Contact::where('number', $contact->number)->get();;
-                                // foreach ($contact as $contacts) {
-                                //  $contacts->msg_sent = 1;
-                                //  $contacts->save();
-                                //  }
-                                // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                            }
-
-                            // Alert::toast("SMS Sent Successfully", "success");
-
-                        }
-
-
-
-
-                    }
-                } else {
-
-                }
-            }
-            return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
-        } catch (\Exception $ex) {
-            $failed_sms = new FailedSms();
-            $failed_sms->client_number = '';
-            $failed_sms->twilio_number = '';
-            $failed_sms->message = $body;
-            $failed_sms->media = '';
-            $failed_sms->error = $ex->getMessage();
-            $failed_sms->save();
-            Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
-        }
-        // Return a response to indicate success
-    }
-
-    // Show list create form
-    public function newListForm()
-    {
-        $groups = Group::all();
-        $markets = Market::all();
-        $tags = Tag::all();
-        $campaigns = Campaign::getAllCampaigns();
-        $form_Template = FormTemplates::get();
-        return view('back.pages.group.newList', compact('groups', 'markets', 'tags', 'campaigns', 'form_Template'));
-    }
-    public function SendMail($_body,$groupId,$campaign_list)
-    {
-        $_subject = $campaign_list->subject;
-
-
-        $contact_numbrs = Contact::where('group_id', $groupId)->get();
-        foreach ($contact_numbrs as $contact_num) {
-           // print_r($contact_num->email1);
-           // die("....");
-            if ($contact_num->email1 != null) {
-
-                $subject = $_subject;
-                $body = strip_tags($_body);
-                $body = str_replace("{name}", $contact_num->name, $body);
-                $body = str_replace("{street}", $contact_num->street, $body);
-                $body = str_replace("{city}", $contact_num->city, $body);
-                $body = str_replace("{state}", $contact_num->state, $body);
-                $body = str_replace("{zip}", $contact_num->zip, $body);
-                
-                $email = $contact_num->email1;
-                $unsub_link = url('admin/email/unsub/' . $email);
-
-               
-                $data = ['message' => $body, 'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
-               
-
-                Mail::to($email)->send(new TestEmail($data));
-               
-            }
-        }
+        
     }
 }
