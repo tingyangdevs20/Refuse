@@ -355,7 +355,7 @@
         display: flex;
         justify-content : space-between;
         align-items: center;
-        margin-block-end: 10px;
+        margin-bottom: 10px;
         border: 1px solid #ddd;
         padding: 5px;
         border-radius: 5px;
