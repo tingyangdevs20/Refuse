@@ -89,7 +89,8 @@ class ScrapingSourceListController extends Controller
             'city_county_zip' => 'required|string',
             'state' => 'required|string',
             'listing_type' => 'required|array',
-            'price_range' => 'required|string',
+            'min_price_range' => 'required|string',
+            'max_price_range' => 'required|string',
             'no_of_bedrooms' => 'required|string',
             'no_of_bathrooms' => 'required|string',
             'property_type' => 'required|array',
@@ -97,10 +98,12 @@ class ScrapingSourceListController extends Controller
             'job_name' => 'required|string',
         ]);
 
+        $price_range = $request->min_price_range . '-' . $request->max_price_range;
+
         $data = new ScrapingSourceList();
         $data->city_county_zip = $request->city_county_zip;
         $data->state = $request->state;
-        $data->price_range = $request->price_range;
+        $data->price_range = $price_range;
         $data->listing_type = implode(', ', $request->listing_type);
         $data->property_type = implode(', ', $request->property_type);
         $data->no_of_bedrooms = $request->no_of_bedrooms;
@@ -111,7 +114,6 @@ class ScrapingSourceListController extends Controller
         $data->save();
 
         // Create an array for price range
-        $price_range = $request->price_range;
         $stepSize = 50000;
 
         $priceRanges = $this->splitPriceRange($price_range, $stepSize);

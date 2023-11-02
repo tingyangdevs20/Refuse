@@ -14,8 +14,8 @@
 
         /* Add horizontal scrolling for the table on smaller screens */
         /* .table {
-                                        white-space: nowrap;
-                                    } */
+                                            white-space: nowrap;
+                                        } */
 
         /* Add responsive breakpoints and adjust table font size and padding as needed */
         @media (max-width: 768px) {
@@ -532,44 +532,21 @@
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" id="selectAll" class="task-checkbox"></th>
-                                            <!-- <th>S.No</th> -->
                                             <th>Task</th>
-                                            <!-- <th>Assigned To</th> -->
-                                            <!-- <th>Status</th> -->
-                                            <th>Action</th>
-                                            <th>Drag</th> <!-- New drag handle column -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($tasks as $key => $task)
                                             <tr data-task-id="{{ $task->id }}">
-                                                <!-- Add data-task-id attribute -->
                                                 <td>
                                                     <input type="checkbox" class="task-checkbox" name="task_id[]"
                                                         value="{{ $task->id }}">
                                                 </td>
-                                                <!-- <td>{{ @$loop->iteration }}</td> -->
                                                 <td><a href="{{ route('admin.task-list.show', $task->id) }}"
                                                         id="trigger-startup-button">{{ @$task->tast }} </a> </td>
-                                                <!-- <td>{{ @$task->user->name }}</td> -->
-                                                <!-- <td>{{ @$task->status }}</td> -->
-                                                <td>
-                                                    <!-- @if (auth()->user()->can('administrator') ||
-                                                            auth()->user()->can('user_task_edit'))
-                                                    -->
-                                                    <button class="btn btn-outline-primary btn-sm edit-task"
-                                                        data-task-id="{{ @$task->id }}"
-                                                        data-task-name="{{ @$task->tast }}"
-                                                        data-assignee-id="{{ @$task->user->id }}" title="Edit Task"><i
-                                                            class="fas fa-edit"></i></button>
-                                        @endif
-                                        </td>
-                                        <td class="drag-handle"><i class="fas fa-arrows-alt"></i></td>
-                                        <!-- Drag handle icon -->
-                                        </tr>
-                                        <!--
-                                            @endforeach
-                                        -->
+
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -585,24 +562,25 @@
                             <div id="reminder-task-list-container">
                                 <table id="reminder_tasktable" class="table table-bordered">
                                     <thead>
-                                    <tr>
-                                        <th>Completed</th>
-                                        <th>Name</th>
-                                        <th>Reminder At</th>
-                                        <th>Assigned By</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Completed</th>
+                                            <th>Name</th>
+                                            <th>Reminder At</th>
+                                            <th>Assigned By</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($reminders as $key => $task)
                                             <tr data-task-id="{{ $task->id }}">
                                                 <td>
-                                                    <input style="margin-right:5px"
-                                                           type="checkbox" name="stop_followup"
-                                                           onchange="updateValue(this.checked ? 'Yes' : null, 'stop_followup', 'followup_sequences', {{$task->contact_id}})"
-                                                           value="{{ 'Yes' }}" {{ $task->stop_followup == 'Yes' ? 'checked' : '' }}>
+                                                    <input style="margin-right:5px" type="checkbox" name="stop_followup"
+                                                        onchange="updateValue(this.checked ? 'Yes' : null, 'stop_followup', 'followup_sequences', {{ $task->contact_id }})"
+                                                        value="{{ 'Yes' }}"
+                                                        {{ $task->stop_followup == 'Yes' ? 'checked' : '' }}>
                                                 </td>
                                                 <td><a href="{{ route('admin.contact.detail', $task->contact_id) }}#12"
-                                                       id="trigger-startup-button">{{ $task->contact->name.' '.$task->contact->last_name }} </a> </td>
+                                                        id="trigger-startup-button">{{ $task->contact->name . ' ' . $task->contact->last_name }}
+                                                    </a> </td>
                                                 <td>
                                                     {{ $task->followup_reminder }}
                                                 </td>
@@ -619,323 +597,323 @@
                 </div>
             </div>
             <!-- <div class="row">
-                                                                                    <div class="col-xl-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-sm-3">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                        <div class="col-xl-12">
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-3">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">People to Reach (Goals)</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">People to Reach (Goals)</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $goalValue }}</h4>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $goalValue }}</h4>
 
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="col-sm-3">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-3">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">People Reached (Today)</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">People Reached (Today)</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $messages_sent_today_goals }}</h4>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $messages_sent_today_goals }}</h4>
 
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="col-sm-3">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-3">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">People Reached (In 7 Days)</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">People Reached (In 7 Days)</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $messages_sent_seven_days_goals }}</h4>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $messages_sent_seven_days_goals }}</h4>
 
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="col-sm-3">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-3">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">People Reached (In 30 Days)</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">People Reached (In 30 Days)</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $messages_sent_month_days_goals }}</h4>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $messages_sent_month_days_goals }}</h4>
 
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="col-sm-3">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-3">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">People Reached (In 90 Days)</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">People Reached (In 90 Days)</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $messages_sent_ninety_days_goals }}</h4>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $messages_sent_ninety_days_goals }}</h4>
 
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="col-sm-3">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-3">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">People Reached (Lifetime)</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">People Reached (Lifetime)</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $total_sent_lifetime }}</h4>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $total_sent_lifetime }}</h4>
 
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
-
-                                                                                <!-- <div class="row">
-                                                                                    <div class="col-xl-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Received Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $messages_sent_today }}</h4>
-
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt"></i>
-                                                                                                                            </span>
-                                                                                                            </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Sent Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>{{ $messages_sent_today }}</h4>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bxs-dollar-circle"></i>
-                                                                                                                            </span>
-                                                                                                            </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Cost Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>
-                                                                                                                ${{ ($messages_sent_today + $messages_received_today) * $settings->sms_rate }}</h4>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                </div> -->
+                                                                                    </div> -->
 
-
-                                                                                <!-- <div class="row">
-                                                                                    <div class="col-xl-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+            <!-- <div class="row">
+                                                                                        <div class="col-xl-12">
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Received Today</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Received Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            {{--                                        <h4>{{ $messages_received }}</h4> --}}
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $messages_sent_today }}</h4>
 
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
 
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Sent Today</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Sent Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            {{--                                        <h4>{{ $messages_sent }}</h4> --}}
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>{{ $messages_sent_today }}</h4>
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
 
 
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bxs-dollar-circle"></i>
-                                                                                                                            </span>
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bxs-dollar-circle"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Cost Today</h5>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Cost Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>$51.04</h4>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
-
-
-                                                                                <!-- <div class="row">
-                                                                                    <div class="col-xl-12">
-                                                                                        <div class="row">
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt-dots"></i>
-                                                                                                                            </span>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>
+                                                                                                                    ${{ ($messages_sent_today + $messages_received_today) * $settings->sms_rate }}</h4>
                                                                                                             </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Received Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            {{--                                        <h4>{{ $messages_received }}</h4> --}}
-
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bx-message-alt"></i>
-                                                                                                                            </span>
-                                                                                                            </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Sent Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            {{--                                        <h4>{{ $messages_sent }}</h4> --}}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-
-                                                                                            <div class="col-sm-4">
-                                                                                                <div class="card">
-                                                                                                    <div class="card-body">
-                                                                                                        <div class="d-flex align-items-center mb-3">
-                                                                                                            <div class="avatar-xs mr-3">
-                                                                                                                            <span
-                                                                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
-                                                                                                                                <i class="bx bxs-dollar-circle"></i>
-                                                                                                                            </span>
-                                                                                                            </div>
-                                                                                                            <h5 class="font-size-14 mb-0">Cost Today</h5>
-                                                                                                        </div>
-                                                                                                        <div class="text-muted mt-4">
-                                                                                                            <h4>$51.04</h4>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                </div> -->
+                                                                                    </div> -->
+
+
+            <!-- <div class="row">
+                                                                                        <div class="col-xl-12">
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Received Today</h5>
+                                                                                                            </div>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                {{--                                        <h4>{{ $messages_received }}</h4> --}}
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Sent Today</h5>
+                                                                                                            </div>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                {{--                                        <h4>{{ $messages_sent }}</h4> --}}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bxs-dollar-circle"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Cost Today</h5>
+                                                                                                            </div>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>$51.04</h4>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div> -->
+
+
+            <!-- <div class="row">
+                                                                                        <div class="col-xl-12">
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt-dots"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Received Today</h5>
+                                                                                                            </div>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                {{--                                        <h4>{{ $messages_received }}</h4> --}}
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bx-message-alt"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Sent Today</h5>
+                                                                                                            </div>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                {{--                                        <h4>{{ $messages_sent }}</h4> --}}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="card">
+                                                                                                        <div class="card-body">
+                                                                                                            <div class="d-flex align-items-center mb-3">
+                                                                                                                <div class="avatar-xs mr-3">
+                                                                                                                                <span
+                                                                                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary font-size-18">
+                                                                                                                                    <i class="bx bxs-dollar-circle"></i>
+                                                                                                                                </span>
+                                                                                                                </div>
+                                                                                                                <h5 class="font-size-14 mb-0">Cost Today</h5>
+                                                                                                            </div>
+                                                                                                            <div class="text-muted mt-4">
+                                                                                                                <h4>$51.04</h4>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div> -->
             {{--
                         <div class="card">
                             <div class="card-header bg-soft-dark">

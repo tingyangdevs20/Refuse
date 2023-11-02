@@ -429,7 +429,7 @@ class AdminController extends Controller
         if (Gate::allows('user_module') || Gate::allows('administrator')) {
             $users = User::all();
             // $tasks = TaskList::all();
-            $tasks = TaskList::orderBy('position')->get();
+            $tasks = TaskList::orderBy('position')->where('user_id', auth()->id())->get();
             // $tasks = TaskList::all();
 
         }else{

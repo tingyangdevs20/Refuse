@@ -122,7 +122,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -225,7 +224,7 @@
             $('#delete-selected-button').click(function(e) {
                 e.preventDefault();
                 var selectedTaskIds = $('.task-checkbox:checked').map(function() {
-                    return $(this).val();
+  ??                  return $(this).val();
                 }).get();
 
                 if (selectedTaskIds.length > 0) {
