@@ -122,7 +122,7 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                                         </div>
-                                        <input type="number" min="0" class="form-control" placeholder="Days" name="send_after_days">
+                                        <input type="number" min="0" value="0" class="form-control" placeholder="Days" name="send_after_days">
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                                         </div>
-                                        <input type="number" min="0" class="form-control" placeholder="Hours" name="send_after_hours">
+                                        <input type="number" min="0" value="0" class="form-control" placeholder="Hours" name="send_after_hours">
                                     </div>
                                 </div>
                             </div>
@@ -413,10 +413,35 @@
             var send_after_hours=button.data('send_after_hours');//
 
             var modal = $(this);
+
+            if (type == 'rvm') {
+            $("#dvRvm2").show();
+            $("#dvMediaFile2").hide();
+            $("#dvSubject2").hide();
+            $("#dvMessage2").hide();
+        } else if (type == 'mms') //
+        {
+            $("#dvMediaFile2").show();
+            $("#dvRvm2").hide();
+            $("#dvSubject2").hide();
+            $("#dvMessage2").show();
+        } else if (type == 'sms') //
+        {
+            $("#dvMediaFile2").hide();
+            $("#dvRvm2").hide();
+            $("#dvSubject2").hide();
+            $("#dvMessage2").show();
+        } else {
+            $("#dvSubject2").show();
+            $("#dvMessage2").show();
+            $("#dvRvm2").hide();
+            $("#dvMediaFile2").hide();
+
+        }
             $('#send_after_days_edit').val(send_after_days);
             $('#send_after_hours_edit').val(send_after_hours);
             $('#msg_edit').text(msg);
-            $('#subject_edit').text(subject);
+            $('#subject_edit').val(subject);
             $('#type_edit').val(type);
             $('#lstid').val(id);
 
