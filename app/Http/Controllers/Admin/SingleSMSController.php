@@ -110,6 +110,7 @@ class SingleSMSController extends Controller
                     $sms->media = $request->media_file == null ? 'No' : $media;
                     $sms->status = 1;
                     $sms->save();
+                    
                    // $this->incrementSmsCount($sender_number);
                 } else {
                     $reply_message = new Reply();
