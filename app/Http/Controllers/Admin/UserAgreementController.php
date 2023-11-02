@@ -89,7 +89,8 @@ class UserAgreementController extends Controller
 
         $selle_name = Contact::find($contact_id);
         $lead = DB::table('lead_info')->where('contact_id', $contact_id)->first(['mail_to_owner1', 'mail_to_owner2', 'mail_to_owner3', 'owner1_email1', 'owner1_email2', 'owner2_email1', 'owner2_email2', 'owner3_email1', 'owner3_email2']);
-        if ($lead->mail_to_owner1) {
+
+        if (@$lead->mail_to_owner1) {
 
             if (empty($lead->owner1_email1) && empty($lead->owner1_email2)) {
 
@@ -108,7 +109,7 @@ class UserAgreementController extends Controller
                 ];
             }
         }
-        if ($lead->mail_to_owner3) {
+        if (@$lead->mail_to_owner3) {
             if (empty($lead->owner3_email1) && empty($lead->owner3_email2)) {
 
                 $rules = [
@@ -155,6 +156,7 @@ class UserAgreementController extends Controller
         $userAgreement->content                    = $request->content;
         $userAgreement->agreement_template_content = $request->content;
         $userAgreement->admin_id                   = auth()->id();
+        $userAgreement->contact_id                   = $contact_id;
         $userAgreement->created_at                 = date("Y-m-d H:i:s");
         $userAgreement->updated_at                 = date("Y-m-d H:i:s");
         $userAgreement->save();
@@ -207,30 +209,18 @@ class UserAgreementController extends Controller
         Artisan::call("agreement:mail", ['contact_id' => $contact_id]);
         //runCURL(url("api/agreement/{$userAgreement->id}/mail"));
 
-        $response = [
-            'success' => true,
-            'message' => "Contract has been created successfully.",
-        ];
 
-        return response()->json($response, 200);
+
+        return redirect()->back()->with('success','Contract has been created successfully.');
     }
 
-    public function pdf(Request $request)
+    public function pdf($id)
     {
-        dd($request->content);
-        // $rules = [
-        //     'content'     => ['required'],
-        // ];
+        $userAgreements = UserAgreement::where('id', $id)->first();
 
-        // $message = [
-        //     'template_id.required'    => "This field is required!",
-        //     'agreement_date.required' => "This field is required!",
-        //     'content.required'        => "This field is required!",
-        // ];
 
-        // $validator = Validator::make($request->all(), $rules, $message);
 
-        $contact_id = $request->contact_id;
+        $contact_id = $userAgreements->contact_id;
 
 
         $columns_with_user = [];
@@ -275,7 +265,7 @@ class UserAgreementController extends Controller
         //     return response()->json($response, 400);
         // }
         $pattern = '/\{([^}]+)\}/';
-        preg_match_all($pattern, $request->content, $matches);
+        preg_match_all($pattern, $userAgreements->content, $matches);
         $emptyColumns = [];
         // $matches[1] will contain the words or substrings
         $wordsInCurlyBraces = $matches[1];
@@ -369,7 +359,7 @@ class UserAgreementController extends Controller
         makeDir($pdfPath, true);
 
         //$userAgreement_update_pdf = UserAgreement::find($userAgreementId);
-        $content       = stripslashes($request->content);
+        $content       = stripslashes($userAgreements->content);
         $content       = str_replace("{SIGNATURE_USER}", "", $content);
         if (!empty($new_array) && !empty($content)) {
             $find = array_keys($new_array);
@@ -382,6 +372,7 @@ class UserAgreementController extends Controller
         $fileName = getUniqueFileName() . ".pdf";
         $pdf->save($pdfPath . '/' . $fileName);
         return response()->download($pdfPath . '/' . $fileName);
+
     }
 
     public function fetch_empty_columns($columnPattern, $table, $sellerId)
