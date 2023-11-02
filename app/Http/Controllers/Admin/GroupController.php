@@ -23,7 +23,7 @@ use App\Model\Reply;
 use App\Model\Scheduler;
 use App\Mail\TestEmail;
 use App\Model\RvmFile;
-use App\Mail\Mailcontact;  //  05092023 sachin
+use App\Mail\Mailcontact; //  05092023 sachin
 use App\Model\Contractupload; //  06092023 sachin
 use Smalot\PdfParser\Parser; // 06092023 sachin
 use Illuminate\Support\Facades\Mail;
@@ -104,13 +104,15 @@ class GroupController extends Controller
                 // Now $percentage contains the percentage of contacts with phone numbers in leadInfo relation.
 
                 return [
-                    'group_name' => $group->name, // Replace 'name' with the actual group name attribute
+                    'group_name' => $group->name,
+                    // Replace 'name' with the actual group name attribute
                     'contact_count' => count($group->contacts),
                     'percentage' => $percentage,
                 ];
             })->values();
 
-            $sr = 1;;
+            $sr = 1;
+            ;
             $markets = Market::all();
             $tags = Tag::all();
             $campaigns = Campaign::getAllCampaigns();
@@ -287,7 +289,7 @@ class GroupController extends Controller
         $getAllAppointments = Scheduler::where('admin_uid', $uid)->where('mobile', $cnt_mob1)->orWhere('mobile', $cnt_mob2)->orWhere('mobile', $cnt_mob3)->get();
 
 
-        $hasGoogleDriveAccess =  $response = app()->call('App\Http\Controllers\GoogleDriveController@hasGoogleDriveAccess');
+        $hasGoogleDriveAccess = $response = app()->call('App\Http\Controllers\GoogleDriveController@hasGoogleDriveAccess');
         $googleDriveFiles = null;
         if ($hasGoogleDriveAccess) {
             $googleDriveFiles = app()->call('App\Http\Controllers\GoogleDriveController@fetchFilesByFolderName');
@@ -550,12 +552,20 @@ class GroupController extends Controller
 
         if ($table == 'lead_info' && $fieldName == 'lead_status' && $fieldVal) {
             $leadStatus = [
-                'Lead-New', 'Lead-Warm', 'Lead-Hot', 'Lead-Cold',
-                'Phone Call - Scheduled', 'Phone Call - Completed',
-                'Phone Call - No Show', 'Phone Call - Said No',
-                'Contract Out - Buy Side', 'Contracts Out - Sell Side',
-                'Contract Signed - Buy Side', 'Contracts Signed - Sell Side',
-                'Closed Deal - Buy Side', 'Prospect'
+                'Lead-New',
+                'Lead-Warm',
+                'Lead-Hot',
+                'Lead-Cold',
+                'Phone Call - Scheduled',
+                'Phone Call - Completed',
+                'Phone Call - No Show',
+                'Phone Call - Said No',
+                'Contract Out - Buy Side',
+                'Contracts Out - Sell Side',
+                'Contract Signed - Buy Side',
+                'Contracts Signed - Sell Side',
+                'Closed Deal - Buy Side',
+                'Prospect'
             ];
 
             if (in_array($fieldVal, $leadStatus)) {
@@ -598,7 +608,8 @@ class GroupController extends Controller
             'owner1_email2' => 'email2',
             'owner1_primary_number' => 'number',
             'owner1_number2' => 'number2',
-            'owner1_number3' => 'number3', // Note: You had a typo in 'oowner1_number3'
+            'owner1_number3' => 'number3',
+            // Note: You had a typo in 'oowner1_number3'
         ];
 
         if ($table == 'lead_info' && $fieldVal && isset($fieldToColumn[$fieldName])) {
@@ -1254,8 +1265,8 @@ class GroupController extends Controller
         ];
 
         $headers_indexes = [
-            "name_header" =>  $request->name_header,
-            "last_name_header" =>  $request->last_name_header,
+            "name_header" => $request->name_header,
+            "last_name_header" => $request->last_name_header,
         ];
 
         $contact_property_info_columns_array = [
@@ -1273,11 +1284,11 @@ class GroupController extends Controller
         ];
 
         $contact_property_info_headers_indexes = [
-            "property_address_header" =>  $request->property_address_header,
-            "property_city_header" =>  $request->property_city_header,
-            "property_zip_header" =>  $request->property_zip_header,
-            "property_state_header" =>  $request->property_state_header,
-            "property_type_header" =>  $request->property_type_header,
+            "property_address_header" => $request->property_address_header,
+            "property_city_header" => $request->property_city_header,
+            "property_zip_header" => $request->property_zip_header,
+            "property_state_header" => $request->property_state_header,
+            "property_type_header" => $request->property_type_header,
             "bedrooms_header" => $request->bedrooms_header,
             "bathrooms_header" => $request->bathrooms_header,
             "square_footage_header" => $request->square_footage_header,
@@ -1304,10 +1315,10 @@ class GroupController extends Controller
             "owner1_number3_header" => $request->owner1_number3_header,
             "owner1_email1_header" => $request->owner1_email1_header,
             "owner1_email2_header" => $request->owner1_email2_header,
-            "mailing_address_header" =>  $request->mailing_address_header,
-            "mailing_city_header" =>  $request->mailing_city_header,
-            "mailing_zip_header" =>  $request->mailing_zip_header,
-            "mailing_state_header" =>  $request->mailing_state_header,
+            "mailing_address_header" => $request->mailing_address_header,
+            "mailing_city_header" => $request->mailing_city_header,
+            "mailing_zip_header" => $request->mailing_zip_header,
+            "mailing_state_header" => $request->mailing_state_header,
         ];
 
         $contact_property_finance_info_columns_array = [
@@ -1643,8 +1654,10 @@ class GroupController extends Controller
 
                                 // Check if this column has a header too
                                 if (isset($columnToHeaderIndex[$header_index]) && $headerIndex == $columnToHeaderIndex[$header_index]) {
-                                    // Set the column value in the insert data
-                                    $insertData[$column] = $value;
+                                    if ($value && $value != '') {
+                                        // Set the column value in the insert data
+                                        $insertData[$column] = $value;
+                                    }
                                 }
                             }
                         }
@@ -1687,8 +1700,10 @@ class GroupController extends Controller
 
                                     // Check if this column has a header too
                                     if (isset($contactPropertyInfoColumnToHeaderIndex[$header_index]) && $headerIndex == $contactPropertyInfoColumnToHeaderIndex[$header_index]) {
-                                        // Set the column value in the insert data
-                                        $insertContactPropertyData[$column] = $value;
+                                        if ($value && $value != '') {
+                                            // Set the column value in the insert data
+                                            $insertContactPropertyData[$column] = $value;
+                                        }
                                     }
                                 }
                             }
@@ -1752,8 +1767,10 @@ class GroupController extends Controller
                                                 $insertContactLeadData[$column] = '+1' . $value;
                                             }
                                         } else {
-                                            // Set the column value in the insert data
-                                            $insertContactLeadData[$column] = $value;
+                                            if ($value && $value != '') {
+                                                // Set the column value in the insert data
+                                                $insertContactLeadData[$column] = $value;
+                                            }
                                         }
                                     }
                                 }
@@ -1855,8 +1872,10 @@ class GroupController extends Controller
 
                                     // Check if this column has a header too
                                     if (isset($contactFinanceInfoColumnToHeaderIndex[$header_index]) && $headerIndex == $contactFinanceInfoColumnToHeaderIndex[$header_index]) {
-                                        // Set the column value in the insert data
-                                        $insertContactFinanceData[$column] = $value;
+                                        if ($value && $value != '') {
+                                            // Set the column value in the insert data
+                                            $insertContactFinanceData[$column] = $value;
+                                        }
                                     }
                                 }
                             }
@@ -1899,8 +1918,10 @@ class GroupController extends Controller
 
                                     // Check if this column has a header too
                                     if (isset($contactValuesConditionColumnToHeaderIndex[$header_index]) && $headerIndex == $contactValuesConditionColumnToHeaderIndex[$header_index]) {
-                                        // Set the column value in the insert data
-                                        $insertContactValuesConditionData[$column] = $value;
+                                        if ($value && $value != '') {
+                                            // Set the column value in the insert data
+                                            $insertContactValuesConditionData[$column] = $value;
+                                        }
                                     }
                                 }
                             }
@@ -2197,13 +2218,13 @@ class GroupController extends Controller
 
         $user->email1 = $request->input('email') ?? 0;
 
-        $user->name                  = $request->input('name') ?? 0;
-        $user->last_name             = $request->input('last_name') ?? 0;
-        $user->number                = $request->input('mobile') ?? 0;
-        $user->street                = $request->input('street') ?? 0;
-        $user->state                 = $request->input('state') ?? 0;
-        $user->city                  = $request->input('city') ?? 0;
-        $user->zip                   = $request->input('zip') ?? 0;
+        $user->name = $request->input('name') ?? 0;
+        $user->last_name = $request->input('last_name') ?? 0;
+        $user->number = $request->input('mobile') ?? 0;
+        $user->street = $request->input('street') ?? 0;
+        $user->state = $request->input('state') ?? 0;
+        $user->city = $request->input('city') ?? 0;
+        $user->zip = $request->input('zip') ?? 0;
         $user->save();
 
         return redirect()->route('admin.profile.show')->with('success', 'Contract updated successfully.');
@@ -2320,7 +2341,7 @@ class GroupController extends Controller
             $pdfParser = new Parser();
             $pdf = $pdfParser->parseFile($file->path());
             $content = $pdf->getText();
-            $filenameNew =  time() . '.' . $fileName;
+            $filenameNew = time() . '.' . $fileName;
             $Contractupload = new Contractupload;
             $Contractupload->content = $content;
             $Contractupload->type_contract = $request->optiontype;
@@ -2353,7 +2374,7 @@ class GroupController extends Controller
             $pdfParser = new Parser();
             $pdf = $pdfParser->parseFile($file->path());
             $content = $pdf->getText();
-            $filenameNew =  time() . '.' . $fileName;
+            $filenameNew = time() . '.' . $fileName;
             $Contractupload = Contractupload::find(1);
             $destinationPath = public_path('/contractpdf/' . $Contractupload->file);
 
@@ -2483,9 +2504,11 @@ class GroupController extends Controller
                 $leadInfo = $contact->leadInfo;
                 if ($leadInfo) {
                     // Check if any of the contact's numbers are in $phonesScrubbed
-                    if (in_array($leadInfo->owner1_primary_number, $phonesScrubbed) ||
+                    if (
+                        in_array($leadInfo->owner1_primary_number, $phonesScrubbed) ||
                         in_array($leadInfo->owner1_number2, $phonesScrubbed) ||
-                        in_array($leadInfo->owner1_number3, $phonesScrubbed)) {
+                        in_array($leadInfo->owner1_number3, $phonesScrubbed)
+                    ) {
                         $contactIdsWithPhonesScrubbed[] = $contact->id;
                     }
                 }
@@ -2565,7 +2588,7 @@ class GroupController extends Controller
         $groupId = $request->input('group_id');
         $selectedOption = $request->input('skip_trace_option');
 
-        $checkPayment  = Session::get('payment_sucess');
+        $checkPayment = Session::get('payment_sucess');
         $paymentRecord = DB::table('skip_tracing_payment_records')
             ->where('user_id', $user_id)
             ->where('group_id', $groupId)
@@ -2601,7 +2624,8 @@ class GroupController extends Controller
         if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
         } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
-            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
+            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
+            ;
         } elseif ($selectedOption == 'append_names') {
             $skipTraceRate = Account::pluck('name_append_rate')->first();
         } elseif ($selectedOption == 'append_emails') {
@@ -3341,6 +3365,7 @@ class GroupController extends Controller
 
     public function pushToCampaign(Request $request)
     {
+        $settings = Settings::first()->toArray();
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
         $emails = explode(',', $request->input('email'));
@@ -3349,296 +3374,114 @@ class GroupController extends Controller
         $campaignName = $request->input('campaign_name');
         $marketName = $request->input('market_name');
 
-
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('id', $campaignId)->first();
         $existingCampaign->group_id = $groupId;
         $existingCampaign->save();
+
+        //  die($existingCampaign);
 
         $groupUpdate = Group::where('id', $groupId)->first();
         $groupUpdate->pushed_to_camp_date = now();
         $groupUpdate->campaign_name = $campaignName;
         $groupUpdate->save();
 
-        // foreach ($emails as $email) {
-        //     Mail::to(trim($email))->send(new CampaignConfirmation($groupName));
-        // }
-        $twilio_number = Number::where('id', 1)->get();
-        $twilio_sender=$twilio_number[0]->number;
-       // die($twilio_number[0]->number);
-       // die("...");
+        $twilio_number = Number::all();
+        $twilio_sender = $twilio_number[0]->number;
         $campaign_lists = CampaignList::where('campaign_id', $campaignId)->get();
-        $settings = Settings::first()->toArray();
-        $sid = $settings['twilio_acc_sid'];
-               $token = $settings['twilio_auth_token'];
 
-        //die(".........");
 
         try {
 
-        foreach ($campaign_lists as $campaign_list) {
+            foreach ($campaign_lists as $campaign_list) {
 
-            $_typ = $campaign_list->type;
-            $_body = $campaign_list->body;
-            $_media=$campaign_list->mediaUrl;
+                $_typ = $campaign_list->type;
+                $_body = $campaign_list->body;
+                $_media = $campaign_list->mediaUrl;
 
-           // die($_typ);
 
-            if($_typ == 'rvm'){
-                $contactsArr = [];
-                $contacts = Contact::where('group_id' , $groupId)->get();
-              //  die($contacts);
-                if(count($contacts) > 0){
-                    foreach($contacts as $cont){
-                        if($cont->number != ''){
-                            $number = $cont->number;
-                        }elseif($cont->number2 != ''){
-                            $number = $cont->number2;
-                        }elseif($cont->number3 != ''){
-                            $number = $cont->number2;
+
+                if ($_typ == 'rvm') {
+                    $contactsArr = [];
+                    $contacts = Contact::where('group_id', $groupId)->get();
+                    //  die($contacts);
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
+                            if ($cont->number != '') {
+                                $number = $cont->number;
+                            } elseif ($cont->number2 != '') {
+                                $number = $cont->number2;
+                            } elseif ($cont->number3 != '') {
+                                $number = $cont->number2;
+                            }
+                            $contactsArr[] = $number;
                         }
-                        $contactsArr[] = $number;
+
                     }
-
-                }
-                if(count($contactsArr) > 0){
-                    $c_phones = implode(',',$contactsArr);
-                    $sly_phone=$settings['slybroad_number'];
+                    if (count($contactsArr) > 0) {
+                        $c_phones = implode(',', $contactsArr);
+                        $sly_phone = $settings['slybroad_number'];
 
 
-                    $vrm = \Slybroadcast::sendVoiceMail([
-                                        'c_phone' => ".$c_phones.",
-                                        'c_url' =>$_media,
-                                        'c_record_audio' => '',
-                                        'c_date' => 'now',
-                                        'c_audio' => 'Mp3',
+                        $vrm = \Slybroadcast::sendVoiceMail([
+                            'c_phone' => ".$c_phones.",
+                            'c_url' => $_media,
+                            'c_record_audio' => '',
+                            'c_date' => 'now',
+                            'c_audio' => 'Mp3',
 
-                                        'c_callerID' => ".$sly_phone.",
+                            'c_callerID' => ".$sly_phone.",
 
-                                        'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
-                                       ])->getResponse();
+                            'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
+                        ])->getResponse();
 
-                }
-            }
-//MMS TYPE
-elseif($_typ == 'mms') {
-    $client = new Client($sid, $token);
-    $contacts = Contact::where('group_id' , $groupId)->get();
-    //dd($contacts);
-    if(count($contacts) > 0) {
-        foreach($contacts as $cont) {
-            $receiver_number = $cont->number;
-            $sender_number = $sender_numbers->number;
-            if($template){
-                $message = $template->body;
-            }
-            //else{
-               // $message = $checkCompainList->body;
-           // }
-            $message = str_replace("{name}", $cont->name, $message);
-            $message = str_replace("{street}", $cont->street, $message);
-            $message = str_replace("{city}", $cont->city, $message);
-            $message = str_replace("{state}", $cont->state, $message);
-            $message = str_replace("{zip}", $cont->zip, $message);
-            if($template){
-                $mediaUrl = $template->mediaUrl;
-            }else{
-                $mediaUrl = $checkCompainList->mediaUrl;
-            }
-            try {
-                $sms_sent = $client->messages->create(
-                    $receiver_number,
-                    [
-                        'from' => $sender_number,
-                        'body' => $message,
-                        'mediaUrl' => [$mediaUrl],
-                    ]
-                );
-                //dd($sms_sent);
-                if ($sms_sent) {
-                    $old_sms = Sms::where('client_number', $receiver_number)->first();
-                    if ($old_sms == null) {
-                        $sms = new Sms();
-                        $sms->client_number = $receiver_number;
-                        $sms->twilio_number = $sender_number;
-                        $sms->message = $message;
-                        $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-                        $sms->status = 1;
-                        $sms->save();
-                        $this->incrementSmsCount($sender_number);
-                    } else {
-                        $reply_message = new Reply();
-                        $reply_message->sms_id = $old_sms->id;
-                        $reply_message->to = $sender_number;
-                        $reply_message->from = $receiver_number;
-                        $reply_message->reply = $message;
-                        $reply_message->system_reply = 1;
-                        $reply_message->save();
-                        $this->incrementSmsCount($sender_number);
                     }
+                }
+                //MMS TYPE
+                elseif ($_typ == 'mms')
+                {
+                    $this->SendMMS($groupId,$twilio_sender,'','');
 
                 }
-             }   catch (\Exception $ex) {
-                $failed_sms = new FailedSms();
-                $failed_sms->client_number = $receiver_number;
-                $failed_sms->twilio_number = $sender_number;
-                $failed_sms->message = $message;
-                $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-                $failed_sms->error = $ex->getMessage();
-                $failed_sms->save();
+
+                //MMS TYPE ENDS
+
+
+
+
+
+
+
+
+
+
+                //die('here');
+                elseif (trim($_typ) == 'email')
+                {
+
+                    $this->SendMail($_body,$groupId,$campaign_list);
+
+                }
+                elseif ($_typ == 'sms')
+                {
+                    $this->SendSMS($groupId,$_body,$twilio_sender);
+                }
+                else {
+
+                }
             }
+            return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
         }
-    }
-}
-
-//MMS TYPE ENDS
-
-
-
-
-
-
-
-
-
-
-            //die('here');
-            elseif(trim($_typ) == 'email') {
-               // die("emaillllll");
-
-
-
-                $_subject = $campaign_list->subject;
-
-
-                $contact_numbrs = Contact::where('group_id', $groupId)->get();
-                foreach ($contact_numbrs as $contact_num) {
-
-
-                    $subject = $_subject;
-                    $body = strip_tags($_body);
-                    $body = str_replace("{name}", $contact_num->name, $body);
-                    $body = str_replace("{street}", $contact_num->street, $body);
-                    $body = str_replace("{city}", $contact_num->city, $body);
-                    $body = str_replace("{state}", $contact_num->state, $body);
-                    $body = str_replace("{zip}", $contact_num->zip, $body);
-                    // Define the recipient's email address
-                    $email = $contact_num->email1;
-                    $unsub_link = url('admin/email/unsub/'.$email);
-
-                    // Send the email
-                   // Mail::raw($body, function ($message) use ($subject, $email) {
-                      //  $message->subject($subject);
-                      //  $message->to($email);
-                   // });
-                   $data = ['message' => $body ,'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
-                  // die($data);
-                   Mail::to($email)->send(new TestEmail($data));
-                }
-            } elseif ($_typ == 'sms') {
-//die($twilio_sender);
-                $contact_numbrs = Contact::where('group_id', $groupId)->get();
-               // die($contact_numbrs);
-
-                $body = strip_tags($_body);
-
-
-
-                //die($body);
-
-                foreach ($contact_numbrs as $contact_num) {
-                    $body = str_replace("{name}", $contact_num->name, $body);
-                    $body = str_replace("{street}", $contact_num->street, $body);
-                    $body = str_replace("{city}", $contact_num->city, $body);
-                    $body = str_replace("{state}", $contact_num->state, $body);
-                    $body = str_replace("{zip}", $contact_num->zip, $body);
-
-               // die($contact_num);
-
-              // print_r($settings);
-               //die("....");
-
-               $numberCounter = 0;
-               //print_r($token);
-              // die("...");
-
-
-                   $client = new Client($sid, $token);
-               // print_r($client);
-              // die("...");
-
-                   $cont_num=$contact_num->number;
-                  // dd($twilio_sender);
-                  // die('....');
-
-                   $sms_sent = $client->messages->create(
-                       $cont_num,
-                       [
-                           'from' => $twilio_sender,
-                           'body' => $body,
-                       ]
-                   );
-
-                  // print_r($sms_sent);
-                  // die("...");
-                   if ($sms_sent) {
-                       $old_sms = Sms::where('client_number', $cont_num)->first();
-                       if ($old_sms == null) {
-                           $sms = new Sms();
-                           $sms->client_number = $cont_num;
-                           $sms->twilio_number = $twilio_sender;
-                           $sms->lname = null;
-                           $sms->fname = null;
-                           $sms->message = $body;
-                           $sms->media = "NO";
-                           $sms->status = 1;
-                           $sms->save();
-                           //$contact = Contact::where('number', $contact->number)->get();;
-                           // foreach ($contact as $contacts) {
-                           // $contacts->msg_sent = 1;
-                           // $contacts->save();
-                           // }
-                           // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                       } else {
-                           $reply_message = new Reply();
-                           $reply_message->sms_id = $old_sms->id;
-                           $reply_message->to = $cont_num;
-                           $reply_message->from = $twilio_sender;
-                           $reply_message->reply = $body;
-                           $reply_message->system_reply = 1;
-                           $reply_message->save();
-                           // $contact = Contact::where('number', $contact->number)->get();;
-                           // foreach ($contact as $contacts) {
-                           //  $contacts->msg_sent = 1;
-                           //  $contacts->save();
-                           //  }
-                           // $this->incrementSmsCount($numbers[$numberCounter]->number);
-                       }
-
-                       // Alert::toast("SMS Sent Successfully", "success");
-
-                   }
-
-
-
-
-                }
-            } else {
-
-            }
-        }
-        return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
-    }
-    catch (\Exception $ex) {
-        $failed_sms = new FailedSms();
-        $failed_sms->client_number = '';
-        $failed_sms->twilio_number = '';
-        $failed_sms->message = $body;
-        $failed_sms->media = '';
-        $failed_sms->error = $ex->getMessage();
-        $failed_sms->save();
+        catch (\Exception $ex) {
+            $failed_sms = new FailedSms();
+            $failed_sms->client_number = '';
+            $failed_sms->twilio_number = '';
+            $failed_sms->message = '';
+            $failed_sms->media = '';
+            $failed_sms->error = $ex->getMessage();
+            $failed_sms->save();
             Alert::Error("Oops!", "Unable to send check Failed SMS Page!");
-    }
+        }
         // Return a response to indicate success
     }
 
@@ -3651,5 +3494,205 @@ elseif($_typ == 'mms') {
         $campaigns = Campaign::getAllCampaigns();
         $form_Template = FormTemplates::get();
         return view('back.pages.group.newList', compact('groups', 'markets', 'tags', 'campaigns', 'form_Template'));
+    }
+    public function SendMail($_body,$groupId,$campaign_list)
+    {
+        $_subject = $campaign_list->subject;
+
+
+        $contact_numbrs = Contact::where('group_id', $groupId)->get();
+        foreach ($contact_numbrs as $contact_num) {
+           // print_r($contact_num->email1);
+           // die("....");
+            if ($contact_num->email1 != null) {
+
+                $subject = $_subject;
+                $body = strip_tags($_body);
+                $body = str_replace("{name}", $contact_num->name, $body);
+                $body = str_replace("{street}", $contact_num->street, $body);
+                $body = str_replace("{city}", $contact_num->city, $body);
+                $body = str_replace("{state}", $contact_num->state, $body);
+                $body = str_replace("{zip}", $contact_num->zip, $body);
+
+                $email = $contact_num->email1;
+                $unsub_link = url('admin/email/unsub/' . $email);
+
+
+                $data = ['message' => $body, 'subject' => $subject, 'name' => $contact_num->name, 'unsub_link' => $unsub_link];
+
+
+                Mail::to($email)->send(new TestEmail($data));
+
+            }
+        }
+    }
+
+    public function SendSMS($groupId,$_body,$twilio_sender)
+    {
+        //die($twilio_sender);
+        $settings = Settings::first()->toArray();
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
+        $contact_numbrs = Contact::where('group_id', $groupId)->get();
+        // die($contact_numbrs);
+
+        $body = strip_tags($_body);
+
+
+
+        //die($body);
+
+        foreach ($contact_numbrs as $contact_num) {
+            $body = str_replace("{name}", $contact_num->name, $body);
+            $body = str_replace("{street}", $contact_num->street, $body);
+            $body = str_replace("{city}", $contact_num->city, $body);
+            $body = str_replace("{state}", $contact_num->state, $body);
+            $body = str_replace("{zip}", $contact_num->zip, $body);
+
+            // die($contact_num);
+
+            // print_r($settings);
+            //die("....");
+
+            $numberCounter = 0;
+            //print_r($token);
+            // die("...");
+
+
+            $client = new Client($sid, $token);
+            // print_r($client);
+            // die("...");
+
+            $cont_num = $contact_num->number;
+            // dd($twilio_sender);
+            // die('....');
+
+            $sms_sent = $client->messages->create(
+                $cont_num,
+                [
+                    'from' => $twilio_sender,
+                    'body' => $body,
+                ]
+            );
+
+            // print_r($sms_sent);
+            // die("...");
+            if ($sms_sent) {
+                $old_sms = Sms::where('client_number', $cont_num)->first();
+                if ($old_sms == null) {
+                    $sms = new Sms();
+                    $sms->client_number = $cont_num;
+                    $sms->twilio_number = $twilio_sender;
+                    $sms->lname = null;
+                    $sms->fname = null;
+                    $sms->message = $body;
+                    $sms->media = "NO";
+                    $sms->status = 1;
+                    $sms->save();
+                    //$contact = Contact::where('number', $contact->number)->get();;
+                    // foreach ($contact as $contacts) {
+                    // $contacts->msg_sent = 1;
+                    // $contacts->save();
+                    // }
+                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                } else {
+                    $reply_message = new Reply();
+                    $reply_message->sms_id = $old_sms->id;
+                    $reply_message->to = $cont_num;
+                    $reply_message->from = $twilio_sender;
+                    $reply_message->reply = $body;
+                    $reply_message->system_reply = 1;
+                    $reply_message->save();
+                    // $contact = Contact::where('number', $contact->number)->get();;
+                    // foreach ($contact as $contacts) {
+                    //  $contacts->msg_sent = 1;
+                    //  $contacts->save();
+                    //  }
+                    // $this->incrementSmsCount($numbers[$numberCounter]->number);
+                }
+
+                // Alert::toast("SMS Sent Successfully", "success");
+
+            }
+
+
+
+
+        }
+    }
+
+    public function SendMMS($groupId,$sender_numbers,$template,$checkCompainList)
+    {
+        $settings = Settings::first()->toArray();
+        $sid = $settings['twilio_acc_sid'];
+        $token = $settings['twilio_auth_token'];
+        $client = new Client($sid, $token);
+                    $contacts = Contact::where('group_id', $groupId)->get();
+                    //dd($contacts);
+                    if (count($contacts) > 0) {
+                        foreach ($contacts as $cont) {
+                            $receiver_number = $cont->number;
+                            $sender_number = $sender_numbers->number;
+                            if ($template) {
+                                $message = $template->body;
+                            }
+                            //else{
+                            // $message = $checkCompainList->body;
+                            // }
+                            $message = str_replace("{name}", $cont->name, $message);
+                            $message = str_replace("{street}", $cont->street, $message);
+                            $message = str_replace("{city}", $cont->city, $message);
+                            $message = str_replace("{state}", $cont->state, $message);
+                            $message = str_replace("{zip}", $cont->zip, $message);
+                            if ($template) {
+                                $mediaUrl = $template->mediaUrl;
+                            } else {
+                                $mediaUrl = $checkCompainList->mediaUrl;
+                            }
+                            try {
+                                $sms_sent = $client->messages->create(
+                                    $receiver_number,
+                                    [
+                                        'from' => $sender_number,
+                                        'body' => $message,
+                                        'mediaUrl' => [$mediaUrl],
+                                    ]
+                                );
+                                //dd($sms_sent);
+                                if ($sms_sent) {
+                                    $old_sms = Sms::where('client_number', $receiver_number)->first();
+                                    if ($old_sms == null) {
+                                        $sms = new Sms();
+                                        $sms->client_number = $receiver_number;
+                                        $sms->twilio_number = $sender_number;
+                                        $sms->message = $message;
+                                        $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                                        $sms->status = 1;
+                                        $sms->save();
+                                        $this->incrementSmsCount($sender_number);
+                                    } else {
+                                        $reply_message = new Reply();
+                                        $reply_message->sms_id = $old_sms->id;
+                                        $reply_message->to = $sender_number;
+                                        $reply_message->from = $receiver_number;
+                                        $reply_message->reply = $message;
+                                        $reply_message->system_reply = 1;
+                                        $reply_message->save();
+                                        $this->incrementSmsCount($sender_number);
+                                    }
+
+                                }
+                            } catch (\Exception $ex) {
+                                $failed_sms = new FailedSms();
+                                $failed_sms->client_number = $receiver_number;
+                                $failed_sms->twilio_number = $sender_number;
+                                $failed_sms->message = $message;
+                                $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                                $failed_sms->error = $ex->getMessage();
+                                $failed_sms->save();
+                            }
+                        }
+                    }
+
     }
 }

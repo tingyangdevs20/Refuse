@@ -189,7 +189,7 @@
                                     <li class="nav-item m-1">
                                         <a class="nav-link active" href="#AutoRespond" data-toggle="tab"> Auto Responder</a>
                                     </li>
-                                    <li class="nav-item m-1"><a class="nav-link" href="#AutoReply" data-toggle="tab">AutoReply</a>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#AutoReply" data-toggle="tab">Auto Reply</a>
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#CallForward" data-toggle="tab">Call Forward Number</a>
                                     </li>
@@ -222,7 +222,7 @@
                                             <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
+                                                     
                                                         <th scope="col">Keyword</th>
                                                         <th scope="col">Response</th>
                                                         <th scope="col">Actions</th>
@@ -231,7 +231,7 @@
                                                 <tbody>
                                                     @foreach ($responders as $respond)
                                                         <tr>
-                                                            <td>{{ $loop->iteration }}</td>
+                                                           
                                                             <td>{{ $respond->keyword }}</td>
                                                             <td>{{ $respond->response }}</td>
                                                             <td>
@@ -267,7 +267,7 @@
                                             <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
+                                                       
                                                         <th scope="col">Category</th>
                                                         <th scope="col">Message</th>
                                                         <th scope="col">Actions</th>
@@ -276,7 +276,7 @@
                                                 <tbody>
                                                     @foreach ($autoReplies as $autoreply)
                                                         <tr>
-                                                            <td>{{ $loop->iteration }}</td>
+                                                            
                                                             <td>{{ $autoreply->category->name }}</td>
                                                             <td>{{ $autoreply->message }}</td>
                                                             <td>
@@ -521,7 +521,7 @@
                                             <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
+                                                       
                                                         <th scope="col">Title</th>
                                                         <th scope="col">Message</th>
                                                         <th scope="col">Actions</th>
@@ -530,7 +530,7 @@
                                                 <tbody>
                                                     @foreach ($quickResponses as $quickResponse)
                                                         <tr>
-                                                            <td>{{ $loop->iteration }}</td>
+                                                            
                                                             <td>{{ $quickResponse->title }}</td>
                                                             <td>{{ $quickResponse->body }}</td>
                                                             <td>
@@ -569,7 +569,7 @@
                                             <table class="table table-striped table-bordered datatable" id="">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Campaign Name</th>
                                                         <th scope="col">Contact list</th>
                                                         <th scope="col">No. Of Contacts</th>
                                                         <th scope="col">Action</th>
