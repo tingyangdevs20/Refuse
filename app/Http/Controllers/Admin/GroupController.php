@@ -113,8 +113,7 @@ class GroupController extends Controller
                 ];
             })->values();
 
-            $sr = 1;
-            ;
+            $sr = 1;;
             $markets = Market::all();
             $tags = Tag::all();
             $campaigns = Campaign::getAllCampaigns();
@@ -187,7 +186,6 @@ class GroupController extends Controller
             DB::table('lead_info')->where('contact_id', $id)->update([
                 'user_3_name' => $leadinfo->owner3_first_name . ' ' . $leadinfo->owner3_last_name,
             ]);
-
         }
 
         $selected_tags = DB::table('lead_info_tags')->where('lead_info_id', $leadinfo->id)->pluck('tag_id')->toArray();
@@ -1629,7 +1627,6 @@ class GroupController extends Controller
                                                 continue 3; // Skip to the outer loop (next importData)
                                             }
                                         }
-
                                     }
                                     if (in_array($column, ['owner1_email1', 'owner1_email2'])) {
                                         if ($value && $value != '') {
@@ -1642,7 +1639,6 @@ class GroupController extends Controller
                                                 continue 3; // Skip to the outer loop (next importData)
                                             }
                                         }
-
                                     }
                                 }
                             }
@@ -1810,9 +1806,9 @@ class GroupController extends Controller
                                 if ($selectedTags || !empty($selectedTags)) {
                                     // Get the currently associated tag IDs for the lead_info record
                                     $currentTags = DB::table('lead_info_tags')
-                                    ->where('lead_info_id', $leadId)
-                                    ->pluck('tag_id')
-                                    ->toArray();
+                                        ->where('lead_info_id', $leadId)
+                                        ->pluck('tag_id')
+                                        ->toArray();
 
                                     if ($selectedTags || !empty($selectedTags)) {
                                         // Calculate the tags to insert (exclude already associated tags)
@@ -2294,7 +2290,6 @@ class GroupController extends Controller
         }
 
         return redirect()->back();
-
     }
 
 
@@ -2625,8 +2620,7 @@ class GroupController extends Controller
         if ($selectedOption == 'skip_entire_list_phone' || $selectedOption == 'skip_records_without_numbers_phone') {
             $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
         } elseif ($selectedOption == 'skip_entire_list_email' || $selectedOption == 'skip_records_without_emails') {
-            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();
-            ;
+            $skipTraceRate = Account::pluck('phone_cell_append_rate')->first();;
         } elseif ($selectedOption == 'append_names') {
             $skipTraceRate = Account::pluck('name_append_rate')->first();
         } elseif ($selectedOption == 'append_emails') {
@@ -3417,7 +3411,6 @@ class GroupController extends Controller
                             }
                             $contactsArr[] = $number;
                         }
-
                     }
                     if (count($contactsArr) > 0) {
                         $c_phones = implode(',', $contactsArr);
@@ -3435,14 +3428,11 @@ class GroupController extends Controller
 
                             'c_dispo_url' => 'https://app.reifuze.com/admin/voicepostback'
                         ])->getResponse();
-
                     }
                 }
                 //MMS TYPE
-                elseif ($_typ == 'mms')
-                {
-                    $this->SendMMS($groupId,$twilio_sender,'','');
-
+                elseif ($_typ == 'mms') {
+                    $this->SendMMS($groupId, $twilio_sender, '', '');
                 }
 
                 //MMS TYPE ENDS
@@ -3457,23 +3447,16 @@ class GroupController extends Controller
 
 
                 //die('here');
-                elseif (trim($_typ) == 'email')
-                {
+                elseif (trim($_typ) == 'email') {
 
-                    $this->SendMail($_body,$groupId,$campaign_list);
-
-                }
-                elseif ($_typ == 'sms')
-                {
-                    $this->SendSMS($groupId,$_body,$twilio_sender);
-                }
-                else {
-
+                    $this->SendMail($_body, $groupId, $campaign_list);
+                } elseif ($_typ == 'sms') {
+                    $this->SendSMS($groupId, $_body, $twilio_sender);
+                } else {
                 }
             }
             return response()->json(['message' => 'Pushed to campaign successfully', 'success' => true]);
-        }
-        catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             $failed_sms = new FailedSms();
             $failed_sms->client_number = '';
             $failed_sms->twilio_number = '';
@@ -3496,15 +3479,15 @@ class GroupController extends Controller
         $form_Template = FormTemplates::get();
         return view('back.pages.group.newList', compact('groups', 'markets', 'tags', 'campaigns', 'form_Template'));
     }
-    public function SendMail($_body,$groupId,$campaign_list)
+    public function SendMail($_body, $groupId, $campaign_list)
     {
         $_subject = $campaign_list->subject;
 
 
         $contact_numbrs = Contact::where('group_id', $groupId)->get();
         foreach ($contact_numbrs as $contact_num) {
-           // print_r($contact_num->email1);
-           // die("....");
+            // print_r($contact_num->email1);
+            // die("....");
             if ($contact_num->email1 != null) {
 
                 $subject = $_subject;
@@ -3523,12 +3506,11 @@ class GroupController extends Controller
 
 
                 Mail::to($email)->send(new TestEmail($data));
-
             }
         }
     }
 
-    public function SendSMS($groupId,$_body,$twilio_sender)
+    public function SendSMS($groupId, $_body, $twilio_sender)
     {
         //die($twilio_sender);
         $settings = Settings::first()->toArray();
@@ -3615,85 +3597,79 @@ class GroupController extends Controller
                 // Alert::toast("SMS Sent Successfully", "success");
 
             }
-
-
-
-
         }
     }
 
-    public function SendMMS($groupId,$sender_numbers,$template,$checkCompainList)
+    public function SendMMS($groupId, $sender_numbers, $template, $checkCompainList)
     {
         $settings = Settings::first()->toArray();
         $sid = $settings['twilio_acc_sid'];
         $token = $settings['twilio_auth_token'];
         $client = new Client($sid, $token);
-                    $contacts = Contact::where('group_id', $groupId)->get();
-                    //dd($contacts);
-                    if (count($contacts) > 0) {
-                        foreach ($contacts as $cont) {
-                            $receiver_number = $cont->number;
-                            $sender_number = $sender_numbers->number;
-                            if ($template) {
-                                $message = $template->body;
-                            }
-                            //else{
-                            // $message = $checkCompainList->body;
-                            // }
-                            $message = str_replace("{name}", $cont->name, $message);
-                            $message = str_replace("{street}", $cont->street, $message);
-                            $message = str_replace("{city}", $cont->city, $message);
-                            $message = str_replace("{state}", $cont->state, $message);
-                            $message = str_replace("{zip}", $cont->zip, $message);
-                            if ($template) {
-                                $mediaUrl = $template->mediaUrl;
-                            } else {
-                                $mediaUrl = $checkCompainList->mediaUrl;
-                            }
-                            try {
-                                $sms_sent = $client->messages->create(
-                                    $receiver_number,
-                                    [
-                                        'from' => $sender_number,
-                                        'body' => $message,
-                                        'mediaUrl' => [$mediaUrl],
-                                    ]
-                                );
-                                //dd($sms_sent);
-                                if ($sms_sent) {
-                                    $old_sms = Sms::where('client_number', $receiver_number)->first();
-                                    if ($old_sms == null) {
-                                        $sms = new Sms();
-                                        $sms->client_number = $receiver_number;
-                                        $sms->twilio_number = $sender_number;
-                                        $sms->message = $message;
-                                        $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-                                        $sms->status = 1;
-                                        $sms->save();
-                                        $this->incrementSmsCount($sender_number);
-                                    } else {
-                                        $reply_message = new Reply();
-                                        $reply_message->sms_id = $old_sms->id;
-                                        $reply_message->to = $sender_number;
-                                        $reply_message->from = $receiver_number;
-                                        $reply_message->reply = $message;
-                                        $reply_message->system_reply = 1;
-                                        $reply_message->save();
-                                        $this->incrementSmsCount($sender_number);
-                                    }
-
-                                }
-                            } catch (\Exception $ex) {
-                                $failed_sms = new FailedSms();
-                                $failed_sms->client_number = $receiver_number;
-                                $failed_sms->twilio_number = $sender_number;
-                                $failed_sms->message = $message;
-                                $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
-                                $failed_sms->error = $ex->getMessage();
-                                $failed_sms->save();
-                            }
+        $contacts = Contact::where('group_id', $groupId)->get();
+        //dd($contacts);
+        if (count($contacts) > 0) {
+            foreach ($contacts as $cont) {
+                $receiver_number = $cont->number;
+                $sender_number = $sender_numbers->number;
+                if ($template) {
+                    $message = $template->body;
+                }
+                //else{
+                // $message = $checkCompainList->body;
+                // }
+                $message = str_replace("{name}", $cont->name, $message);
+                $message = str_replace("{street}", $cont->street, $message);
+                $message = str_replace("{city}", $cont->city, $message);
+                $message = str_replace("{state}", $cont->state, $message);
+                $message = str_replace("{zip}", $cont->zip, $message);
+                if ($template) {
+                    $mediaUrl = $template->mediaUrl;
+                } else {
+                    $mediaUrl = $checkCompainList->mediaUrl;
+                }
+                try {
+                    $sms_sent = $client->messages->create(
+                        $receiver_number,
+                        [
+                            'from' => $sender_number,
+                            'body' => $message,
+                            'mediaUrl' => [$mediaUrl],
+                        ]
+                    );
+                    //dd($sms_sent);
+                    if ($sms_sent) {
+                        $old_sms = Sms::where('client_number', $receiver_number)->first();
+                        if ($old_sms == null) {
+                            $sms = new Sms();
+                            $sms->client_number = $receiver_number;
+                            $sms->twilio_number = $sender_number;
+                            $sms->message = $message;
+                            $sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                            $sms->status = 1;
+                            $sms->save();
+                            $this->incrementSmsCount($sender_number);
+                        } else {
+                            $reply_message = new Reply();
+                            $reply_message->sms_id = $old_sms->id;
+                            $reply_message->to = $sender_number;
+                            $reply_message->from = $receiver_number;
+                            $reply_message->reply = $message;
+                            $reply_message->system_reply = 1;
+                            $reply_message->save();
+                            $this->incrementSmsCount($sender_number);
                         }
                     }
-
+                } catch (\Exception $ex) {
+                    $failed_sms = new FailedSms();
+                    $failed_sms->client_number = $receiver_number;
+                    $failed_sms->twilio_number = $sender_number;
+                    $failed_sms->message = $message;
+                    $failed_sms->media = $mediaUrl == null ? 'No' : $mediaUrl;
+                    $failed_sms->error = $ex->getMessage();
+                    $failed_sms->save();
+                }
+            }
+        }
     }
 }
