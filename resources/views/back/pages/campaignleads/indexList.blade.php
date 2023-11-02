@@ -176,8 +176,8 @@
                             <div class="col-md-12" id="dvRvm" style="display:none">
                                 <div class="form-group mt-3">
                                     <label>RVM File</label>
-                                    <select class="custom-select" name="rvm" required>
-                                        <option value="">Select RVM File</option>
+                                    <select class="custom-select" name="rvm">
+                                        
                                         @if(count($files) > 0)
                                         @foreach($files as $file)
                                         <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>
