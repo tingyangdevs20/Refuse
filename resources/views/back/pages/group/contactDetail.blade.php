@@ -5724,12 +5724,16 @@
                                                                             </button>
                                                                             <!-- Error messages will be appended here -->
                                                                         </div>
+                                                                        <form action="/admin/user-agreement/save" method="POST">
+                                                                            @csrf
+                                                                            <input hidden name="contact_id"
+                                                                                value="{{ $contact->id }}">
                                                                         <label>Select Form Template</label>
                                                                         <div class="row">
                                                                             @foreach (getFormTemplate() as $templateId => $template)
                                                                                 <div class="checkbox  col-md-4">
                                                                                     <label>
-                                                                                        <input type="checkbox" class="formTemplateCheckbox" value="{{ $templateId }}">
+                                                                                        <input type="checkbox" class="formTemplateCheckbox" name="template_id" value="{{ $templateId }}">
                                                                                         {{ $template }}
                                                                                     </label>
                                                                                 </div>
@@ -5738,74 +5742,76 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <label>Template Content <span
-                                                                                class="required">*</span></label>
-                                                                        <textarea class="form-control text1 userAgreementContent" id="user-agreement-content" name="content"
-                                                                            rows="10"></textarea>
-                                                                        <div id='count' class="float-lg-right">
+
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group" style="padding: 0 10px;">
+                                                                            <label>Template Content <span
+                                                                                    class="required">*</span></label>
+                                                                            <textarea class="form-control text1 userAgreementContent" id="user-agreement-content" name="content"
+                                                                                rows="10"></textarea>
+                                                                            <div id='count' class="float-lg-right">
+                                                                            </div>
                                                                         </div>
+
                                                                     </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group" style="padding: 0 10px;">
+                                                                            <label for="seller_id"
+                                                                                class="col-form-label">Select Contacts <span
+                                                                                    class="required">*</span></label>
+                                                                                    <div class="checkbox-list">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-4">
+                                                                                                <label><input style="margin-right:5px" type="checkbox" class="user-seller"
+                                                                                                    table="lead_info"
+                                                                                                    onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
+                                                                                                    value="{{ $leadinfo->mail_to_owner1 }}"
+                                                                                                    {{ $leadinfo->mail_to_owner1 == 1 ? 'checked' : '' }}
+                                                                                                    name="mail_to_owner1">Contact 1 ({{ $leadinfo->owner1_first_name }})</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-4">
+                                                                                                <label><input style="margin-right:5px" type="checkbox" class="user-seller"
+                                                                                                    table="lead_info"
+                                                                                                    onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
+                                                                                                    value="{{ $leadinfo->mail_to_owner2 }}"
+                                                                                                    {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
+                                                                                                    name="mail_to_owner2">Contact 2 ({{ $leadinfo->owner2_first_name }})</label>
 
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="padding: 0 10px;">
-                                                                        <label for="seller_id"
-                                                                            class="col-form-label">Select Contacts <span
-                                                                                class="required">*</span></label>
-                                                                                <div class="checkbox-list">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
-                                                                                                table="lead_info"
-                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner1', 'lead_info')"
-                                                                                                value="{{ $leadinfo->mail_to_owner1 }}"
-                                                                                                {{ $leadinfo->mail_to_owner1 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner1">Contact 1 ({{ $leadinfo->owner1_first_name }})</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-4">
+                                                                                                <label><input style="margin-right:5px" type="checkbox" class="user-seller"
+                                                                                                    table="lead_info"
+                                                                                                    onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
+                                                                                                    value="{{ $leadinfo->mail_to_owner3 }}"
+                                                                                                    {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
+                                                                                                    name="mail_to_owner3">Contact 3 ({{ $leadinfo->owner3_first_name }})</label>
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
-                                                                                                table="lead_info"
-                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner2', 'lead_info')"
-                                                                                                value="{{ $leadinfo->mail_to_owner2 }}"
-                                                                                                {{ $leadinfo->mail_to_owner2 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner2">Contact 2 ({{ $leadinfo->owner2_first_name }})</label>
 
-                                                                                        </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <label><input style="margin-right:5px" type="checkbox" class="user-seller"
-                                                                                                table="lead_info"
-                                                                                                onchange="updateValue(this.checked ? '1' : null, 'mail_to_owner3', 'lead_info')"
-                                                                                                value="{{ $leadinfo->mail_to_owner3 }}"
-                                                                                                {{ $leadinfo->mail_to_owner3 == 1 ? 'checked' : '' }}
-                                                                                                name="mail_to_owner3">Contact 3 ({{ $leadinfo->owner3_first_name }})</label>
-                                                                                        </div>
                                                                                     </div>
-
-                                                                                </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <div class="form-group"
-                                                                            style="margin-left: 15px;">
-                                                                            <small class="text-danger"><b>Please Keep
-                                                                                    {SIGNATURE_USER} in contenet for
-                                                                                    user sign</b></small>
                                                                         </div>
-
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group" style="margin-left: 15px;">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary button-item saveUserAgreementContact">Send for digital signature</button>
-                                                                        <button type="button"
-                                                                        class="btn btn-primary button-item savePdf">Save Pdf</button>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <div class="form-group"
+                                                                                style="margin-left: 15px;">
+                                                                                <small class="text-danger"><b>Please Keep
+                                                                                        {SIGNATURE_USER} in contenet for
+                                                                                        user sign</b></small>
+                                                                            </div>
 
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group" style="margin-left: 15px;">
+                                                                            <button
+                                                                                class="btn btn-primary" type="submit">Send for digital signature</button>
+                                                                            {{-- <button type="button"
+                                                                            class="btn btn-primary button-item savePdf">Save Pdf</button> --}}
+
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
 
                                                             </div>
                                                         </div>
@@ -5849,6 +5855,7 @@
                                             @endif
                                         </div>
                                     </div>
+
                                     {{-- <div class="col-md-1"></div> --}}
                                     <div class="col-md-4">
                                         <div class="card content-div">
@@ -5868,6 +5875,36 @@
                                             <div readonly class="load_script"></div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-striped table-bordered" id="datatable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Template Id</th>
+                                            <th scope="col">Agreement Date</th>
+                                            <th scope="col">Content</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(count($userAgreements) > 0)
+                                                @foreach ($userAgreements as $userAgreements)
+                                                    <tr>
+                                                        <td>{{ $userAgreements->template_id }}</td>
+                                                        <td>{{ $userAgreements->agreement_date }}</td>
+                                                        <td>{!! $userAgreements->content !!}</td>
+                                                        <td>
+                                                            <a class="btn btn-primary" href="/admin/user-agreement/pdf/{{$userAgreements->id}}">PDF</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="5" style="text-align: center;">No Record Found.</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
                             </form>
                         </div>

@@ -71,7 +71,7 @@ class UserAgreementMail extends Command
                     $this->sendMailtoUsers($userAgreementSeller, $lead->owner1_email2);
                 }
             }
-        } 
+        }
         if ($lead->mail_to_owner2) {
             $userAgreementSeller =  UserAgreementSeller::where(["user_id"=> $contact_id, "contact_number"=> "mail_to_owner2"])->first();
             if ($userAgreementSeller) {
@@ -93,7 +93,7 @@ class UserAgreementMail extends Command
             }
         }
 
-        
+
         return 0;
     }
     public function sendMailtoUsers($userAgreementSeller, $receiver_email){
@@ -118,14 +118,14 @@ class UserAgreementMail extends Command
                 if ($leadinfo1->owner2_first_name || $leadinfo1->owner2_last_name) {
                     DB::table('lead_info')->where('contact_id', $userAgreementSeller->user_id)->update([
                         'user_2_name' => $leadinfo1->owner2_first_name . ' ' . $leadinfo1->owner2_last_name,
-                        
-                    ]); 
+
+                    ]);
                 }
                 if ($leadinfo1->owner3_first_name || $leadinfo1->owner3_last_name) {
                     DB::table('lead_info')->where('contact_id', $userAgreementSeller->user_id)->update([
                         'user_3_name' => $leadinfo1->owner3_first_name . ' ' . $leadinfo1->owner3_last_name,
                     ]);
-                
+
                 }
             }
             $leadinfo = DB::table('lead_info')->where('contact_id', $userAgreementSeller->user_id)->first(['owner1_first_name','owner1_last_name','owner1_primary_number','owner1_number2','owner1_number3','owner1_email1','owner1_email2','owner1_dob','owner1_mother_name','owner2_first_name','owner2_last_name','owner2_primary_number','owner2_number2','owner2_number3','owner2_email1','owner2_email2','owner2_social_security','owner2_dob','owner2_mother_name','owner3_first_name','owner3_last_name','owner3_primary_number','owner3_number2','owner3_number3','owner3_email1','owner3_email2','owner3_social_security','owner3_dob','owner3_mother_name', 'user_1_name', 'user_1_signature', 'user_2_name', 'user_2_signature', 'user_3_name', 'user_3_signature']);
@@ -171,7 +171,7 @@ class UserAgreementMail extends Command
             makeDir($pdfPath, true);
 
             //$userAgreement_update_pdf = UserAgreement::find($userAgreementId);
-            $content       = stripslashes($userAgreement->content);
+            $content       = stripslashes(@$userAgreement->content);
             $content       = str_replace("{SIGNATURE_USER}", "", $content);
             if(!empty($new_array) && !empty($content)){
                 $find = array_keys($new_array);
@@ -191,7 +191,7 @@ class UserAgreementMail extends Command
 
             if ($userAgreementSeller->is_send_mail != "1") {
                 try {
-                    
+
                     Log::info(Crypt::encrypt($userAgreementSeller->id));
 
 
@@ -204,9 +204,9 @@ class UserAgreementMail extends Command
                     $userAgreement->is_sign = '2';
                     $userAgreement->save();
                 } catch (Exception $ex) {
-                    
+
                 }
             }
-        
+
     }
 }
