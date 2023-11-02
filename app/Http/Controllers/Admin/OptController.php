@@ -48,7 +48,7 @@ class OptController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $groups = OptIn::get()->sortByDesc("created_at");
         // return $groups;
         // $groupCounts = $groups->map(function ($group) {
@@ -154,7 +154,7 @@ class OptController extends Controller
         $getAllAppointments = Scheduler::where('user_id', 1)->get();
         // print_r($getAllAppointments);
         // exit;
-        
+
         return view('back.pages.group.contactDetail', compact('id','title_company','leadinfo','scripts','sections','property_infos','values_conditions','property_finance_infos','selling_motivations','negotiations','leads', 'tags','getAllAppointments'));
     }
 
@@ -180,7 +180,6 @@ class OptController extends Controller
             }else{
                 DB::table($table)->insert(['contact_id' => $id ,$fieldName => $fieldVal]);
             }
-
         }
 
         return 'added';
@@ -236,7 +235,7 @@ class OptController extends Controller
             $group->tag_id = $request->tag_id;
             $group->name = $request->name;
             $group->save();
-       
+
         }
 
 
@@ -393,7 +392,7 @@ class OptController extends Controller
                                                     $sms->media = '';
                                                     $sms->status = 1;
                                                     $sms->save();
-                                                  $this->incrementSmsCount($sender_number);
+                                                    $this->incrementSmsCount($sender_number);
                                                 } else {
                                                     $reply_message = new Reply();
                                                     $reply_message->sms_id = $old_sms->id;
@@ -402,7 +401,7 @@ class OptController extends Controller
                                                     $reply_message->reply = $message;
                                                     $reply_message->system_reply = 1;
                                                     $reply_message->save();
-                                                   $this->incrementSmsCount($sender_number);
+                                                    $this->incrementSmsCount($sender_number);
                                                 }
                                             }
                                         } catch (\Exception $ex) {
@@ -416,6 +415,7 @@ class OptController extends Controller
                                         }
                                     }
                                 }elseif($row->type == 'mms'){
+
                                     $client = new Client($sid, $token);
                                     if($importData[6] != ''){
                                         $number = '+1' . preg_replace('/[^0-9]/', '', $importData[6]);
@@ -432,6 +432,7 @@ class OptController extends Controller
                                     $message = str_replace("{city}", $importData[3], $message);
                                     $message = str_replace("{state}", $importData[4], $message);
                                     $message = str_replace("{zip}", $importData[5], $message);
+
                                     if($receiver_number != ''){
                                         try {
                                             $sms_sent = $client->messages->create(
@@ -464,7 +465,6 @@ class OptController extends Controller
                                                     $reply_message->save();
                                                    $this->incrementSmsCount($sender_number);
                                                 }
-
                                             }
                                         } catch (\Exception $ex) {
                                             $failed_sms = new FailedSms();
@@ -488,16 +488,16 @@ class OptController extends Controller
                                         if($number){
                                             $c_phones = $number;
                                             $vrm = \Slybroadcast::sendVoiceMail([
-                                                                'c_phone' => ".$c_phones.",
-                                                                'c_url' =>$template->body,
-                                                                'c_record_audio' => '',
-                                                                'c_date' => 'now',
-                                                                'c_audio' => 'Mp3',
-                                                                //'c_callerID' => "4234606442",
-                                                                'c_callerID' => $sender_numbers->number,
-                                                                //'mobile_only' => 1,
-                                                                'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
-                                                               ])->getResponse();
+                                                'c_phone' => ".$c_phones.",
+                                                'c_url' =>$template->body,
+                                                'c_record_audio' => '',
+                                                'c_date' => 'now',
+                                                'c_audio' => 'Mp3',
+                                                //'c_callerID' => "4234606442",
+                                                'c_callerID' => $sender_numbers->number,
+                                                //'mobile_only' => 1,
+                                                'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+                                                ])->getResponse();
                                         }
 
                                     }
@@ -624,7 +624,7 @@ class OptController extends Controller
     {
         if(count($request->checked_id)>0){
             foreach($request->checked_id as $contactId){
-                
+
                 $contractRes = Contractupload::where("id",$request->contracttype)->first();
                 $mailcontact = Contact::where("id",$contactId)->first();
                 $subject = "Testing 05092023";
@@ -638,7 +638,7 @@ class OptController extends Controller
                 Alert::success('Success!', 'Mail sent successfully!');
                 return redirect()->back();
         }
-    } 
+    }
 
    public function uploadcontract(Request $request){
 
@@ -658,11 +658,11 @@ class OptController extends Controller
     $pdfParser = new Parser();
     $pdf = $pdfParser->parseFile($file->path());
     $content = $pdf->getText();
-        $filenameNew =  time().'.'.$fileName;
+    $filenameNew =  time().'.'.$fileName;
     $Contractupload = new Contractupload;
        $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;        
-       $Contractupload->file =$filenameNew;     
+       $Contractupload->type_contract =$request->optiontype;
+       $Contractupload->file =$filenameNew;
        $Contractupload->save();
        $file->move('../public/contractpdf/', $filenameNew);
        Alert::success('Success!', 'Contract Uploaded successfully!');
@@ -675,7 +675,7 @@ class OptController extends Controller
 
 
 
-   
+
    public function uploadcontractedit(Request $request){
     // dd($request->all());
 
@@ -697,13 +697,13 @@ class OptController extends Controller
         $filenameNew =  time().'.'.$fileName;
        $Contractupload = Contractupload::find(1);
        $destinationPath = public_path('/contractpdf/'.$Contractupload->file);
-   
+
     if(file_exists($destinationPath)){
         unlink($destinationPath);
     }
        $Contractupload->content = $content;
-       $Contractupload->type_contract =$request->optiontype;        
-       $Contractupload->file =$filenameNew;     
+       $Contractupload->type_contract =$request->optiontype;
+       $Contractupload->file =$filenameNew;
        $Contractupload->save();
        $file->move('../public/contractpdf/', $filenameNew);
        Alert::success('Success!', 'Contract Updated successfully!');
@@ -732,9 +732,9 @@ class OptController extends Controller
     public function skipTrace(DatazappService $datazappService, Request $request)
     {
 
-       
+
         $groupId = $request->input('group_id');
-        $selectedOption = $request->input('skip_trace_option'); 
+        $selectedOption = $request->input('skip_trace_option');
 
         $group = Group::with('contacts')->find($groupId);
 
@@ -750,7 +750,7 @@ class OptController extends Controller
             return $contact->email1 . '|' . $contact->number;
         });
 
-        
+
         // Perform skip tracing based on the selected option
         if ($selectedOption === 'skip_entire_list') {
             // Implement skip tracing logic for the entire list
@@ -780,10 +780,10 @@ class OptController extends Controller
 
         $groupId = $request->input('group_id');
         $groupName = $request->input('group_name');
-    
+
         // Check if a record with the same group_id exists
         $existingCampaign = Campaign::where('group_id', $groupId)->first();
-    
+
         if ($existingCampaign) {
             // Return a response to indicate that the data already exists
             return response()->json(['message' => 'Data already exists', 'success' => false]);
@@ -793,12 +793,12 @@ class OptController extends Controller
                 'name' => $groupName,
                 'group_id' => $groupId,
             ]);
-    
+
             // Return a response to indicate success
             return response()->json(['message' => 'Data inserted successfully', 'success' => true]);
         }
     }
 
-    
+
 
 }

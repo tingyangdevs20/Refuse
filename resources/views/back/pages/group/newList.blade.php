@@ -518,7 +518,7 @@
                                                 <div class="form-group">
                                                     {{-- <label for="number2">Phone number 2</label> --}}
                                                     <input id="owner1_number3" readonly type="text" class="form-control"
-                                                        name="owner1_number3" placeholder="Phone number 2">
+                                                        name="owner1_number3" placeholder="Phone number 3">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-2">

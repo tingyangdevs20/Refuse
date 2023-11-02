@@ -87,7 +87,6 @@ class CreateRvmController extends Controller
      */
     public function update(Request $request)
     {
-       // dd($request);
         $media = null;
         if ($request->mediaUrl != null) {
             $media = $request->file('mediaUrl');
@@ -101,7 +100,7 @@ class CreateRvmController extends Controller
         $rvm->name=$request->rvm_name;
         if($media!='')
         {
-        $rvm->mediaUrl=$media;
+            $rvm->mediaUrl=$media;
         }
         $rvm->save();
         Alert::success('Success','RVM Updated!');
