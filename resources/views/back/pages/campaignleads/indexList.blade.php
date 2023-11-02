@@ -200,6 +200,122 @@
 </div>
 {{-- End Modal New --}}
 
+{{-- Modal Update --}}
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="exampleModalLabel">Update Message To Sequence</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('admin.campaignleadlist.update') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    @csrf
+                    @method('POST')
+                    <input name="lstid" id="lstid" style="display:none" />
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group text-right mt-2">
+                                    <label>Delay</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-calendar"></i></div>
+                                        </div>
+                                        <input type="number" min="0" class="form-control" placeholder="Days" id="send_after_days_edit" name="send_after_days_edit">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-calendar"></i></div>
+                                        </div>
+                                        <input type="number" min="0" class="form-control" placeholder="Hours" id="send_after_hours_edit" name="send_after_hours_edit">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Message Type</label>
+                                    <select class="custom-select" onchange="check_type_edit(this)" id="type_edit" name="type_edit" required>
+                                    <option value="" selected>Select Message Type</option>
+                                        <option value="sms">SMS</option>
+                                        <option value="email">Email</option>
+                                        <option value="mms">MMS</option>
+                                        <option value="rvm">RVM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" id="dvMediaFile2" style="display: none;">
+                                    <label>Media File (<small class="text-danger">Disregard if not sending MMS</small>)</label>
+                                    <input type="file" class="form-control-file" name="media_file_edit" id="media_file_edit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="dvSubject2" style="display: none;">
+                                <div class="form-group" >
+                                    <label>Subject</label>
+                                    <input type="text" class="form-control" placeholder="Subject" id="subject_edit" name="subject_edit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="dvMessage2">
+                                <div class="form-group" >
+                                    <label>Message</label>
+                                    <textarea id="msg" class="form-control" rows="10" name="msg_edit" id="msg_edit"></textarea>
+                                    <div id='count' class="float-lg-right"></div>
+                                </div>
+                                <div class="form-group">
+                                    <small class="text-danger"><b>Use {name} {street} {city} {state} {zip} to substitute the respective fields</b></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="dvRvm2" style="display:none">
+                                <div class="form-group mt-3">
+                                    <label>RVM File</label>
+                                    <select class="custom-select" name="rvm_edit" id="rvm_edit">
+                                       
+                                        @if(count($files) > 0)
+                                        @foreach($files as $file)
+                                        <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>
+                                        @endforeach
+                                        @endif
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{{-- End Modal Update --}}
 
 
 {{-- Modal Add on 31-08-2023 --}}
