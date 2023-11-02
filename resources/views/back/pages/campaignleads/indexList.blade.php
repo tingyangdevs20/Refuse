@@ -38,7 +38,7 @@
                                     <th scope="col">Order</th>
                                     <th scope="col">Delay</th>
                                     <th scope="col">Type</th>
-                                    <th scope="col">Message</th>
+                                    <th scope="col">Message/RVM</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -55,7 +55,7 @@
                                     <td>{{ $campaignsLst->send_after_days }} Days - {{ $campaignsLst->send_after_hours }} Hours</td>
                                     <td>{{ strip_tags($campaignsLst->type) }}</td>
                                     @if($campaignsLst->type=='rvm')
-                                    <td>{{$campaignsLst->subject}}</td>
+                                    <td>{{$campaignsLst->mediaUrl}}</td>
                                     @elseif($campaignsLst->type!='rvm')
                                     <td>{{ strip_tags($campaignsLst->body) }}</td>
                                     @endif
@@ -188,7 +188,7 @@
                                         
                                         @if(count($files) > 0)
                                         @foreach($files as $file)
-                                        <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>
+                                        <option value="{{ $file->name }}">{{ $file->name }}</option>
                                         @endforeach
                                         @endif
 
@@ -305,7 +305,7 @@
                                        
                                         @if(count($files) > 0)
                                         @foreach($files as $file)
-                                        <option value="{{ $file->mediaUrl }}">{{ $file->name }}</option>
+                                        <option value="{{ $file->name }}">{{ $file->name }}</option>
                                         @endforeach
                                         @endif
 
