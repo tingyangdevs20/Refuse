@@ -173,6 +173,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
+    Route::put('task-list/update', 'TaskListController@update')->name('task-list.update');
     Route::post('delete-tasks', 'TaskListController@delete')->name('delete-tasks');
     Route::post('delete-List', 'TaskListController@deleteList')->name('delete-List');
     Route::post('update-task', 'TaskListController@update')->name('update-task');

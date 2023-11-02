@@ -16,22 +16,30 @@ class ScrapingSourceList extends Model implements HasMedia
 
     public function getFormattedPriceRangeAttribute()
     {
-        // Split the price range into min and max values
-        list($min, $max) = explode('-', $this->attributes['price_range']);
+        if ($this->attributes['price_range'] == '18000000-Any Price') {
+            return $this->attributes['price_range'];
+        }
+        $parts = explode('-', $this->attributes['price_range']);
+        $start = $parts[0];
+        $end = $parts[1];
 
-        // Convert min and max to "k" format
-        $min = $this->formatNumber($min);
-        $max = $this->formatNumber($max);
+        if ($start >= 1000000) {
+            $start = '$' . number_format($start / 1000000, 1) . 'M';
+        } elseif ($start >= 1000) {
+            $start = '$' . number_format($start / 1000, 1) . 'K';
+        } else {
+            $start = '$' . number_format($start);
+        }
 
-        return "$min-$max";
-    }
+        if ($end >= 1000000) {
+            $end = '$' . number_format($end / 1000000, 1) . 'M';
+        } elseif ($end >= 1000) {
+            $end = '$' . number_format($end / 1000, 1) . 'K';
+        } else {
+            $end = '$' . number_format($end);
+        }
 
-    protected function formatNumber($number)
-    {
-        $number = number_format($number / 1000, 0);
-
-        // Append "k" to the formatted number
-        return $number . 'k';
+        return $start . '-'. $end;
     }
 
 

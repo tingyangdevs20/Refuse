@@ -8,6 +8,573 @@
     <!-- Start right Content here -->
     <!-- ============================================================== -->
 
+    <section class="StyledDialog-c11n-8-84-3__sc-3phm7o-0 iotCst StyledDropdown-c11n-8-84-3__sc-lz45p2-0 hMWkrB"
+        role="dialog"
+        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(16px, 203px, 0px);"
+        data-popper-placement="bottom-start">
+        <ul aria-multiselectable="false" id="__c11n_22q1cb" role="listbox"
+            class="StyledListbox-c11n-8-84-3__sc-1vo0dzk-0 fnKuTe" aria-activedescendant="__c11n_22q2i4">
+            <li aria-selected="false" data-active="false" id="__c11n_22q2hz"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$0</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i0"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$50,000
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i1"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$100,000
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i2"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$150,000
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i3"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$200,000
+                </div>
+            </li>
+            <li aria-selected="false" data-active="true" id="__c11n_22q2i4"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$250,000
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i5"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $300,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i6"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $350,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i7"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $400,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i8"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $450,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2i9"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $500,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ia"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $550,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ib"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $600,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ic"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $650,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2id"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $700,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ie"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $750,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2if"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $800,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ig"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $850,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ih"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $900,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ii"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">
+                    $950,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ij"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ik"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1.25M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2il"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1.5M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2im"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1.75M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2in"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2io"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2.25M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ip"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2.5M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2iq"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2.75M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ir"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2is"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3.25M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2it"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3.5M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2iu"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3.75M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2iv"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2iw"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4.25M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ix"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4.5M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2iy"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4.75M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2iz"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$5M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j0"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$6M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j1"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$7M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j2"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$8M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j3"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$9M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j4"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$10M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j5"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$11M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j6"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$12M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j7"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$13M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j8"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$14M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2j9"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$15M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ja"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$16M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2jb"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$17M
+                </div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2jc"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$18M
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="StyledDialog-c11n-8-84-3__sc-3phm7o-0 iotCst StyledDropdown-c11n-8-84-3__sc-lz45p2-0 hMWkrB"
+        role="dialog"
+        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(210px, 203px, 0px);"
+        data-popper-placement="bottom-start">
+        <ul aria-multiselectable="false" id="__c11n_22q1ds" role="listbox"
+            class="StyledListbox-c11n-8-84-3__sc-1vo0dzk-0 fnKuTe" aria-activedescendant="__c11n_22q2vx">
+            <li aria-selected="false" data-active="false" id="__c11n_22q2vu"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$50,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2vv"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$100,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2vw"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$150,000</div>
+            </li>
+            <li aria-selected="false" data-active="true" id="__c11n_22q2vx"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$200,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2vy"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$250,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2vz"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$300,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w0"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$350,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w1"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$400,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w2"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$450,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w3"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$500,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w4"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$550,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w5"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$600,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w6"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$650,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w7"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$700,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w8"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$750,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2w9"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$800,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wa"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$850,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wb"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$900,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wc"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$950,000</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wd"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2we"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1.25M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wf"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1.5M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wg"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$1.75M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wh"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wi"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2.25M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wj"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2.5M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wk"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$2.75M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wl"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wm"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3.25M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wn"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3.5M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wo"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$3.75M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wp"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wq"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4.25M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wr"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4.5M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ws"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$4.75M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wt"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$5M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wu"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$6M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wv"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$7M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2ww"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$8M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wx"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$9M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wy"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$10M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2wz"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$11M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x0"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$12M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x1"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$13M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x2"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$14M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x3"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$15M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x4"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$16M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x5"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$17M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x6"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">$18M</div>
+            </li>
+            <li aria-selected="false" data-active="false" id="__c11n_22q2x7"
+                class="StyledListboxOption-c11n-8-84-3__sc-1f5r1cg-0 ijjalL StyledComboboxOption-c11n-8-84-3__sc-brr3vr-0 kJQDoo"
+                role="option">
+                <div class="ListboxOptionLabel-c11n-8-84-3__sc-wlbymz-0 lbyMcY">Any Price</div>
+            </li>
+        </ul>
+    </section>
+
     <div class="page-content">
         <div class="container-fluid">
 
@@ -16,7 +583,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Data Management</h4>
-                       
+
                     </div>
                     <div class="card">
                         <div class="card-header bg-soft-dark ">
@@ -46,7 +613,8 @@
                                     <div class="form-group">
                                         <label for="state">State</label>
                                         <input type="text" class="form-control @error('state') is-invalid @enderror"
-                                            id="state" name="state" value="{{ old('state', $scrapingdata->state) }}">
+                                            id="state" name="state"
+                                            value="{{ old('state', $scrapingdata->state) }}">
                                         @error('state')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -68,7 +636,8 @@
                                     <div class="form-group">
                                         <label for="zip">Zip</label>
                                         <input type="number" class="form-control @error('zip') is-invalid @enderror"
-                                            id="zip" name="zip" value="{{ old('zip', $scrapingdata->zip_code) }}">
+                                            id="zip" name="zip"
+                                            value="{{ old('zip', $scrapingdata->zip_code) }}">
                                         @error('zip')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

@@ -26,9 +26,6 @@
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
-
-
-
         </div>
         @include('back.pages.partials.switch')
         <div class="dropdown d-inline-block">
