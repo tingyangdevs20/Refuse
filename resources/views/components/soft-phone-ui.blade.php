@@ -353,6 +353,7 @@
 
     .call-record {
         display: flex;
+        justify-content : space-between;
         align-items: center;
         margin-bottom: 10px;
         border: 1px solid #ddd;
