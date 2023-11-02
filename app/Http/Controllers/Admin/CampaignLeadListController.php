@@ -295,7 +295,7 @@ class CampaignLeadListController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
+       // dd($request);
         $types = $request->type;
         $campaign_id=$request->camp_id;
         $subject='';
