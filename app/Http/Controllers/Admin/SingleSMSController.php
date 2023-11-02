@@ -74,7 +74,7 @@ class SingleSMSController extends Controller
         }
         try {
             $client = new Client($sid, $token);
-
+           
            // dd($client);
             
             //return $media;
@@ -98,6 +98,7 @@ class SingleSMSController extends Controller
                 );
                // dd($sms_sent);
             }
+           // dd($sms_sent);
             if ($sms_sent) {
                 $old_sms = Sms::where('client_number', $receiver_number)->first();
                // dd($old_sms);
