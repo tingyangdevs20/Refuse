@@ -74,10 +74,10 @@ class MarketController extends Controller
      * @param  \App\Model\Market  $market
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $market = Market::find($request->id);
-        $market->name = $request->name;
+        $market = Market::find($id);
+        $market->name = $request->phone;
         $market->save();
         Alert::success('Success','Market Updated!');
         return redirect()->back();
