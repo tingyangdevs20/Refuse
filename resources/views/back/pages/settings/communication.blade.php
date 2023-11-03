@@ -1279,14 +1279,14 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="{{ route('admin.market.update', $market->id) }}" method="post" id="editForm">
+                                <form action="{{ route('admin.market.update', 'test') }}" method="post" id="editForm">
                                     @method('PUT')
                                     @csrf
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input type="hidden" id="id" name="id" value="{{$market->id}}">
-                                            <input type="text" class="form-control" name="phone" id="phone" value="{{$market->name}}" required>
+                                            <input type="hidden" id="id" name="id" value="">
+                                            <input type="text" class="form-control" name="phone" id="phone" required>
                                         </div>
 
                                     </div>
