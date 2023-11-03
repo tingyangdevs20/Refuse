@@ -53,10 +53,10 @@ class CampaignListController extends Controller
         //die($files);
         $categories = Category::all();
         $campaignsList = CampaignList::where('campaign_id', $id)->orderby('schedule', 'ASC')->get();
-       // die($campaignsList);
-        $campaign_name=Campaign::where('id', $id)->first();
+        // die($campaignsList);
+        $campaign_name = Campaign::where('id', $id)->first();
 
-        return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories','campaign_name'));
+        return view('back.pages.campaign.indexList', compact('numbers', 'templates', 'campaignsList', 'id', 'files', 'categories', 'campaign_name'));
     }
 
     public function schedual()
@@ -259,20 +259,20 @@ class CampaignListController extends Controller
                                         $contactsArr[] = $number;
                                     }
                                 }
-                                if (count($contactsArr) > 0) {
-                                    $c_phones = implode(',', $contactsArr);
-                                    $vrm = \Slybroadcast::sendVoiceMail([
-                                        'c_phone' => ".$c_phones.",
-                                        'c_url' => $template->body,
-                                        'c_record_audio' => '',
-                                        'c_date' => 'now',
-                                        'c_audio' => 'Mp3',
-                                        //'c_callerID' => "4234606442",
-                                        'c_callerID' => "18442305060",
-                                        //'mobile_only' => 1,
-                                        'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
-                                    ])->getResponse();
-                                }
+                                // if (count($contactsArr) > 0) {
+                                //     $c_phones = implode(',', $contactsArr);
+                                //     $vrm = \Slybroadcast::sendVoiceMail([
+                                //         'c_phone' => ".$c_phones.",
+                                //         'c_url' => $template->body,
+                                //         'c_record_audio' => '',
+                                //         'c_date' => 'now',
+                                //         'c_audio' => 'Mp3',
+                                //         //'c_callerID' => "4234606442",
+                                //         'c_callerID' => "18442305060",
+                                //         //'mobile_only' => 1,
+                                //         'c_dispo_url' => 'https://brian-bagnall.com/bulk/bulksms/public/admin/voicepostback'
+                                //     ])->getResponse();
+                                // }
                             }
                             $campaigns = CampaignList::where('id', $row->id)->update(['updated_at' => date('Y-m-d H:i:s'), 'active' => 0]);
                             break;
@@ -304,77 +304,71 @@ class CampaignListController extends Controller
 
     public function store(Request $request)
     {
-       
-       // print_r(count($request->all()));
-        dd($request);
+
+        // print_r(count($request->all()));
+        // dd($request);
         // die("..");
 
         $types = $request->type;
         $send_after_days = $request->send_after_days;
         $send_after_hours = $request->send_after_hours;
         $templ_ate = $request->template;
-               
-        $campaign_id=$request->tmpid;
-        $body_text ="";
-        $bodytext='';
-        $subject='';
-        $media="";
 
-                $sendAfter = null;
-                if ($request->send_after_days !== null && $request->send_after_hours !== null) {
-                    $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
-                }
-                if ($types == 'rvm') 
-                {
-                    $media = $request->mediaUrl;
-                    $subject=$request->rvm;
-                    
-                } 
-                if ($types == 'mms') 
-                {
-                    $media = $request->media_file_mms;
-                    
-                } 
-               
+        $campaign_id = $request->tmpid;
+        $body_text = "";
+        $bodytext = '';
+        $subject = '';
+        $media = "";
 
-                $body_text = TemplateMessages::where('template_id', $request->template)->get();
-                //die($body_text);
-                if(count($body_text)>0)
-                {
-                $bodytext=$body_text[0]->msg_content;
-                $subject=$body_text[0]->subject;
-                }
-               
-                CampaignList::create([
-                                    'campaign_id' => $campaign_id,
-                                    'type' => $types,
-                                    'send_after_days' => $request->send_after_days,
-                                    'send_after_hours' => $request->send_after_hours,
-                                    'schedule' => $sendAfter,
-                                    'mediaUrl' => $media,
-                                    'template_id' => $request->template,
-                                    'body' => $bodytext,
-                                    'subject' => $subject,
-                                    'active' => 1, // Set active status
-                                ]);
-                            
-                        
-                    
-               
+        $sendAfter = null;
+        if ($request->send_after_days !== null && $request->send_after_hours !== null) {
+            $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
+        }
+        if ($types == 'rvm') {
+            $media = $request->mediaUrl;
+            $subject = $request->rvm;
+        }
+        if ($types == 'mms') {
+            $media = $request->media_file_mms;
+        }
 
-                   
-                            
-                        
-                    
-                
-                
-       
 
-        
+        $body_text = TemplateMessages::where('template_id', $request->template)->get();
+        //die($body_text);
+        if (count($body_text) > 0) {
+            $bodytext = $body_text[0]->msg_content;
+            $subject = $body_text[0]->subject;
+        }
 
-        
+        CampaignList::create([
+            'campaign_id' => $campaign_id,
+            'type' => $types,
+            'send_after_days' => $request->send_after_days,
+            'send_after_hours' => $request->send_after_hours,
+            'schedule' => $sendAfter,
+            'mediaUrl' => $media,
+            'template_id' => $request->template,
+            'body' => $bodytext,
+            'subject' => $subject,
+            'active' => 1, // Set active status
+        ]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return redirect('admin/campaign/list/' . $campaign_id)->with('success', 'Campaign list created successfully.');
-        
     }
 
     public function show(CampaignList $campaignList)
@@ -390,43 +384,38 @@ class CampaignListController extends Controller
     public function update(Request $request, CampaignList $campaignlist)
     {
 
-       // dd($request);
+        // dd($request);
         $types = $request->type;
         $send_after_days = $request->send_after_days;
         $send_after_hours = $request->send_after_hours;
         $templ_ate = $request->template;
-               
-        $campaign_id=$request->tmpid;
-        $body_text ="";
-        $bodytext='';
-        $subject='';
-        $media="";
 
-                $sendAfter = null;
-                if ($request->send_after_days !== null && $request->send_after_hours !== null) {
-                    $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
-                }
-                if ($types == 'rvm') 
-                {
-                    $media = $request->mediaUrl;
-                    $subject=$request->rvm;
-                    
-                } 
-                if ($types == 'mms') 
-                {
-                    $media = $request->media_file_mms;
-                    
-                } 
-               
+        $campaign_id = $request->tmpid;
+        $body_text = "";
+        $bodytext = '';
+        $subject = '';
+        $media = "";
 
-                $body_text = TemplateMessages::where('template_id', $request->template)->get();
-               
-                if(count($body_text)>0)
-                {
-                $bodytext=$body_text[0]->msg_content;
-                $subject=$body_text[0]->subject;
-                }
-        
+        $sendAfter = null;
+        if ($request->send_after_days !== null && $request->send_after_hours !== null) {
+            $sendAfter = now()->addDays($request->send_after_days)->addHours($request->send_after_hours);
+        }
+        if ($types == 'rvm') {
+            $media = $request->mediaUrl;
+            $subject = $request->rvm;
+        }
+        if ($types == 'mms') {
+            $media = $request->media_file_mms;
+        }
+
+
+        $body_text = TemplateMessages::where('template_id', $request->template)->get();
+
+        if (count($body_text) > 0) {
+            $bodytext = $body_text[0]->msg_content;
+            $subject = $body_text[0]->subject;
+        }
+
         // Update the campaign
         CampaignList::where('id', $request->lstid)->update([
             'type' => $request->type,
@@ -444,15 +433,15 @@ class CampaignListController extends Controller
         return redirect()->back();
     }
 
-    public function deleteList($id='')
+    public function deleteList($id = '')
     {
-        CampaignList::where('id',$id)->delete();
+        CampaignList::where('id', $id)->delete();
         return redirect()->route('admin.campaign.show', $id)->with('success', 'Campaign list deleted successfully.');
     }
     public function remove(Request $request)
     {
-       // dd($request);
-        CampaignList::where('id',$request->id)->delete();
+        // dd($request);
+        CampaignList::where('id', $request->id)->delete();
         return redirect()->back();
     }
     public function destroy(CampaignList $campaignlist)

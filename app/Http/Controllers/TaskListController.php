@@ -8,6 +8,7 @@ use App\Model\Contact;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TaskListController extends Controller
 {
@@ -72,7 +73,8 @@ class TaskListController extends Controller
 
           // Assign roles using Spatie's role package
 
-          session()->flash('success', 'Task has been created !!');
+        //   session()->flash('success', 'Task has been created !!');
+        Alert::success('Success', 'Task has been created !!');
           return redirect()->back();
       }else{
           return abort(401);
@@ -135,7 +137,9 @@ class TaskListController extends Controller
             // Add other fields as needed
         ]);
 
-        return response()->json(['message' => 'Task updated successfully']);
+        Alert::success('Success', 'Task updated successfully!');
+        return redirect()->back();
+        // return response()->json(['message' => 'Task updated successfully']);
     }
 
     /**

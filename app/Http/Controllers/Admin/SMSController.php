@@ -66,7 +66,7 @@ class SMSController extends Controller
         
         $quickResponses=QuickResponse::all();
         $number=Number::where('number',$sms->twilio_number)->first();
-       // print_r(strlen($number));
+        print_r(strlen($number));
       // die('..');
      
         $smsInfo=Contact::where('number',$sms->client_number)->first();

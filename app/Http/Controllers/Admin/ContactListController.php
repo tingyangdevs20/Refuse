@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateContactRequest;
 use App\Model\Contact;
 use App\Model\Group;
+use App\Rules\UniqueEmails;
+use App\Rules\UniquePhoneNumbers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Models\Media as ModelsMedia;
@@ -39,6 +44,26 @@ class ContactListController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
+            'number' => [
+                'nullable',
+                new UniquePhoneNumbers,
+            ],
+            'number2' => [
+                'nullable',
+                new UniquePhoneNumbers,
+            ],
+            'number3' => [
+                'nullable',
+                new UniquePhoneNumbers,
+            ],
+            'email1' => [
+                'nullable',
+                new UniqueEmails,
+            ],
+            'email2' => [
+                'nullable',
+                new UniqueEmails,
+            ],
         ]);
 
         $contact = new Contact([
@@ -115,23 +140,19 @@ class ContactListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(UpdateContactRequest $request, Contact $contact)
     {
-        $request->validate([
-            'name' => 'required|string',
-        ]);
-
         $contact->name = $request->name;
-        $contact->last_name = $request->input('last_name');
-        $contact->street = $request->input('street');
-        $contact->city = $request->input('city');
-        $contact->state = $request->input('state');
-        $contact->zip = $request->input('zip');
-        $contact->number = $request->input('number');
-        $contact->number2 = $request->input('number2');
-        $contact->number3 = $request->input('number3');
-        $contact->email1 = $request->input('email1');
-        $contact->email2 = $request->input('email2');
+        $contact->last_name = $request->input('last_name') ?? null;
+        $contact->street = $request->input('street') ?? null;
+        $contact->city = $request->input('city') ?? null;
+        $contact->state = $request->input('state') ?? null;
+        $contact->zip = $request->input('zip') ?? null;
+        $contact->number = $request->input('number') ?? null;
+        $contact->number2 = $request->input('number2') ?? null;
+        $contact->number3 = $request->input('number3') ?? null;
+        $contact->email1 = $request->input('email1') ?? null;
+        $contact->email2 = $request->input('email2') ?? null;
         $contact->save();
 
         // Update or insert lead info

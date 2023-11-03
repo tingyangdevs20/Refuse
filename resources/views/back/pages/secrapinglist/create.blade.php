@@ -84,7 +84,7 @@
                             <div class="row">
                                 <div class="col-3"></div>
                                 <div class="col-6">
-                                    <form method="post" action="{{ route('admin.scraping.store') }}"
+                                    <form method="post" action="{{ route('admin.scraping.store') }}" id="scrapingForm"
                                         enctype="multipart/form-data">
                                         @csrf <!-- CSRF Token -->
 
@@ -135,19 +135,136 @@
                                             @enderror
                                         </div>
 
-                                        <div class="form-group mt-4">
-                                            {{-- <label for="price_range">Price Range</label> --}}
-                                            <select class="form-control @error('price_range') is-invalid @enderror"
-                                                id="price_range" name="price_range">
-                                                <option value="">Select Price Range *</option>
-                                                <option value="100000-300000">100k-300k</option>
-                                                <option value="300000-600000">300k-600k</option>
-                                                <option value="600000-900000">600k-900k</option>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group mt-4">
+                                                    {{-- <label for="min_price_range">Price Range</label> --}}
+                                                    <select
+                                                        class="form-control @error('min_price_range') is-invalid @enderror"
+                                                        id="min_price_range" name="min_price_range">
+                                                        <option value="">Select Min Price Range *</option>
+                                                        <option value="0">$0</option>
+                                                        <option value="50000">$50,000</option>
+                                                        <option value="100000">$100,000</option>
+                                                        <option value="150000">$150,000</option>
+                                                        <option value="200000">$200,000</option>
+                                                        <option value="250000">$250,000</option>
+                                                        <option value="300000">$300,000</option>
+                                                        <option value="350000">$350,000</option>
+                                                        <option value="400000">$400,000</option>
+                                                        <option value="450000">$450,000</option>
+                                                        <option value="500000">$500,000</option>
+                                                        <option value="550000">$550,000</option>
+                                                        <option value="600000">$600,000</option>
+                                                        <option value="650000">$650,000</option>
+                                                        <option value="700000">$700,000</option>
+                                                        <option value="750000">$750,000</option>
+                                                        <option value="800000">$800,000</option>
+                                                        <option value="850000">$850,000</option>
+                                                        <option value="900000">$900,000</option>
+                                                        <option value="950000">$950,000</option>
+                                                        <option value="1000000">$1M</option>
+                                                        <option value="1250000">$1.25M</option>
+                                                        <option value="1500000">$1.5M</option>
+                                                        <option value="1750000">$1.75M</option>
+                                                        <option value="2000000">$2M</option>
+                                                        <option value="2250000">$2.25M</option>
+                                                        <option value="2500000">$2.5M</option>
+                                                        <option value="2750000">$2.75M</option>
+                                                        <option value="3000000">$3M</option>
+                                                        <option value="3250000">$3.25M</option>
+                                                        <option value="3500000">$3.5M</option>
+                                                        <option value="3750000">$3.75M</option>
+                                                        <option value="4000000">$4M</option>
+                                                        <option value="4250000">$4.25M</option>
+                                                        <option value="4500000">$4.5M</option>
+                                                        <option value="4750000">$4.75M</option>
+                                                        <option value="5000000">$5M</option>
+                                                        <option value="6000000">$6M</option>
+                                                        <option value="7000000">$7M</option>
+                                                        <option value="8000000">$8M</option>
+                                                        <option value="9000000">$9M</option>
+                                                        <option value="10000000">$10M</option>
+                                                        <option value="11000000">$11M</option>
+                                                        <option value="12000000">$12M</option>
+                                                        <option value="13000000">$13M</option>
+                                                        <option value="14000000">$14M</option>
+                                                        <option value="15000000">$15M</option>
+                                                        <option value="16000000">$16M</option>
+                                                        <option value="17000000">$17M</option>
+                                                        <option value="18000000">$18M</option>
+                                                    </select>
 
-                                            </select>
-                                            @error('price_range')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+
+                                                    @error('min_price_range')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group mt-4">
+                                                    {{-- <label for="max_price_range">Price Range</label> --}}
+                                                    <select
+                                                        class="form-control @error('max_price_range') is-invalid @enderror"
+                                                        id="max_price_range" name="max_price_range">
+                                                        <option value="">Select Max Price Range *</option>
+                                                        <option value="50000">$50,000</option>
+                                                        <option value="100000">$100,000</option>
+                                                        <option value="150000">$150,000</option>
+                                                        <option value="200000">$200,000</option>
+                                                        <option value="250000">$250,000</option>
+                                                        <option value="300000">$300,000</option>
+                                                        <option value="350000">$350,000</option>
+                                                        <option value="400000">$400,000</option>
+                                                        <option value="450000">$450,000</option>
+                                                        <option value="500000">$500,000</option>
+                                                        <option value="550000">$550,000</option>
+                                                        <option value="600000">$600,000</option>
+                                                        <option value="650000">$650,000</option>
+                                                        <option value="700000">$700,000</option>
+                                                        <option value="750000">$750,000</option>
+                                                        <option value="800000">$800,000</option>
+                                                        <option value="850000">$850,000</option>
+                                                        <option value="900000">$900,000</option>
+                                                        <option value="950000">$950,000</option>
+                                                        <option value="1000000">$1M</option>
+                                                        <option value="1250000">$1.25M</option>
+                                                        <option value="1500000">$1.5M</option>
+                                                        <option value="1750000">$1.75M</option>
+                                                        <option value="2000000">$2M</option>
+                                                        <option value="2250000">$2.25M</option>
+                                                        <option value="2500000">$2.5M</option>
+                                                        <option value="2750000">$2.75M</option>
+                                                        <option value="3000000">$3M</option>
+                                                        <option value="3250000">$3.25M</option>
+                                                        <option value="3500000">$3.5M</option>
+                                                        <option value="3750000">$3.75M</option>
+                                                        <option value="4000000">$4M</option>
+                                                        <option value="4250000">$4.25M</option>
+                                                        <option value="4500000">$4.5M</option>
+                                                        <option value="4750000">$4.75M</option>
+                                                        <option value="5000000">$5M</option>
+                                                        <option value="6000000">$6M</option>
+                                                        <option value="7000000">$7M</option>
+                                                        <option value="8000000">$8M</option>
+                                                        <option value="9000000">$9M</option>
+                                                        <option value="10000000">$10M</option>
+                                                        <option value="11000000">$11M</option>
+                                                        <option value="12000000">$12M</option>
+                                                        <option value="13000000">$13M</option>
+                                                        <option value="14000000">$14M</option>
+                                                        <option value="15000000">$15M</option>
+                                                        <option value="16000000">$16M</option>
+                                                        <option value="17000000">$17M</option>
+                                                        <option value="18000000">Any Price</option>
+                                                    </select>
+
+                                                    @error('max_price_range')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="form-group mt-4">
@@ -208,7 +325,7 @@
                                             <select class="form-control @error('filters') is-invalid @enderror"
                                                 id="filters" name="filters[]" multiple>
                                                 <option value="">Select Filters *</option>
-                                                <option value="CHECK Pre Foreclousers">Pre Foreclousers</option>
+                                                <option value="CHECK Pre-Foreclosures">Pre-Foreclosures</option>
                                                 <option value="CHECK Coming Soon">Coming Soon</option>
                                                 <option value="CHECK Auctions">Auctions</option>
 
@@ -284,6 +401,20 @@
 
             // Refresh Select2 to apply the changes
             $('.select2').trigger('change.select2');
+
+            $('#scrapingForm').submit(function(event) {
+                // Get the selected minimum and maximum values
+                var minPrice = parseInt($('#min_price_range').val());
+                var maxPrice = parseInt($('#max_price_range').val());
+
+                // Check if the minimum value is greater than or equal to the maximum value
+                if (minPrice >= maxPrice) {
+                    // Display an error message or prevent form submission
+                    alert("Minimum price must be less than the maximum price.");
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+
         });
     </script>
     <script></script>

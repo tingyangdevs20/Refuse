@@ -52,7 +52,7 @@
                                     <table class="table table-striped table-bordered" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Name</th>
+                                                <th scope="col">Campaign Name</th>
 
                                                 <th scope="col">No. Of Contacts</th>
 

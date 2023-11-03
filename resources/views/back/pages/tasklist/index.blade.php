@@ -78,7 +78,7 @@
                                     <form id="task-form" action="{{ route('admin.task-list.store') }}" method="POST">
                                             @csrf
                                             <div class="row">
-                                               
+
                                                 <div class="col-12 mb-3">
                                                     @if (auth()->user()->can('administrator') ||
                                                             auth()->user()->can('user_task_create'))

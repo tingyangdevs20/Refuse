@@ -1627,7 +1627,7 @@ class GroupController extends Controller
                                                 // Skip this row and continue to the next one
                                                 continue 3; // Skip to the outer loop (next importData)
                                             }
-                                        }
+                                       }
                                     }
                                     if (in_array($column, ['owner1_email1', 'owner1_email2'])) {
                                         if ($value && $value != '') {
@@ -3533,7 +3533,7 @@ class GroupController extends Controller
             $body = str_replace("{state}", $contact_num->state, $body);
             $body = str_replace("{zip}", $contact_num->zip, $body);
 
-            // die($contact_num);
+             //die($body);
 
             // print_r($settings);
             //die("....");
@@ -3548,7 +3548,7 @@ class GroupController extends Controller
             // die("...");
 
             $cont_num = $contact_num->number;
-            // dd($twilio_sender);
+             
             // die('....');
 
             $sms_sent = $client->messages->create(
@@ -3558,11 +3558,12 @@ class GroupController extends Controller
                     'body' => $body,
                 ]
             );
-
+           // die($sms_sent);
             // print_r($sms_sent);
             // die("...");
             if ($sms_sent) {
                 $old_sms = Sms::where('client_number', $cont_num)->first();
+               // die($old_sms);
                 if ($old_sms == null) {
                     $sms = new Sms();
                     $sms->client_number = $cont_num;
@@ -3573,11 +3574,7 @@ class GroupController extends Controller
                     $sms->media = "NO";
                     $sms->status = 1;
                     $sms->save();
-                    //$contact = Contact::where('number', $contact->number)->get();;
-                    // foreach ($contact as $contacts) {
-                    // $contacts->msg_sent = 1;
-                    // $contacts->save();
-                    // }
+                   
                     // $this->incrementSmsCount($numbers[$numberCounter]->number);
                 } else {
                     $reply_message = new Reply();
@@ -3587,11 +3584,7 @@ class GroupController extends Controller
                     $reply_message->reply = $body;
                     $reply_message->system_reply = 1;
                     $reply_message->save();
-                    // $contact = Contact::where('number', $contact->number)->get();;
-                    // foreach ($contact as $contacts) {
-                    //  $contacts->msg_sent = 1;
-                    //  $contacts->save();
-                    //  }
+                    
                     // $this->incrementSmsCount($numbers[$numberCounter]->number);
                 }
 
@@ -3599,6 +3592,7 @@ class GroupController extends Controller
 
             }
         }
+        Alert::toast("SMS Sent Successfully", "success");
     }
 
     public function SendMMS($groupId, $sender_numbers, $template, $checkCompainList)

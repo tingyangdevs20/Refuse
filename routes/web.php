@@ -173,6 +173,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     // user task
     Route::get('task-list/index', 'TaskListController@index')->name('task-list.index');
     Route::post('task-list/store', 'TaskListController@store')->name('task-list.store');
+    Route::put('task-list/update', 'TaskListController@update')->name('task-list.update');
     Route::post('delete-tasks', 'TaskListController@delete')->name('delete-tasks');
     Route::post('delete-List', 'TaskListController@deleteList')->name('delete-List');
     Route::post('update-task', 'TaskListController@update')->name('update-task');
@@ -370,6 +371,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth', 'prefix' => 'admin'], fu
     Route::get('compaignlead/list/{id}', 'Admin\CampaignLeadListController@compaignList')->name('compaignlead.list');
     Route::post('campaignlead/remove', 'Admin\CampaignLeadListController@remove')->name('campaignlead.remove');
     Route::post('campaignlead/update', 'Admin\CampaignLeadListController@update')->name('campaignleadlist.update');
+    Route::post('campaignlead/store', 'Admin\CampaignLeadListController@store')->name('campaignleadlist.store');
     Route::get('get/leadmessage/{type}/{id}', 'Admin\CampaignLeadListController@getTemplate');
 
     Route::get('get/message/{type}/{id}', 'Admin\CampaignListController@getTemplate');
