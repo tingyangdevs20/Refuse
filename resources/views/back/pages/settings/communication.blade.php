@@ -318,6 +318,7 @@
                                                             <th scope="col">Phone Number</th>
                                                             <th scope="col">Capabilities</th>
                                                             <th scope="col">A2P Compliance</th>
+                                                            <th scope="col">Calling Users</th>
                                                             <th scope="col">Phone Number type</th>
                                                             <th scope="col">Status</th>
                                                         </tr>
@@ -331,9 +332,16 @@
                                                                 <td>{{ $p_num->number }}</td>
                                                                 <td>{{ $p_num->capabilities }}</td>
                                                                 <td>{{ $p_num->a2p_compliance == 1 ? 'true' : 'false' }}
-                                                                </td>
-
+                                                                </td>                                                                
                                                                 <td>
+                                                                    <select class="custom-select" style="margin-top:5px">
+
+                                                                        @foreach ($users as $user )
+                                                                            <option value="{{ $user->id }}">{{  $user->name." ".$user->last_name }}</option>
+                                                                        @endforeach
+                                                                    </select>                                                                    
+                                                                </td>
+                                                                <td style="display: flex; align-items: center; justify-content: center;">
                                                                     <input style="width: 100%;" type="checkbox"
                                                                         data-id="{{ $p_num->id }}"
                                                                         class="toggle-phone-system" data-toggle="toggle"
@@ -341,7 +349,7 @@
                                                                         {{ $p_num->system_number ? 'checked' : '' }}
                                                                         data-on="System" data-off="Marketing">
                                                                 </td>
-                                                                <td>
+                                                                <td >
                                                                     <input data-id="{{ $p_num->id }}"
                                                                         class="toggle-class" type="checkbox"
                                                                         data-onstyle="success" data-offstyle="danger"
