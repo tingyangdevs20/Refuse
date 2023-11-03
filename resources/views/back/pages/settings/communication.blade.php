@@ -334,7 +334,7 @@
                                                                 <td>{{ $p_num->a2p_compliance == 1 ? 'true' : 'false' }}
                                                                 </td>                                                                
                                                                 <td>
-                                                                    <select class="custom-select" style="margin-top:5px">
+                                                                    <select class="custom-select" style="margin-block-start:5px">
 
                                                                         @foreach ($users as $user )
                                                                             <option value="{{ $user->id }}">{{  $user->name." ".$user->last_name }}</option>
