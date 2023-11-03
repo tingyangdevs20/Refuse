@@ -13,100 +13,82 @@
 
         <!-- start page title -->
         <div class="row">
-            <div class="col-12">
+           
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="mb-0 font-size-18">Replies</h4>
 
                 </div>
-                <div class="card">
-                    <div class="card-header bg-soft-dark ">
-                        <a href="/admin/contact.detail/224" target="_blank"> View Contact
-                            Details</a>
-                        @include('components.modalform')
-                    </div>
+           
+        </div>
+                
+                <div class="row">
+                             @if ($smsInfo != null)
+                                        <div style="margin-top: -24px;margin-left:40%">
+                                            <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span>
+                                            @if (strlen($number) > 0)
+                                                <span style="margin-left:5px;">{{ $number->number }}</span>
+                                            @elseif(strlen($number) == 0)
+                                                <span style="margin-left:5px;color:red">Invalid Twilio Number</span>
+                                            @endif
+                                            <span style="font-size: 14px;font-weight: bold;margin-left:5px">With </span>
+                                            <span style="margin-left:10px"><i class="fa fa-phone" aria-hidden="true"></i>
+                                                <a href="" style="color:black">{{ $sms->client_number }} </a></span>
+                                            <span style="margin-left:10px"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                                {{ $smsInfo->email1 }}</span>
+                                   
+                                           </div>
+                                @endif
                 </div>
-                @if (strlen($number) > 0)
+                <div class="row">
+              
+                                            <select class="from-control" id="lead" name="lead_id" required>
+                                                <option value="">Lead Status</option>
+                                                @foreach ($leadCategories as $lead)
+                                                    <option value="{{ $lead->id }}"
+                                                        {{ $sms->lead_category_id == $lead->id ? 'selected' : '' }}>
+                                                        {{ $lead->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <select class="from-control" id="lead" name="lead_id" required>
+                                                <option value="">Lead Assigned To</option>
+                                                @foreach ($leadCategories as $lead)
+                                                    <option value="{{ $lead->id }}"
+                                                        {{ $sms->lead_category_id == $lead->id ? 'selected' : '' }}>
+                                                        {{ $lead->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <select class="from-control" id="lead" name="lead_id" required>
+                                                <option value="">Lead Type</option>
+                                                @foreach ($leadCategories as $lead)
+                                                    <option value="{{ $lead->id }}"
+                                                        {{ $sms->lead_category_id == $lead->id ? 'selected' : '' }}>
+                                                        {{ $lead->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button class="btn btn-success btn-sm" style="background-color:#556ee6;"
+                                                type="submit">Change</button>
+                </div>
+
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12">
-                            @if (strlen($number) > 0)
-                            <span class="float-lg-right" style="display:none">Available Sends:
-                                {{ $number ? $number->sms_allowed - $number->sms_count : '' }}</span>
-                            @endif
-                            @if (!empty($smsInfo) && $smsInfo->is_dnc != 1)
-                            <form action="{{ route('admin.sms.add-to-dnc') }}" class="mt-2" method="POST">
-                                @csrf
-                                @method('POST')
-                                <input type="hidden" name="number" value="{{ $smsInfo->number }}">
-                                <label for="">Assign Lead Campaign:</label>
-                                <select class="from-control" id="lead" name="lead_id" required>
-                                    <option value="">Select Lead Campaign</option>
-                                    @foreach ($leadCampaigns as $leadCamp)
-                                    <option value="{{ $leadCamp->id }}">
-                                        {{ $leadCamp->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                <button class="btn btn-success btn-sm" style="background-color:#556ee6;" type="submit">Assign</button>
-                                <label for="">Lead Category:</label>
-                                <select class="from-control" id="lead" name="lead_id" required>
-                                    <option value="">Select Lead Category</option>
-                                    @foreach ($leadCategories as $lead)
-                                    <option value="{{ $lead->id }}" {{ $sms->lead_category_id == $lead->id ? 'selected' : '' }}>
-                                        {{ $lead->title }}
-                                    </option>
-                                    @endforeach
-                                </select>
-
-
-                            </form>
-                            @endif
-                            @if ($smsInfo != null)
-                            <div style="margin-left:760px;margin-top: -24px;">
-                                <span style="font-size: 14px;font-weight: bold;"> Chat Using Number: </span>
-                                @if (strlen($number) > 0)
-                                <span style="margin-left:5px;">{{ $number->number }}</span>
-                                @elseif(strlen($number) == 0)
-                                <span style="margin-left:5px;color:red">Invalid Twilio Number</span>
-                                @endif
-                                <span style="font-size: 14px;font-weight: bold;margin-left:5px">With </span>
-                                <span style="margin-left:10px"><i class="fa fa-phone" aria-hidden="true"></i>
-                                    <a href="" style="color:#000000">{{ $sms->client_number }} </a></span>
-                                <span style="margin-left:50px"><i class="fa fa-envelope" aria-hidden="true"></i>
-                                    {{ $smsInfo->email1 }}</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="d-lg-flex">
+                        
                             <div class="w-100 user-chat">
                                 <div class="card">
-                                    <div>
+                                   
                                         <div class="chat-conversation p-3">
                                             <ul class="list-unstyled" data-simplebar style="max-height: 470px;">
 
 
 
 
-                                                <!-- @foreach ($sms->replies()->get() as $reply)
-    <li class="{{ $reply->system_reply ? 'right' : '' }}">
-                                                                        <div class="conversation-list">
-                                                                            <div
-                                                                                class="ctext-wrap  {{ $reply->system_reply ? 'text-primary' : 'text-success' }}">
-                                                                                <p style="font-size: larger">
-                                                                                    {{ $reply->reply }}
-                                                                                </p>
-                                                                                <p class="chat-time mb-0"><span style="color:#34c38f;padding-right:5px">{{ $reply->type }}</span><i
-                                                                                        class="bx bx-time-five align-middle mr-1"></i> {{ $reply->created_at }}
-                                                                                </p>
-                                                                            </div>
 
-                                                                        </div>
-                                                                    </li>
-    @endforeach-->
                                                 @foreach ($conversations as $conversation)
                                                 <li>
-                                                    <div class="conversation-list">
-                                                        <div class="ctext-wrap {{ $reply->system_reply?'text-primary':'text-success' }}">
+                                                    <div class="conversation-list" style="float: right;">
+                                                        <div class="ctext-wrap">
 
                                                             @if ($conversation->is_read == 0)
                                                             <p style="font-size: larger;font-weight:bold">
@@ -191,7 +173,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @endif
+
                                             @if (strlen($smsInfo) > 0)
 
                                             <div class="p-3 chat-input-section" style="display:none">
