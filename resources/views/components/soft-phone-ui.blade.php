@@ -516,7 +516,7 @@
                     @php
                         $caller_id = 0;
                         use App\Model\Number;
-                        $twilio_number = Number::where('system_number', 1)->get();
+                        $twilio_number = Number::get();
                         // $caller_id = $twilio_number['number'];
 
                     @endphp                    
