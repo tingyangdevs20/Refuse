@@ -573,6 +573,7 @@
                                                         <th scope="col">Contact list</th>
                                                         <th scope="col">No. Of Contacts</th>
                                                         <th scope="col">Action</th>
+                                                        <th scope="col">Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -607,6 +608,14 @@
                                                                     <button type="submit"
                                                                         class="btn btn-danger">Delete</button>
                                                                 </form>
+                                                            </td>
+                                                            <td style="width:10%">
+                                                            <input data-id="{{ $campaign->id }}" class="toggle-class"
+                                                                        type="checkbox" data-onstyle="success"
+                                                                        data-offstyle="danger" data-toggle="toggle"
+                                                                        data-on="Active" data-off="InActive"
+                                                                        {{ $campaign->active ? 'checked' : '' }}>
+
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -737,8 +746,8 @@
                                                 <table class="table table-striped table-bordered datatable" id="">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Name</th>
-                                                            <th scope="col">No. Of Contacts</th>
+                                                            <th scope="col">Campaign Name</th>
+                                                           
 
                                                             <th scope="col">Action</th>
                                                             <th scope="col">Status</th>
@@ -756,10 +765,10 @@
                                                                         href="{{ route('admin.compaignlead.list', $campaign->id) }}">{{ $campaign->name }}</a>
                                                                 </td>
 
-                                                                <td>{{ $_count }}</td>
+                                                                
 
 
-                                                                <td>
+                                                                <td style="width:20%"> 
                                                                     <a
                                                                         href="{{ route('admin.compaignlead.copy', $campaign->id) }}"><button
                                                                             data-toggle="modal"
@@ -787,7 +796,7 @@
                                                                         </button>
                                                                     </form>
                                                                 </td>
-                                                                <td>
+                                                                <td style="width:10%">
                                                                     <input data-id="{{ $campaign->id }}" class="toggle-class"
                                                                         type="checkbox" data-onstyle="success"
                                                                         data-offstyle="danger" data-toggle="toggle"
