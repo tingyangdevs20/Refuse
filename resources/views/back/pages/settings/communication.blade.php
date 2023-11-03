@@ -75,11 +75,11 @@
         }
 
         .toggle-on.btn {
-            padding-right: 24px
+            /* padding-right: 24px */
         }
 
         .toggle-off.btn {
-            padding-left: 2px
+            /* padding-left: 2px */
         }
 
         .toggle.btn-lg {
