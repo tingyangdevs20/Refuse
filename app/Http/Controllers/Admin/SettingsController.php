@@ -10,6 +10,7 @@ use App\Model\Number;
 use App\Model\Template;
 use App\Model\Settings;
 use App\Model\Account;
+use App\Model\Contact;
 use App\Model\Tag;
 use App\TaskList;
 use App\User;
@@ -55,7 +56,7 @@ class SettingsController extends Controller
     }
     public function index()
     {
-        $settings = Settings::first();
+        $settings = Settings::first();    
 
         $timezones = timezone_identifiers_list();
         $appointmentSetting = CalendarSetting::where('calendar_type', "Appointments")->get();
@@ -95,6 +96,7 @@ class SettingsController extends Controller
         $templates = Template::where('type' , 'SMS')->get();
        // return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
 
+        $users = Contact::all();
         $responders = AutoResponder::all();
         $autoReplies = AutoReply::all();
         $quickResponses = QuickResponse::all();
@@ -155,7 +157,7 @@ class SettingsController extends Controller
         }
 
         $all_phone_nums = Number::all();
-        return view('back.pages.settings.communication', compact('responders','campaigns','leadcampaigns','templates', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
+        return view('back.pages.settings.communication', compact('users', 'responders','campaigns','leadcampaigns','templates', 'Settings', 'quickResponses', 'autoReplies', 'categories', 'all_phone_nums', 'markets', 'rvms'));
     }
 
     // Templates

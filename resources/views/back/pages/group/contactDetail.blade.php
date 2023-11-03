@@ -744,7 +744,10 @@
                                                                         <select class="custom-select"
                                                                             name="lead_assigned_to"
                                                                             onchange="updateValue(value,'lead_assigned_to','lead_info')">
-                                                                            <option value="">Lead Assigned To
+                                                                            @foreach ($users as $user )
+                                                                                <option value="{{ $user->id }}">{{  $user->name." ".$user->last_name }}</option>
+                                                                            @endforeach
+                                                                            <!-- <option value="">Lead Assigned To
                                                                             </option>
                                                                             @if (count($leads) > 0)
                                                                                 @foreach ($leads as $lead)
@@ -753,7 +756,7 @@
                                                                                         @endif
                                                                                         >{{ $lead->title }}</option>
                                                                                 @endforeach
-                                                                            @endif
+                                                                            @endif -->
                                                                         </select>
                                                                     </div>
                                                                 </div>
