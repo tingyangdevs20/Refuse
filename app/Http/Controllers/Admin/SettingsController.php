@@ -96,7 +96,7 @@ class SettingsController extends Controller
         $templates = Template::where('type' , 'SMS')->get();
        // return view('back.pages.campaign.index', compact('groups', 'campaigns','templates'));
 
-        $users = Contact::all();
+        $users = User::all();
         $responders = AutoResponder::all();
         $autoReplies = AutoReply::all();
         $quickResponses = QuickResponse::all();

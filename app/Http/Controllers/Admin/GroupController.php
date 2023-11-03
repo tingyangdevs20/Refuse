@@ -297,7 +297,7 @@ class GroupController extends Controller
 
         $tasks = TaskList::orderBy('position')->get();
         $userAgreements = UserAgreement::where('admin_id', FacadesAuth::user()->id)->get();
-        $users = Contact::all();
+        $users = User::all();
         return view('back.pages.group.contactDetail', compact('users', 'userAgreements', 'id', 'title_company', 'leadinfo', 'scripts', 'sections', 'property_infos', 'values_conditions', 'property_finance_infos', 'selling_motivations', 'negotiations', 'leads', 'tags', 'getAllAppointments', 'contact', 'collection', 'googleDriveFiles', 'agent_infos', 'objections', 'commitments', 'stuffs', 'followup_sequences', 'insurance_company', 'hoa_info', 'future_seller_infos', 'selected_tags', 'utility_deparments', 'tasks', 'files'));}
 
     // public function updateinfo(Request $request)
