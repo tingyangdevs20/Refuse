@@ -205,6 +205,8 @@
                                     </li>
                                     <li class="nav-item m-1"><a class="nav-link" href="#LeadCampaign" data-toggle="tab">Lead Campaigns</a>
                                     </li>
+                                    <li class="nav-item m-1"><a class="nav-link" href="#PhoneSystem" data-toggle="tab">Phone System</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -819,6 +821,69 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <div class="tab-pane" id="PhoneSystem">
+                                        <div class="card">
+                                            <div class="card-header bg-soft-dark ">
+                                                Phone System
+                                                <button class="btn btn-outline-primary btn-sm float-right" title="New"
+                                                    data-toggle="modal" data-target="#createleadModal"><i
+                                                        class="fas fa-plus-circle"></i></button>
+
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="form" action="{{ route('admin.single-sms.store') }}" method="post" enctype="multipart/form-data">
+                                                    <div class="form-body">
+                                                        <div class="form-group">
+                                                            <div class = "row">
+                                                                <span>Call Using</span>
+                                                                <div class="col-md-12">
+                                                                    <select class="form-control" style="margin-top:5px" id="forward_number_from" name="forward_number_from">
+                                                                        @php
+                                                                            $caller_id = 0;
+                                                                            use App\Model\Number;
+                                                                            $twilio_number = Number::get();
+                                                                            // $caller_id = $twilio_number['number'];
+                                                                        @endphp                    
+                                                                        <p>{{$twilio_number}}</p>
+                                                                        @foreach ($twilio_number as $number )
+                                                                        <option value="{{ $number->number }}">{{  $number->number }}</option>                                                            
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>                                                        
+                                                            </div>
+                                                        </div>                                                    
+                                                        <div class="form-group">
+                                                            <div class = "row">
+                                                                <span>Call Forward Number</span>
+                                                                <div class = "col-md-12">
+                                                                    <input type="number" name="forward_number" id="forward_number" class="form-control" placeholder="14234609555" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                                    
+                                                        <div class="form-group">
+                                                            <div class = "row">                                                        
+                                                                <span>Voice Mail</span>
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-12 row">
+                                                                        <input type="text" name="voiceMailName" id="voiceMailName" class="form-control col-md-8" placeholder="e.g) brian.mp3" required>
+                                                                        <!-- <button type="file" class="btn btn-success form-control col-md-2" id="uploadVoiceMail">Upload</button> -->
+                                                                        <input type="file" accept=".ogg, .mp3" class="form-control-file col-md-2" name="media_file" id="voiceMailUploadBtn">
+                                                                        <button type="button" class="btn btn-danger form-control col-md-2" id="recordVoiceMail">Record</button>
+                                                                    </div>                                                            
+                                                                </div>                   
+                                                            </div>
+                                                        </div>   
+                                                    </div>
+                                                    <div class="form-footer" style="display:flex;justify-content:flex-end;">
+                                                        <button type="submit" class="btn btn-primary form-control mt-2" id="confirmVoiceMail" disabled>Confirm Forward</button>
+                                                    </div>                                                 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -1539,6 +1604,9 @@
                     </div>
                     {{-- End Modal Delete --}}
                 </div> <!-- container-fluid -->
+
+
+
             </div>
             <!-- End Page-content -->
         @endsection
@@ -1913,5 +1981,33 @@
                         }
                     });
                 });
+
+                const fileInput = document.getElementById('voiceMailUploadBtn');
+                const fileNameField = document.getElementById('voiceMailName');
+
+                // Add an event listener to the file input
+                fileInput.addEventListener('change', function() {
+                    if (fileInput.files.length > 0) {
+                        // Set the text field value to the selected file's name
+                        fileNameField.value = fileInput.files[0].name;
+                        validateConfirmVoiceMail();
+                    } else {
+                        // Clear the text field if no file is selected
+                        fileNameField.value = '';
+                    }
+                });
+
+                function validateConfirmVoiceMail(){
+                    debugger;
+                    if(fileNameField.value.length == 0){
+                        return;
+                    }
+                    const forward_phone_number = document.getElementById('forward_number');
+                    if(forward_phone_number.value.length < 7){
+                        return;
+                    }
+                    var confirm_btn = document.getElementById('confirmVoiceMail');
+                    confirm_btn.disabled = false;
+                }
             </script>
         @endsection
